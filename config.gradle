@@ -1,0 +1,49 @@
+ext {
+    //android开发版本配置
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.2",
+            applicationId    : "top.keepempty",
+            minSdkVersion    : 15,
+            targetSdkVersion : 27,
+            versionCode      : 1,
+            versionName      : "1.0",
+    ]
+    //version配置
+    versions = [
+            "support-version": "27.0.2",
+            "junit-version"  : "4.12",
+            "support-annotations"  : "+",
+    ]
+    //support配置
+    support = [
+            "constraint-layout"       : "1.0.0-beta2",
+            'support-v4'              : "com.android.support:support-v4:${versions["support-version"]}",
+            'appcompat-v7'            : "com.android.support:appcompat-v7:${versions["support-version"]}",
+            'recyclerview-v7'         : "com.android.support:recyclerview-v7:${versions["support-version"]}",
+            'support-v13'             : "com.android.support:support-v13:${versions["support-version"]}",
+            'support-fragment'        : "com.android.support:support-fragment:${versions["support-version"]}",
+            'design'                  : "com.android.support:design:${versions["support-version"]}",
+            'animated-vector-drawable': "com.android.support:animated-vector-drawable:${versions["support-version"]}",
+            'junit'                   : "junit:junit:${versions["junit-version"]}",
+            'annotations'                   : "com.android.support:support-annotations:${versions["support-version"]}",
+    ]
+    //依赖第三方配置
+    dependencies = [
+            "rxjava"                               : "io.reactivex.rxjava2:rxjava:2.2.3",
+            "rxandroid"                            : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            //network
+            "okhttp"                               : "com.squareup.okhttp3:okhttp:3.10.0",
+            "retrofit"                             : "com.squareup.retrofit2:retrofit:2.4.0",
+            "converter-gson"                       : "com.squareup.retrofit2:converter-gson:2.4.0",
+            "adapter-rxjava"                       : "com.squareup.retrofit2:adapter-rxjava2:2.4.0",
+            //json解析
+            "gson"                                 : "com.google.code.gson:gson:2.8.5",
+            "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
+            "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
+            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.4",
+            "base_serialport"                      : "com.chtj.base_serialport:base_serialport:1.0.1",
+    ]
+}
+
+
