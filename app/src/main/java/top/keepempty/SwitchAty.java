@@ -27,7 +27,7 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch);
-
+        Log.e("TAG>>>","Test");
     }
 
 
