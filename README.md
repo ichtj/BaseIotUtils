@@ -38,6 +38,10 @@ public class App extends Application {
     }
 }
 ```
+# 使用示例
+
+-可在app Model中找到使用示例
+
 ##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
 
