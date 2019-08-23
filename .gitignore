@@ -1,6 +1,8 @@
 *.iml
 .gradle
 /local.properties
+/base_iotutils/local.properties
+/base_serialport/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
