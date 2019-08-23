@@ -41,27 +41,27 @@ public class App extends Application {
 ##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
 
---- 进制转换类
+--- 进制转换类 | HexUtil
 
---- 键盘相关
+--- 键盘相关 | KeyBoardUtils
 
---- 网络判断
+--- 网络判断 | NetWorkUtils
 
---- shell命令工具类
+--- shell命令工具类 | ShellUtils
 
---- ShareProfrence工具类
+--- ShareProfrence工具类 | SPUtils
 
---- Toast工具类
+--- Toast工具类 | ToastUtil
 
---- 后台服务类 保活
+--- 后台服务类 保活 | AbsWorkService
 
---- App相关信息工具类
+--- App相关信息工具类 | AppMegUtils
 
 ### 2.\base_iotutils\src\main\java\top\keepempty\sph\library
 
----串口相关工具类
+---串口相关工具类 | SerialPortHelper
 
----读写数据线程
+---读写数据线程 | SphThreads(ReadThread|WriteThread)
 
 # SerialPortHelper（Android串口通信）
 
