@@ -30,7 +30,7 @@ public class App extends Application {
         super.onCreate();
         //init 和 initialize() 按需选择 一般情况选其中一个
         //init//只是初始化上下文
-        //initialize 保活及初始化上下文
+        //initialize 保活及串口初始化上下文等
         
         //BaseIotTools.init(this);
         //BaseIotTools.initialize()
