@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class SphConcurrentCom {
 
-    private boolean isGet;
+    private boolean isGet;//是否在获取命令集中的命令
 
     private SphCmdEntity currentCmdEntity;
 

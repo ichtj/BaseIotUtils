@@ -9,7 +9,10 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Point;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
+import android.util.DisplayMetrics;
 import android.util.Log;
 
 import com.chtj.base_iotutils.back_service.BaseIotTools;
@@ -147,18 +150,6 @@ public class AppMegUtils {
         return versionName;
     }
 
-    /**
-     * 判断当前应用程序处于前台还是后台
-     *
-     * @return
-     */
-    public static boolean isApplicationBroughtToBackground() {
-        ActivityManager am = (ActivityManager)  BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> tasks = am.getRunningTasks(1);
-        if (!tasks.isEmpty()) {
-            ComponentName topActivity = tasks.get(0).topActivity;
-            return !topActivity.getPackageName().equals( BaseIotTools.getContext().getPackageName());
-        }
-        return false;
-    }
+
+
 }

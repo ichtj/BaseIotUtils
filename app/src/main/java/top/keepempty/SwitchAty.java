@@ -13,6 +13,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 
+import top.keepempty.screenadaptation.ScreenActivity;
 import top.keepempty.serialport.SerialPortActivity;
 import top.keepempty.serialportnormal.SerialPortNormalAty;
 import top.keepempty.servicekeep.KeepServiceActivity;
@@ -43,6 +44,9 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
                 break;
             case R.id.btnServiceKeep://后台保活
                 startActivity(new Intent(SwitchAty.this, KeepServiceActivity.class));
+                break;
+            case R.id.btnScreen://屏幕适配相关
+                startActivity(new Intent(SwitchAty.this, ScreenActivity.class));
                 break;
             case R.id.btnAppInfo://App相关
 

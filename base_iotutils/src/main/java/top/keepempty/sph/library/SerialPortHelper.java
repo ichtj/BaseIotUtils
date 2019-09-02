@@ -214,6 +214,8 @@ public class SerialPortHelper {
         if(sphThreads !=null){
             sphThreads.stop();
         }
+        //设置状态为未打开
+        mIsOpen=false;
     }
 
     /**

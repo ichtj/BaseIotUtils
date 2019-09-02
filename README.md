@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //以下请按需要选择一种 
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.4'//包含多种工具类以及后台存活串口封装等
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.6'//以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.chtj.base_serialport:base_serialport:1.0.1'//只包含串口相关的基本类(SerialPort | SerialPortFinder)
          
 }
@@ -28,12 +28,15 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //init 和 initialize() 按需选择 一般情况选其中一个
-        //init//只是初始化上下文
-        //initialize 保活及初始化上下文
-        
-        //BaseIotTools.init(this);
-        //BaseIotTools.initialize()
+        //1.1.6 之后与之前有较大改动 
+        //增加了适配方案 使用如下
+        BaseIotTools.instance().
+                        setBaseWidth(1080).//设置宽度布局尺寸
+                        setBaseHeight(1920).//设置高度布局尺寸
+                        setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
+                        setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
+                        initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
+                                create(this);
         
     }
 }
@@ -60,6 +63,8 @@ public class App extends Application {
 --- 后台服务类 保活 | AbsWorkService
 
 --- App相关信息工具类 | AppMegUtils
+
+--- 屏幕适配相关 | AdaptScreenUtils
 
 ### 2.\base_iotutils\src\main\java\top\keepempty\sph\library
 

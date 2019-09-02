@@ -78,7 +78,7 @@ def libName = "base_iotutils"
 //compile 'com.ssy.fireworkstextview:fireworkstextview:1.0.0'
 group = "com.chtj.base_iotutils"
 // 版本号，下次更新是只需要更改版本号即可
-version = "1.1.4"
+version = "1.1.6"
 //上面配置后上传至JCenter后的编译路径是这样的： compile 'me.songning.CircleView:library:1.0.0'
 
 //生成源文件
