@@ -28,6 +28,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
         //1.1.6 之后与之前有较大改动 
         //增加了适配方案 使用如下
         BaseIotTools.instance().
