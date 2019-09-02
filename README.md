@@ -45,11 +45,11 @@ public class App extends Application {
 
 ### 1080*1920 px 效果
 
-![image](https://github.com/freyskill/SerialPortHelper/blob/master/pic/big_screen.png)
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
 
 ### 480*800 px 效果
 
-![image](https://github.com/freyskill/SerialPortHelper/blob/master/pic/small_screen.png)
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/small_screen.png)
 
 -可在app Model中找到使用示例
 
@@ -94,7 +94,7 @@ Android串口通讯助手可以用于需要使用串口通信的Android外设，
 
 使用该库简单实现的串口调试助手工具，[APK下载](https://github.com/wave-chtj/BaseIotUtils/blob/master/BaseIotUtils_v1.0_2019_9_2.apk)
 
-![image](https://github.com/freyskill/SerialPortHelper/blob/master/SerialPortHelper.png)
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/SerialPortHelper.png)
 
 ### 2、使用说明
 
