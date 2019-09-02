@@ -28,7 +28,7 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-<<<<<<< HEAD
+
         //1.1.6 之后与之前有较大改动 
         //增加了适配方案 使用如下
         BaseIotTools.instance().
@@ -38,14 +38,6 @@ public class App extends Application {
                         setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
                         initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
                                 create(this);
-=======
-        //init 和 initialize() 按需选择 一般情况选其中一个
-        //init//只是初始化上下文
-        //initialize 保活及串口初始化上下文等
-        
-        //BaseIotTools.init(this);
-        //BaseIotTools.initialize()
->>>>>>> 88465dcd18f8186a6258b93ed8d3475d1c6c269f
         
     }
 }
