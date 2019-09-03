@@ -45,7 +45,7 @@ public class App extends Application {
 
 ### 1080*1920 px 效果
 
-![image](../pic/big_screen.png)
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
 
 ### 480*800 px 效果
 

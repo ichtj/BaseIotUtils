@@ -26,7 +26,7 @@ ext {
             'design'                  : "com.android.support:design:${versions["support-version"]}",
             'animated-vector-drawable': "com.android.support:animated-vector-drawable:${versions["support-version"]}",
             'junit'                   : "junit:junit:${versions["junit-version"]}",
-            'annotations'                   : "com.android.support:support-annotations:${versions["support-version"]}",
+            'annotations'             : "com.android.support:support-annotations:${versions["support-version"]}",
     ]
     //依赖第三方配置
     dependencies = [

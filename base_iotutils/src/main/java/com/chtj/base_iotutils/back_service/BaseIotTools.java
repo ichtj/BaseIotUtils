@@ -22,21 +22,19 @@ import java.util.Map;
 
 public final class BaseIotTools {
     private static final String TAG =BaseIotTools.class.getSimpleName() ;
-
     //宽度
     private int defaultWidth = 1080;
     //高度
     private int defaultHeight = 1920;
-
-    boolean mAutoScreenAdaptation=false;//是否开启适配
-
-    SCREEN_TYPE screen_type;
-
+    //是否开启适配
+    private boolean mAutoScreenAdaptation=false;
+    //屏幕适配类型 高度|宽度
+    private SCREEN_TYPE screen_type;
+    //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
 
-
     private static volatile BaseIotTools sInstance;
-
+    //单例模式
     public static BaseIotTools instance() {
         if (sInstance == null) {
             synchronized (BaseIotTools.class) {

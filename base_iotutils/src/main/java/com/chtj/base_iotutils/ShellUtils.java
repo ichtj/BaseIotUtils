@@ -11,8 +11,8 @@ import java.io.InputStreamReader;
  * Shell相关工具类
  */
 public class ShellUtils {
-    public static final String TAG = "CommandExecution";
-
+    public static final String TAG="ShellUtils";
+    
     public final static String COMMAND_SU = "su";
     public final static String COMMAND_SH = "sh";
     public final static String COMMAND_EXIT = "exit\n";
