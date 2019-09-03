@@ -45,7 +45,7 @@ public class App extends Application {
 
 ### 1080*1920 px 效果
 
-![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
+![image](../pic/big_screen.png)
 
 ### 480*800 px 效果
 
@@ -76,13 +76,13 @@ public class App extends Application {
 
 ### 2.\base_iotutils\src\main\java\top\keepempty\sph\library
 
--串口相关工具类 | SerialPortHelper
+- 串口相关工具类 | SerialPortHelper
 
--读写数据线程 | SphThreads(ReadThread|WriteThread)
+- 读写数据线程 | SphThreads(ReadThread|WriteThread)
 
 # SerialPortHelper（Android串口通信）
 
-- Android串口通讯助手可以用于需要使用串口通信的Android外设，该库有如下特点：
+Android串口通讯助手可以用于需要使用串口通信的Android外设，该库有如下特点：
 1. 串口通信部分使用C++实现，在笔者接触的部分设备上实测，使用C++实现与Google官方提供的Demo的方式要快；
 2. 支持且必须设置串口接收最大数据长度，初始化库时填入该参数，这样设置的原因是考虑在实际使用中，规定的串口通信协议格式一般会固定有最大长度，方便对数据进行处理；
 3. 支持命令一发一收，通过对串口的读写线程进行同步控制，命令会先加入到队列然后依次发送和接收，前提需要设置超时时间以及超时处理，参考下面第4、5点；
