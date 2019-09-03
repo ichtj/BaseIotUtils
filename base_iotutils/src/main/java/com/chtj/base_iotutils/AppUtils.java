@@ -27,24 +27,25 @@ import java.util.List;
  * 获取当前android系统内的所有包名
  * 根据包名获取app信息
  */
-public class AppMegUtils {
+public class AppUtils {
     /**
      * 获取所有应用
+     *
      * @return 包含包名下app名称，图标的明细信息list
      */
     public static List<AppEntity> getApkInfoList() {
-        List<AppEntity> appEntityList =new ArrayList<AppEntity>();
+        List<AppEntity> appEntityList = new ArrayList<AppEntity>();
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> apps =BaseIotTools.getContext().getPackageManager().queryIntentActivities(intent, 0);
+        List<ResolveInfo> apps = BaseIotTools.getContext().getPackageManager().queryIntentActivities(intent, 0);
         //for循环遍历ResolveInfo对象获取包名和类名
         for (int i = 0; i < apps.size(); i++) {
             ResolveInfo info = apps.get(i);
             String packageName = info.activityInfo.packageName;
             CharSequence cls = info.activityInfo.name;
-            Drawable icon=info.loadIcon(BaseIotTools.getContext().getPackageManager());
+            Drawable icon = info.loadIcon(BaseIotTools.getContext().getPackageManager());
             CharSequence name = info.activityInfo.loadLabel(BaseIotTools.getContext().getPackageManager());
-            AppEntity entity = new AppEntity(i + "", name.toString(), packageName,icon, false, i);
+            AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i);
             appEntityList.add(entity);
             Log.e("！！！！！", name + "----" + packageName + "----" + cls);
         }
@@ -53,6 +54,7 @@ public class AppMegUtils {
 
     /**
      * 查询手机内非系统应用
+     *
      * @return 包含包名下app名称，图标的明细信息list
      */
     public static List<AppEntity> getAllApkInfoListByNonSystem() {
@@ -77,8 +79,8 @@ public class AppMegUtils {
     }
 
     /**
-     *
      * 获取应用名称
+     *
      * @param packageName
      */
     public static String getAppName(String packageName) {
@@ -86,7 +88,7 @@ public class AppMegUtils {
         try {
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             // 应用名称
-            String appName=pm.getApplicationLabel(appInfo).toString();
+            String appName = pm.getApplicationLabel(appInfo).toString();
             //应用图标
             //Drawable appIcon = pm.getApplicationIcon(appInfo);
             return appName;
@@ -95,23 +97,26 @@ public class AppMegUtils {
         }
         return null;
     }
+
     /**
      * 根据包名获取进程PID
+     *
      * @param packagename 包名
      * @return 进程PID -1为错误 其他值 为进程PID
      */
-    public  static int getPidByPackageName( String packagename){
-        ActivityManager am = (ActivityManager)BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+    public static int getPidByPackageName(String packagename) {
+        ActivityManager am = (ActivityManager) BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
-        int pid=-1;
-        for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess){
-            if(amProcess.processName.equals(packagename)){
-                pid=amProcess.pid;
+        int pid = -1;
+        for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess) {
+            if (amProcess.processName.equals(packagename)) {
+                pid = amProcess.pid;
                 break;
             }
         }
         return pid;
     }
+
     /**
      * 获取APP-VersionCode
      *
@@ -141,7 +146,7 @@ public class AppMegUtils {
         String versionName = "";
 
         try {
-            PackageInfo pinfo =  BaseIotTools.getContext().getPackageManager().getPackageInfo(
+            PackageInfo pinfo = BaseIotTools.getContext().getPackageManager().getPackageInfo(
                     pName, PackageManager.GET_CONFIGURATIONS);
             versionName = pinfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -150,6 +155,24 @@ public class AppMegUtils {
         return versionName;
     }
 
+    /**
+     * 判断 App 是否处于前台
+     * @return true |false
+     */
+    public static boolean isAppForeground() {
+        ActivityManager am = (ActivityManager) BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        if (am == null) return false;
+        List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
+        if (info == null || info.size() == 0) return false;
+        for (ActivityManager.RunningAppProcessInfo aInfo : info) {
+            if (aInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                if (aInfo.processName.equals(BaseIotTools.getContext().getPackageName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
 
 }

@@ -20,6 +20,7 @@ import java.util.List;
  */
 public final class AdaptScreenUtils {
 
+    //反射
     private static List<Field> sMetricsFields;
 
     private AdaptScreenUtils() {
@@ -28,6 +29,9 @@ public final class AdaptScreenUtils {
 
     /**
      * Adapt for the horizontal screen, and call it in {@link android.app.Activity#getResources()}.
+     * 例如：480*800 3.7尺寸屏幕 xhdpi=160.0 yhdpi=160.0
+     * 下面的1080是我们在Application 中oncreate BaseIotUtils.instance()...create();中初始化填写的
+     * newXdpi=(480*72.0)/1080=32.0
      */
     public static Resources adaptWidth( Resources resources, final int designWidth) {
         float newXdpi = (resources.getDisplayMetrics().widthPixels * 72f) / designWidth;
@@ -104,10 +108,14 @@ public final class AdaptScreenUtils {
         if (sMetricsFields == null) {
             sMetricsFields = new ArrayList<>();
             Class resCls = resources.getClass();
+            //获得某个类的所有声明的字段，即包括public、private和proteced，但是不包括父类的申明字段
             Field[] declaredFields = resCls.getDeclaredFields();
             while (declaredFields != null && declaredFields.length > 0) {
                 for (Field field : declaredFields) {
+                    //用来判断一个类Class1和另一个类Class2是否相同或是另一个类的超类或接口
                     if (field.getType().isAssignableFrom(DisplayMetrics.class)) {
+                        //当isAccessible()的结果是false时不允许通过反射访问该字段
+                        //isAccessible()的结果是true时作用就是让我们在用反射时访问私有变量
                         field.setAccessible(true);
                         DisplayMetrics tmpDm = getMetricsFromField(resources, field);
                         if (tmpDm != null) {
@@ -116,6 +124,7 @@ public final class AdaptScreenUtils {
                         }
                     }
                 }
+                //通过反射使用超类的私有属性
                 resCls = resCls.getSuperclass();
                 if (resCls != null) {
                     declaredFields = resCls.getDeclaredFields();
@@ -141,6 +150,7 @@ public final class AdaptScreenUtils {
 
     private static DisplayMetrics getMetricsFromField(final Resources resources, final Field field) {
         try {
+            //根据resoure,填充数据到field中
             return (DisplayMetrics) field.get(resources);
         } catch (Exception e) {
             Log.e("AdaptScreenUtils", "getMetricsFromField: " + e);

@@ -56,34 +56,33 @@ public class App extends Application {
 ##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
 
---- 进制转换类 | HexUtil
+- 进制转换类 | HexUtil
 
---- 键盘相关 | KeyBoardUtils
+- 键盘相关 | KeyBoardUtils
 
---- 网络判断 | NetWorkUtils
+- 网络判断 | NetWorkUtils
 
---- shell命令工具类 | ShellUtils
+- shell命令工具类 | ShellUtils
 
---- ShareProfrence工具类 | SPUtils
+- ShareProfrence工具类 | SPUtils
 
---- Toast工具类 | ToastUtil
+- Toast工具类 | ToastUtil
 
---- 后台服务类 保活 | AbsWorkService
+- 后台服务类 保活 | AbsWorkService
 
---- App相关信息工具类 | AppMegUtils
+- App相关信息工具类 | AppMegUtils
 
---- 屏幕适配相关 | AdaptScreenUtils
+- 屏幕适配相关 | AdaptScreenUtils
 
 ### 2.\base_iotutils\src\main\java\top\keepempty\sph\library
 
----串口相关工具类 | SerialPortHelper
+-串口相关工具类 | SerialPortHelper
 
----读写数据线程 | SphThreads(ReadThread|WriteThread)
+-读写数据线程 | SphThreads(ReadThread|WriteThread)
 
 # SerialPortHelper（Android串口通信）
 
-Android串口通讯助手可以用于需要使用串口通信的Android外设，该库有如下特点：
-
+- Android串口通讯助手可以用于需要使用串口通信的Android外设，该库有如下特点：
 1. 串口通信部分使用C++实现，在笔者接触的部分设备上实测，使用C++实现与Google官方提供的Demo的方式要快；
 2. 支持且必须设置串口接收最大数据长度，初始化库时填入该参数，这样设置的原因是考虑在实际使用中，规定的串口通信协议格式一般会固定有最大长度，方便对数据进行处理；
 3. 支持命令一发一收，通过对串口的读写线程进行同步控制，命令会先加入到队列然后依次发送和接收，前提需要设置超时时间以及超时处理，参考下面第4、5点；

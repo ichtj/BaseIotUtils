@@ -1,9 +1,6 @@
 apply plugin: 'com.android.library'
-//apply plugin: 'com.github.dcendents.android-maven'
 group='com.github.freyskill'
-//apply plugin: 'com.github.dcendents.android-maven'
-//apply plugin: 'com.novoda.bintray-release'
-//添加这两行
+//添加这两行 是为了上传到jcenter
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 android {
