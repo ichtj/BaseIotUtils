@@ -36,6 +36,8 @@ public class App extends Application {
                         setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
                         initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
                                 create(this);
+        //别忘了在 Manifest 中注册这个 Service.
+        //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
 }
 ```
@@ -236,24 +238,7 @@ void stopWork();
 void onServiceKilled();
 ```
 
-别忘了在 Manifest 中注册这个 Service.
-
-### 2. 自定义 Application
-
-在 Application 的 `onCreate()` 中, 调用
-
-```
-DaemonEnv.initialize(
-  Context app,  //Application Context.
-  Class<? extends AbsWorkService> serviceClass, //刚才创建的 Service 对应的 Class 对象.
-  @Nullable Integer wakeUpInterval);  //定时唤醒的时间间隔(ms), 默认 6 分钟.
-
-Context.startService(new Intent(Context app, Class<? extends AbsWorkService> serviceClass));
-```
-
-别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
-
-### 3. API 说明
+### 2. API 说明
 
 #### 启动 Service:
 
