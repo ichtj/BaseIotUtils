@@ -12,8 +12,6 @@ import java.util.List;
 
 /**
  * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
  *     time  : 2018/11/15
  *     desc  : utils about adapt screen 布局以pt为单位
  * </pre>

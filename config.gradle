@@ -41,8 +41,8 @@ ext {
             "gson"                                 : "com.google.code.gson:gson:2.8.5",
             "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
             "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
-            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.4",
-            "base_serialport"                      : "com.chtj.base_serialport:base_serialport:1.0.1",
+            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.7",
+            //"base_serialport"                      : "com.chtj.base_serialport:base_serialport:1.0.1",
     ]
 }
 

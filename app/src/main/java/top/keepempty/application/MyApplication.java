@@ -20,7 +20,7 @@ public class MyApplication extends Application {
                 setBaseHeight(1920).//设置高度布局尺寸
                 setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
                 setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
+                //initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
                         create(this);
 
         TraceServiceImpl.sShouldStopService = false;
