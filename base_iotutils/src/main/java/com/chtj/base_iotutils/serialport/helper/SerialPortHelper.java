@@ -4,8 +4,6 @@ import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
 
-import com.chtj.base_iotutils.serialport.SerialPort;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +11,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.chtj.base_iotutils.DataConversion;
-import com.chtj.base_iotutils.serialport.entity.ComEntity;
+import com.chtj.base_iotutils.entity.ComEntity;
+import com.chtj.base_iotutils.serialport.SerialPort;
+
 
 /**
  * Create on 2019/9/5
@@ -120,7 +120,7 @@ public class SerialPortHelper {
         //串口状态为关闭时 才能去执行开启
         if (!isOpen) {
             try {
-                port = new SerialPort(new File(comEntity.getCom()), comEntity.getBaudrate(), 0);
+                port = new SerialPort(new File(comEntity.getCom()), comEntity.getBaudrate(),0);
                 Log.e(TAG, "串口打开成功 com=" + comEntity.getCom() + ",baudrate=" + comEntity.getBaudrate());
                 isOpen = true;
             } catch (IOException e) {

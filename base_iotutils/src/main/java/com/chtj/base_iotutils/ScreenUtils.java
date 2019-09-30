@@ -9,7 +9,7 @@ import android.view.WindowManager;
 /**
  * Author       chtj
  * Date         2019-8-29
- * Desc	        ${屏幕相关工具类}
+ * Desc	        ${屏幕相关工具类} adaptation
  */
 public class ScreenUtils {
     /**

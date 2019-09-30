@@ -9,7 +9,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.chtj.base_iotutils.back_service.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotTools;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;

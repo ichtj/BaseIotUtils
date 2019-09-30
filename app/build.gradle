@@ -1,20 +1,55 @@
 apply plugin: 'com.android.application'
+// 热更新依赖插件脚本
+apply from: 'tinker-support.gradle'
 
 android {
+    signingConfigs {
+        release {
+            storeFile file('D:\\face.jks')
+            storePassword 'facefuture'
+            keyPassword 'facefuture'
+            keyAlias = 'key0'
+        }
+        debug {
+            storeFile file('D:\\face.jks')
+            storePassword 'facefuture'
+            keyAlias = 'key0'
+            keyPassword 'facefuture'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
-        applicationId "top.keepempty"
+        applicationId "com.wave_chtj.example"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
+        //multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
+        debug {
+            debuggable true
+            signingConfig signingConfigs.debug
+            minifyEnabled = false
+        }
+    }
+    // recommend
+    dexOptions {
+        jumboMode = true
+    }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
     }
 }
 
@@ -22,10 +57,16 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api rootProject.ext.support["appcompat-v7"]
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
-    //api rootProject.ext.dependencies["base_iotutils"]
-    testImplementation 'junit:junit:4.12'
+    //bugly
+    api rootProject.ext.dependencies["crashreport_upgrade"]
+    api rootProject.ext.dependencies["nativecrashreport"]
+    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
+    api rootProject.ext.dependencies["hotrefresh"]
+    //物联网开发基础工具类
+    api rootProject.ext.dependencies["base_iotutils"]
+    //---
+    testImplementation rootProject.ext.support["junit"]
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(path: ':base_iotutils')
-    /*implementation project(path: ':base_serialport')*/
+    //implementation project(path: ':base_iotutils')
 }

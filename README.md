@@ -16,8 +16,8 @@ allprojects {
 
 ```groovy
 dependencies {
-         //以下请按需要选择一种 
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.7'//以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
+         //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.7'
          
 }
 ```
@@ -34,9 +34,7 @@ public class App extends Application {
                         setBaseHeight(1920).//设置高度布局尺寸
                         setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
                         setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                        initSerice(TraceServiceImpl.class, /*DaemonEnv.DEFAULT_WAKE_UP_INTERVAL*/5000).//是否初始化后台保活Service
                                 create(this);
-        //别忘了在 Manifest 中注册这个 Service.
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
 }
@@ -77,6 +75,19 @@ public class App extends Application {
 - 串口工具 | SerialPort|SerialPortFinder
 
 # HelloDaemon 后台保活
+使用方式
+```java
+        //初始化后台保活Service
+        BaseIotTools.initSerice(TraceServiceImpl.class, BaseIotTools.DEFAULT_WAKE_UP_INTERVAL);
+
+        //开启service
+        TraceServiceImpl.sShouldStopService = false;
+        BaseIotTools.startServiceMayBind(TraceServiceImpl.class);
+        
+        //关闭service
+        TraceServiceImpl.stopService();
+        
+```
 
 <a href="https://996.icu"><img src="https://img.shields.io/badge/link-996.icu-red.svg"></a>
 

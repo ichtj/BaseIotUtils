@@ -1,21 +1,16 @@
 package com.chtj.base_iotutils;
 
-import android.app.Activity;
 import android.app.ActivityManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.graphics.Point;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
-import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.chtj.base_iotutils.back_service.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotTools;
 import com.chtj.base_iotutils.entity.AppEntity;
 
 import java.util.ArrayList;

@@ -3,7 +3,7 @@ ext {
     android = [
             compileSdkVersion: 27,
             buildToolsVersion: "27.0.2",
-            applicationId    : "top.keepempty",
+            applicationId    : "com.top.keepempty",
             minSdkVersion    : 15,
             targetSdkVersion : 27,
             versionCode      : 1,
@@ -26,7 +26,7 @@ ext {
             'design'                  : "com.android.support:design:${versions["support-version"]}",
             'animated-vector-drawable': "com.android.support:animated-vector-drawable:${versions["support-version"]}",
             'junit'                   : "junit:junit:${versions["junit-version"]}",
-            'annotations'             : "com.android.support:support-annotations:${versions["support-version"]}",
+            'annotations'             : "com.android.support:support-annotations:${versions["support-annotations"]}",
     ]
     //依赖第三方配置
     dependencies = [
@@ -42,8 +42,12 @@ ext {
             "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
             "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
             "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.7",
-            //"base_serialport"                      : "com.chtj.base_serialport:base_serialport:1.0.1",
+            //bugly的仓库
+            "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
+            "nativecrashreport"                    : "com.tencent.bugly:nativecrashreport:latest.release",
+            "hotrefresh"                           : "com.tencent.tinker:tinker-android-lib:1.9.9",
+            //多dex配置"
+            "nativecrashreport"                    : "com.android.support:multidex:1.0.1",
     ]
 }
-
 

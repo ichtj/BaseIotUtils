@@ -10,6 +10,8 @@ buildscript {
         //加上这两行
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        //热更新
+        classpath "com.tencent.bugly:tinker-support:1.1.5"
     }
 }
 
@@ -20,7 +22,7 @@ allprojects {
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
     }
-    tasks.withType(Javadoc) {
+    tasks.withType(Javadoc) { // 新增
         options.addStringOption('Xdoclint:none', '-quiet')
         options.addStringOption('encoding', 'UTF-8')
     }

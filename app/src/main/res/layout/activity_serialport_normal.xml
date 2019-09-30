@@ -53,7 +53,6 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_weight="1"
-                android:onClick="onClick"
                 android:text="开启串口并初始化基本信息"
                 android:layout_height="wrap_content"/>
             <Button

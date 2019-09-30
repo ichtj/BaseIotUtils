@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="top.keepempty">
-    <!--back_service使用方法-->
-    <!--https://github.com/xingda920813/HelloDaemon-->
-    <!--监听网络状态变化-->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.wave_chtj.example">
+
+    <!--bugly 更新 |热更新 需要的权限-->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+
+    <!--监听网络状态变化-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!--后台保活重要权限-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
@@ -14,33 +21,39 @@
         android:allowBackup="true"
         android:icon="@mipmap/app_img"
         android:label="@string/app_name"
-        android:name=".application.MyApplication"
+        android:name=".application.SampleApplication"
         android:roundIcon="@mipmap/app_img"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!--功能选择-->
         <activity android:name=".SwitchAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity android:name=".serialport.SerialPortActivity"></activity>
-
-        <activity android:name=".servicekeep.KeepServiceActivity">
-
-        </activity>
-        <activity android:name=".serialportnormal.SerialPortNormalAty">
-
-        </activity>
+        <!--后台服务-->
+        <activity android:name=".keepservice.KeepServiceActivity"/>
+        <!--串口相关-->
+        <activity android:name=".serialportnormal.SerialPortNormalAty"/>
         <!--屏幕适配相关-->
-        <activity android:name=".screenadaptation.ScreenActivity"></activity>
+        <activity android:name=".screenadaptation.ScreenActivity"/>
         <!--服务必须要注册-->
-        <service android:name=".servicekeep.TraceServiceImpl"></service>
-        <!--<meta-data
-            android:name="design_width_in_dp"
-            android:value="360"/>-->
+        <service android:name=".keepservice.TraceServiceImpl"/>
+
+        <!--bugly-->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
     </application>
+
+
+
 
 </manifest>
