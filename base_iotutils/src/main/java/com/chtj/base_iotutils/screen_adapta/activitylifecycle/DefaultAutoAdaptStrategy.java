@@ -17,7 +17,7 @@ package com.chtj.base_iotutils.screen_adapta.activitylifecycle;
 
 import android.app.Activity;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 /**
  * ================================================
@@ -29,6 +29,6 @@ public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
     @Override
     public void applyAdapt(Object target, Activity activity) {
         //是否开启了适配
-        BaseIotTools.autoConvertDensityOfGlobal(activity);
+        BaseIotUtils.autoConvertDensityOfGlobal(activity);
     }
 }

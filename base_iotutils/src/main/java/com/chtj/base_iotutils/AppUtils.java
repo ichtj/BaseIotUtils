@@ -10,8 +10,8 @@ import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
 import com.chtj.base_iotutils.entity.AppEntity;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,14 +32,14 @@ public class AppUtils {
         List<AppEntity> appEntityList = new ArrayList<AppEntity>();
         Intent intent = new Intent(Intent.ACTION_MAIN, null);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> apps = BaseIotTools.getContext().getPackageManager().queryIntentActivities(intent, 0);
+        List<ResolveInfo> apps = BaseIotUtils.getContext().getPackageManager().queryIntentActivities(intent, 0);
         //for循环遍历ResolveInfo对象获取包名和类名
         for (int i = 0; i < apps.size(); i++) {
             ResolveInfo info = apps.get(i);
             String packageName = info.activityInfo.packageName;
             CharSequence cls = info.activityInfo.name;
-            Drawable icon = info.loadIcon(BaseIotTools.getContext().getPackageManager());
-            CharSequence name = info.activityInfo.loadLabel(BaseIotTools.getContext().getPackageManager());
+            Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
+            CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
             AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i);
             appEntityList.add(entity);
             Log.e("！！！！！", name + "----" + packageName + "----" + cls);
@@ -54,7 +54,7 @@ public class AppUtils {
      */
     public static List<AppEntity> getAllApkInfoListByNonSystem() {
         List<AppEntity> appEntityList = new ArrayList<AppEntity>();
-        PackageManager pManager = BaseIotTools.getContext().getPackageManager();
+        PackageManager pManager = BaseIotUtils.getContext().getPackageManager();
         //获取手机内所有应用
         List<PackageInfo> paklist = pManager.getInstalledPackages(0);
         for (int i = 0; i < paklist.size(); i++) {
@@ -74,12 +74,12 @@ public class AppUtils {
     }
 
     /**
-     * 获取应用名称
+     * 获取当前应用名称
      *
      * @param packageName
      */
     public static String getAppName(String packageName) {
-        PackageManager pm = BaseIotTools.getContext().getPackageManager();
+        PackageManager pm = BaseIotUtils.getContext().getPackageManager();
         try {
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             // 应用名称
@@ -100,7 +100,7 @@ public class AppUtils {
      * @return 进程PID -1为错误 其他值 为进程PID
      */
     public static int getPidByPackageName(String packagename) {
-        ActivityManager am = (ActivityManager) BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
         int pid = -1;
         for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess) {
@@ -118,11 +118,11 @@ public class AppUtils {
      * @return
      */
     public static int getAppVersionCode() {
-        String pName = BaseIotTools.getContext().getPackageName();
+        String pName = BaseIotUtils.getContext().getPackageName();
         int versionCode = 0;
 
         try {
-            PackageInfo pinfo = BaseIotTools.getContext().getPackageManager().getPackageInfo(
+            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
                     pName, PackageManager.GET_CONFIGURATIONS);
             versionCode = pinfo.versionCode;
         } catch (PackageManager.NameNotFoundException e) {
@@ -137,11 +137,11 @@ public class AppUtils {
      * @return
      */
     public static String getAppVersionName() {
-        String pName = BaseIotTools.getContext().getPackageName();
+        String pName = BaseIotUtils.getContext().getPackageName();
         String versionName = "";
 
         try {
-            PackageInfo pinfo = BaseIotTools.getContext().getPackageManager().getPackageInfo(
+            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
                     pName, PackageManager.GET_CONFIGURATIONS);
             versionName = pinfo.versionName;
         } catch (PackageManager.NameNotFoundException e) {
@@ -155,13 +155,13 @@ public class AppUtils {
      * @return true |false
      */
     public static boolean isAppForeground() {
-        ActivityManager am = (ActivityManager) BaseIotTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return false;
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         if (info == null || info.size() == 0) return false;
         for (ActivityManager.RunningAppProcessInfo aInfo : info) {
             if (aInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                if (aInfo.processName.equals(BaseIotTools.getContext().getPackageName())) {
+                if (aInfo.processName.equals(BaseIotUtils.getContext().getPackageName())) {
                     return true;
                 }
             }

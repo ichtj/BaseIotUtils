@@ -19,15 +19,11 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext=SwitchAty.this;
     }
 
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
 
     @Override
     public void onClick(View view) {
@@ -46,4 +42,8 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 }

@@ -24,7 +24,7 @@
         android:name=".application.SampleApplication"
         android:roundIcon="@mipmap/app_img"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppThemeWelcome">
         <!--功能选择-->
         <activity android:name=".SwitchAty">
             <intent-filter>
@@ -33,11 +33,14 @@
             </intent-filter>
         </activity>
         <!--后台服务-->
-        <activity android:name=".keepservice.KeepServiceActivity"/>
+        <activity android:name=".keepservice.KeepServiceActivity"
+            android:theme="@style/AppTheme"/>
         <!--串口相关-->
-        <activity android:name=".serialportnormal.SerialPortNormalAty"/>
+        <activity android:name=".serialportnormal.SerialPortNormalAty"
+            android:theme="@style/AppTheme"/>
         <!--屏幕适配相关-->
-        <activity android:name=".screenadaptation.ScreenActivity"/>
+        <activity android:name=".screenadaptation.ScreenActivity"
+            android:theme="@style/AppTheme"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
 

@@ -9,7 +9,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -37,7 +37,7 @@ public class NetWorkUtils {
      */
     public static int getNetworkType() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager)  BaseIotTools.getContext().getSystemService(
+                = (ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager == null
                 ? null
@@ -53,7 +53,7 @@ public class NetWorkUtils {
      */
     public static String getNetworkTypeName() {
         ConnectivityManager manager
-                = (ConnectivityManager)  BaseIotTools.getContext().getSystemService(
+                = (ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo;
         String type = NETWORK_TYPE_DISCONNECT;
@@ -91,7 +91,7 @@ public class NetWorkUtils {
      */
     private static boolean isFastMobileNetwork() {
         TelephonyManager telephonyManager
-                = (TelephonyManager)  BaseIotTools.getContext().getSystemService(
+                = (TelephonyManager)  BaseIotUtils.getContext().getSystemService(
                 Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return false;
@@ -143,7 +143,7 @@ public class NetWorkUtils {
      */
     public static NetworkInfo.State getCurrentNetworkState() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotTools.getContext().getSystemService(
+                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null ? networkInfo.getState() : null;
     }
@@ -156,7 +156,7 @@ public class NetWorkUtils {
      */
     public static int getCurrentNetworkType() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotTools.getContext().getSystemService(
+                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null
                 ? networkInfo.getType()
@@ -171,7 +171,7 @@ public class NetWorkUtils {
      */
     public static int getCurrentNetworkSubtype() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotTools.getContext().getSystemService(
+                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null
                 ? networkInfo.getSubtype()
@@ -624,7 +624,7 @@ public class NetWorkUtils {
      * @return 取值为WifiManager中的WIFI_STATE_ENABLED、WIFI_STATE_ENABLING、WIFI_STATE_DISABLED、WIFI_STATE_DISABLING、WIFI_STATE_UNKNOWN之一
      */
     public static int getWifiState() throws Exception {
-        WifiManager wifiManager = ((WifiManager) BaseIotTools.getContext().getApplicationContext().getSystemService(
+        WifiManager wifiManager = ((WifiManager) BaseIotUtils.getContext().getApplicationContext().getSystemService(
                 Context.WIFI_SERVICE));
         if (wifiManager != null) {
             return wifiManager.getWifiState();
@@ -659,7 +659,7 @@ public class NetWorkUtils {
             throws Exception {
         //如果当前wifi的状态和要设置的状态不一样
         if (isWifiOpen() != enable) {
-            ((WifiManager) BaseIotTools.getContext().getApplicationContext().getSystemService(
+            ((WifiManager) BaseIotUtils.getContext().getApplicationContext().getSystemService(
                     Context.WIFI_SERVICE)).setWifiEnabled(enable);
         }
         return true;
@@ -672,7 +672,7 @@ public class NetWorkUtils {
      * @return true：打开；false：关闭
      */
     public static boolean isMobileNetworkOpen() {
-        return (((ConnectivityManager) BaseIotTools.getContext().getSystemService(
+        return (((ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getNetworkInfo(
                 ConnectivityManager.TYPE_MOBILE)).isConnected();
     }

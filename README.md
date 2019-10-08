@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.7'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.9'
          
 }
 ```
@@ -29,7 +29,7 @@ public class App extends Application {
         super.onCreate();
         //1.1.6 之后与之前有较大改动 
         //增加了适配方案 使用如下
-        BaseIotTools.instance().
+        BaseIotUtils.instance().
                         setBaseWidth(1080).//设置宽度布局尺寸
                         setBaseHeight(1920).//设置高度布局尺寸
                         setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
@@ -54,7 +54,9 @@ public class App extends Application {
 ##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
 
-- 进制转换类 | HexUtil
+- 进制转换类 | HexUtils
+
+- 设备相关 | DeviceUtils
 
 - 键盘相关 | KeyBoardUtils
 
@@ -68,21 +70,23 @@ public class App extends Application {
 
 - 后台服务类 保活 | AbsWorkService
 
-- App相关信息工具类 | AppMegUtils
+- App相关信息工具类 | AppUtils
 
 - 屏幕适配相关 | AdaptScreenUtils
 
-- 串口工具 | SerialPort|SerialPortFinder
+- 串口工具 | SerialPort | SerialPortFinder
+
+- 日志管理 | KLog
 
 # HelloDaemon 后台保活
 使用方式
 ```java
         //初始化后台保活Service
-        BaseIotTools.initSerice(TraceServiceImpl.class, BaseIotTools.DEFAULT_WAKE_UP_INTERVAL);
+        BaseIotUtils.initSerice(TraceServiceImpl.class, BaseIotUtils.DEFAULT_WAKE_UP_INTERVAL);
 
         //开启service
         TraceServiceImpl.sShouldStopService = false;
-        BaseIotTools.startServiceMayBind(TraceServiceImpl.class);
+        BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
         
         //关闭service
         TraceServiceImpl.stopService();

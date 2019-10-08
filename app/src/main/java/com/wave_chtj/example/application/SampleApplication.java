@@ -14,8 +14,6 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
  * 参数3：String loaderClassName  Tinker的加载器，使用默认即可
  * 参数4：boolean tinkerLoadVerifyFlag  加载dex或者lib是否验证md5，默认为false
  * </pre>
- * @author wenjiewu
- * @since 2016/11/15
  */
 public class SampleApplication extends TinkerApplication {
     public SampleApplication() {

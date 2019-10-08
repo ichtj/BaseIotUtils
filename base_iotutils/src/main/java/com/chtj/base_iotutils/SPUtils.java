@@ -1,7 +1,8 @@
 package com.chtj.base_iotutils;
 import android.content.Context;
 import android.content.SharedPreferences;
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 /**
  * @author chtj
@@ -18,7 +19,7 @@ public class SPUtils {
      * @param value    要存储的String值
      */
     public static void putString( String key, String value) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(key, value).commit();
     }
 
@@ -30,7 +31,7 @@ public class SPUtils {
      * @return
      */
     public static String getString( String key, String defValue) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(key, defValue);
     }
 
@@ -42,7 +43,7 @@ public class SPUtils {
      * @param value    要存储的Int值
      */
     public static void putInt( String key, int value) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putInt(key, value).commit();
     }
 
@@ -55,7 +56,7 @@ public class SPUtils {
      * @return
      */
     public static int getInt( String key, int defValue) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(key, defValue);
     }
 
@@ -67,7 +68,7 @@ public class SPUtils {
      * @param value    要存储Boolean值
      */
     public static void putBoolean( String key, boolean value) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().putBoolean(key, value).commit();
     }
 
@@ -79,19 +80,19 @@ public class SPUtils {
      * @return
      */
     public static boolean getBoolean( String key, Boolean defValue) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean(key, defValue);
     }
 
     //删除 单个 key
     public static void deleShare( String key) {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(key).commit();
     }
 
     //删除全部 key
     public static void deleAll() {
-        SharedPreferences sharedPreferences = BaseIotTools.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();
     }
 }

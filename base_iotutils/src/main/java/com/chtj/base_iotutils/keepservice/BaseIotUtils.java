@@ -20,8 +20,8 @@ import com.chtj.base_iotutils.screen_adapta.AdaptScreenUtils;
 import java.util.HashMap;
 import java.util.Map;
 
-public final class BaseIotTools {
-    private static final String TAG =BaseIotTools.class.getSimpleName() ;
+public final class BaseIotUtils {
+    private static final String TAG = BaseIotUtils.class.getSimpleName() ;
     //宽度
     private int defaultWidth = 1080;
     //高度
@@ -33,13 +33,13 @@ public final class BaseIotTools {
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
 
-    private static volatile BaseIotTools sInstance;
+    private static volatile BaseIotUtils sInstance;
     //单例模式
-    public static BaseIotTools instance() {
+    public static BaseIotUtils instance() {
         if (sInstance == null) {
-            synchronized (BaseIotTools.class) {
+            synchronized (BaseIotUtils.class) {
                 if (sInstance == null) {
-                    sInstance = new BaseIotTools();
+                    sInstance = new BaseIotUtils();
                 }
             }
         }
@@ -52,7 +52,7 @@ public final class BaseIotTools {
      * @param defaultWidth dp
      * @return
      */
-    public BaseIotTools setBaseWidth(int defaultWidth) {
+    public BaseIotUtils setBaseWidth(int defaultWidth) {
         this.defaultWidth = defaultWidth;
         return this;
     }
@@ -62,7 +62,7 @@ public final class BaseIotTools {
      * @param defaultHeight dp
      * @return
      */
-    public BaseIotTools setBaseHeight(int defaultHeight) {
+    public BaseIotUtils setBaseHeight(int defaultHeight) {
         this.defaultHeight = defaultHeight;
         return this;
     }
@@ -75,7 +75,7 @@ public final class BaseIotTools {
      * @param screen_type dp
      * @return
      */
-    public BaseIotTools setCreenType(SCREEN_TYPE screen_type) {
+    public BaseIotUtils setCreenType(SCREEN_TYPE screen_type) {
         this.screen_type = screen_type;
         return this;
     }
@@ -85,7 +85,7 @@ public final class BaseIotTools {
      * @param mAutoScreenAdaptation
      * @return
      */
-    public BaseIotTools setAutoScreenAdaptation(boolean mAutoScreenAdaptation) {
+    public BaseIotUtils setAutoScreenAdaptation(boolean mAutoScreenAdaptation) {
         this.mAutoScreenAdaptation = mAutoScreenAdaptation;
         return this;
     }
@@ -94,13 +94,13 @@ public final class BaseIotTools {
      * 使用 AndroidAutoSize 初始化时设置的默认适配参数进行适配 (AndroidManifest 的 Meta 属性)
      */
     public static void autoConvertDensityOfGlobal(Activity activity){
-        if(BaseIotTools.instance().mAutoScreenAdaptation){
-            if (BaseIotTools.instance().screen_type==SCREEN_TYPE.WIDTH) {
+        if(BaseIotUtils.instance().mAutoScreenAdaptation){
+            if (BaseIotUtils.instance().screen_type==SCREEN_TYPE.WIDTH) {
                 Log.e(TAG,"开启了适配 并且以宽度进行适配");
-                AdaptScreenUtils.adaptWidth(activity.getResources(),BaseIotTools.instance().defaultWidth );
+                AdaptScreenUtils.adaptWidth(activity.getResources(), BaseIotUtils.instance().defaultWidth );
             } else {
                 Log.e(TAG,"开启了适配 并且以高度进行适配");
-                AdaptScreenUtils.adaptHeight(activity.getResources(), BaseIotTools.instance().defaultHeight );
+                AdaptScreenUtils.adaptHeight(activity.getResources(), BaseIotUtils.instance().defaultHeight );
             }
         }else{
             Log.e(TAG,"当前未开启适配 如需设置请在application中将setAutoScreenAdaptation 设置为true");
@@ -113,7 +113,7 @@ public final class BaseIotTools {
      * @param application 全局上下文
      */
     public void create(Application application) {
-        BaseIotTools.sApp = application.getApplicationContext();
+        BaseIotUtils.sApp = application.getApplicationContext();
         mActivityLifecycleImp = new ActivityLifecycleImp(new DefaultAutoAdaptStrategy());
         application.registerActivityLifecycleCallbacks(mActivityLifecycleImp);
     }

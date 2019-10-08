@@ -3,7 +3,7 @@ ext {
     android = [
             compileSdkVersion: 27,
             buildToolsVersion: "27.0.2",
-            applicationId    : "com.top.keepempty",
+            applicationId    : "com.wave_chtj.example",
             minSdkVersion    : 15,
             targetSdkVersion : 27,
             versionCode      : 1,
@@ -41,7 +41,7 @@ ext {
             "gson"                                 : "com.google.code.gson:gson:2.8.5",
             "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
             "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
-            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.7",
+            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.1.9",
             //bugly的仓库
             "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "nativecrashreport"                    : "com.tencent.bugly:nativecrashreport:latest.release",

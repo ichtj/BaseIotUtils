@@ -20,8 +20,8 @@ public abstract class AbsWorkService extends Service {
      * 用于在不需要服务运行的时候取消 Job / Alarm / Subscription.
      */
     public static void cancelJobAlarmSub() {
-        if (!BaseIotTools.sInitialized) return;
-        BaseIotTools.sApp.sendBroadcast(new Intent(WakeUpReceiver.ACTION_CANCEL_JOB_ALARM_SUB));
+        if (!BaseIotUtils.sInitialized) return;
+        BaseIotUtils.sApp.sendBroadcast(new Intent(WakeUpReceiver.ACTION_CANCEL_JOB_ALARM_SUB));
     }
 
     /**
@@ -41,7 +41,7 @@ public abstract class AbsWorkService extends Service {
     public abstract void onServiceKilled(Intent rootIntent);
 
     /**
-     * 1.防止重复启动，可以任意调用 BaseIotTools.startServiceMayBind(Class serviceClass);
+     * 1.防止重复启动，可以任意调用 BaseIotUtils.startServiceMayBind(Class serviceClass);
      * 2.利用漏洞启动前台服务而不显示通知;
      * 3.在子线程中运行定时任务，处理了运行前检查和销毁时保存的问题;
      * 4.启动守护服务;
@@ -50,7 +50,7 @@ public abstract class AbsWorkService extends Service {
     protected int onStart(Intent intent, int flags, int startId) {
 
         //启动守护服务，运行在:watch子进程中
-        BaseIotTools.startServiceMayBind(WatchDogService.class);
+        BaseIotUtils.startServiceMayBind(WatchDogService.class);
 
         //业务逻辑: 实际使用时，根据需求，将这里更改为自定义的条件，判定服务应当启动还是停止 (任务是否需要运行)
         Boolean shouldStopService = shouldStopService(intent, flags, startId);
@@ -66,7 +66,7 @@ public abstract class AbsWorkService extends Service {
                 startForeground(HASH_CODE, new Notification());
                 //利用漏洞在 API Level 18 及以上的 Android 系统中，启动前台服务而不显示通知
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                    BaseIotTools.startServiceSafely(new Intent(getApplication(), WorkNotificationService.class));
+                    BaseIotUtils.startServiceSafely(new Intent(getApplication(), WorkNotificationService.class));
             }
             getPackageManager().setComponentEnabledSetting(new ComponentName(getPackageName(), WatchDogService.class.getName()),
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
@@ -115,9 +115,9 @@ public abstract class AbsWorkService extends Service {
 
     protected void onEnd(Intent rootIntent) {
         onServiceKilled(rootIntent);
-        if (!BaseIotTools.sInitialized) return;
-        BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
-        BaseIotTools.startServiceMayBind(WatchDogService.class);
+        if (!BaseIotUtils.sInitialized) return;
+        BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
+        BaseIotUtils.startServiceMayBind(WatchDogService.class);
     }
 
     /**

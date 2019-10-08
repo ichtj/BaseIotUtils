@@ -30,21 +30,21 @@ public class WatchDogService extends Service {
      */
     protected final int onStart(Intent intent, int flags, int startId) {
 
-        if (!BaseIotTools.sInitialized) return START_STICKY;
+        if (!BaseIotUtils.sInitialized) return START_STICKY;
 
         if (sDisposable != null && !sDisposable.isDisposed()) return START_STICKY;
 
         if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.N) {
             startForeground(HASH_CODE, new Notification());
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
-                BaseIotTools.startServiceSafely(new Intent(BaseIotTools.sApp, WatchDogNotificationService.class));
+                BaseIotUtils.startServiceSafely(new Intent(BaseIotUtils.sApp, WatchDogNotificationService.class));
         }
 
         //定时检查 AbsWorkService 是否在运行，如果不在运行就把它拉起来
         //Android 5.0+ 使用 JobScheduler，效果比 AlarmManager 好
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            JobInfo.Builder builder = new JobInfo.Builder(HASH_CODE, new ComponentName(BaseIotTools.sApp, JobSchedulerService.class));
-            builder.setPeriodic(BaseIotTools.getWakeUpInterval());
+            JobInfo.Builder builder = new JobInfo.Builder(HASH_CODE, new ComponentName(BaseIotUtils.sApp, JobSchedulerService.class));
+            builder.setPeriodic(BaseIotUtils.getWakeUpInterval());
             //Android 7.0+ 增加了一项针对 JobScheduler 的新限制，最小间隔只能是下面设定的数字
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) builder.setPeriodic(JobInfo.getMinPeriodMillis(), JobInfo.getMinFlexMillis());
             builder.setPersisted(true);
@@ -53,18 +53,18 @@ public class WatchDogService extends Service {
         } else {
             //Android 4.4- 使用 AlarmManager
             AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
-            Intent i = new Intent(BaseIotTools.sApp, BaseIotTools.sServiceClass);
-            sPendingIntent = PendingIntent.getService(BaseIotTools.sApp, HASH_CODE, i, PendingIntent.FLAG_UPDATE_CURRENT);
-            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + BaseIotTools.getWakeUpInterval(), BaseIotTools.getWakeUpInterval(), sPendingIntent);
+            Intent i = new Intent(BaseIotUtils.sApp, BaseIotUtils.sServiceClass);
+            sPendingIntent = PendingIntent.getService(BaseIotUtils.sApp, HASH_CODE, i, PendingIntent.FLAG_UPDATE_CURRENT);
+            am.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + BaseIotUtils.getWakeUpInterval(), BaseIotUtils.getWakeUpInterval(), sPendingIntent);
         }
 
         //使用定时 Observable，避免 Android 定制系统 JobScheduler / AlarmManager 唤醒间隔不稳定的情况
         sDisposable = Observable
-                .interval(BaseIotTools.getWakeUpInterval(), TimeUnit.MILLISECONDS)
+                .interval(BaseIotUtils.getWakeUpInterval(), TimeUnit.MILLISECONDS)
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
+                        BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
                     }
                 }, new Consumer<Throwable>() {
                     @Override
@@ -74,7 +74,7 @@ public class WatchDogService extends Service {
                 });
 
         //守护 Service 组件的启用状态, 使其不被 MAT 等工具禁用
-        getPackageManager().setComponentEnabledSetting(new ComponentName(getPackageName(), BaseIotTools.sServiceClass.getName()),
+        getPackageManager().setComponentEnabledSetting(new ComponentName(getPackageName(), BaseIotUtils.sServiceClass.getName()),
                 PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
 
         return START_STICKY;
@@ -92,9 +92,9 @@ public class WatchDogService extends Service {
     }
 
     protected void onEnd(Intent rootIntent) {
-        if (!BaseIotTools.sInitialized) return;
-        BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
-        BaseIotTools.startServiceMayBind(WatchDogService.class);
+        if (!BaseIotUtils.sInitialized) return;
+        BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
+        BaseIotUtils.startServiceMayBind(WatchDogService.class);
     }
 
     /**
@@ -120,12 +120,12 @@ public class WatchDogService extends Service {
      * 而是向 WakeUpReceiver 发送一个 Action 为 WakeUpReceiver.ACTION_CANCEL_JOB_ALARM_SUB 的广播.
      */
     public static void cancelJobAlarmSub() {
-        if (!BaseIotTools.sInitialized) return;
+        if (!BaseIotUtils.sInitialized) return;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            JobScheduler scheduler = (JobScheduler) BaseIotTools.sApp.getSystemService(JOB_SCHEDULER_SERVICE);
+            JobScheduler scheduler = (JobScheduler) BaseIotUtils.sApp.getSystemService(JOB_SCHEDULER_SERVICE);
             scheduler.cancel(HASH_CODE);
         } else {
-            AlarmManager am = (AlarmManager) BaseIotTools.sApp.getSystemService(ALARM_SERVICE);
+            AlarmManager am = (AlarmManager) BaseIotUtils.sApp.getSystemService(ALARM_SERVICE);
             if (sPendingIntent != null) am.cancel(sPendingIntent);
         }
         if (sDisposable != null) sDisposable.dispose();

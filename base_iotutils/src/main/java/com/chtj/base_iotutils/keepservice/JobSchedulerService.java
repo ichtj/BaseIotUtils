@@ -14,8 +14,8 @@ public class JobSchedulerService extends JobService {
 
     @Override
     public boolean onStartJob(JobParameters params) {
-        if (!BaseIotTools.sInitialized) return false;
-        BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
+        if (!BaseIotUtils.sInitialized) return false;
+        BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
         return false;
     }
 

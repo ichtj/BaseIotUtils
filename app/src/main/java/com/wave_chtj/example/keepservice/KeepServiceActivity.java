@@ -1,16 +1,13 @@
 package com.wave_chtj.example.keepservice;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-
 import com.chtj.base_iotutils.keepservice.BaseIotTools;
 import com.chtj.base_iotutils.keepservice.IntentWrapper;
-
 import com.wave_chtj.example.R;
 
 public class KeepServiceActivity extends Activity {
-
+    @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);
         setContentView(R.layout.activity_keep_service);

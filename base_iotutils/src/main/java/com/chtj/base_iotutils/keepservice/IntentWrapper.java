@@ -66,17 +66,17 @@ public class IntentWrapper {
     public static List<IntentWrapper> getIntentWrapperList() {
         if (sIntentWrapperList == null) {
 
-            if (!BaseIotTools.sInitialized) return new ArrayList<>();
+            if (!BaseIotUtils.sInitialized) return new ArrayList<>();
             
             sIntentWrapperList = new ArrayList<>();
             
             //Android 7.0+ Doze 模式
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                PowerManager pm = (PowerManager) BaseIotTools.sApp.getSystemService(Context.POWER_SERVICE);
-                boolean ignoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(BaseIotTools.sApp.getPackageName());
+                PowerManager pm = (PowerManager) BaseIotUtils.sApp.getSystemService(Context.POWER_SERVICE);
+                boolean ignoringBatteryOptimizations = pm.isIgnoringBatteryOptimizations(BaseIotUtils.sApp.getPackageName());
                 if (!ignoringBatteryOptimizations) {
                     Intent dozeIntent = new Intent(Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
-                    dozeIntent.setData(Uri.parse("package:" + BaseIotTools.sApp.getPackageName()));
+                    dozeIntent.setData(Uri.parse("package:" + BaseIotUtils.sApp.getPackageName()));
                     sIntentWrapperList.add(new IntentWrapper(dozeIntent, DOZE));
                 }
             }
@@ -100,12 +100,12 @@ public class IntentWrapper {
             //小米 神隐模式
             Intent xiaomiGodIntent = new Intent();
             xiaomiGodIntent.setComponent(new ComponentName("com.miui.powerkeeper", "com.miui.powerkeeper.ui.HiddenAppsConfigActivity"));
-            xiaomiGodIntent.putExtra("package_name", BaseIotTools.sApp.getPackageName());
+            xiaomiGodIntent.putExtra("package_name", BaseIotUtils.sApp.getPackageName());
             xiaomiGodIntent.putExtra("package_label", getApplicationName());
             sIntentWrapperList.add(new IntentWrapper(xiaomiGodIntent, XIAOMI_GOD));
 
             //三星 5.0/5.1 自启动应用程序管理
-            Intent samsungLIntent = BaseIotTools.sApp.getPackageManager().getLaunchIntentForPackage("com.samsung.android.sm");
+            Intent samsungLIntent = BaseIotUtils.sApp.getPackageManager().getLaunchIntentForPackage("com.samsung.android.sm");
             if (samsungLIntent != null) sIntentWrapperList.add(new IntentWrapper(samsungLIntent, SAMSUNG_L));
 
             //三星 6.0+ 未监视的应用程序管理
@@ -116,7 +116,7 @@ public class IntentWrapper {
             //魅族 自启动管理
             Intent meizuIntent = new Intent("com.meizu.safe.security.SHOW_APPSEC");
             meizuIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            meizuIntent.putExtra("packageName", BaseIotTools.sApp.getPackageName());
+            meizuIntent.putExtra("packageName", BaseIotUtils.sApp.getPackageName());
             sIntentWrapperList.add(new IntentWrapper(meizuIntent, MEIZU));
 
             //魅族 待机耗电管理
@@ -186,16 +186,16 @@ public class IntentWrapper {
 
     public static String getApplicationName() {
         if (sApplicationName == null) {
-            if (!BaseIotTools.sInitialized) return "";
+            if (!BaseIotUtils.sInitialized) return "";
             PackageManager pm;
             ApplicationInfo ai;
             try {
-                pm = BaseIotTools.sApp.getPackageManager();
-                ai = pm.getApplicationInfo(BaseIotTools.sApp.getPackageName(), 0);
+                pm = BaseIotUtils.sApp.getPackageManager();
+                ai = pm.getApplicationInfo(BaseIotUtils.sApp.getPackageName(), 0);
                 sApplicationName = pm.getApplicationLabel(ai).toString();
             } catch (PackageManager.NameNotFoundException e) {
                 e.printStackTrace();
-                sApplicationName = BaseIotTools.sApp.getPackageName();
+                sApplicationName = BaseIotUtils.sApp.getPackageName();
             }
         }
         return sApplicationName;
@@ -429,8 +429,8 @@ public class IntentWrapper {
      * 判断本机上是否有能处理当前Intent的Activity
      */
     protected boolean doesActivityExists() {
-        if (!BaseIotTools.sInitialized) return false;
-        PackageManager pm = BaseIotTools.sApp.getPackageManager();
+        if (!BaseIotUtils.sInitialized) return false;
+        PackageManager pm = BaseIotUtils.sApp.getPackageManager();
         List<ResolveInfo> list = pm.queryIntentActivities(intent, PackageManager.MATCH_DEFAULT_ONLY);
         return list != null && list.size() > 0;
     }

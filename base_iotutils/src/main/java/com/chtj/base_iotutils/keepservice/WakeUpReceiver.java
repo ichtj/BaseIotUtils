@@ -25,16 +25,16 @@ public class WakeUpReceiver extends BroadcastReceiver {
             WatchDogService.cancelJobAlarmSub();
             return;
         }
-        if (!BaseIotTools.sInitialized) return;
-        BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
+        if (!BaseIotUtils.sInitialized) return;
+        BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
     }
 
     public static class WakeUpAutoStartReceiver extends BroadcastReceiver {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (!BaseIotTools.sInitialized) return;
-            BaseIotTools.startServiceMayBind(BaseIotTools.sServiceClass);
+            if (!BaseIotUtils.sInitialized) return;
+            BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
         }
     }
 }

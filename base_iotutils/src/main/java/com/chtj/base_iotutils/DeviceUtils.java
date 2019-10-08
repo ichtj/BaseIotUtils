@@ -14,7 +14,7 @@ import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -30,9 +30,6 @@ import static android.content.Context.WIFI_SERVICE;
 
 /**
  * <pre>
- *     author: Blankj
- *     blog  : http://blankj.com
- *     time  : 2016/8/1
  *     desc  : utils about device
  * </pre>
  */
@@ -70,7 +67,7 @@ public final class DeviceUtils {
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
     public static boolean isAdbEnabled() {
         return Settings.Secure.getInt(
-                BaseIotTools.getContext().getContentResolver(),
+                BaseIotUtils.getContext().getContentResolver(),
                 Settings.Global.ADB_ENABLED, 0
         ) > 0;
     }
@@ -104,7 +101,7 @@ public final class DeviceUtils {
     @SuppressLint("HardwareIds")
     public static String getAndroidID() {
         String id = Settings.Secure.getString(
-                BaseIotTools.getContext().getContentResolver(),
+                BaseIotUtils.getContext().getContentResolver(),
                 Settings.Secure.ANDROID_ID
         );
         if ("9774d56d682e549c".equals(id)) return "";
@@ -131,7 +128,7 @@ public final class DeviceUtils {
 
     private static boolean getWifiEnabled() {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) BaseIotTools.getContext().getSystemService(WIFI_SERVICE);
+        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
         if (manager == null) return false;
         return manager.isWifiEnabled();
     }
@@ -145,7 +142,7 @@ public final class DeviceUtils {
     @RequiresPermission(CHANGE_WIFI_STATE)
     private static void setWifiEnabled(final boolean enabled) {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) BaseIotTools.getContext().getSystemService(WIFI_SERVICE);
+        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
         if (manager == null) return;
         if (enabled == manager.isWifiEnabled()) return;
         manager.setWifiEnabled(enabled);
@@ -194,7 +191,7 @@ public final class DeviceUtils {
     @SuppressLint({"MissingPermission", "HardwareIds"})
     private static String getMacAddressByWifiInfo() {
         try {
-            final WifiManager wifi = (WifiManager) BaseIotTools.getContext()
+            final WifiManager wifi = (WifiManager) BaseIotUtils.getContext()
                     .getApplicationContext().getSystemService(WIFI_SERVICE);
             if (wifi != null) {
                 final WifiInfo info = wifi.getConnectionInfo();
@@ -340,7 +337,7 @@ public final class DeviceUtils {
      * @return {@code true}: yes<br>{@code false}: no
      */
     public static boolean isTablet() {
-        return (BaseIotTools.getContext().getResources().getConfiguration().screenLayout
+        return (BaseIotUtils.getContext().getResources().getConfiguration().screenLayout
                 & Configuration.SCREENLAYOUT_SIZE_MASK)
                 >= Configuration.SCREENLAYOUT_SIZE_LARGE;
     }
@@ -364,7 +361,7 @@ public final class DeviceUtils {
         if (checkProperty) return true;
 
         String operatorName = "";
-        TelephonyManager tm = (TelephonyManager) BaseIotTools.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         if (tm != null) {
             String name = tm.getNetworkOperatorName();
             if (name != null) {
@@ -378,7 +375,7 @@ public final class DeviceUtils {
         Intent intent = new Intent();
         intent.setData(Uri.parse(url));
         intent.setAction(Intent.ACTION_DIAL);
-        boolean checkDial = intent.resolveActivity(BaseIotTools.getContext().getPackageManager()) == null;
+        boolean checkDial = intent.resolveActivity(BaseIotUtils.getContext().getPackageManager()) == null;
         if (checkDial) return true;
 
 //        boolean checkDebuggerConnected = Debug.isDebuggerConnected();

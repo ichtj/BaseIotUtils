@@ -7,5 +7,19 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
-
+    <!--
+    一:AndroidManifest.xml application中的theme使用该主题
+    二:启动成功后再Aty中设置为正常的主题
+    三:其他Aty设置为正常的AppTheme
+    这样打开桌面图标会马上显示logo，不会出现黑/白屏，
+    直到Activity启动完成，替换主题，logo消失，
+    但是总的启动时间并没有改变。
+    -->
+    <style name="AppThemeWelcome" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@mipmap/logo</item>  <!-- 默认背景-->
+    </style>
 </resources>

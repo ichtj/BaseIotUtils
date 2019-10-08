@@ -3,10 +3,9 @@ package com.chtj.base_iotutils;
 
 /**
  * 数据转换工具
- * @author ：frey
  * @date：2019/4/03 16:15
  */
-public class DataConversion {
+public class HexUtils {
 
     /**
      * 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数

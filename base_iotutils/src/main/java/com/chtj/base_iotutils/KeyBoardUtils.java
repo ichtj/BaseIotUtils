@@ -4,7 +4,7 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 /**
  * 打开关闭软键盘
@@ -23,7 +23,7 @@ public class KeyBoardUtils {
      *            上下文
      */
     public static void openKeybord(EditText mEditText) {
-        InputMethodManager imm = (InputMethodManager)  BaseIotTools.getContext()
+        InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.showSoftInput(mEditText, InputMethodManager.RESULT_SHOWN);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED,
@@ -38,7 +38,7 @@ public class KeyBoardUtils {
      *            上下文
      */
     public static void closeKeybord(EditText mEditText) {
-        InputMethodManager imm = (InputMethodManager)  BaseIotTools.getContext()
+        InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()
                 .getSystemService(Context.INPUT_METHOD_SERVICE);
 
         imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);

@@ -1,6 +1,6 @@
 package com.chtj.base_iotutils.screen_adapta.activitylifecycle;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 /**
  * 当前的activity的适配模式
@@ -9,7 +9,7 @@ import com.chtj.base_iotutils.keepservice.BaseIotTools;
  * HEIGHT 高度适配
  * 开启适配时只可选择一种
  *
- * {@link BaseIotTools 中setCreenType()}
+ * {@link BaseIotUtils 中setCreenType()}
  * 设置其模式
  */
 public enum  SCREEN_TYPE {

@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -81,7 +81,7 @@ public final class AdaptScreenUtils {
      * @return value of px
      */
     public static int pt2Px(final float ptValue) {
-        DisplayMetrics metrics = BaseIotTools.getContext().getResources().getDisplayMetrics();
+        DisplayMetrics metrics = BaseIotUtils.getContext().getResources().getDisplayMetrics();
         return (int) (ptValue * metrics.xdpi / 72f + 0.5);
     }
 
@@ -92,13 +92,13 @@ public final class AdaptScreenUtils {
      * @return value of pt
      */
     public static int px2Pt(final float pxValue) {
-        DisplayMetrics metrics = BaseIotTools.getContext().getResources().getDisplayMetrics();
+        DisplayMetrics metrics = BaseIotUtils.getContext().getResources().getDisplayMetrics();
         return (int) (pxValue * 72 / metrics.xdpi + 0.5);
     }
 
     private static void applyDisplayMetrics(final Resources resources, final float newXdpi) {
         resources.getDisplayMetrics().xdpi = newXdpi;
-        BaseIotTools.getContext().getResources().getDisplayMetrics().xdpi = newXdpi;
+        BaseIotUtils.getContext().getResources().getDisplayMetrics().xdpi = newXdpi;
         applyOtherDisplayMetrics(resources, newXdpi);
     }
 
