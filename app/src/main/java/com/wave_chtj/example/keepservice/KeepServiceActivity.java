@@ -2,7 +2,7 @@ package com.wave_chtj.example.keepservice;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 import com.chtj.base_iotutils.keepservice.IntentWrapper;
 import com.wave_chtj.example.R;
 
@@ -12,7 +12,7 @@ public class KeepServiceActivity extends Activity {
         super.onCreate(b);
         setContentView(R.layout.activity_keep_service);
         //初始化后台保活Service
-        BaseIotTools.initSerice(TraceServiceImpl.class, BaseIotTools.DEFAULT_WAKE_UP_INTERVAL);
+        BaseIotUtils.initSerice(TraceServiceImpl.class, BaseIotUtils.DEFAULT_WAKE_UP_INTERVAL);
     }
 
     public void onClick(View v) {
@@ -20,7 +20,7 @@ public class KeepServiceActivity extends Activity {
             //开启服务
             case R.id.btn_start:
                 TraceServiceImpl.sShouldStopService = false;
-                BaseIotTools.startServiceMayBind(TraceServiceImpl.class);
+                BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
                 break;
             //处理白名单
             case R.id.btn_white:
