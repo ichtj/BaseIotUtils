@@ -41,17 +41,6 @@ public class App extends Application {
     }
 }
 ```
-# 屏幕适配
-
-### 1080*1920 px 效果
-
-![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
-
-### 480*800 px 效果
-
-![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/small_screen.png)
-
--可在app Model中找到使用示例
 
 ##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
@@ -79,6 +68,18 @@ public class App extends Application {
 - 串口工具 | SerialPort | SerialPortFinder
 
 - 日志管理 | KLog
+
+# 屏幕适配
+
+### 1080*1920 px 效果
+
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
+
+### 480*800 px 效果
+
+![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/small_screen.png)
+
+-可在app Model中找到使用示例
 
 #串口使用
 ## 1.使用串口封装类
