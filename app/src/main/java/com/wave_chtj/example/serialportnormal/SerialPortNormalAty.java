@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.chtj.base_iotutils.HexUtils;
+import com.chtj.base_iotutils.serialport.SerialPort;
 import com.chtj.base_iotutils.serialport.SerialPortFinder;
 import com.wave_chtj.example.R;
 import com.chtj.base_iotutils.entity.ComEntity;
@@ -62,11 +63,11 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                 //参数设置
                 List<Integer> flagFilterList = new ArrayList<>();
                 flagFilterList.add(FlagManager.FLAG_CHECK_UPDATE);
-                //数据头
+                //数据头(包头) 主要用于判断读取的命令是否符合协议
                 List<Byte> headDataList = new ArrayList<>();
                 headDataList.add((byte) 0xAA);
                 headDataList.add((byte) 0x55);
-                //指令集合
+                //指令标识 主要用于判断读取的命令是否符合协议
                 List<Byte> instructionList = new ArrayList<>();
                 instructionList.add((byte) -96);//A3 自检
                 instructionList.add((byte) -95);//A2 数据写入
@@ -75,7 +76,8 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
 
                 //①未开启心跳包
                 //ComEntity comEntity=new ComEntity(com,baudrate,6000,3,headDataList,3,2,6,5,instructionList,flagFilterList);
-                //②心跳包参数设置
+                //②心跳包参数设置 默认用某一条命令周期性的去获取设备返回的消息
+                //主要判断是否连接正常
                 HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0xAA, 0x55, 00, 0, 0x01, (byte) 0xA0, (byte) 0xBF}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
                 ComEntity comEntity = new ComEntity(
                         com//串口地址

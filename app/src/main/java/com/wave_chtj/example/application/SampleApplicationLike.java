@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 
-import com.chtj.base_iotutils.keepservice.BaseIotTools;
+import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
@@ -37,7 +37,7 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //setBaseWidth setBaseDpi 是为了适配而去设置相关的值
 
-        BaseIotTools.instance().
+        BaseIotUtils.instance().
                 setBaseWidth(1080).//设置宽度布局尺寸
                 setBaseHeight(1920).//设置高度布局尺寸
                 setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配

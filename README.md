@@ -34,7 +34,7 @@ public class App extends Application {
         BaseIotUtils.instance().
                         setBaseWidth(1080).//设置宽度布局尺寸
                         setBaseHeight(1920).//设置高度布局尺寸
-                        setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
+                        setCreenType(SCREEN_TYPE.HEIGHT).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
                         setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
                                 create(this);
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
@@ -80,6 +80,106 @@ public class App extends Application {
 
 - 日志管理 | KLog
 
+#串口使用
+## 1.使用串口封装类
+```java
+        //初始化串口工具类
+        SerialPortHelper serialPortHelper=new SerialPortHelper(SerialPortNormalAty.this, comEntity);
+        //一：获取该android设备下的所有串口地址
+        //二：波特率请根据实际需要添加，位置在R.array.burate文件下
+        SerialPortFinder mSerialPortFinder = new SerialPortFinder();
+        String[] entryValues = mSerialPortFinder.getAllDevicesPath();
+        //三：配置参数
+        //参数设置
+        List<Integer> flagFilterList = new ArrayList<>();
+        flagFilterList.add(FlagManager.FLAG_CHECK_UPDATE);
+        //数据头(包头) 主要用于判断读取的命令是否符合协议
+        List<Byte> headDataList = new ArrayList<>();
+        headDataList.add((byte) 0xAA);
+        headDataList.add((byte) 0x55);
+        //指令标识 主要用于判断读取的命令是否符合协议
+        List<Byte> instructionList = new ArrayList<>();
+        instructionList.add((byte) -96);//A3 自检
+        instructionList.add((byte) -95);//A2 数据写入
+        instructionList.add((byte) -94);//A1 加入升级
+        instructionList.add((byte) -93);//A0 检查升级
+        
+        //①未开启心跳包
+        //ComEntity comEntity=new ComEntity(com,baudrate,6000,3,headDataList,3,2,6,5,instructionList,flagFilterList);
+        //②心跳包参数设置 默认用某一条命令周期性的去获取设备返回的消息 
+        //主要判断是否连接正常
+        HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0xAA, 0x55, 00, 0, 0x01, (byte) 0xA0, (byte) 0xBF}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
+        ComEntity comEntity = new ComEntity(
+                com//串口地址
+                , baudrate//波特率
+                , 6000//超时时间
+                , 3//重试次数
+                , headDataList//数据头 用于去校验是否正确
+                , 3//data长度开始的位置 从0开始
+                , 2//data长度
+                , 6//其他位的固定长度
+                , 5//指令开始的位置 从0开始
+                , instructionList//指令集合
+                , heartBeatEntity//心跳检测参数
+                , flagFilterList//写命令时如果当前flag的命令大于两条 添加进来的不会因为第一条命令执行失败，而不向下执行
+         );
+         //初始化数据
+         serialPortHelper = new SerialPortHelper(SerialPortNormalAty.this, comEntity);
+         //注册监听
+         serialPortHelper.setOnComListener(new OnComListener() {
+             @Override
+             public void writeCommand(byte[] comm, int flag) {
+             }
+             @Override
+             public void readCommand(byte[] comm, int flag) {
+             }
+             @Override
+             public void writeComplet(int flag) {
+             }
+             @Override
+             public void isReadTimeOut(int flag) {
+             }
+             @Override
+             public void isOpen(boolean isOpen) {
+             }
+             @Override
+             public void comStatus(boolean isNormal) {
+             }
+        });
+        //4：开启串口
+        serialPortHelper.openSerialPort();
+        //5:关闭串口
+        //if (serialPortHelper != null) {
+        //    serialPortHelper.closeSerialPort();
+        //}
+        
+```
+
+## 2.不使用串口封装类
+```java
+        //获得串口地址
+        SerialPortFinder mSerialPortFinder = new SerialPortFinder();
+        String[] entryValues = mSerialPortFinder.getAllDevicesPath();
+        //根据串口地址和波特率开启串口
+        SerialPort port =  null;
+        try{ 
+            port=new SerialPort(new File(entryValues[xxx]), xxx,0);
+            Log.e(TAG,"开启成功");
+        }catch(Exception e){
+            e.printStackTrace();
+            Log.e(TAG,"errMeg:"+e.getMessage());
+        }
+        
+        //写命令
+        port.write(command);
+        //读命令
+        //可根据SerialPortHelper中的readInputStreamData(int flag)方法读取数据，这里是一个一个字节读取
+        //亦或用port中的read方法一次读取，如果数据量大可能存在粘包
+        port.read(byte[] buff,int lenght);
+        //关闭串口
+        port.close();
+        
+```
 # HelloDaemon 后台保活
 使用方式
 ```java
