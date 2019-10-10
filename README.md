@@ -85,7 +85,7 @@ public class App extends Application {
 
 # 文件操作 覆盖等
 
-![image](/BaseIotUtils/pic/file_write_read.png)
+![image](/pic/file_write_read.png)
 
 #串口使用
 ## 1.使用串口封装类
