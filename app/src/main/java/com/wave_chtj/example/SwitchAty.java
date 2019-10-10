@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+
+import com.wave_chtj.example.fileoperat.FileOperatAty;
 import com.wave_chtj.example.screenadaptation.ScreenActivity;
 import com.wave_chtj.example.serialportnormal.SerialPortNormalAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
@@ -37,7 +39,8 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
             case R.id.btnScreen://屏幕适配相关
                 startActivity(new Intent(mContext, ScreenActivity.class));
                 break;
-            case R.id.btnAppInfo://App相关
+            case R.id.btn_write_read://文件读写
+                startActivity(new Intent(mContext, FileOperatAty.class));
                 break;
         }
     }

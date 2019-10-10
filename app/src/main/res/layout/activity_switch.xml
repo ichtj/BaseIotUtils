@@ -35,11 +35,11 @@
         android:textSize="15sp" />
 
     <Button
-        android:id="@+id/btnAppInfo"
+        android:id="@+id/btn_write_read"
         android:layout_width="120dp"
         android:layout_height="wrap_content"
         android:onClick="onClick"
-        android:text="App相关"
+        android:text="文件读写"
         android:gravity="center"
         android:textColor="#000000"
         android:textSize="15sp" />

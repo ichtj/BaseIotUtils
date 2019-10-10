@@ -41,6 +41,9 @@
         <!--屏幕适配相关-->
         <activity android:name=".screenadaptation.ScreenActivity"
             android:theme="@style/AppTheme"/>
+        <!--文件读写-->
+        <activity android:name=".fileoperat.FileOperatAty"
+            android:theme="@style/AppTheme"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
 

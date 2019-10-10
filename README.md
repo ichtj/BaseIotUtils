@@ -53,7 +53,7 @@ public class App extends Application {
 
 - 网络判断 | NetWorkUtils
 
-- shell命令工具类 | ShellUtils
+- adb命令工具类 | ShellUtils
 
 - ShareProfrence工具类 | SPUtils
 
@@ -69,6 +69,8 @@ public class App extends Application {
 
 - 日志管理 | KLog
 
+- 文件操作 | FileUtil
+
 # 屏幕适配
 
 ### 1080*1920 px 效果
@@ -80,6 +82,10 @@ public class App extends Application {
 ![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/small_screen.png)
 
 -可在app Model中找到使用示例
+
+# 文件操作 覆盖等
+
+![image](/BaseIotUtils/pic/file_write_read.png)
 
 #串口使用
 ## 1.使用串口封装类
