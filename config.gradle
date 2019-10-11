@@ -41,7 +41,7 @@ ext {
             "gson"                                 : "com.google.code.gson:gson:2.8.5",
             "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
             "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
-            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:latest.release",
+            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.2",
             //bugly的仓库
             "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "nativecrashreport"                    : "com.tencent.bugly:nativecrashreport:latest.release",

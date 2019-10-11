@@ -25,6 +25,9 @@ import java.io.LineNumberReader;
 import java.util.Iterator;
 import java.util.Vector;
 
+/**
+ * 这里的主要功能是为了获得串口地址
+ */
 public class SerialPortFinder {
 
 	public class Driver {

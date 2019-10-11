@@ -40,7 +40,7 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
         BaseIotUtils.instance().
                 setBaseWidth(1080).//设置宽度布局尺寸
                 setBaseHeight(1920).//设置高度布局尺寸
-                setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
+                setCreenType(SCREEN_TYPE.HEIGHT).//按照宽度适配
                 setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
                         create(getApplication());
 

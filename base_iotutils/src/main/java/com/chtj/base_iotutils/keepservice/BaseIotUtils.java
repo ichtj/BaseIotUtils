@@ -29,7 +29,7 @@ public final class BaseIotUtils {
     //是否开启适配
     private boolean mAutoScreenAdaptation=false;
     //屏幕适配类型 高度|宽度
-    private SCREEN_TYPE screen_type;
+    private SCREEN_TYPE screen_type=SCREEN_TYPE.HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
 

@@ -7,7 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-
+/**
+ * 日志管理
+ */
 public class KLog {
 
     private static boolean IS_SHOW_LOG = false;

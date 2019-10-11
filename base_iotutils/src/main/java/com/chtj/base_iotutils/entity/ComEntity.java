@@ -10,7 +10,7 @@ public class ComEntity {
     private String com;//串口号
     private int baudrate;//波特率
     private int timeOut;//读取超时时间
-    private int retriesCount;//重试次数 默认为0次
+    private int retriesCount;//异常时默认执行的次数 默认为1次
     private List<Byte> headDataList;//数据头 AA 55
     private int dataArrayStartIndex;//data标识的长度 开始的位置 00 01
     private int dataArrayLeng;//data标识的长度 00 01 长度为2
@@ -130,6 +130,9 @@ public class ComEntity {
     }
 
     public int getRetriesCount() {
+        if(retriesCount==0){
+            retriesCount=1;
+        }
         return retriesCount;
     }
 

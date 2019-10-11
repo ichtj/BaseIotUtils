@@ -26,7 +26,6 @@ import java.io.OutputStream;
 public class SwitchAty extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "SwitchAty";
     private Context mContext;
-    private int[] data=new int[]{12,10,9,13,18,11};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

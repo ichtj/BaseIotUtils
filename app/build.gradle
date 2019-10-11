@@ -63,10 +63,10 @@ dependencies {
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
     api rootProject.ext.dependencies["hotrefresh"]
     //物联网开发基础工具类
-    //api rootProject.ext.dependencies["base_iotutils"]
+    api rootProject.ext.dependencies["base_iotutils"]
     //---
     testImplementation rootProject.ext.support["junit"]
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-    implementation project(path: ':base_iotutils')
+    //implementation project(path: ':base_iotutils')
 }

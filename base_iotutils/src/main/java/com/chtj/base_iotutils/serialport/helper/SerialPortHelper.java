@@ -2,7 +2,6 @@ package com.chtj.base_iotutils.serialport.helper;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +21,6 @@ import com.chtj.base_iotutils.serialport.SerialPort;
  */
 public class SerialPortHelper {
     private static final String TAG = "SerialPortHelper";
-    private Context context;//上下文
     private SerialPort port = null;//串口控制
     private OnComListener onComListener;//数据回调
     private ComEntity comEntity;
@@ -31,9 +29,9 @@ public class SerialPortHelper {
     private Handler handler = new Handler();
     //是否正在操作，一般存在两个状态
     //是否正在执行心跳包检测
-    private boolean isHeartBeatOperation = false;
+    private boolean isExecuteHeartBeat = false;
     //是否正在读写
-    private boolean isWriteReadOperation = false;
+    private boolean isExecuteRw = false;
 
     /**
      * 注册串口相关的数据监听
@@ -45,9 +43,8 @@ public class SerialPortHelper {
     }
 
     //初始化时默认开启读取线程
-    public SerialPortHelper(Context context, ComEntity comEntity) {
+    public SerialPortHelper(ComEntity comEntity) {
         this.comEntity = comEntity;
-        this.context = context;
         //开启心跳包检测
         openHeartBeatCheck();
     }
@@ -64,12 +61,13 @@ public class SerialPortHelper {
     Runnable heartBeatRunnable = new Runnable() {
         @Override
         public void run() {
-            if (port != null) {
-                try {
-                    if (!isWriteReadOperation) {//判断是否在执行写读操作
-                        writeData(comEntity.getHeartBeatEntity().getHeartBeatComm());
+            try {
+                if (port != null) {
+                    if (!isExecuteRw) {//判断是否在执行读写操作
                         //改变为正在执行
-                        isHeartBeatOperation = true;
+                        isExecuteHeartBeat = true;
+                        //写入命令去执行心跳
+                        writeData(comEntity.getHeartBeatEntity().getHeartBeatComm());
                         boolean isNormal = false;
                         while (true) {
                             //查询可以读取到的字节数量
@@ -99,14 +97,14 @@ public class SerialPortHelper {
                         if (onComListener != null) {
                             onComListener.comStatus(isNormal);
                         }
-                        isHeartBeatOperation = false;
+                        isExecuteHeartBeat = false;
                     } else {
                         KLog.d(TAG, "当前正在进行写读操作，所以暂时不检查串口是否正常");
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    KLog.e(TAG, "heartBeatCheck: errMeg:" + e.getMessage());
                 }
+            } catch (Exception e) {
+                e.printStackTrace();
+                KLog.e(TAG, "heartBeatCheck: errMeg:" + e.getMessage());
             }
             handler.postDelayed(this, comEntity.getHeartBeatEntity().getDelayMillis());
         }
@@ -120,17 +118,16 @@ public class SerialPortHelper {
         //串口状态为关闭时 才能去执行开启
         if (!isOpen) {
             try {
-                port = new SerialPort(new File(comEntity.getCom()), comEntity.getBaudrate(),0);
+                port = new SerialPort(new File(comEntity.getCom()), comEntity.getBaudrate(), 0);
                 KLog.d(TAG, "串口打开成功 com=" + comEntity.getCom() + ",baudrate=" + comEntity.getBaudrate());
                 isOpen = true;
-            } catch (IOException e) {
+            } catch (IOException | SecurityException e) {
                 e.printStackTrace();
-                isOpen = false;
-            } catch (SecurityException e) {
-                e.printStackTrace();
+                KLog.e(TAG, "errMeg:" + e.getMessage());
                 isOpen = false;
             } catch (Exception e) {
                 e.printStackTrace();
+                KLog.e(TAG, "errMeg:" + e.getMessage());
                 isOpen = false;
             }
             if (onComListener != null) {
@@ -149,10 +146,10 @@ public class SerialPortHelper {
      * @param comm 单个命令
      * @param flag 传进来的flag 读取|写入|超时|写入完成等回调的时候可以标识为当前
      */
-    public void setWriteRead(byte[] comm, int flag) {
+    public void setWriteAfterRead(byte[] comm, int flag) {
         List<byte[]> commList = new ArrayList<>();
         commList.add(comm);
-        this.setWriteRead(commList, flag);
+        this.setWriteAfterRead(commList, flag);
     }
 
     /**
@@ -161,18 +158,12 @@ public class SerialPortHelper {
      * @param commList 这次需要执行的命令集合
      * @param flag     传进来的flag 读取|写入|超时|写入完成等回调的时候可以标识为当前
      */
-    public synchronized void setWriteRead(List<byte[]> commList, int flag) {
-        while (isHeartBeatOperation) {
+    public synchronized void setWriteAfterRead(List<byte[]> commList, int flag) {
+        while (isExecuteHeartBeat) {
             //如果正在操作心跳包检测
             //则暂时等待
         }
-        if (port == null) {
-            if (onComListener != null) {
-                onComListener.comStatus(false);
-                return;
-            }
-        }
-        isWriteReadOperation = true;//操作中
+        isExecuteRw = true;//标识为正在写读
         if (commList != null && commList.size() > 0) {
             //Iterator 方便删除数据 而不影响下标
             Iterator<byte[]> it = commList.iterator();
@@ -188,58 +179,48 @@ public class SerialPortHelper {
                     break;
                 }
                 byte[] nowData = it.next();
-                int count = comEntity.getRetriesCount();//数据写入之后的重试次数
+                //数据写入失败之后的重试次数
+                //次数至少为1
+                int count = comEntity.getRetriesCount();
                 while (--count >= 0) {
-                    //每次减去1
-                    //然后去检查是否成功获取数据
-                    //否则循环n次 继续
-                    //还是失败的话则升级失败
                     try {
+                        //检查是否成功获取数据
+                        //否则循环count次 继续
+                        //还是失败的话则升级失败
                         Thread.sleep(250);
                         writeData(nowData);
-                        KLog.d(TAG, "写入命令>>>：" + HexUtils.encodeHexString(nowData));
                         onComListener.writeCommand(nowData, flag);
+
+                        if (readInputStreamData(flag)) {
+                            it.remove();
+                            isSuccessful = true;
+                            break;
+                        } else {
+                            isSuccessful = false;
+                            KLog.d(TAG, "读取异常,继续重发,剩余重发送次数：" + count);
+                            //如果剩余次数小于等于0
+                            if (count <= 0) {
+                                if (comEntity.getFlagFilterArray().contains(flag)) {
+                                    it.remove();
+                                } else {
+                                }
+                                break;
+                            }
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         KLog.e(TAG, "errMeg=" + e.getMessage());
-                    } finally {
-                        try {
-                            if (readInputStreamData(flag)) {
-                                it.remove();
-                                isSuccessful = true;
-                                break;
-                            } else {
-                                isSuccessful = false;
-                                KLog.d(TAG, "读取异常,继续重发,剩余重发送次数：" + count);
-                                //如果剩余次数小于等于0
-                                if (count <= 0) {
-                                    if (comEntity.getFlagFilterArray().contains(flag)) {
-                                        it.remove();
-                                    } else {
-                                    }
-                                    break;
-                                }
-                            }
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, ">>" + e.getMessage());
-                        } finally {
-                            KLog.d(TAG, "剩余写入的命令数量=" + commList.size());
-
-                            if (commList == null || commList.size() == 0) {
-                                onComListener.writeComplet(flag);
-                            }
-                        }
                     }
                 }
-            }
-            //这里的判断 是防止可能命令只有一个
-            if (!isSuccessful) {
-                KLog.d(TAG, "升级失败了~~~~");
+                KLog.d(TAG, "剩余写入的命令数量=" + commList.size());
+
+                if (commList == null || commList.size() == 0) {
+                    onComListener.writeComplet(flag);
+                }
             }
         }
-        //操作结束
-        isWriteReadOperation = false;
+        //操作写读结束
+        isExecuteRw = false;
     }
 
 
@@ -321,7 +302,7 @@ public class SerialPortHelper {
                         if ((readNum = port.getInputStream().read()) != -1) {
                             bytes[count] = (byte) readNum;
                             //检查数据头是否正确
-                            if (count <= comEntity.getHeadDataList().size()-1 && !comEntity.getHeadDataList().contains(bytes[count])) {
+                            if (count <= comEntity.getHeadDataList().size() - 1 && !comEntity.getHeadDataList().contains(bytes[count])) {
                                 //KLog.d(TAG,"count="+count+","+!comEntity.getHeadDataList().contains(bytes[count])+",data="+HexUtils.byteToHex(bytes[count]));
                                 break;
                             }
@@ -414,7 +395,7 @@ public class SerialPortHelper {
         //设置为关闭状态
         isOpen = false;
         if (onComListener != null) {
-            KLog.d(TAG,"串口已关闭");
+            KLog.d(TAG, "串口已关闭");
             onComListener.isOpen(false);
         }
     }

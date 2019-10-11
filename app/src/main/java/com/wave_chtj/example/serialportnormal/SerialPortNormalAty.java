@@ -25,6 +25,7 @@ import com.chtj.base_iotutils.entity.ComEntity;
 import com.chtj.base_iotutils.entity.HeartBeatEntity;
 import com.chtj.base_iotutils.serialport.helper.OnComListener;
 import com.chtj.base_iotutils.serialport.helper.SerialPortHelper;
+import com.wave_chtj.example.util.DataCehck;
 
 public class SerialPortNormalAty extends AppCompatActivity implements View.OnClickListener {
     public static final String TAG = "SerialPortNormalAty";
@@ -94,7 +95,7 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                         , flagFilterList//写命令时如果当前flag的命令大于两条 添加进来的不会因为第一条命令执行失败，而不向下执行
                 );
                 //初始化数据
-                serialPortHelper = new SerialPortHelper(SerialPortNormalAty.this, comEntity);
+                serialPortHelper = new SerialPortHelper(comEntity);
                 //注册监听
                 serialPortHelper.setOnComListener(new OnComListener() {
                     @Override
@@ -175,7 +176,7 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                     public void run() {
                         //这里只是一个示例
                         //这里时多个命令发送
-                        /*List<byte[]> bytesList = new ArrayList<>();
+                        List<byte[]> bytesList = new ArrayList<>();
                         for (int i = 0; i <=15; i++) {
                             byte[] bytes = new byte[]{(byte) 0xAA, 0x55, (byte) i, 0, 0x01, (byte) 0xA0};
                             byte crcNum = DataCehck.calcCrc8(bytes);//获得校验值
@@ -188,14 +189,14 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                         }
                         if (bytesList.size() > 0) {
                             //传进去的flag 读取|写入|超时|写入完成等回调的时候可以标识为当前
-                            serialPortHelper.setWriteRead(bytesList, FlagManager.FLAG_CHECK_UPDATE);
+                            serialPortHelper.setWriteAfterRead(bytesList, FlagManager.FLAG_CHECK_UPDATE);
                         } else {
                             Log.e(TAG, "没有任何需要检测升级的 checkUpdate bytesList.size()=" + bytesList.size());
-                        }*/
+                        }
                         //单个命令发送
-                        String hexComm = etCommand.getText().toString().trim();
+                       /* String hexComm = etCommand.getText().toString().trim();
                         byte[] comm = HexUtils.decodeHexString(hexComm);
-                        serialPortHelper.setWriteRead(comm, FlagManager.FLAG_CHECK_UPDATE);
+                        serialPortHelper.setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);*/
                     }
                 }).start();
                 break;
