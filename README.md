@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.1.9'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.1'
          //应用最新的版本
          //implementation 'com.chtj.base_iotutils:base_iotutils:latest.release'
          
@@ -71,6 +71,10 @@ public class App extends Application {
 
 - 文件操作 | FileUtil
 
+- 事件管理 | RxBus
+
+- 文件下载 | DownLoadManager
+
 # 屏幕适配
 
 ### 1080*1920 px 效果
@@ -87,6 +91,33 @@ public class App extends Application {
 
 ![image](/pic/file_write_read.png)
 
+# 文件下载
+```java
+       //downloadUrl 文件下载地址
+       //destFileDir 存放地址
+       //destFileName 文件名称
+       DownLoadManager.getInstance().load(downloadUrl, new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
+                   @Override
+                   public void onStart() {
+                       super.onStart();
+                   }
+       
+                   @Override
+                   public void onSuccess(ResponseBody responseBody) {
+                       ToastUtils.showShort("文件下载完成！");
+                   }
+       
+                   @Override
+                   public void progress(final long progress, final long total) {
+                   }
+       
+                   @Override
+                   public void onError(Throwable e) {
+                       e.printStackTrace();
+                       ToastUtils.showShort("文件下载失败！");
+                   }
+               });
+```
 #串口使用
 ## 1.使用串口封装类
 ```java

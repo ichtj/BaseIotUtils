@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--pb背景样式-->
+    <item
+        android:id="@android:id/background"
+        android:drawable="@drawable/pgs_bar_bg" />
+    <!--pb进度条样式-->
+    <item android:id="@android:id/progress">
+        <scale
+            android:drawable="@drawable/shape_pgsb"
+            android:scaleWidth="100%" />
+    </item>
+
+</layer-list>
