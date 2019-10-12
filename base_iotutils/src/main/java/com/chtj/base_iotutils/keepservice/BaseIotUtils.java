@@ -33,6 +33,7 @@ public final class BaseIotUtils {
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
 
+
     private static volatile BaseIotUtils sInstance;
     //单例模式
     public static BaseIotUtils instance() {
@@ -45,6 +46,7 @@ public final class BaseIotUtils {
         }
         return sInstance;
     }
+
 
     /**
      * 设置屏幕宽度 dp
@@ -114,8 +116,10 @@ public final class BaseIotUtils {
      */
     public void create(Application application) {
         BaseIotUtils.sApp = application.getApplicationContext();
+        //activity生命周期监听
         mActivityLifecycleImp = new ActivityLifecycleImp(new DefaultAutoAdaptStrategy());
         application.registerActivityLifecycleCallbacks(mActivityLifecycleImp);
+
     }
 
 

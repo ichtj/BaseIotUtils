@@ -30,6 +30,7 @@ android {
             //设置支持的SO库架构
             abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
         }
+        signingConfig signingConfigs.release
     }
     buildTypes {
         release {
@@ -47,10 +48,24 @@ android {
     dexOptions {
         jumboMode = true
     }
+    //忽略一些异常提示
     lintOptions {
         checkReleaseBuilds false
         abortOnError false
     }
+    //配置自定义打包名称
+    applicationVariants.all { variant ->
+        variant.outputs.all {
+            def fileName
+            if (variant.buildType.name.equals('release')) {
+                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
+            } else if (variant.buildType.name.equals('debug')) {
+                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
+            }
+            outputFileName = fileName;
+        }
+    }
+
 }
 
 dependencies {

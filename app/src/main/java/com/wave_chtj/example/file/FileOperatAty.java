@@ -1,22 +1,22 @@
-package com.wave_chtj.example.fileoperat;
+package com.wave_chtj.example.file;
 
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chtj.base_iotutils.FileUtil;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.base.BaseActivity;
 
 /**
  * Create on 2019/10/10
  * author chtj
  * 文件读写
  */
-public class FileOperatAty extends AppCompatActivity {
+public class FileOperatAty extends BaseActivity {
     EditText et_content;
     TextView tv_result;
     //文件路径

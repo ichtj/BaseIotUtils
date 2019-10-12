@@ -4,27 +4,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ImageView;
 
+import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.download.DownLoadAty;
-import com.wave_chtj.example.fileoperat.FileOperatAty;
-import com.wave_chtj.example.screenadaptation.ScreenActivity;
-import com.wave_chtj.example.serialportnormal.SerialPortNormalAty;
+import com.wave_chtj.example.file.FileOperatAty;
+import com.wave_chtj.example.screen.ScreenActivity;
+import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.io.OutputStream;
 
 /**
  * 功能选择
  */
-public class SwitchAty extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = "SwitchAty";
+public class FeaturesOptionAty extends BaseActivity implements View.OnClickListener {
+    public static final String TAG = "FeaturesOptionAty";
     private Context mContext;
 
     @Override
@@ -32,14 +25,14 @@ public class SwitchAty extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
-        mContext = SwitchAty.this;
+        mContext = FeaturesOptionAty.this;
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSeialPortNormal://串口测试
-                startActivity(new Intent(mContext, SerialPortNormalAty.class));
+                startActivity(new Intent(mContext, SerialPortAty.class));
                 break;
             case R.id.btnServiceKeep://后台Service
                 startActivity(new Intent(mContext, KeepServiceActivity.class));

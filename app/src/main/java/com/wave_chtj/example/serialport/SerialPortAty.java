@@ -1,10 +1,9 @@
-package com.wave_chtj.example.serialportnormal;
+package com.wave_chtj.example.serialport;
 
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
@@ -12,23 +11,20 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 import com.chtj.base_iotutils.HexUtils;
-import com.chtj.base_iotutils.serialport.SerialPort;
 import com.chtj.base_iotutils.serialport.SerialPortFinder;
 import com.wave_chtj.example.R;
 import com.chtj.base_iotutils.entity.ComEntity;
 import com.chtj.base_iotutils.entity.HeartBeatEntity;
 import com.chtj.base_iotutils.serialport.helper.OnComListener;
 import com.chtj.base_iotutils.serialport.helper.SerialPortHelper;
-import com.wave_chtj.example.util.DataCehck;
+import com.wave_chtj.example.base.BaseActivity;
 
-public class SerialPortNormalAty extends AppCompatActivity implements View.OnClickListener {
-    public static final String TAG = "SerialPortNormalAty";
+public class SerialPortAty extends BaseActivity implements View.OnClickListener {
+    public static final String TAG = "SerialPortAty";
     private TextView tvResult;//返回的结果
     private EditText etCommand;//命令
     private Spinner sp_com, sp_burate;//串口列表，波特率列表
@@ -176,10 +172,10 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                     public void run() {
                         //这里只是一个示例
                         //这里时多个命令发送
-                        List<byte[]> bytesList = new ArrayList<>();
+                        /*List<byte[]> bytesList = new ArrayList<>();
                         for (int i = 0; i <=15; i++) {
                             byte[] bytes = new byte[]{(byte) 0xAA, 0x55, (byte) i, 0, 0x01, (byte) 0xA0};
-                            byte crcNum = DataCehck.calcCrc8(bytes);//获得校验值
+                            byte crcNum = CrcUtils.calcCrc8(bytes);//获得校验值
                             //复制到新的数组并把校验值填写到最后一位
                             byte[] newbytes = new byte[bytes.length + 1];
                             System.arraycopy(bytes, 0, newbytes, 0, 6);
@@ -192,11 +188,11 @@ public class SerialPortNormalAty extends AppCompatActivity implements View.OnCli
                             serialPortHelper.setWriteAfterRead(bytesList, FlagManager.FLAG_CHECK_UPDATE);
                         } else {
                             Log.e(TAG, "没有任何需要检测升级的 checkUpdate bytesList.size()=" + bytesList.size());
-                        }
+                        }*/
                         //单个命令发送
-                       /* String hexComm = etCommand.getText().toString().trim();
+                        String hexComm = etCommand.getText().toString().trim();
                         byte[] comm = HexUtils.decodeHexString(hexComm);
-                        serialPortHelper.setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);*/
+                        serialPortHelper.setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
                     }
                 }).start();
                 break;

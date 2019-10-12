@@ -6,8 +6,8 @@ import android.util.Log;
  * Create on 2019/9/25
  * author chtj
  */
-public class DataCehck {
-    public static final String TAG="DataCehck";
+public class CrcUtils {
+    public static final String TAG="CrcUtils";
     /**
      * 根据原始数据获取crc8 校验值
      * @param data 原始数据

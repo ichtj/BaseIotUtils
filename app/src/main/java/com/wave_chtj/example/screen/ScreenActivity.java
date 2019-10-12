@@ -1,15 +1,15 @@
-package com.wave_chtj.example.screenadaptation;
+package com.wave_chtj.example.screen;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.chtj.base_iotutils.ScreenUtils;
 
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.base.BaseActivity;
 
-public class ScreenActivity extends AppCompatActivity {
+public class ScreenActivity extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

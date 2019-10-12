@@ -1,4 +1,4 @@
-package com.wave_chtj.example.serialportnormal;
+package com.wave_chtj.example.serialport;
 
 /**
  * Create on 2019/9/25

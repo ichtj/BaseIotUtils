@@ -5,8 +5,9 @@ import android.view.View;
 import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 import com.chtj.base_iotutils.keepservice.IntentWrapper;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.base.BaseActivity;
 
-public class KeepServiceActivity extends Activity {
+public class KeepServiceActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle b) {
         super.onCreate(b);

@@ -29,13 +29,23 @@ public class App extends Application {
         //1.1.6 之后与之前有较大改动 
         //增加了适配方案 使用如下
         BaseIotUtils.instance().
-                        setBaseWidth(1080).//设置宽度布局尺寸
-                        setBaseHeight(1920).//设置高度布局尺寸
-                        setCreenType(SCREEN_TYPE.HEIGHT).//按照宽度适配 SCREEN_TYPE param(WIDTH|HEIGHT)
-                        setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                                create(this);
+                       setBaseWidth(1080).//设置宽度布局尺寸 layout 布局文件以pt为单位
+                       setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
+                       setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
+                       setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
+                       setGlobalCapture(true).//是否开启异常捕获
+                               create(getApplication());
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
+    /**
+     * 应用程序结束时调用
+     * 但该方法只用于Android仿真机测试，在Android产品机是不会调用的
+     */
+     @Override
+     public void onTerminate() {
+         super.onTerminate();
+         AppManager.getAppManager().AppExit();
+     }
 }
 ```
 

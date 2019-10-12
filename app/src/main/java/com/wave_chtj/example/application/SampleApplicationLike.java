@@ -12,6 +12,7 @@ import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.entry.DefaultApplicationLike;
+import com.wave_chtj.example.crash.AppManager;
 
 /**
  * Create on 2019/9/29
@@ -35,12 +36,12 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
         // 调试时，将第三个参数改为true
         Bugly.init(getApplication(), "0e875eba19", true);
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
-        //setBaseWidth setBaseDpi 是为了适配而去设置相关的值
+        //setBaseWidth setBaseHeight 是为了适配而去设置相关的值
 
         BaseIotUtils.instance().
-                setBaseWidth(1080).//设置宽度布局尺寸
-                setBaseHeight(1920).//设置高度布局尺寸
-                setCreenType(SCREEN_TYPE.HEIGHT).//按照宽度适配
+                setBaseWidth(1080).//设置宽度布局尺寸 layout 布局文件以pt为单位
+                setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
+                setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
                 setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
                         create(getApplication());
 
@@ -63,5 +64,13 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
     public void registerActivityLifecycleCallback(Application.ActivityLifecycleCallbacks callbacks) {
         getApplication().registerActivityLifecycleCallbacks(callbacks);
     }
-
+    /**
+     * 应用程序结束时调用
+     * 但该方法只用于Android仿真机测试，在Android产品机是不会调用的
+     */
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        AppManager.getAppManager().AppExit();
+    }
 }

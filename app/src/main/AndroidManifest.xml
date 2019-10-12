@@ -26,7 +26,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppThemeWelcome">
         <!--功能选择-->
-        <activity android:name=".SwitchAty">
+        <activity android:name=".FeaturesOptionAty">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -36,13 +36,13 @@
         <activity android:name=".keepservice.KeepServiceActivity"
             android:theme="@style/AppTheme"/>
         <!--串口相关-->
-        <activity android:name=".serialportnormal.SerialPortNormalAty"
+        <activity android:name=".serialport.SerialPortAty"
             android:theme="@style/AppTheme"/>
         <!--屏幕适配相关-->
-        <activity android:name=".screenadaptation.ScreenActivity"
+        <activity android:name=".screen.ScreenActivity"
             android:theme="@style/AppTheme"/>
         <!--文件读写-->
-        <activity android:name=".fileoperat.FileOperatAty"
+        <activity android:name=".file.FileOperatAty"
             android:theme="@style/AppTheme"/>
         <!--文件下载-->
         <activity android:name=".download.DownLoadAty"

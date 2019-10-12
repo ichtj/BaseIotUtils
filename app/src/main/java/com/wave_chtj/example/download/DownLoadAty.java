@@ -3,24 +3,21 @@ package com.wave_chtj.example.download;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
-
 import com.chtj.base_iotutils.ToastUtils;
 import com.chtj.base_iotutils.download.DownLoadManager;
 import com.chtj.base_iotutils.download.progress.ProgressCallBack;
 import com.wave_chtj.example.R;
-
-import okhttp3.RequestBody;
+import com.wave_chtj.example.base.BaseActivity;
 import okhttp3.ResponseBody;
 
 /**
  * Create on 2019/10/10
  * author chtj
  */
-public class DownLoadAty extends AppCompatActivity {
+public class DownLoadAty extends BaseActivity {
     public static final String TAG = "DownLoadAty";
     ProgressBar progressDialog;
     public String downloadUrl = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/20190905/Cloud.apk";
