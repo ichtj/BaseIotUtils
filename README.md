@@ -33,7 +33,6 @@ public class App extends Application {
                        setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
                        setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
                        setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                       setGlobalCapture(true).//是否开启异常捕获
                                create(getApplication());
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
