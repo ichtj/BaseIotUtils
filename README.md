@@ -36,15 +36,6 @@ public class App extends Application {
                                create(getApplication());
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
-    /**
-     * 应用程序结束时调用
-     * 但该方法只用于Android仿真机测试，在Android产品机是不会调用的
-     */
-     @Override
-     public void onTerminate() {
-         super.onTerminate();
-         AppManager.getAppManager().AppExit();
-     }
 }
 ```
 
