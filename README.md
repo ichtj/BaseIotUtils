@@ -16,8 +16,11 @@ allprojects {
 
 ```groovy
 dependencies {
+         //以下按个人的需求选择
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.chtj.base_iotutils:base_iotutils:1.2.2'
+         //socket通信 tcp/udp工具类
+         implementation 'com.chtj.base_socket:base_socket:1.0.1'
 }
 ```
 ```java

@@ -134,7 +134,7 @@ public class SocketAty extends BaseActivity {
                     });
                     baseTcpSocket.connect(this);
                 }else if(selectOpiton==UDP_OPTION){
-                    baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()));
+                    baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),5000);
                     baseUdpSocket.setSocketListener(new ISocketListener() {
                         @Override
                         public void recv(byte[] data, int offset, int size) {

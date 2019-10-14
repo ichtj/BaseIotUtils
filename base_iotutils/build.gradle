@@ -53,8 +53,8 @@ dependencies {
     api rootProject.ext.support["appcompat-v7"]
     api rootProject.ext.support["annotations"]
     testImplementation rootProject.ext.support["junit"]
-    androidTestImplementation 'com.android.support.test:runner:1.0.2'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    androidTestImplementation rootProject.ext.support["runner"]
+    androidTestImplementation rootProject.ext.support["espresso"]
     //rxjava
     api rootProject.ext.dependencies.rxjava
     //rx管理View的生命周期
@@ -70,4 +70,4 @@ dependencies {
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
 }
-apply from: '../bintray.gradle'
+/*apply from: '../bintray.gradle'*/

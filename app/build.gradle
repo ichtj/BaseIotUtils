@@ -89,5 +89,5 @@ dependencies {
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     //implementation project(path: ':base_iotutils')
-    implementation project(path: ':module_socket')
+    implementation project(path: ':base_socket')
 }

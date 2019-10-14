@@ -1,1 +1,1 @@
-include ':app', ':base_iotutils', ':module_socket'
+include ':app', ':base_iotutils', ':base_socket'
