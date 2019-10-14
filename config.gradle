@@ -46,6 +46,7 @@ ext {
             "gson"                                 : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
             "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.2",
+            "base_socket"                        : "com.chtj.base_socket:base_socket:1.0.1",
             //bugly的仓库
             "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "nativecrashreport"                    : "com.tencent.bugly:nativecrashreport:latest.release",

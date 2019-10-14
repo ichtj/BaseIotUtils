@@ -83,11 +83,13 @@ dependencies {
     api rootProject.ext.dependencies["hotrefresh"]
     //物联网开发基础工具类
     api rootProject.ext.dependencies["base_iotutils"]
+    //socke client
+    api rootProject.ext.dependencies["base_socket"]
     //socket client
     //api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     //implementation project(path: ':base_iotutils')
-    implementation project(path: ':base_socket')
+    //implementation project(path: ':base_socket')
 }
