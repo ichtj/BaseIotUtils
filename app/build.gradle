@@ -84,9 +84,10 @@ dependencies {
     //物联网开发基础工具类
     api rootProject.ext.dependencies["base_iotutils"]
     //socket client
-    api rootProject.ext.dependencies["socket-client"]
+    //api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     //implementation project(path: ':base_iotutils')
+    implementation project(path: ':module_socket')
 }

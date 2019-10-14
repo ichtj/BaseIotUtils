@@ -73,6 +73,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="20dp"
+        android:paddingLeft="10dp"
+        android:background="@drawable/button_style_stroke"
         android:hint="请填写命令"
         android:text="AA55000001A0BF" />
 
@@ -109,6 +111,7 @@
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:scrollbars="vertical"
+        android:background="@drawable/button_style_stroke"
         android:layout_height="match_parent"
         android:gravity="left|top"
         android:text="" />
