@@ -1,1 +1,1 @@
-include ':app', ':base_iotutils'/*, ':base_serialport'*/
+include ':app', ':base_iotutils', ':module_bluetooth'/*, ':base_serialport'*/

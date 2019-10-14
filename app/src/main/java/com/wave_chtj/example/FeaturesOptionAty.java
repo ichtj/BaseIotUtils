@@ -12,6 +12,10 @@ import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
+import com.wave_chtj.example.socket.SocketAty;
+import com.xuhao.didi.socket.client.sdk.OkSocket;
+import com.xuhao.didi.socket.client.sdk.client.ConnectionInfo;
+import com.xuhao.didi.socket.client.sdk.client.connection.IConnectionManager;
 
 /**
  * 功能选择
@@ -27,6 +31,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
     }
+
 
     @Override
     public void onClick(View view) {
@@ -45,6 +50,9 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_download://文件下载
                 startActivity(new Intent(mContext, DownLoadAty.class));
+                break;
+            case R.id.btn_socket://Socket Tcp/upd
+                startActivity(new Intent(mContext, SocketAty.class));
                 break;
         }
     }

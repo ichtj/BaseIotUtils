@@ -35,17 +35,16 @@ ext {
     ]
     //依赖第三方配置
     dependencies = [
-            "rxjava"                               : "io.reactivex.rxjava2:rxjava:2.2.3",
-            "rxandroid"                            : "io.reactivex.rxjava2:rxandroid:2.1.0",
+            "rxjava"                               : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
+            "rxandroid"                            : "io.reactivex.rxjava2:rxandroid:2.1.1",
             //network
-            "okhttp"                               : "com.squareup.okhttp3:okhttp:3.10.0",
-            "retrofit"                             : "com.squareup.retrofit2:retrofit:2.4.0",
-            "converter-gson"                       : "com.squareup.retrofit2:converter-gson:2.4.0",
-            "adapter-rxjava"                       : "com.squareup.retrofit2:adapter-rxjava2:2.4.0",
+            "okhttp"                               : "com.squareup.okhttp3:okhttp:4.2.1",
+            "retrofit"                             : "com.squareup.retrofit2:retrofit:2.6.2",
+            "converter-gson"                       : "com.squareup.retrofit2:converter-gson:2.6.2",
+            "adapter-rxjava"                       : "com.squareup.retrofit2:adapter-rxjava2:2.6.2",
             //json解析
-            "gson"                                 : "com.google.code.gson:gson:2.8.5",
-            "material-dialogs-core"                : "com.afollestad.material-dialogs:core:0.9.4.5",
-            "material-dialogs-commons"             : "com.afollestad.material-dialogs:commons:0.9.4.5",
+            "gson"                                 : "com.google.code.gson:gson:2.8.6",
+            //物联网开发基础工具类
             "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.2",
             //bugly的仓库
             "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
@@ -54,10 +53,14 @@ ext {
             //多dex配置"
             "nativecrashreport"                    : "com.android.support:multidex:1.0.1",
             //rx系列与View生命周期同步
-            "rxlifecycle"                          : "com.trello.rxlifecycle2:rxlifecycle:2.2.2",
-            "rxlifecycle-components"               : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
+            "rxlifecycle"                          : "com.trello.rxlifecycle3:rxlifecycle:3.1.0",
+            "rxlifecycle-components"               : "com.trello.rxlifecycle3:rxlifecycle-components:3.1.0",
             "butterknife"                          : "com.jakewharton:butterknife:10.2.0",
             "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:10.2.0",
+            "socket-client"                        : "com.tonystark.android:socket:latest.release",
+            //findByView butterknife
+            "butterknife"                          : "com.jakewharton:butterknife:8.4.0",
+            "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:8.4.0",
 
     ]
 }

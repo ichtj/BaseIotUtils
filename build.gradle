@@ -12,6 +12,8 @@ buildscript {
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         //热更新
         classpath "com.tencent.bugly:tinker-support:1.1.5"
+        //butterknife
+        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
     }
 }
 

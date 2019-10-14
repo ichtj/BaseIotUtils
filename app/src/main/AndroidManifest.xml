@@ -47,6 +47,9 @@
         <!--文件下载-->
         <activity android:name=".download.DownLoadAty"
             android:theme="@style/AppTheme"/>
+        <!--Socket udp/tcp-->
+        <activity android:name=".socket.SocketAty"
+            android:theme="@style/AppTheme"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
 
