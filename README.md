@@ -1,5 +1,5 @@
 # 接入方式
-#### Step 1. Add the JitPack repository to your build file
+### Step 1. Add the JitPack repository to your build file
 
 Add it in your root **build.gradle** at the end of repositories:
 
@@ -12,21 +12,27 @@ allprojects {
 }
 ```
 
-#### Step 2. Add the dependency
+### Step 2. Add the dependency
 
+#### base_socket
 ```groovy
 dependencies {
-         //以下按个人的需求选择
          //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
          implementation 'com.chtj.base_socket:base_socket:1.0.1'
+}
+```
+
+#### base_iotutils
+```groovy
+dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.chtj.base_iotutils:base_iotutils:1.2.2'
 }
 ```
-##  base_socket使用说明
-### tcp|udp 使用方式类似 
 
+##  base_socket Module使用说明
 ```java
+//BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似 
 BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
 //监听回调
 baseTcpSocket.setSocketListener(new ISocketListener()...);
@@ -39,8 +45,9 @@ baseTcpSocket.close();
 ```
 
 
-##  base_iotutils Module 路径说明
+##  base_iotutils Module 说明
 
+### 自定义Application
 ```java
 public class App extends Application {
 
