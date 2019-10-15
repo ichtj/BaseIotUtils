@@ -48,6 +48,7 @@ public class BaseUdpSocket implements ISocket {
         this.mSocketListener = listener;
         this.mHost = ip;
         this.mPort = port;
+        this.timeout=timeout;
     }
 
     @Override

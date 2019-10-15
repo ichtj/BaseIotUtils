@@ -18,7 +18,7 @@ allprojects {
 ```groovy
 dependencies {
          //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
-         implementation 'com.chtj.base_socket:base_socket:1.0.1'
+         implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
 
@@ -67,7 +67,7 @@ public class App extends Application {
 }
 ```
 
-### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
+### base_iotutils 常用工具类
 
 - 进制转换类 | HexUtils
 
@@ -103,11 +103,11 @@ public class App extends Application {
 
 ### 1080*1920 px 效果
 
-![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/big_screen.png)
+![image](/pic/big_screen.png)
 
 ### 480*800 px 效果
 
-![image](https://github.com/wave-chtj/BaseIotUtils/blob/master/pic/small_screen.png)
+![image](/pic/small_screen.png)
 
 -可在app Model中找到使用示例
 
