@@ -17,6 +17,8 @@ import com.wave_chtj.example.crash.AppManager;
 /**
  * Create on 2019/9/29
  * author chtj
+ * 这里是为了引入腾讯的bugly 实现热更新，异常上传
+ * 要查看application对baseiotutils的具体调用，请查看以下的onCreate BaseIotUtils.instance()....
  */
 public class SampleApplicationLike  extends DefaultApplicationLike {
 

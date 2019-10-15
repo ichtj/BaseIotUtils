@@ -14,6 +14,9 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
  * 参数3：String loaderClassName  Tinker的加载器，使用默认即可
  * 参数4：boolean tinkerLoadVerifyFlag  加载dex或者lib是否验证md5，默认为false
  * </pre>
+ * 备注：
+ * 这里是为了引入腾讯的bugly 实现热更新，异常上传
+ * 要查看application对baseiotutils的具体调用，请查看SampleApplicationLike以下的onCreate BaseIotUtils.instance()....
  */
 public class SampleApplication extends TinkerApplication {
     public SampleApplication() {

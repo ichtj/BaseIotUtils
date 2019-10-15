@@ -28,7 +28,8 @@ import butterknife.OnClick;
 /**
  * Create on 2019/10/12
  * author chtj
- * desc $
+ * desc 选择一种连接方式：tcp或者udp 进行收发数据
+ * 目前还未做长连接
  */
 public class SocketAty extends BaseActivity {
     public static final String TAG = "SocketAty";
@@ -50,15 +51,16 @@ public class SocketAty extends BaseActivity {
     Button btnClear;
     @BindView(R.id.sp_option)
     Spinner spOption;
-    //当前选择的是TCP 或者是 UDP
-    int selectOpiton=TCP_OPTION;
+    //当前选择的连接方式
+    private int selectOpiton=TCP_OPTION;
     private static final int TCP_OPTION=0;//TCP
     private static final int UDP_OPTION=1;//UDP
     //TCP
-    BaseTcpSocket baseTcpSocket;
+    BaseTcpSocket baseTcpSocket=null;
     //UDP
-    BaseUdpSocket baseUdpSocket;
+    BaseUdpSocket baseUdpSocket=null;
 
+    //这里统一显示回调信息
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -72,7 +74,9 @@ public class SocketAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket);
         ButterKnife.bind(this);
+        //设置TextView可滑动查看
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
+        //选择连接的方式
         spOption.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -94,7 +98,9 @@ public class SocketAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btnConnect://开启连接
                 if(selectOpiton==TCP_OPTION){
+                    //设置参数 地址+端口
                     baseTcpSocket = new BaseTcpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()), 5000);
+                    //设置监听回调
                     baseTcpSocket.setSocketListener(new ISocketListener() {
                         @Override
                         public void recv(byte[] data, int offset, int size) {
@@ -132,9 +138,12 @@ public class SocketAty extends BaseActivity {
                             handler.sendMessage(message);
                         }
                     });
+                    //开启连接
                     baseTcpSocket.connect(this);
                 }else if(selectOpiton==UDP_OPTION){
+                    //设置参数 地址+端口
                     baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),5000);
+                    //设置监听回调
                     baseUdpSocket.setSocketListener(new ISocketListener() {
                         @Override
                         public void recv(byte[] data, int offset, int size) {
@@ -172,9 +181,9 @@ public class SocketAty extends BaseActivity {
                             handler.sendMessage(message);
                         }
                     });
+                    //开启连接
                     baseUdpSocket.connect(this);
                 }
-
                 break;
             case R.id.btnDisConnect://关闭连接
                 if(selectOpiton==TCP_OPTION){

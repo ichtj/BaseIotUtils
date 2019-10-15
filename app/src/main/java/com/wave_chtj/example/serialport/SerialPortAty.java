@@ -8,26 +8,46 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import com.chtj.base_iotutils.HexUtils;
+import com.chtj.base_iotutils.entity.ComEntity;
+import com.chtj.base_iotutils.entity.HeartBeatEntity;
+import com.chtj.base_iotutils.serialport.SerialPortFinder;
+import com.chtj.base_iotutils.serialport.helper.OnComListener;
+import com.chtj.base_iotutils.serialport.helper.SerialPortHelper;
+import com.wave_chtj.example.R;
+import com.wave_chtj.example.base.BaseActivity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import com.chtj.base_iotutils.HexUtils;
-import com.chtj.base_iotutils.serialport.SerialPortFinder;
-import com.wave_chtj.example.R;
-import com.chtj.base_iotutils.entity.ComEntity;
-import com.chtj.base_iotutils.entity.HeartBeatEntity;
-import com.chtj.base_iotutils.serialport.helper.OnComListener;
-import com.chtj.base_iotutils.serialport.helper.SerialPortHelper;
-import com.wave_chtj.example.base.BaseActivity;
 
-public class SerialPortAty extends BaseActivity implements View.OnClickListener {
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class SerialPortAty extends BaseActivity {
     public static final String TAG = "SerialPortAty";
-    private TextView tvResult;//返回的结果
-    private EditText etCommand;//命令
-    private Spinner sp_com, sp_burate;//串口列表，波特率列表
+    @BindView(R.id.sp_com)
+    Spinner spCom;
+    @BindView(R.id.sp_burate)
+    Spinner spBurate;
+    @BindView(R.id.btn_init)
+    Button btnInit;
+    @BindView(R.id.btn_close)
+    Button btnClose;
+    @BindView(R.id.etCommand)
+    EditText etCommand;
+    @BindView(R.id.btn_test_send)
+    Button btnTestSend;
+    @BindView(R.id.btn_clear)
+    Button btnClear;
+    @BindView(R.id.tvResult)
+    TextView tvResult;
     private SerialPortHelper serialPortHelper = null;//串口控制类
     private List<String> list_serialcom = null;//串口地址
     private String[] arrays_burate;//波特率
@@ -36,12 +56,9 @@ public class SerialPortAty extends BaseActivity implements View.OnClickListener 
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serialport_normal);
+        ButterKnife.bind(this);
         //初始化控件
-        tvResult = findViewById(R.id.tvResult);
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
-        etCommand = findViewById(R.id.etCommand);
-        sp_com = findViewById(R.id.sp_com);
-        sp_burate = findViewById(R.id.sp_burate);
         //获取所有串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();
         String[] entryValues = mSerialPortFinder.getAllDevicesPath();
@@ -50,13 +67,16 @@ public class SerialPortAty extends BaseActivity implements View.OnClickListener 
         arrays_burate = getResources().getStringArray(R.array.burate);
         //添加到适配器中显示
         ArrayAdapter arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_serialcom);
-        sp_com.setAdapter(arr_adapter);
-        findViewById(R.id.btn_init).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        spCom.setAdapter(arr_adapter);
+    }
+
+    @OnClick({R.id.btn_init, R.id.btn_close, R.id.btn_clear,R.id.btn_test_send})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.btn_init:
                 //获得当前选择串口和波特率
-                String com = sp_com.getSelectedItem().toString();
-                int baudrate = Integer.parseInt(sp_burate.getSelectedItem().toString());
+                String com = spCom.getSelectedItem().toString();
+                int baudrate = Integer.parseInt(spBurate.getSelectedItem().toString());
                 //参数设置
                 List<Integer> flagFilterList = new ArrayList<>();
                 flagFilterList.add(FlagManager.FLAG_CHECK_UPDATE);
@@ -152,19 +172,6 @@ public class SerialPortAty extends BaseActivity implements View.OnClickListener 
                 });
                 //开启串口
                 serialPortHelper.openSerialPort();
-            }
-        });
-
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_close://关闭串口
-                if (serialPortHelper != null) {
-                    serialPortHelper.closeSerialPort();
-                }
                 break;
             case R.id.btn_test_send://发送命令
                 new Thread(new Runnable() {
@@ -196,6 +203,9 @@ public class SerialPortAty extends BaseActivity implements View.OnClickListener 
                     }
                 }).start();
                 break;
+            case R.id.btn_close:
+                serialPortHelper.closeSerialPort();
+                break;
             case R.id.btn_clear://清除结果
                 tvResult.setText("");
                 break;
@@ -217,4 +227,6 @@ public class SerialPortAty extends BaseActivity implements View.OnClickListener 
             serialPortHelper.closeSerialPort();
         }
     }
+
+
 }

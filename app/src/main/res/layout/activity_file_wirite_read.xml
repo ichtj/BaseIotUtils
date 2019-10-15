@@ -21,7 +21,6 @@
             android:id="@+id/btn_write"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="writeData"
             android:text="写数据" />
 
     </LinearLayout>
@@ -36,7 +35,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:onClick="delData"
             android:text="删除文件" />
 
         <Button
@@ -44,7 +42,6 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_weight="1"
-            android:onClick="readData"
             android:text="读数据" />
 
     </LinearLayout>

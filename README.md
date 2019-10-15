@@ -17,12 +17,30 @@ allprojects {
 ```groovy
 dependencies {
          //以下按个人的需求选择
+         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
+         implementation 'com.chtj.base_socket:base_socket:1.0.1'
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.chtj.base_iotutils:base_iotutils:1.2.2'
-         //socket通信 tcp/udp工具类
-         implementation 'com.chtj.base_socket:base_socket:1.0.1'
 }
 ```
+##  base_socket使用说明
+### tcp|udp 使用方式类似 
+
+```java
+BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
+//监听回调
+baseTcpSocket.setSocketListener(new ISocketListener()...);
+//开启连接
+baseTcpSocket.connect(this);
+//发送数据
+ baseTcpSocket.send("hello world!".getBytes());
+//关闭连接
+baseTcpSocket.close();
+```
+
+
+##  base_iotutils Module 路径说明
+
 ```java
 public class App extends Application {
 
@@ -42,7 +60,6 @@ public class App extends Application {
 }
 ```
 
-##  base_iotutils Module 路径说明
 ### 1.\base_iotutils\src\main\java\com\chtj\base_iotutils 常用工具类
 
 - 进制转换类 | HexUtils
