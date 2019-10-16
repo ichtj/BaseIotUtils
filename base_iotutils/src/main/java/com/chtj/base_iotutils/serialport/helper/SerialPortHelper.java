@@ -114,7 +114,7 @@ public class SerialPortHelper {
     /**
      * 打开串口
      */
-    public void openSerialPort() {
+    public synchronized void openSerialPort() {
         //串口状态为关闭时 才能去执行开启
         if (!isOpen) {
             try {
@@ -382,7 +382,7 @@ public class SerialPortHelper {
     /**
      * 关闭串口和线程
      */
-    public void closeSerialPort() {
+    public synchronized void closeSerialPort() {
         if (port != null) {
             port.close();
             port = null;

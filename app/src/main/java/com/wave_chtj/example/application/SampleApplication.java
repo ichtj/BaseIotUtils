@@ -16,7 +16,7 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
  * </pre>
  * 备注：
  * 这里是为了引入腾讯的bugly 实现热更新，异常上传
- * 要查看application对baseiotutils的具体调用，请查看SampleApplicationLike以下的onCreate BaseIotUtils.instance()....
+ * 要查看application对baseiotutils的具体调用，请查看InitializeService以下的performInit()
  */
 public class SampleApplication extends TinkerApplication {
     public SampleApplication() {

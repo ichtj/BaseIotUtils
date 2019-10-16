@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Build;
 import android.support.multidex.MultiDex;
 
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
-import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.entry.DefaultApplicationLike;
@@ -18,9 +16,9 @@ import com.wave_chtj.example.crash.AppManager;
  * Create on 2019/9/29
  * author chtj
  * 这里是为了引入腾讯的bugly 实现热更新，异常上传
- * 要查看application对baseiotutils的具体调用，请查看以下的onCreate BaseIotUtils.instance()....
+ * 要查看application对baseiotutils的具体调用，请查看{InitializeService}以下的performInit()
  */
-public class SampleApplicationLike  extends DefaultApplicationLike {
+public class SampleApplicationLike extends DefaultApplicationLike {
 
     public static final String TAG = "Tinker.SampleApplicationLike";
 
@@ -37,18 +35,9 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
         // 这里实现SDK初始化，appId替换成你的在Bugly平台申请的appId
         // 调试时，将第三个参数改为true
         Bugly.init(getApplication(), "0e875eba19", true);
-        //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
-        //setBaseWidth setBaseHeight 是为了适配而去设置相关的值
-
-        BaseIotUtils.instance().
-                setBaseWidth(1080).//设置宽度布局尺寸 layout 布局文件以pt为单位
-                setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
-                setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
-                setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                        create(getApplication());
-
+        //后台初始化
+        InitializeService.start(getApplication());
     }
-
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -66,6 +55,7 @@ public class SampleApplicationLike  extends DefaultApplicationLike {
     public void registerActivityLifecycleCallback(Application.ActivityLifecycleCallbacks callbacks) {
         getApplication().registerActivityLifecycleCallbacks(callbacks);
     }
+
     /**
      * 应用程序结束时调用
      * 但该方法只用于Android仿真机测试，在Android产品机是不会调用的

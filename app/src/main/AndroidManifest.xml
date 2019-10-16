@@ -30,14 +30,18 @@
         android:name=".application.SampleApplication"
         android:roundIcon="@mipmap/app_img"
         android:supportsRtl="true"
-        android:theme="@style/AppThemeWelcome">
-        <!--功能选择-->
-        <activity android:name=".FeaturesOptionAty">
+        android:theme="@style/AppTheme">
+        <!--启动页-->
+        <activity android:name=".StartPageAty"
+            android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--功能选择-->
+        <activity android:name=".FeaturesOptionAty"
+            android:theme="@style/AppTheme"/>
         <!--后台服务-->
         <activity android:name=".keepservice.KeepServiceActivity"
             android:theme="@style/AppTheme"/>
@@ -58,7 +62,8 @@
             android:theme="@style/AppTheme"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
-
+        <!--在服务里面进行一些application应该执行的初始化操作-->
+        <service android:name=".application.InitializeService"/>
         <!--bugly-->
         <provider
             android:name="android.support.v4.content.FileProvider"
@@ -70,8 +75,4 @@
                 android:resource="@xml/provider_paths"/>
         </provider>
     </application>
-
-
-
-
 </manifest>

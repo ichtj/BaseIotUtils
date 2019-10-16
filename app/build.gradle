@@ -3,6 +3,7 @@ apply plugin: 'com.android.application'
 apply from: 'tinker-support.gradle'
 
 android {
+
     signingConfigs {
         release {
             storeFile file('D:\\face.jks')
@@ -45,8 +46,18 @@ android {
         }
     }
     // recommend
-    dexOptions {
+    /*dexOptions {
         jumboMode = true
+    }*/
+    dexOptions {
+        //最大堆内存
+        javaMaxHeapSize "8g"
+        //是否支持大工程模式
+        jumboMode = true
+        //预编译
+        preDexLibraries = true
+        //线程数
+        threadCount = 8
     }
     //忽略一些异常提示
     lintOptions {
@@ -78,7 +89,6 @@ dependencies {
     implementation rootProject.ext.support["constraint-layout"]
     //bugly
     api rootProject.ext.dependencies["crashreport_upgrade"]
-    api rootProject.ext.dependencies["nativecrashreport"]
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
     api rootProject.ext.dependencies["hotrefresh"]
     //物联网开发基础工具类

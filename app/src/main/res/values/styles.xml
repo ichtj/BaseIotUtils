@@ -13,14 +13,9 @@
     三:其他Aty设置为正常的AppTheme
     这样打开桌面图标会马上显示logo，不会出现黑/白屏，
     直到Activity启动完成，替换主题，logo消失，
-    但是总的启动时间并没有改变。
     -->
-    <style name="AppThemeWelcome" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="android:windowBackground">@mipmap/logo</item>  <!-- 默认背景-->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@drawable/logo_splash</item>
     </style>
 
     <style name="mProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
