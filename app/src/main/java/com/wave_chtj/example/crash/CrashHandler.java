@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.chtj.base_iotutils.keepservice.BaseIotUtils;
+import com.wave_chtj.example.util.AppManager;
 
 import java.io.File;
 import java.io.FileOutputStream;

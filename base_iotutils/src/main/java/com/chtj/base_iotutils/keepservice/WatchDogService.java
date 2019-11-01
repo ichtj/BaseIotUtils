@@ -44,9 +44,14 @@ public class WatchDogService extends Service {
         //Android 5.0+ 使用 JobScheduler，效果比 AlarmManager 好
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             JobInfo.Builder builder = new JobInfo.Builder(HASH_CODE, new ComponentName(BaseIotUtils.sApp, JobSchedulerService.class));
+            //这里是设定一个周期
             builder.setPeriodic(BaseIotUtils.getWakeUpInterval());
             //Android 7.0+ 增加了一项针对 JobScheduler 的新限制，最小间隔只能是下面设定的数字
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) builder.setPeriodic(JobInfo.getMinPeriodMillis(), JobInfo.getMinFlexMillis());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                //这里是设定一个周期
+                builder.setPeriodic(JobInfo.getMinPeriodMillis(), JobInfo.getMinFlexMillis());
+            }
+            //重启设备后继续执行此作业
             builder.setPersisted(true);
             JobScheduler scheduler = (JobScheduler) getSystemService(JOB_SCHEDULER_SERVICE);
             scheduler.schedule(builder.build());
@@ -115,7 +120,7 @@ public class WatchDogService extends Service {
 
     /**
      * 用于在不需要服务运行的时候取消 Job / Alarm / Subscription.
-     *
+     * <p>
      * 因 WatchDogService 运行在 :watch 子进程, 请勿在主进程中直接调用此方法.
      * 而是向 WakeUpReceiver 发送一个 Action 为 WakeUpReceiver.ACTION_CANCEL_JOB_ALARM_SUB 的广播.
      */

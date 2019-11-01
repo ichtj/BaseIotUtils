@@ -45,6 +45,7 @@ public class DownLoadAty extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
+                Log.d(TAG,"开始下载...");
             }
 
             @Override

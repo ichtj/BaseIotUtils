@@ -1,5 +1,7 @@
 package com.wave_chtj.example.file;
 
+import android.Manifest;
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -9,12 +11,15 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.chtj.base_iotutils.FileUtil;
+import com.chtj.base_iotutils.ToastUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.functions.Consumer;
 
 /**
  * Create on 2019/10/10
@@ -40,6 +45,20 @@ public class FileOperatAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_wirite_read);
         ButterKnife.bind(this);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}).
+                subscribe(new Consumer<Boolean>() {
+                    @Override
+                    public void accept(Boolean granted) throws Exception {
+                        if (granted) { // Always true pre-M
+                            // I can control the camera now
+                            ToastUtils.showShort("已通过权限");
+                        } else {
+                            // Oups permission denied
+                            ToastUtils.showShort("未通过权限");
+                        }
+                    }
+                });
     }
 
 

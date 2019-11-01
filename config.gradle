@@ -47,6 +47,7 @@ ext {
             //物联网开发基础工具类
             "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.2",
             "base_socket"                          : "com.chtj.base_socket:base_socket:1.0.2",
+            "rxpermissions"                        : "com.github.tbruyelle:rxpermissions:0.10.2",
             //bugly的仓库
             "crashreport_upgrade"                  : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "hotrefresh"                           : "com.tencent.tinker:tinker-android-lib:1.9.9",

@@ -41,12 +41,11 @@ public class InitializeService extends IntentService {
     private void performInit() {
         KLog.d("performInit begin:" + System.currentTimeMillis());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
-        //setBaseWidth setBaseHeight 是为了适配而去设置相关的值
+        //1080,1920是为了适配而去设置相关的值
+        //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
         BaseIotUtils.instance().
-                setBaseWidth(1080).//设置宽度布局尺寸 layout 布局文件以pt为单位
-                setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
-                setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
-                setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
+                setBaseScreenParam(1080,1920,true).
+                setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
                 create(getApplication());
 
     }

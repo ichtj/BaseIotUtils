@@ -10,7 +10,7 @@ import android.support.multidex.MultiDex;
 import com.tencent.bugly.Bugly;
 import com.tencent.bugly.beta.Beta;
 import com.tencent.tinker.entry.DefaultApplicationLike;
-import com.wave_chtj.example.crash.AppManager;
+import com.wave_chtj.example.util.AppManager;
 
 /**
  * Create on 2019/9/29

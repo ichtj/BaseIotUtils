@@ -1,10 +1,6 @@
-package com.wave_chtj.example.crash;
+package com.wave_chtj.example.util;
 
 import android.app.Activity;
-import android.app.ActivityManager;
-import android.content.Context;
-
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
 
 import java.util.Stack;
 

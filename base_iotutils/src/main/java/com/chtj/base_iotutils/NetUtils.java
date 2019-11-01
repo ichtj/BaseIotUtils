@@ -16,7 +16,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
-public class NetWorkUtils {
+public class NetUtils {
     /**
      * 网络类型 - 无连接
      */

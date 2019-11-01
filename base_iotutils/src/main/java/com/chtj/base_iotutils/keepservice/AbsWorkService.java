@@ -9,7 +9,12 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
-
+/**
+ * extends this Service(AbsWorkService),
+ * could protection this Service Task
+ * this Service will open one's WatchDogService ，it will guard this Service no being Close Service
+ * WatchDogs use cycle Task,check this Service is Close? if close ,will Open  extends AbsWorkService's class ,else do nothing;
+ */
 public abstract class AbsWorkService extends Service {
 
     protected static final int HASH_CODE = 1;
@@ -26,18 +31,25 @@ public abstract class AbsWorkService extends Service {
 
     /**
      * 是否 任务完成, 不再需要服务运行?
+     *
      * @return 应当停止服务, true; 应当启动服务, false; 无法判断, 什么也不做, null.
      */
     public abstract Boolean shouldStopService(Intent intent, int flags, int startId);
+
     public abstract void startWork(Intent intent, int flags, int startId);
+
     public abstract void stopWork(Intent intent, int flags, int startId);
+
     /**
      * 任务是否正在运行?
+     *
      * @return 任务正在运行, true; 任务当前不在运行, false; 无法判断, 什么也不做, null.
      */
     public abstract Boolean isWorkRunning(Intent intent, int flags, int startId);
+
     @Nullable
     public abstract IBinder onBind(Intent intent, Void alwaysNull);
+
     public abstract void onServiceKilled(Intent rootIntent);
 
     /**
@@ -55,7 +67,11 @@ public abstract class AbsWorkService extends Service {
         //业务逻辑: 实际使用时，根据需求，将这里更改为自定义的条件，判定服务应当启动还是停止 (任务是否需要运行)
         Boolean shouldStopService = shouldStopService(intent, flags, startId);
         if (shouldStopService != null) {
-            if (shouldStopService) stopService(intent, flags, startId); else startService(intent, flags, startId);
+            if (shouldStopService) {
+                stopService(intent, flags, startId);
+            } else {
+                startService(intent, flags, startId);
+            }
         }
 
         if (mFirstStarted) {
@@ -65,8 +81,9 @@ public abstract class AbsWorkService extends Service {
                 //利用漏洞在 API Level 17 及以下的 Android 系统中，启动前台服务而不显示通知
                 startForeground(HASH_CODE, new Notification());
                 //利用漏洞在 API Level 18 及以上的 Android 系统中，启动前台服务而不显示通知
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
                     BaseIotUtils.startServiceSafely(new Intent(getApplication(), WorkNotificationService.class));
+                }
             }
             getPackageManager().setComponentEnabledSetting(new ComponentName(getPackageName(), WatchDogService.class.getName()),
                     PackageManager.COMPONENT_ENABLED_STATE_ENABLED, PackageManager.DONT_KILL_APP);
@@ -81,14 +98,16 @@ public abstract class AbsWorkService extends Service {
         if (shouldStopService != null && shouldStopService) return;
         //若还没有取消订阅，说明任务仍在运行，为防止重复启动，直接 return
         Boolean workRunning = isWorkRunning(intent, flags, startId);
-        if (workRunning != null && workRunning) return;
+        if (workRunning != null && workRunning) {
+            return;
+        }
         //业务逻辑
         startWork(intent, flags, startId);
     }
 
     /**
      * 停止服务并取消定时唤醒
-     *
+     * <p>
      * 停止服务使用取消订阅的方式实现，而不是调用 Context.stopService(Intent name)。因为：
      * 1.stopService 会调用 Service.onDestroy()，而 AbsWorkService 做了保活处理，会把 Service 再拉起来；
      * 2.我们希望 AbsWorkService 起到一个类似于控制台的角色，即 AbsWorkService 始终运行 (无论任务是否需要运行)，

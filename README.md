@@ -26,7 +26,7 @@ dependencies {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.2'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.3'
 }
 ```
 
@@ -55,13 +55,13 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         //1.1.6 之后与之前有较大改动 
-        //增加了适配方案 使用如下
+        //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
+        //1080,1920是为了适配而去设置相关的值
+        //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
         BaseIotUtils.instance().
-                       setBaseWidth(1080).//设置宽度布局尺寸 layout 布局文件以pt为单位
-                       setBaseHeight(1920).//设置高度布局尺寸 layout 布局文件以pt为单位
-                       setCreenType(SCREEN_TYPE.HEIGHT).//按照高度适配
-                       setAutoScreenAdaptation(true).//开启自动适配 true 开启  false关闭
-                               create(getApplication());
+              setBaseScreenParam(1080,1920,true).
+              setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
+              create(getApplication());
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
 }

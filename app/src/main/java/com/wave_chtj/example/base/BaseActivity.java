@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 
-import com.wave_chtj.example.crash.AppManager;
+import com.wave_chtj.example.util.AppManager;
 
 /**
  * Create on 2019/10/12

@@ -17,10 +17,7 @@ public class KeyBoardUtils {
 
     /**
      * 打卡软键盘
-     *
-     * @param mEditText
-     *            输入框
-     *            上下文
+     * @param mEditText 点击的输入框
      */
     public static void openKeybord(EditText mEditText) {
         InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()
@@ -32,10 +29,7 @@ public class KeyBoardUtils {
 
     /**
      * 关闭软键盘
-     *
-     * @param mEditText
-     *            输入框
-     *            上下文
+     * @param mEditText 输入框
      */
     public static void closeKeybord(EditText mEditText) {
         InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()

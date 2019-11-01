@@ -34,5 +34,4 @@ public class CrcUtils {
         Log.d(TAG ,"calcCrc8=: "+crc);
         return crc;
     }
-
 }

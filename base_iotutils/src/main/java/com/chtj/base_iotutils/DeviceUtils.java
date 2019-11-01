@@ -29,9 +29,7 @@ import static android.Manifest.permission.INTERNET;
 import static android.content.Context.WIFI_SERVICE;
 
 /**
- * <pre>
- *     desc  : utils about device
- * </pre>
+ * 得到设备的相关信息
  */
 public final class DeviceUtils {
 
