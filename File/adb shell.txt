@@ -1,0 +1,73 @@
+-------------------------------------------------
+
+编译APP
+source /build/envsetup.sh 
+lunch 列出编译类型
+mmm packages/apps/ethNetwork
+
+-------------------------------------------------
+
+rz 上传文件
+sz filePath
+
+-------------------------------------------------
+查看应用
+adb shell pm list packages  // 查看所有应用
+adb shell pm list packages -s   // 查看系统应用
+adb shell pm list packages -3   // 查看三方应用
+-------------------------------------------------
+busybox ifconfig 获取以太网信息
+busybox ifconfig eth0 down //关闭以太网
+busybox ifconfig eth0 up     //开启以太网
+-------------------------------------------------
+svc data enable 开启移动网络
+svc data disable 关闭移动网络
+
+stop  ril-daemon  //关闭网络注册上网服务
+start  ril-daemon  //打开网络注册上网服务
+
+-------------------------------------------------
+adb pull sdfilepath computer //从sd卡拷贝文件到电脑
+-------------------------------------------------
+adb shell wm size //查看屏幕分辨率
+
+ps | grep face 根据关键字过滤
+-------------------------------------------------
+
+adb push 要上传的文件路径 存储的文件路径
+-------------------------------------------------
+ls -al   查看文件权限
+
+chmod 765 filename 为应用设置权限
+-------------------------------------------------
+//查看网络
+logcat -b radio -v time
+
+rm -r path 删除文件及文件下的内容
+rm  path   删除文件
+
+-------------------------------------------------
+adb logcat V/D/I/W/E/F/S 查看日志
+
+  V    Verbose
+  D    Debug
+  I    Info
+  W    Warn
+  E    Error
+  F    Fatal
+  S    Silent (supress all output)
+
+查看cpu信息
+getprop | grep plat
+
+查看屏幕信息
+dumpsys window displays
+
+修改屏幕像素
+wm size 1080x1920
+
+修改屏幕dpi
+wm density 480
+
+关闭网络连接4G
+busybox ifconfig ppp0 down

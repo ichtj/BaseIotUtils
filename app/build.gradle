@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 // 热更新依赖插件脚本
-apply from: 'tinker-support.gradle'
+//apply from: 'tinker-support.gradle'
 
 android {
 
@@ -27,10 +27,10 @@ android {
         versionName rootProject.ext.android.versionName
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        ndk {
+       /* ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
-        }
+        }*/
         signingConfig signingConfigs.release
     }
     buildTypes {
@@ -49,7 +49,7 @@ android {
     /*dexOptions {
         jumboMode = true
     }*/
-    dexOptions {
+    /*dexOptions {
         //最大堆内存
         javaMaxHeapSize "8g"
         //是否支持大工程模式
@@ -58,7 +58,7 @@ android {
         preDexLibraries = true
         //线程数
         threadCount = 8
-    }
+    }*/
     //忽略一些异常提示
     lintOptions {
         checkReleaseBuilds false
@@ -88,9 +88,9 @@ dependencies {
     api rootProject.ext.support["appcompat-v7"]
     implementation rootProject.ext.support["constraint-layout"]
     //bugly
-    api rootProject.ext.dependencies["crashreport_upgrade"]
+    //api rootProject.ext.dependencies["crashreport_upgrade"]
     // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
-    api rootProject.ext.dependencies["hotrefresh"]
+    //api rootProject.ext.dependencies["hotrefresh"]
     //物联网开发基础工具类
     //api rootProject.ext.dependencies["base_iotutils"]
     //socke client

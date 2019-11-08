@@ -70,4 +70,4 @@ dependencies {
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
 }
-/*apply from: '../bintray.gradle'*/
+apply from: '../bintray.gradle'

@@ -1,7 +1,7 @@
 package com.wave_chtj.example.application;
 
-import com.tencent.tinker.loader.app.TinkerApplication;
-import com.tencent.tinker.loader.shareutil.ShareConstants;
+/*import com.tencent.tinker.loader.app.TinkerApplication;
+import com.tencent.tinker.loader.shareutil.ShareConstants;*/
 
 /**
  * 自定义Application.
@@ -18,9 +18,10 @@ import com.tencent.tinker.loader.shareutil.ShareConstants;
  * 这里是为了引入腾讯的bugly 实现热更新，异常上传
  * 要查看application对baseiotutils的具体调用，请查看InitializeService以下的performInit()
  */
+/*
 public class SampleApplication extends TinkerApplication {
     public SampleApplication() {
         super(ShareConstants.TINKER_ENABLE_ALL, "com.wave_chtj.example.application.SampleApplicationLike",
                 "com.tencent.tinker.loader.TinkerLoader", false);
     }
-}
+}*/
