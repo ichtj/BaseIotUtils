@@ -3,7 +3,7 @@ package com.wave_chtj.example.keepservice;
 import android.content.Intent;
 import android.os.IBinder;
 
-import com.chtj.base_iotutils.keepservice.AbsWorkService;
+import com.chtj.base_iotutils.keeplive.AbsWorkService;
 import java.util.concurrent.TimeUnit;
 import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;

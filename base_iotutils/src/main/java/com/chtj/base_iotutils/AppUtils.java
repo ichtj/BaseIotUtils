@@ -11,7 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.util.Log;
 
 import com.chtj.base_iotutils.entity.AppEntity;
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
+import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.util.ArrayList;
 import java.util.List;

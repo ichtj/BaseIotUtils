@@ -1,54 +1,83 @@
 -------------------------------------------------
+./imx6_build.sh all | uboot | kernel 核心 | android | boot | clear| //编译类型
 
 编译APP
+---------------------------------
 source /build/envsetup.sh 
 lunch 列出编译类型
-mmm packages/apps/ethNetwork
 
+./build_app.sh packages/apps/Launcher2/
+---------------------------------
+
+ls -l *sh 列出编译的.sh文件
+
+vi imx6_build.sh
+
+function build_android() //查看lunch类型
+
+ESC wq     //退出保存
+
+lunch      //选择编译系统版本
+
+mmm packages/apps/ethNetwork  //单编
+
+# ---------------查看源码的R.layout等文件--------------------
+
+在 frameworks/base/core/res/res 中执行mm，编译后生成framework-res.apk
+并会更新com.android.internal.R，该 R 所对应的文件为 /out/target/common/R/com/android/internal/R.java，
+可以在该文件中查看自己的资源是否已经加进去了。（如果mm出错可以尝试先执行一下“touch 资源文件”命令
+
+在studio的安装目录，中的bin文件夹里面有个idea.properties文件
+
+在里面idea.max.intellisense.filesize=5000,修改扩大支持打开的文件大小至5M
+
+然后重启android studio
+
+-----------------------文件内容--------------------------
+cat xxx.txt //查看文件内容
+
+adb pull sdfilepath computer //从sd卡拷贝文件到电脑
+
+将应用复制到system/priv_app
+adb push C:/dell/test.txt /system/
+cat /system/SecureSetting.apk > /system/app/SecureSetting.apk // 这一步可以用 cp 实现，但一般设备中没有包含该命令。
+
+rm -r path 删除文件及文件下的内容
+rm  path   删除文件
+
+ls -al   查看文件权限
+chmod 765 filename 为应用设置权限
 -------------------------------------------------
-
+----------xshell/putty 文件相关
 rz 上传文件
 sz filePath
-
--------------------------------------------------
-查看应用
-adb shell pm list packages  // 查看所有应用
+-----------------------查看应用-------------------
+adb shell pm list packages      // 查看所有应用
 adb shell pm list packages -s   // 查看系统应用
 adb shell pm list packages -3   // 查看三方应用
 -------------------------------------------------
 busybox ifconfig 获取以太网信息
-busybox ifconfig eth0 down //关闭以太网
+busybox ifconfig eth0 down   //关闭以太网
 busybox ifconfig eth0 up     //开启以太网
 -------------------------------------------------
 svc data enable 开启移动网络
 svc data disable 关闭移动网络
 
+busybox ifconfig ppp0 down //关闭网络连接4G
+
 stop  ril-daemon  //关闭网络注册上网服务
 start  ril-daemon  //打开网络注册上网服务
-
--------------------------------------------------
-adb pull sdfilepath computer //从sd卡拷贝文件到电脑
 -------------------------------------------------
 adb shell wm size //查看屏幕分辨率
-
 ps | grep face 根据关键字过滤
 -------------------------------------------------
-
-adb push 要上传的文件路径 存储的文件路径
+dumpsys window displays //查看屏幕信息
+wm size 1080x1920 //修改屏幕像素
+wm density 480  //修改屏幕dpi
 -------------------------------------------------
-ls -al   查看文件权限
-
-chmod 765 filename 为应用设置权限
--------------------------------------------------
-//查看网络
-logcat -b radio -v time
-
-rm -r path 删除文件及文件下的内容
-rm  path   删除文件
-
+logcat -b radio -v time //查看网络
 -------------------------------------------------
 adb logcat V/D/I/W/E/F/S 查看日志
-
   V    Verbose
   D    Debug
   I    Info
@@ -56,18 +85,8 @@ adb logcat V/D/I/W/E/F/S 查看日志
   E    Error
   F    Fatal
   S    Silent (supress all output)
-
+ //清除所有日志
+adb logcat -c -b main -b events -b radio -b system
+-----------------------------------------------
 查看cpu信息
 getprop | grep plat
-
-查看屏幕信息
-dumpsys window displays
-
-修改屏幕像素
-wm size 1080x1920
-
-修改屏幕dpi
-wm density 480
-
-关闭网络连接4G
-busybox ifconfig ppp0 down

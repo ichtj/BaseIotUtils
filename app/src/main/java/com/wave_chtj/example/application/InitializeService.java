@@ -3,10 +3,8 @@ package com.wave_chtj.example.application;
 import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
-import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
+import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 
 /**

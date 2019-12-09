@@ -6,14 +6,7 @@ import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.chtj.base_iotutils.bus.RxBus;
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
-import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.entitiy.InitFinish;
-import com.wave_chtj.example.entitiy.InitReady;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * Create on 2019/10/16

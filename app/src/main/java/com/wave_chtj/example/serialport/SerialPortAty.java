@@ -66,7 +66,7 @@ public class SerialPortAty extends BaseActivity {
         //获取所有的波特率 可在R.array.burate 中手动添加需要的波特率
         arrays_burate = getResources().getStringArray(R.array.burate);
         //添加到适配器中显示
-        ArrayAdapter arr_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list_serialcom);
+        ArrayAdapter arr_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list_serialcom);
         spCom.setAdapter(arr_adapter);
     }
 

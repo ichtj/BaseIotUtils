@@ -4,8 +4,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
-import com.chtj.base_iotutils.keepservice.IntentWrapper;
+import com.chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.chtj.base_iotutils.keeplive.IntentWrapper;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

@@ -4,7 +4,7 @@
     <!--:watch 当前app进程下的另外开辟的进程 类似于实现了多进程通信-->
     <application android:label="@string/app_name">
         <receiver
-            android:name=".keepservice.WakeUpReceiver"
+            android:name=".keeplive.WakeUpReceiver"
             android:process=":watch">
             <intent-filter>
                 <action android:name="android.intent.action.USER_PRESENT" />
@@ -15,7 +15,7 @@
         </receiver>
 
         <receiver
-            android:name=".keepservice.WakeUpReceiver$WakeUpAutoStartReceiver"
+            android:name=".keeplive.WakeUpReceiver$WakeUpAutoStartReceiver"
             android:process=":watch">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
@@ -29,21 +29,21 @@
             </intent-filter>
         </receiver>
 
-        <service android:name=".keepservice.AbsWorkService$WorkNotificationService" />
+        <service android:name=".keeplive.AbsWorkService$WorkNotificationService" />
 
         <service
-            android:name=".keepservice.JobSchedulerService"
+            android:name=".keeplive.JobSchedulerService"
             android:enabled="true"
             android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:process=":watch" />
 
         <service
-            android:name=".keepservice.WatchDogService"
+            android:name=".keeplive.WatchDogService"
             android:process=":watch" />
 
         <service
-            android:name=".keepservice.WatchDogService$WatchDogNotificationService"
+            android:name=".keeplive.WatchDogService$WatchDogNotificationService"
             android:process=":watch" />
 
     </application>

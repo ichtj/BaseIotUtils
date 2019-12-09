@@ -1,4 +1,4 @@
-package com.chtj.base_iotutils.keepservice;
+package com.chtj.base_iotutils.keeplive;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

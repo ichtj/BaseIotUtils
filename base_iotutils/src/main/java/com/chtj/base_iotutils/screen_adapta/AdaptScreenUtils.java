@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.Log;
 
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
+import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

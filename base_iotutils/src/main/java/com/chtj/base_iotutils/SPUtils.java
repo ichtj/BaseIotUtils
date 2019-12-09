@@ -2,7 +2,7 @@ package com.chtj.base_iotutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.chtj.base_iotutils.keepservice.BaseIotUtils;
+import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
 /**
  * @author chtj
