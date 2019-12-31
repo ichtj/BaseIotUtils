@@ -8,8 +8,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
-import android.util.Log;
-
 import com.chtj.base_iotutils.entity.AppEntity;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
@@ -19,10 +17,16 @@ import java.util.List;
 /**
  * @author chtj
  * create by chtj on 2019-8-6
- * 获取当前android系统内的所有包名
- * 根据包名获取app信息
+ * desc:PackagesUtils相关工具类
+ * --获取所有应用 {@link #getApkInfoList()}
+ * --查询设备内非系统应用 {@link #getAllApkInfoListByNonSystem()}
+ * --获取当前应用名称 {@link #getAppName(String packageName)}
+ * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
+ * --获取APP-VersionCode {@link #getAppVersionCode()}
+ * --获取APP-VersionName {@link #getAppVersionName()}
+ * --判断 App 是否处于前台 {@link #isAppForeground()}
  */
-public class AppUtils {
+public class PackagesUtils {
     /**
      * 获取所有应用
      *
@@ -42,7 +46,7 @@ public class AppUtils {
             CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
             AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i);
             appEntityList.add(entity);
-            Log.e("！！！！！", name + "----" + packageName + "----" + cls);
+            KLog.e("！！！！！", name + "----" + packageName + "----" + cls);
         }
         return appEntityList;
     }
@@ -152,6 +156,7 @@ public class AppUtils {
 
     /**
      * 判断 App 是否处于前台
+     *
      * @return true |false
      */
     public static boolean isAppForeground() {

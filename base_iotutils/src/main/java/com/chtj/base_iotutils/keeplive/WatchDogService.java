@@ -18,6 +18,9 @@ import io.reactivex.Observable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
+/**
+ * 看门狗服务
+ */
 public class WatchDogService extends Service {
 
     protected static final int HASH_CODE = 2;

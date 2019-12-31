@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.ToastUtils;
 import com.chtj.base_iotutils.download.DownLoadManager;
 import com.chtj.base_iotutils.download.progress.ProgressCallBack;
@@ -24,11 +25,11 @@ import okhttp3.ResponseBody;
 public class DownLoadAty extends BaseActivity {
     public static final String TAG = "DownLoadAty";
     //文件下载地址
-    public String downloadUrl = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/20190905/Cloud.apk";
+    public String downloadUrl = "https://ad-1257276602.cos.ap-guangzhou.myqcloud.com/20190121/5de956aa6ce04c088f73ad95301915b6.xls";
     //存放地址
     public String destFileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
     //文件名称
-    public String destFileName = "Cloud.apk";
+    public String destFileName = "5de956aa6ce04c088f73ad95301915b6.xls";
     @BindView(R.id.pb_progressbar)
     ProgressBar pbProgressbar;
 
@@ -64,6 +65,7 @@ public class DownLoadAty extends BaseActivity {
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
+                KLog.e(TAG,e.getMessage());
                 ToastUtils.showShort("文件下载失败！");
             }
         });

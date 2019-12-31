@@ -29,7 +29,24 @@ import static android.Manifest.permission.INTERNET;
 import static android.content.Context.WIFI_SERVICE;
 
 /**
- * 得到设备的相关信息
+ * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:得到设备的相关信息
+ * --判断设备是否 rooted {@link #isDeviceRooted()}
+ * --判断设备 ADB 是否可用 {@link #isAdbEnabled()}
+ * --获取设备系统版本号 {@link #getSDKVersionName()}
+ * --获取设备系统版本码 {@link #getSDKVersionCode()}
+ * --获取设备 AndroidID {@link #getAndroidID()}
+ * --返回设备 MAC 地址 {@link #getMacAddress()}
+ * --获取设备 MAC 地址 {@link #getMacAddress(String... excepts)}
+ * --获取设备厂商 {@link #getManufacturer()}
+ * --获取设备型号 {@link #getModel()}
+ * --返回该设备支持的ABI的有序列表 {@link #getABIs()}
+ * --判断是否是平板 {@link #isTablet()}
+ * --判断是否是模拟器 {@link #isEmulator()}
+ * --获取唯一设备 UUID {@link #getUniqueDeviceId()}
+ * --获取唯一设备 UUID {@link #getUniqueDeviceId(String prefix)}
+ * --判断是否同一设备 {@link #isSameDevice(String uniqueDeviceId)}
  */
 public final class DeviceUtils {
 
@@ -285,7 +302,7 @@ public final class DeviceUtils {
 
     /**
      * Return the manufacturer of the product/hardware.
-     *  获取设备厂商
+     * 获取设备厂商
      * <p>e.g. Xiaomi</p>
      *
      * @return the manufacturer of the product/hardware
@@ -314,7 +331,8 @@ public final class DeviceUtils {
     /**
      * Return an ordered list of ABIs supported by this device. The most preferred ABI is the first
      * element in the list.
-     *获取设备 ABIs
+     * 返回该设备支持的ABI的有序列表
+     *
      * @return an ordered list of ABIs supported by this device
      */
     public static String[] getABIs() {
@@ -383,12 +401,12 @@ public final class DeviceUtils {
     }
 
 
-    private static final    String KEY_UDID = "KEY_UDID";
+    private static final String KEY_UDID = "KEY_UDID";
     private volatile static String udid;
 
     /**
      * Return the unique device id.
-     * 获取唯一设备 ID
+     * 获取唯一设备 UUID
      * <pre>{1}{UUID(macAddress)}</pre>
      * <pre>{2}{UUID(androidId )}</pre>
      * <pre>{9}{UUID(random    )}</pre>
@@ -440,6 +458,7 @@ public final class DeviceUtils {
 
     /**
      * 判断是否同一设备
+     *
      * @param uniqueDeviceId
      * @return
      */

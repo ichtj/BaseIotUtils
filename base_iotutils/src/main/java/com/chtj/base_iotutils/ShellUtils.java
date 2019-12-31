@@ -1,14 +1,17 @@
 package com.chtj.base_iotutils;
-
-import android.util.Log;
-
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Shell相关工具类
+ *
+ * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:adb Shell相关工具类
+ * Command执行结果 CommandResult
+ * --执行命令一条 {@link #execCommand(String command, boolean isRoot)}
+ * --执行命令-多条 {@link #execCommand(String[] commands, boolean isRoot)}
  */
 public class ShellUtils {
     public static final String TAG="ShellUtils";
@@ -28,7 +31,7 @@ public class ShellUtils {
     }
 
     /**
-     * 执行命令—单条
+     * 执行命令一条
      */
     public static CommandResult execCommand(String command, boolean isRoot) {
         String[] commands = {command};
@@ -70,19 +73,19 @@ public class ShellUtils {
             while ((s = errorResult.readLine()) != null) errorMsg.append(s);
             commandResult.successMsg = successMsg.toString();
             commandResult.errorMsg = errorMsg.toString();
-            Log.i(TAG, commandResult.result + " | " + commandResult.successMsg
+            KLog.i(TAG, commandResult.result + " | " + commandResult.successMsg
                     + " | " + commandResult.errorMsg);
         } catch (IOException e) {
             String errmsg = e.getMessage();
             if (errmsg != null) {
-                Log.e(TAG, errmsg);
+                KLog.e(TAG, errmsg);
             } else {
                 e.printStackTrace();
             }
         } catch (Exception e) {
             String errmsg = e.getMessage();
             if (errmsg != null) {
-                Log.e(TAG, errmsg);
+                KLog.e(TAG, errmsg);
             } else {
                 e.printStackTrace();
             }
@@ -94,7 +97,7 @@ public class ShellUtils {
             } catch (IOException e) {
                 String errmsg = e.getMessage();
                 if (errmsg != null) {
-                    Log.e(TAG, errmsg);
+                    KLog.e(TAG, errmsg);
                 } else {
                     e.printStackTrace();
                 }

@@ -2,8 +2,8 @@ package com.chtj.base_iotutils.screen_adapta;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-import android.util.Log;
 
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.lang.reflect.Field;
@@ -141,7 +141,7 @@ public final class AdaptScreenUtils {
                 DisplayMetrics dm = (DisplayMetrics) metricsField.get(resources);
                 if (dm != null) dm.xdpi = newXdpi;
             } catch (Exception e) {
-                Log.e("AdaptScreenUtils", "applyMetricsFields: " + e);
+                KLog.e("AdaptScreenUtils", "applyMetricsFields: " + e.getMessage());
             }
         }
     }
@@ -151,7 +151,7 @@ public final class AdaptScreenUtils {
             //根据resoure,填充数据到field中
             return (DisplayMetrics) field.get(resources);
         } catch (Exception e) {
-            Log.e("AdaptScreenUtils", "getMetricsFromField: " + e);
+            KLog.e("AdaptScreenUtils", "getMetricsFromField: " + e);
             return null;
         }
     }

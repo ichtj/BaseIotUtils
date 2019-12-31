@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
-import com.chtj.base_iotutils.ShellUtils;
+import com.chtj.base_iotutils.KLog;
+import com.chtj.base_iotutils.notify.INotificationLinstener;
+import com.chtj.base_iotutils.notify.NotificationUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
@@ -30,24 +31,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                ShellUtils.CommandResult result0=ShellUtils.execCommand("stop ril-daemon",true);
-                if(result0.result==0){
-                    Log.e(TAG,"执行成功0");
-                }else{
-                    Log.e(TAG,"errMeg0="+result0.errorMsg);
-                }
-                ShellUtils.CommandResult result=ShellUtils.execCommand("echo \"AT+CRESET\" > /dev/ttyUSB3",true);
-                if(result.result==0){
-                    Log.e(TAG,"执行成功1");
-                }else{
-                    Log.e(TAG,"errMeg1="+result.errorMsg);
-                }
-            }
-        }.start();
+
     }
 
     @Override
@@ -71,11 +55,34 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_socket://Socket Tcp/upd
                 startActivity(new Intent(mContext, SocketAty.class));
                 break;
+            case R.id.btn_notification_open://notification display
+                NotificationUtils.getInstance()
+                        .setINotificationLinstener(new INotificationLinstener() {
+                            @Override
+                            public void enableStatus(boolean isEnable) {
+                                KLog.e(TAG,"isEnable="+isEnable);
+                            }
+                        })
+                        .setNotifyId(10)
+                        .setNotificationParm("BaseIotUtils"
+                                ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
+                                ,"oh my god!"
+                                ,false
+                                ,true)
+                        .exeuNotify();
+                NotificationUtils.getInstance().setAppName("ssss");
+                NotificationUtils.getInstance().setRemarks("AAAAA");
+                NotificationUtils.getInstance().setPrompt("gggggg");
+                break;
+            case R.id.btn_notification_close://关闭notification
+                NotificationUtils.getInstance().closeNotify();
+                break;
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        NotificationUtils.getInstance().closeNotify();
     }
 }

@@ -2,10 +2,25 @@ package com.chtj.base_iotutils;
 
 
 /**
- * 数据转换工具
- * @date：2019/4/03 16:15
+ * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:进制转换工具类
+ * --判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数 {@link #isOdd(int)}
+ * --将int转成byte {@link #intToByte(int number)}
+ * --将int转成hex字符串 {@link #intToHex(int number)}
+ * --字节转十进制 {@link #byteToDec(byte b)}
+ * --字节数组转十进制 {@link #bytesToDec(byte[] bytes)}
+ * --Hex字符串转int {@link #hexToInt(String inHex)}
+ * --字节转十六进制字符串 {@link #byteToHex(byte num)}
+ * --十六进制转byte字节 {@link #hexToByte(String hexString)}
+ * --字节数组转十六进制 {@link #encodeHexString(byte[] byteArray)}
+ * --十六进制转字节数组 {@link #decodeHexString(String hexString)}
+ * --十进制转十六进制 {@link #decToHex(int dec)}
+ * --十六进制转十进制 {@link #hexToDec(String hex)}
+ *
+ *
  */
-public class HexUtils {
+public class DataConvertUtils {
 
     /**
      * 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数

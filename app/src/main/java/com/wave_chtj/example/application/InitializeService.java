@@ -4,6 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 
@@ -37,7 +38,7 @@ public class InitializeService extends IntentService {
     }
 
     private void performInit() {
-        //KLog.init(true);
+        KLog.init(true);
         //KLog.d("performInit begin:" + System.currentTimeMillis());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //1080,1920是为了适配而去设置相关的值

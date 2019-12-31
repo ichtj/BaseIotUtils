@@ -15,9 +15,7 @@
  */
 
 package com.chtj.base_iotutils.serialport;
-
-import android.util.Log;
-
+import com.chtj.base_iotutils.KLog;
 import java.io.File;
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -38,10 +36,10 @@ public class SerialPort {
 
 	public SerialPort(File device, int baudrate, int flags) throws SecurityException, IOException {
 
-		/* Check access permission */
+		/** Check access permission */
 		if (!device.canRead() || !device.canWrite()) {
 			try {
-				/* Missing read/write permission, trying to chmod the file */
+				/** Missing read/write permission, trying to chmod the file */
 				Process su;
 				su = Runtime.getRuntime().exec("/system/bin/su");
 				String cmd = "chmod 666 " + device.getAbsolutePath() + "\n"
@@ -58,9 +56,9 @@ public class SerialPort {
 		}
 
 		mFd = open(device.getAbsolutePath(), baudrate, flags);
-		Log.d(TAG, "SerialPort:open success ");
+		KLog.d(TAG, "SerialPort:open success ");
 		if (mFd == null) {
-			Log.e(TAG, "native open returns null");
+			KLog.e(TAG, "native open returns null");
 			throw new IOException();
 		}
 		mFileInputStream = new FileInputStream(mFd);
@@ -94,16 +92,16 @@ public class SerialPort {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new SecurityException("执行 /system/bin/su chmod 666 xx出现异常,请检查该串口是否授予权限");
+				throw new SecurityException("执行 /system/bin/su chmod 666 出现异常,请检查该串口是否授予权限");
 			}
 		}
 
 		mFd = open2(device.getAbsolutePath(), baudrate, dataBits,stopBits,parity);
 		if (mFd == null) {
-			Log.e(TAG, "native open returns null");
+			KLog.e(TAG, "native open returns null");
 			throw new IOException();
 		}else {
-			Log.d(TAG, "native open != null");
+			KLog.d(TAG, "native open != null");
 		}
 		mFileInputStream = new FileInputStream(mFd);
 		mFileOutputStream = new FileOutputStream(mFd);

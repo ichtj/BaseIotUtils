@@ -1,7 +1,6 @@
 package com.chtj.base_iotutils.download.progress;
 
-import android.util.Log;
-
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.bus.RxBus;
 import com.chtj.base_iotutils.bus.RxSubscriptions;
 import com.chtj.base_iotutils.download.DownLoadStateBean;
@@ -69,7 +68,7 @@ public abstract class ProgressCallBack<T> {
                 if (is != null) is.close();
                 if (fos != null) fos.close();
             } catch (IOException e) {
-                Log.e("saveFile", e.getMessage());
+                KLog.e("saveFile", e.getMessage());
             }
         }
     }

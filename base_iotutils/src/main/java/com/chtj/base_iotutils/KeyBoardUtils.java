@@ -7,8 +7,12 @@ import android.widget.EditText;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 
 /**
- * 打开关闭软键盘
+ *
  * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:打开关闭软键盘
+ * --打卡软键盘 {@link #openKeybord(EditText mEditText)}
+ * --关闭软键盘 {@link #closeKeybord(EditText mEditText)}
  */
 public class KeyBoardUtils {
     public KeyBoardUtils() {

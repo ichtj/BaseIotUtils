@@ -40,7 +40,7 @@ baseTcpSocket.close();
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.3'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.4'
 }
 ```
 
@@ -68,7 +68,7 @@ public class App extends Application {
 
 ### base_iotutils 常用工具类
 
-- 进制转换类 | HexUtils
+- 进制转换类 | DataConvertUtils
 
 - 设备相关 | DeviceUtils
 
@@ -84,7 +84,7 @@ public class App extends Application {
 
 - 后台服务类 保活 | AbsWorkService
 
-- App相关信息工具类 | AppUtils
+- PackagesName相关信息工具类 | PackagesUtils
 
 - 屏幕适配相关 | AdaptScreenUtils
 
@@ -92,11 +92,36 @@ public class App extends Application {
 
 - 日志管理 | KLog
 
-- 文件操作 | FileUtil
+- 文件操作 | FileTxtUtil
 
 - 事件管理 | RxBus
 
 - 文件下载 | DownLoadManager
+
+- Notification通知 | NotificationUtils
+ ```java
+     //初始化并显示
+     NotificationUtils.getInstance()
+         .setINotificationLinstener(new INotificationLinstener() {
+             @Override
+             public void enableStatus(boolean isEnable) {
+                 KLog.e(TAG,"isEnable="+isEnable);
+             }
+         })
+         .setNotifyId(10)
+         .setNotificationParm("BaseIotUtils"
+                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
+                 ,"oh my god!"
+                 ,false
+                 ,true)
+         .exeuNotify();
+     //更改相关信息
+     NotificationUtils.getInstance().setAppName("ssss");
+     NotificationUtils.getInstance().setRemarks("AAAAA");
+     NotificationUtils.getInstance().setPrompt("gggggg");
+     //关闭通知
+     NotificationUtils.getInstance().closeNotify();
+ ```
 
 # 屏幕适配
 

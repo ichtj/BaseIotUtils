@@ -64,6 +64,9 @@
         <!--Socket udp/tcp-->
         <activity android:name=".socket.SocketAty"
             android:theme="@style/AppTheme"/>
+        <!--notification display-->
+        <activity android:name=".notification.NotificationAty"
+            android:theme="@style/AppTheme"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->

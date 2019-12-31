@@ -1,7 +1,6 @@
 package com.wave_chtj.example.file;
 
 import android.Manifest;
-import android.app.Activity;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -10,7 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chtj.base_iotutils.FileUtil;
+import com.chtj.base_iotutils.FileTxtUtil;
 import com.chtj.base_iotutils.ToastUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.R;
@@ -67,7 +66,7 @@ public class FileOperatAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_write:
                 String content = etContent.getText().toString();
-                boolean writeResult = FileUtil.writeFileData(filePath, content, true);
+                boolean writeResult = FileTxtUtil.writeFileData(filePath, content, true);
                 if (writeResult) {
                     tvResult.append("\n\r " + content + " -> 写入成功");
                 } else {
@@ -75,7 +74,7 @@ public class FileOperatAty extends BaseActivity {
                 }
                 break;
             case R.id.btn_del://删除文件
-                boolean delResult = FileUtil.delFile(filePath);
+                boolean delResult = FileTxtUtil.delFile(filePath);
                 if (delResult) {
                     tvResult.append("\n\r 删除成功！");
                 } else {
@@ -83,7 +82,7 @@ public class FileOperatAty extends BaseActivity {
                 }
                 break;
             case R.id.btn_read: //读数据
-                String readResult = FileUtil.readFileData(filePath);
+                String readResult = FileTxtUtil.readFileData(filePath);
                 if (readResult != null && !readResult.equals("")) {
                     tvResult.append("\n\r " + readResult);
                 } else {

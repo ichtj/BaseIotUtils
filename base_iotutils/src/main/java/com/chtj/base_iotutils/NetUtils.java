@@ -16,6 +16,59 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 
+/**
+ * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:网络判断工具类
+ * --获取网络类型 {@link #getNetworkType()}
+ * --获取网络类型名称 {@link #getNetworkTypeName()}
+ * --获取当前网络的状态 {@link #getCurrentNetworkState()}
+ * --获取当前网络的类型 {@link #getCurrentNetworkType()}
+ * --获取当前网络的具体类型 {@link #getCurrentNetworkSubtype()}
+ * --判断当前网络是否已经连接 {@link #isConnectedByState()}
+ * --判断当前网络是否正在连接 {@link #isConnectingByState()}
+ * --判断当前网络是否已经断开 {@link #isDisconnectedByState()}
+ * --判断当前网络是否正在断开 {@link #isDisconnectingByState()}
+ * --判断当前网络是否已经暂停 {@link #isSuspendedByState()}
+ * --判断当前网络是否处于未知状态中 {@link #isUnknownByState()}
+ * --判断当前网络的类型是否是蓝牙 {@link #isBluetoothByType()}
+ * --判断当前网络的类型是否是虚拟网络 {@link #isDummyByType()}
+ * --判断当前网络的类型是否是ETHERNET {@link #isEthernetByType()}
+ * --判断当前网络的类型是否是移动网络 {@link #isMobileByType()}
+ * --判断当前网络的类型是否是MobileDun {@link #isMobileDunByType()}
+ * --判断当前网络的类型是否是MobileHipri {@link #isMobileHipriByType()}
+ * --判断当前网络的类型是否是MobileMms {@link #isMobileMmsByType()}
+ * --判断当前网络的类型是否是MobileSupl {@link #isMobileSuplByType()}
+ * --判断当前网络的类型是否是Wifi {@link #isWifiByType()}
+ * --判断当前网络的类型是否是Wimax {@link #isWimaxByType()}
+ * --判断当前网络的具体类型是否是1XRTT {@link #is1XRTTBySubtype()}
+ * --判断当前网络的具体类型是否是CDMA（Either IS95A or IS95B） {@link #isCDMABySubtype()}
+ * --判断当前网络的具体类型是否是EDGE {@link #isEDGEBySubtype()}
+ * --判断当前网络的具体类型是否是EHRPD {@link #isEHRPDBySubtype()}
+ * --判断当前网络的具体类型是否是EVDO_0 {@link #isEVDO_0BySubtype()}
+ * --判断当前网络的具体类型是否是EVDO_A {@link #isEVDO_ABySubtype()}
+ * --判断当前网络的具体类型是否是EDGE {@link #isEVDO_BBySubtype()}
+ * --判断当前网络的具体类型是否是GPRS {@link #isGPRSBySubtype()}
+ * --判断当前网络的具体类型是否是HSDPA {@link #isHSDPABySubtype()}
+ * --判断当前网络的具体类型是否是HSPA {@link #isHSPABySubtype()}
+ * --判断当前网络的具体类型是否是HSPAP {@link #isHSPAPBySubtype()}
+ * --判断当前网络的具体类型是否是HSUPA {@link #isHSUPABySubtype()}
+ * --判断当前网络的具体类型是否是IDEN {@link #isIDENBySubtype()}
+ * --判断当前网络的具体类型是否是LTE {@link #isLTEBySubtype()}
+ * --判断当前网络的具体类型是否是UMTS {@link #isUMTSBySubtype()}
+ * --判断当前网络的具体类型是否是UNKNOWN {@link #isUNKNOWNBySubtype()}
+ * --判断当前网络是否是中国移动2G网络 {@link #isChinaMobile2G()}
+ * --判断当前网络是否是中国联通2G网络 {@link #isChinaUnicom2G()}
+ * --判断当前网络是否是中国联通3G网络 {@link #isChinaUnicom3G()}
+ * --判断当前网络是否是中国电信2G网络 {@link #isChinaTelecom2G()}
+ * --判断当前网络是否是中国电信3G网络 {@link #isChinaTelecom3G()}
+ * --获取Wifi的状态，需要ACCESS_WIFI_STATE权限 {@link #getWifiState()}
+ * --判断Wifi是否打开，需要ACCESS_WIFI_STATE权限 {@link #isWifiOpen()}
+ * --设置Wifi，需要CHANGE_WIFI_STATE权限 {@link #setWifi(boolean enable)()}
+ * --判断移动网络是否打开，需要ACCESS_NETWORK_STATE权限 {@link #isMobileNetworkOpen()}
+ * --获取本机IP地址 {@link #getIpAddress()()}
+ *
+ */
 public class NetUtils {
     /**
      * 网络类型 - 无连接
@@ -31,13 +84,13 @@ public class NetUtils {
 
 
     /**
-     * Get network type
+     * 获取网络类型
      *
-     * @return 网络状态
+     * @return 网络类型
      */
     public static int getNetworkType() {
         ConnectivityManager connectivityManager
-                = (ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
+                = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connectivityManager == null
                 ? null
@@ -47,13 +100,13 @@ public class NetUtils {
 
 
     /**
-     * Get network type name
+     * 获取网络类型名称
      *
      * @return NetworkTypeName
      */
     public static String getNetworkTypeName() {
         ConnectivityManager manager
-                = (ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
+                = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo;
         String type = NETWORK_TYPE_DISCONNECT;
@@ -67,16 +120,14 @@ public class NetUtils {
             String typeName = networkInfo.getTypeName();
             if ("WIFI".equalsIgnoreCase(typeName)) {
                 type = NETWORK_TYPE_WIFI;
-            }
-            else if ("MOBILE".equalsIgnoreCase(typeName)) {
+            } else if ("MOBILE".equalsIgnoreCase(typeName)) {
                 String proxyHost = android.net.Proxy.getDefaultHost();
                 type = TextUtils.isEmpty(proxyHost)
                         ? (isFastMobileNetwork()
                         ? NETWORK_TYPE_3G
                         : NETWORK_TYPE_2G)
                         : NETWORK_TYPE_WAP;
-            }
-            else {
+            } else {
                 type = NETWORK_TYPE_UNKNOWN;
             }
         }
@@ -85,13 +136,13 @@ public class NetUtils {
 
 
     /**
-     * Whether is fast mobile network
+     * 是否是快速的移动网络
      *
      * @return FastMobileNetwork
      */
     private static boolean isFastMobileNetwork() {
         TelephonyManager telephonyManager
-                = (TelephonyManager)  BaseIotUtils.getContext().getSystemService(
+                = (TelephonyManager) BaseIotUtils.getContext().getSystemService(
                 Context.TELEPHONY_SERVICE);
         if (telephonyManager == null) {
             return false;
@@ -143,7 +194,7 @@ public class NetUtils {
      */
     public static NetworkInfo.State getCurrentNetworkState() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
+                = ((ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null ? networkInfo.getState() : null;
     }
@@ -156,7 +207,7 @@ public class NetUtils {
      */
     public static int getCurrentNetworkType() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
+                = ((ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null
                 ? networkInfo.getType()
@@ -171,7 +222,7 @@ public class NetUtils {
      */
     public static int getCurrentNetworkSubtype() {
         NetworkInfo networkInfo
-                = ((ConnectivityManager)  BaseIotUtils.getContext().getSystemService(
+                = ((ConnectivityManager) BaseIotUtils.getContext().getSystemService(
                 Context.CONNECTIVITY_SERVICE)).getActiveNetworkInfo();
         return networkInfo != null
                 ? networkInfo.getSubtype()
@@ -250,8 +301,7 @@ public class NetUtils {
     public static boolean isBluetoothByType() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkType() ==
                     ConnectivityManager.TYPE_BLUETOOTH;
         }
@@ -267,8 +317,7 @@ public class NetUtils {
     public static boolean isDummyByType() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkType() ==
                     ConnectivityManager.TYPE_DUMMY;
         }
@@ -284,8 +333,7 @@ public class NetUtils {
     public static boolean isEthernetByType() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkType() ==
                     ConnectivityManager.TYPE_ETHERNET;
         }
@@ -409,8 +457,7 @@ public class NetUtils {
     public static boolean isEHRPDBySubtype() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkSubtype() ==
                     TelephonyManager.NETWORK_TYPE_EHRPD;
         }
@@ -448,8 +495,7 @@ public class NetUtils {
     public static boolean isEVDO_BBySubtype() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.GINGERBREAD) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkSubtype() ==
                     TelephonyManager.NETWORK_TYPE_EVDO_B;
         }
@@ -498,8 +544,7 @@ public class NetUtils {
     public static boolean isHSPAPBySubtype() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB_MR2) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkSubtype() ==
                     TelephonyManager.NETWORK_TYPE_HSPAP;
         }
@@ -537,8 +582,7 @@ public class NetUtils {
     public static boolean isLTEBySubtype() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             return false;
-        }
-        else {
+        } else {
             return getCurrentNetworkSubtype() ==
                     TelephonyManager.NETWORK_TYPE_LTE;
         }
@@ -628,8 +672,7 @@ public class NetUtils {
                 Context.WIFI_SERVICE));
         if (wifiManager != null) {
             return wifiManager.getWifiState();
-        }
-        else {
+        } else {
             throw new Exception("wifi device not found!");
         }
     }

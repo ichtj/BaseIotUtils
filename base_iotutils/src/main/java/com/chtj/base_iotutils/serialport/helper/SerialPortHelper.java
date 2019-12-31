@@ -1,6 +1,5 @@
 package com.chtj.base_iotutils.serialport.helper;
 
-import android.content.Context;
 import android.os.Handler;
 
 import java.io.File;
@@ -9,7 +8,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import com.chtj.base_iotutils.HexUtils;
+import com.chtj.base_iotutils.DataConvertUtils;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.entity.ComEntity;
 import com.chtj.base_iotutils.serialport.SerialPort;
@@ -24,15 +23,15 @@ public class SerialPortHelper {
     private SerialPort port = null;//串口控制
     private OnComListener onComListener;//数据回调
     private ComEntity comEntity;
-    private static boolean isOpen = false;//串口是否打开
-    //定时检查串口是否正常
-    private Handler handler = new Handler();
+    //串口是否打开 只有在心跳包检测一直执行时才能实时获取串口状态是否正常
+    private static boolean isOpen = false;
     //是否正在操作，一般存在两个状态
     //是否正在执行心跳包检测
     private boolean isExecuteHeartBeat = false;
     //是否正在读写
     private boolean isExecuteRw = false;
-
+    //定时检查串口是否正常
+    private Handler handler = new Handler();
     /**
      * 注册串口相关的数据监听
      *
@@ -41,6 +40,7 @@ public class SerialPortHelper {
     public void setOnComListener(OnComListener onComListener) {
         this.onComListener = onComListener;
     }
+
 
     //初始化时默认开启读取线程
     public SerialPortHelper(ComEntity comEntity) {
@@ -89,7 +89,7 @@ public class SerialPortHelper {
                                 //没有超时 获取到了数据
                                 byte[] temporaryComm = new byte[readSize];
                                 port.getInputStream().read(temporaryComm);
-                                KLog.d(TAG, "心跳包返回数据：" + HexUtils.encodeHexString(temporaryComm));
+                                KLog.d(TAG, "心跳包返回数据：" + DataConvertUtils.encodeHexString(temporaryComm));
                                 isNormal = true;
                                 break;
                             }
@@ -303,7 +303,7 @@ public class SerialPortHelper {
                             bytes[count] = (byte) readNum;
                             //检查数据头是否正确
                             if (count <= comEntity.getHeadDataList().size() - 1 && !comEntity.getHeadDataList().contains(bytes[count])) {
-                                //KLog.d(TAG,"count="+count+","+!comEntity.getHeadDataList().contains(bytes[count])+",data="+HexUtils.byteToHex(bytes[count]));
+                                //KLog.d(TAG,"count="+count+","+!comEntity.getHeadDataList().contains(bytes[count])+",data="+DataConvertUtils.byteToHex(bytes[count]));
                                 break;
                             }
                             if (count >= comEntity.getDataArrayStartIndex() && dataArrayCount <= dataArrayLength.length - 1) {
@@ -312,11 +312,11 @@ public class SerialPortHelper {
                                 dataArrayLength[dataArrayCount] = bytes[count];
                                 if (dataArrayCount == dataArrayLength.length - 1) {
                                     //证明dataArrayLength读取完毕
-                                    String dataLenHex = HexUtils.encodeHexString(dataArrayLength);
+                                    String dataLenHex = DataConvertUtils.encodeHexString(dataArrayLength);
                                     if (dataLenHex.length() % 2 == 1) {
                                         dataLenHex = "0" + dataLenHex;//高位补0
                                     }
-                                    datalength = HexUtils.hexToDec(dataLenHex) + comEntity.getFixedLength();
+                                    datalength = DataConvertUtils.hexToDec(dataLenHex) + comEntity.getFixedLength();
                                     KLog.d(TAG, "数据包长度=" + datalength);
                                 }
                                 ++dataArrayCount;
@@ -354,12 +354,12 @@ public class SerialPortHelper {
             boolean isSuccessful = false;
             if (onComListener != null) {
                 if (bytes != null && bytes.length > 0) {
-                    //KLog.d(TAG, "数据接收完成了噢,完整的数据为1：" + HexUtils.encodeHexString(bytes));
+                    //KLog.d(TAG, "数据接收完成了噢,完整的数据为1：" + DataConvertUtils.encodeHexString(bytes));
                     byte[] newbytes = new byte[(int) datalength];
                     System.arraycopy(bytes, 0, newbytes, 0, (int) datalength);
                     onComListener.readCommand(newbytes, flag);
                     isSuccessful = true;//正常情况下到这里都为true
-                    //KLog.d(TAG, "数据接收完成了噢,完整的数据为2：" + HexUtils.encodeHexString(newbytes));
+                    //KLog.d(TAG, "数据接收完成了噢,完整的数据为2：" + DataConvertUtils.encodeHexString(newbytes));
                 } else {
                     isSuccessful = false;
                     onComListener.readCommand(null, flag);

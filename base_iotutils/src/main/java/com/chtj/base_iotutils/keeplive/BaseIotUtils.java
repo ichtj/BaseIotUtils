@@ -10,13 +10,11 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.util.Log;
-
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.DefaultAutoAdaptStrategy;
 import com.chtj.base_iotutils.screen_adapta.AdaptScreenUtils;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +32,18 @@ public final class BaseIotUtils {
     private SCREEN_TYPE screen_type = SCREEN_TYPE.HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
-
+    //唤醒的周期
+    //6分钟
+    public static final int DEFAULT_WAKE_UP_INTERVAL = 6 * 60 * 1000;
+    //3分钟
+    private static final int MINIMAL_WAKE_UP_INTERVAL = 3 * 60 * 1000;
+    //唤醒的间隔时间
+    static int sWakeUpInterval = DEFAULT_WAKE_UP_INTERVAL;
+    //保存需要启动的Service
+    static Class<? extends AbsWorkService> sServiceClass;
+    //是否已经初始化过
+    static boolean sInitialized;
+    private static final Map<Class<? extends Service>, ServiceConnection> BIND_STATE_MAP = new HashMap<>();
 
     private static volatile BaseIotUtils sInstance;
 
@@ -86,14 +95,14 @@ public final class BaseIotUtils {
     public static void autoConvertDensityOfGlobal(Activity activity) {
         if (BaseIotUtils.instance().mAutoScreenAdaptation) {
             if (BaseIotUtils.instance().screen_type == SCREEN_TYPE.WIDTH) {
-                Log.e(TAG, "开启了适配 并且以宽度进行适配");
+                KLog.d(TAG, "开启了适配 并且以宽度进行适配");
                 AdaptScreenUtils.adaptWidth(activity.getResources(), BaseIotUtils.instance().defaultWidth);
             } else {
-                Log.e(TAG, "开启了适配 并且以高度进行适配");
+                KLog.d(TAG, "开启了适配 并且以高度进行适配");
                 AdaptScreenUtils.adaptHeight(activity.getResources(), BaseIotUtils.instance().defaultHeight);
             }
         } else {
-            Log.e(TAG, "当前未开启适配 如需设置请在application中将setAutoScreenAdaptation 设置为true");
+            KLog.d(TAG, "当前未开启适配 如需设置请在application中将setAutoScreenAdaptation 设置为true");
         }
     }
 
@@ -110,21 +119,6 @@ public final class BaseIotUtils {
             application.registerActivityLifecycleCallbacks(mActivityLifecycleImp);
         }
     }
-
-
-    //唤醒的周期
-    //6分钟
-    public static final int DEFAULT_WAKE_UP_INTERVAL = 6 * 60 * 1000;
-    //3分钟
-    private static final int MINIMAL_WAKE_UP_INTERVAL = 3 * 60 * 1000;
-    //唤醒的间隔时间
-    static int sWakeUpInterval = DEFAULT_WAKE_UP_INTERVAL;
-    //保存需要启动的Service
-    static Class<? extends AbsWorkService> sServiceClass;
-    //是否已经初始化过
-    static boolean sInitialized;
-    private static final Map<Class<? extends Service>, ServiceConnection> BIND_STATE_MAP = new HashMap<>();
-
 
     /**
      * 获取ApplicationContext

@@ -13,7 +13,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.chtj.base_iotutils.HexUtils;
+import com.chtj.base_iotutils.DataConvertUtils;
 import com.chtj.base_iotutils.entity.ComEntity;
 import com.chtj.base_iotutils.entity.HeartBeatEntity;
 import com.chtj.base_iotutils.serialport.SerialPortFinder;
@@ -116,7 +116,7 @@ public class SerialPortAty extends BaseActivity {
                 serialPortHelper.setOnComListener(new OnComListener() {
                     @Override
                     public void writeCommand(byte[] comm, int flag) {
-                        String writeData = "writeCommand>>> comm=" + HexUtils.encodeHexString(comm) + ",flag=" + flag;
+                        String writeData = "writeCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
                         Log.e(TAG, writeData);
                         Message message = handler.obtainMessage();
                         message.obj = writeData;
@@ -125,7 +125,7 @@ public class SerialPortAty extends BaseActivity {
 
                     @Override
                     public void readCommand(byte[] comm, int flag) {
-                        String readData = "readCommand>>> comm=" + HexUtils.encodeHexString(comm) + ",flag=" + flag;
+                        String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
                         Log.e(TAG, readData);
                         Message message = handler.obtainMessage();
                         message.obj = readData;
@@ -171,7 +171,9 @@ public class SerialPortAty extends BaseActivity {
 
                 });
                 //开启串口
-                serialPortHelper.openSerialPort();
+                if(serialPortHelper!=null){
+                    serialPortHelper.openSerialPort();
+                }
                 break;
             case R.id.btn_test_send://发送命令
                 new Thread(new Runnable() {
@@ -187,7 +189,7 @@ public class SerialPortAty extends BaseActivity {
                             byte[] newbytes = new byte[bytes.length + 1];
                             System.arraycopy(bytes, 0, newbytes, 0, 6);
                             newbytes[newbytes.length - 1] = crcNum;//填充校验值
-                            //Log.e(TAG, "检测升级>>>计算校验值后得command[" + i + "]=" + HexUtils.encodeHexString(newbytes));
+                            //Log.e(TAG, "检测升级>>>计算校验值后得command[" + i + "]=" + DataConvertUtils.encodeHexString(newbytes));
                             bytesList.add(newbytes);
                         }
                         if (bytesList.size() > 0) {
@@ -198,13 +200,17 @@ public class SerialPortAty extends BaseActivity {
                         }*/
                         //单个命令发送
                         String hexComm = etCommand.getText().toString().trim();
-                        byte[] comm = HexUtils.decodeHexString(hexComm);
-                        serialPortHelper.setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
+                        byte[] comm = DataConvertUtils.decodeHexString(hexComm);
+                        if(serialPortHelper!=null){
+                            serialPortHelper.setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
+                        }
                     }
                 }).start();
                 break;
             case R.id.btn_close:
-                serialPortHelper.closeSerialPort();
+                if(serialPortHelper!=null){
+                    serialPortHelper.closeSerialPort();
+                }
                 break;
             case R.id.btn_clear://清除结果
                 tvResult.setText("");

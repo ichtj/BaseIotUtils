@@ -5,7 +5,7 @@ package com.chtj.base_iotutils.serialport.helper;
  * author chtj
  */
 public interface OnComListener {
-    //命令写入成功
+    //命令写入
     void writeCommand(byte[] comm, int flag);
     //获取到了数据流中的数据
     void readCommand(byte[] comm, int flag);

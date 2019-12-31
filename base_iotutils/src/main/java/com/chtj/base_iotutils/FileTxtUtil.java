@@ -1,13 +1,20 @@
 package com.chtj.base_iotutils;
 
-import android.util.Log;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 
-public class FileUtil {
-    private static final String TAG = FileUtil.class.getSimpleName();
+/**
+ * @author chtj
+ * create by chtj on 2019-8-6
+ * desc:文件保存为TXT的工具类
+ * --写入数据 {@link #writeFileData(String filename, String content, boolean isCover)}
+ * --读取文件内容 {@link #readFileData(String fileName)}
+ * --修改文件名称 {@link #reFileName(String sourcePath, String goalPath)}
+ * --删除文件 {@link #delFile(String fileName)}
+ */
+public class FileTxtUtil {
+    private static final String TAG = FileTxtUtil.class.getSimpleName();
 
     /**
      * 写入数据
@@ -32,7 +39,7 @@ public class FileUtil {
             return true;
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "writeFileData: ", e);
+            KLog.e(TAG, "writeFileData: "+e.getMessage());
         }
         return false;
     }
@@ -59,7 +66,7 @@ public class FileUtil {
             result = new String(buffer, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "readFileData: ", e);
+            KLog.e(TAG, "readFileData: "+ e.getMessage());
         }
         return result;
     }
