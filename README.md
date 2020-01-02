@@ -99,29 +99,7 @@ public class App extends Application {
 - 文件下载 | DownLoadManager
 
 - Notification通知 | NotificationUtils
- ```java
-     //初始化并显示
-     NotificationUtils.getInstance()
-         .setINotificationLinstener(new INotificationLinstener() {
-             @Override
-             public void enableStatus(boolean isEnable) {
-                 KLog.e(TAG,"isEnable="+isEnable);
-             }
-         })
-         .setNotifyId(10)
-         .setNotificationParm("BaseIotUtils"
-                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
-                 ,"oh my god!"
-                 ,false
-                 ,true)
-         .exeuNotify();
-     //更改相关信息
-     NotificationUtils.getInstance().setAppName("ssss");
-     NotificationUtils.getInstance().setRemarks("AAAAA");
-     NotificationUtils.getInstance().setPrompt("gggggg");
-     //关闭通知
-     NotificationUtils.getInstance().closeNotify();
- ```
+
 
 # 屏幕适配
 
@@ -139,7 +117,7 @@ public class App extends Application {
 
 ![image](/pic/file_write_read.png)
 
-# 文件下载
+# 文件下载 DownLoadManager
 ```java
        //downloadUrl 文件下载地址
        //destFileDir 存放地址
@@ -166,79 +144,106 @@ public class App extends Application {
                    }
                });
 ```
+
+# NotificationUtils 使用
+```java
+     //初始化并显示
+     NotificationUtils.getInstance()
+         .setINotificationLinstener(new INotificationLinstener() {
+             @Override
+             public void enableStatus(boolean isEnable) {
+                 KLog.e(TAG,"isEnable="+isEnable);
+             }
+         })
+         .setNotifyId(10)
+         .setNotificationParm("BaseIotUtils"
+                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
+                 ,"oh my god!"
+                 ,false
+                 ,true)
+         .exeuNotify();
+     //更改相关信息
+     NotificationUtils.getInstance().setAppName("ssss");
+     NotificationUtils.getInstance().setRemarks("AAAAA");
+     NotificationUtils.getInstance().setPrompt("gggggg");
+     //关闭通知
+     NotificationUtils.getInstance().closeNotify();
+ ```
+ 
 #串口使用
 ## 1.使用串口封装类
 ```java
-        //初始化串口工具类
+      HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
+      //初始化串口工具类
       ComEntity comEntity = new ComEntity(
-                              com//串口地址
-                              , baudrate//波特率
-                              , 6000//超时时间
-                              , 3//重试次数
-                              , null//心跳检测参数
-                      );
-                      //初始化数据
-                      SerialPortHelper.
-                              getInstance().
-                              setComEntity(comEntity).
-                              setOnComListener(new OnComListener() {
-                                  @Override
-                                  public void writeCommand(byte[] comm, int flag) {
-                                      String writeData = "writeCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                                      Log.e(TAG, writeData);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = writeData;
-                                      handler.sendMessage(message);
-                                  }
+              com//串口地址
+                    , baudrate//波特率
+                    , 6000//超时时间
+                    , 3//重试次数
+                    , null//心跳检测参数
+            );
+            //初始化数据
+            SerialPortHelper.
+                    getInstance().
+                    setComEntity(comEntity).
+                    setOnComListener(new OnComListener() {
+                        @Override
+                        public void writeCommand(byte[] comm, int flag) {
+                            String writeData = "writeCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
+                            Log.e(TAG, writeData);
+                            Message message = handler.obtainMessage();
+                            message.obj = writeData;
+                            handler.sendMessage(message);
+                        }
       
-                                  @Override
-                                  public void readCommand(byte[] comm, int flag) {
-                                      String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                                      Log.e(TAG, readData);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = readData;
-                                      handler.sendMessage(message);
-                                  }
+                        @Override
+                        public void readCommand(byte[] comm, int flag) {
+                            String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
+                            Log.e(TAG, readData);
+                            Message message = handler.obtainMessage();
+                            message.obj = readData;
+                            handler.sendMessage(message);
+                        }
       
-                                  @Override
-                                  public void writeComplet(int flag) {
-                                      String writeSuccessful = "writeComplet>>> flag=" + flag;
-                                      Log.e(TAG, writeSuccessful);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = writeSuccessful;
-                                      handler.sendMessage(message);
-                                  }
+                        @Override
+                        public void writeComplet(int flag) {
+                            String writeSuccessful = "writeComplet>>> flag=" + flag;
+                            Log.e(TAG, writeSuccessful);
+                            Message message = handler.obtainMessage();
+                            message.obj = writeSuccessful;
+                            handler.sendMessage(message);
+                        }
       
       
-                                  @Override
-                                  public void isReadTimeOut(int flag) {
-                                      String readTimeOut = "isReadTimeOut>>> flag=" + flag;
-                                      Log.e(TAG, readTimeOut);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = readTimeOut;
-                                      handler.sendMessage(message);
-                                  }
+                        @Override
+                        public void isReadTimeOut(int flag) {
+                            String readTimeOut = "isReadTimeOut>>> flag=" + flag;
+                            Log.e(TAG, readTimeOut);
+                            Message message = handler.obtainMessage();
+                            message.obj = readTimeOut;
+                            handler.sendMessage(message);
+                        }
       
-                                  @Override
-                                  public void isOpen(boolean isOpen) {
-                                      String comStatus = isOpen ? "isOpen>>>串口打开！" : "isOpen>>>串口关闭";
-                                      Log.e(TAG, comStatus);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = comStatus;
-                                      handler.sendMessage(message);
-                                  }
+                        @Override
+                        public void isOpen(boolean isOpen) {
+                            String comStatus = isOpen ? "isOpen>>>串口打开！" : "isOpen>>>串口关闭";
+                            Log.e(TAG, comStatus);
+                            Message message = handler.obtainMessage();
+                            message.obj = comStatus;
+                            handler.sendMessage(message);
+                        }
       
-                                  @Override
-                                  public void comStatus(boolean isNormal) {
-                                      String comStatus = isNormal ? "comStatus>>>串口正常！" : "comStatus>>>串口异常";
-                                      Log.e(TAG, comStatus);
-                                      Message message = handler.obtainMessage();
-                                      message.obj = comStatus;
-                                      handler.sendMessage(message);
-                                  }
+                        @Override
+                        public void comStatus(boolean isNormal) {
+                            String comStatus = isNormal ? "comStatus>>>串口正常！" : "comStatus>>>串口异常";
+                            Log.e(TAG, comStatus);
+                            Message message = handler.obtainMessage();
+                            message.obj = comStatus;
+                            handler.sendMessage(message);
+                        }
       
-                              }).
-                              openSerialPort();
+                    }).
+                    openSerialPort();
       //发送数据
       SerialPortHelper.getInstance().setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
       //关闭串口
@@ -270,7 +275,7 @@ public class App extends Application {
         port.close();
         
 ```
-# HelloDaemon 后台保活
+# 后台保活
 使用方式
 ```java
         //初始化后台保活Service
