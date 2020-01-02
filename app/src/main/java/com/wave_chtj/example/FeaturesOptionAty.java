@@ -31,7 +31,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
-
     }
 
     @Override

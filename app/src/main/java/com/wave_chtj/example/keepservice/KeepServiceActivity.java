@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.keeplive.IntentWrapper;
+import com.chtj.base_iotutils.notify.INotificationLinstener;
+import com.chtj.base_iotutils.notify.NotificationUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -14,6 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class KeepServiceActivity extends BaseActivity {
+    public static final String TAG="KeepServiceActivity";
     @BindView(R.id.btn_start)
     Button btnStart;
     @BindView(R.id.btn_white)
@@ -43,6 +47,20 @@ public class KeepServiceActivity extends BaseActivity {
             case R.id.btn_start:
                 TraceServiceImpl.sShouldStopService = false;
                 BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
+                NotificationUtils.getInstance()
+                        .setINotificationLinstener(new INotificationLinstener() {
+                            @Override
+                            public void enableStatus(boolean isEnable) {
+                                KLog.e(TAG,"isEnable="+isEnable);
+                            }
+                        })
+                        .setNotifyId(10)
+                        .setNotificationParm("BaseIotUtils"
+                                ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
+                                ,"oh my god!"
+                                ,false
+                                ,true)
+                        .exeuNotify();
                 break;
             //处理白名单
             case R.id.btn_white:
@@ -51,6 +69,7 @@ public class KeepServiceActivity extends BaseActivity {
             //③关闭服务
             case R.id.btn_stop:
                 TraceServiceImpl.stopService();
+                NotificationUtils.getInstance().closeNotify();
                 break;
         }
     }

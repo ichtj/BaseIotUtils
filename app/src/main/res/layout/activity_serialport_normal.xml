@@ -75,7 +75,7 @@
         android:paddingLeft="10dp"
         android:background="@drawable/button_style_stroke"
         android:hint="请填写命令"
-        android:text="AA55000001A0BF" />
+        android:text="12" />
 
     <Button
         android:id="@+id/btn_test_send"

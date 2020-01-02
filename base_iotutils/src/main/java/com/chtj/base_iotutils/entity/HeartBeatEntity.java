@@ -9,6 +9,9 @@ public class HeartBeatEntity {
     private int heartBeatFlag;//执行心跳包的标志
     private int delayMillis;//多少周期执行一次心跳包检测毫秒
 
+    public HeartBeatEntity() {
+    }
+
     public HeartBeatEntity(byte[] heartBeatComm, int heartBeatFlag, int delayMillis) {
         this.heartBeatComm = heartBeatComm;
         this.heartBeatFlag = heartBeatFlag;

@@ -249,8 +249,6 @@ public class NotificationUtils {
                 if (mINotificationLinstener != null) {
                     mINotificationLinstener.enableStatus(false);
                 }
-            } else {
-                throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
             }
         } else {
             throw new NullPointerException("manager or builder ==null");

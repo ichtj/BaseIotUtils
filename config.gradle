@@ -2,7 +2,7 @@ ext {
     //android开发版本配置
     android = [
             compileSdkVersion: 27,
-            buildToolsVersion: "27.0.2",
+            buildToolsVersion: "27.1.1",
             applicationId    : "com.wave_chtj.example",
             minSdkVersion    : 15,
             targetSdkVersion : 27,
@@ -11,7 +11,7 @@ ext {
     ]
     //version配置
     versions = [
-            "support-version": "27.0.2",
+            "support-version": "27.1.1",
             "junit-version"  : "4.12",
             "support-annotations"  : "27.0.2",
             "espresso"  : "3.0.2",
