@@ -6,7 +6,7 @@ package com.chtj.base_iotutils.entity;
 public class ComEntity {
     private String com;//串口号
     private int baudrate;//波特率
-    private int timeOut;//读取超时时间
+    private int timeOut;//读取超时等待时间
     private int retriesCount;//异常时默认执行的次数 默认为1次
     private HeartBeatEntity heartBeatEntity;//心跳包相关
 

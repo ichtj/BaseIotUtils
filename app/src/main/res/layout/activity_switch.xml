@@ -120,7 +120,7 @@
                 android:gravity="center"
                 android:onClick="onClick"
                 android:background="@null"
-                android:text="nitification Start"
+                android:text="nitification 通知"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
             <View
@@ -135,21 +135,21 @@
                 android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="nitification Stop"
+                android:text="nitification 关闭"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
         </LinearLayout>
 
         <Button
+            android:id="@+id/btn_network"
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_weight="1"
-            android:visibility="invisible"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
-            android:text="Socket"
+            android:text="网络监听"
             android:textColor="@color/black"
             android:textSize="15sp" />
     </LinearLayout>

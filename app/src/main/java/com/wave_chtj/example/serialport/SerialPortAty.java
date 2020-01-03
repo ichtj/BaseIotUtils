@@ -80,13 +80,13 @@ public class SerialPortAty extends BaseActivity {
                 //①未开启心跳包
                 //心跳包参数设置 默认用某一条命令周期性的去获取设备返回的消息
                 //主要判断是否连接正常
-                //HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
+                HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
                 ComEntity comEntity = new ComEntity(
                         com//串口地址
                         , baudrate//波特率
                         , 6000//超时时间
                         , 3//重试次数
-                        , null//心跳检测参数
+                        , heartBeatEntity//心跳检测参数
                 );
                 //初始化数据
                 SerialPortHelper.

@@ -12,7 +12,7 @@ import com.wave_chtj.example.base.BaseActivity;
 /**
  * Create on 2019/10/16
  * author chtj
- * desc $
+ * desc $ 启动页
  */
 public class StartPageAty extends BaseActivity {
     public static final String TAG="StartPageAty";

@@ -13,6 +13,7 @@ import com.chtj.base_iotutils.notify.NotificationUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
+import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
@@ -75,6 +76,9 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_notification_close://关闭notification
                 NotificationUtils.getInstance().closeNotify();
+                break;
+            case R.id.btn_network://网络监听
+                startActivity(new Intent(mContext, NetChangeAty.class));
                 break;
         }
     }

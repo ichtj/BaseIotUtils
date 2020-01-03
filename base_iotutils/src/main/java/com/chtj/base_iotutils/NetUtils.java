@@ -113,8 +113,7 @@ public class NetUtils {
         if (manager == null ||
                 (networkInfo = manager.getActiveNetworkInfo()) == null) {
             return type;
-        }
-        ;
+        };
 
         if (networkInfo.isConnected()) {
             String typeName = networkInfo.getTypeName();

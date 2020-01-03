@@ -64,13 +64,18 @@
         <!--Socket udp/tcp-->
         <activity android:name=".socket.SocketAty"
             android:theme="@style/AppTheme"/>
-        <!--notification display-->
-        <activity android:name=".notification.NotificationAty"
-            android:theme="@style/AppTheme"/>
+        <!--网络检测-->
+        <activity android:name=".network.NetChangeAty" />
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service android:name=".application.InitializeService"/>
+        <!--网络变化广播-->
+        <receiver android:name=".network.NetChangeReceiver">
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
+            </intent-filter>
+        </receiver>
         <!--bugly-->
         <!--<provider
             android:name="android.support.v4.content.FileProvider"
