@@ -54,7 +54,12 @@ public class NetChangeReceiver extends BroadcastReceiver {
      * 销毁广播
      */
     public void unRegisterReceiver(){
-        BaseIotUtils.getContext().unregisterReceiver(this);
+        try{
+            BaseIotUtils.getContext().unregisterReceiver(this);
+        }catch(Exception e){
+            e.printStackTrace();
+            KLog.e(TAG,"errMeg:"+e.getMessage());
+        }
     }
 
     @Override

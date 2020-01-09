@@ -23,12 +23,12 @@ import okhttp3.ResponseBody;
  * author chtj
  */
 public class DownLoadAty extends BaseActivity {
-    public static final String TAG = "DownLoadAty";
+    public static final String TAGS="DownLoadAty";
     //文件下载地址
     public String downloadUrl = "https://ad-1257276602.cos.ap-guangzhou.myqcloud.com/20190121/5de956aa6ce04c088f73ad95301915b6.xls";
     //存放地址
     public String destFileDir = Environment.getExternalStorageDirectory().getAbsolutePath();
-    //文件名称
+    //替换的文件名称
     public String destFileName = "5de956aa6ce04c088f73ad95301915b6.xls";
     @BindView(R.id.pb_progressbar)
     ProgressBar pbProgressbar;
@@ -46,7 +46,7 @@ public class DownLoadAty extends BaseActivity {
             @Override
             public void onStart() {
                 super.onStart();
-                Log.d(TAG,"开始下载...");
+                Log.d(TAGS,"开始下载...");
             }
 
             @Override
@@ -56,16 +56,16 @@ public class DownLoadAty extends BaseActivity {
 
             @Override
             public void progress(final long progress, final long total) {
-                Log.e(TAG, "progress=" + progress + ",total=" + total);
+                Log.e(TAGS, "progress=" + progress + ",total=" + total);
                 double progressNumber = ((progress * 1.0) / total) * 100;
-                Log.e(TAG, "progressNumber=" + progressNumber);
+                Log.e(TAGS, "progressNumber=" + progressNumber);
                 pbProgressbar.setProgress((int) progressNumber);
             }
 
             @Override
             public void onError(Throwable e) {
                 e.printStackTrace();
-                KLog.e(TAG,e.getMessage());
+                KLog.e(TAGS,e.getMessage());
                 ToastUtils.showShort("文件下载失败！");
             }
         });

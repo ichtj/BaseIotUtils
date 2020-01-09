@@ -1,5 +1,6 @@
 package com.chtj.base_iotutils.download.progress;
 
+import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.bus.RxBus;
 import com.chtj.base_iotutils.download.DownLoadStateBean;
 
@@ -12,6 +13,7 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 public class ProgressResponseBody extends ResponseBody {
+    public static final String TAG="ProgressResponseBody";
     private ResponseBody responseBody;
 
     private BufferedSource bufferedSource;
@@ -50,7 +52,9 @@ public class ProgressResponseBody extends ResponseBody {
 
             @Override
             public long read(Buffer sink, long byteCount) throws IOException {
+                //获得当前的下载进度
                 long bytesRead = super.read(sink, byteCount);
+                //整合之前下载的进度与现在的进度
                 bytesReaded += bytesRead == -1 ? 0 : bytesRead;
                 //使用RxBus的方式，实时发送当前已读取(上传/下载)的字节数据
                 RxBus.getDefault().post(new DownLoadStateBean(contentLength(), bytesReaded, tag));

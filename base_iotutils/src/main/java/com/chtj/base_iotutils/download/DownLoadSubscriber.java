@@ -20,14 +20,18 @@ public class DownLoadSubscriber<T> extends DisposableObserver<T> {
 
     @Override
     public void onComplete() {
-        if (fileCallBack != null)
+        if (fileCallBack != null){
             fileCallBack.onCompleted();
+            fileCallBack.unsubscribe();
+        }
     }
 
     @Override
     public void onError(Throwable e) {
-        if (fileCallBack != null)
+        if (fileCallBack != null){
             fileCallBack.onError(e);
+            fileCallBack.unsubscribe();
+        }
     }
 
     @Override

@@ -17,7 +17,7 @@ import io.reactivex.functions.Consumer;
 import okhttp3.ResponseBody;
 
 public abstract class ProgressCallBack<T> {
-
+    public static final String TAG="ProgressCallBack";
     private String destFileDir; // 本地文件存放路径
     private String destFileName; // 文件名
     private Disposable mSubscription;
@@ -57,8 +57,6 @@ public abstract class ProgressCallBack<T> {
                 fos.write(buf, 0, len);
             }
             fos.flush();
-            unsubscribe();
-            //onCompleted();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
