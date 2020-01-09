@@ -14,33 +14,21 @@ allprojects {
 
 ### Step 2. Add the dependency
 
-#### base_socket
-```groovy
-dependencies {
-         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
-         implementation 'com.chtj.base_socket:base_socket:1.0.2'
-}
-```
-
-##  base_socket Module使用说明
-```java
-//BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似 
-BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
-//监听回调
-baseTcpSocket.setSocketListener(new ISocketListener()...);
-//开启连接
-baseTcpSocket.connect(this);
-//发送数据
- baseTcpSocket.send("hello world!".getBytes());
-//关闭连接
-baseTcpSocket.close();
-```
+#### 以下存在两个library 请按需选择
 
 #### base_iotutils
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.chtj.base_iotutils:base_iotutils:1.2.6'
+}
+```
+
+#### base_socket
+```groovy
+dependencies {
+         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
+         implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
 
@@ -64,6 +52,21 @@ public class App extends Application {
         //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
 }
+```
+
+
+##  base_socket Module使用说明
+```java
+//BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似 
+BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
+//监听回调
+baseTcpSocket.setSocketListener(new ISocketListener()...);
+//开启连接
+baseTcpSocket.connect(this);
+//发送数据
+ baseTcpSocket.send("hello world!".getBytes());
+//关闭连接
+baseTcpSocket.close();
 ```
 
 ### base_iotutils 常用工具类
@@ -288,4 +291,18 @@ public class App extends Application {
         //关闭service
         TraceServiceImpl.stopService();
         
+```
+
+# adb操作工具类
+使用方式
+```java
+        //单条命令执行
+        ShellUtils.CommandResult commResult=ShellUtils.execCommand("reboot",true);
+        //多条命令执行
+        //ShellUtils.CommandResult commResult2=ShellUtils.execCommand(new String[]{"comm1","comm2","comm3","commN..."},true);
+        if(commResult.result==0){
+            Log.e(TAG, "commResult2 exeu successful");
+        }else{
+            Log.e(TAG, "commResult exeu faild errMeg="+commResult.errorMsg);
+        }
 ```
