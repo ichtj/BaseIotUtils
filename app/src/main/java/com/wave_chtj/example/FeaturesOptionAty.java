@@ -3,13 +3,12 @@ package com.wave_chtj.example;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.notify.INotificationLinstener;
-import com.chtj.base_iotutils.notify.NotificationUtils;
+import com.chtj.base_iotutils.notify.INotifyLinstener;
+import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
@@ -32,6 +31,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
+
     }
 
     @Override
@@ -56,26 +56,26 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(mContext, SocketAty.class));
                 break;
             case R.id.btn_notification_open://notification display
-                NotificationUtils.getInstance()
-                        .setINotificationLinstener(new INotificationLinstener() {
+                NotifyUtils.getInstance()
+                        .setINotifyLinstener(new INotifyLinstener() {
                             @Override
                             public void enableStatus(boolean isEnable) {
                                 KLog.e(TAG,"isEnable="+isEnable);
                             }
                         })
                         .setNotifyId(10)
-                        .setNotificationParm("BaseIotUtils"
+                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
                                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
                                 ,"oh my god!"
                                 ,false
                                 ,true)
                         .exeuNotify();
-                NotificationUtils.getInstance().setAppName("ssss");
-                NotificationUtils.getInstance().setRemarks("AAAAA");
-                NotificationUtils.getInstance().setPrompt("gggggg");
+                NotifyUtils.getInstance().setAppName("ssss");
+                NotifyUtils.getInstance().setRemarks("AAAAA");
+                NotifyUtils.getInstance().setPrompt("gggggg");
                 break;
             case R.id.btn_notification_close://关闭notification
-                NotificationUtils.getInstance().closeNotify();
+                NotifyUtils.getInstance().closeNotify();
                 break;
             case R.id.btn_network://网络监听
                 startActivity(new Intent(mContext, NetChangeAty.class));
@@ -86,6 +86,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NotificationUtils.getInstance().closeNotify();
+        NotifyUtils.getInstance().closeNotify();
     }
 }

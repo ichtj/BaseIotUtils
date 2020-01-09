@@ -7,8 +7,8 @@ import android.widget.Button;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.keeplive.IntentWrapper;
-import com.chtj.base_iotutils.notify.INotificationLinstener;
-import com.chtj.base_iotutils.notify.NotificationUtils;
+import com.chtj.base_iotutils.notify.INotifyLinstener;
+import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -47,15 +47,15 @@ public class KeepServiceActivity extends BaseActivity {
             case R.id.btn_start:
                 TraceServiceImpl.sShouldStopService = false;
                 BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
-                NotificationUtils.getInstance()
-                        .setINotificationLinstener(new INotificationLinstener() {
+                NotifyUtils.getInstance()
+                        .setINotifyLinstener(new INotifyLinstener() {
                             @Override
                             public void enableStatus(boolean isEnable) {
                                 KLog.e(TAG,"isEnable="+isEnable);
                             }
                         })
                         .setNotifyId(10)
-                        .setNotificationParm("BaseIotUtils"
+                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
                                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
                                 ,"oh my god!"
                                 ,false
@@ -69,7 +69,7 @@ public class KeepServiceActivity extends BaseActivity {
             //③关闭服务
             case R.id.btn_stop:
                 TraceServiceImpl.stopService();
-                NotificationUtils.getInstance().closeNotify();
+                NotifyUtils.getInstance().closeNotify();
                 break;
         }
     }

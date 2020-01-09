@@ -51,6 +51,12 @@ chmod 765 filename 为应用设置权限
 ----------xshell/putty 文件相关
 rz 上传文件
 sz filePath
+
+-------------------屏幕休眠-----------------------
+# kernel休眠
+echo mem > /sys/power/state
+# kernel唤醒
+echo on > /sys/power/state
 -----------------------查看应用-------------------
 adb shell pm list packages      // 查看所有应用
 adb shell pm list packages -s   // 查看系统应用

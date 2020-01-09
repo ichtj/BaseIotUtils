@@ -12,11 +12,11 @@ import android.view.WindowManager;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:屏幕相关工具类
- * --获取屏幕宽度 {@link #getScreenWidth(Context context)}
+ * --获取屏幕宽度 {@link #getScreenWidth (Context context)}
  * --获取屏幕高度 {@link #getScreenHeight(Context context)}
  * --获取屏幕像素，尺寸，dpi相关信息 {@link #getScreenInfo(Activity activity)}
  */
-public class ScreenUtils {
+public class ScreenInfoUtils {
     /**
      * 获取屏幕宽度
      *
@@ -37,8 +37,8 @@ public class ScreenUtils {
     /**
      * 获取屏幕高度
      *
-     * @param context Context
-     * @return 屏幕高度（px）
+     * @param   context  Context
+     * @return 屏幕高度  (px)
      */
     public static int getScreenHeight(Context context) {
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);

@@ -40,7 +40,7 @@ baseTcpSocket.close();
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.5'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.6'
 }
 ```
 
@@ -98,7 +98,7 @@ public class App extends Application {
 
 - 文件下载 | DownLoadManager
 
-- Notification通知 | NotificationUtils
+- Notification通知 | NotifyUtils
 
 
 # 屏幕适配
@@ -148,26 +148,26 @@ public class App extends Application {
 # NotificationUtils 使用
 ```java
      //初始化并显示
-     NotificationUtils.getInstance()
-         .setINotificationLinstener(new INotificationLinstener() {
-             @Override
-             public void enableStatus(boolean isEnable) {
-                 KLog.e(TAG,"isEnable="+isEnable);
-             }
-         })
-         .setNotifyId(10)
-         .setNotificationParm("BaseIotUtils"
-                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
-                 ,"oh my god!"
-                 ,false
-                 ,true)
-         .exeuNotify();
+     NotifyUtils.getInstance()
+       .setINotifyLinstener(new INotifyLinstener() {
+           @Override
+           public void enableStatus(boolean isEnable) {
+               KLog.e(TAG,"isEnable="+isEnable);
+           }
+       })
+       .setNotifyId(10)
+       .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
+               ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
+               ,"oh my god!"
+               ,false
+               ,true)
+       .exeuNotify();
      //更改相关信息
-     NotificationUtils.getInstance().setAppName("ssss");
-     NotificationUtils.getInstance().setRemarks("AAAAA");
-     NotificationUtils.getInstance().setPrompt("gggggg");
+     NotifyUtils.getInstance().setAppName("ssss");
+     NotifyUtils.getInstance().setRemarks("AAAAA");
+     NotifyUtils.getInstance().setPrompt("gggggg");
      //关闭通知
-     NotificationUtils.getInstance().closeNotify();
+     NotifyUtils.getInstance().closeNotify();
  ```
  
 #串口使用

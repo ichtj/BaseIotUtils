@@ -61,7 +61,7 @@
             android:name=".keeplive.WatchDogService$WatchDogNotificationService"
             android:process=":watch" />
         <!--关闭notification的广播-->
-        <receiver android:name=".notify.NotificationUtils$NotifyBroadcastReceiver">
+        <receiver android:name=".notify.NotifyUtils$NotifyBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.close.service.and.notification"/>
             </intent-filter>
