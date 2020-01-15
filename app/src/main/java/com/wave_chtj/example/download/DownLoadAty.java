@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 import com.chtj.base_iotutils.KLog;
+import com.chtj.base_iotutils.ShellUtils;
 import com.chtj.base_iotutils.ToastUtils;
 import com.chtj.base_iotutils.download.DownLoadManager;
 import com.chtj.base_iotutils.download.progress.ProgressCallBack;

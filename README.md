@@ -103,6 +103,8 @@ baseTcpSocket.close();
 
 - Notification通知 | NotifyUtils
 
+- 权限管理 | PermissionsUtils
+
 
 # 屏幕适配
 
@@ -305,4 +307,14 @@ baseTcpSocket.close();
         }else{
             Log.e(TAG, "commResult exeu faild errMeg="+commResult.errorMsg);
         }
+```
+
+# PermissionsUtils操作工具类
+使用方式
+```java
+        PermissionsUtils.with(mContext).
+            addPermission(Manifest.permission.ACCESS_FINE_LOCATION).
+            addPermission(Manifest.permission.ACCESS_COARSE_LOCATION).
+            addPermission(Manifest.permission......).
+            initPermission();
 ```
