@@ -85,6 +85,8 @@ baseTcpSocket.close();
 
 - Toast工具类 | ToastUtil
 
+- 图形化Toast工具类 | GraphicalToastUtils
+
 - 后台服务类 保活 | AbsWorkService
 
 - PackagesName相关信息工具类 | PackagesUtils
@@ -104,6 +106,10 @@ baseTcpSocket.close();
 - Notification通知 | NotifyUtils
 
 - 权限管理 | PermissionsUtils
+
+- Service状态获取 | ServiceUtils
+
+- 时间工具类 | TimeUtils
 
 
 # 屏幕适配

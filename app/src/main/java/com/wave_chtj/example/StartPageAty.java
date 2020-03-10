@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
+import android.content.SharedPreferences;
 
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -29,5 +30,18 @@ public class StartPageAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        SharedPreferences sp=this.getSharedPreferences("setting_config",MODE_PRIVATE);
+        SharedPreferences.Editor editor=sp.edit();
+        boolean isFrist=sp.getBoolean("isFirst", true);
+        if(isFrist){
+            //如果是第一次进来
+            editor.putBoolean("isFirst",false);
+            editor.commit();
+        }else{
+            //如果是第二次及以后进来
+
+        }
+
     }
 }

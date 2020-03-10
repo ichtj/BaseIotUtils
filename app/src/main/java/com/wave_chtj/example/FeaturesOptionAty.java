@@ -2,11 +2,14 @@ package com.wave_chtj.example;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.widget.TextView;
 
 import com.chtj.base_iotutils.KLog;
+import com.chtj.base_iotutils.ShellUtils;
 import com.chtj.base_iotutils.notify.INotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.base.BaseActivity;
@@ -31,7 +34,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
-
     }
 
     @Override

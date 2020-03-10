@@ -25,7 +25,7 @@ import com.chtj.base_iotutils.keeplive.BaseIotUtils;
  */
 
 @SuppressLint("InflateParams")
-public class BaseToastUtils {
+public class GraphicalToastUtils {
 
     @ColorInt
     private static final int DEFAULT_TEXT_COLOR = Color.parseColor("#FFFFFF");
@@ -391,7 +391,7 @@ public class BaseToastUtils {
 
     public static boolean doubleClickExit() {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            BaseToastUtils.normal("再按一次退出");
+            GraphicalToastUtils.normal("再按一次退出");
             mExitTime = System.currentTimeMillis();
             return false;
         }
