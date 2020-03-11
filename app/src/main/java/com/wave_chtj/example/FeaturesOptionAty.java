@@ -2,14 +2,12 @@ package com.wave_chtj.example;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.TextView;
 
 import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.ShellUtils;
+import com.chtj.base_iotutils.SystemLoadDialog;
 import com.chtj.base_iotutils.notify.INotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.base.BaseActivity;
@@ -82,6 +80,15 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_network://网络监听
                 startActivity(new Intent(mContext, NetChangeAty.class));
                 break;
+            case R.id.btn_sysDialogShow://显示SystemDialog
+                SystemLoadDialog.getInstance().show("hello world");
+                break;
+            case R.id.btn_sysDialogHide://关闭SystemDialog
+                SystemLoadDialog.getInstance().dismiss();
+                break;
+            case R.id.btn_replaceContent://关闭SystemDialog
+                SystemLoadDialog.getInstance().show("dsfsdfjlsd");
+                break;
         }
     }
 
@@ -89,5 +96,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         NotifyUtils.getInstance().closeNotify();
+        SystemLoadDialog.getInstance().dismiss();
     }
 }

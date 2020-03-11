@@ -1,156 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
-
+    android:fillViewport="true"
+    android:scrollbars="vertical">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="10dp">
 
-        <Button
-            android:id="@+id/btnSeialPortNormal"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="串口收发"
-            android:textColor="@color/black"
-            android:layout_marginRight="10dp"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btnServiceKeep"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="后台保活"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnScreen"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:layout_marginRight="10dp"
-            android:onClick="onClick"
-            android:text="屏幕适配"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btn_write_read"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="TXT文件读写"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_download"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:layout_marginRight="10dp"
-            android:text="文件下载"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-
-        <Button
-            android:id="@+id/btn_socket"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="Socket:TCP|UDP"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
-    </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
         <LinearLayout
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/button_switch"
-            android:orientation="vertical">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
             <Button
-                android:id="@+id/btn_notification_open"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/btnSeialPortNormal"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 android:layout_weight="1"
+                android:background="@drawable/button_switch"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:background="@null"
-                android:text="nitification 通知"
+                android:text="串口收发"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
-            <View
-                android:layout_width="match_parent"
-                android:background="@color/gray"
-                android:layout_height="1dp"/>
-            <Button
-                android:id="@+id/btn_notification_close"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:text="nitification 关闭"
-                android:textColor="@color/black"
+                android:layout_marginRight="10dp"
                 android:textSize="15sp" />
 
+            <Button
+                android:id="@+id/btnServiceKeep"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="后台保活"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btn_network"
-            android:layout_width="120dp"
-            android:layout_height="120dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_switch"
-            android:gravity="center"
-            android:onClick="onClick"
-            android:text="网络监听"
-            android:textColor="@color/black"
-            android:textSize="15sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnScreen"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:onClick="onClick"
+                android:text="屏幕适配"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_write_read"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="TXT文件读写"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_download"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:layout_marginRight="10dp"
+                android:text="文件下载"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_socket"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="Socket:TCP|UDP"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_switch"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/btn_notification_open"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:background="@null"
+                    android:text="nitification 通知"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@color/gray"
+                    android:layout_height="1dp"/>
+                <Button
+                    android:id="@+id/btn_notification_close"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="nitification 关闭"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_network"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="网络监听"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/button_switch"
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/btn_sysDialogShow"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:background="@null"
+                    android:text="显示SystemDialog"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@color/gray"
+                    android:layout_height="1dp"/>
+                <Button
+                    android:id="@+id/btn_sysDialogHide"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="关闭SystemDialog"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_replaceContent"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>

@@ -20,7 +20,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.6'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.7'
 }
 ```
 
@@ -110,6 +110,8 @@ baseTcpSocket.close();
 - Service状态获取 | ServiceUtils
 
 - 时间工具类 | TimeUtils
+
+- 系统级等待对话框 | SystemLoadDialog
 
 
 # 屏幕适配
