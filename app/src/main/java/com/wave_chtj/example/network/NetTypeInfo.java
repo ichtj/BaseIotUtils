@@ -6,5 +6,5 @@ package com.wave_chtj.example.network;
  * desc
  */
 public enum NetTypeInfo {
-    ETH,MOBILE,WIFI,NONE,OTHER
+    NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_WIFI,NETWORK_ETH,NETWORK_NO,NETWORK_UNKNOWN
 }

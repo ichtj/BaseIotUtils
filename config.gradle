@@ -45,7 +45,7 @@ ext {
             //json解析
             "gson"                                 : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
-            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.3",
+            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.2.7",
             "base_socket"                          : "com.chtj.base_socket:base_socket:1.0.2",
             "rxpermissions"                        : "com.github.tbruyelle:rxpermissions:0.10.2",
             //bugly的仓库
@@ -62,6 +62,8 @@ ext {
             //findByView butterknife
             "butterknife"                          : "com.jakewharton:butterknife:8.4.0",
             "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:8.4.0",
+            //ZIP压缩工具类
+            "ziputils"                             : "net.lingala.zip4j:zip4j:1.3.2"
 
     ]
 }

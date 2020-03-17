@@ -4,9 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
 import com.chtj.base_iotutils.KLog;
+import com.chtj.base_iotutils.PackagesUtils;
+import com.chtj.base_iotutils.ServiceUtils;
 import com.chtj.base_iotutils.SystemLoadDialog;
 import com.chtj.base_iotutils.notify.INotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
@@ -18,6 +21,9 @@ import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
+import com.wave_chtj.example.util.MD5;
+
+import java.io.File;
 
 /**
  * 功能选择
@@ -32,6 +38,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
+        try{
+            String strMd5=MD5.getFileMD5(new File("sdcard/3E96F92738EA6CFAEB9BB00DF1D7FAFB"));
+            Log.e(TAG, "onCreate: "+strMd5);
+        }catch(Exception e){
+            e.printStackTrace();
+            Log.e(TAG,"errMeg:"+e.getMessage());
+        }
     }
 
     @Override

@@ -18,7 +18,7 @@ public class ServiceUtils {
      * @param servicePath
      * @return true正在运行|false没有运行
      */
-    private boolean isWorked(String servicePath) {
+    public static boolean isWorked(String servicePath) {
         ActivityManager myManager = (ActivityManager) BaseIotUtils.getContext().getApplicationContext().getSystemService(
                         Context.ACTIVITY_SERVICE);
         ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager

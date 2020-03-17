@@ -13,7 +13,6 @@ import com.chtj.base_iotutils.keeplive.BaseIotUtils;
  */
 public class SystemLoadDialog {
     private WindowManager wm;
-    private WindowManager.LayoutParams wmParams;
     private TextView tvRemarks;
     private View scanView;
     private static SystemLoadDialog mSystemLoadDialog;
@@ -25,15 +24,15 @@ public class SystemLoadDialog {
                 if (mSystemLoadDialog == null) {
                     mSystemLoadDialog = new SystemLoadDialog();
                     mSystemLoadDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
-                    mSystemLoadDialog.wmParams = new WindowManager.LayoutParams();
+                    WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
                     mSystemLoadDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
                     mSystemLoadDialog.tvRemarks = mSystemLoadDialog.scanView.findViewById(R.id.tvRemarks);
-                    mSystemLoadDialog.wmParams.type = 2002;
-                    mSystemLoadDialog.wmParams.format = 1;
-                    mSystemLoadDialog.wmParams.flags = 40;
-                    mSystemLoadDialog.wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
-                    mSystemLoadDialog.wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-                    mSystemLoadDialog.wm.addView(mSystemLoadDialog.scanView, mSystemLoadDialog.wmParams);
+                    wmParams.type = 2002;
+                    wmParams.format = 1;
+                    wmParams.flags = 40;
+                    wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
+                    wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
+                    mSystemLoadDialog.wm.addView(mSystemLoadDialog.scanView, wmParams);
                 }
             }
         }

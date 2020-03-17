@@ -68,18 +68,22 @@ public class NetChangeReceiver extends BroadcastReceiver {
         KLog.e(TAG,"action="+action);
         if(action.equals(ANDROID_NET_CHANGE_ACTION)){
             if(mOnNetChangeLinstener!=null){
-                int type=NetUtils.getNetworkType();
+                int type=NetUtils.getNetWorkType();
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NONE,false);
-                }else if(type==ConnectivityManager.TYPE_MOBILE){//0
-                    mOnNetChangeLinstener.changed(NetTypeInfo.MOBILE,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_NO,false);
                 }else if(type==ConnectivityManager.TYPE_WIFI){//1
-                    mOnNetChangeLinstener.changed(NetTypeInfo.WIFI,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_WIFI,true);
+                }else if(type==NetUtils.NETWORK_2G){//2
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_2G,true);
+                }else if(type==NetUtils.NETWORK_3G){//3
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_3G,true);
+                }else if(type==NetUtils.NETWORK_4G){//4
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_4G,true);
                 }else if(type==ConnectivityManager.TYPE_ETHERNET){//9
-                    mOnNetChangeLinstener.changed(NetTypeInfo.ETH,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_ETH,true);
                 }else{
-                    mOnNetChangeLinstener.changed(NetTypeInfo.OTHER,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_UNKNOWN,true);
                 }
             }
         }

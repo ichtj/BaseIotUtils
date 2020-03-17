@@ -66,5 +66,6 @@ dependencies {
     api rootProject.ext.dependencies.retrofit
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
+    api rootProject.ext.dependencies["ziputils"]
 }
 apply from: '../bintray.gradle'
