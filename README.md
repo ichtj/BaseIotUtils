@@ -41,7 +41,11 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //1.1.6 之后与之前有较大改动 
+        //初始化BaseIotUtils
+        BaseIotUtils.instance().create(getApplication());
+        .........
+
+        //以下为适配UI时的初始化
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //1080,1920是为了适配而去设置相关的值
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
@@ -57,16 +61,16 @@ public class App extends Application {
 
 ##  base_socket Module使用说明
 ```java
-//BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似 
-BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
-//监听回调
-baseTcpSocket.setSocketListener(new ISocketListener()...);
-//开启连接
-baseTcpSocket.connect(this);
-//发送数据
- baseTcpSocket.send("hello world!".getBytes());
-//关闭连接
-baseTcpSocket.close();
+    //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
+    BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
+    //监听回调
+    baseTcpSocket.setSocketListener(new ISocketListener()...);
+    //开启连接
+    baseTcpSocket.connect(this);
+    //发送数据
+     baseTcpSocket.send("hello world!".getBytes());
+    //关闭连接
+    baseTcpSocket.close();
 ```
 
 ### base_iotutils 常用工具类
@@ -116,7 +120,6 @@ baseTcpSocket.close();
 - 压缩相关工具类 | ZipUtils
 
 - 字符串判断 | StringUtils
-
 
 # 屏幕适配
 
@@ -295,6 +298,62 @@ baseTcpSocket.close();
 # 后台保活
 使用方式
 ```java
+
+        创建Service继承 AbsWorkService重写方法
+        public class TraceServiceImpl extend AbsWorkService{
+             //是否 任务完成, 不再需要服务运行?
+                public static boolean sShouldStopService;
+                public static Disposable sDisposable;
+
+                public static void stopService() {
+                    //我们现在不再需要服务运行了, 将标志位置为 true
+                    sShouldStopService = true;
+                    //取消对任务的订阅
+                    if (sDisposable != null) sDisposable.dispose();
+                    //取消 Job / Alarm / Subscription
+                    cancelJobAlarmSub();
+                }
+
+                /**
+                 * 是否 任务完成, 不再需要服务运行?
+                 * @return 应当停止服务, true; 应当启动服务, false; 无法判断, 什么也不做, null.
+                 */
+                @Override
+                public Boolean shouldStopService(Intent intent, int flags, int startId) {
+                    return sShouldStopService;
+                }
+
+                @Override
+                public void startWork(Intent intent, int flags, int startId) {
+
+                }
+
+                @Override
+                public void stopWork(Intent intent, int flags, int startId) {
+                    stopService();
+                }
+
+                /**
+                 * 任务是否正在运行?
+                 * @return 任务正在运行, true; 任务当前不在运行, false; 无法判断, 什么也不做, null.
+                 */
+                @Override
+                public Boolean isWorkRunning(Intent intent, int flags, int startId) {
+                    //若还没有取消订阅, 就说明任务仍在运行.
+                    return sDisposable != null && !sDisposable.isDisposed();
+                }
+
+                @Override
+                public IBinder onBind(Intent intent, Void v) {
+                    return null;
+                }
+
+                @Override
+                public void onServiceKilled(Intent rootIntent) {
+                    System.out.println("保存数据到磁盘。");
+                }
+        }
+
         //初始化后台保活Service
         BaseIotUtils.initSerice(TraceServiceImpl.class, BaseIotUtils.DEFAULT_WAKE_UP_INTERVAL);
 
