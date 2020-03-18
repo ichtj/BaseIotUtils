@@ -77,15 +77,20 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             }
                         })
                         .setNotifyId(10)
-                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
-                                ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
-                                ,"oh my god!"
+                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img
+                                ,"BaseIotUtils"
+                                ,"工具类"
+                                ,"文件压缩，文件下载，日志管理，时间管理，网络判断。。。"
+                                ,"this is a library ..."
+                                ,"2020-3-18"
                                 ,false
                                 ,true)
                         .exeuNotify();
-                NotifyUtils.getInstance().setAppName("ssss");
-                NotifyUtils.getInstance().setRemarks("AAAAA");
-                NotifyUtils.getInstance().setPrompt("gggggg");
+                //NotifyUtils.getInstance().setAppName("");
+                //NotifyUtils.getInstance().setAppAbout("");
+                //NotifyUtils.getInstance().setRemarks("");
+                //NotifyUtils.getInstance().setPrompt("");
+                //NotifyUtils.getInstance().setDataTime("");
                 break;
             case R.id.btn_notification_close://关闭notification
                 NotifyUtils.getInstance().closeNotify();

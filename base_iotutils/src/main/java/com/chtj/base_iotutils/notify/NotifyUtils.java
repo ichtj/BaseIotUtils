@@ -144,9 +144,27 @@ public class NotifyUtils {
         if (appName != null && !appName.equals("")) {
             appendStr = appName;
         } else {
-            appendStr = "无";
+            appendStr = "";
         }
         contentView.setTextViewText(R.id.tvAppName, appendStr);
+        manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
+    }
+
+    /**
+     * 设置APP about
+     * 外部调用此方法时，请先调用{@link #getInstance()}
+     *
+     * @param appAbout APP about
+     * @return this
+     */
+    public void setAppAbout(String appAbout) {
+        String appendStr = "";
+        if (appAbout != null && !appAbout.equals("")) {
+            appendStr = appAbout;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvAppAbout, appendStr);
         manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
@@ -186,6 +204,24 @@ public class NotifyUtils {
         manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
+    /**
+     * 时间
+     * 外部调用此方法时，请先调用{@link #getInstance()}
+     *
+     * @param dataTime 时间
+     * @return this
+     */
+    public void setDataTime(String dataTime) {
+        String appendStr = "";
+        if (dataTime != null && !dataTime.equals("")) {
+            appendStr = dataTime;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvDataTime, appendStr);
+        manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
+    }
+
 
     /**
      * 设置滑动是否删除
@@ -221,15 +257,16 @@ public class NotifyUtils {
      * @param appName     app名称
      * @param remarks     备注
      * @param prompt      提示
+     * @param dataTime    时间
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
-    public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String remarks
-            , String prompt, boolean mSlideOff, boolean mAutoCancel) {
+    public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String appAbout, String remarks
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon,mSlideOff, mAutoCancel, appName, remarks, prompt);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
         return notifyUtils;
     }
 
@@ -241,15 +278,16 @@ public class NotifyUtils {
      * @param appName     app名称
      * @param remarks     备注
      * @param prompt      提示
+     * @param dataTime    时间
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
-    public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String remarks
-            , String prompt, boolean mSlideOff, boolean mAutoCancel) {
+    public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String appAbout, String remarks
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon,mSlideOff, mAutoCancel, appName, remarks, prompt);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
         return notifyUtils;
     }
 
@@ -261,22 +299,23 @@ public class NotifyUtils {
      * @param appName     app名称
      * @param remarks     备注
      * @param prompt      提示
+     * @param dataTime    时间
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
-    public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String remarks
-            , String prompt, boolean mSlideOff, boolean mAutoCancel) {
+    public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String appAbout, String remarks
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon,mSlideOff, mAutoCancel, appName, remarks, prompt);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
         return notifyUtils;
     }
 
     /**
      * 参数的统一整理
      */
-    private void addParam(@DrawableRes int icon,boolean mSlideOff, boolean mAutoCancel, String appName, String remarks, String prompt) {
+    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime) {
         this.mSlideOff = mSlideOff;
         this.mAutoCancel = mAutoCancel;
         //app通知栏图标
@@ -285,9 +324,17 @@ public class NotifyUtils {
         if (appName != null && !appName.equals("")) {
             appendStr = appName;
         } else {
-            appendStr = "无";
+            appendStr = "";
         }
         contentView.setTextViewText(R.id.tvAppName, appendStr);
+
+        if (appAbout != null && !appAbout.equals("")) {
+            appendStr = appAbout;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvAppAbout, appendStr);
+
 
         if (remarks != null && !remarks.equals("")) {
             appendStr = "备注:" + remarks;
@@ -302,6 +349,13 @@ public class NotifyUtils {
             appendStr = "";
         }
         contentView.setTextViewText(R.id.tvPrompt, appendStr);
+
+        if (dataTime != null && !dataTime.equals("")) {
+            appendStr = dataTime;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvDataTime, appendStr);
     }
 
     /**

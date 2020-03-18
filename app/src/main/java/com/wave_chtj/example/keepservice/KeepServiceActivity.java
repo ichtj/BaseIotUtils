@@ -55,9 +55,12 @@ public class KeepServiceActivity extends BaseActivity {
                             }
                         })
                         .setNotifyId(10)
-                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
+                        .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img
+                                ,"BaseIotUtils"
+                                ,"about"
                                 ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
                                 ,"oh my god!"
+                                ,"2020-3-18"
                                 ,false
                                 ,true)
                         .exeuNotify();
