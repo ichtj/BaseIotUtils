@@ -1,4 +1,4 @@
-package com.wave_chtj.example.network;
+package com.chtj.base_iotutils.network;
 
 /**
  * Create on 2020/1/3

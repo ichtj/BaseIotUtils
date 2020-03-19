@@ -7,17 +7,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.NetUtils;
+import com.chtj.base_iotutils.network.NetListenerUtils;
+import com.chtj.base_iotutils.network.NetTypeInfo;
+import com.chtj.base_iotutils.network.OnNetChangeLinstener;
 import com.wave_chtj.example.R;
-
-import java.util.concurrent.TimeUnit;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.schedulers.Schedulers;
 
 /**
  * Create on 2020/1/3
@@ -41,8 +34,8 @@ public class NetChangeAty extends AppCompatActivity {
 
     //开始监听
     public void startLinstener(View view) {
-        NetChangeReceiver.getInstance().registerReceiver();
-        NetChangeReceiver.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
+        NetListenerUtils.getInstance().registerReceiver();
+        NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
             @Override
             public void changed(NetTypeInfo type, boolean isNormal) {
                 KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
@@ -55,6 +48,6 @@ public class NetChangeAty extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetChangeReceiver.getInstance().unRegisterReceiver();
+        NetListenerUtils.getInstance().unRegisterReceiver();
     }
 }

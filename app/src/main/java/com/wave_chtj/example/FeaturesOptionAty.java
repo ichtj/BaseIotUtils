@@ -4,16 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
 
 import com.chtj.base_iotutils.GraphicalToastUtils;
 import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.PackagesUtils;
-import com.chtj.base_iotutils.ServiceUtils;
 import com.chtj.base_iotutils.SystemLoadDialog;
-import com.chtj.base_iotutils.ToastUtils;
-import com.chtj.base_iotutils.notify.INotifyLinstener;
+import com.chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.download.DownLoadAty;
@@ -23,9 +19,6 @@ import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
-import com.wave_chtj.example.util.MD5;
-
-import java.io.File;
 
 /**
  * 功能选择
@@ -65,7 +58,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_notification_open://notification display
                 NotifyUtils.getInstance()
-                        .setINotifyLinstener(new INotifyLinstener() {
+                        .setOnNotifyLinstener(new OnNotifyLinstener() {
                             @Override
                             public void enableStatus(boolean isEnable) {
                                 KLog.e(TAG,"isEnable="+isEnable);

@@ -1,4 +1,4 @@
-package com.wave_chtj.example.network;
+package com.chtj.base_iotutils.network;
 
 /**
  * Create on 2020/1/3
@@ -6,5 +6,5 @@ package com.wave_chtj.example.network;
  * desc
  */
 public interface OnNetChangeLinstener {
-    void changed(NetTypeInfo type,boolean isNormal);
+    void changed(NetTypeInfo type, boolean isNormal);
 }

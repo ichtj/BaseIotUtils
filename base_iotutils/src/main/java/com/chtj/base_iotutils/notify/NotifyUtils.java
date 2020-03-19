@@ -43,7 +43,7 @@ public class NotifyUtils {
     private int notifyId = -1; //notification标识
     private boolean mSlideOff = true;//滑动时是否可以删除
     private boolean mAutoCancel = false;//点击的时候是否消失
-    private INotifyLinstener mINotifyLinstener;
+    private OnNotifyLinstener mOnNotifyLinstener;
     private static NotifyUtils notifyUtils;
     //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
@@ -81,11 +81,11 @@ public class NotifyUtils {
     /**
      * 设置监听notification是否点击关闭的接口
      *
-     * @param INotifyLinstener 注册接口
+     * @param onNotifyLinstener 注册接口
      * @return this
      */
-    public NotifyUtils setINotifyLinstener(INotifyLinstener INotifyLinstener) {
-        this.mINotifyLinstener = INotifyLinstener;
+    public NotifyUtils setOnNotifyLinstener(OnNotifyLinstener onNotifyLinstener) {
+        this.mOnNotifyLinstener = onNotifyLinstener;
         return notifyUtils;
     }
 
@@ -369,8 +369,8 @@ public class NotifyUtils {
                 builder.setOngoing(!mSlideOff);//滑动不能清除
                 builder.setAutoCancel(mAutoCancel);//点击的时候消失
                 manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-                if (mINotifyLinstener != null) {
-                    mINotifyLinstener.enableStatus(true);
+                if (mOnNotifyLinstener != null) {
+                    mOnNotifyLinstener.enableStatus(true);
                 }
             } else {
                 throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
@@ -389,8 +389,8 @@ public class NotifyUtils {
         if (manager != null) {
             if (notifyId != -1) {
                 manager.cancel(notifyId);//参数一为ID，用来区分不同APP的Notification
-                if (mINotifyLinstener != null) {
-                    mINotifyLinstener.enableStatus(false);
+                if (mOnNotifyLinstener != null) {
+                    mOnNotifyLinstener.enableStatus(false);
                 }
             }
         } else {

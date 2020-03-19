@@ -7,7 +7,7 @@ import android.widget.Button;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.keeplive.IntentWrapper;
-import com.chtj.base_iotutils.notify.INotifyLinstener;
+import com.chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
@@ -48,7 +48,7 @@ public class KeepServiceActivity extends BaseActivity {
                 TraceServiceImpl.sShouldStopService = false;
                 BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
                 NotifyUtils.getInstance()
-                        .setINotifyLinstener(new INotifyLinstener() {
+                        .setOnNotifyLinstener(new OnNotifyLinstener() {
                             @Override
                             public void enableStatus(boolean isEnable) {
                                 KLog.e(TAG,"isEnable="+isEnable);

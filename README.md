@@ -205,6 +205,9 @@ public class App extends Application {
              tvStatus.setText("" + isNormal);
          }
      });
+     .......
+     //注销广播
+     NetListenerUtils.getInstance().unRegisterReceiver();
  ```
  
 #串口使用

@@ -15,22 +15,22 @@ import com.chtj.base_iotutils.keeplive.BaseIotUtils;
  * author chtj
  * desc 网络变化广播
  */
-public class NetChangeReceiver extends BroadcastReceiver {
+public class NetListenerUtils extends BroadcastReceiver {
     private static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     public static final String TAG="NetChangeReceiver";
     private OnNetChangeLinstener mOnNetChangeLinstener;
-    private static NetChangeReceiver netChangeReceiver;
+    private static NetListenerUtils netListenerUtils;
 
-    //单例模式 
-    public static NetChangeReceiver getInstance() {
-        if (netChangeReceiver == null) {
-            synchronized (NetChangeReceiver.class) {
-                if (netChangeReceiver == null) {
-                    netChangeReceiver = new NetChangeReceiver();
+    //单例模式
+    public static NetListenerUtils getInstance() {
+        if (netListenerUtils == null) {
+            synchronized (NetListenerUtils.class) {
+                if (netListenerUtils == null) {
+                    netListenerUtils = new NetListenerUtils();
                 }
             }
         }
-        return netChangeReceiver;
+        return netListenerUtils;
     }
 
     /**
