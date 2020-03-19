@@ -20,7 +20,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.2.9'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.3.0'
 }
 ```
 
@@ -121,6 +121,8 @@ public class App extends Application {
 
 - 字符串判断 | StringUtils
 
+- 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
+
 # 屏幕适配
 
 ### 1080*1920 px 效果
@@ -189,9 +191,24 @@ public class App extends Application {
      //关闭通知
      NotifyUtils.getInstance().closeNotify();
  ```
+
+# NetListenerUtils 网络监听者
+```java
+     //注册广播
+     NetListenerUtils.getInstance().registerReceiver();
+     //设置监听 NetTypeInfo (NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_WIFI,NETWORK_ETH,NETWORK_NO,NETWORK_UNKNOWN)
+     NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
+         @Override
+         public void changed(NetTypeInfo type, boolean isNormal) {
+             KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
+             tvType.setText("" + type.name());
+             tvStatus.setText("" + isNormal);
+         }
+     });
+ ```
  
 #串口使用
-## 1.使用串口封装类
+<!--## 1.使用串口封装类
 ```java
       HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
       //初始化串口工具类
@@ -215,7 +232,7 @@ public class App extends Application {
                             message.obj = writeData;
                             handler.sendMessage(message);
                         }
-      
+
                         @Override
                         public void readCommand(byte[] comm, int flag) {
                             String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
@@ -224,7 +241,7 @@ public class App extends Application {
                             message.obj = readData;
                             handler.sendMessage(message);
                         }
-      
+
                         @Override
                         public void writeComplet(int flag) {
                             String writeSuccessful = "writeComplet>>> flag=" + flag;
@@ -233,8 +250,8 @@ public class App extends Application {
                             message.obj = writeSuccessful;
                             handler.sendMessage(message);
                         }
-      
-      
+
+
                         @Override
                         public void isReadTimeOut(int flag) {
                             String readTimeOut = "isReadTimeOut>>> flag=" + flag;
@@ -243,7 +260,7 @@ public class App extends Application {
                             message.obj = readTimeOut;
                             handler.sendMessage(message);
                         }
-      
+
                         @Override
                         public void isOpen(boolean isOpen) {
                             String comStatus = isOpen ? "isOpen>>>串口打开！" : "isOpen>>>串口关闭";
@@ -252,7 +269,7 @@ public class App extends Application {
                             message.obj = comStatus;
                             handler.sendMessage(message);
                         }
-      
+
                         @Override
                         public void comStatus(boolean isNormal) {
                             String comStatus = isNormal ? "comStatus>>>串口正常！" : "comStatus>>>串口异常";
@@ -261,7 +278,7 @@ public class App extends Application {
                             message.obj = comStatus;
                             handler.sendMessage(message);
                         }
-      
+
                     }).
                     openSerialPort();
       //发送数据
@@ -269,8 +286,9 @@ public class App extends Application {
       //关闭串口
       SerialPortHelper.getInstance().closeSerialPort();
 ```
+-->
 
-## 2.不使用串口封装类
+## 1.串口封装类
 ```java
         //获得串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();

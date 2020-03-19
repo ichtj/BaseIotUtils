@@ -1,11 +1,10 @@
-package com.wave_chtj.example.network;
+package com.chtj.base_iotutils.network;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.NetUtils;
@@ -22,7 +21,7 @@ public class NetChangeReceiver extends BroadcastReceiver {
     private OnNetChangeLinstener mOnNetChangeLinstener;
     private static NetChangeReceiver netChangeReceiver;
 
-    //单例模式
+    //单例模式 
     public static NetChangeReceiver getInstance() {
         if (netChangeReceiver == null) {
             synchronized (NetChangeReceiver.class) {
