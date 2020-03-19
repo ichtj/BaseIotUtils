@@ -56,7 +56,7 @@ sz filePath
 # kernel休眠
 echo mem > /sys/power/state
 # kernel唤醒
-echo on > /sys/power/state
+echo on  > /sys/power/state
 -----------------------查看应用-------------------
 adb shell pm list packages      // 查看所有应用
 adb shell pm list packages -s   // 查看系统应用

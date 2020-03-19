@@ -7,10 +7,12 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.View;
 
+import com.chtj.base_iotutils.GraphicalToastUtils;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.PackagesUtils;
 import com.chtj.base_iotutils.ServiceUtils;
 import com.chtj.base_iotutils.SystemLoadDialog;
+import com.chtj.base_iotutils.ToastUtils;
 import com.chtj.base_iotutils.notify.INotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.base.BaseActivity;
@@ -38,13 +40,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         setTheme(R.style.AppTheme); //切换正常主题
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
-        try{
-            String strMd5=MD5.getFileMD5(new File("sdcard/3E96F92738EA6CFAEB9BB00DF1D7FAFB"));
-            Log.e(TAG, "onCreate: "+strMd5);
-        }catch(Exception e){
-            e.printStackTrace();
-            Log.e(TAG,"errMeg:"+e.getMessage());
-        }
     }
 
     @Override
@@ -104,8 +99,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_sysDialogHide://关闭SystemDialog
                 SystemLoadDialog.getInstance().dismiss();
                 break;
-            case R.id.btn_replaceContent://关闭SystemDialog
-                SystemLoadDialog.getInstance().show("dsfsdfjlsd");
+            case R.id.btn_showToast://关闭SystemDialog
+                GraphicalToastUtils.success("Hello Worold!");
                 break;
         }
     }
