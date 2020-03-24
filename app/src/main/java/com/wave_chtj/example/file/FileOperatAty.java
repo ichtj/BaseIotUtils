@@ -44,20 +44,6 @@ public class FileOperatAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_wirite_read);
         ButterKnife.bind(this);
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}).
-                subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (granted) { // Always true pre-M
-                            // I can control the camera now
-                            ToastUtils.showShort("已通过权限");
-                        } else {
-                            // Oups permission denied
-                            ToastUtils.showShort("未通过权限");
-                        }
-                    }
-                });
     }
 
 

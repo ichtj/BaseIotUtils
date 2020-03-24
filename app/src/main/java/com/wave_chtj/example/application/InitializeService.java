@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
+import com.wave_chtj.example.crash.CrashHandler;
 
 /**
  * Create on 2019/10/16
@@ -38,6 +39,7 @@ public class InitializeService extends IntentService {
     }
 
     private void performInit() {
+        CrashHandler.getInstance().init(getApplication());
         KLog.init(true);
         //KLog.d("performInit begin:" + System.currentTimeMillis());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....

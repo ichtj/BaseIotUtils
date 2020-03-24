@@ -2,7 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wave_chtj.example">
-
+    <!--系统弹窗-->
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!--bugly 更新 |热更新 需要的权限-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -64,6 +66,8 @@
         <!--Socket udp/tcp-->
         <activity android:name=".socket.SocketAty"
             android:theme="@style/AppTheme"/>
+        <!--全局异常捕获-->
+        <activity android:name=".crash.CrashAty"/>
         <!--网络检测-->
         <activity android:name=".network.NetChangeAty" />
         <!--服务必须要注册-->
@@ -81,5 +85,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>-->
+        <service android:name=".MyService"/>
     </application>
 </manifest>

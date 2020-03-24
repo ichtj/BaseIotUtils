@@ -410,3 +410,8 @@ public class App extends Application {
             addPermission(Manifest.permission......).
             initPermission();
 ```
+
+# Version Code
+ ###v1.0.2
+> 新增crash控制界面
+> 修改NotifyUtils支持6.0以上系统显示，并新增获取通知是否允许的状态NotifyUtils.notifyIsEnable();跳转应用设置界面NotifyUtils.toOpenNotify();

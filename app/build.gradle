@@ -61,9 +61,9 @@ android {
         variant.outputs.all {
             def fileName
             if (variant.buildType.name.equals('release')) {
-                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
+                fileName = "BaseIotUtils_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
             } else if (variant.buildType.name.equals('debug')) {
-                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
+                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_debug.apk"
             }
             outputFileName = fileName;
         }
