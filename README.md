@@ -20,7 +20,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.chtj.base_iotutils:base_iotutils:1.3.0'
+         implementation 'com.chtj.base_iotutils:base_iotutils:1.3.1'
 }
 ```
 
@@ -412,6 +412,6 @@ public class App extends Application {
 ```
 
 # Version Code
- ###v1.0.2
+ ### v1.0.2
 > 新增crash控制界面
 > 修改NotifyUtils支持6.0以上系统显示，并新增获取通知是否允许的状态NotifyUtils.notifyIsEnable();跳转应用设置界面NotifyUtils.toOpenNotify();
