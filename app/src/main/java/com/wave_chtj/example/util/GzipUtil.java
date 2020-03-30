@@ -4,13 +4,10 @@ import android.text.TextUtils;
 import android.util.Base64;
 import android.util.Log;
 
-import com.chtj.base_iotutils.ZipUtils;
-
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.Scanner;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 

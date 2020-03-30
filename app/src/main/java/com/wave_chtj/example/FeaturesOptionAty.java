@@ -7,12 +7,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.chtj.base_iotutils.GlobalLoadDialog;
-import com.chtj.base_iotutils.GraphicalToastUtils;
-import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.ToastUtils;
-import com.chtj.base_iotutils.notify.OnNotifyLinstener;
-import com.chtj.base_iotutils.notify.NotifyUtils;
+import com.face_chtj.base_iotutils.GlobalLoadDialog;
+import com.face_chtj.base_iotutils.GraphicalToastUtils;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
+import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.crash.MyService;

@@ -12,7 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.KLog;
 import com.chtj.socket.BaseTcpSocket;
 import com.chtj.socket.BaseUdpSocket;
 import com.chtj.socket.ISocketListener;

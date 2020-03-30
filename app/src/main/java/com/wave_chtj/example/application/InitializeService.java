@@ -4,9 +4,9 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.keeplive.BaseIotUtils;
-import com.chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.wave_chtj.example.crash.CrashHandler;
 
 /**

@@ -1,6 +1,5 @@
 package com.wave_chtj.example.file;
 
-import android.Manifest;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
@@ -9,16 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.chtj.base_iotutils.FileTxtUtil;
-import com.chtj.base_iotutils.ToastUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.face_chtj.base_iotutils.FileTxtUtil;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.functions.Consumer;
 
 /**
  * Create on 2019/10/10

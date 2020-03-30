@@ -13,16 +13,15 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.chtj.base_iotutils.DataConvertUtils;
-import com.chtj.base_iotutils.entity.ComEntity;
-import com.chtj.base_iotutils.entity.HeartBeatEntity;
-import com.chtj.base_iotutils.serialport.SerialPortFinder;
-import com.chtj.base_iotutils.serialport.helper.OnComListener;
-import com.chtj.base_iotutils.serialport.helper.SerialPortHelper;
+import com.face_chtj.base_iotutils.DataConvertUtils;
+import com.face_chtj.base_iotutils.entity.ComEntity;
+import com.face_chtj.base_iotutils.entity.HeartBeatEntity;
+import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
+import com.face_chtj.base_iotutils.serialport.helper.OnComListener;
+import com.face_chtj.base_iotutils.serialport.helper.SerialPortHelper;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

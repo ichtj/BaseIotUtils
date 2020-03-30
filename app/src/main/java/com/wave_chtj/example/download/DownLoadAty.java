@@ -7,11 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
-import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.ShellUtils;
-import com.chtj.base_iotutils.ToastUtils;
-import com.chtj.base_iotutils.download.DownLoadManager;
-import com.chtj.base_iotutils.download.progress.ProgressCallBack;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.download.DownLoadManager;
+import com.face_chtj.base_iotutils.download.progress.ProgressCallBack;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

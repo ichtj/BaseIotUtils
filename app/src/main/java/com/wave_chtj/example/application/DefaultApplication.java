@@ -3,8 +3,6 @@ package com.wave_chtj.example.application;
 import android.app.Application;
 import android.support.multidex.MultiDex;
 
-import com.chtj.base_iotutils.KLog;
-
 /**
  * Create on 2019/11/5
  * author chtj

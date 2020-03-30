@@ -3,10 +3,9 @@ package com.wave_chtj.example;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.Window;
 import android.view.WindowManager;
-import com.chtj.base_iotutils.SPUtils;
+import com.face_chtj.base_iotutils.SPUtils;
 import com.wave_chtj.example.base.BaseActivity;
 
 /**
