@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
+import com.chtj.base_iotutils.GlobalLoadDialog;
 import com.chtj.base_iotutils.GraphicalToastUtils;
 import com.chtj.base_iotutils.KLog;
 import com.chtj.base_iotutils.ToastUtils;
