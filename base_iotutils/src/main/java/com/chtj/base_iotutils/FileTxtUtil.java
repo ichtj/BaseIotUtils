@@ -62,6 +62,9 @@ public class FileTxtUtil {
             int lenght = fis.available();
             byte[] buffer = new byte[lenght];
             fis.read(buffer);
+            if(fis!=null){
+                fis.close();
+            }
             //将byte数组转换成指定格式的字符串
             result = new String(buffer, "UTF-8");
         } catch (Exception e) {

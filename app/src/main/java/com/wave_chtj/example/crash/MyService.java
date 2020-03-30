@@ -1,4 +1,4 @@
-package com.wave_chtj.example;
+package com.wave_chtj.example.crash;
 
 import android.app.Service;
 import android.content.Intent;
@@ -10,7 +10,7 @@ import android.util.Log;
 /**
  * Create on 2020/3/23
  * author chtj
- * desc
+ * desc 测试anr的服务类
  */
 public class MyService extends Service {
     public static final String TAG="MyService";

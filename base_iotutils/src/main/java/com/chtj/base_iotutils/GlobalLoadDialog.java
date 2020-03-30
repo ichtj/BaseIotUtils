@@ -14,17 +14,17 @@ import com.chtj.base_iotutils.keeplive.BaseIotUtils;
  * author chtj
  * desc 应用上层弹窗
  */
-public class SystemLoadDialog {
+public class GlobalLoadDialog {
     private WindowManager wm;
     private TextView tvRemarks;
     private View scanView;
-    private static SystemLoadDialog mSystemLoadDialog;
+    private static GlobalLoadDialog mGlobalLoadDialog;
 
 
-    public static SystemLoadDialog getInstance() {
-        if (mSystemLoadDialog == null) {
-            synchronized (SystemLoadDialog.class) {
-                if (mSystemLoadDialog == null) {
+    public static GlobalLoadDialog getInstance() {
+        if (mGlobalLoadDialog == null) {
+            synchronized (GlobalLoadDialog.class) {
+                if (mGlobalLoadDialog == null) {
                     if (Build.VERSION.SDK_INT >= 23) {
                         if(!Settings.canDrawOverlays(BaseIotUtils.getContext())) {
                             Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
@@ -40,15 +40,15 @@ public class SystemLoadDialog {
                 }
             }
         }
-        return mSystemLoadDialog;
+        return mGlobalLoadDialog;
     }
 
     private static void initAddView(int apiType){
-        mSystemLoadDialog = new SystemLoadDialog();
-        mSystemLoadDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
+        mGlobalLoadDialog = new GlobalLoadDialog();
+        mGlobalLoadDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
         WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
-        mSystemLoadDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
-        mSystemLoadDialog.tvRemarks = mSystemLoadDialog.scanView.findViewById(R.id.tvRemarks);
+        mGlobalLoadDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
+        mGlobalLoadDialog.tvRemarks = mGlobalLoadDialog.scanView.findViewById(R.id.tvRemarks);
         if(apiType==1){
             //6.0以上
             wmParams.type = WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY;;
@@ -60,7 +60,7 @@ public class SystemLoadDialog {
         wmParams.flags = 40;
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mSystemLoadDialog.wm.addView(mSystemLoadDialog.scanView, wmParams);
+        mGlobalLoadDialog.wm.addView(mGlobalLoadDialog.scanView, wmParams);
     }
 
     // 显示系统级提示框（自定义布局）
@@ -69,10 +69,10 @@ public class SystemLoadDialog {
     }
 
     public void dismiss(){
-        if(mSystemLoadDialog.wm!=null){
-            mSystemLoadDialog.wm.removeView(mSystemLoadDialog.scanView);
-            mSystemLoadDialog.wm=null;
-            mSystemLoadDialog =null;
+        if(mGlobalLoadDialog.wm!=null){
+            mGlobalLoadDialog.wm.removeView(mGlobalLoadDialog.scanView);
+            mGlobalLoadDialog.wm=null;
+            mGlobalLoadDialog =null;
         }
     }
 }

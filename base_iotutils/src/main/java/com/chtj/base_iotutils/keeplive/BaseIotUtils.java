@@ -95,14 +95,14 @@ public final class BaseIotUtils {
     public static void autoConvertDensityOfGlobal(Activity activity) {
         if (BaseIotUtils.instance().mAutoScreenAdaptation) {
             if (BaseIotUtils.instance().screen_type == SCREEN_TYPE.WIDTH) {
-                KLog.d(TAG, "开启了适配 并且以宽度进行适配");
+                KLog.d(TAG, "Adaptation is open and adapting to width");
                 AdaptScreenUtils.adaptWidth(activity.getResources(), BaseIotUtils.instance().defaultWidth);
             } else {
-                KLog.d(TAG, "开启了适配 并且以高度进行适配");
+                KLog.d(TAG, "Adaptation is open and adapting to height");
                 AdaptScreenUtils.adaptHeight(activity.getResources(), BaseIotUtils.instance().defaultHeight);
             }
         } else {
-            KLog.d(TAG, "当前未开启适配 如需设置请在application中将setAutoScreenAdaptation 设置为true");
+            KLog.d(TAG, "Adaptation is not open adapting please at application BaseIotUtils.setAutoScreenAdaptation, set value equal true");
         }
     }
 
@@ -149,6 +149,7 @@ public final class BaseIotUtils {
      * @param serviceClass
      */
     public static void startServiceMayBind(@NonNull final Class<? extends Service> serviceClass) {
+        KLog.e(TAG,"startServiceMayBind");
         //如果已经初始化过后台保活的Service
         if (!sInitialized) {
             return;

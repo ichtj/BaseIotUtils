@@ -12,6 +12,8 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.IBinder;
 
+import com.chtj.base_iotutils.KLog;
+
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -141,12 +143,14 @@ public class WatchDogService extends Service {
 
     public static class WatchDogNotificationService extends Service {
 
+        public static final String TAG="WatchDogNotificationService";
         /**
          * 利用漏洞在 API Level 18 及以上的 Android 系统中，启动前台服务而不显示通知
          * 运行在:watch子进程中
          */
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
+            KLog.d(TAG,"WatchDogNotificationService");
             startForeground(WatchDogService.HASH_CODE, new Notification());
             stopSelf();
             return START_STICKY;

@@ -1,32 +1,20 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.Nullable;
-import android.support.annotation.RequiresApi;
-import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.NotificationManagerCompat;
 import android.view.View;
-import android.widget.RemoteViews;
 
 import com.chtj.base_iotutils.GraphicalToastUtils;
 import com.chtj.base_iotutils.KLog;
-import com.chtj.base_iotutils.SystemLoadDialog;
 import com.chtj.base_iotutils.ToastUtils;
-import com.chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.chtj.base_iotutils.notify.NotifyUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.network.NetChangeAty;
@@ -135,16 +123,16 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(mContext, NetChangeAty.class));
                 break;
             case R.id.btn_sysDialogShow://显示SystemDialog
-                SystemLoadDialog.getInstance().show("hello world");
+                GlobalLoadDialog.getInstance().show("hello world");
                 break;
             case R.id.btn_sysDialogHide://关闭SystemDialog
-                SystemLoadDialog.getInstance().dismiss();
+                GlobalLoadDialog.getInstance().dismiss();
                 break;
             case R.id.btn_showToast://关闭SystemDialog
                 GraphicalToastUtils.success("Hello Worold!");
                 break;
             case R.id.btn_test_crash://关闭SystemDialog
-                stopService(new Intent(FeaturesOptionAty.this,MyService.class));
+                stopService(new Intent(FeaturesOptionAty.this, MyService.class));
                 startActivity(new Intent(FeaturesOptionAty.this,MyService.class));
                 break;
         }
@@ -154,6 +142,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         NotifyUtils.getInstance("10").closeNotify();
-        SystemLoadDialog.getInstance().dismiss();
+        GlobalLoadDialog.getInstance().dismiss();
     }
 }

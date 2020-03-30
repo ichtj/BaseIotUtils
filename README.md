@@ -115,7 +115,7 @@ public class App extends Application {
 
 - 时间工具类 | TimeUtils
 
-- 系统级等待对话框 | SystemLoadDialog
+- 系统级等待对话框 | GlobalLoadDialog
 
 - 压缩相关工具类 | ZipUtils
 

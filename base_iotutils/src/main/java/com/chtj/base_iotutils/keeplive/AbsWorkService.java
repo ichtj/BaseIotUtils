@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 
+import com.chtj.base_iotutils.KLog;
+
 /**
  * extends this Service(AbsWorkService),
  * could protection this Service Task
@@ -156,12 +158,14 @@ public abstract class AbsWorkService extends Service {
     }
 
     public static class WorkNotificationService extends Service {
+        public static final String TAG="WorkNotificationService";
 
         /**
          * 利用漏洞在 API Level 18 及以上的 Android 系统中，启动前台服务而不显示通知
          */
         @Override
         public int onStartCommand(Intent intent, int flags, int startId) {
+            KLog.d(TAG,"WorkNotificationService");
             startForeground(AbsWorkService.HASH_CODE, new Notification());
             stopSelf();
             return START_STICKY;
