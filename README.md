@@ -20,7 +20,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.3.2'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.3.3'
 }
 ```
 
@@ -87,7 +87,7 @@ public class App extends Application {
 
 - ShareProfrence工具类 | SPUtils
 
-- Toast工具类 | ToastUtil
+- Toast工具类 | ToastUtils
 
 - 图形化Toast工具类 | GraphicalToastUtils
 
@@ -101,7 +101,7 @@ public class App extends Application {
 
 - 日志管理 | KLog
 
-- 文件操作 | FileTxtUtil
+- 文件操作 | FileUtils
 
 - 事件管理 | RxBus
 
@@ -115,7 +115,7 @@ public class App extends Application {
 
 - 时间工具类 | TimeUtils
 
-- 系统级等待对话框 | GlobalLoadDialog
+- 系统级等待对话框 | SurfaceLoadDialog
 
 - 压缩相关工具类 | ZipUtils
 
