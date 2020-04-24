@@ -3,6 +3,7 @@ package com.face_chtj.base_iotutils.keeplive;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.face_chtj.base_iotutils.KLog;
 
@@ -23,7 +24,7 @@ public class WakeUpReceiver extends BroadcastReceiver {
      */
     @Override
     public void onReceive(Context context, Intent intent) {
-        KLog.e(TAG,"WakeUpReceiver");
+        KLog.d(TAG,"WakeUpReceiver");
         if (intent != null && ACTION_CANCEL_JOB_ALARM_SUB.equals(intent.getAction())) {
             WatchDogService.cancelJobAlarmSub();
             return;
@@ -36,7 +37,7 @@ public class WakeUpReceiver extends BroadcastReceiver {
         public static final String TAG="WakeUpAutoStartReceiver";
         @Override
         public void onReceive(Context context, Intent intent) {
-            KLog.e(TAG,"WakeUpAutoStartReceiver");
+            KLog.d(TAG,"WakeUpAutoStartReceiver");
             if (!BaseIotUtils.sInitialized) return;
             BaseIotUtils.startServiceMayBind(BaseIotUtils.sServiceClass);
         }

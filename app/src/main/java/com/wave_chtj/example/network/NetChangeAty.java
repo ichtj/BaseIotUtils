@@ -18,9 +18,9 @@ import com.wave_chtj.example.R;
  * desc 网络检测
  */
 public class NetChangeAty extends AppCompatActivity {
-    public static final String TAG = "NetChangeAty";
-    TextView tvStatus;
-    TextView tvType;
+    private static final String TAG = "NetChangeAty";
+    private TextView tvStatus;
+    private TextView tvType;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

@@ -198,43 +198,127 @@
                     android:textSize="15sp" />
 
             </LinearLayout>
-
-            <Button
-                android:id="@+id/btn_showToast"
+            <LinearLayout
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:text="图形背景吐司(success,error,normal,info...)"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:orientation="vertical">
+                <Button
+                    android:id="@+id/btn_generalToast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:background="@null"
+                    android:text="普通toast"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+                <View
+                    android:layout_width="match_parent"
+                    android:background="@color/gray"
+                    android:layout_height="1dp"/>
+                <Button
+                    android:id="@+id/btn_showToast"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="图形背景吐司(success,error,normal,info...)"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_test_crash"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_switch"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:layout_marginRight="10dp"
-                android:text="测试crash"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/button_switch"
+                    android:orientation="vertical">
+                    <Button
+                        android:id="@+id/btn_test_crash"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:onClick="onClick"
+                        android:background="@null"
+                        android:text="测试anr"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/gray"
+                        android:layout_height="1dp"/>
+                    <Button
+                        android:id="@+id/btn_test_exception"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:onClick="onClick"
+                        android:text="测试其他异常"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_switch"
+                    android:orientation="vertical">
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:background="@null"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+                    <View
+                        android:layout_width="match_parent"
+                        android:background="@color/gray"
+                        android:layout_height="1dp"/>
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:background="@null"
+                        android:gravity="center"
+                        android:textColor="@color/black"
+                        android:textSize="15sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <Button
+                android:id="@+id/btn_gc_test"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:gravity="center"
+                android:text="gc测试"
                 android:onClick="onClick"
                 android:textColor="@color/black"
                 android:textSize="15sp" />

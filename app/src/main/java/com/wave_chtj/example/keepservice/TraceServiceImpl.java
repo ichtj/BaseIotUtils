@@ -14,7 +14,7 @@ public class TraceServiceImpl extends AbsWorkService {
 
     //是否 任务完成, 不再需要服务运行?
     public static boolean sShouldStopService;
-    public static Disposable sDisposable;
+    private static Disposable sDisposable;
 
     public static void stopService() {
         //我们现在不再需要服务运行了, 将标志位置为 true

@@ -7,7 +7,7 @@ import android.util.Log;
  * author chtj
  */
 public class CrcUtils {
-    public static final String TAG="CrcUtils";
+    private static final String TAG="CrcUtils";
     /**
      * 根据原始数据获取crc8 校验值
      * @param data 原始数据

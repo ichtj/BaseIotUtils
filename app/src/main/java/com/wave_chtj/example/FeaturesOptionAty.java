@@ -7,10 +7,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
 
-import com.face_chtj.base_iotutils.GlobalLoadDialog;
-import com.face_chtj.base_iotutils.GraphicalToastUtils;
-import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -31,7 +30,7 @@ import io.reactivex.functions.Consumer;
  * 功能选择
  */
 public class FeaturesOptionAty extends BaseActivity implements View.OnClickListener {
-    public static final String TAG = "FeaturesOptionAty";
+    private static final String TAG = "FeaturesOptionAty";
     private Context mContext;
 
     @Override
@@ -47,15 +46,14 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     public void accept(Boolean granted) throws Exception {
                         if (granted) { // Always true pre-M
                             // I can control the camera now
-                            ToastUtils.showShort("已通过权限");
+                            ToastUtils.success("已通过权限");
                         } else {
                             // Oups permission denied
-                            ToastUtils.showShort("未通过权限");
+                            ToastUtils.error("未通过权限");
                         }
                     }
                 });
     }
-
 
     @Override
     public void onClick(View view) {
@@ -99,20 +97,20 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 } else {
                     NotifyUtils.toOpenNotify();
                 }
-                new Thread(){
+                new Thread() {
                     @Override
                     public void run() {
                         super.run();
-                        try{
+                        try {
                             Thread.sleep(5000);
                             NotifyUtils.getInstance("10").setAppName("");
                             NotifyUtils.getInstance("10").setAppAbout("");
                             NotifyUtils.getInstance("10").setRemarks("");
                             NotifyUtils.getInstance("10").setPrompt("");
                             NotifyUtils.getInstance("10").setDataTime("");
-                        }catch(Exception e){
+                        } catch (Exception e) {
                             e.printStackTrace();
-                            KLog.e(TAG,"errMeg:"+e.getMessage());
+                            KLog.e(TAG, "errMeg:" + e.getMessage());
                         }
                     }
                 }.start();
@@ -124,17 +122,26 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(mContext, NetChangeAty.class));
                 break;
             case R.id.btn_sysDialogShow://显示SystemDialog
-                GlobalLoadDialog.getInstance().show("hello world");
+                SurfaceLoadDialog.getInstance().show("hello world");
                 break;
             case R.id.btn_sysDialogHide://关闭SystemDialog
-                GlobalLoadDialog.getInstance().dismiss();
+                SurfaceLoadDialog.getInstance().dismiss();
                 break;
-            case R.id.btn_showToast://关闭SystemDialog
-                GraphicalToastUtils.success("Hello Worold!");
+            case R.id.btn_generalToast://普通吐司
+                ToastUtils.showShort("Hello Worold!");
                 break;
-            case R.id.btn_test_crash://关闭SystemDialog
+            case R.id.btn_showToast://图形化吐司
+                ToastUtils.success("Hello Worold!");
+                break;
+            case R.id.btn_test_crash://测试anr
                 stopService(new Intent(FeaturesOptionAty.this, MyService.class));
-                startActivity(new Intent(FeaturesOptionAty.this,MyService.class));
+                startService(new Intent(FeaturesOptionAty.this, MyService.class));
+                break;
+            case R.id.btn_test_exception://测试其他异常
+                int i = 1/0;
+                break;
+            case R.id.btn_gc_test://GC测试
+                System.gc();
                 break;
         }
     }
@@ -143,6 +150,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         NotifyUtils.getInstance("10").closeNotify();
-        GlobalLoadDialog.getInstance().dismiss();
+        SurfaceLoadDialog.getInstance().dismiss();
     }
 }

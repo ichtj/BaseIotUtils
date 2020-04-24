@@ -13,7 +13,7 @@ import android.util.Log;
  * desc 测试anr的服务类
  */
 public class MyService extends Service {
-    public static final String TAG="MyService";
+    private static final String TAG="MyService";
 
     @Nullable
     @Override

@@ -17,7 +17,7 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
  */
 public class NetListenerUtils extends BroadcastReceiver {
     private static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
-    public static final String TAG="NetChangeReceiver";
+    private static final String TAG="NetChangeReceiver";
     private OnNetChangeLinstener mOnNetChangeLinstener;
     private static NetListenerUtils netListenerUtils;
 

@@ -40,7 +40,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  * {@link #closeNotify()}-----------关闭notification
  */
 public class NotifyUtils {
-    public static final String TAG = "NotifyUtils";
+    private static final String TAG = "NotifyUtils";
     //系统通知
     private NotificationManager manager = null;
     //android api 26 以下

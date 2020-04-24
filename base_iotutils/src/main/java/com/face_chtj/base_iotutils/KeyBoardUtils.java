@@ -15,6 +15,7 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
  * --关闭软键盘 {@link #closeKeybord(EditText mEditText)}
  */
 public class KeyBoardUtils {
+
     public KeyBoardUtils() {
         throw new AssertionError();
     }

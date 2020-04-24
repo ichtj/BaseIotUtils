@@ -14,14 +14,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.DataConvertUtils;
-import com.face_chtj.base_iotutils.entity.ComEntity;
-import com.face_chtj.base_iotutils.entity.HeartBeatEntity;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.serialport.SerialPort;
 import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
-import com.face_chtj.base_iotutils.serialport.helper.OnComListener;
-import com.face_chtj.base_iotutils.serialport.helper.SerialPortHelper;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,7 +30,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class SerialPortAty extends BaseActivity {
-    public static final String TAG = "SerialPortAty";
+    private static final String TAG = "SerialPortAty";
     @BindView(R.id.sp_com)
     Spinner spCom;
     @BindView(R.id.sp_burate)
@@ -47,7 +47,7 @@ public class SerialPortAty extends BaseActivity {
     Button btnClear;
     @BindView(R.id.tvResult)
     TextView tvResult;
-    //private SerialPortHelper serialPortHelper = null;//串口控制类
+    private SerialPort port = null;//串口控制
     private List<String> list_serialcom = null;//串口地址
     private String[] arrays_burate;//波特率
 
@@ -74,92 +74,51 @@ public class SerialPortAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_init:
                 //获得当前选择串口和波特率
-                String com = spCom.getSelectedItem().toString();
-                int baudrate = Integer.parseInt(spBurate.getSelectedItem().toString());
-                //①未开启心跳包
-                //心跳包参数设置 默认用某一条命令周期性的去获取设备返回的消息
-                //主要判断是否连接正常
-                HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
-                ComEntity comEntity = new ComEntity(
-                        com//串口地址
-                        , baudrate//波特率
-                        , 6000//超时时间
-                        , 3//重试次数
-                        , heartBeatEntity//心跳检测参数
-                );
-                //初始化数据
-                SerialPortHelper.
-                        getInstance().
-                        setComEntity(comEntity).
-                        setOnComListener(new OnComListener() {
-                            @Override
-                            public void writeCommand(byte[] comm, int flag) {
-                                String writeData = "writeCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                                Log.e(TAG, writeData);
-                                Message message = handler.obtainMessage();
-                                message.obj = writeData;
-                                handler.sendMessage(message);
-                            }
-
-                            @Override
-                            public void readCommand(byte[] comm, int flag) {
-                                String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                                Log.e(TAG, readData);
-                                Message message = handler.obtainMessage();
-                                message.obj = readData;
-                                handler.sendMessage(message);
-                            }
-
-                            @Override
-                            public void writeComplet(int flag) {
-                                String writeSuccessful = "writeComplet>>> flag=" + flag;
-                                Log.e(TAG, writeSuccessful);
-                                Message message = handler.obtainMessage();
-                                message.obj = writeSuccessful;
-                                handler.sendMessage(message);
-                            }
-
-
-                            @Override
-                            public void isReadTimeOut(int flag) {
-                                String readTimeOut = "isReadTimeOut>>> flag=" + flag;
-                                Log.e(TAG, readTimeOut);
-                                Message message = handler.obtainMessage();
-                                message.obj = readTimeOut;
-                                handler.sendMessage(message);
-                            }
-
-                            @Override
-                            public void isOpen(boolean isOpen) {
-                                String comStatus = isOpen ? "isOpen>>>串口打开！" : "isOpen>>>串口关闭";
-                                Log.e(TAG, comStatus);
-                                Message message = handler.obtainMessage();
-                                message.obj = comStatus;
-                                handler.sendMessage(message);
-                            }
-
-                            @Override
-                            public void comStatus(boolean isNormal) {
-                                String comStatus = isNormal ? "comStatus>>>串口正常！" : "comStatus>>>串口异常";
-                                Log.e(TAG, comStatus);
-                                Message message = handler.obtainMessage();
-                                message.obj = comStatus;
-                                handler.sendMessage(message);
-                            }
-
-                        }).
-                        openSerialPort();
+                try{
+                    String com = spCom.getSelectedItem().toString();
+                    int baudrate = Integer.parseInt(spBurate.getSelectedItem().toString());
+                    port = new SerialPort(new File(com), baudrate, 0);
+                    KLog.d(TAG, "serialport param com=" + com + ",baudrate=" + baudrate);
+                    ToastUtils.success("开启串口成功！");
+                }catch(Exception e){
+                    e.printStackTrace();
+                    Log.e(TAG,"errMeg:"+e.getMessage());
+                    ToastUtils.error("开启串口失败,请查看日志！");
+                }
                 break;
             case R.id.btn_test_send://发送命令
-                //这里只是一个示例
-                //这里时多个命令发送
-                //单个命令发送
-                String hexComm = etCommand.getText().toString().trim();
-                byte[] comm = DataConvertUtils.decodeHexString(hexComm);
-                SerialPortHelper.getInstance().setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
+                new Thread(){
+                    @Override
+                    public void run() {
+                        super.run();
+                        try{
+                            //这里只是一个示例
+                            //这里时多个命令发送
+                            //单个命令发送
+                            String hexComm = etCommand.getText().toString().trim();
+                            byte[] comm = DataConvertUtils.decodeHexString(hexComm);
+                            port.write(comm);
+                            //等待300毫秒
+                            Thread.sleep(300);
+                            int readSize=port.getInputStream().available();
+                            if(readSize>0){
+                                byte[] bytes=new byte[readSize];
+                                port.read(bytes,bytes.length);
+                                Message message=handler.obtainMessage();
+                                message.obj=DataConvertUtils.encodeHexString(bytes);
+                                handler.sendMessage(message);
+                            }
+                        }catch(Exception e){
+                            e.printStackTrace();
+                            Log.e(TAG,"errMeg:"+e.getMessage());
+                        }
+                    }
+                }.start();
+
                 break;
             case R.id.btn_close:
-                SerialPortHelper.getInstance().closeSerialPort();
+                port.close();
+                ToastUtils.info("串口关闭！");
                 break;
             case R.id.btn_clear://清除结果
                 tvResult.setText("");
@@ -171,6 +130,7 @@ public class SerialPortAty extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            KLog.d(TAG,"msg.obj="+msg.obj.toString());
             tvResult.append("\n\r" + msg.obj.toString());
         }
     };
@@ -178,7 +138,9 @@ public class SerialPortAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        SerialPortHelper.getInstance().closeSerialPort();
+        if(port!=null){
+            port.close();
+        }
     }
 
 }

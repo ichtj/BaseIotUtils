@@ -14,7 +14,7 @@ import java.io.InputStreamReader;
  * --执行命令-多条 {@link #execCommand(String[] commands, boolean isRoot)}
  */
 public class ShellUtils {
-    public static final String TAG="ShellUtils";
+    private static final String TAG="ShellUtils";
     
     public final static String COMMAND_SU = "su";
     public final static String COMMAND_SH = "sh";

@@ -32,7 +32,7 @@ import butterknife.OnClick;
  * 目前还未做长连接
  */
 public class SocketAty extends BaseActivity {
-    public static final String TAG = "SocketAty";
+    private static final String TAG = "SocketAty";
     @BindView(R.id.etIp)
     EditText etIp;
     @BindView(R.id.etPort)
@@ -56,9 +56,9 @@ public class SocketAty extends BaseActivity {
     private static final int TCP_OPTION=0;//TCP
     private static final int UDP_OPTION=1;//UDP
     //TCP
-    BaseTcpSocket baseTcpSocket=null;
-    //UDP
-    BaseUdpSocket baseUdpSocket=null;
+    private BaseTcpSocket baseTcpSocket=null;
+     //UDP
+    private BaseUdpSocket baseUdpSocket=null;
 
     //这里统一显示回调信息
     Handler handler = new Handler() {

@@ -12,7 +12,7 @@ import okio.ForwardingSource;
 import okio.Okio;
 import okio.Source;
 public class ProgressResponseBody extends ResponseBody {
-    public static final String TAG="ProgressResponseBody";
+    private static final String TAG="ProgressResponseBody";
     private ResponseBody responseBody;
 
     private BufferedSource bufferedSource;

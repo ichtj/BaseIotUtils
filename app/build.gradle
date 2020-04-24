@@ -93,7 +93,12 @@ dependencies {
     //api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
+    //内存泄漏查看工具
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.1'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.1'
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation project(path: ':base_iotutils')
+    implementation 'com.android.support:support-annotations:28.0.0'
+    //implementation rootProject.ext.support["annotations"]
     //implementation project(path: ':base_socket')
 }

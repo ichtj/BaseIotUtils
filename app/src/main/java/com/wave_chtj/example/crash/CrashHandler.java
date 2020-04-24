@@ -118,7 +118,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * 收集设备参数信息
      * @param ctx
      */
-    public void collectDeviceInfo(Context ctx) {
+    private void collectDeviceInfo(Context ctx) {
 
         try {
             PackageManager pm = ctx.getPackageManager();
@@ -158,8 +158,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
      * @param ex
      * @return  返回文件名称,便于将文件传送到服务器
      */
-    private String saveCrashInfo2File(Throwable ex) {
-
+    private void saveCrashInfo2File(Throwable ex) {
         StringBuffer sb = new StringBuffer();
         for (Map.Entry entry : paramsMap.entrySet()) {
             String key = (String) entry.getKey();
@@ -192,10 +191,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 fos.write(sb.toString().getBytes());
                 fos.close();
             }
-            return fileName;
         } catch (Exception e) {
             Log.e(TAG, "an error occured while writing file...", e);
         }
-        return null;
     }
 }

@@ -10,7 +10,7 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
  * 存储工具类
  */
 public class SPUtils {
-    public static final String NAME = "config";
+    private static final String NAME = "config";
 
     /**
      * 存储String类型的值

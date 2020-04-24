@@ -14,7 +14,7 @@ import com.wave_chtj.example.base.BaseActivity;
  * desc $ 启动页
  */
 public class StartPageAty extends BaseActivity {
-    public static final String TAG="StartPageAty";
+    private static final String TAG="StartPageAty";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

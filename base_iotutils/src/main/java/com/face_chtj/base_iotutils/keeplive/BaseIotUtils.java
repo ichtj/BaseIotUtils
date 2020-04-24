@@ -133,6 +133,7 @@ public final class BaseIotUtils {
         throw new NullPointerException("should be initialized in application");
     }
 
+
     /**
      * 后台保活而进行的初始化
      *

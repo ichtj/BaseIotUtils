@@ -13,7 +13,7 @@ import com.face_chtj.base_iotutils.KLog;
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class JobSchedulerService extends JobService {
-    public static final String TAG = "JobSchedulerService";
+    private static final String TAG = "JobSchedulerService";
 
     @Override
     public boolean onStartJob(JobParameters params) {

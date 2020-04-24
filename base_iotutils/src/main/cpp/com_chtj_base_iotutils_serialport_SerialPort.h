@@ -12,22 +12,25 @@ extern "C" {
  * Method:    open
  * Signature: (Ljava/lang/String;II)Ljava/io/FileDescriptor;
  */
-JNIEXPORT jobject JNICALL Java_com_serialport_SerialPort_open
-  (JNIEnv *, jclass, jstring, jint, jint);
+JNIEXPORT jobject JNICALL Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_open(JNIEnv *env, jclass clazz,
+                                                              jstring path, jint baudrate,
+                                                              jint flags);
 
 
-JNIEXPORT jobject JNICALL Java_com_serialport_SerialPort_open2
-(JNIEnv *, jclass, jstring, jint, jint , jint , jchar );
-
-
+JNIEXPORT jobject JNICALL
+Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_open2(JNIEnv *env, jclass clazz,
+                                                               jstring path, jint baudrate,
+                                                               jint data_bits, jint stop_bits,
+                                                               jchar parity);
 
 /*
  * Class:     com_serialport_SerialPort
  * Method:    close
  * Signature: ()V
  */
-JNIEXPORT void JNICALL Java_com_serialport_SerialPort_close
-  (JNIEnv *, jobject);
+
+JNIEXPORT void JNICALL
+Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_close(JNIEnv *env, jobject thiz);
 
 #ifdef __cplusplus
 }

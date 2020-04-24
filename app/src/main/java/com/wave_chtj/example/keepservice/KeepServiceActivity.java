@@ -17,7 +17,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class KeepServiceActivity extends BaseActivity {
-    public static final String TAG="KeepServiceActivity";
+    private static final String TAG="KeepServiceActivity";
     @BindView(R.id.btn_start)
     Button btnStart;
     @BindView(R.id.btn_white)

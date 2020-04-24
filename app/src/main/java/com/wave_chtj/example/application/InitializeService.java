@@ -9,13 +9,14 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.wave_chtj.example.crash.CrashHandler;
 
+
 /**
  * Create on 2019/10/16
  * author chtj
  * desc 启动app时的优化
  */
 public class InitializeService extends IntentService {
-    public static final String TAG="InitializeService";
+    private static final String TAG="InitializeService";
     private static final String ACTION_INIT_WHEN_APP_CREATE = "com.anly.githubapp.service.action.INIT";
 
     public InitializeService() {
