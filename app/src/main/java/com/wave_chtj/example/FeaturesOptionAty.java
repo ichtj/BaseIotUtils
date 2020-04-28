@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
 
@@ -22,6 +23,9 @@ import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 import io.reactivex.functions.Consumer;
 
@@ -78,7 +82,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_notification_open://notification display
                 if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.getInstance("10")
+                    NotifyUtils.getInstance("111")
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
                                 public void enableStatus(boolean isEnable) {
@@ -103,11 +107,11 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         super.run();
                         try {
                             Thread.sleep(5000);
-                            NotifyUtils.getInstance("10").setAppName("");
-                            NotifyUtils.getInstance("10").setAppAbout("");
-                            NotifyUtils.getInstance("10").setRemarks("");
-                            NotifyUtils.getInstance("10").setPrompt("");
-                            NotifyUtils.getInstance("10").setDataTime("");
+                            NotifyUtils.getInstance("111").setAppName("");
+                            NotifyUtils.getInstance("111").setAppAbout("");
+                            NotifyUtils.getInstance("111").setRemarks("");
+                            NotifyUtils.getInstance("111").setPrompt("");
+                            NotifyUtils.getInstance("111").setDataTime("");
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
@@ -116,7 +120,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.btn_notification_close://关闭notification
-                NotifyUtils.getInstance("10").closeNotify();
+                NotifyUtils.getInstance("111").closeNotify();
                 break;
             case R.id.btn_network://网络监听
                 startActivity(new Intent(mContext, NetChangeAty.class));

@@ -47,7 +47,7 @@ public class KeepServiceActivity extends BaseActivity {
             case R.id.btn_start:
                 TraceServiceImpl.sShouldStopService = false;
                 BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
-                NotifyUtils.getInstance("10")
+                NotifyUtils.getInstance("111")
                         .setOnNotifyLinstener(new OnNotifyLinstener() {
                             @Override
                             public void enableStatus(boolean isEnable) {
@@ -71,7 +71,7 @@ public class KeepServiceActivity extends BaseActivity {
             //③关闭服务
             case R.id.btn_stop:
                 TraceServiceImpl.stopService();
-                NotifyUtils.getInstance("10").closeNotify();
+                NotifyUtils.getInstance("111").closeNotify();
                 break;
         }
     }

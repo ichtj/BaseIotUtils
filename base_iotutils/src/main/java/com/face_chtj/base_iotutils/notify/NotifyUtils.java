@@ -500,11 +500,16 @@ public class NotifyUtils {
      * 关闭消息通知
      */
     public void closeNotify() {
+        KLog.d(TAG,"notifyId="+notifyId);
         if (manager != null) {
             if (notifyId != -1) {
                 manager.cancel(notifyId);//参数一为ID，用来区分不同APP的Notification
                 if (mOnNotifyLinstener != null) {
                     mOnNotifyLinstener.enableStatus(false);
+                    mOnNotifyLinstener=null;
+                    notifyUtils=null;
+                }else{
+                    throw new NullPointerException("mOnNotifyLinstener ==null");
                 }
             }
         } else {

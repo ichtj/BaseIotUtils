@@ -30,6 +30,7 @@ public class FileUtils {
      * @return 是否成功 true|false
      */
     public static boolean writeFileData(String filename, String content, boolean isCover) {
+        FileOutputStream fos =null;
         try {
             File file = new File(filename);
             //如果文件不存在
@@ -37,14 +38,21 @@ public class FileUtils {
                 //重新创建文件
                 file.createNewFile();
             }
-            FileOutputStream fos = new FileOutputStream(file, !isCover);
+            fos = new FileOutputStream(file, !isCover);
             byte[] bytes = content.getBytes();
             fos.write(bytes);//将byte数组写入文件
-            fos.close();//关闭文件输出流
+            fos.flush();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             KLog.e(TAG, "writeFileData: " + e.getMessage());
+        }finally {
+            try{
+                fos.close();//关闭文件输出流
+            }catch(Exception e){
+                e.printStackTrace();
+                KLog.e(TAG,"errMeg:"+e.getMessage());
+            }
         }
         return false;
     }

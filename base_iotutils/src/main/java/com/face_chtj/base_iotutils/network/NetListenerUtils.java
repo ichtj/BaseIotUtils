@@ -67,22 +67,25 @@ public class NetListenerUtils extends BroadcastReceiver {
         KLog.e(TAG,"action="+action);
         if(action.equals(ANDROID_NET_CHANGE_ACTION)){
             if(mOnNetChangeLinstener!=null){
+                //获取当前网络类型
                 int type=NetUtils.getNetWorkType();
+                //判断网络是否连接正常，是否能够ping通
+                boolean isPingSuccessful=NetUtils.ping();
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_NO,false);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_NO,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_WIFI){//1
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_WIFI,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_WIFI,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_2G){//2
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_2G,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_2G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_3G){//3
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_3G,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_3G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_4G){//4
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_4G,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_4G,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_ETHERNET){//9
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_ETH,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_ETH,isPingSuccessful);
                 }else{
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_UNKNOWN,true);
+                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_UNKNOWN,isPingSuccessful);
                 }
             }
         }

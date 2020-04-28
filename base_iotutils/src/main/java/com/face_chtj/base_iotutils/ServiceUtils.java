@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class ServiceUtils {
     /**
      * 获取Service是否正在运行
-     * @param servicePath
+     * @param servicePath 具体的service路径
      * @return true正在运行|false没有运行
      */
     public static boolean isWorked(String servicePath) {
