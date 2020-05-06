@@ -20,7 +20,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.3.5'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.3.7'
 }
 ```
 
@@ -88,8 +88,6 @@ public class App extends Application {
 - ShareProfrence工具类 | SPUtils
 
 - Toast工具类 | ToastUtils
-
-- 图形化Toast工具类 | GraphicalToastUtils
 
 - 后台服务类 保活 | AbsWorkService
 

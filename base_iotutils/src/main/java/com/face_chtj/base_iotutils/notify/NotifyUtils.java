@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -54,6 +55,7 @@ public class NotifyUtils {
     private boolean mAutoCancel = false;//点击的时候是否消失
     private OnNotifyLinstener mOnNotifyLinstener;
     private static NotifyUtils notifyUtils;
+    private NotifyBroadcastReceiver mNotifyBroadcastReceiver;
     //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
     //跳转设置
@@ -103,7 +105,11 @@ public class NotifyUtils {
                 if (notifyUtils == null) {
                     //初始化
                     notifyUtils = new NotifyUtils();
-                    notifyUtils.notifyId = Integer.valueOf(notifyId);
+                    //注册广播
+                    notifyUtils.mNotifyBroadcastReceiver=new NotifyBroadcastReceiver();
+                    IntentFilter filter=new IntentFilter();
+                    filter.addAction(ACTION_CLOSE_NOTIFY);
+                    BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyBroadcastReceiver,filter);                    notifyUtils.notifyId = Integer.valueOf(notifyId);
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
@@ -499,14 +505,18 @@ public class NotifyUtils {
      * 外部调用此方法时，请先调用{@link #getInstance(String)}
      * 关闭消息通知
      */
-    public void closeNotify() {
-        KLog.d(TAG,"notifyId="+notifyId);
-        if (manager != null) {
-            if (notifyId != -1) {
-                manager.cancel(notifyId);//参数一为ID，用来区分不同APP的Notification
-                if (mOnNotifyLinstener != null) {
-                    mOnNotifyLinstener.enableStatus(false);
-                    mOnNotifyLinstener=null;
+    public static void closeNotify() {
+        KLog.d(TAG,"notifyId="+notifyUtils.notifyId);
+        if (notifyUtils.manager != null) {
+            if (notifyUtils.notifyId != -1) {
+                notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
+                if (notifyUtils.mOnNotifyLinstener != null) {
+                    notifyUtils.mOnNotifyLinstener.enableStatus(false);
+                    //销毁广播
+                    if(notifyUtils.mNotifyBroadcastReceiver!=null){
+                        BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
+                    }
+                    notifyUtils.mOnNotifyLinstener=null;
                     notifyUtils=null;
                 }else{
                     throw new NullPointerException("mOnNotifyLinstener ==null");
@@ -514,17 +524,6 @@ public class NotifyUtils {
             }
         } else {
             throw new NullPointerException("manager or builder ==null");
-        }
-    }
-
-    //关闭notification的广播
-    public static class NotifyBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent.getAction().equals(ACTION_CLOSE_NOTIFY)) {
-                //关闭通知
-                notifyUtils.closeNotify();
-            }
         }
     }
 }

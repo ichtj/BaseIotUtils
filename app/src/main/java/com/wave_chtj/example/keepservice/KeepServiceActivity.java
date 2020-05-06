@@ -71,7 +71,7 @@ public class KeepServiceActivity extends BaseActivity {
             //③关闭服务
             case R.id.btn_stop:
                 TraceServiceImpl.stopService();
-                NotifyUtils.getInstance("111").closeNotify();
+                NotifyUtils.closeNotify();
                 break;
         }
     }

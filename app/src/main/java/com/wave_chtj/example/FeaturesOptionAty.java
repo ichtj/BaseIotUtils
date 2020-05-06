@@ -120,7 +120,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }.start();
                 break;
             case R.id.btn_notification_close://关闭notification
-                NotifyUtils.getInstance("111").closeNotify();
+                NotifyUtils.closeNotify();
                 break;
             case R.id.btn_network://网络监听
                 startActivity(new Intent(mContext, NetChangeAty.class));
@@ -153,7 +153,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NotifyUtils.getInstance("10").closeNotify();
+        NotifyUtils.closeNotify();
         SurfaceLoadDialog.getInstance().dismiss();
     }
 }
