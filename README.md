@@ -81,7 +81,7 @@ public class App extends Application {
 
 - 键盘相关 | KeyBoardUtils
 
-- 网络判断 | NetWorkUtils
+- 网络判断 | NetUtils
 
 - adb命令工具类 | ShellUtils
 
@@ -97,7 +97,7 @@ public class App extends Application {
 
 - 串口工具 | SerialPort | SerialPortFinder
 
-- 日志管理 | KLog
+- 日志管理(使用时开启日志) | KLog
 
 - 文件操作 | FileUtils
 
@@ -109,11 +109,11 @@ public class App extends Application {
 
 - 权限管理 | PermissionsUtils
 
-- Service状态获取 | ServiceUtils
+- Service状态获取(是否正在运行) | ServiceUtils
 
-- 时间工具类 | TimeUtils
+- 时间工具类(返回各种时间格式) | TimeUtils
 
-- 系统级等待对话框 | SurfaceLoadDialog
+- 应用上方对话框(全局对话框) | SurfaceLoadDialog
 
 - 压缩相关工具类 | ZipUtils
 
@@ -167,27 +167,36 @@ public class App extends Application {
 
 # NotificationUtils 使用
 ```java
-     //初始化并显示
-     NotifyUtils.getInstance()
-       .setINotifyLinstener(new INotifyLinstener() {
-           @Override
-           public void enableStatus(boolean isEnable) {
-               KLog.e(TAG,"isEnable="+isEnable);
-           }
-       })
-       .setNotifyId(10)
-       .setNotifyParam(R.drawable.ic_launcher,R.drawable.app_img,"BaseIotUtils"
-               ,"a baseiotutils:serialPort,Rxbus,DownloadManager....!"
-               ,"oh my god!"
-               ,false
-               ,true)
-       .exeuNotify();
-     //更改相关信息
-     NotifyUtils.getInstance().setAppName("ssss");
-     NotifyUtils.getInstance().setRemarks("AAAAA");
-     NotifyUtils.getInstance().setPrompt("gggggg");
-     //关闭通知
-     NotifyUtils.getInstance().closeNotify();
+     //获取系统中是否已经通过 允许通知的权限
+     if (NotifyUtils.notifyIsEnable()) {
+         NotifyUtils.getInstance("xxid")
+                 .setOnNotifyLinstener(new OnNotifyLinstener() {
+                     @Override
+                     public void enableStatus(boolean isEnable) {
+                         KLog.e(TAG, "isEnable=" + isEnable);
+                     }
+                 })
+                 .setNotifyParam(R.drawable.ic_launcher, R.drawable.app_img
+                         , "BaseIotUtils"
+                         , "工具类"
+                         , "文件压缩，文件下载，日志管理，时间管理，网络判断。。。"
+                         , "this is a library ..."
+                         , "2020-3-18"
+                         , false
+                         , true)
+                 .exeuNotify();
+     } else {
+         //去开启通知
+         NotifyUtils.toOpenNotify();
+     }
+     //更改部分内容
+     NotifyUtils.getInstance("xxid").setAppName("");
+     NotifyUtils.getInstance("xxid").setAppAbout("");
+     NotifyUtils.getInstance("xxid").setRemarks("");
+     NotifyUtils.getInstance("xxid").setPrompt("");
+     NotifyUtils.getInstance("xxid").setDataTime("");
+     //关闭此notification
+     NotifyUtils.closeNotify();
  ```
 
 # NetListenerUtils 网络监听者
@@ -198,6 +207,7 @@ public class App extends Application {
      NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
          @Override
          public void changed(NetTypeInfo type, boolean isNormal) {
+             //isNormal 网络经过ping后 true为网络正常 false为网络异常
              KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
              tvType.setText("" + type.name());
              tvStatus.setText("" + isNormal);
@@ -344,7 +354,7 @@ public class App extends Application {
 
                 @Override
                 public void startWork(Intent intent, int flags, int startId) {
-
+                    //在这里操作。。。。
                 }
 
                 @Override
@@ -410,6 +420,9 @@ public class App extends Application {
 ```
 
 # Version Code
+ ### v1.0.3
+> 优化各个工具类
+> 新增部分工具类
  ### v1.0.2
 > 新增crash控制界面
 > 修改NotifyUtils支持6.0以上系统显示，并新增获取通知是否允许的状态NotifyUtils.notifyIsEnable();跳转应用设置界面NotifyUtils.toOpenNotify();
