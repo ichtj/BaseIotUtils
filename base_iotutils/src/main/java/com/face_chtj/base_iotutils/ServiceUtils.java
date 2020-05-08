@@ -2,6 +2,7 @@ package com.face_chtj.base_iotutils;
 
 import android.app.ActivityManager;
 import android.content.Context;
+import android.content.Intent;
 
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
@@ -15,7 +16,7 @@ import java.util.ArrayList;
 public class ServiceUtils {
     /**
      * 获取Service是否正在运行
-     * @param servicePath 具体的service路径
+     * @param servicePath 完整包名的服务类名 com.xxx.xxx.XXService
      * @return true正在运行|false没有运行
      */
     public static boolean isWorked(String servicePath) {
@@ -31,4 +32,21 @@ public class ServiceUtils {
         }
         return false;
     }
+
+    /**
+     * 停止服务
+     *
+     * @param className 完整包名的服务类名 com.xxx.xxx.XXService
+     * @return {@code true}: 停止成功<br>{@code false}: 停止失败
+     */
+    public static boolean stopService(String className) {
+        try {
+            Intent intent = new Intent(BaseIotUtils.getContext(), Class.forName(className));
+            return BaseIotUtils.getContext().stopService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

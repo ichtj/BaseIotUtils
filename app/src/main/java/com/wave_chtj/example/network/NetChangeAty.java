@@ -26,7 +26,6 @@ public class NetChangeAty extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
-
         tvStatus = findViewById(R.id.tvStatus);
         tvType = findViewById(R.id.tvType);
 
@@ -38,6 +37,7 @@ public class NetChangeAty extends AppCompatActivity {
         NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
             @Override
             public void changed(NetTypeInfo type, boolean isNormal) {
+                //isNormal 网络经过ping后 true为网络正常 false为网络异常
                 KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
                 tvType.setText("" + type.name());
                 tvStatus.setText("" + isNormal);

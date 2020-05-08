@@ -81,8 +81,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(mContext, SocketAty.class));
                 break;
             case R.id.btn_notification_open://notification display
+                //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
                     NotifyUtils.getInstance("111")
+                            .setEnableCloseButton(false)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
                                 public void enableStatus(boolean isEnable) {
@@ -96,9 +98,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                                     , "this is a library ..."
                                     , "2020-3-18"
                                     , false
-                                    , true)
+                                    , false)
                             .exeuNotify();
                 } else {
+                    //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
                 new Thread() {

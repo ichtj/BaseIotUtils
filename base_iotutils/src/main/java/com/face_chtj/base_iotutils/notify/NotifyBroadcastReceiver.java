@@ -4,14 +4,18 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
+import com.face_chtj.base_iotutils.KLog;
+
 /**
  * Create on 2020/5/6
  * author chtj
  * desc
  */
 public class NotifyBroadcastReceiver extends BroadcastReceiver {
+    private static final String TAG="NotifyBroadcastReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
+        KLog.d(TAG,"NotifyBroadcastReceiver action="+intent.getAction());
         if (intent.getAction().equals(NotifyUtils.ACTION_CLOSE_NOTIFY)) {
             //关闭通知
             NotifyUtils.closeNotify();

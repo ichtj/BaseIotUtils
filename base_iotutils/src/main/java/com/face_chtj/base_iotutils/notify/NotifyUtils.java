@@ -16,6 +16,7 @@ import android.os.Build;
 import android.support.annotation.DrawableRes;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
+import android.view.View;
 import android.widget.RemoteViews;
 
 import com.face_chtj.base_iotutils.KLog;
@@ -173,6 +174,16 @@ public class NotifyUtils {
      */
     public NotifyUtils setOnNotifyLinstener(OnNotifyLinstener onNotifyLinstener) {
         this.mOnNotifyLinstener = onNotifyLinstener;
+        return notifyUtils;
+    }
+
+    /**
+     * 设置关闭按钮是否可见
+     * @param isEnable 是否可见
+     * @return this
+     */
+    public NotifyUtils setEnableCloseButton(boolean isEnable){
+        contentView.setViewVisibility(R.id.ivClose, isEnable?View.VISIBLE:View.GONE);
         return notifyUtils;
     }
 
@@ -506,24 +517,26 @@ public class NotifyUtils {
      * 关闭消息通知
      */
     public static void closeNotify() {
-        KLog.d(TAG,"notifyId="+notifyUtils.notifyId);
-        if (notifyUtils.manager != null) {
-            if (notifyUtils.notifyId != -1) {
-                notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
-                if (notifyUtils.mOnNotifyLinstener != null) {
-                    notifyUtils.mOnNotifyLinstener.enableStatus(false);
-                    //销毁广播
-                    if(notifyUtils.mNotifyBroadcastReceiver!=null){
-                        BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
+        if(notifyUtils!=null){
+            KLog.d(TAG,"notifyId="+notifyUtils.notifyId);
+            if (notifyUtils.manager != null) {
+                if (notifyUtils.notifyId != -1) {
+                    notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
+                    if (notifyUtils.mOnNotifyLinstener != null) {
+                        notifyUtils.mOnNotifyLinstener.enableStatus(false);
+                        //销毁广播
+                        if(notifyUtils.mNotifyBroadcastReceiver!=null){
+                            BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
+                        }
+                        notifyUtils.mOnNotifyLinstener=null;
+                        notifyUtils=null;
+                    }else{
+                        throw new NullPointerException("mOnNotifyLinstener ==null");
                     }
-                    notifyUtils.mOnNotifyLinstener=null;
-                    notifyUtils=null;
-                }else{
-                    throw new NullPointerException("mOnNotifyLinstener ==null");
                 }
+            } else {
+                throw new NullPointerException("manager or builder ==null");
             }
-        } else {
-            throw new NullPointerException("manager or builder ==null");
         }
     }
 }

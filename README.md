@@ -170,6 +170,7 @@ public class App extends Application {
      //获取系统中是否已经通过 允许通知的权限
      if (NotifyUtils.notifyIsEnable()) {
          NotifyUtils.getInstance("xxid")
+                 .setEnableCloseButton(false)//设置是否显示关闭按钮
                  .setOnNotifyLinstener(new OnNotifyLinstener() {
                      @Override
                      public void enableStatus(boolean isEnable) {

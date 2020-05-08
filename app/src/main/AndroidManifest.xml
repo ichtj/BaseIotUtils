@@ -37,6 +37,7 @@
         android:roundIcon="@mipmap/app_img"
         android:supportsRtl="true"
         android:persistent="true"
+        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <!--启动页-->
         <activity android:name=".StartPageAty"
