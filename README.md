@@ -25,34 +25,34 @@ dependencies {
 ```
 
 #### base_socket
-<!--```groovy
+```groovy
 dependencies {
          //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
          implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
-```-->
+```
 ##  base_iotutils Module 说明
 
 ### 自定义Application
 ```java
+
+//注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
+
 public class App extends Application {
 
     @Override
     public void onCreate() {
         super.onCreate();
-        //初始化BaseIotUtils
+        //如果(不)需要开启适配  请用此方式
         BaseIotUtils.instance().create(getApplication());
-        .........
 
-        //以下为适配UI时的初始化
-        //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
-        //1080,1920是为了适配而去设置相关的值
+        //如果需要开启适配 请用此方式
+        //1080(宽),1920(高)是为了适配而去设置相关的值
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
         BaseIotUtils.instance().
               setBaseScreenParam(1080,1920,true).
               setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
               create(getApplication());
-        //别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
     }
 }
 ```

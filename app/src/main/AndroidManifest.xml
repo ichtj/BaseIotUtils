@@ -55,18 +55,22 @@
             android:theme="@style/AppTheme"/>
         <!--串口相关-->
         <activity android:name=".serialport.SerialPortAty"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme"/>
         <!--屏幕适配相关-->
         <activity android:name=".screen.ScreenActivity"
             android:theme="@style/AppTheme"/>
         <!--文件读写-->
         <activity android:name=".file.FileOperatAty"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme"/>
         <!--文件下载-->
         <activity android:name=".download.DownLoadAty"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme"/>
         <!--Socket udp/tcp-->
         <activity android:name=".socket.SocketAty"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme"/>
         <!--全局异常捕获-->
         <activity android:name=".crash.CrashAty"/>

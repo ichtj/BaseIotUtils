@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 
+import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.download.DownLoadManager;
@@ -21,6 +22,7 @@ import okhttp3.ResponseBody;
 /**
  * Create on 2019/10/10
  * author chtj
+ * desc 文件下载
  */
 public class DownLoadAty extends BaseActivity {
     private static final String TAGS="DownLoadAty";
@@ -42,6 +44,10 @@ public class DownLoadAty extends BaseActivity {
 
     //文件下载
     public void downloadFile(View view) {
+        if(NetUtils.getNetWorkType()==NetUtils.NETWORK_NO){
+            ToastUtils.error("当前无网络连接！");
+            return;
+        }
         DownLoadManager.getInstance().load(downloadUrl, new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
             @Override
             public void onStart() {

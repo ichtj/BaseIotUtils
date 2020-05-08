@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.network.NetListenerUtils;
 import com.face_chtj.base_iotutils.network.NetTypeInfo;
 import com.face_chtj.base_iotutils.network.OnNetChangeLinstener;
@@ -28,7 +30,11 @@ public class NetChangeAty extends AppCompatActivity {
         setContentView(R.layout.activity_network);
         tvStatus = findViewById(R.id.tvStatus);
         tvType = findViewById(R.id.tvType);
-
+        if(NetUtils.getNetWorkType()==NetUtils.NETWORK_NO){
+            ToastUtils.error("当前无网络连接！");
+            tvType.setText("无" );
+            tvStatus.setText("false");
+        }
     }
 
     //开始监听

@@ -1,115 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:orientation="vertical">
-    <LinearLayout
-        android:layout_marginTop="15dp"
+
+    <com.wave_chtj.example.customizeview.TopTitleView
+        android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:ivback="@mipmap/back"
+        app:name="串口收发" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp"
         android:orientation="vertical">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <TextView
-                android:layout_width="80dp"
-                android:gravity="right"
+            android:layout_marginTop="15dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@android:color/black"
-                android:text="串口地址："/>
-            <Spinner
-                android:id="@+id/sp_com"
-                android:layout_width="wrap_content"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_marginTop="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-        <TextView
-            android:layout_width="80dp"
-            android:gravity="right"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="波特率："/>
-        <Spinner
-            android:id="@+id/sp_burate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:entries="@array/burate"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_init"
-                android:layout_marginTop="15dp"
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="串口地址："
+                    android:textColor="@android:color/black" />
+
+                <Spinner
+                    android:id="@+id/sp_com"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_weight="1"
-                android:text="开启串口并初始化基本信息"
-                android:layout_height="wrap_content"/>
-            <Button
-                android:id="@+id/btn_close"
-                android:layout_marginTop="15dp"
-                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="80dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:text="波特率："
+                    android:textColor="@android:color/black" />
+
+                <Spinner
+                    android:id="@+id/sp_burate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:entries="@array/burate" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:text="关闭串口"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <Button
+                    android:id="@+id/btn_init"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:text="开启串口并初始化基本信息" />
+
+                <Button
+                    android:id="@+id/btn_close"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_weight="1"
+                    android:text="关闭串口" />
+
+            </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
 
 
-    <EditText
-        android:id="@+id/etCommand"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:paddingLeft="10dp"
-        android:background="@drawable/button_style_stroke"
-        android:hint="请填写命令"
-        android:text="AA55030050002B" />
-
-    <Button
-        android:id="@+id/btn_test_send"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="写数据" />
-
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/etCommand"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style_stroke"
+            android:hint="请填写命令"
+            android:paddingLeft="10dp"
+            android:text="AA55030050002B" />
 
         <Button
-            android:id="@+id/btn_clear"
-            android:layout_width="wrap_content"
+            android:id="@+id/btn_test_send"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="清空" />
+            android:text="写数据" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_clear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="清空" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerInParent="true"
+                android:text="返回结果：" />
+        </RelativeLayout>
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:text="返回结果：" />
-    </RelativeLayout>
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/button_style_stroke"
+            android:gravity="left|top"
+            android:scrollbars="vertical"
+            android:text="" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvResult"
-        android:layout_width="match_parent"
-        android:scrollbars="vertical"
-        android:background="@drawable/button_style_stroke"
-        android:layout_height="match_parent"
-        android:gravity="left|top"
-        android:text="" />
 </LinearLayout>

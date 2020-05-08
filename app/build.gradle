@@ -90,7 +90,7 @@ dependencies {
     api rootProject.ext.dependencies["rxpermissions"]
     api rootProject.ext.dependencies["nativecrashreport"]
     //socket client
-    //api rootProject.ext.dependencies["socket-client"]
+    api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
     //内存泄漏查看工具

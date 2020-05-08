@@ -1,12 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <Button
-        android:onClick="downloadFile"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.wave_chtj.example.customizeview.TopTitleView
+        android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="开始下载"/>
+        app:ivback="@mipmap/back"
+        app:name="文件下载" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downloadFile"
+        android:text="开始下载" />
+
     <ProgressBar
         android:id="@+id/pb_progressbar"
         style="@style/mProgressBarStyle"
@@ -14,7 +25,7 @@
         android:layout_height="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:progressDrawable="@drawable/main_pb_bg"
         android:max="100"
-        android:progress="0"/>
+        android:progress="0"
+        android:progressDrawable="@drawable/main_pb_bg" />
 </LinearLayout>

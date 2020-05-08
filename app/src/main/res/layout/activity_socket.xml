@@ -1,112 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <com.wave_chtj.example.customizeview.TopTitleView
+        android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Spinner
-            android:id="@+id/sp_option"
-            android:layout_width="80dp"
-            android:layout_gravity="center"
-            android:entries="@array/net_opiton"
-            android:layout_height="50dp"/>
-        <EditText
-            android:id="@+id/etIp"
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_weight="1"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style_stroke"
-            android:hint="请输入ip地址"
-            android:paddingLeft="10dp"
-            android:text="192.168.1.122" />
-
-        <EditText
-            android:id="@+id/etPort"
-            android:layout_width="100dp"
-            android:layout_height="45dp"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/button_style_stroke"
-            android:hint="端口"
-            android:paddingLeft="10dp"
-            android:text="8234" />
-    </LinearLayout>
-
+        app:ivback="@mipmap/back"
+        app:name="TCP/UDP通信" />
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <Button
-            android:id="@+id/btnConnect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="连接" />
-
-        <Button
-            android:id="@+id/btnDisConnect"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:text="断开" />
-
-    </LinearLayout>
-
-    <EditText
-        android:id="@+id/etSendContent"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/button_style_stroke"
-        android:hint="发送的内容"
-        android:text="AABB"
-        android:paddingLeft="10dp" />
-
-    <Button
-        android:id="@+id/btnSend"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="send" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="结果：" />
-
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-        <Button
-            android:id="@+id/btnClear"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="清空" />
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="5dp"
-        android:scrollbars="vertical"
-        android:background="@drawable/button_style_stroke" />
+        android:orientation="vertical"
+        android:padding="10dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
+            <Spinner
+                android:id="@+id/sp_option"
+                android:layout_width="80dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:entries="@array/net_opiton" />
+
+            <EditText
+                android:id="@+id/etIp"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_style_stroke"
+                android:hint="请输入ip地址"
+                android:paddingLeft="10dp"
+                android:text="192.168.1.122" />
+
+            <EditText
+                android:id="@+id/etPort"
+                android:layout_width="100dp"
+                android:layout_height="45dp"
+                android:layout_marginLeft="15dp"
+                android:background="@drawable/button_style_stroke"
+                android:hint="端口"
+                android:paddingLeft="10dp"
+                android:text="8234" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/btnConnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="连接" />
+
+            <Button
+                android:id="@+id/btnDisConnect"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:text="断开" />
+
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/etSendContent"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/button_style_stroke"
+            android:hint="发送的内容"
+            android:paddingLeft="10dp"
+            android:text="AABB" />
+
+        <Button
+            android:id="@+id/btnSend"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="send" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="结果：" />
+
+            <View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/btnClear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="清空" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvResult"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_style_stroke"
+            android:scrollbars="vertical" />
+    </LinearLayout>
 </LinearLayout>
