@@ -5,7 +5,9 @@
 ---------------------------------
 source /build/envsetup.sh 
 lunch 列出编译类型
+mmm packages/apps/Launcher2/
 
+或者另一种
 ./build_app.sh packages/apps/Launcher2/
 ---------------------------------
 

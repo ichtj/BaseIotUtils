@@ -4,11 +4,10 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 
-import com.face_chtj.base_iotutils.KeyBoardUtils;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
@@ -24,9 +23,6 @@ import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
-
-import java.io.File;
-import java.io.FileOutputStream;
 
 import io.reactivex.functions.Consumer;
 
@@ -57,7 +53,9 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
+
     }
+
 
     @Override
     public void onClick(View view) {
@@ -84,7 +82,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
                     NotifyUtils.getInstance("111")
-                            .setEnableCloseButton(false)//设置是否显示关闭按钮
+                            .setEnableCloseButton(true)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
                                 public void enableStatus(boolean isEnable) {
@@ -98,13 +96,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                                     , "this is a library ..."
                                     , "2020-3-18"
                                     , false
-                                    , false)
+                                    , true)
                             .exeuNotify();
                 } else {
                     //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
-                new Thread() {
+              /*  new Thread() {
                     @Override
                     public void run() {
                         super.run();
@@ -120,7 +118,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             KLog.e(TAG, "errMeg:" + e.getMessage());
                         }
                     }
-                }.start();
+                }.start();*/
                 break;
             case R.id.btn_notification_close://关闭notification
                 NotifyUtils.closeNotify();
@@ -145,7 +143,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startService(new Intent(FeaturesOptionAty.this, MyService.class));
                 break;
             case R.id.btn_test_exception://测试其他异常
-                int i = 1/0;
+                int i = 1 / 0;
                 break;
             case R.id.btn_gc_test://GC测试
                 System.gc();

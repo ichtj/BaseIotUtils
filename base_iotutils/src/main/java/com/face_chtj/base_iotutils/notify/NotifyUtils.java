@@ -21,6 +21,7 @@ import android.widget.RemoteViews;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.R;
+import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -500,6 +501,7 @@ public class NotifyUtils {
                     builder.setAutoCancel(mAutoCancel);//点击的时候消失
                     manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
                 }
+                SPUtils.putBoolean("needClose",mAutoCancel);
                 if (mOnNotifyLinstener != null) {
                     mOnNotifyLinstener.enableStatus(true);
                 }

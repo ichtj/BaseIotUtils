@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.SPUtils;
 
 /**
  * Create on 2020/5/6
@@ -17,8 +18,11 @@ public class NotifyBroadcastReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         KLog.d(TAG,"NotifyBroadcastReceiver action="+intent.getAction());
         if (intent.getAction().equals(NotifyUtils.ACTION_CLOSE_NOTIFY)) {
-            //关闭通知
-            NotifyUtils.closeNotify();
+            boolean isNeedClose= SPUtils.getBoolean("needClose",true);
+            if(isNeedClose){
+                //关闭通知
+                NotifyUtils.closeNotify();
+            }
         }
     }
 }

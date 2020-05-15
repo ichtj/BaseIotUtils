@@ -1,4 +1,0 @@
-git remote add origin xxxx 添加远程地址
-git remote set-url --add origin xxx //添加多个远程地址
-git remote rm origin 删除地址
-git reset --hard xxxx 版本回退
