@@ -42,7 +42,7 @@ public class InitializeService extends IntentService {
     private void performInit() {
         KLog.init(true);
         KLog.d(TAG,"performInit");
-        //CrashHandler.getInstance().init(getApplication());
+        CrashHandler.getInstance().init(getApplication());
         //KLog.d("performInit begin:" + System.currentTimeMillis());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //1080,1920是为了适配而去设置相关的值

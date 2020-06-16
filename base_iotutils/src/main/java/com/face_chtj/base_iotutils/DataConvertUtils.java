@@ -34,7 +34,7 @@ public class DataConvertUtils {
     /**
      * 将int转成byte
      * @param number
-     * @return
+     * @return byte字节
      */
     public static byte intToByte(int number){
         return hexToByte(intToHex(number));

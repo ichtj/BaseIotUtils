@@ -29,6 +29,8 @@
          singleTask：    栈内复用模式 栈中存在这个Activity的实例就会复用Activity，不管它是否位于栈顶，复用时，会将它上面的Activity全部出栈
          singleInstance：单实例模式   有全局唯一性，即整个系统中就这么一个实例,如果栈中存在，那么会把所在的任务调度到前台，重用这个实例
     -->
+    <!--开启启动完成-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/app_img"
@@ -92,5 +94,15 @@
                 android:resource="@xml/provider_paths"/>
         </provider>-->
         <service android:name=".crash.MyService"/>
+
+        <!--重启后广播监听-->
+        <receiver
+            android:name=".util.BaseIotReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 </manifest>

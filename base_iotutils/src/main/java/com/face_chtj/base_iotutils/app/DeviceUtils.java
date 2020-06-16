@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.app;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,6 +14,8 @@ import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
+import com.face_chtj.base_iotutils.SPUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.io.File;

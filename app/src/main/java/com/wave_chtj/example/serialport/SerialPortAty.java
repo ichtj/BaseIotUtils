@@ -101,8 +101,8 @@ public class SerialPortAty extends BaseActivity {
                             String hexComm = etCommand.getText().toString().trim();
                             byte[] comm = DataConvertUtils.decodeHexString(hexComm);
                             port.write(comm);
-                            //等待300毫秒
-                            Thread.sleep(300);
+                            //等待400毫秒
+                            Thread.sleep(400);
                             int readSize = port.getInputStream().available();
                             if (readSize > 0) {
                                 byte[] bytes = new byte[readSize];
@@ -120,7 +120,9 @@ public class SerialPortAty extends BaseActivity {
 
                 break;
             case R.id.btn_close:
-                port.close();
+                if(port!=null){
+                    port.close();
+                }
                 ToastUtils.info("串口关闭！");
                 break;
             case R.id.btn_clear://清除结果

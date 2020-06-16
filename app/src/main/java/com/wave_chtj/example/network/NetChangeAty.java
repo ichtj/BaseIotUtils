@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.network.NetListenerUtils;
 import com.face_chtj.base_iotutils.network.NetTypeInfo;

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.face_chtj.base_iotutils.ScreenInfoUtils;
+import com.face_chtj.base_iotutils.app.ScreenInfoUtils;
 
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;

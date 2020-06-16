@@ -5,9 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.View;
-
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
@@ -26,7 +24,6 @@ import com.wave_chtj.example.socket.SocketAty;
 
 import io.reactivex.functions.Consumer;
 
-
 /**
  * 功能选择
  */
@@ -39,6 +36,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch);
         mContext = FeaturesOptionAty.this;
+        /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE}).
                 subscribe(new Consumer<Boolean>() {
@@ -53,7 +51,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
-
     }
 
 
@@ -96,13 +93,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                                     , "this is a library ..."
                                     , "2020-3-18"
                                     , false
-                                    , true)
+                                    , false)
                             .exeuNotify();
                 } else {
                     //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
-              /*  new Thread() {
+                /*new Thread() {
                     @Override
                     public void run() {
                         super.run();

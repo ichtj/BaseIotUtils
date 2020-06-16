@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.app;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -8,6 +8,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 

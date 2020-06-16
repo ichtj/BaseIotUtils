@@ -61,10 +61,11 @@ public class NotifyUtils {
     //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
     //跳转设置
-    public static final String SETTINGS_ACTION ="android.settings.APPLICATION_DETAILS_SETTINGS";
+    public static final String SETTINGS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS";
 
     /**
      * 获取系统中是否已经通过 允许通知的权限
+     *
      * @return 是否开启 true|false
      */
     public static boolean notifyIsEnable() {
@@ -75,7 +76,7 @@ public class NotifyUtils {
     /**
      * 去开启通知
      */
-    public static void toOpenNotify(){
+    public static void toOpenNotify() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.BASE) {
             Intent intent = new Intent()
                     .setAction(SETTINGS_ACTION)
@@ -92,6 +93,7 @@ public class NotifyUtils {
             return;
         }
     }
+
     /**
      * 单例模式
      * Oreo不用Priority了，用importance
@@ -108,10 +110,11 @@ public class NotifyUtils {
                     //初始化
                     notifyUtils = new NotifyUtils();
                     //注册广播
-                    notifyUtils.mNotifyBroadcastReceiver=new NotifyBroadcastReceiver();
-                    IntentFilter filter=new IntentFilter();
+                    notifyUtils.mNotifyBroadcastReceiver = new NotifyBroadcastReceiver();
+                    IntentFilter filter = new IntentFilter();
                     filter.addAction(ACTION_CLOSE_NOTIFY);
-                    BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyBroadcastReceiver,filter);                    notifyUtils.notifyId = Integer.valueOf(notifyId);
+                    BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyBroadcastReceiver, filter);
+                    notifyUtils.notifyId = Integer.valueOf(notifyId);
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
@@ -180,11 +183,12 @@ public class NotifyUtils {
 
     /**
      * 设置关闭按钮是否可见
+     *
      * @param isEnable 是否可见
      * @return this
      */
-    public NotifyUtils setEnableCloseButton(boolean isEnable){
-        contentView.setViewVisibility(R.id.ivClose, isEnable?View.VISIBLE:View.GONE);
+    public NotifyUtils setEnableCloseButton(boolean isEnable) {
+        contentView.setViewVisibility(R.id.ivClose, isEnable ? View.VISIBLE : View.GONE);
         return notifyUtils;
     }
 
@@ -490,18 +494,20 @@ public class NotifyUtils {
         if (manager != null) {
             if (notifyId != -1) {
                 KLog.e(TAG, "notifyId=" + notifyId + ",mSlideOff=" + mSlideOff + ",mAutoCancel=" + mAutoCancel);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O && nBuilder != null) {
+                int sdkInt = android.os.Build.VERSION.SDK_INT;
+                KLog.d(TAG, "sdkInt: "+sdkInt);
+                if (sdkInt >= android.os.Build.VERSION_CODES.O && nBuilder != null) {
                     KLog.e(TAG, "more than android api 26 ,nBuilder=" + nBuilder);
                     nBuilder.setOngoing(!mSlideOff);//滑动不能清除
                     nBuilder.setAutoCancel(mAutoCancel);//点击的时候消失
                     manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
-                } else if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.O && builder != null) {
+                } else if (sdkInt < android.os.Build.VERSION_CODES.O && builder != null) {
                     KLog.e(TAG, "less than android api 26,builder=" + builder);
                     builder.setOngoing(!mSlideOff);//滑动不能清除
                     builder.setAutoCancel(mAutoCancel);//点击的时候消失
                     manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
                 }
-                SPUtils.putBoolean("needClose",mAutoCancel);
+                SPUtils.putBoolean("needClose", mAutoCancel);
                 if (mOnNotifyLinstener != null) {
                     mOnNotifyLinstener.enableStatus(true);
                 }
@@ -519,20 +525,20 @@ public class NotifyUtils {
      * 关闭消息通知
      */
     public static void closeNotify() {
-        if(notifyUtils!=null){
-            KLog.d(TAG,"notifyId="+notifyUtils.notifyId);
+        if (notifyUtils != null) {
+            KLog.d(TAG, "notifyId=" + notifyUtils.notifyId);
             if (notifyUtils.manager != null) {
                 if (notifyUtils.notifyId != -1) {
                     notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
                     if (notifyUtils.mOnNotifyLinstener != null) {
                         notifyUtils.mOnNotifyLinstener.enableStatus(false);
                         //销毁广播
-                        if(notifyUtils.mNotifyBroadcastReceiver!=null){
+                        if (notifyUtils.mNotifyBroadcastReceiver != null) {
                             BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
                         }
-                        notifyUtils.mOnNotifyLinstener=null;
-                        notifyUtils=null;
-                    }else{
+                        notifyUtils.mOnNotifyLinstener = null;
+                        notifyUtils = null;
+                    } else {
                         throw new NullPointerException("mOnNotifyLinstener ==null");
                     }
                 }

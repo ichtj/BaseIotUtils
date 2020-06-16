@@ -24,6 +24,17 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 /**
  * 在系统的Toast基础上封装
+ * Create on 2020/3/11
+ * author chtj
+ *
+ * 调用方式:
+ * ToastUtils.error("");
+ * ToastUtils.success("");
+ * ToastUtils.info("");
+ * ToastUtils.warning("");
+ * ToastUtils.normal("");
+ * ToastUtils.showLong("");//带居中
+ * ToastUtils.showShort("");//带居中
  */
 
 @SuppressLint("InflateParams")

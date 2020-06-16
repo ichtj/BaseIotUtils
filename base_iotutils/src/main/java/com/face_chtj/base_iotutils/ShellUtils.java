@@ -10,6 +10,13 @@ import java.io.InputStreamReader;
  * create by chtj on 2019-8-6
  * desc:adb Shell相关工具类
  * Command执行结果 CommandResult
+ *
+ * 使用方式如下:
+ * ShellUtils.CommandResult commandResult=ShellUtils.execCommand("reboot",true);//adb执行重启
+ * 理论上commandResult.result=0时执行是成功的
+ * Log.d(TAG, "commandResult errMeg="+commandResult.errorMsg+",result="+commandResult.result+",successMsg="+commandResult.successMsg);
+ *
+ * 这里是常用的方法
  * --执行命令一条 {@link #execCommand(String command, boolean isRoot)}
  * --执行命令-多条 {@link #execCommand(String[] commands, boolean isRoot)}
  */

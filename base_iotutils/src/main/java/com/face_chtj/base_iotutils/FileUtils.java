@@ -26,7 +26,7 @@ public class FileUtils {
      *
      * @param filename 路径+文件名称
      * @param content  写入的内容
-     * @param isCover  是否覆盖文件的内容
+     * @param isCover  是否覆盖文件的内容 true 覆盖原文件内容  | flase 追加内容在最后
      * @return 是否成功 true|false
      */
     public static boolean writeFileData(String filename, String content, boolean isCover) {
@@ -126,9 +126,8 @@ public class FileUtils {
     /**
      * 获取指定文件夹的大小
      *
-     * @param directoryPath
-     * @return
-     * @throws Exception
+     * @param directoryPath 文件夹路径
+     * @return 按照单位BYTE,KB, MB, GB返回
      */
     public static long getFileSizes(String directoryPath) {
         KLog.d(TAG,"directoryPath="+directoryPath);
@@ -179,7 +178,7 @@ public class FileUtils {
     /**
      * 获取文件大小
      * @param filePath
-     * @return
+     * @return 按照单位BYTE,KB, MB, GB返回
      */
     public static String getFileFormatSize(String filePath) {
         File file=new File(filePath);

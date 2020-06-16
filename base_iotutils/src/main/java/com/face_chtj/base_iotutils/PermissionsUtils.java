@@ -13,7 +13,7 @@ import java.util.List;
  *     PermissionsUtils.with(mContext).
  *     addPermission(Manifest.permission.ACCESS_FINE_LOCATION).
  *     addPermission(Manifest.permission.ACCESS_COARSE_LOCATION).
- *     addPermission(Manifest.permission......).
+ *     addPermission(Manifest.permission......).//添加其他
  *     initPermission();
  */
 public class PermissionsUtils {

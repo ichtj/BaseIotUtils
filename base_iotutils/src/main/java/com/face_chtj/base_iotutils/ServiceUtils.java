@@ -12,6 +12,8 @@ import java.util.ArrayList;
  * Create on 2020/3/5
  * author chtj
  * desc Service管理工具
+ * {@link #isWorked(String)} Service是否正在运行
+ * {@link #stopService(String)} 停止Service
  */
 public class ServiceUtils {
     /**

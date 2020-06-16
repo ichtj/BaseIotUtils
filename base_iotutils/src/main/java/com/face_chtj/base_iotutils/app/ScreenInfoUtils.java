@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.app;
 
 import android.app.Activity;
 import android.content.Context;

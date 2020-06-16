@@ -8,6 +8,19 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
  * @author chtj
  * create by chtj on 2019-8-6
  * 存储工具类
+ *
+ * 调用方式：SPUtils.putString("you_Key", udid);
+ *
+ * {@link #putString(String, String)} 存储String类型的值
+ * {@link #putBoolean(String, boolean)} 存储Boolean类型的值
+ * {@link #putInt(String, int)} 存储Int类型的值
+ *
+ * {@link #getString(String, String)} 获取String类型的值
+ * {@link #getBoolean(String, Boolean)} 获取Boolean类型的值
+ * {@link #getInt(String, int)} 获取Int类型的值
+ *
+ * {@link #deleAll()} 删除全部 key
+ * {@link #deleShare(String)} 删除 单个 key
  */
 public class SPUtils {
     private static final String NAME = "config";
@@ -84,13 +97,18 @@ public class SPUtils {
         return sharedPreferences.getBoolean(key, defValue);
     }
 
-    //删除 单个 key
+    /**
+     * 删除 单个 key
+     * @param key key值
+     */
     public static void deleShare( String key) {
         SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().remove(key).commit();
     }
 
-    //删除全部 key
+    /**
+     * 删除全部 key
+     */
     public static void deleAll() {
         SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         sharedPreferences.edit().clear().commit();

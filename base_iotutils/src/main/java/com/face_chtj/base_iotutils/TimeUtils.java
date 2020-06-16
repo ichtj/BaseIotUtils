@@ -11,6 +11,16 @@ import java.util.Locale;
  * Create on 2020/3/9
  * author chtj
  * desc 时间工具类
+ *
+ * {@link #tsToMs(int)} yyyy-MM-dd HH:mm:ss
+ * {@link #tsToYMD(int)} yyyy-MM-dd
+ * {@link #tsToYMDcn(int)} yyyy年MM月dd日
+ * {@link #getTodayDate()} 获取今天年月日
+ * {@link #getMillisecondTime()} 当前毫秒级时间
+ * {@link #getTime()} 获取当前系统的时间戳
+ * {@link #getTodayAddMonthDate(int)} 获取今天添加月份的日期
+ * {@link #getUTCTimeStr()} 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm
+ *
  */
 public class TimeUtils {
     /**
@@ -65,6 +75,11 @@ public class TimeUtils {
         return fm.format(time1000);
     }
 
+    /**
+     * 获取今天添加月份的日期
+     * @param month 添加的月份
+     * @return 日期
+     */
     public static String getTodayAddMonthDate(int month) {
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
@@ -82,7 +97,7 @@ public class TimeUtils {
 
     }
     /**
-     * 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm"<br />
+     * 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm
      * 如果获取失败，返回null
      * @return
      */

@@ -50,7 +50,7 @@ public class SerialPort {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new SecurityException("执行 /system/bin/su chmod 666 xx出现异常,请检查该串口是否授予权限");
+				throw new SecurityException("execute command /system/bin/su chmod 666 xx Abnormal,Please check whether the serial port grants permission");
 			}
 		}
 
@@ -91,7 +91,7 @@ public class SerialPort {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new SecurityException("执行 /system/bin/su chmod 666 出现异常,请检查该串口是否授予权限");
+				throw new SecurityException("execute command /system/bin/su chmod 666 xx Abnormal,Please check whether the serial port grants permission");
 			}
 		}
 

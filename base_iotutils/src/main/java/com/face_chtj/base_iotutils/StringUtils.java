@@ -4,6 +4,8 @@ package com.face_chtj.base_iotutils;
  * Create on 2020/3/17
  * author chtj
  * desc 判断字符串是否为空
+ *
+ * {@link #isEmpty(String)} 判断字符是否为空
  */
 public class StringUtils {
     /**

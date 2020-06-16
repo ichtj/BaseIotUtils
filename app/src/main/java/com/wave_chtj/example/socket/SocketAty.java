@@ -16,6 +16,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.chtj.socket.BaseTcpSocket;
 import com.chtj.socket.BaseUdpSocket;
 import com.chtj.socket.ISocketListener;
+import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -92,6 +93,7 @@ public class SocketAty extends BaseActivity {
             }
         });
     }
+
 
     @OnClick({R.id.btnConnect, R.id.btnDisConnect, R.id.btnSend, R.id.btnClear})
     public void onViewClicked(View view) {

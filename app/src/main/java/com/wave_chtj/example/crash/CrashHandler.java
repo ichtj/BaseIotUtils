@@ -25,7 +25,7 @@ import java.util.Map;
 
 /**
  * 全局异常捕获
- * Created by zly on 2016/7/3.
+ * Created by chtj
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
 

@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.network;
 
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +20,14 @@ import java.util.List;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:网络工具类
+ * 网络类型如下：
+ * > NETWORK_NO      = -1; 当前无网络连接
+ * > NETWORK_WIFI    =  1; wifi的情况下
+ * > NETWORK_2G      =  2; 切换到2G环境下
+ * > NETWORK_3G      =  3; 切换到3G环境下
+ * > NETWORK_4G      =  4; 切换到4G环境下
+ * > NETWORK_UNKNOWN =  5; 未知网络
+ * > NETWORK_ETH     =  9; ETH以太网
  */
 public class NetUtils {
     /**
@@ -74,7 +82,7 @@ public class NetUtils {
      * @link #NETWORK_3G      =  3; 切换到3G环境下
      * @link #NETWORK_4G      =  4; 切换到4G环境下
      * @link #NETWORK_UNKNOWN =  5; 未知网络
-     * @link #NETWORK_UNKNOWN =  9; ETH以太网
+     * @link #NETWORK_ETH     =  9; ETH以太网
      */
     public static int getNetWorkType() {
         // 获取ConnectivityManager

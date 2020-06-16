@@ -1,6 +1,10 @@
 git remote add origin xxxx //添加远程地址
 git remote set-url --add origin xxx //添加多个远程地址
 git remote rm origin  //删除地址
-git reset --hard xxxx //版本回退
+git reset --hard xx分支 //版本回退 加--hard删除当前已修改未提交的记录
+git reset //回退版本 保留代码
+git commit --amend "" 重新设置备注
+git cherry-pick xxxcommitid  可以将另外一个分支的commid提交到本分之 不冲突情况下
+git push origin xxx -f  提交当前的记录
 
 git diff device/rockchip/rk3288/system.prop > ../system.prop.patch  //打补丁

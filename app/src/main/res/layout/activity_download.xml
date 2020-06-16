@@ -13,6 +13,7 @@
         app:name="文件下载" />
 
     <Button
+        android:id="@+id/btn_start_down"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadFile"

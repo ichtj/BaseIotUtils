@@ -14,6 +14,13 @@ import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
  * Create on 2020/3/11
  * author chtj
  * desc 应用上层弹窗
+ *
+ * 调用方式 SurfaceLoadDialog.getInstance().show("hello world");
+ * 更改文本时再次调用 SurfaceLoadDialog.getInstance().show("hello world"); 即可
+ *
+ * {@link #dismiss()} 关闭
+ * {@link #show(String)} 显示的文字
+ *
  */
 public class SurfaceLoadDialog {
     private static final String TAG = "SurfaceLoadDialog";

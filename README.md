@@ -59,7 +59,7 @@ public class App extends Application {
 
 
 ##  base_socket Module使用说明
-<!--
+
 ```java
     //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
     BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
@@ -71,12 +71,14 @@ public class App extends Application {
      baseTcpSocket.send("hello world!".getBytes());
     //关闭连接
     baseTcpSocket.close();
-```-->
+```
 
 ### base_iotutils 常用工具类
 
 - 进制转换类 | DataConvertUtils
-
+    ```java
+    
+    ```
 - 设备相关 | DeviceUtils
 
 - 键盘相关 | KeyBoardUtils

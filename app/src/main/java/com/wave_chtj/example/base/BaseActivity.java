@@ -3,14 +3,9 @@ package com.wave_chtj.example.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.LinearLayout.LayoutParams;
-import android.widget.RelativeLayout;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.StatusBarUtil;
-import com.wave_chtj.example.R;
+import com.face_chtj.base_iotutils.app.StatusBarUtil;
 import com.wave_chtj.example.util.AppManager;
 
 
