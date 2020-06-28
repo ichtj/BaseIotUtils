@@ -1,4 +1,10 @@
 # 接入方式
+### app界面截图
+
+![image](/pic/first.png)
+
+![image](/pic/second.png)
+
 ### Step 1. Add the JitPack repository to your build file
 
 Add it in your root **build.gradle** at the end of repositories:
