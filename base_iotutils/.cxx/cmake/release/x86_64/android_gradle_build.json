@@ -1,0 +1,38 @@
+
+{
+	"buildFiles" : [ "E:/utils/BaseIotUtils/base_iotutils/CMakeLists.txt" ],
+	"cFileExtensions" : [ "c" ],
+	"cleanCommands" : 
+	[
+		"D:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\x86_64 --target clean"
+	],
+	"libraries" : 
+	{
+		"serialport-Release-x86_64" : 
+		{
+			"abi" : "x86_64",
+			"artifactName" : "serialport",
+			"buildCommand" : "D:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\x86_64 --target serialport",
+			"buildType" : "release",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=x86_64-none-linux-android21 --gcc-toolchain=D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dserialport_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O2 -DNDEBUG  -fPIC      -c ",
+					"src" : "E:/utils/BaseIotUtils/base_iotutils/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c",
+					"workingDirectory" : "E:/utils/BaseIotUtils/base_iotutils/.cxx/cmake/release/x86_64"
+				}
+			],
+			"output" : "E:/utils/BaseIotUtils/base_iotutils/build/intermediates/cmake/release/obj/x86_64/libserialport.so",
+			"toolchain" : "1534523253"
+		}
+	},
+	"toolchains" : 
+	{
+		"1534523253" : 
+		{
+			"cCompilerExecutable" : "D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

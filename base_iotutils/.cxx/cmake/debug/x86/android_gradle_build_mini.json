@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "E:\\utils\\BaseIotUtils\\base_iotutils\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "D:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\debug\\x86 --target clean"
+  ],
+  "libraries": {
+    "serialport-Debug-x86": {
+      "artifactName": "serialport",
+      "buildCommand": "D:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\debug\\x86 --target serialport",
+      "abi": "x86",
+      "output": "E:\\utils\\BaseIotUtils\\base_iotutils\\build\\intermediates\\cmake\\debug\\obj\\x86\\libserialport.so"
+    }
+  }
+}

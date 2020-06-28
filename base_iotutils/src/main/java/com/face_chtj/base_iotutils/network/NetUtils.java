@@ -100,7 +100,7 @@ public class NetUtils {
                     break;
                 case ConnectivityManager.TYPE_ETHERNET:
                     //切换到以太网环境下
-                    netType=NETWORK_ETH;
+                    netType = NETWORK_ETH;
                     break;
                 case ConnectivityManager.TYPE_MOBILE:
                     switch (ni.getSubtype()) {
@@ -395,7 +395,6 @@ public class NetUtils {
     /**
      * 打开网络设置界面
      * <p>3.0以下打开设置界面</p>
-     *
      */
     public static void openWirelessSettings() {
         if (Build.VERSION.SDK_INT > 10) {

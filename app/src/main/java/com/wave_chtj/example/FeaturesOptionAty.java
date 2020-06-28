@@ -3,9 +3,13 @@ package com.wave_chtj.example;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.hardware.usb.UsbDevice;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
+
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
@@ -16,11 +20,22 @@ import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
+import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
+import com.wave_chtj.example.util.excel.ExcelEntity;
+import com.wave_chtj.example.util.excel.JXLExcelUtils;
+import com.wave_chtj.example.util.excel.POIExcelUtils;
+import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
+import com.wave_chtj.example.util.keyevent.KeyEventUtils;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import io.reactivex.functions.Consumer;
 
@@ -51,6 +66,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
+
     }
 
 
@@ -79,7 +95,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
                     NotifyUtils.getInstance("111")
-                            .setEnableCloseButton(true)//设置是否显示关闭按钮
+                            .setEnableCloseButton(false)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
                                 public void enableStatus(boolean isEnable) {
@@ -145,13 +161,72 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_gc_test://GC测试
                 System.gc();
                 break;
+            case R.id.btn_key_reg://usb设备监听注册
+                KeyEventUtils.getInstance().registerReceiver();
+                KeyEventUtils.getInstance().setIUsbDeviceListener(new IUsbDeviceListener() {
+                    @Override
+                    public void deviceInfo(UsbDevice device, boolean isConn) {
+                        KLog.d(TAG, "device: " + device.getProductName());
+                        KLog.d(TAG, "isConn: " + isConn);
+                    }
+                });
+                break;
+            case R.id.btn_key_unreg://usb设备监听注册
+                KeyEventUtils.getInstance().unRegisterReceiver();
+                break;
+            case R.id.btn_sql://数据库操作
+                startActivity(new Intent(mContext, GreenDaoSqliteAty.class));
+                break;
+            case R.id.btn_jxl_open://打开Excel JXL版本
+                final Handler handler2 = new Handler();
+                handler2.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //第一种jxl.jar 只能读取xls
+                            List<ExcelEntity> readExcelDatas=JXLExcelUtils.readExcelxlsx( Environment.getExternalStorageDirectory()+"/table.xls");
+                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            KLog.e(TAG, "errMeg:" + e.getMessage());
+                        }
+                    }
+                });
+                break;
+            case R.id.btn_jxl_export://导出Excel JXL版本
+                //第一种 jxl.jar导出
+                JXLExcelUtils.exportExcel();
+                break;
+            case R.id.btn_poi_open://打开Excel POI版本
+                final Handler handler = new Handler();
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        try {
+                            //poi.jar 可以读取xls xlsx 两种
+                            List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
+                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            KLog.e(TAG, "errMeg:" + e.getMessage());
+                        }
+                    }
+                });
+                break;
+            case R.id.btn_poi_export://导出Excel POI版本
+                //poi.jar导出
+                boolean isOK = POIExcelUtils.createExcelFile();
+                KLog.d(TAG, "isOK: " + isOK);
+                break;
         }
     }
+
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
         NotifyUtils.closeNotify();
         SurfaceLoadDialog.getInstance().dismiss();
+        KeyEventUtils.getInstance().unRegisterReceiver();
     }
 }

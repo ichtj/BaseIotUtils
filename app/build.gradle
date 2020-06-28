@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 // 热更新依赖插件脚本
 //apply from: 'tinker-support.gradle'
+apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
 
@@ -73,6 +74,8 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation files('libs\\poi-3.12-android-a.jar')
+    implementation files('libs\\poi-ooxml-schemas-3.12-20150511-a.jar')
     //support
     testImplementation rootProject.ext.support["junit"]
     androidTestImplementation rootProject.ext.support["runner"]
@@ -86,7 +89,7 @@ dependencies {
     //物联网开发基础工具类
     //api rootProject.ext.dependencies["base_iotutils"]
     //socke client
-    api rootProject.ext.dependencies["base_socket"]
+    //api rootProject.ext.dependencies["base_socket"]
     api rootProject.ext.dependencies["rxpermissions"]
     api rootProject.ext.dependencies["nativecrashreport"]
     //socket client
@@ -100,5 +103,11 @@ dependencies {
     implementation project(path: ':base_iotutils')
     implementation 'com.android.support:support-annotations:28.0.0'
     //implementation rootProject.ext.support["annotations"]
-    //implementation project(path: ':base_socket')
+    implementation project(path: ':base_socket')
+    implementation 'org.greenrobot:greendao:3.3.0' // greenDAO
+    implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
+}
+
+greendao {
+    schemaVersion 1 //当前数据库版本
 }

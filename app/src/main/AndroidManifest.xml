@@ -3,14 +3,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wave_chtj.example">
     <!--系统弹窗-->
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!--bugly 更新 |热更新 需要的权限-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
     <!--读写文件权限-->
+    <!--excel jxl.jar操作权限-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--安装权限-->
@@ -18,10 +21,10 @@
 
     <!--监听网络状态变化-->
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.GET_TASKS" />
     <!--后台保活重要权限-->
-    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--启动模式-->
     <!--
          standard：      标准模式     不管实例是否已经存在 都会创建一个实例
@@ -31,18 +34,24 @@
     -->
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--usb设备监听-->
+    <uses-permission android:name="android.permission.HARDWARE_TEST"/>
+    <uses-feature android:name="android.hardware.usb.host"/>
+    <uses-permission android:name="android.hardware.usb.accessory" />
+
     <application
+        android:name=".application.DefaultApplication"
         android:allowBackup="true"
         android:icon="@mipmap/app_img"
         android:label="@string/app_name"
-        android:name=".application.DefaultApplication"
+        android:largeHeap="true"
+        android:persistent="true"
         android:roundIcon="@mipmap/app_img"
         android:supportsRtl="true"
-        android:persistent="true"
-        android:largeHeap="true"
         android:theme="@style/AppTheme">
         <!--启动页-->
-        <activity android:name=".StartPageAty"
+        <activity
+            android:name=".StartPageAty"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,38 +59,55 @@
             </intent-filter>
         </activity>
         <!--功能选择-->
-        <activity android:name=".FeaturesOptionAty"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".FeaturesOptionAty"
+            android:theme="@style/AppTheme"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <meta-data
+                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
+                android:resource="@xml/device_filter" />
+        </activity>
         <!--后台服务-->
-        <activity android:name=".keepservice.KeepServiceActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".keepservice.KeepServiceActivity"
+            android:theme="@style/AppTheme" />
         <!--串口相关-->
-        <activity android:name=".serialport.SerialPortAty"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".serialport.SerialPortAty"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <!--屏幕适配相关-->
-        <activity android:name=".screen.ScreenActivity"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".screen.ScreenActivity"
+            android:theme="@style/AppTheme" />
         <!--文件读写-->
-        <activity android:name=".file.FileOperatAty"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".file.FileOperatAty"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <!--文件下载-->
-        <activity android:name=".download.DownLoadAty"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".download.DownLoadAty"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <!--Socket udp/tcp-->
-        <activity android:name=".socket.SocketAty"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".socket.SocketAty"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustPan" />
         <!--全局异常捕获-->
-        <activity android:name=".crash.CrashAty"/>
+        <activity android:name=".crash.CrashAty" />
         <!--网络检测-->
         <activity android:name=".network.NetChangeAty" />
+        <!--greenDAO数据库操作-->
+        <activity android:name=".greendao.GreenDaoSqliteAty"/>
         <!--服务必须要注册-->
-        <service android:name=".keepservice.TraceServiceImpl"/>
+        <service android:name=".keepservice.TraceServiceImpl" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
-        <service android:name=".application.InitializeService"/>
+        <service android:name=".application.InitializeService" />
         <!--网络变化广播-->
         <!--bugly-->
         <!--<provider
@@ -93,7 +119,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
         </provider>-->
-        <service android:name=".crash.MyService"/>
+        <service android:name=".crash.MyService" />
 
         <!--重启后广播监听-->
         <receiver
@@ -102,6 +128,23 @@
             android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
+        <!--usb设备监听-->
+        <receiver android:name=".util.keyevent.KeyEventUtils">
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_EJECT" />
+                <data android:scheme="file" />
             </intent-filter>
         </receiver>
     </application>
