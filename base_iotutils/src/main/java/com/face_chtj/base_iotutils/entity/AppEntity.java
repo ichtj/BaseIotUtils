@@ -28,16 +28,22 @@ public class AppEntity {
      */
     private int position;
 
+    /**
+     * uid
+     */
+    private int uid;
+
     public AppEntity() {
     }
 
-    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position) {
+    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position,int uid) {
         this.id = id;
         this.appName = appName;
         this.packageName = packageName;
         this.icon = icon;
         this.isCheck = isCheck;
         this.position = position;
+        this.uid=uid;
     }
 
     public Drawable getIcon() {
@@ -86,5 +92,13 @@ public class AppEntity {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 }

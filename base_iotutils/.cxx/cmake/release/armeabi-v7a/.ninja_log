@@ -1,0 +1,3 @@
+# ninja log v5
+18	3656	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	8df5086bb1252431
+3657	4241	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so	14ddf4df5df610d8

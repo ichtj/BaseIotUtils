@@ -13,13 +13,14 @@ import com.face_chtj.base_iotutils.network.NetListenerUtils;
 import com.face_chtj.base_iotutils.network.NetTypeInfo;
 import com.face_chtj.base_iotutils.network.OnNetChangeLinstener;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.base.BaseActivity;
 
 /**
  * Create on 2020/1/3
  * author chtj
- * desc 网络检测
+ * desc 网络监听
  */
-public class NetChangeAty extends AppCompatActivity {
+public class NetChangeAty extends BaseActivity {
     private static final String TAG = "NetChangeAty";
     private TextView tvStatus;
     private TextView tvType;

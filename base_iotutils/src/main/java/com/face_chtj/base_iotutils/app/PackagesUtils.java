@@ -29,26 +29,35 @@ import java.util.List;
  * --判断 App 是否处于前台 {@link #isAppForeground()}
  */
 public class PackagesUtils {
+    private static final String TAG = "PackagesUtils";
+
     /**
      * 获取所有应用
      *
      * @return 包含包名下app名称，图标的明细信息list
      */
-    public static List<AppEntity> getApkInfoList() {
+    public static List<AppEntity> getAllAppList() {
         List<AppEntity> appEntityList = new ArrayList<AppEntity>();
-        Intent intent = new Intent(Intent.ACTION_MAIN, null);
-        intent.addCategory(Intent.CATEGORY_LAUNCHER);
-        List<ResolveInfo> apps = BaseIotUtils.getContext().getPackageManager().queryIntentActivities(intent, 0);
-        //for循环遍历ResolveInfo对象获取包名和类名
-        for (int i = 0; i < apps.size(); i++) {
-            ResolveInfo info = apps.get(i);
-            String packageName = info.activityInfo.packageName;
-            CharSequence cls = info.activityInfo.name;
-            Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
-            CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
-            AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i);
-            appEntityList.add(entity);
-            KLog.e("！！！！！", name + "----" + packageName + "----" + cls);
+        try {
+            Intent intent = new Intent(Intent.ACTION_MAIN, null);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            PackageManager pm = BaseIotUtils.getContext().getPackageManager();
+            List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
+            //for循环遍历ResolveInfo对象获取包名和类名
+            for (int i = 0; i < apps.size(); i++) {
+                ResolveInfo info = apps.get(i);
+                String packageName = info.activityInfo.packageName;
+                CharSequence cls = info.activityInfo.name;
+                Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
+                ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
+                CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid);
+                appEntityList.add(entity);
+                KLog.e("！！！！！", name + "----" + packageName + "----" + cls);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            KLog.d(TAG, "errMeg:" + e.getMessage());
         }
         return appEntityList;
     }
@@ -58,7 +67,7 @@ public class PackagesUtils {
      *
      * @return 包含包名下app名称，图标的明细信息list
      */
-    public static List<AppEntity> getAllApkInfoListByNonSystem() {
+    public static List<AppEntity> getNormalAppList() {
         List<AppEntity> appEntityList = new ArrayList<AppEntity>();
         PackageManager pManager = BaseIotUtils.getContext().getPackageManager();
         //获取手机内所有应用
@@ -72,7 +81,33 @@ public class PackagesUtils {
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i);
+                        false, i, pak.applicationInfo.uid);
+                appEntityList.add(entity);
+            }
+        }
+        return appEntityList;
+    }
+
+    /**
+     * 查询手机内系统应用
+     *
+     * @return 包含包名下app名称，图标的明细信息list
+     */
+    public static List<AppEntity> getSystemAppList() {
+        List<AppEntity> appEntityList = new ArrayList<AppEntity>();
+        PackageManager pManager = BaseIotUtils.getContext().getPackageManager();
+        //获取手机内所有应用
+        List<PackageInfo> paklist = pManager.getInstalledPackages(0);
+        for (int i = 0; i < paklist.size(); i++) {
+            PackageInfo pak = (PackageInfo) paklist.get(i);
+            //判断是否为非系统预装的应用程序
+            if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) != 0) {
+                // customs applications
+                AppEntity entity = new AppEntity(i + "",
+                        pManager.getApplicationLabel(pak.applicationInfo).toString(),
+                        pak.applicationInfo.packageName,
+                        pManager.getApplicationIcon(pak.applicationInfo),
+                        false, i, pak.applicationInfo.uid);
                 appEntityList.add(entity);
             }
         }

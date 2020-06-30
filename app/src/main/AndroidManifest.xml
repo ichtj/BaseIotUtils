@@ -62,6 +62,7 @@
         <activity
             android:name=".FeaturesOptionAty"
             android:theme="@style/AppTheme"
+            android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
@@ -100,10 +101,12 @@
             android:windowSoftInputMode="adjustPan" />
         <!--全局异常捕获-->
         <activity android:name=".crash.CrashAty" />
-        <!--网络检测-->
+        <!--网络监听-->
         <activity android:name=".network.NetChangeAty" />
         <!--greenDAO数据库操作-->
         <activity android:name=".greendao.GreenDaoSqliteAty"/>
+        <!--查看所有app详情-->
+        <activity android:name=".allapp.AllAppAty"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl" />
         <!--在服务里面进行一些application应该执行的初始化操作-->

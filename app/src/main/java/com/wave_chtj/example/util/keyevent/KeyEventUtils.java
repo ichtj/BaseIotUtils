@@ -8,18 +8,14 @@ import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbDeviceConnection;
 import android.hardware.usb.UsbManager;
-import android.util.Log;
-
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
-import java.util.HashMap;
 
 /**
  * Create on 2020/6/18
  * author chtj
  * desc 监听Usb设备
- * 目前只针对android7.1使用
+ * 目前只针对android7.1,5.1使用
  */
 public class KeyEventUtils extends BroadcastReceiver  {
     private static final String TAG = "KeyEventUtils";
@@ -60,7 +56,7 @@ public class KeyEventUtils extends BroadcastReceiver  {
         BaseIotUtils.getContext().registerReceiver(this, filter);
 
         PendingIntent mPermissionIntent = PendingIntent.getBroadcast(BaseIotUtils.getContext(), 0, new Intent(ACTION_USB_PERMISSION), 0);
-        KLog.d(TAG, "devicelist: "+mUsbManager.getDeviceList());
+        //KLog.d(TAG, "devicelist: "+mUsbManager.getDeviceList());
         //here do emulation to ask all connected usb device for permission
         for (UsbDevice usbDevice : mUsbManager.getDeviceList().values()) {
             //add some conditional check if necessary
@@ -115,7 +111,7 @@ public class KeyEventUtils extends BroadcastReceiver  {
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        Log.d(TAG, "onReceive: action="+action);
+        KLog.d(TAG, "onReceive: action="+action);
         synchronized (this) {
             UsbDevice device = (UsbDevice) intent.getParcelableExtra(UsbManager.EXTRA_DEVICE);
             if (intent.getBooleanExtra(UsbManager.EXTRA_PERMISSION_GRANTED, false)) {
@@ -124,6 +120,7 @@ public class KeyEventUtils extends BroadcastReceiver  {
                     afterGetUsbPermission(device);
                 }
             } else {
+                KLog.d(TAG, "device: "+device.toString());
                 if(keyEventUtils!=null&&keyEventUtils.mIUsbDeviceListener!=null){
                     if (action.equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
                         keyEventUtils.mIUsbDeviceListener.deviceInfo(device,true);

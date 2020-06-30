@@ -1,0 +1,108 @@
+package com.wave_chtj.example.allapp;
+
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.entity.AppEntity;
+import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.wave_chtj.example.R;
+
+import java.util.List;
+
+/**
+ * Create on 2020/6/29
+ * author chtj
+ * desc
+ */
+public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+
+    private List<AppEntity> list;
+
+    public AllAppAdapter(List<AppEntity> list) {
+        this.list = list;
+    }
+    public void setList(List<AppEntity> list) {
+        this.list = list;
+        notifyDataSetChanged();
+    }
+    @NonNull
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View v  = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.adapter_allapp, null, false);
+        RecyclerView.ViewHolder holder = null;
+        holder = new MyViewHolder(v);
+        return holder;
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        final int posiNum=position;
+        ((MyViewHolder) holder).tvAppName.setText("名称:"+list.get(position).getAppName());
+        ((MyViewHolder) holder).tvPackName.setText("包名:"+list.get(position).getPackageName());
+        ((MyViewHolder) holder).tvUid.setText("UID:"+list.get(position).getUid()+"");
+        ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
+        //复制到剪切板
+        ((MyViewHolder) holder).tvCopy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //获取剪贴板管理器：
+                ClipboardManager cm= (ClipboardManager)BaseIotUtils.getContext(). getSystemService(Context.CLIPBOARD_SERVICE);
+                // 创建普通字符型ClipData
+                ClipData mClipData = ClipData.newPlainText("Label", list.get(posiNum).getPackageName());
+                // 将ClipData内容放到系统剪贴板里。
+                cm.setPrimaryClip(mClipData);
+                ToastUtils.success("复制包名成功");
+            }
+        });
+        ((MyViewHolder) holder).tvToAppInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent localIntent = new Intent();
+                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                if (Build.VERSION.SDK_INT >= 9) {
+                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                    localIntent.setData(Uri.fromParts("package", list.get(posiNum).getPackageName(), null));
+                } else if (Build.VERSION.SDK_INT <= 8) {
+                    localIntent.setAction(Intent.ACTION_VIEW);
+                    localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName", list.get(posiNum).getPackageName());
+                }
+                BaseIotUtils.getContext().startActivity(localIntent);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return list.size();
+    }
+
+}
+
+class MyViewHolder extends RecyclerView.ViewHolder {
+    public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo;
+    public ImageView ivAppIcon;
+
+    public MyViewHolder(View itemView) {
+        super(itemView);
+        tvAppName = itemView.findViewById(R.id.tvAppName);
+        tvPackName = itemView.findViewById(R.id.tvPackName);
+        tvCopy = itemView.findViewById(R.id.tvCopy);
+        tvToAppInfo = itemView.findViewById(R.id.tvToAppInfo);
+        tvUid = itemView.findViewById(R.id.tvUid);
+        ivAppIcon = itemView.findViewById(R.id.ivAppIcon);
+    }
+}

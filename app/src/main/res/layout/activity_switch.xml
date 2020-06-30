@@ -71,7 +71,7 @@
                 android:background="@drawable/button_switch"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="TXT文件读写"
+                android:text="文件读写"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
@@ -130,7 +130,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:onClick="onClick"
-                    android:text="nitification 通知"
+                    android:text="nitification 开启"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -243,7 +243,7 @@
                     android:background="@null"
                     android:gravity="center"
                     android:onClick="onClick"
-                    android:text="图形背景吐司(success,error,normal,info...)"
+                    android:text="图形背景toast"
                     android:textColor="@color/black"
                     android:textSize="15sp" />
 
@@ -258,87 +258,95 @@
             android:orientation="horizontal">
 
             <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_test_crash"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="测试anr"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <Button
+                    android:id="@+id/btn_test_exception"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="测试其他异常"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:orientation="vertical">
+
+                <Button
+                    android:id="@+id/btn_key_reg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="usb设备注册监听"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/gray" />
+
+                <Button
+                    android:id="@+id/btn_key_unreg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="解除注册"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_switch"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btn_test_crash"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:text="测试anr"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/gray" />
-
-                    <Button
-                        android:id="@+id/btn_test_exception"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:text="测试其他异常"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="120dp"
-                    android:layout_height="120dp"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_switch"
-                    android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/btn_key_reg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:text="usb设备注册监听"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/gray" />
-
-                    <Button
-                        android:id="@+id/btn_key_unreg"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:background="@null"
-                        android:gravity="center"
-                        android:onClick="onClick"
-                        android:text="解除注册"
-                        android:textColor="@color/black"
-                        android:textSize="15sp" />
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -366,18 +374,20 @@
                         android:layout_weight="1"
                         android:background="@drawable/button_switch"
                         android:orientation="vertical">
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal">
+
                             <Button
                                 android:id="@+id/btn_jxl_open"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:background="@null"
                                 android:gravity="center"
-                                android:layout_weight="1"
                                 android:onClick="onClick"
                                 android:text="JXL打开excel"
                                 android:textColor="@color/black"
@@ -392,30 +402,33 @@
                                 android:id="@+id/btn_jxl_export"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:background="@null"
                                 android:gravity="center"
                                 android:onClick="onClick"
-                                android:layout_weight="1"
                                 android:text="JXL导出excel"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
                         </LinearLayout>
+
                         <View
                             android:layout_width="match_parent"
-                            android:background="@color/gray"
-                            android:layout_height="1dp"/>
+                            android:layout_height="1dp"
+                            android:background="@color/gray" />
+
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_weight="1"
                             android:layout_height="wrap_content"
+                            android:layout_weight="1"
                             android:orientation="horizontal">
+
                             <Button
                                 android:id="@+id/btn_poi_open"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:background="@null"
                                 android:gravity="center"
-                                android:layout_weight="1"
                                 android:onClick="onClick"
                                 android:text="POI打开excel"
                                 android:textColor="@color/black"
@@ -430,10 +443,10 @@
                                 android:id="@+id/btn_poi_export"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_weight="1"
                                 android:background="@null"
                                 android:gravity="center"
                                 android:onClick="onClick"
-                                android:layout_weight="1"
                                 android:text="POI导出excel"
                                 android:textColor="@color/black"
                                 android:textSize="15sp" />
@@ -444,18 +457,38 @@
 
             </LinearLayout>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal">
 
             <Button
-                android:id="@+id/btn_gc_test"
+                android:id="@+id/btn_all_app"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:gravity="center"
+                android:onClick="onClick"
+                android:text="系统应用详情"
+                android:textColor="@color/black"
+                android:textSize="15sp" />
+
+            <Button
+                android:id="@+id/btn_more"
                 android:layout_width="120dp"
                 android:layout_height="120dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="gc测试"
+                android:text="more ......"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
         </LinearLayout>
+
     </LinearLayout>
 </ScrollView>

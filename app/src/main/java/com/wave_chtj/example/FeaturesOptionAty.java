@@ -1,21 +1,23 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
-
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
+import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.DownLoadAty;
@@ -31,12 +33,7 @@ import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
-
-import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import io.reactivex.functions.Consumer;
 
 /**
@@ -67,9 +64,19 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     }
                 });
 
+
     }
 
-
+    /*接收到刚才选择的文件路径*/
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1) {
+                Uri uri = data.getData();
+                KLog.d(TAG, ": url=" + uri.getPath().toString());
+            }
+        }
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -158,9 +165,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_test_exception://测试其他异常
                 int i = 1 / 0;
                 break;
-            case R.id.btn_gc_test://GC测试
-                System.gc();
-                break;
             case R.id.btn_key_reg://usb设备监听注册
                 KeyEventUtils.getInstance().registerReceiver();
                 KeyEventUtils.getInstance().setIUsbDeviceListener(new IUsbDeviceListener() {
@@ -217,6 +221,12 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 //poi.jar导出
                 boolean isOK = POIExcelUtils.createExcelFile();
                 KLog.d(TAG, "isOK: " + isOK);
+                break;
+            case R.id.btn_all_app://系统应用详情
+                startActivity(new Intent(mContext, AllAppAty.class));
+                break;
+            case R.id.btn_more://查看APP详情
+                ToastUtils.success("敬请期待");
                 break;
         }
     }

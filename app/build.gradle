@@ -106,6 +106,7 @@ dependencies {
     implementation project(path: ':base_socket')
     implementation 'org.greenrobot:greendao:3.3.0' // greenDAO
     implementation 'net.sourceforge.jexcelapi:jxl:2.6.12'
+    implementation rootProject.ext.support["recyclerview-v7"]
 }
 
 greendao {
