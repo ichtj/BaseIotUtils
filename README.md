@@ -1,9 +1,7 @@
 # 接入方式
 ### app界面截图
 
-![image](/pic/first.png)
-
-![image](/pic/second.png)
+![image](/pic/apppic.png)
 
 ### Step 1. Add the JitPack repository to your build file
 
