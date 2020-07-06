@@ -66,6 +66,10 @@ public class GreenDaoSqliteAty extends BaseActivity implements View.OnClickListe
                 mDbController.deleteAll();
                 ToastUtils.error("删除全部！");
                 break;
+            case R.id.btn_condition://删除全部
+                List<PersonInfor> personInfors1 =mDbController.searchByName("李晓丽");
+                ToastUtils.success(personInfors1.size()+"");
+                break;
         }
     }
 }

@@ -51,7 +51,15 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:layout_below="@id/btn_update"
+        android:layout_toRightOf="@id/btn_condition"
         android:onClick="onClick"
         android:text="删除全部" />
+    <Button
+        android:id="@+id/btn_condition"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_below="@id/btn_update"
+        android:onClick="onClick"
+        android:text="条件查询" />
 
 </RelativeLayout>

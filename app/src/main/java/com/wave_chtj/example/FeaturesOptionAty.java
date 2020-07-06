@@ -67,16 +67,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
 
     }
 
-    /*接收到刚才选择的文件路径*/
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1) {
-                Uri uri = data.getData();
-                KLog.d(TAG, ": url=" + uri.getPath().toString());
-            }
-        }
-    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -181,7 +171,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_sql://数据库操作
                 startActivity(new Intent(mContext, GreenDaoSqliteAty.class));
                 break;
-            case R.id.btn_jxl_open://打开Excel JXL版本
+            case R.id.btn_jxl_open://打开Excel JXL版本 table.xls 可以在项目的File文件夹下找到
                 final Handler handler2 = new Handler();
                 handler2.post(new Runnable() {
                     @Override
@@ -201,7 +191,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 //第一种 jxl.jar导出
                 JXLExcelUtils.exportExcel();
                 break;
-            case R.id.btn_poi_open://打开Excel POI版本
+            case R.id.btn_poi_open://打开Excel POI版本 table.xls 可以在项目的File文件夹下找到
                 final Handler handler = new Handler();
                 handler.post(new Runnable() {
                     @Override
@@ -229,6 +219,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 ToastUtils.success("敬请期待");
                 break;
         }
+
     }
 
 
