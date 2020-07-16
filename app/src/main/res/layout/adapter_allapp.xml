@@ -19,6 +19,15 @@
         android:layout_toRightOf="@+id/ivAppIcon"
         android:text="appName"
         android:textColor="@android:color/black" />
+    <TextView
+        android:id="@+id/tvTraffic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/tvAppName"
+        android:text="流量消耗："
+        android:textColor="@android:color/black" />
 
     <TextView
         android:id="@+id/tvPackName"
@@ -37,6 +46,18 @@
         android:layout_toRightOf="@+id/tvPackName"
         android:text="packName"
         android:textColor="@android:color/black" />
+    <TextView
+        android:layout_below="@+id/ivAppIcon"
+        android:id="@+id/tvStartApp"
+        android:layout_toRightOf="@+id/tvUid"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/button_switch"
+        android:gravity="center"
+        android:text="打开"
+        android:textColor="@android:color/holo_blue_bright" />
 
     <TextView
         android:id="@+id/tvCopy"

@@ -120,8 +120,8 @@ public class KeyEventUtils extends BroadcastReceiver  {
                     afterGetUsbPermission(device);
                 }
             } else {
-                KLog.d(TAG, "device: "+device.toString());
-                if(keyEventUtils!=null&&keyEventUtils.mIUsbDeviceListener!=null){
+                if(keyEventUtils!=null&&keyEventUtils.mIUsbDeviceListener!=null||device!=null){
+                    KLog.d(TAG, "device: "+device.toString());
                     if (action.equals(UsbManager.ACTION_USB_DEVICE_ATTACHED)) {
                         keyEventUtils.mIUsbDeviceListener.deviceInfo(device,true);
                     } else if (action.equals(UsbManager.ACTION_USB_DEVICE_DETACHED)) {

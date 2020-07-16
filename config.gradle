@@ -4,7 +4,7 @@ ext {
             compileSdkVersion: 27,
             buildToolsVersion: "27.1.1",
             applicationId    : "com.wave_chtj.example",
-            minSdkVersion    : 15,
+            minSdkVersion    : 19,
             targetSdkVersion : 27,
             versionCode      : 4,
             versionName      : "1.0.3",
@@ -63,7 +63,13 @@ ext {
             "butterknife"                          : "com.jakewharton:butterknife:8.4.0",
             "butterknife-compiler"                 : "com.jakewharton:butterknife-compiler:8.4.0",
             //ZIP压缩工具类
-            "ziputils"                             : "net.lingala.zip4j:zip4j:1.3.2"
+            "ziputils"                             : "net.lingala.zip4j:zip4j:1.3.2",
+            //Excel jxl表格工具
+            "jxlutils"                             : "net.sourceforge.jexcelapi:jxl:2.6.12",
+            //内存泄漏工具
+            "leakcanary"                           : "com.squareup.leakcanary:leakcanary-android:1.6.1",
+            "leakcanaryandroidnoop"                : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.1",
+            "greendao"                             : "org.greenrobot:greendao:3.3.0",
 
     ]
 }

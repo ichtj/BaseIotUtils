@@ -107,6 +107,10 @@
         <activity android:name=".greendao.GreenDaoSqliteAty"/>
         <!--查看所有app详情-->
         <activity android:name=".allapp.AllAppAty"/>
+        <!--视频播放-->
+        <activity android:name=".play.VideoPlayAty"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:screenOrientation="portrait"/>
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl" />
         <!--在服务里面进行一些application应该执行的初始化操作-->

@@ -1,22 +1,21 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.view.View;
+
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.crash.MyService;
@@ -24,6 +23,7 @@ import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.network.NetChangeAty;
+import com.wave_chtj.example.play.VideoPlayAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
@@ -33,7 +33,9 @@ import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
+
 import java.util.List;
+
 import io.reactivex.functions.Consumer;
 
 /**
@@ -63,8 +65,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
-
-
     }
 
     @Override
@@ -178,7 +178,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     public void run() {
                         try {
                             //第一种jxl.jar 只能读取xls
-                            List<ExcelEntity> readExcelDatas=JXLExcelUtils.readExcelxlsx( Environment.getExternalStorageDirectory()+"/table.xls");
+                            List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -215,11 +215,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_all_app://系统应用详情
                 startActivity(new Intent(mContext, AllAppAty.class));
                 break;
-            case R.id.btn_more://查看APP详情
-                ToastUtils.success("敬请期待");
+            case R.id.btn_play://查看APP详情
+                startActivity(new Intent(mContext, VideoPlayAty.class));
                 break;
         }
-
     }
 
 

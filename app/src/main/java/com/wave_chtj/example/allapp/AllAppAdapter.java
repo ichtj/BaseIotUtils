@@ -4,6 +4,7 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -14,10 +15,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.app.PackagesUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.util.TrafficStatistics;
 
 import java.util.List;
 
@@ -27,7 +31,7 @@ import java.util.List;
  * desc
  */
 public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-
+    private static final String TAG="AllAppAdapter";
 
     private List<AppEntity> list;
 
@@ -54,6 +58,22 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvPackName.setText("包名:"+list.get(position).getPackageName());
         ((MyViewHolder) holder).tvUid.setText("UID:"+list.get(position).getUid()+"");
         ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
+        double traffic=TrafficStatistics.getUidFlow(list.get(position).getUid());
+        double sumTraffic=TrafficStatistics.getDouble(traffic/1024/1024);
+        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:"+ sumTraffic+"MB");
+        ((MyViewHolder) holder).tvStartApp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                KLog.d(TAG, "PackageName: "+list.get(posiNum).getPackageName());
+                try{
+                    PackagesUtils.openPackage(list.get(posiNum).getPackageName());
+                }catch(Exception e){
+                    e.printStackTrace();
+                    KLog.e(TAG,"errMeg:"+e.getMessage());
+                    ToastUtils.error("打开错误!");
+                }
+            }
+        });
         //复制到剪切板
         ((MyViewHolder) holder).tvCopy.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,7 +113,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 }
 
 class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo;
+    public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo,tvStartApp,tvTraffic;
     public ImageView ivAppIcon;
 
     public MyViewHolder(View itemView) {
@@ -104,5 +124,7 @@ class MyViewHolder extends RecyclerView.ViewHolder {
         tvToAppInfo = itemView.findViewById(R.id.tvToAppInfo);
         tvUid = itemView.findViewById(R.id.tvUid);
         ivAppIcon = itemView.findViewById(R.id.ivAppIcon);
+        tvStartApp = itemView.findViewById(R.id.tvStartApp);
+        tvTraffic = itemView.findViewById(R.id.tvTraffic);
     }
 }
