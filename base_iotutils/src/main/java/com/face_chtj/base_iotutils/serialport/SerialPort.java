@@ -129,7 +129,6 @@ public class SerialPort {
 			try {
 				mFileOutputStream.write(buff);
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -146,7 +145,6 @@ public class SerialPort {
 		try {
 			mFileInputStream.read(buff, 0, lenght);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

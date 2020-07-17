@@ -20,8 +20,8 @@ import java.util.List;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:PackagesUtils相关工具类
- * --获取所有应用 {@link #getApkInfoList()}
- * --查询设备内非系统应用 {@link #getAllApkInfoListByNonSystem()}
+ * --获取所有应用 {@link #getAllAppList()}
+ * --查询设备内非系统应用 {@link #getNormalAppList()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}
@@ -209,5 +209,12 @@ public class PackagesUtils {
             }
         }
         return false;
+    }
+
+
+    public static void openPackage(String packageName) throws Exception {
+        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        BaseIotUtils.getContext().startActivity(intent);
     }
 }
