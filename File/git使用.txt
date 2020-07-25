@@ -8,3 +8,5 @@ git cherry-pick xxxcommitid  可以将另外一个分支的commid提交到本分之 不冲突情况下
 git push origin xxx -f  提交当前的记录
 
 git diff device/rockchip/rk3288/system.prop > ../system.prop.patch  //打补丁
+
+git clone git仓库地址 --depth=1 只下载到最新版本，而不是带有全部历史版本的仓库。

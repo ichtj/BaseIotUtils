@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -16,16 +16,19 @@
         android:id="@+id/btn_add"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/ttView"
-        android:layout_toRightOf="@id/btn_del"
         android:onClick="onClick"
         android:text="增加记录" />
+    <Button
+        android:id="@+id/btn_addList"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:onClick="onClick"
+        android:text="多个添加" />
 
     <Button
         android:id="@+id/btn_del"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/ttView"
         android:onClick="onClick"
         android:text="删除记录" />
 
@@ -33,7 +36,6 @@
         android:id="@+id/btn_update"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/btn_add"
         android:onClick="onClick"
         android:text="修改记录" />
 
@@ -41,8 +43,6 @@
         android:id="@+id/btn_search"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/btn_del"
-        android:layout_toRightOf="@id/btn_update"
         android:onClick="onClick"
         android:text="查询记录" />
 
@@ -50,16 +50,13 @@
         android:id="@+id/btn_deleteall"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/btn_update"
-        android:layout_toRightOf="@id/btn_condition"
         android:onClick="onClick"
         android:text="删除全部" />
     <Button
         android:id="@+id/btn_condition"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:layout_below="@id/btn_update"
         android:onClick="onClick"
         android:text="条件查询" />
 
-</RelativeLayout>
+</LinearLayout>

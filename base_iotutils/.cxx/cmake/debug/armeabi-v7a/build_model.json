@@ -5,7 +5,6 @@
       "sdkFolder": "D:\\sdk",
       "isNativeCompilerSettingsCacheEnabled": false,
       "isBuildOnlyTargetAbiEnabled": true,
-      "ideBuildTargetAbi": "armeabi-v7a,armeabi",
       "splitsAbiFilterSet": [],
       "intermediatesFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\build\\intermediates",
       "gradleModulePathName": ":base_iotutils",
@@ -42,12 +41,15 @@
     "gradleBuildOutputFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cxx\\debug",
     "isDebuggableEnabled": true,
     "validAbiList": [
-      "ARMEABI_V7A"
+      "ARMEABI_V7A",
+      "ARM64_V8A",
+      "X86",
+      "X86_64"
     ],
     "buildTargetSet": []
   },
   "abi": "ARMEABI_V7A",
-  "abiPlatformVersion": 16,
+  "abiPlatformVersion": 19,
   "cxxBuildFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\debug\\armeabi-v7a",
   "jsonFile": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\debug\\armeabi-v7a\\android_gradle_build.json",
   "gradleBuildOutputFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cxx\\debug\\armeabi-v7a",

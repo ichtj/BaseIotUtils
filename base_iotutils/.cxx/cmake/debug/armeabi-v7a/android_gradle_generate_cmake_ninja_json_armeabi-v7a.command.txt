@@ -3,7 +3,7 @@ arguments :
 -HE:\utils\BaseIotUtils\base_iotutils
 -BE:\utils\BaseIotUtils\base_iotutils\.cxx\cmake\debug\armeabi-v7a
 -DANDROID_ABI=armeabi-v7a
--DANDROID_PLATFORM=android-16
+-DANDROID_PLATFORM=android-19
 -DCMAKE_LIBRARY_OUTPUT_DIRECTORY=E:\utils\BaseIotUtils\base_iotutils\build\intermediates\cmake\debug\obj\armeabi-v7a
 -DCMAKE_BUILD_TYPE=Debug
 -DANDROID_NDK=D:\sdk\ndk-bundle

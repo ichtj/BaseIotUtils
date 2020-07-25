@@ -21,7 +21,7 @@ ANDROID_ABI:UNINITIALIZED=x86
 ANDROID_NDK:UNINITIALIZED=D:\sdk\ndk-bundle
 
 //No help, variable specified on the command line.
-ANDROID_PLATFORM:UNINITIALIZED=android-16
+ANDROID_PLATFORM:UNINITIALIZED=android-19
 
 //Archiver
 CMAKE_AR:FILEPATH=D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/i686-linux-android-ar.exe
@@ -193,10 +193,10 @@ Project_BINARY_DIR:STATIC=E:/utils/BaseIotUtils/base_iotutils/.cxx/cmake/debug/x
 Project_SOURCE_DIR:STATIC=E:/utils/BaseIotUtils/base_iotutils
 
 //Path to a library.
-log-lib:FILEPATH=D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/i686-linux-android/16/liblog.so
+log-lib:FILEPATH=D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/i686-linux-android/19/liblog.so
 
 //Dependencies for the target
-serialport_LIB_DEPENDS:STATIC=general;D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/i686-linux-android/16/liblog.so;
+serialport_LIB_DEPENDS:STATIC=general;D:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/i686-linux-android/19/liblog.so;
 
 
 ########################

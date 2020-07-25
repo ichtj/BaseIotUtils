@@ -1,7 +1,9 @@
 package com.wave_chtj.example.greendao;
 
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.util.List;
@@ -12,6 +14,7 @@ import java.util.List;
  * desc
  */
 public class DbController {
+    private static final String TAG="DbController";
     /**
      * Helper
      */
@@ -98,7 +101,27 @@ public class DbController {
      * @param personInfor
      */
     public long insert(PersonInfor personInfor) {
-        return personInforDao.insert(personInfor);
+        try{
+            personInforDao.insertInTx();
+            return personInforDao.insert(personInfor);
+        }catch(SQLiteConstraintException e){
+            e.printStackTrace();
+            KLog.e(TAG,"errMeg:"+e.getMessage());
+            return -1;
+        }
+    }
+    /**
+     * 插入一条记录，表里面要没有与之相同的记录
+     *
+     * @param personInfor
+     */
+    public void insertList(List<PersonInfor> personInfor) {
+        try{
+            personInforDao.insertInTx(personInfor);
+        }catch(SQLiteConstraintException e){
+            e.printStackTrace();
+            KLog.e(TAG,"errMeg:"+e.getMessage());
+        }
     }
 
     /**

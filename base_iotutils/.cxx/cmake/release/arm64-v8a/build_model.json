@@ -49,7 +49,7 @@
     "buildTargetSet": []
   },
   "abi": "ARM64_V8A",
-  "abiPlatformVersion": 16,
+  "abiPlatformVersion": 19,
   "cxxBuildFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\arm64-v8a",
   "jsonFile": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\arm64-v8a\\android_gradle_build.json",
   "gradleBuildOutputFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cxx\\release\\arm64-v8a",

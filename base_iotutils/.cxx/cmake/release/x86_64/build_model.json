@@ -49,7 +49,7 @@
     "buildTargetSet": []
   },
   "abi": "X86_64",
-  "abiPlatformVersion": 16,
+  "abiPlatformVersion": 19,
   "cxxBuildFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\x86_64",
   "jsonFile": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cmake\\release\\x86_64\\android_gradle_build.json",
   "gradleBuildOutputFolder": "E:\\utils\\BaseIotUtils\\base_iotutils\\.cxx\\cxx\\release\\x86_64",

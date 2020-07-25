@@ -8,6 +8,7 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,6 +24,10 @@ public class GreenDaoSqliteAty extends BaseActivity implements View.OnClickListe
     PersonInfor personInfor2;
     PersonInfor personInfor3;
     PersonInfor personInfor4;
+    PersonInfor personInfor5;
+    PersonInfor personInfor6;
+    PersonInfor personInfor7;
+    PersonInfor personInfor8;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,10 @@ public class GreenDaoSqliteAty extends BaseActivity implements View.OnClickListe
         personInfor2= new PersonInfor(null, "002", "李晓丽", "女");
         personInfor3= new PersonInfor(null, "003", "王麻麻", "男");
         personInfor4= new PersonInfor(null, "004", "王大锤", "女");
+        personInfor5= new PersonInfor(null, "005", "A大锤", "女");
+        personInfor6= new PersonInfor(null, "006", "B大锤", "男");
+        personInfor7= new PersonInfor(null, "007", "C大锤", "女");
+        personInfor8= new PersonInfor(null, "008", "D大锤", "男");
     }
 
     @Override
@@ -48,6 +57,14 @@ public class GreenDaoSqliteAty extends BaseActivity implements View.OnClickListe
                 mDbController.insert(personInfor2);
                 mDbController.insert(personInfor3);
                 mDbController.insert(personInfor4);
+                break;
+            case R.id.btn_addList://多个添加
+                List<PersonInfor> personInforLis=new ArrayList<>();
+                personInforLis.add(personInfor5);
+                personInforLis.add(personInfor6);
+                personInforLis.add(personInfor7);
+                personInforLis.add(personInfor8);
+                mDbController.insertList(personInforLis);
                 break;
             case R.id.btn_del://删除记录
                 mDbController.delete("王麻麻");

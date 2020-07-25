@@ -47,7 +47,7 @@ build CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_S
 #############################################
 # Link the shared library ..\..\..\..\build\intermediates\cmake\release\obj\armeabi-v7a\libserialport.so
 
-build ../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so: C_SHARED_LIBRARY_LINKER__serialport CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o | D$:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/16/liblog.so
+build ../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so: C_SHARED_LIBRARY_LINKER__serialport CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o | D$:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot/usr/lib/arm-linux-androideabi/19/liblog.so
   LANGUAGE_COMPILE_FLAGS = -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -march=armv7-a -mthumb -Wformat -Werror=format-security  -Oz -DNDEBUG
   LINK_FLAGS = -Wl,--exclude-libs,libgcc.a -Wl,--exclude-libs,libgcc_real.a -Wl,--exclude-libs,libatomic.a -static-libstdc++ -Wl,--build-id -Wl,--fatal-warnings -Wl,--exclude-libs,libunwind.a -Wl,--no-undefined -Qunused-arguments
   LINK_LIBRARIES = -llog -latomic -lm
