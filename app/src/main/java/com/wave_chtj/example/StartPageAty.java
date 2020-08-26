@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -22,20 +24,23 @@ public class StartPageAty extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);            //设为全屏
         startActivity(new Intent(StartPageAty.this, FeaturesOptionAty.class));
-        finish();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        boolean isFrist=SPUtils.getBoolean("isFirst",true);
-        if(isFrist){
-            //如果是第一次进来
-            SPUtils.putBoolean("isFirst",false);
-        }else{
-            //如果是第二次及以后进来
+        try {
+            boolean isFrist=SPUtils.getBoolean("isFirst",true);
+            if(isFrist){
+                //如果是第一次进来
+                SPUtils.putBoolean("isFirst",false);
+            }else{
+                //如果是第二次及以后进来
 
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            KLog.e(TAG,"errMeg:"+e.getMessage());
         }
-
     }
 }

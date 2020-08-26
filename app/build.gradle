@@ -46,6 +46,11 @@ android {
             minifyEnabled = false
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     // recommend
     dexOptions {
         //预编译
@@ -101,9 +106,14 @@ dependencies {
     implementation project(path: ':base_socket')
     //第三方数据操作
     implementation rootProject.ext.dependencies["greendao"]
+    //视频播放
+    implementation rootProject.ext.dependencies["videoplay"]
+    //屏幕适配
+    //implementation rootProject.ext.dependencies["autosize"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
     implementation files('libs\\poi-ooxml-schemas-3.12-20150511-a.jar')
+    //implementation 'com.chtj.base_socket:base_socket:1.0.1'
 
 }
 

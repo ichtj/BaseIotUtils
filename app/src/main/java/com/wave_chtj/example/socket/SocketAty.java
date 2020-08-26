@@ -170,6 +170,7 @@ public class SocketAty extends BaseActivity {
 
                         @Override
                         public void connFaild(Throwable t) {
+                            KLog.d(TAG, "errMeg: "+t.getMessage());
                             Message message = handler.obtainMessage();
                             message.obj = "\n\r连接异常";
                             handler.sendMessage(message);

@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
+import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -31,11 +32,16 @@ import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
 import com.face_chtj.base_iotutils.UriPathUtils;
+import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.excel.ExcelEntity;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
+
+import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import io.reactivex.functions.Consumer;
 
@@ -56,7 +62,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         tvTruePath=findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.SYSTEM_ALERT_WINDOW}).
+        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.WRITE_SETTINGS}).
                 subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean granted) throws Exception {
@@ -73,6 +79,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         intent.setAction("com.fise.silence.install");
         intent.putExtra("fisepath","/sdcard/new.apk");
         sendBroadcast(intent);
+
+        AppManager.getAppManager().finishActivity(StartPageAty.class);
     }
 
 
@@ -221,10 +229,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 boolean isOK = POIExcelUtils.createExcelFile();
                 KLog.d(TAG, "isOK: " + isOK);
                 break;
-            case R.id.btn_all_app://系统应用详情
+            case R.id.btn_all_app://应用列表
                 startActivity(new Intent(mContext, AllAppAty.class));
                 break;
-            case R.id.btn_play://查看APP详情
+            case R.id.btn_play://视频播放
                 startActivity(new Intent(mContext, VideoPlayAty.class));
                 break;
             case R.id.btn_open_file://打开文件
@@ -234,7 +242,17 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivityForResult(Intent.createChooser(intent, "请选择文件"), FILE_SELECT_CODE);
                 break;
             case R.id.btn_getAssets://获取Assets目录下的文件
-
+                try {
+                    InputStream input = getAssets().open("table.xls");
+                    if(input!=null){
+                        ToastUtils.success("found table.xls");
+                    }else{
+                        ToastUtils.success("not found table.xls");
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                    KLog.e(TAG,"errMeg:"+e.getMessage());
+                }
                 break;
         }
     }

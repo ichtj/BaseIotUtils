@@ -59,7 +59,7 @@
                 android:background="@drawable/button_switch"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="屏幕适配"
+                android:text="屏幕相关"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 
@@ -471,7 +471,7 @@
                 android:background="@drawable/button_switch"
                 android:gravity="center"
                 android:onClick="onClick"
-                android:text="系统应用详情"
+                android:text="应用列表"
                 android:textColor="@color/black"
                 android:textSize="15sp" />
 

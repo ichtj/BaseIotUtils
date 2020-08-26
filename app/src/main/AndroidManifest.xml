@@ -12,7 +12,8 @@
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!--读写文件权限-->
     <!--excel jxl.jar操作权限-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
         tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
@@ -35,9 +36,12 @@
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--usb设备监听-->
-    <uses-permission android:name="android.permission.HARDWARE_TEST"/>
-    <uses-feature android:name="android.hardware.usb.host"/>
+    <uses-permission android:name="android.permission.HARDWARE_TEST" />
+    <uses-feature android:name="android.hardware.usb.host" />
+
     <uses-permission android:name="android.hardware.usb.accessory" />
+
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
 
     <application
         android:name=".application.DefaultApplication"
@@ -61,9 +65,9 @@
         <!--功能选择-->
         <activity
             android:name=".FeaturesOptionAty"
-            android:theme="@style/AppTheme"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
             </intent-filter>
@@ -104,13 +108,14 @@
         <!--网络监听-->
         <activity android:name=".network.NetChangeAty" />
         <!--greenDAO数据库操作-->
-        <activity android:name=".greendao.GreenDaoSqliteAty"/>
+        <activity android:name=".greendao.GreenDaoSqliteAty" />
         <!--查看所有app详情-->
-        <activity android:name=".allapp.AllAppAty"/>
+        <activity android:name=".allapp.AllAppAty" />
         <!--视频播放-->
-        <activity android:name=".play.VideoPlayAty"
+        <activity
+            android:name=".play.VideoPlayAty"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="unspecified"/>
+            android:screenOrientation="unspecified" />
         <!--服务必须要注册-->
         <service android:name=".keepservice.TraceServiceImpl" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
@@ -154,5 +159,12 @@
                 <data android:scheme="file" />
             </intent-filter>
         </receiver>
+
+        <!--<meta-data
+            android:name="design_width_in_dp"
+            android:value="720" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="1280" />-->
     </application>
 </manifest>

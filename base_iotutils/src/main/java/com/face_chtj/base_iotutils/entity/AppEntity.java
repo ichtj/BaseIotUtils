@@ -32,18 +32,44 @@ public class AppEntity {
      * uid
      */
     private int uid;
+    /**
+     * 是否是系统应用
+     */
+    private boolean isSys;
+    /**
+     * 包名下的进程信息
+     */
+    private ProcessEntity mProcessEntity;
 
     public AppEntity() {
     }
 
-    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position,int uid) {
+    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, ProcessEntity mProcessEntity) {
         this.id = id;
         this.appName = appName;
         this.packageName = packageName;
         this.icon = icon;
         this.isCheck = isCheck;
         this.position = position;
-        this.uid=uid;
+        this.uid = uid;
+        this.isSys = isSys;
+        this.mProcessEntity = mProcessEntity;
+    }
+
+    public boolean getIsSys() {
+        return isSys;
+    }
+
+    public ProcessEntity getmProcessEntity() {
+        return mProcessEntity;
+    }
+
+    public void setmProcessEntity(ProcessEntity mProcessEntity) {
+        this.mProcessEntity = mProcessEntity;
+    }
+
+    public void setIsSys(boolean isSys) {
+        this.isSys = isSys;
     }
 
     public Drawable getIcon() {

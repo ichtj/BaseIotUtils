@@ -52,7 +52,7 @@ public class InitializeService extends IntentService {
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
         BaseIotUtils.instance().
                 setBaseScreenParam(1080,1920,true).
-                setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
+                setCreenType(SCREEN_TYPE.HEIGHT).//按照宽度适配
                 create(getApplication());
 
     }

@@ -77,12 +77,22 @@ public class App extends Application {
     baseTcpSocket.close();
 ```
 
-### base_iotutils 常用工具类
+## 屏幕适配
+
+### 创建pt模拟器设备
+
+![image](/pic/unit_pt.png)
+
+### 1080*1920 px 效果
+
+![image](/pic/big_screen.png)
+
+-可在app Model中找到使用示例
+
+## base_iotutils 常用工具类
 
 - 进制转换类 | DataConvertUtils
-    ```java
-    
-    ```
+
 - 设备相关 | DeviceUtils
 
 - 键盘相关 | KeyBoardUtils
@@ -126,18 +136,6 @@ public class App extends Application {
 - 字符串判断 | StringUtils
 
 - 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
-
-# 屏幕适配
-
-### 1080*1920 px 效果
-
-![image](/pic/big_screen.png)
-
-### 480*800 px 效果
-
-![image](/pic/small_screen.png)
-
--可在app Model中找到使用示例
 
 # 文件操作 覆盖等
 
@@ -225,88 +223,7 @@ public class App extends Application {
      NetListenerUtils.getInstance().unRegisterReceiver();
  ```
  
-#串口使用
-<!--## 1.使用串口封装类
-```java
-      HeartBeatEntity heartBeatEntity = new HeartBeatEntity(new byte[]{(byte) 0x12}, FlagManager.FLAG_HEARTBEAT, 15 * 1000);
-      //初始化串口工具类
-      ComEntity comEntity = new ComEntity(
-              com//串口地址
-                    , baudrate//波特率
-                    , 6000//超时时间
-                    , 3//重试次数
-                    , null//心跳检测参数
-            );
-            //初始化数据
-            SerialPortHelper.
-                    getInstance().
-                    setComEntity(comEntity).
-                    setOnComListener(new OnComListener() {
-                        @Override
-                        public void writeCommand(byte[] comm, int flag) {
-                            String writeData = "writeCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                            Log.e(TAG, writeData);
-                            Message message = handler.obtainMessage();
-                            message.obj = writeData;
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void readCommand(byte[] comm, int flag) {
-                            String readData = "readCommand>>> comm=" + DataConvertUtils.encodeHexString(comm) + ",flag=" + flag;
-                            Log.e(TAG, readData);
-                            Message message = handler.obtainMessage();
-                            message.obj = readData;
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void writeComplet(int flag) {
-                            String writeSuccessful = "writeComplet>>> flag=" + flag;
-                            Log.e(TAG, writeSuccessful);
-                            Message message = handler.obtainMessage();
-                            message.obj = writeSuccessful;
-                            handler.sendMessage(message);
-                        }
-
-
-                        @Override
-                        public void isReadTimeOut(int flag) {
-                            String readTimeOut = "isReadTimeOut>>> flag=" + flag;
-                            Log.e(TAG, readTimeOut);
-                            Message message = handler.obtainMessage();
-                            message.obj = readTimeOut;
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void isOpen(boolean isOpen) {
-                            String comStatus = isOpen ? "isOpen>>>串口打开！" : "isOpen>>>串口关闭";
-                            Log.e(TAG, comStatus);
-                            Message message = handler.obtainMessage();
-                            message.obj = comStatus;
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void comStatus(boolean isNormal) {
-                            String comStatus = isNormal ? "comStatus>>>串口正常！" : "comStatus>>>串口异常";
-                            Log.e(TAG, comStatus);
-                            Message message = handler.obtainMessage();
-                            message.obj = comStatus;
-                            handler.sendMessage(message);
-                        }
-
-                    }).
-                    openSerialPort();
-      //发送数据
-      SerialPortHelper.getInstance().setWriteAfterRead(comm, FlagManager.FLAG_CHECK_UPDATE);
-      //关闭串口
-      SerialPortHelper.getInstance().closeSerialPort();
-```
--->
-
-## 1.串口封装类
+## 串口封装类
 ```java
         //获得串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();
@@ -331,7 +248,8 @@ public class App extends Application {
         port.close();
         
 ```
-# 后台保活
+
+## 后台保活
 使用方式
 ```java
 
@@ -402,7 +320,7 @@ public class App extends Application {
         
 ```
 
-# adb操作工具类
+## adb操作工具类
 使用方式
 ```java
         //单条命令执行
@@ -416,7 +334,7 @@ public class App extends Application {
         }
 ```
 
-# PermissionsUtils操作工具类
+## PermissionsUtils操作工具类
 使用方式
 ```java
         PermissionsUtils.with(mContext).
@@ -426,7 +344,7 @@ public class App extends Application {
             initPermission();
 ```
 
-# Version Code
+## Version Code
  ### v1.0.3
 > 优化各个工具类
 > 新增部分工具类

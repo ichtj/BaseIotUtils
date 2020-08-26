@@ -1,152 +1,253 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
+    <RelativeLayout
+        android:layout_width="1080pt"
+        android:layout_height="150pt"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/layoutview"
+            android:layout_width="150pt"
+            android:layout_centerInParent="true"
+            android:layout_alignParentLeft="true"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_marginLeft="5dp"
+                android:id="@+id/iv_back"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:src="@mipmap/back" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:text="屏幕适配"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center"
+            android:textSize="18sp" />
+        <View
+            android:layout_below="@id/layoutview"
+            android:layout_width="match_parent"
+            android:background="@color/gray"
+            android:layout_height="1dp"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="1080pt"
+        android:layout_height="200pt"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="这里为app内背光显示,并非改变系统亮度(60dp)"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="当前进度："
+            android:textSize="13sp" />
+
+        <SeekBar
+            android:id="@+id/sbProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="1080pt"
+        android:layout_height="200pt"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="这里会改为手动调整背光模式,调整这里后将会改变系统亮度并且保持(60dp)"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/tvSysProgress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="系统当前进度："
+            android:textSize="13sp" />
+
+        <SeekBar
+            android:id="@+id/sbSysProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp" />
+    </LinearLayout>
+
+    <Button
+        android:layout_width="1080pt"
+        android:layout_height="200pt"
+        android:background="#0E0909"
+        android:text="width=1080pt height=200pt"
+        android:textColor="@color/white"
+        android:textSize="13sp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-        <com.wave_chtj.example.customizeview.TopTitleView
-            android:id="@+id/ttView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ivback="@mipmap/back"
-            app:name="屏幕适配" />
+        android:layout_height="200pt"
+        android:orientation="horizontal">
 
         <Button
-            android:layout_width="1080pt"
-            android:layout_height="100pt"
-            android:background="#0E0909"
-            android:text="W-1080pt(total:1080pt)"
-            android:textColor="@color/white" />
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <Button
-                android:layout_width="540pt"
-                android:layout_height="100pt"
-                android:background="@color/colorAccent"
-                android:onClick="stop"
-                android:text="stop"
-                android:textColor="#fff"
-                android:textSize="30sp" />
-
-            <Button
-                android:layout_width="540pt"
-                android:layout_height="100pt"
-                android:background="#0d0"
-                android:onClick="restart"
-                android:text="restart"
-                android:textColor="#fff"
-                android:textSize="30sp" />
-        </LinearLayout>
-
-        <Button
-            android:layout_width="1080pt"
-            android:layout_height="100pt"
-            android:background="#fd0"
-            android:onClick="goCustomAdaptActivity"
-            android:text="CustomAdapt(internal)"
-            android:textColor="#fff"
-            android:textSize="25sp" />
-
-        <Button
-            android:layout_width="1080pt"
-            android:layout_height="100pt"
-            android:background="#d00"
-            android:onClick="goThirdLibraryActivity"
-            android:text="CustomAdapt(external)"
-            android:textColor="#fff"
-            android:textSize="25sp" />
-
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="100pt"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="230pt"
-                android:layout_height="match_parent"
-                android:background="@color/colorPrimary"
-                android:gravity="center"
-                android:text="W-230pt(total:230pt)"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="1pt"
-                android:layout_height="match_parent"
-                android:layout_gravity="center" />
-
-            <TextView
-                android:layout_width="129pt"
-                android:layout_height="match_parent"
-                android:background="#d0a"
-                android:gravity="center"
-                android:text="W-129pt"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="720pt"
-                android:layout_height="match_parent"
-                android:background="#532F4A"
-                android:gravity="center"
-                android:text="W-720pt"
-                android:textColor="#B2C0B2"
-                android:textSize="20sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="540pt"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:background="@color/colorAccent"
+            android:text="width=540pt height=200pt"
+            android:textColor="#fff"
+            android:textSize="13sp" />
 
-            <TextView
-                android:layout_width="120pt"
-                android:layout_height="match_parent"
-                android:background="#aef"
-                android:gravity="center"
-                android:text="W-120pt"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="90pt"
-                android:layout_height="match_parent"
-                android:background="#acf"
-                android:gravity="center"
-                android:text="W-90pt"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="150pt"
-                android:layout_height="match_parent"
-                android:background="#BE2DBE"
-                android:gravity="center"
-                android:text="W-150pt"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-
-            <TextView
-                android:layout_width="720pt"
-                android:layout_height="match_parent"
-                android:background="#fcf"
-                android:gravity="center"
-                android:text="W-720pt"
-                android:textColor="#0d0"
-                android:textSize="20sp" />
-        </LinearLayout>
-
+        <Button
+            android:layout_width="540pt"
+            android:layout_height="match_parent"
+            android:background="#0d0"
+            android:text="width=540pt height=200pt"
+            android:textColor="#fff"
+            android:textSize="13sp" />
     </LinearLayout>
-</ScrollView>
+
+    <Button
+        android:layout_width="1080pt"
+        android:layout_height="200pt"
+        android:background="#fd0"
+        android:onClick="goCustomAdaptActivity"
+        android:text="weight=1080pt height=200pt"
+        android:textColor="#fff"
+        android:textSize="13sp" />
+
+    <Button
+        android:layout_width="1080pt"
+        android:layout_height="200pt"
+        android:background="#d00"
+        android:onClick="goThirdLibraryActivity"
+        android:text="weight=1080pt height=200pt"
+        android:textColor="#fff"
+        android:textSize="13sp" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="200pt"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="270pt"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:text="weight=270pt height=200pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+
+        <TextView
+            android:layout_width="270pt"
+            android:layout_height="match_parent"
+            android:background="#131113"
+            android:gravity="center"
+            android:text="weight=270pt height=270pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="270pt"
+            android:layout_height="match_parent"
+            android:background="#d0a"
+            android:gravity="center"
+            android:text="weight=270pt height=270pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="270pt"
+            android:layout_height="match_parent"
+            android:background="#532F4A"
+            android:gravity="center"
+            android:text="weight=270pt height=270pt"
+            android:textColor="#B2C0B2"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="370pt"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#aef"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#acf"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#BE2DBE"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#fcf"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#C1083B"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+
+        <TextView
+            android:layout_width="180pt"
+            android:layout_height="match_parent"
+            android:background="#DC2ADC"
+            android:gravity="center"
+            android:text="weight=180pt height=370pt"
+            android:textColor="#0d0"
+            android:textSize="13sp" />
+    </LinearLayout>
+</LinearLayout>

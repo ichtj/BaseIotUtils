@@ -1,11 +1,17 @@
 package com.face_chtj.base_iotutils.app;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.view.Window;
 import android.view.WindowManager;
+
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 
 /**
@@ -15,8 +21,11 @@ import android.view.WindowManager;
  * --获取屏幕宽度 {@link #getScreenWidth (Context context)}
  * --获取屏幕高度 {@link #getScreenHeight(Context context)}
  * --获取屏幕像素，尺寸，dpi相关信息 {@link #getScreenInfo(Activity activity)}
+ * --设置app内屏幕亮度 {@link #setAppScreenBrightness(Activity, int)} )}
+ * --设置系统屏幕亮度 {@link #setAppScreenBrightness(Activity, int)} )}
  */
 public class ScreenInfoUtils {
+    private static final String TAG = "ScreenInfoUtils";
     /**
      * 获取屏幕宽度
      *
@@ -75,6 +84,75 @@ public class ScreenInfoUtils {
                 + ",densityDpi=" + displayMetrics.densityDpi
                 + ",width=" + displayMetrics.widthPixels
                 + ",height=" + displayMetrics.heightPixels;
+    }
+
+    /**
+     * 设置 APP界面屏幕亮度值方法
+     **/
+    public static void setAppScreenBrightness(Activity aty,int birghtessValue) {
+        Window window = aty.getWindow();
+        WindowManager.LayoutParams lp = window.getAttributes();
+        lp.screenBrightness = birghtessValue / 255.0f;
+        window.setAttributes(lp);
+    }
+
+    /**
+     * 设置当前屏幕亮度的模式
+     * SCREEN_BRIGHTNESS_MODE_AUTOMATIC=1 为自动调节屏幕亮度
+     * SCREEN_BRIGHTNESS_MODE_MANUAL=0  为手动调节屏幕亮度
+     */
+    public static void  setScreenMode(int mode){
+        try{
+            Settings.System.putInt(BaseIotUtils.getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, mode);
+        }catch (Exception localException){
+            KLog.d(TAG," errMeg= "+localException.getMessage());
+            localException.printStackTrace();
+        }
+    }
+
+    /**
+     * 获取系统默认屏幕亮度值 屏幕亮度值范围（0-255）
+     * **/
+    public static int getScreenBrightness() {
+        ContentResolver contentResolver = BaseIotUtils.getContext().getContentResolver();
+        int defVal = 125;
+        return Settings.System.getInt(contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS, defVal);
+    }
+
+
+    /**
+     * 保存当前的屏幕亮度值，并使之生效
+     */
+    public static void setSysScreenBrightness(int birghtessValue) {
+        // 首先需要设置为手动调节屏幕亮度模式
+        setScreenManualMode();
+        ContentResolver contentResolver = BaseIotUtils.getContext().getContentResolver();
+        Settings.System.putInt(contentResolver,
+                Settings.System.SCREEN_BRIGHTNESS, birghtessValue);
+    }
+
+
+    /**
+     * 3.关闭光感，设置手动调节背光模式
+     *
+     * SCREEN_BRIGHTNESS_MODE_AUTOMATIC 自动调节屏幕亮度模式值为1
+     *
+     * SCREEN_BRIGHTNESS_MODE_MANUAL 手动调节屏幕亮度模式值为0
+     * **/
+    public static void setScreenManualMode() {
+        ContentResolver contentResolver =  BaseIotUtils.getContext().getContentResolver();
+        try {
+            int mode = Settings.System.getInt(contentResolver,
+                    Settings.System.SCREEN_BRIGHTNESS_MODE);
+            if (mode == Settings.System.SCREEN_BRIGHTNESS_MODE_AUTOMATIC) {
+                Settings.System.putInt(contentResolver,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE,
+                        Settings.System.SCREEN_BRIGHTNESS_MODE_MANUAL);
+            }
+        } catch (Settings.SettingNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
 }

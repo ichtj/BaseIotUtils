@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.AppEntity;
+import com.face_chtj.base_iotutils.entity.ProcessEntity;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.util.ArrayList;
@@ -47,13 +48,15 @@ public class PackagesUtils {
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
                 String packageName = info.activityInfo.packageName;
-                CharSequence cls = info.activityInfo.name;
                 Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid);
+                boolean isSys=false;
+                if((ai.flags & ai.FLAG_SYSTEM) != 0){
+                    isSys=true;
+                }
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid,isSys,getAllProcess(packageName));
                 appEntityList.add(entity);
-                KLog.e("！！！！！", name + "----" + packageName + "----" + cls);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -81,7 +84,7 @@ public class PackagesUtils {
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid);
+                        false, i, pak.applicationInfo.uid,false,getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);
             }
         }
@@ -107,11 +110,33 @@ public class PackagesUtils {
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid);
+                        false, i, pak.applicationInfo.uid,true,getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);
             }
         }
         return appEntityList;
+    }
+
+    /**
+     * 根据包名获取进程PID
+     * @param packagename 包名
+     * @return 进程PID -1为错误 其他值 为进程PID
+     */
+    public  static ProcessEntity getAllProcess(String packagename){
+        ProcessEntity processEntity=new ProcessEntity();
+        ActivityManager am = (ActivityManager)BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
+        int pid=-1;
+        for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess){
+            KLog.d(TAG, "processName: "+amProcess.processName+",pid="+amProcess.pid);
+            if(amProcess.processName.equals(packagename)){
+                pid=amProcess.pid;
+                processEntity.setPid(pid);
+                processEntity.setProcessName(amProcess.processName);
+                break;
+            }
+        }
+        return processEntity;
     }
 
     /**

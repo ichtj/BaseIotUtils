@@ -1,6 +1,7 @@
 package com.chtj.socket;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -63,6 +64,7 @@ public class BaseTcpSocket implements ISocket {
                     e.printStackTrace();
                     if (mSocketListener != null) {
                         mSocketListener.connFaild(e);
+                        Log.d(TAG, "connect: errMeg="+e.getMessage());
                     }
                 }
             }
@@ -97,6 +99,7 @@ public class BaseTcpSocket implements ISocket {
             e.printStackTrace();
             closeIoThread();//关闭IO 和多线程
             if (mSocketListener != null) {
+                Log.d(TAG, "startReceive: errMeg="+e.getMessage());
                 mSocketListener.connFaild(e);
             }
         }
