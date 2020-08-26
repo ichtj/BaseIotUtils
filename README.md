@@ -137,9 +137,17 @@ public class App extends Application {
 
 - 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
 
-# 文件操作 覆盖等
 
-![image](/pic/file_write_read.png)
+# 文件操作 读写,删除,文件大小等
+```java
+//param1 文件路径 例如/sdcard/config.txt
+//param2 写入内容
+//param3 是否覆盖这个文件里的内容
+boolean writeResult = FileUtils.writeFileData(filePath, content, true);
+//读取filePath文件中的内容
+String readResult = FileUtils.readFileData(filePath);
+//更多文件操作方法请查询FileUtils中的内容
+```
 
 # 文件下载 DownLoadManager
 ```java
