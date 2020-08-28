@@ -1,0 +1,13 @@
+[1/2] Building C object CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o
+E:\utils\BaseIotUtils\base_iotutils\src\main\cpp\com_chtj_base_iotutils_serialport_SerialPort.c:154:55: warning: more '%' conversions than data arguments [-Wformat]
+    LOGE("set_opt:nBits=%d,nEvent=%c,nSpeed=%d,nStop=%d", nBits, nEvent, nStop);
+                                                     ~^
+E:\utils\BaseIotUtils\base_iotutils\src\main\cpp\com_chtj_base_iotutils_serialport_SerialPort.c:19:72: note: expanded from macro 'LOGE'
+#define LOGE(fmt, args...) __android_log_print(ANDROID_LOG_ERROR, TAG, fmt, ##args)
+                                                                       ^~~
+E:\utils\BaseIotUtils\base_iotutils\src\main\cpp\com_chtj_base_iotutils_serialport_SerialPort.c:168:5: warning: implicitly declaring library function 'bzero' with type 'void (void *, unsigned long)' [-Wimplicit-function-declaration]
+    bzero( & newtio, sizeof(newtio));   // memset(&newtio,0,sizeof(newtio));
+    ^
+E:\utils\BaseIotUtils\base_iotutils\src\main\cpp\com_chtj_base_iotutils_serialport_SerialPort.c:168:5: note: include the header <strings.h> or explicitly provide a declaration for 'bzero'
+2 warnings generated.
+[2/2] Linking C shared library ..\..\..\..\build\intermediates\cmake\debug\obj\x86_64\libserialport.so

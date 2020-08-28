@@ -13,7 +13,9 @@ import com.face_chtj.base_iotutils.network.NetListenerUtils;
 import com.face_chtj.base_iotutils.network.NetTypeInfo;
 import com.face_chtj.base_iotutils.network.OnNetChangeLinstener;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.util.AppManager;
 
 /**
  * Create on 2020/1/3

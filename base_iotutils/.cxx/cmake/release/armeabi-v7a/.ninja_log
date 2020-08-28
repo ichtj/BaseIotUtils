@@ -1,0 +1,7 @@
+# ninja log v5
+34	3193	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	489515296c9fd47c
+3194	3662	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so	91d744e0704e05aa
+2	152	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	489515296c9fd47c
+152	290	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so	91d744e0704e05aa
+24	4346	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	489515296c9fd47c
+4346	4717	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libserialport.so	91d744e0704e05aa

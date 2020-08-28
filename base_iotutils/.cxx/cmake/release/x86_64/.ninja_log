@@ -1,0 +1,7 @@
+# ninja log v5
+26	398	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	a68dbb0abd102c42
+399	891	0	../../../../build/intermediates/cmake/release/obj/x86_64/libserialport.so	7d2d70f2f88e9f09
+2	141	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	a68dbb0abd102c42
+141	262	0	../../../../build/intermediates/cmake/release/obj/x86_64/libserialport.so	7d2d70f2f88e9f09
+2	300	0	CMakeFiles/serialport.dir/src/main/cpp/com_chtj_base_iotutils_serialport_SerialPort.c.o	a68dbb0abd102c42
+300	613	0	../../../../build/intermediates/cmake/release/obj/x86_64/libserialport.so	7d2d70f2f88e9f09

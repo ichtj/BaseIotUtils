@@ -57,7 +57,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_switch);
+        setContentView(R.layout.activity_switch_re);
         mContext = FeaturesOptionAty.this;
         tvTruePath=findViewById(R.id.tvTruePath);
         /**获取权限*/
@@ -75,11 +75,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                         }
                     }
                 });
-        Intent intent=new Intent();
-        intent.setAction("com.fise.silence.install");
-        intent.putExtra("fisepath","/sdcard/new.apk");
-        sendBroadcast(intent);
-
         AppManager.getAppManager().finishActivity(StartPageAty.class);
     }
 

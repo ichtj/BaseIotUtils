@@ -17,6 +17,7 @@
     -->
     <style name="SplashTheme" parent="AppTheme">
         <item name="android:windowBackground">@drawable/logo_splash</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
 
     <style name="mProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal">
