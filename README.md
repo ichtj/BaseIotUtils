@@ -25,6 +25,7 @@ allprojects {
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
          implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.1'
+         //由于被墙，导致上传到jcenter失败，如果想要体验最新的base_iotutils:1.4.3在项目根目录下/File/base_iotutils-1.4.3-sources引用到自己的项目中
 }
 ```
 
