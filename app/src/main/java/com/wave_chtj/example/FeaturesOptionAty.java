@@ -3,8 +3,9 @@ package com.wave_chtj.example;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
-import android.hardware.usb.UsbManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -13,6 +14,9 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
+import com.face_chtj.base_iotutils.PlayUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -27,11 +31,12 @@ import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.play.VideoPlayAty;
+import com.wave_chtj.example.playmedia.PlayMediaAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
-import com.wave_chtj.example.keepservice.KeepServiceActivity;
 import com.wave_chtj.example.socket.SocketAty;
 import com.face_chtj.base_iotutils.UriPathUtils;
+import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.excel.ExcelEntity;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
@@ -40,9 +45,8 @@ import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
+
 import io.reactivex.functions.Consumer;
 
 /**
@@ -59,10 +63,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
         mContext = FeaturesOptionAty.this;
-        tvTruePath=findViewById(R.id.tvTruePath);
+        tvTruePath = findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.SYSTEM_ALERT_WINDOW,Manifest.permission.WRITE_SETTINGS}).
+        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.WRITE_SETTINGS}).
                 subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean granted) throws Exception {
@@ -78,15 +82,29 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         AppManager.getAppManager().finishActivity(StartPageAty.class);
     }
 
+    /**
+     * 获取APP-VersionCode
+     *
+     * @return
+     */
+    public static String getAppVersionName(String packageName) {
+        String versionCode = "null";
+
+        try {
+            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
+                    packageName, PackageManager.GET_CONFIGURATIONS);
+            versionCode = pinfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSeialPortNormal://串口测试
                 startActivity(new Intent(mContext, SerialPortAty.class));
-                break;
-            case R.id.btnServiceKeep://后台Service
-                startActivity(new Intent(mContext, KeepServiceActivity.class));
                 break;
             case R.id.btnScreen://屏幕适配相关
                 startActivity(new Intent(mContext, ScreenActivity.class));
@@ -239,15 +257,21 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_getAssets://获取Assets目录下的文件
                 try {
                     InputStream input = getAssets().open("table.xls");
-                    if(input!=null){
+                    if (input != null) {
                         ToastUtils.success("found table.xls");
-                    }else{
+                    } else {
                         ToastUtils.success("not found table.xls");
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
-                    KLog.e(TAG,"errMeg:"+e.getMessage());
+                    KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
+                break;
+            case R.id.btn_timereboot:
+                startActivity(new Intent(mContext, TimerAty.class));
+                break;
+            case R.id.btn_play_media:
+                startActivity(new Intent(mContext, PlayMediaAty.class));
                 break;
         }
     }
@@ -262,10 +286,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         }
         if (requestCode == FILE_SELECT_CODE) {
             Uri uri = data.getData(); // 获取用户选择文件的URI
-            String filePath = UriPathUtils.getPath( uri);
-            KLog.d(TAG, "filePath="+filePath+",uri.getPath()="+uri.getPath());
-            ToastUtils.success("文件地址:"+filePath);
-            tvTruePath.setText("Uri转换后的真实路径："+filePath);
+            String filePath = UriPathUtils.getPath(uri);
+            KLog.d(TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath());
+            ToastUtils.success("文件地址:" + filePath);
+            tvTruePath.setText("Uri转换后的真实路径：" + filePath);
         }
     }
 
@@ -275,5 +299,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         NotifyUtils.closeNotify();
         SurfaceLoadDialog.getInstance().dismiss();
         KeyEventUtils.getInstance().unRegisterReceiver();
+        PlayUtils.getInstance().stopPlaying();
     }
 }

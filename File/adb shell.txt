@@ -98,3 +98,6 @@ adb logcat -c -b main -b events -b radio -b system
 -----------------------------------------------
 查看cpu信息
 getprop | grep plat
+
+-----------------------------------------------
+mount -o rw,remount /system  system获取权限

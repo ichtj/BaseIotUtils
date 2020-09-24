@@ -62,6 +62,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvPackName.setText("包名:" + list.get(position).getPackageName());
         ((MyViewHolder) holder).tvUid.setText("UID:" + list.get(position).getUid() + "");
         ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
+        KLog.d(TAG," uid= "+list.get(position).getUid());
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
         ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic + "MB");
@@ -125,6 +126,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         }else{
             ((MyViewHolder) holder).tvUnInstall.setVisibility(View.VISIBLE);
         }
+
     }
 
     @Override

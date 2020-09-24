@@ -97,6 +97,8 @@ public class App extends Application {
 
 - 设备相关 | DeviceUtils
 
+- 音频播放 | PlayUtils
+
 - 键盘相关 | KeyBoardUtils
 
 - 网络判断 | NetUtils
@@ -212,6 +214,37 @@ String readResult = FileUtils.readFileData(filePath);
      NotifyUtils.getInstance("xxid").setDataTime("");
      //关闭此notification
      NotifyUtils.closeNotify();
+ ```
+
+# PlayUtils 使用
+```java
+      PlayUtils.getInstance().
+              setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
+
+                  @Override
+                  public void onPlayStateChange(PlayUtils.PLAY_STATUS play_status) {
+                      //获取当前状态PLAY, RESUME, PAUSE, STOP, NONE
+                      KLog.d(TAG," play_status= "+play_status.name());
+                  }
+
+                  @Override
+                  public void getProgress(int sumProgress, int nowProgress) {
+                      //sumProgress 总时长  nowProgress 当前时长
+                      KLog.d(TAG, " sumProgress= " + sumProgress + ",nowProgress= " + nowProgress);
+                  }
+
+              }).
+              startPlaying("/sdcard/ding.wav");
+
+
+      //暂停播放
+      PlayUtils.getInstance().pausePlay();
+
+      //继续播放
+      PlayUtils.getInstance().resumePlay();
+
+      //停止播放
+      PlayUtils.getInstance().stopPlaying();
  ```
 
 # NetListenerUtils 网络监听者

@@ -1,0 +1,54 @@
+//数据库连接字符串
+public static string Conn = "Database='androiddevice';Data Source='192.168.1.211';Port=3308;User Id='root';Password='ctj123';charset='utf8';pooling=true";
+
+在nginx文件夹中找到conf/nginx.conf文件最后一行配置
+
+连接字符串中的端口需要与监听的端口一致才能转发到其他服务器地址
+
+stream {
+    server {
+        listen 3308;
+        proxy_pass db;
+		proxy_connect_timeout 1s;
+		proxy_timeout 3s;
+    }
+    upstream db {
+		server 192.168.1.211:3306 weight=1 max_fails=3 fail_timeout=30s;
+		server 192.168.1.159:3307 weight=2 max_fails=3 fail_timeout=30s;
+    }
+
+}
+
+nginx常用命令
+start nginx 开启
+nginx -s stop 关闭
+
+nginx 开机自启动
+https://github.com/winsw/winsw/releases/tag/v2.10.2
+
+WinSW.NET2.exe （适用于32位系统）
+
+WinSW.NET4.exe （适用于64位系统。我下载这个版本）
+
+2.2、配置步骤
+
+1）将 WinSW.NET4.exe 复制到 D:\nginx-1.15.4\ 目录中，修改文件名称为 nginxservice.exe 。
+
+2）在 nginxservice.exe 同目录中，新建一个空的 nginxservice.xml 文件（名字要与nginxservice.exe 名字前缀保持一致，但后缀是xml） ，nginxservice.xml 的内容：
+
+<service>
+	<id>nginx</id>
+	<name>nginx</name>
+	<description>nginx</description>
+	<logpath>D:\nginx-1.15.4</logpath>
+	<logmode>roll</logmode>
+	<depend></depend>
+	<executable>D:\nginx-1.15.4\nginx.exe</executable>
+	<stopexecutable>D:\nginx-1.15.4\nginx.exe -s stop</stopexecutable>
+</service>
+
+我的nginx 所在的目录是 D:\develop_tools\nginx\nginx-1.15.4 ，如果你的安装目录与我的不相同，要修改 <logpath> 、 <executable> 、 <stopexecutable> 这3处对应的值。
+
+用 管理员权限 打开 cmd ，进入 D:\develop_tools\nginx\nginx-1.15.4 目录下，执行安装命令： nginxservice.exe install 。
+
+桌面 --> 此电脑（我的电脑）—> 右键，选择 管理 --> 服务和应用程序 --> 服务，找到 nginx 服务，右键 选择 启动服务 属性 自动

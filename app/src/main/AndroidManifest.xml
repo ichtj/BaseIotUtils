@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_LOGS" />
+
     <!--读写文件权限-->
     <!--excel jxl.jar操作权限-->
     <uses-permission
@@ -76,9 +77,6 @@
                 android:resource="@xml/device_filter" />
         </activity>
         <!--后台服务-->
-        <activity
-            android:name=".keepservice.KeepServiceActivity"
-            android:theme="@style/AppTheme" />
         <!--串口相关-->
         <activity
             android:name=".serialport.SerialPortAty"
@@ -111,28 +109,20 @@
         <activity android:name=".greendao.GreenDaoSqliteAty" />
         <!--查看所有app详情-->
         <activity android:name=".allapp.AllAppAty" />
+        <!--定时器-->
+        <activity android:name=".timer.TimerAty"/>
         <!--视频播放-->
         <activity
             android:name=".play.VideoPlayAty"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="unspecified" />
-        <!--服务必须要注册-->
-        <service android:name=".keepservice.TraceServiceImpl" />
+        <!--音频播放-->
+        <activity android:name=".playmedia.PlayMediaAty" />
+
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service android:name=".application.InitializeService" />
-        <!--网络变化广播-->
-        <!--bugly-->
-        <!--<provider
-            android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}.fileProvider"
-            android:exported="false"
-            android:grantUriPermissions="true">
-            <meta-data
-                android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
-        </provider>-->
-        <service android:name=".crash.MyService" />
 
+        <service android:name=".crash.MyService" />
         <!--重启后广播监听-->
         <receiver
             android:name=".util.BaseIotReceiver"
@@ -159,12 +149,5 @@
                 <data android:scheme="file" />
             </intent-filter>
         </receiver>
-
-        <!--<meta-data
-            android:name="design_width_in_dp"
-            android:value="720" />
-        <meta-data
-            android:name="design_height_in_dp"
-            android:value="1280" />-->
     </application>
 </manifest>

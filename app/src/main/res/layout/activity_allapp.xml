@@ -39,7 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:background="@drawable/button_switch"
-                android:onClick="getAllApp"
+                android:onClick="getDeskTopApp"
                 android:text="桌面应用" />
 
             <Button
@@ -48,7 +48,7 @@
                 android:layout_marginTop="15dp"
                 android:background="@drawable/button_switch"
                 android:onClick="getNormalApp"
-                android:text="普通应用" />
+                android:text="可卸载" />
 
             <Button
                 android:layout_width="wrap_content"

@@ -34,10 +34,11 @@ public class PackagesUtils {
 
     /**
      * 获取所有应用
+     * 桌面
      *
      * @return 包含包名下app名称，图标的明细信息list
      */
-    public static List<AppEntity> getAllAppList() {
+    public static List<AppEntity> getDeskTopAppList() {
         List<AppEntity> appEntityList = new ArrayList<AppEntity>();
         try {
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
@@ -51,11 +52,11 @@ public class PackagesUtils {
                 Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
-                boolean isSys=false;
-                if((ai.flags & ai.FLAG_SYSTEM) != 0){
-                    isSys=true;
+                boolean isSys = false;
+                if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
+                    isSys = true;
                 }
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid,isSys,getAllProcess(packageName));
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid, isSys, getAllProcess(packageName));
                 appEntityList.add(entity);
             }
         } catch (Exception e) {
@@ -84,7 +85,7 @@ public class PackagesUtils {
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid,false,getAllProcess(pak.applicationInfo.packageName));
+                        false, i, pak.applicationInfo.uid, false, getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);
             }
         }
@@ -110,7 +111,7 @@ public class PackagesUtils {
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid,true,getAllProcess(pak.applicationInfo.packageName));
+                        false, i, pak.applicationInfo.uid, true, getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);
             }
         }
@@ -119,24 +120,28 @@ public class PackagesUtils {
 
     /**
      * 根据包名获取进程PID
+     *
      * @param packagename 包名
      * @return 进程PID -1为错误 其他值 为进程PID
+     * 该获取进程pid 类似与 adb shell top命令
+     * 根据包名未查询到进程 可能是这个包名的程序未启动 启动后即可查看到该包名的进程
      */
-    public  static ProcessEntity getAllProcess(String packagename){
-        ProcessEntity processEntity=new ProcessEntity();
-        ActivityManager am = (ActivityManager)BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+    public static List<ProcessEntity> getAllProcess(String packagename) {
+        List<ProcessEntity> processEntityList = new ArrayList<>();
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
-        int pid=-1;
-        for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess){
-            KLog.d(TAG, "processName: "+amProcess.processName+",pid="+amProcess.pid);
-            if(amProcess.processName.equals(packagename)){
-                pid=amProcess.pid;
+        int pid = -1;
+        for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess) {
+            KLog.d(TAG, "processName: " + amProcess.processName + ",pid=" + amProcess.pid);
+            if (amProcess.processName.indexOf(packagename) != -1) {
+                pid = amProcess.pid;
+                ProcessEntity processEntity = new ProcessEntity();
                 processEntity.setPid(pid);
                 processEntity.setProcessName(amProcess.processName);
-                break;
+                processEntityList.add(processEntity);
             }
         }
-        return processEntity;
+        return processEntityList;
     }
 
     /**

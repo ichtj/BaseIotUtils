@@ -20,8 +20,6 @@ public class BaseIotReceiver extends BroadcastReceiver {
         //开机启动
         if(intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)){
             KLog.d(TAG, "onReceive: ACTION_BOOT_COMPLETED");
-            //context.startActivity(new Intent(context, SocketAty.class));
-            //context.startActivity(new Intent(context, DownLoadAty.class));
         }
     }
 }

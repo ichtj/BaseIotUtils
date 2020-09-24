@@ -45,7 +45,7 @@ ext {
             //json解析
             "gson"                                 : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
-            "base_iotutils"                        : "com.chtj.base_iotutils:base_iotutils:1.4.1",
+            "base_iotutils"                        : "com.face_chtj.base_iotutils:base_iotutils:1.4.2",
             "base_socket"                          : "com.chtj.base_socket:base_socket:1.0.2",
             "rxpermissions"                        : "com.github.tbruyelle:rxpermissions:0.10.2",
             //bugly的仓库

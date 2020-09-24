@@ -3,13 +3,8 @@ package com.face_chtj.base_iotutils.keeplive;
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
-import android.content.ComponentName;
 import android.content.Context;
-import android.content.Intent;
 import android.content.ServiceConnection;
-import android.os.IBinder;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
@@ -33,17 +28,6 @@ public final class BaseIotUtils {
     private SCREEN_TYPE screen_type = SCREEN_TYPE.HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
-    //唤醒的周期
-    //6分钟
-    public static final int DEFAULT_WAKE_UP_INTERVAL = 6 * 60 * 1000;
-    //3分钟
-    private static final int MINIMAL_WAKE_UP_INTERVAL = 3 * 60 * 1000;
-    //唤醒的间隔时间
-    static int sWakeUpInterval = DEFAULT_WAKE_UP_INTERVAL;
-    //保存需要启动的Service
-    static Class<? extends AbsWorkService> sServiceClass;
-    //是否已经初始化过
-    static boolean sInitialized;
     private static final Map<Class<? extends Service>, ServiceConnection> BIND_STATE_MAP = new HashMap<>();
 
     private static volatile BaseIotUtils sInstance;
@@ -131,72 +115,5 @@ public final class BaseIotUtils {
             return sApp;
         }
         throw new NullPointerException("should be initialized in application");
-    }
-
-
-    /**
-     * 后台保活而进行的初始化
-     *
-     * @param wakeUpInterval 定时唤醒的时间间隔(ms).
-     */
-    public static void initSerice(@NonNull Class<? extends AbsWorkService> serviceClass, @Nullable Integer wakeUpInterval) {
-        sServiceClass = serviceClass;
-        if (wakeUpInterval != null) sWakeUpInterval = wakeUpInterval;
-        sInitialized = true;
-    }
-
-    /**
-     * 开启后台保活服务
-     *
-     * @param serviceClass
-     */
-    public static void startServiceMayBind(@NonNull final Class<? extends Service> serviceClass) {
-        KLog.e(TAG,"startServiceMayBind");
-        //如果已经初始化过后台保活的Service
-        if (!sInitialized) {
-            return;
-        }
-        //否者重新启动
-        final Intent i = new Intent(sApp, serviceClass);
-        startServiceSafely(i);
-        ServiceConnection bound = BIND_STATE_MAP.get(serviceClass);
-        if (bound == null) {
-            sApp.bindService(i, new ServiceConnection() {
-                @Override
-                public void onServiceConnected(ComponentName name, IBinder service) {
-                    BIND_STATE_MAP.put(serviceClass, this);
-                }
-
-                @Override
-                public void onServiceDisconnected(ComponentName name) {
-                    //连接断开时重新启动
-                    BIND_STATE_MAP.remove(serviceClass);
-                    startServiceSafely(i);
-                    if (!sInitialized) {
-                        return;
-                    } else {
-                        sApp.bindService(i, this, Context.BIND_AUTO_CREATE);
-                    }
-                }
-
-                @Override
-                public void onBindingDied(ComponentName name) {
-                    //服务死掉时执行onServiceDisconnected
-                    onServiceDisconnected(name);
-                }
-            }, Context.BIND_AUTO_CREATE);
-        }
-    }
-
-    static void startServiceSafely(Intent i) {
-        if (!sInitialized) return;
-        try {
-            sApp.startService(i);
-        } catch (Exception ignored) {
-        }
-    }
-
-    static int getWakeUpInterval() {
-        return Math.max(sWakeUpInterval, MINIMAL_WAKE_UP_INTERVAL);
     }
 }

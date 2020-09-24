@@ -2,6 +2,8 @@ package com.face_chtj.base_iotutils.entity;
 
 import android.graphics.drawable.Drawable;
 
+import java.util.List;
+
 public class AppEntity {
     /**
      * 编号
@@ -39,12 +41,12 @@ public class AppEntity {
     /**
      * 包名下的进程信息
      */
-    private ProcessEntity mProcessEntity;
+    private List<ProcessEntity> mProcessEntity;
 
     public AppEntity() {
     }
 
-    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, ProcessEntity mProcessEntity) {
+    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> mProcessEntity) {
         this.id = id;
         this.appName = appName;
         this.packageName = packageName;
@@ -60,11 +62,11 @@ public class AppEntity {
         return isSys;
     }
 
-    public ProcessEntity getmProcessEntity() {
+    public List<ProcessEntity> getmProcessEntity() {
         return mProcessEntity;
     }
 
-    public void setmProcessEntity(ProcessEntity mProcessEntity) {
+    public void setmProcessEntity(List<ProcessEntity> mProcessEntity) {
         this.mProcessEntity = mProcessEntity;
     }
 

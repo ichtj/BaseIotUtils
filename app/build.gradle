@@ -108,6 +108,7 @@ dependencies {
     implementation rootProject.ext.dependencies["greendao"]
     //视频播放
     implementation rootProject.ext.dependencies["videoplay"]
+    //implementation rootProject.ext.dependencies["base_iotutils"]
     //屏幕适配
     //implementation rootProject.ext.dependencies["autosize"]
     //POI 操作Excel表格

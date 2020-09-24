@@ -16,49 +16,49 @@
         <Button
             android:id="@+id/btnSeialPortNormal"
             android:layout_width="540pt"
-            android:layout_height="200pt"
-
-            android:layout_weight="1"
+            android:layout_height="185pt"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="串口收发"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
-            android:id="@+id/btnServiceKeep"
+            android:id="@+id/btn_timereboot"
             android:layout_width="540pt"
-            android:layout_height="200pt"
-            android:layout_toRightOf="@+id/btnSeialPortNormal"
-            android:layout_weight="1"
+            android:layout_marginLeft="6dp"
+            android:layout_height="185pt"
             android:background="@drawable/button_switch"
             android:gravity="center"
+            android:layout_toRightOf="@+id/btnSeialPortNormal"
             android:onClick="onClick"
-            android:text="后台保活"
+            android:text="定时器"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp"  />
 
 
         <Button
             android:id="@+id/btnScreen"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btnSeialPortNormal"
-
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="屏幕相关"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_write_read"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btnSeialPortNormal"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btnScreen"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
@@ -66,26 +66,29 @@
             android:onClick="onClick"
             android:text="文件读写"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_network"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btnScreen"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="网络监听"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_download"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btnScreen"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_network"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
@@ -93,180 +96,194 @@
             android:onClick="onClick"
             android:text="文件下载"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_socket"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btn_download"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="Socket:TCP|UDP"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_notification_open"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_download"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_socket"
-            android:background="@drawable/button_switch"
+            android:background="@drawable/draw_top"
             android:gravity="center"
             android:onClick="onClick"
             android:text="nitification 开启"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_notification_close"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_notification_open"
+            android:layout_marginLeft="6dp"
             android:layout_toRightOf="@+id/btn_socket"
-            android:background="@drawable/button_switch"
+            android:background="@drawable/draw_bottom"
             android:gravity="center"
             android:onClick="onClick"
             android:text="nitification 关闭"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_sysDialogShow"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_socket"
-            android:background="@drawable/button_switch"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/draw_top"
             android:gravity="center"
             android:onClick="onClick"
             android:text="显示SystemDialog"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_sysDialogHide"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_sysDialogShow"
-            android:background="@drawable/button_switch"
+            android:background="@drawable/draw_bottom"
             android:gravity="center"
             android:onClick="onClick"
             android:text="关闭SystemDialog"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_generalToast"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_notification_close"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_sysDialogShow"
             android:layout_weight="1"
-            android:background="@drawable/button_switch"
+            android:background="@drawable/draw_top"
             android:gravity="center"
             android:onClick="onClick"
             android:text="普通toast"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_showToast"
             android:layout_width="540pt"
-            android:layout_height="100pt"
+            android:layout_height="94pt"
             android:layout_below="@+id/btn_generalToast"
+            android:layout_marginLeft="6dp"
             android:layout_toRightOf="@+id/btn_sysDialogHide"
             android:layout_weight="1"
-            android:background="@drawable/button_switch"
+            android:background="@drawable/draw_bottom"
             android:gravity="center"
             android:onClick="onClick"
             android:text="图形背景toast"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
 
-
-            <Button
-                android:id="@+id/btn_test_crash"
-                android:layout_width="540pt"
-                android:layout_height="100pt"
-                android:gravity="center"
-                android:layout_below="@+id/btn_sysDialogHide"
-                android:onClick="onClick"
-                android:text="测试anr"
-                android:background="@drawable/button_switch"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
-
-
-            <Button
-                android:id="@+id/btn_test_exception"
-                android:layout_width="540pt"
-                android:layout_height="100pt"
-                android:layout_below="@+id/btn_test_crash"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:background="@drawable/button_switch"
-                android:text="测试其他异常"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <Button
+            android:id="@+id/btn_test_crash"
+            android:layout_width="540pt"
+            android:layout_height="94pt"
+            android:layout_below="@+id/btn_sysDialogHide"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/draw_top"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="测试anr"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
 
-
-            <Button
-                android:id="@+id/btn_key_reg"
-                android:layout_width="540pt"
-                android:layout_height="100pt"
-                android:layout_weight="1"
-                android:background="@drawable/button_switch"
-                android:gravity="center"
-                android:layout_toRightOf="@+id/btn_test_crash"
-                android:layout_below="@+id/btn_showToast"
-                android:onClick="onClick"
-                android:text="usb设备注册监听"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <Button
+            android:id="@+id/btn_test_exception"
+            android:layout_width="540pt"
+            android:layout_height="94pt"
+            android:layout_below="@+id/btn_test_crash"
+            android:background="@drawable/draw_bottom"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="测试其他异常"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
 
-            <Button
-                android:id="@+id/btn_key_unreg"
-                android:layout_width="540pt"
-                android:layout_toRightOf="@+id/btn_test_exception"
-                android:layout_height="100pt"
-                android:layout_weight="1"
-                android:layout_below="@+id/btn_key_reg"
-                android:background="@drawable/button_switch"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:text="解除注册"
-                android:textColor="@color/black"
-                android:textSize="15sp" />
+        <Button
+            android:id="@+id/btn_key_reg"
+            android:layout_width="540pt"
+            android:layout_height="94pt"
+            android:layout_below="@+id/btn_showToast"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/btn_test_crash"
+            android:layout_weight="1"
+            android:background="@drawable/draw_top"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="usb设备注册监听"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+
+        <Button
+            android:id="@+id/btn_key_unreg"
+            android:layout_width="540pt"
+            android:layout_height="94pt"
+            android:layout_below="@+id/btn_key_reg"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/btn_test_exception"
+            android:layout_weight="1"
+            android:background="@drawable/draw_bottom"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="解除注册"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
 
         <Button
             android:id="@+id/btn_sql"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btn_test_exception"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="greenDAO数据库使用"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <RelativeLayout
+            android:id="@+id/rlxls"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
             android:layout_below="@+id/btn_key_unreg"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_sql"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
@@ -276,79 +293,86 @@
             <Button
                 android:id="@+id/btn_jxl_open"
                 android:layout_width="270pt"
-                android:layout_height="100pt"
+                android:layout_height="94pt"
                 android:layout_gravity="center"
+                android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:singleLine="true"
                 android:text="JXL打开excel"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
             <Button
                 android:id="@+id/btn_jxl_export"
                 android:layout_width="270pt"
-                android:layout_height="100pt"
+                android:layout_height="94pt"
                 android:layout_gravity="center"
                 android:layout_toRightOf="@+id/btn_jxl_open"
+                android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:singleLine="true"
                 android:text="JXL导出excel"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
             <Button
                 android:id="@+id/btn_poi_open"
                 android:layout_width="270pt"
-                android:layout_height="100pt"
+                android:layout_height="94pt"
                 android:layout_below="@+id/btn_jxl_open"
                 android:layout_gravity="center"
+                android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:singleLine="true"
                 android:text="POI打开excel"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
 
             <Button
                 android:id="@+id/btn_poi_export"
                 android:layout_width="270pt"
-                android:layout_height="100pt"
+                android:layout_height="94pt"
                 android:layout_below="@+id/btn_jxl_open"
                 android:layout_gravity="center"
                 android:layout_toRightOf="@+id/btn_poi_open"
+                android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:singleLine="true"
                 android:text="POI导出excel"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
         </RelativeLayout>
 
         <Button
             android:id="@+id/btn_all_app"
             android:layout_width="540pt"
-            android:layout_height="200pt"
+            android:layout_height="185pt"
 
             android:layout_below="@+id/btn_sql"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
             android:text="应用列表"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <Button
             android:id="@+id/btn_play"
             android:layout_width="540pt"
-            android:layout_height="200pt"
-            android:layout_below="@+id/btn_sql"
+            android:layout_height="185pt"
+            android:layout_below="@+id/rlxls"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_all_app"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
@@ -356,14 +380,14 @@
             android:onClick="onClick"
             android:text="视频播放"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
 
         <LinearLayout
             android:id="@+id/llFile"
             android:layout_width="540pt"
-            android:layout_height="200pt"
-
+            android:layout_height="185pt"
             android:layout_below="@+id/btn_all_app"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:orientation="vertical">
@@ -371,17 +395,19 @@
             <Button
                 android:id="@+id/btn_open_file"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="94pt"
+                android:background="@null"
                 android:gravity="center"
                 android:onClick="onClick"
+                android:singleLine="true"
                 android:text="UriPath转真实路径(点我)"
                 android:textColor="@color/black"
-                android:textSize="15sp" />
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tvTruePath"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="94pt"
                 android:gravity="center"
                 android:text="Uri转换后的真实路径:"
                 android:textColor="@android:color/holo_red_dark"
@@ -391,17 +417,36 @@
         <Button
             android:id="@+id/btn_getAssets"
             android:layout_width="540pt"
-            android:layout_height="200pt"
-            android:layout_below="@+id/btn_all_app"
+            android:layout_height="185pt"
+            android:layout_below="@+id/btn_play"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/llFile"
-            android:singleLine="true"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
+            android:singleLine="true"
             android:text="获取Assets文件下的文件"
             android:textColor="@color/black"
-            android:textSize="15sp" />
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_play_media"
+            android:layout_width="540pt"
+            android:layout_height="185pt"
+            android:layout_below="@+id/llFile"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_switch"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="播放音频"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+
+
+
 
 
     </RelativeLayout>

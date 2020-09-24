@@ -93,8 +93,8 @@ public class KeyEventUtils extends BroadcastReceiver  {
      */
     public void unRegisterReceiver() {
         try{
-            if (BaseIotUtils.getContext() != null) {
-                BaseIotUtils.getContext().unregisterReceiver(this);
+            if (BaseIotUtils.getContext() != null&&keyEventUtils!=null) {
+                BaseIotUtils.getContext().unregisterReceiver(keyEventUtils);
             }
         }catch(Exception e){
             e.printStackTrace();
