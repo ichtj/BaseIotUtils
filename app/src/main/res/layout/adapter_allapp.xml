@@ -1,97 +1,115 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="80dp"
-    android:padding="5dp">
+    android:layout_width="900pt"
+    android:layout_height="140pt">
 
     <ImageView
         android:id="@+id/ivAppIcon"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
+        android:layout_width="90pt"
+        android:layout_height="90pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="10pt"
         android:src="@drawable/ic_launcher" />
 
     <TextView
         android:id="@+id/tvAppName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="15pt"
+        android:layout_marginTop="40pt"
         android:layout_toRightOf="@+id/ivAppIcon"
+        android:singleLine="true"
         android:text="appName"
-        android:textColor="@android:color/black" />
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+
     <TextView
         android:id="@+id/tvTraffic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="40pt"
         android:layout_toRightOf="@+id/tvAppName"
+        android:singleLine="true"
         android:text="流量消耗："
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:id="@+id/tvPackName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivAppIcon"
-        android:text="packName"
-        android:textColor="@android:color/black" />
-
-    <TextView
-        android:id="@+id/tvUid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/ivAppIcon"
-        android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/tvPackName"
-        android:text="packName"
-        android:textColor="@android:color/black" />
-    <TextView
-        android:layout_below="@+id/ivAppIcon"
-        android:id="@+id/tvStartApp"
-        android:layout_toRightOf="@+id/tvUid"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="5dp"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/button_switch"
-        android:gravity="center"
-        android:text="打开"
-        android:textColor="@android:color/holo_blue_bright" />
-    <TextView
-        android:layout_below="@+id/ivAppIcon"
-        android:id="@+id/tvUnInstall"
-        android:layout_toRightOf="@+id/tvStartApp"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:background="@drawable/button_switch"
-        android:gravity="center"
-        android:text="卸载"
-        android:textColor="@android:color/holo_red_dark" />
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
 
     <TextView
         android:id="@+id/tvCopy"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginTop="40pt"
+        android:layout_marginRight="10pt"
         android:background="@drawable/button_switch"
         android:gravity="center"
         android:text="复制"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvPackName"
+        android:layout_width="320pt"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_marginLeft="10pt"
+        android:gravity="left|center"
+        android:singleLine="true"
+        android:text="packName"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvUid"
+        android:layout_width="220pt"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_marginLeft="10pt"
+        android:layout_toRightOf="@+id/tvPackName"
+        android:gravity="left|center"
+        android:singleLine="true"
+        android:text="UID:"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvStartApp"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_marginLeft="10pt"
+        android:layout_toRightOf="@+id/tvUid"
+        android:background="@drawable/button_switch"
+        android:gravity="center"
+        android:text="打开"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvUnInstall"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_marginLeft="10pt"
+        android:layout_toRightOf="@+id/tvStartApp"
+        android:background="@drawable/button_switch"
+        android:gravity="center"
+        android:text="卸载"
+        android:textColor="@android:color/holo_red_dark"
+        android:textSize="20pt" />
 
     <TextView
         android:id="@+id/tvToAppInfo"
-        android:layout_width="60dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_marginLeft="10pt"
+        android:layout_marginRight="10pt"
+        android:layout_toRightOf="@+id/tvUnInstall"
         android:background="@drawable/button_switch"
         android:gravity="center"
-        android:text="详情"
-        android:textColor="@android:color/holo_blue_bright" />
+        android:text=" 详情 "
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="20pt" />
 </RelativeLayout>

@@ -66,7 +66,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         tvTruePath = findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.SYSTEM_ALERT_WINDOW, Manifest.permission.WRITE_SETTINGS}).
+        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.READ_EXTERNAL_STORAGE,
+                Manifest.permission.SYSTEM_ALERT_WINDOW,
+                Manifest.permission.WRITE_SETTINGS,
+                Manifest.permission.REQUEST_INSTALL_PACKAGES,
+                Manifest.permission.REQUEST_DELETE_PACKAGES,
+        }).
                 subscribe(new Consumer<Boolean>() {
                     @Override
                     public void accept(Boolean granted) throws Exception {
@@ -210,9 +216,11 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             //第一种jxl.jar 只能读取xls
                             List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
+                            ToastUtils.success("read failed!");
                         }
                     }
                 });
@@ -220,6 +228,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_jxl_export://导出Excel JXL版本
                 //第一种 jxl.jar导出
                 JXLExcelUtils.exportExcel();
+                ToastUtils.success("export successful!");
                 break;
             case R.id.btn_poi_open://打开Excel POI版本 table.xls 可以在项目的File文件夹下找到
                 final Handler handler = new Handler();
@@ -230,17 +239,25 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             //poi.jar 可以读取xls xlsx 两种
                             List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
+                            ToastUtils.success("read failed!");
                         }
                     }
                 });
                 break;
             case R.id.btn_poi_export://导出Excel POI版本
-                //poi.jar导出
-                boolean isOK = POIExcelUtils.createExcelFile();
-                KLog.d(TAG, "isOK: " + isOK);
+                new Handler().post(new Runnable() {
+                    @Override
+                    public void run() {
+                        //poi.jar导出
+                        boolean isOK = POIExcelUtils.createExcelFile();
+                        KLog.d(TAG, "isOK: " + isOK);
+                        ToastUtils.success("export successful!");
+                    }
+                });
                 break;
             case R.id.btn_all_app://应用列表
                 startActivity(new Intent(mContext, AllAppAty.class));

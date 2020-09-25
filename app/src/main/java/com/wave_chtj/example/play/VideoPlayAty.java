@@ -27,63 +27,16 @@ import cn.jzvd.JzvdStd;
 public class VideoPlayAty extends BaseActivity {
     private static final String TAG = "VideoPlayAty";
     VideoPlayerView jz_video;
-    //zip保存的路径
-    private static final String savePath = "/sdcard/aging.zip";
-    // 文件名
-    private static final String fileName = "aging.zip";
-    //解压缩后的路径
-    private static final String unZipPath = "/sdcard/";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_play);
         jz_video = (VideoPlayerView) findViewById(R.id.jz_video);
-        initVideo();
         playVideo();
     }
 
-    public void initVideo() {
-        try {
-            //视频文件不存在时将文件保存到本地
-            if (!new File(savePath).exists()) {
-                InputStream input = getAssets().open(fileName);
-                writeToLocal(savePath, input);
-                boolean isUnzip = ZipUtils.unzipFile(savePath, unZipPath);
-                if (isUnzip && new File(savePath).exists()) {
-                    KLog.d(TAG, "Video ready！");
-                } else {
-                    KLog.d(TAG, "Video not ready！");
-                }
-            } else {
-                KLog.d(TAG, "Aging_Test_Video.mp4 exist");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            KLog.e(TAG, "errMeg:" + e.getMessage());
-        }
-    }
 
-    /**
-     * 将InputStream写入本地文件
-     *
-     * @param destDirPath 写入本地目录
-     * @param input       输入流
-     * @throws IOException
-     */
-    public static void writeToLocal(String destDirPath, InputStream input)
-            throws IOException {
-
-        int index;
-        byte[] bytes = new byte[1024];
-        FileOutputStream downloadFile = new FileOutputStream(destDirPath);
-        while ((index = input.read(bytes)) != -1) {
-            downloadFile.write(bytes, 0, index);
-            downloadFile.flush();
-        }
-        downloadFile.close();
-        input.close();
-    }
 
     /**
      * 播放相关

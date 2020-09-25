@@ -1,0 +1,15 @@
+Executable : D:\sdk\cmake\3.6.4111459\bin\cmake.exe
+arguments : 
+-HE:\utils\BaseIotUtils\base_iotutils
+-BE:\utils\BaseIotUtils\base_iotutils\.cxx\cmake\release\x86_64
+-DANDROID_ABI=x86_64
+-DANDROID_PLATFORM=android-19
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=E:\utils\BaseIotUtils\base_iotutils\build\intermediates\cmake\release\obj\x86_64
+-DCMAKE_BUILD_TYPE=Release
+-DANDROID_NDK=D:\sdk\ndk-bundle
+-DCMAKE_CXX_FLAGS=
+-DCMAKE_TOOLCHAIN_FILE=D:\sdk\ndk-bundle\build\cmake\android.toolchain.cmake
+-DCMAKE_MAKE_PROGRAM=D:\sdk\cmake\3.6.4111459\bin\ninja.exe
+-GAndroid Gradle - Ninja
+jvmArgs : 
+

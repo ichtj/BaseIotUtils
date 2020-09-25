@@ -1,13 +1,16 @@
 package com.wave_chtj.example.allapp;
 
+import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
 import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -62,7 +65,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvPackName.setText("包名:" + list.get(position).getPackageName());
         ((MyViewHolder) holder).tvUid.setText("UID:" + list.get(position).getUid() + "");
         ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
-        KLog.d(TAG," uid= "+list.get(position).getUid());
+        KLog.d(TAG, " uid= " + list.get(position).getUid());
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
         ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic + "MB");
@@ -111,19 +114,27 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvUnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isOk = uninstallSilent(list.get(posiNum).getPackageName(), false);
-                if (isOk) {
-                    ToastUtils.success("卸载成功");
-                    list.remove(list.get(posiNum));
-                    notifyDataSetChanged();
+                ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    //根据提示卸载应用 未做到静默卸载 应用需要经过源码编译才可以静默卸载 7.0一下
+                    PackagesUtils.uninstall(list.get(posiNum).getPackageName());
+                    //如果已经root  PackagesUtils.uninstallSilent()可使用这个方法
                 } else {
-                    ToastUtils.error("卸载失败");
+                    KLog.d(TAG, "uninstallSilent");
+                    boolean isOk = PackagesUtils.uninstallSilent(list.get(posiNum).getPackageName(), false);
+                    if (isOk) {
+                        ToastUtils.success("卸载成功");
+                        list.remove(list.get(posiNum));
+                        notifyDataSetChanged();
+                    } else {
+                        ToastUtils.error("卸载失败");
+                    }
                 }
             }
         });
-        if(list.get(position).getIsSys()){
+        if (list.get(position).getIsSys()) {
             ((MyViewHolder) holder).tvUnInstall.setVisibility(View.GONE);
-        }else{
+        } else {
             ((MyViewHolder) holder).tvUnInstall.setVisibility(View.VISIBLE);
         }
 
@@ -134,53 +145,21 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         return list.size();
     }
 
-    /**
-     * 卸载应用成功&失败
-     *
-     * @param packageName
-     * @param isKeepData
-     * @return
-     */
-    private boolean uninstallSilent(String packageName, boolean isKeepData) {
-        boolean isRoot = isRoot();
-        String command = "LD_LIBRARY_PATH=/vendor/lib*:/system/lib* pm uninstall " + (isKeepData ? "-k" : "") + packageName;
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(new String[]{command}, isRoot);
-        if (commandResult.successMsg != null
-                && commandResult.successMsg.toLowerCase().contains("success")) {
-            return true;
-        } else {
-            return false;
+
+    class MyViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall;
+        public ImageView ivAppIcon;
+
+        public MyViewHolder(View itemView) {
+            super(itemView);
+            tvAppName = itemView.findViewById(R.id.tvAppName);
+            tvPackName = itemView.findViewById(R.id.tvPackName);
+            tvCopy = itemView.findViewById(R.id.tvCopy);
+            tvToAppInfo = itemView.findViewById(R.id.tvToAppInfo);
+            tvUid = itemView.findViewById(R.id.tvUid);
+            ivAppIcon = itemView.findViewById(R.id.ivAppIcon);
+            tvStartApp = itemView.findViewById(R.id.tvStartApp);
+            tvTraffic = itemView.findViewById(R.id.tvTraffic);
+            tvUnInstall = itemView.findViewById(R.id.tvUnInstall);
         }
     }
-
-    private boolean isRoot() {
-        String su = "su";
-        //手机本来已经有root权限（/system/bin/su已经存在，adb shell里面执行su就可以切换root权限下）
-        String[] locations = {"/system/bin/", "/system/xbin/", "/sbin/", "/system/sd/xbin/",
-                "/system/bin/failsafe/", "/data/local/xbin/", "/data/local/bin/", "/data/local/"};
-        for (String location : locations) {
-            if (new File(location + su).exists()) {
-                return true;
-            }
-        }
-        return false;
-    }
-}
-
-class MyViewHolder extends RecyclerView.ViewHolder {
-    public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall;
-    public ImageView ivAppIcon;
-
-    public MyViewHolder(View itemView) {
-        super(itemView);
-        tvAppName = itemView.findViewById(R.id.tvAppName);
-        tvPackName = itemView.findViewById(R.id.tvPackName);
-        tvCopy = itemView.findViewById(R.id.tvCopy);
-        tvToAppInfo = itemView.findViewById(R.id.tvToAppInfo);
-        tvUid = itemView.findViewById(R.id.tvUid);
-        ivAppIcon = itemView.findViewById(R.id.ivAppIcon);
-        tvStartApp = itemView.findViewById(R.id.tvStartApp);
-        tvTraffic = itemView.findViewById(R.id.tvTraffic);
-        tvUnInstall = itemView.findViewById(R.id.tvUnInstall);
-    }
-}

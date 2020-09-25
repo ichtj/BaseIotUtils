@@ -1,19 +1,27 @@
 package com.face_chtj.base_iotutils.app;
 
 import android.app.ActivityManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Binder;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
 import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -246,5 +254,50 @@ public class PackagesUtils {
         PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(packageName);
         BaseIotUtils.getContext().startActivity(intent);
+    }
+
+    /**
+     * 带提示窗口卸载
+     * @param packageName 包名
+     */
+    public static void uninstall(String packageName){
+        Intent intent=new Intent(Intent.ACTION_DELETE);
+        intent.setData(Uri.parse("package:"+packageName));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        BaseIotUtils.getContext().startActivity(intent);
+    }
+
+    /**
+     * 卸载应用成功&失败
+     *
+     * @param packageName
+     * @param isKeepData
+     * @return
+     */
+    public static boolean uninstallSilent(String packageName, boolean isKeepData) {
+        boolean isRoot = isRoot();
+        String command = "LD_LIBRARY_PATH=/vendor/lib*:/system/lib* pm uninstall " + (isKeepData ? "-k" : "") + packageName;
+        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(new String[]{command}, isRoot);
+        if (commandResult.successMsg != null
+                && commandResult.successMsg.toLowerCase().contains("success")) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+
+    private static boolean isRoot() {
+        String su = "su";
+        //手机本来已经有root权限（/system/bin/su已经存在，adb shell里面执行su就可以切换root权限下）
+        String[] locations = {"/system/bin/", "/system/xbin/", "/sbin/", "/system/sd/xbin/",
+                "/system/bin/failsafe/", "/data/local/xbin/", "/data/local/bin/", "/data/local/"};
+        for (String location : locations) {
+            if (new File(location + su).exists()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

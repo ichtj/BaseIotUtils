@@ -41,7 +41,7 @@ public class PlayMediaAty extends BaseActivity {
                     }
 
                 }).
-                startPlaying("/sdcard/ding.wav");
+                startPlaying("/sdcard/4576.wav");
 
     }
 

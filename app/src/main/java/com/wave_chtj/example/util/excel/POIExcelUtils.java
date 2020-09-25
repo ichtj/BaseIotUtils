@@ -156,10 +156,13 @@ public class POIExcelUtils {
             if(!file.exists()){
                 file.createNewFile();
             }
+            /***
+             * 请注意此处的方法 按需选择 XSSFWork()或者HSSFWorkbook()
+             */
             // XSSFWork used for .xslx (>= 2007), HSSWorkbook for 03 .xsl
-            workbook = new XSSFWorkbook();//HSSFWorkbook();//WorkbookFactory.create(inputStream);
+            workbook = new HSSFWorkbook();//XSSFWork();//HSSFWorkbook();//WorkbookFactory.create(inputStream);
         }catch(Exception e) {
-            System.out.println("It cause Error on CREATING excel workbook: ");
+            KLog.d(TAG," It cause Error on CREATING excel workbook");
             e.printStackTrace();
         }
         if(workbook != null) {
