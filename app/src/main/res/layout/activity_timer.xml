@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="1080pt"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -15,72 +15,75 @@
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="300pt"
-        android:layout_height="110pt"
+        android:layout_width="230pt"
+        android:layout_height="70pt"
+        android:background="@drawable/button_switch"
         android:layout_below="@+id/ttView"
+        android:layout_marginBottom="10pt"
         android:text="开始"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 
     <Button
         android:id="@+id/btn_finish"
-        android:layout_width="300pt"
-        android:layout_height="110pt"
+        android:layout_width="230pt"
+        android:layout_height="70pt"
+        android:background="@drawable/button_switch"
         android:layout_below="@+id/ttView"
         android:layout_marginLeft="15pt"
         android:layout_toRightOf="@+id/btn_start"
         android:text="结束"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="70pt"
         android:layout_below="@+id/ttView"
-        android:layout_marginTop="30pt"
         android:layout_toRightOf="@+id/btn_finish"
         android:gravity="center"
         android:text="00:00"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 
     <Button
 
         android:id="@+id/btn_countdown"
-        android:layout_width="300pt"
-        android:layout_height="110pt"
+        android:layout_width="230pt"
+        android:layout_height="70pt"
+        android:background="@drawable/button_switch"
         android:layout_below="@+id/btn_start"
         android:text="倒计时开始"
-        android:textSize="30pt" />
+        android:textSize="20pt"/>
 
     <Button
         android:id="@+id/btn_countdown_finish"
-        android:layout_width="300pt"
-        android:layout_height="110pt"
+        android:layout_width="230pt"
+        android:layout_height="70pt"
+        android:background="@drawable/button_switch"
         android:layout_below="@+id/btn_start"
         android:layout_marginLeft="15pt"
         android:layout_toRightOf="@+id/btn_start"
         android:text="结束"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 
     <EditText
         android:id="@+id/et_CountDownTime"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="70pt"
         android:layout_below="@+id/btn_start"
         android:layout_toRightOf="@+id/btn_finish"
         android:gravity="center"
         android:hint="填写秒"
         android:inputType="number"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 
     <TextView
         android:id="@+id/tvCountdownResult"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="70pt"
         android:layout_below="@+id/btn_start"
         android:layout_marginLeft="15pt"
-        android:layout_marginTop="30pt"
         android:layout_toRightOf="@+id/et_CountDownTime"
         android:gravity="center"
         android:text="00:00"
-        android:textSize="30pt" />
+        android:textSize="20pt" />
 </RelativeLayout>

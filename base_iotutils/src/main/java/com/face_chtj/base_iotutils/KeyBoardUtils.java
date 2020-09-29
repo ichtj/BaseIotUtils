@@ -4,8 +4,6 @@ import android.content.Context;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  *
  * @author chtj

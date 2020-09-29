@@ -4,8 +4,6 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
@@ -22,7 +20,7 @@ import android.widget.RemoteViews;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.R;
 import com.face_chtj.base_iotutils.SPUtils;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 

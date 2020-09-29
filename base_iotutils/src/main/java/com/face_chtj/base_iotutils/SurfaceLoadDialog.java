@@ -8,8 +8,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  * Create on 2020/3/11
  * author chtj

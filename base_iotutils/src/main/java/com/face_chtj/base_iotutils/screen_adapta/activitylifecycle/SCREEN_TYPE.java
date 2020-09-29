@@ -1,6 +1,6 @@
 package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 /**
  * 当前的activity的适配模式

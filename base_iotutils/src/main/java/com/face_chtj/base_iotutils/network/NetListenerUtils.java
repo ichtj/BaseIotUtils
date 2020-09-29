@@ -7,7 +7,8 @@ import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.entity.NetTypeInfo;
 
 /**
  * Create on 2020/1/3

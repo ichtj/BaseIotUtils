@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.network;
+package com.face_chtj.base_iotutils.entity;
 
 /**
  * Create on 2020/1/3

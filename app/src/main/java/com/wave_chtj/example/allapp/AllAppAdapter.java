@@ -1,16 +1,12 @@
 package com.wave_chtj.example.allapp;
 
-import android.app.PendingIntent;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInstaller;
-import android.net.TrafficStats;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,15 +15,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.app.PackagesUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.util.TrafficStatistics;
 
-import java.io.File;
 import java.util.List;
 
 /**
@@ -114,12 +108,12 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvUnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    //根据提示卸载应用 未做到静默卸载 应用需要经过源码编译才可以静默卸载 7.0一下
+                //ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
+                if (PackagesUtils.isRoot()) {
+                    //如果已经root过 静默卸载
                     PackagesUtils.uninstall(list.get(posiNum).getPackageName());
-                    //如果已经root  PackagesUtils.uninstallSilent()可使用这个方法
                 } else {
+                    //提示卸载 带弹窗
                     KLog.d(TAG, "uninstallSilent");
                     boolean isOk = PackagesUtils.uninstallSilent(list.get(posiNum).getPackageName(), false);
                     if (isOk) {
@@ -163,3 +157,4 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvUnInstall = itemView.findViewById(R.id.tvUnInstall);
         }
     }
+}

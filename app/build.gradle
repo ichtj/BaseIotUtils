@@ -1,22 +1,20 @@
 apply plugin: 'com.android.application'
-// 热更新依赖插件脚本
-//apply from: 'tinker-support.gradle'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
 
     signingConfigs {
         release {
-            storeFile file('D:\\face.jks')
-            storePassword 'facefuture'
-            keyPassword 'facefuture'
-            keyAlias = 'key0'
+            storeFile file('D:\\rockchip7.jks')
+            storePassword 'android'
+            keyPassword 'android'
+            keyAlias = 'rockchip'
         }
         debug {
-            storeFile file('D:\\face.jks')
-            storePassword 'facefuture'
-            keyAlias = 'key0'
-            keyPassword 'facefuture'
+            storeFile file('D:\\rockchip7.jks')
+            storePassword 'android'
+            keyAlias = 'rockchip'
+            keyPassword 'android'
         }
     }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -30,20 +28,21 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             //设置支持的SO库架构
-            abiFilters 'armeabi' , 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+            abiFilters /*'armeabi' , 'x86',*/ 'armeabi-v7a'/*, 'x86_64', 'arm64-v8a'*/
         }
         signingConfig signingConfigs.release
     }
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
         }
         debug {
             debuggable true
+            minifyEnabled = true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
-            minifyEnabled = false
         }
     }
     compileOptions {
@@ -85,37 +84,30 @@ dependencies {
     api rootProject.ext.support["appcompat-v7"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
-    //bugly
-    //api rootProject.ext.dependencies["crashreport_upgrade"]
-    // 指定tinker依赖版本（注：应用升级1.3.5版本起，不再内置tinker）
-    //api rootProject.ext.dependencies["hotrefresh"]
+    //权限获取
     api rootProject.ext.dependencies["rxpermissions"]
-    api rootProject.ext.dependencies["nativecrashreport"]
+    //分包
+    api rootProject.ext.dependencies["multidex"]
     //jxl Excel表格操作
     api rootProject.ext.dependencies["jxlutils"]
     //socket client
     api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
-    //内存泄漏查看工具
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     //物联网开发基础工具类
     implementation project(path: ':base_iotutils')
     implementation rootProject.ext.support["annotations"]
     //TCP|UDP socket通信
-    implementation project(path: ':base_socket')
+    //implementation project(path: ':base_socket')
+    implementation rootProject.ext.dependencies["base_socket"]
     //第三方数据操作
     implementation rootProject.ext.dependencies["greendao"]
     //视频播放
     implementation rootProject.ext.dependencies["videoplay"]
     //implementation rootProject.ext.dependencies["base_iotutils"]
-    //屏幕适配
-    //implementation rootProject.ext.dependencies["autosize"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
-    //implementation files('libs\\poi-ooxml-schemas-3.12-20150511-a.jar')
-    //implementation 'com.chtj.base_socket:base_socket:1.0.1'
-
 }
 
 greendao {

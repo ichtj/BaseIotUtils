@@ -46,7 +46,7 @@ public class VideoPlayAty extends BaseActivity {
         jz_video.setUp("/sdcard/aging.mp4"
                 , "VPU");
         //设置缩略图
-        jz_video.posterImageView.setImageDrawable(ContextCompat.getDrawable(VideoPlayAty.this,R.drawable.jz_loading_bg));
+        //jz_video.posterImageView.setImageDrawable(ContextCompat.getDrawable(VideoPlayAty.this,R.drawable.jz_loading_bg));
         //全屏按钮
         jz_video.fullscreenButton.setVisibility(View.VISIBLE);
         //自动播放

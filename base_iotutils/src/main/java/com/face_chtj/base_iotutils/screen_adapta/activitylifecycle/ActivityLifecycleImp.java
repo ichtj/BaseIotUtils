@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  * Created to :Activity启动生命周期的监听.
  */

@@ -99,8 +99,9 @@
             android:layout_marginRight="15dp" />
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="1080pt"
+        android:gravity="center"
         android:layout_height="200pt"
         android:background="#0E0909"
         android:text="width=1080pt height=200pt"
@@ -112,16 +113,18 @@
         android:layout_height="200pt"
         android:orientation="horizontal">
 
-        <Button
+        <TextView
             android:layout_width="540pt"
             android:layout_height="match_parent"
             android:background="@color/colorAccent"
+            android:gravity="center"
             android:text="width=540pt height=200pt"
             android:textColor="#fff"
             android:textSize="13sp" />
 
-        <Button
+        <TextView
             android:layout_width="540pt"
+            android:gravity="center"
             android:layout_height="match_parent"
             android:background="#0d0"
             android:text="width=540pt height=200pt"
@@ -129,20 +132,20 @@
             android:textSize="13sp" />
     </LinearLayout>
 
-    <Button
+    <TextView
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:background="#fd0"
-        android:onClick="goCustomAdaptActivity"
         android:text="weight=1080pt height=200pt"
+        android:gravity="center"
         android:textColor="#fff"
         android:textSize="13sp" />
 
-    <Button
+    <TextView
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:background="#d00"
-        android:onClick="goThirdLibraryActivity"
+        android:gravity="center"
         android:text="weight=1080pt height=200pt"
         android:textColor="#fff"
         android:textSize="13sp" />

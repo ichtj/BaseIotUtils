@@ -1,17 +1,15 @@
 
 buildscript {
     repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
-        mavenCentral()
+        /*mavenCentral()*/
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
         //加上这两行
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
         classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
-        //热更新
-        //classpath "com.tencent.bugly:tinker-support:1.1.5"
         //butterknife
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         //Sqlite数据库
@@ -22,10 +20,11 @@ buildscript {
 
 allprojects {
     repositories {
+        maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
-        mavenCentral()
-        maven { url 'https://www.jitpack.io' }
+        /*mavenCentral()
+        maven { url 'https://www.jitpack.io' }*/
     }
     tasks.withType(Javadoc) { // 新增
         options.addStringOption('Xdoclint:none', '-quiet')

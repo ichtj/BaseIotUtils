@@ -1,15 +1,12 @@
 package com.face_chtj.base_iotutils;
 
 import android.content.ContentUris;
-import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 /**
  * Create on 2020/7/22

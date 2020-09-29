@@ -2,7 +2,6 @@ package com.wave_chtj.example.network;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,12 +9,10 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.network.NetListenerUtils;
-import com.face_chtj.base_iotutils.network.NetTypeInfo;
+import com.face_chtj.base_iotutils.entity.NetTypeInfo;
 import com.face_chtj.base_iotutils.network.OnNetChangeLinstener;
 import com.wave_chtj.example.R;
-import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.AppManager;
 
 /**
  * Create on 2020/1/3

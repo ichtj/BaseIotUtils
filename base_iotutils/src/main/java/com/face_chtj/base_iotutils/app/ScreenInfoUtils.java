@@ -11,7 +11,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 
 /**

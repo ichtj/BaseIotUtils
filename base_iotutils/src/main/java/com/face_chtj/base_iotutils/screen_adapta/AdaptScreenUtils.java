@@ -4,7 +4,7 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;

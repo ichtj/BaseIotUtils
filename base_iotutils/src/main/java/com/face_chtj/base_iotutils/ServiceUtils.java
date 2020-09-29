@@ -4,8 +4,6 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.content.Intent;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 import java.util.ArrayList;
 
 /**

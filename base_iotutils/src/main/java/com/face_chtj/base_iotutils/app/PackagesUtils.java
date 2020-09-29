@@ -1,25 +1,20 @@
 package com.face_chtj.base_iotutils.app;
 
 import android.app.ActivityManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageInstaller;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Binder;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -286,9 +281,11 @@ public class PackagesUtils {
         }
     }
 
-
-
-    private static boolean isRoot() {
+    /**
+     * 判断设备是否有root权限
+     * @return
+     */
+    public static boolean isRoot() {
         String su = "su";
         //手机本来已经有root权限（/system/bin/su已经存在，adb shell里面执行su就可以切换root权限下）
         String[] locations = {"/system/bin/", "/system/xbin/", "/sbin/", "/system/sd/xbin/",

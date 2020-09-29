@@ -9,7 +9,7 @@ import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.wave_chtj.example.util.AppManager;
 
 import java.io.File;

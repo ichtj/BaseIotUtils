@@ -17,7 +17,7 @@ package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
 
 import android.app.Activity;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 /**
  * ================================================

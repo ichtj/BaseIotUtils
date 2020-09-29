@@ -20,8 +20,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  * 在系统的Toast基础上封装
  * Create on 2020/3/11

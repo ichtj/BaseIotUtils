@@ -2,8 +2,6 @@ package com.face_chtj.base_iotutils;
 import android.content.Context;
 import android.content.SharedPreferences;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  * @author chtj
  * create by chtj on 2019-8-6

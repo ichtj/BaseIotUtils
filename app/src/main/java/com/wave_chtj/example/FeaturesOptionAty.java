@@ -3,8 +3,6 @@ package com.wave_chtj.example;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
 import android.net.Uri;
 import android.os.Bundle;
@@ -15,8 +13,6 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.PlayUtils;
-import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -86,24 +82,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     }
                 });
         AppManager.getAppManager().finishActivity(StartPageAty.class);
-    }
-
-    /**
-     * 获取APP-VersionCode
-     *
-     * @return
-     */
-    public static String getAppVersionName(String packageName) {
-        String versionCode = "null";
-
-        try {
-            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
-                    packageName, PackageManager.GET_CONFIGURATIONS);
-            versionCode = pinfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionCode;
     }
 
     @Override

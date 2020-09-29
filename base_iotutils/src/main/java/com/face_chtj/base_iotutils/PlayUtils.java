@@ -2,8 +2,6 @@ package com.face_chtj.base_iotutils;
 
 import android.media.MediaPlayer;
 
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
-
 /**
  * 音频播放
  * {@link #startPlaying(String)} 开始播放

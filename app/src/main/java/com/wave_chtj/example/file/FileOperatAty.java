@@ -5,6 +5,7 @@ import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,6 +33,8 @@ public class FileOperatAty extends BaseActivity {
     Button btnRead;
     @BindView(R.id.tv_result)
     TextView tvResult;
+    @BindView(R.id.cbCover)
+    CheckBox cbCover;
     //文件路径
     private String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
 
@@ -48,10 +51,11 @@ public class FileOperatAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_write:
                 String content = etContent.getText().toString();
-                boolean writeResult = FileUtils.writeFileData(filePath, content, true);
-                String sizeMb=FileUtils.getFileFormatSize(filePath);
+                boolean isConver =cbCover.isChecked();
+                boolean writeResult = FileUtils.writeFileData(filePath, content, isConver);
+                String sizeMb = FileUtils.getFileFormatSize(filePath);
                 if (writeResult) {
-                    tvResult.append("\n\r " + content + " -> 写入成功"+",大小="+sizeMb);
+                    tvResult.append("\n\r " + content + " -> 写入成功" + ",大小=" + sizeMb);
                 } else {
                     tvResult.setText("\n\r -> 写入失败");
                 }

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="10dp">
+
     <com.wave_chtj.example.customizeview.TopTitleView
         android:id="@+id/ttView"
         android:layout_width="match_parent"
@@ -23,6 +24,15 @@
             android:layout_height="50dp"
             android:layout_weight="1"
             android:background="@drawable/button_style_stroke" />
+
+        <CheckBox
+            android:id="@+id/cbCover"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:checked="true"
+            android:text="覆盖" />
 
         <Button
             android:id="@+id/btn_write"

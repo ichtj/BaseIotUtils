@@ -1,11 +1,11 @@
-package com.face_chtj.base_iotutils.keeplive;
+package com.face_chtj.base_iotutils;
 
 import android.app.Activity;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
 import android.content.ServiceConnection;
-import com.face_chtj.base_iotutils.KLog;
+
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.DefaultAutoAdaptStrategy;

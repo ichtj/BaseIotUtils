@@ -2,14 +2,11 @@ package com.wave_chtj.example.util;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.net.TrafficStats;
 import android.os.Handler;
 import android.util.Log;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

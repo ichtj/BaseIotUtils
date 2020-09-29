@@ -16,7 +16,7 @@ import android.text.TextUtils;
 
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.keeplive.BaseIotUtils;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.io.File;
 import java.net.InetAddress;

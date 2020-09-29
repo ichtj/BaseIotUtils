@@ -21,16 +21,23 @@
 #-renamesourcefileattribute SourceFile
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
-
+-keep class com.wave_chtj.example.greendao.PersonInfor {*; }
 
 
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+#base_iotutils
+-keep class com.face_chtj.base_iotutils.entity.** { *; }
+-keep class com.face_chtj.base_iotutils.PlayUtils { *; }
+
+#base_socket
+-keep class com.chtj.socket.SocketData { *; }
+
 -dontwarn com.tencent.bugly.**
 -keep public class com.tencent.bugly.**{*;}
 
-# sqlite数据库
+# greenDAO sqlite数据库
 -keepclassmembers class * extends org.greenrobot.greendao.AbstractDao {
 public static java.lang.String TABLENAME;
 }
@@ -44,12 +51,18 @@ public static java.lang.String TABLENAME;
 # If you do NOT use RxJava:
 -dontwarn rx.**
 
+# okhttp3
+-dontwarn com.squareup.okhttp3.**
+-keep class com.squareup.okhttp3.** { *;}
+-dontwarn okio.**
+
 #Jzvd
 -keep public class cn.jzvd.JZMediaSystem {*; }
 -keep public class cn.jzvd.demo.CustomMedia.CustomMedia {*; }
 -keep public class cn.jzvd.demo.CustomMedia.JZMediaIjk {*; }
 -keep public class cn.jzvd.demo.CustomMedia.JZMediaSystemAssertFolder {*; }
 
+# IjkPlayer
 -keep class tv.danmaku.ijk.media.player.** {*; }
 -dontwarn tv.danmaku.ijk.media.player.*
 -keep interface tv.danmaku.ijk.media.player.** { *; }
@@ -95,7 +108,7 @@ public static java.lang.String TABLENAME;
 -keep class android.support.** {*;}
 
 -keepclasseswithmembernames class * {
-    native ;
+    native <methods>;
 }
 -keepclassmembers class * extends android.app.Activity{
     public void *(android.view.View);
@@ -107,13 +120,13 @@ public static java.lang.String TABLENAME;
 -keep public class * extends android.view.View{
     *** get*();
     void set*(***);
-    public (android.content.Context);
-    public (android.content.Context, android.util.AttributeSet);
-    public (android.content.Context, android.util.AttributeSet, int);
+    public <init>(android.content.Context);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 -keepclasseswithmembers class * {
-    public (android.content.Context, android.util.AttributeSet);
-    public (android.content.Context, android.util.AttributeSet, int);
+    public <init>(android.content.Context, android.util.AttributeSet);
+    public <init>(android.content.Context, android.util.AttributeSet, int);
 }
 -keep class * implements android.os.Parcelable {
   public static final android.os.Parcelable$Creator *;
