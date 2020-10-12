@@ -75,12 +75,6 @@
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-            </intent-filter>
-            <meta-data
-                android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED"
-                android:resource="@xml/device_filter" />
         </activity>
         <!--后台服务-->
         <!--串口相关-->
@@ -136,23 +130,6 @@
             android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
-        </receiver>
-        <!--usb设备监听-->
-        <receiver android:name=".util.keyevent.KeyEventUtils">
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_ATTACHED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.hardware.usb.action.USB_DEVICE_DETACHED" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_MOUNTED" />
-                <data android:scheme="file" />
-            </intent-filter>
-            <intent-filter>
-                <action android:name="android.intent.action.MEDIA_EJECT" />
-                <data android:scheme="file" />
             </intent-filter>
         </receiver>
     </application>

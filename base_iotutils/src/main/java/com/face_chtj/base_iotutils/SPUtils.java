@@ -58,10 +58,9 @@ public class SPUtils {
         sharedPreferences.edit().putInt(key, value).commit();
     }
 
-
     /**
      * 获取Int类型的值
-     * 
+     *
      * @param key      key
      * @param defValue 默认值
      * @return
@@ -69,6 +68,30 @@ public class SPUtils {
     public static int getInt( String key, int defValue) {
         SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getInt(key, defValue);
+    }
+
+    /**
+     * 存储Long类型的值
+     *
+     * @param key      key
+     * @param value    要存储的long值
+     */
+    public static void putLong( String key, long value) {
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        sharedPreferences.edit().putLong(key, value).commit();
+    }
+
+
+    /**
+     * 获取Long类型的值
+     *
+     * @param key      key
+     * @param defValue 默认值
+     * @return
+     */
+    public static long getLong( String key, long defValue) {
+        SharedPreferences sharedPreferences = BaseIotUtils.getContext().getSharedPreferences(NAME, Context.MODE_PRIVATE);
+        return sharedPreferences.getLong(key, defValue);
     }
 
 

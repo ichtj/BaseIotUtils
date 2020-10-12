@@ -21,7 +21,8 @@
 #-renamesourcefileattribute SourceFile
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
--keep class com.wave_chtj.example.greendao.PersonInfor {*; }
+-keep class com.wave_chtj.example.entity.PersonInfor {*; }
+-keep class com.wave_chtj.example.entity.ExcelEntity {*; }
 
 
 #-------------------------------------------------------------------------

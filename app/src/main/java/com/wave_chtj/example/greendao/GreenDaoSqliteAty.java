@@ -7,6 +7,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.entity.PersonInfor;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.wave_chtj.example.customizeview.TopTitleView
@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadFile"
-        android:text="开始下载" />
+        android:text="普通下载" />
 
     <ProgressBar
         android:id="@+id/pb_progressbar"
@@ -30,4 +30,47 @@
         android:max="100"
         android:progress="0"
         android:progressDrawable="@drawable/main_pb_bg" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25pt"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_start"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="downloadFile"
+            android:text="开始" />
+
+        <Button
+            android:id="@+id/btn_pause"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="downloadFile"
+            android:text="暂停" />
+
+        <Button
+            android:id="@+id/btn_stop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="downloadFile"
+            android:text="停止" />
+    </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/pb_progressbar2"
+        style="@style/mProgressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:max="100"
+        android:progress="0"
+        android:progressDrawable="@drawable/main_pb_bg" />
+
 </LinearLayout>

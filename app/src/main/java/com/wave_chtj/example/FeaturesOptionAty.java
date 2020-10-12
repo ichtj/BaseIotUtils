@@ -34,7 +34,7 @@ import com.wave_chtj.example.socket.SocketAty;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
-import com.wave_chtj.example.util.excel.ExcelEntity;
+import com.wave_chtj.example.entity.ExcelEntity;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
@@ -53,7 +53,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     private Context mContext;
     private static final int FILE_SELECT_CODE = 10000;
     private TextView tvTruePath;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

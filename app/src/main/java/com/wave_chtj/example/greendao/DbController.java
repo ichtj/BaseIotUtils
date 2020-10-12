@@ -5,6 +5,10 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.wave_chtj.example.entity.DaoMaster;
+import com.wave_chtj.example.entity.DaoSession;
+import com.wave_chtj.example.entity.PersonInfor;
+import com.wave_chtj.example.entity.PersonInforDao;
 
 import java.util.List;
 

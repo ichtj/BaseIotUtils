@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.3'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.4'
 }
 ```
 
@@ -142,15 +142,63 @@ public class App extends Application {
 - 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
 
 
-# 文件操作 读写,删除,文件大小等
+# FileUtils文件操作 读写,删除,文件大小等
 ```java
-//param1 文件路径 例如/sdcard/config.txt
-//param2 写入内容
-//param3 是否覆盖这个文件里的内容
-boolean writeResult = FileUtils.writeFileData(filePath, content, true);
-//读取filePath文件中的内容
-String readResult = FileUtils.readFileData(filePath);
-//更多文件操作方法请查询FileUtils中的内容
+        //param1 文件路径 例如/sdcard/config.txt
+        //param2 写入内容
+        //param3 是否覆盖这个文件里的内容
+        boolean writeResult = FileUtils.writeFileData(filePath, content, true);
+        //读取filePath文件中的内容
+        String readResult = FileUtils.readFileData(filePath);
+        //更多文件操作方法请查询FileUtils中的内容
+```
+
+# KeyBoardUtils软键盘管理
+```java
+       //打卡软键盘
+       KeyBoardUtils.openKeybord(editeTextView);
+
+       //关闭软键盘
+       KeyBoardUtils.closeKeybord(editeTextView);
+```
+
+
+# NetUtils网络工具类
+```java
+        //得到网络类型 NETWORK_NO,NETWORK_WI,NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_UN,NETWORK_ETH
+        NetUtils.getNetWorkType();
+        //得到网络类型字符串
+        NetUtils.getNetWorkTypeName();
+        //判断网络连接是否可用
+        NetUtils.isNetworkAvailable();
+        //判断网络是否可用
+        NetUtils.isAvailable();
+        //判断网络是否连接
+        NetUtils.isConnected();
+        //判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）不要在主线程使用，会阻塞线程
+        NetUtils.ping();  NetUtils.ping(int count,int time); NetUtils.ping(String ip);
+        //判断WIFI是否打开
+        NetUtils.isWifiEnabled();
+        //判断网络连接方式是否为WIFI
+        NetUtils.isWifi();
+        //判断网络连接方式是否为ETH
+        NetUtils.isEth();
+        //判断wifi是否连接状态
+        NetUtils.isWifiConnected();
+        //判断是否为3G网络
+        NetUtils.is3rd();
+        //判断网络是否是4G
+        NetUtils.is4G();
+        //GPS是否打开
+        NetUtils.isGpsEnabled();
+        //打开网络设置界面
+        NetUtils.openWirelessSettings();
+        //获取活动网络信息
+        NetUtils.getActiveNetworkInfo();
+        //获取移动网络运营商名称 如中国联通、中国移动、中国电信
+        NetUtils.getNetworkOperatorName();
+        //获取移动终端类型 0 手机制式未知 1 手机制式为GSM，移动和联通 2 手机制式为CDMA，电信 3
+        NetUtils.getPhoneType();
 ```
 
 # 文件下载 DownLoadManager
@@ -163,16 +211,16 @@ String readResult = FileUtils.readFileData(filePath);
                    public void onStart() {
                        super.onStart();
                    }
-       
+
                    @Override
                    public void onSuccess(ResponseBody responseBody) {
                        ToastUtils.showShort("文件下载完成！");
                    }
-       
+
                    @Override
                    public void progress(final long progress, final long total) {
                    }
-       
+
                    @Override
                    public void onError(Throwable e) {
                        e.printStackTrace();
@@ -218,24 +266,24 @@ String readResult = FileUtils.readFileData(filePath);
 
 # PlayUtils 使用
 ```java
+      //开始播放
       PlayUtils.getInstance().
-              setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
+         setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
 
-                  @Override
-                  public void onPlayStateChange(PlayUtils.PLAY_STATUS play_status) {
-                      //获取当前状态PLAY, RESUME, PAUSE, STOP, NONE
-                      KLog.d(TAG," play_status= "+play_status.name());
-                  }
+             @Override
+             public void onPlayStateChange(PlayUtils.PLAY_STATUS play_status) {
+                 //获取当前状态PLAY, RESUME, PAUSE, STOP, NONE
+                 KLog.d(TAG," play_status= "+play_status.name());
+             }
 
-                  @Override
-                  public void getProgress(int sumProgress, int nowProgress) {
-                      //sumProgress 总时长  nowProgress 当前时长
-                      KLog.d(TAG, " sumProgress= " + sumProgress + ",nowProgress= " + nowProgress);
-                  }
+             @Override
+             public void getProgress(int sumProgress, int nowProgress) {
+                 //sumProgress 总时长  nowProgress 当前时长
+                 KLog.d(TAG, " sumProgress= " + sumProgress + ",nowProgress= " + nowProgress);
+             }
 
-              }).
-              startPlaying("/sdcard/ding.wav");
-
+         }).
+         startPlaying("/sdcard/ding.wav");//文件地址
 
       //暂停播放
       PlayUtils.getInstance().pausePlay();

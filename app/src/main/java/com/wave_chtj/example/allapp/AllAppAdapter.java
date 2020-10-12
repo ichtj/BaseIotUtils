@@ -131,7 +131,6 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         } else {
             ((MyViewHolder) holder).tvUnInstall.setVisibility(View.VISIBLE);
         }
-
     }
 
     @Override

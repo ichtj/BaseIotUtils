@@ -1,6 +1,8 @@
 package com.wave_chtj.example.util.excel;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.wave_chtj.example.entity.ExcelEntity;
+
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.Cell;
