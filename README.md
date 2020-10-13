@@ -203,27 +203,39 @@ public class App extends Application {
 
 # 多任务下载 DownloadSupport 任务相互独立
 ```java
-        //开启任务下载----------------------这里可执行多个任务 以下代码new DownloadSupport().download(......)重复执行即可---------
+        //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
         FileCacheData fileCacheData = new FileCacheData();
-        fileCacheData.setUrl(url);
-        fileCacheData.setFileName(filename);
-        fileCacheData.setRequestTag(url);
-        fileCacheData.setFilePath("/sdcard/" + filename);
-        DownloadSupport down=new DownloadSupport().download(fileCacheData,new DownloadSupport.DownloadCallBack() {
-              @Override
-              public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-                  KLog.d(TAG,"download:>url=,current="+fileCacheData.getCurrent()+",total="+fileCacheData.getTotal()+",percent="+percent+",isComplete="+isComplete);
-              }
-
-              @Override
-              public void error(Exception e) {
-                  KLog.d(TAG,"error:>errMeg="+e.getMessage());
-              }
-          });
+        fileCacheData.setUrl(downloadUrl);
+        fileCacheData.setFileName(fileName1);
+        fileCacheData.setRequestTag(downloadUrl);
+        fileCacheData.setFilePath("/sdcard/" + fileName1);
+        new DownloadSupport().download(fileCacheData,downloadCallBack);
+        //-----------------------------------------------------------
+        FileCacheData fileCacheData2 = new FileCacheData();
+        fileCacheData2.setUrl(downloadUrl2);
+        fileCacheData2.setFileName(fileName2);
+        fileCacheData2.setRequestTag(downloadUrl2);
+        fileCacheData2.setFilePath("/sdcard/" + fileName2);
+        new DownloadSupport().download(fileCacheData2,downloadCallBack);
         //-----------------------------------------------------------
 
-         //关闭 根据tag关闭任务
-         down.pause(fileCacheData.getRequestTag())
+        //下载进度
+        DownloadSupport.DownloadCallBack downloadCallBack=new DownloadSupport.DownloadCallBack() {
+            @Override
+            public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+                if(isComplete){
+                    KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",isComplete="+isComplete);
+                }else{
+                    KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",percent>>>"+percent);
+                }
+            }
+
+            @Override
+            public void error(Exception e) {
+                KLog.d(TAG,"error:>errMeg="+e.getMessage());
+            }
+        };
+
 
 ```
 

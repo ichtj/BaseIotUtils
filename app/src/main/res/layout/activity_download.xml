@@ -18,10 +18,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadFile"
-        android:text="普通下载" />
+        android:text="文件下载 这里存在两个任务" />
 
     <ProgressBar
-        android:id="@+id/pb_progressbar"
+        android:id="@+id/pbProgressbar"
         style="@style/mProgressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="20dp"
@@ -30,47 +30,9 @@
         android:max="100"
         android:progress="0"
         android:progressDrawable="@drawable/main_pb_bg" />
-
-    <LinearLayout
+    <TextView
+        android:id="@+id/tvResult"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25pt"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btn_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="downloadFile"
-            android:text="开始" />
-
-        <Button
-            android:id="@+id/btn_pause"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="downloadFile"
-            android:text="暂停" />
-
-        <Button
-            android:id="@+id/btn_stop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:onClick="downloadFile"
-            android:text="停止" />
-    </LinearLayout>
-
-    <ProgressBar
-        android:id="@+id/pb_progressbar2"
-        style="@style/mProgressBarStyle"
-        android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/main_pb_bg" />
-
+        android:text="result"
+        android:layout_height="match_parent"/>
 </LinearLayout>
