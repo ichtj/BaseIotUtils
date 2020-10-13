@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.4'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.6'
 }
 ```
 
@@ -123,7 +123,7 @@ public class App extends Application {
 
 - 事件管理 | RxBus
 
-- 文件下载 | DownLoadManager
+- 断点下载 | DownloadSupport
 
 - Notification通知 | NotifyUtils
 
@@ -201,32 +201,30 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-# 文件下载 DownLoadManager
+# 多任务下载 DownloadSupport 任务相互独立
 ```java
-       //downloadUrl 文件下载地址
-       //destFileDir 存放地址
-       //destFileName 文件名称
-       DownLoadManager.getInstance().load(downloadUrl, new ProgressCallBack<ResponseBody>(destFileDir, destFileName) {
-                   @Override
-                   public void onStart() {
-                       super.onStart();
-                   }
+        //开启任务下载----------------------这里可执行多个任务 以下代码new DownloadSupport().download(......)重复执行即可---------
+        FileCacheData fileCacheData = new FileCacheData();
+        fileCacheData.setUrl(url);
+        fileCacheData.setFileName(filename);
+        fileCacheData.setRequestTag(url);
+        fileCacheData.setFilePath("/sdcard/" + filename);
+        DownloadSupport down=new DownloadSupport().download(fileCacheData,new DownloadSupport.DownloadCallBack() {
+              @Override
+              public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+                  KLog.d(TAG,"download:>url=,current="+fileCacheData.getCurrent()+",total="+fileCacheData.getTotal()+",percent="+percent+",isComplete="+isComplete);
+              }
 
-                   @Override
-                   public void onSuccess(ResponseBody responseBody) {
-                       ToastUtils.showShort("文件下载完成！");
-                   }
+              @Override
+              public void error(Exception e) {
+                  KLog.d(TAG,"error:>errMeg="+e.getMessage());
+              }
+          });
+        //-----------------------------------------------------------
 
-                   @Override
-                   public void progress(final long progress, final long total) {
-                   }
+         //关闭 根据tag关闭任务
+         down.pause(fileCacheData.getRequestTag())
 
-                   @Override
-                   public void onError(Throwable e) {
-                       e.printStackTrace();
-                       ToastUtils.showShort("文件下载失败！");
-                   }
-               });
 ```
 
 # NotificationUtils 使用
