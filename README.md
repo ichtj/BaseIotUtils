@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.6'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.4.7'
 }
 ```
 
@@ -201,40 +201,59 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-# 多任务下载 DownloadSupport 任务相互独立
+# DownloadSupport多任务下载  任务相互独立
+
+![image](/pic/download.png)
+
 ```java
+        DownloadSupport downloadSupport=new DownloadSupport();
+
         //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
         FileCacheData fileCacheData = new FileCacheData();
         fileCacheData.setUrl(downloadUrl);
         fileCacheData.setFileName(fileName1);
         fileCacheData.setRequestTag(downloadUrl);
         fileCacheData.setFilePath("/sdcard/" + fileName1);
-        new DownloadSupport().download(fileCacheData,downloadCallBack);
+        addDownloadTask(fileCacheData);
         //-----------------------------------------------------------
         FileCacheData fileCacheData2 = new FileCacheData();
         fileCacheData2.setUrl(downloadUrl2);
         fileCacheData2.setFileName(fileName2);
         fileCacheData2.setRequestTag(downloadUrl2);
         fileCacheData2.setFilePath("/sdcard/" + fileName2);
-        new DownloadSupport().download(fileCacheData2,downloadCallBack);
+        addDownloadTask(fileCacheData2);
         //-----------------------------------------------------------
 
-        //下载进度
-        DownloadSupport.DownloadCallBack downloadCallBack=new DownloadSupport.DownloadCallBack() {
-            @Override
-            public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-                if(isComplete){
-                    KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",isComplete="+isComplete);
-                }else{
-                    KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",percent>>>"+percent);
-                }
-            }
+        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
 
-            @Override
-            public void error(Exception e) {
-                KLog.d(TAG,"error:>errMeg="+e.getMessage());
-            }
-        };
+
+       //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
+       DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
+           @Override
+           public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+               Message message1 = handler.obtainMessage();
+               message1.obj = fileCacheData;
+               message1.arg1 = percent;
+               handler.sendMessage(message1);
+           }
+
+           @Override
+           public void error(Exception e) {
+               KLog.d(TAG, "error:>errMeg=" + e.getMessage());
+           }
+
+           @Override
+           public void downloadStatus(String requestTag, DownloadStatus downloadStatus) {
+               KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
+           }
+       };
+       //全部关闭
+       downloadSupport.cancel();
+
+       //关闭某个任务
+       downloadSupport.cancel(fileCacheData.getRequestTag());
+       downloadSupport.cancel(fileCacheData2.getRequestTag());
+
 
 
 ```

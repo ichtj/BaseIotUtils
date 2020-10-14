@@ -5,19 +5,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.download.DownloadStatus;
 import com.face_chtj.base_iotutils.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-
-import butterknife.OnClick;
 
 /**
  * Create on 2019/10/10
@@ -26,73 +24,159 @@ import butterknife.OnClick;
  */
 public class DownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
-    Button btn_start_down;
-    ProgressBar pbProgressbar;
-    TextView tvResult;
+    ProgressBar pbProgressbar1, pbProgressbar2;
+    TextView tvResult1, tvResult2;
+    private String saveRootPath = "/sdcard/";
     //文件下载地址
-    private String downloadUrl = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
+    public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
     //替换的文件名称
-    private String fileName1 = "update1.zip";
+    public String fileName1 = "update1.zip";
 
 
     //文件下载地址
-    private String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
+    public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
     //替换的文件名称
-    private String fileName2 = "update.zip";
+    public String fileName2 = "update2.zip";
+    DownloadSupport downloadSupport;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_download);
-        btn_start_down=findViewById(R.id.btn_start_down);
-        pbProgressbar=findViewById(R.id.pbProgressbar);
-        tvResult=findViewById(R.id.tvResult);
+        tvResult1 = findViewById(R.id.tvResult1);
+        tvResult2 = findViewById(R.id.tvResult2);
+        pbProgressbar1 = findViewById(R.id.pbProgressbar1);
+        pbProgressbar2 = findViewById(R.id.pbProgressbar2);
+        //设置最大进度位100
+        pbProgressbar1.setMax(100);
+        pbProgressbar2.setMax(100);
+        downloadSupport=new DownloadSupport();
     }
 
+    /**
+     * 清理下载的文件
+     *
+     * @param view
+     */
+    public void clearFile(View view) {
+        downloadSupport.deleteFile(saveRootPath);
+        pbProgressbar1.setProgress(0);
+        pbProgressbar2.setProgress(0);
+    }
+
+    /**
+     * 暂停下载的任务
+     *
+     * @param view
+     */
+    public void downTaskPause1(View view) {
+        downloadSupport.cancel(fileCacheData.getRequestTag());
+    }
+
+    /**
+     * 暂停下载的任务
+     *
+     * @param view
+     */
+    public void downTaskPause2(View view) {
+        downloadSupport.cancel(fileCacheData2.getRequestTag());
+    }
+
+    /**
+     * 暂停下载的任务
+     *
+     * @param view
+     */
+    public void downTaskPause(View view) {
+        downloadSupport.cancel();
+    }
+
+    FileCacheData fileCacheData = null;
+
     //文件下载
-    public void downloadFile(View view) {
+    public void downloadFile1(View view) {
         if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
             ToastUtils.error("当前无网络连接！");
             return;
         }
         //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
-        FileCacheData fileCacheData = new FileCacheData();
-        fileCacheData.setUrl(downloadUrl);
+        fileCacheData = new FileCacheData();
+        fileCacheData.setUrl(downloadUrl1);
         fileCacheData.setFileName(fileName1);
-        fileCacheData.setRequestTag(downloadUrl);
-        fileCacheData.setFilePath("/sdcard/" + fileName1);
-        new DownloadSupport().download(fileCacheData,downloadCallBack);
+        fileCacheData.setRequestTag(downloadUrl1);
+        fileCacheData.setFilePath(saveRootPath + fileName1);
+        addDownloadTask(fileCacheData);
         //-----------------------------------------------------------
-        FileCacheData fileCacheData2 = new FileCacheData();
+    }
+
+    FileCacheData fileCacheData2 = null;
+
+    //文件下载
+    public void downloadFile2(View view) {
+        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
+            ToastUtils.error("当前无网络连接！");
+            return;
+        }
+        fileCacheData2 = new FileCacheData();
         fileCacheData2.setUrl(downloadUrl2);
         fileCacheData2.setFileName(fileName2);
         fileCacheData2.setRequestTag(downloadUrl2);
-        fileCacheData2.setFilePath("/sdcard/" + fileName2);
-        new DownloadSupport().download(fileCacheData2,downloadCallBack);
+        fileCacheData2.setFilePath(saveRootPath + fileName2);
+        addDownloadTask(fileCacheData2);
         //-----------------------------------------------------------
-
     }
-    DownloadSupport.DownloadCallBack downloadCallBack=new DownloadSupport.DownloadCallBack() {
+
+    /**
+     * 添加下载任务
+     *
+     * @param fileCacheData
+     */
+    public void addDownloadTask(FileCacheData fileCacheData) {
+        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
+    }
+
+    //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
+    DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
         @Override
         public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-            if(isComplete){
-                KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",isComplete="+isComplete);
-            }else{
-                KLog.d(TAG,"download:>="+"fileName="+fileCacheData.getFileName()+",percent>>>"+percent);
-            }
+            Message message1 = handler.obtainMessage();
+            message1.obj = fileCacheData;
+            message1.arg1 = percent;
+            handler.sendMessage(message1);
         }
 
         @Override
         public void error(Exception e) {
-            KLog.d(TAG,"error:>errMeg="+e.getMessage());
+            KLog.d(TAG, "error:>errMeg=" + e.getMessage());
+        }
+
+        @Override
+        public void downloadStatus(String requestTag, DownloadStatus downloadStatus) {
+            KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
         }
     };
-    Handler handler=new Handler(){
+    Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            tvResult.append(msg.obj.toString());
+            FileCacheData fileCacheData = (FileCacheData) msg.obj;
+            switch (fileCacheData.getRequestTag()) {
+                case downloadUrl1:
+                    pbProgressbar1.setProgress(msg.arg1);
+                    tvResult1.setText("update1.zip >>> " + msg.arg1 + "%");
+                    break;
+                case downloadUrl2:
+                    pbProgressbar2.setProgress(msg.arg1);
+                    tvResult2.setText("update2.zip >>> " + msg.arg1 + "%");
+                    break;
+            }
         }
     };
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //downloadSupport.cancel();
+    }
 }

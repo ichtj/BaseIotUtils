@@ -9,6 +9,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.util.HashMap;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -27,12 +29,18 @@ public class DownloadSupport {
     private static final String TAG = DownloadSupport.class.getName();
     private OkHttpClient client;
     private Call call;
-    private String cacheFilePath="/sdcard/baseiotcloud/";
-    private String cacheFileName="history.txt";
+    private String cacheFilePath = "/sdcard/baseiotcloud/";
+    private String cacheFileName = "history.txt";
+    private static Map<String, DownloadStatus> currentTaskList = new HashMap<>();
 
     public interface DownloadCallBack {
+        //下载过程
         void download(FileCacheData fileCacheData, int percent, boolean isComplete);
 
+        //下载状态
+        void downloadStatus(String requestTag, DownloadStatus downloadStatus);
+
+        //异常状态
         void error(Exception e);
     }
 
@@ -40,17 +48,17 @@ public class DownloadSupport {
         //在下载、暂停后的继续下载中可复用同一个client对象
         client = getProgressClient();
         try {
-            File file=new File(cacheFilePath);
-            if(!file.exists()){
+            File file = new File(cacheFilePath);
+            if (!file.exists()) {
                 file.mkdirs();
             }
-            file=new File(cacheFilePath+cacheFileName);
-            if(!file.exists()){
+            file = new File(cacheFilePath + cacheFileName);
+            if (!file.exists()) {
                 file.createNewFile();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            KLog.e(TAG,"errMeg:"+e.getMessage());
+            KLog.e(TAG, "errMeg:" + e.getMessage());
         }
     }
 
@@ -83,11 +91,23 @@ public class DownloadSupport {
     }
 
     /**
+     * 相同的地址的url的任务不能重复下载，会提示任务存在
      * 使用download会自动判断文件是否有下载过
      * 会保留该url文件的进度 注意是是根据url来进行判断
      * 不是根据本地文件来进行判断是否有下载过 ,所以url请设置固定地址,不然该文件的缓存会失效，并重新开始下载
      */
-    public void download(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
+    public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
+        //防止任务重复下载，扰乱进度
+        if (currentTaskList != null && currentTaskList.size() > 0) {
+            DownloadStatus downloadStatus = currentTaskList.get(fileCacheData.getRequestTag());
+            if (downloadStatus == DownloadStatus.RUNNING) {
+                KLog.d(TAG, "download:>the task already exist");
+                return;
+            }
+        }
+        //该集合中没有任务正在处理
+        currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
+        downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
         //获取url对应的key
         call = newCall(fileCacheData);
         call.enqueue(new Callback() {
@@ -104,11 +124,25 @@ public class DownloadSupport {
     }
 
     /**
-     * 暂停任务
-     *
+     * 暂停所有任务
+     */
+    public void cancel() {
+        for (Call call : client.dispatcher().queuedCalls()) {
+            call.cancel();
+        }
+        for (Call call : client.dispatcher().runningCalls()) {
+            call.cancel();
+        }
+        for(Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()){
+            currentTaskList.put(entry.getKey(),DownloadStatus.CANCEL);
+        }
+    }
+
+    /**
+     * 按tag暂停任务
      * @param requestTag
      */
-    public void pause(String requestTag) {
+    public void cancel(String requestTag) {
         for (Call call : client.dispatcher().queuedCalls()) {
             if (call.request().tag().equals(requestTag)) {
                 call.cancel();
@@ -118,6 +152,9 @@ public class DownloadSupport {
             if (call.request().tag().equals(requestTag)) {
                 call.cancel();
             }
+        }
+        if(currentTaskList!=null&&currentTaskList.size()>0&&currentTaskList.containsKey(requestTag)){
+            currentTaskList.put(requestTag,DownloadStatus.CANCEL);
         }
     }
 
@@ -129,7 +166,6 @@ public class DownloadSupport {
      * @param downloadCallBack
      */
     private void save(Response response, FileCacheData fileCacheData, DownloadCallBack downloadCallBack) {
-        long current = 0;
         ResponseBody body = response.body();
         InputStream in = body.byteStream();
         BufferedInputStream bis = new BufferedInputStream(in);
@@ -138,22 +174,44 @@ public class DownloadSupport {
         fileCacheData.setTotal(body.contentLength());
         try {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
-            current = randomAccessFile.length();
+            long current = randomAccessFile.length();
+            if (current >= fileCacheData.getTotal()) {
+                downloadCallBack.download(fileCacheData, 100, true);
+                currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
+                downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                return;
+            }
             //从文件的断点开始下载
             randomAccessFile.seek(current);
             byte[] buffer = new byte[2 * 1024];
             int len;
             while ((len = bis.read(buffer)) != -1) {
+                if (currentTaskList.get(fileCacheData.getRequestTag())==DownloadStatus.CANCEL) {
+                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.CANCEL);
+                    downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                    return;
+                }
                 //每次读取最多不超过2*1024个字节
                 current += len;
                 fileCacheData.setCurrent(current);
                 //计算已经下载的百分比
                 int percent = (int) (fileCacheData.getCurrent() * 100 / fileCacheData.getTotal());
-                downloadCallBack.download(fileCacheData, percent, current >= fileCacheData.getTotal());
+                boolean isComplete = current >= fileCacheData.getTotal();
+                downloadCallBack.download(fileCacheData, percent, isComplete);
                 randomAccessFile.write(buffer, 0, len);
+                if (isComplete) {
+                    //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
+                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
+                    downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                    break;
+                }
             }
             //存储下载信息
-            KLog.d(TAG,"save:> history result="+ FileUtils.writeFileData(cacheFilePath+cacheFileName,fileCacheData.getFileName()+"_",false));
+            FileUtils.writeFileData(cacheFilePath + cacheFileName, fileCacheData.getFileName() + "_", false);
+            //删除当前的这个执行任务
+            currentTaskList.remove(fileCacheData.getRequestTag());
+            //关闭
+            cancel(fileCacheData.getRequestTag());
         } catch (IOException e) {
             e.printStackTrace();
             downloadCallBack.error(e);
@@ -189,19 +247,23 @@ public class DownloadSupport {
     /**
      * 删除以往下载的文件信息
      */
-    public void deleteFile(String saveRootPath){
-        String result= FileUtils.readFileData(cacheFilePath+cacheFileName);
-        if(result.equals("")){
-            KLog.d(TAG,"deleteFile:> no file");
-        }else{
-            String[] fileArray=result.split("_");
+    public void deleteFile(String saveRootPath) {
+        //先关闭所有任务
+        cancel();
+        //查询以往记录的下载信息
+        String result = FileUtils.readFileData(cacheFilePath + cacheFileName);
+        KLog.d(TAG, "deleteFile:>read File=" + result);
+        if (result.equals("")) {
+            KLog.d(TAG, "deleteFile:> no file");
+        } else {
+            String[] fileArray = result.split("_");
             for (int i = 0; i < fileArray.length; i++) {
-                if(!fileArray[i].equals("null")&&!fileArray.equals("")){
-                    FileUtils.delFile(saveRootPath+fileArray[i]);
+                if (!fileArray[i].equals("null") && !fileArray.equals("")) {
+                    FileUtils.delFile(saveRootPath + fileArray[i]);
                 }
             }
             //最后删除该文件
-            FileUtils.delFile(cacheFilePath+cacheFileName);
+            FileUtils.delFile(cacheFilePath + cacheFileName);
         }
 
     }

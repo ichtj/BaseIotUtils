@@ -14,25 +14,71 @@
         app:name="文件下载" />
 
     <Button
-        android:id="@+id/btn_start_down"
+        android:id="@+id/btn_start_down1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="downloadFile"
-        android:text="文件下载 这里存在两个任务" />
+        android:onClick="downloadFile1"
+        android:text="文件下载1" />
+    <Button
+        android:id="@+id/btn_start_down2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downloadFile2"
+        android:text="文件下载2" />
+    <Button
+        android:id="@+id/btn_pause1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downTaskPause1"
+        android:text="暂停任务update1.zip" />
+    <Button
+        android:id="@+id/btn_pause2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downTaskPause2"
+        android:text="暂停任务update2.zip" />
+    <Button
+        android:id="@+id/btn_pause"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downTaskPause"
+        android:text="暂停所有任务" />
+    <Button
+        android:id="@+id/btn_clearfile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="clearFile"
+        android:text="清理文件" />
+
+    <TextView
+        android:id="@+id/tvResult1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="update1.zip" />
 
     <ProgressBar
-        android:id="@+id/pbProgressbar"
+        android:id="@+id/pbProgressbar1"
         style="@style/mProgressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="20dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:max="100"
-        android:progress="0"
-        android:progressDrawable="@drawable/main_pb_bg" />
+        android:progress="0" />
+
     <TextView
-        android:id="@+id/tvResult"
+        android:id="@+id/tvResult2"
         android:layout_width="match_parent"
-        android:text="result"
-        android:layout_height="match_parent"/>
+        android:layout_height="wrap_content"
+        android:text="update2.zip" />
+
+    <ProgressBar
+        android:id="@+id/pbProgressbar2"
+        style="@style/mProgressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:max="100"
+        android:progress="0" />
 </LinearLayout>
