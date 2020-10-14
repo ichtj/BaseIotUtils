@@ -60,9 +60,12 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void clearFile(View view) {
+        downloadSupport.cancel();
         downloadSupport.deleteFile(saveRootPath);
         pbProgressbar1.setProgress(0);
         pbProgressbar2.setProgress(0);
+        tvResult1.setText("update1.zip >>> 0%");
+        tvResult2.setText("update2.zip >>> 0%");
     }
 
     /**
@@ -71,7 +74,9 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause1(View view) {
-        downloadSupport.cancel(fileCacheData.getRequestTag());
+        if(fileCacheData!=null){
+            downloadSupport.pause(fileCacheData.getRequestTag());
+        }
     }
 
     /**
@@ -80,7 +85,9 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause2(View view) {
-        downloadSupport.cancel(fileCacheData2.getRequestTag());
+        if(fileCacheData2!=null){
+            downloadSupport.pause(fileCacheData2.getRequestTag());
+        }
     }
 
     /**
@@ -89,6 +96,15 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause(View view) {
+        downloadSupport.pause();
+    }
+
+    /**
+     * 关闭所有任务
+     *
+     * @param view
+     */
+    public void downloadStop(View view) {
         downloadSupport.cancel();
     }
 
@@ -140,6 +156,7 @@ public class DownLoadAty extends BaseActivity {
     DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
         @Override
         public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+            KLog.d(TAG,"download:>filename="+fileCacheData.getFileName()+",percent="+percent);
             Message message1 = handler.obtainMessage();
             message1.obj = fileCacheData;
             message1.arg1 = percent;
@@ -177,6 +194,6 @@ public class DownLoadAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //downloadSupport.cancel();
+        downloadSupport.cancel();
     }
 }

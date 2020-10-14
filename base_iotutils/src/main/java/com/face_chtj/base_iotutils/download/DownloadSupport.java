@@ -126,37 +126,23 @@ public class DownloadSupport {
     /**
      * 暂停所有任务
      */
-    public void cancel() {
-        for (Call call : client.dispatcher().queuedCalls()) {
-            call.cancel();
-        }
-        for (Call call : client.dispatcher().runningCalls()) {
-            call.cancel();
-        }
-        for(Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()){
-            currentTaskList.put(entry.getKey(),DownloadStatus.CANCEL);
+    public void pause() {
+        for (Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()) {
+            currentTaskList.put(entry.getKey(), DownloadStatus.PAUSE);
         }
     }
 
     /**
      * 按tag暂停任务
+     *
      * @param requestTag
      */
-    public void cancel(String requestTag) {
-        for (Call call : client.dispatcher().queuedCalls()) {
-            if (call.request().tag().equals(requestTag)) {
-                call.cancel();
-            }
-        }
-        for (Call call : client.dispatcher().runningCalls()) {
-            if (call.request().tag().equals(requestTag)) {
-                call.cancel();
-            }
-        }
-        if(currentTaskList!=null&&currentTaskList.size()>0&&currentTaskList.containsKey(requestTag)){
-            currentTaskList.put(requestTag,DownloadStatus.CANCEL);
+    public void pause(String requestTag) {
+        if (currentTaskList != null && currentTaskList.size() > 0 && currentTaskList.containsKey(requestTag)) {
+            currentTaskList.put(requestTag, DownloadStatus.PAUSE);
         }
     }
+
 
     /**
      * 将文件写入到本地
@@ -186,8 +172,8 @@ public class DownloadSupport {
             byte[] buffer = new byte[2 * 1024];
             int len;
             while ((len = bis.read(buffer)) != -1) {
-                if (currentTaskList.get(fileCacheData.getRequestTag())==DownloadStatus.CANCEL) {
-                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.CANCEL);
+                if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.PAUSE) {
+                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.PAUSE);
                     downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
                     return;
                 }
@@ -210,8 +196,6 @@ public class DownloadSupport {
             FileUtils.writeFileData(cacheFilePath + cacheFileName, fileCacheData.getFileName() + "_", false);
             //删除当前的这个执行任务
             currentTaskList.remove(fileCacheData.getRequestTag());
-            //关闭
-            cancel(fileCacheData.getRequestTag());
         } catch (IOException e) {
             e.printStackTrace();
             downloadCallBack.error(e);
@@ -244,12 +228,23 @@ public class DownloadSupport {
         }
     }
 
+    //按照requestTag关闭任务
+    public void cancel() {
+        if(client!=null){
+            client.dispatcher().cancelAll();
+        }
+        if(call!=null){
+            call.cancel();
+        }
+        if(currentTaskList!=null){
+            currentTaskList.clear();
+        }
+    }
+
     /**
      * 删除以往下载的文件信息
      */
     public void deleteFile(String saveRootPath) {
-        //先关闭所有任务
-        cancel();
         //查询以往记录的下载信息
         String result = FileUtils.readFileData(cacheFilePath + cacheFileName);
         KLog.d(TAG, "deleteFile:>read File=" + result);
@@ -265,6 +260,8 @@ public class DownloadSupport {
             //最后删除该文件
             FileUtils.delFile(cacheFilePath + cacheFileName);
         }
-
+        if (currentTaskList != null) {
+            currentTaskList.clear();
+        }
     }
 }
