@@ -156,7 +156,7 @@ public class DownLoadAty extends BaseActivity {
     DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
         @Override
         public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-            KLog.d(TAG,"download:>filename="+fileCacheData.getFileName()+",percent="+percent);
+            KLog.d(TAG,"download:>filename="+fileCacheData.getFileName()+",percent="+percent+",current="+fileCacheData.getCurrent());
             Message message1 = handler.obtainMessage();
             message1.obj = fileCacheData;
             message1.arg1 = percent;

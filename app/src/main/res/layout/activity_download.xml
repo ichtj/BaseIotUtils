@@ -18,43 +18,49 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadFile1"
-        android:text="文件下载1" />
+        android:text="文件下载update1.zip" />
+
     <Button
         android:id="@+id/btn_start_down2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadFile2"
-        android:text="文件下载2" />
+        android:text="文件下载update2.zip" />
+
     <Button
         android:id="@+id/btn_pause1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downTaskPause1"
         android:text="暂停任务update1.zip" />
+
     <Button
         android:id="@+id/btn_pause2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downTaskPause2"
         android:text="暂停任务update2.zip" />
+
     <Button
         android:id="@+id/btn_pause"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downTaskPause"
         android:text="暂停所有任务" />
+
     <Button
         android:id="@+id/btn_stop"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="downloadStop"
         android:text="关闭所有任务" />
+
     <Button
         android:id="@+id/btn_clearfile"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="clearFile"
-        android:text="清理文件" />
+        android:text="清理文件(先关闭所有任务⬆)" />
 
     <TextView
         android:id="@+id/tvResult1"
@@ -87,4 +93,11 @@
         android:layout_marginRight="5dp"
         android:max="100"
         android:progress="0" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25pt"
+        android:text="下载进度受系统读写性能影响,以及网络状况" />
+
 </LinearLayout>

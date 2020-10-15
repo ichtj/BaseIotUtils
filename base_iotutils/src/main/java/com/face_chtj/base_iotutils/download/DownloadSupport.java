@@ -64,6 +64,7 @@ public class DownloadSupport {
 
     //每次下载需要新建新的Call对象
     private Call newCall(FileCacheData fileCacheData) {
+        KLog.d(TAG,"newCall:>Breakpoint="+new File(fileCacheData.getFilePath()).length());
         //断点位置
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
@@ -152,15 +153,19 @@ public class DownloadSupport {
      * @param downloadCallBack
      */
     private void save(Response response, FileCacheData fileCacheData, DownloadCallBack downloadCallBack) {
+        //存储下载信息 用于清理缓存文件
+        FileUtils.writeFileData(cacheFilePath + cacheFileName, fileCacheData.getFileName() + "_", false);
         ResponseBody body = response.body();
         InputStream in = body.byteStream();
         BufferedInputStream bis = new BufferedInputStream(in);
         // 随机访问文件，可以指定断点续传的起始位置
         RandomAccessFile randomAccessFile = null;
-        fileCacheData.setTotal(body.contentLength());
         try {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
             long current = randomAccessFile.length();
+            //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
+            fileCacheData.setTotal(body.contentLength()+current);
+            KLog.d(TAG,"save:>total length="+fileCacheData.getTotal()+",curent="+current);
             if (current >= fileCacheData.getTotal()) {
                 downloadCallBack.download(fileCacheData, 100, true);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
@@ -192,8 +197,6 @@ public class DownloadSupport {
                     break;
                 }
             }
-            //存储下载信息
-            FileUtils.writeFileData(cacheFilePath + cacheFileName, fileCacheData.getFileName() + "_", false);
             //删除当前的这个执行任务
             currentTaskList.remove(fileCacheData.getRequestTag());
         } catch (IOException e) {
