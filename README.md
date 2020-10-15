@@ -66,13 +66,40 @@ public class App extends Application {
 
 ```java
     //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
-    BaseTcpSocket baseTcpSocket = new BaseTcpSocket(192.168.1.100,8080, 5000);
+    BaseTcpSocket baseTcpSocket = new BaseTcpSocket("192.168.1.100",8080, 5000);
     //监听回调
-    baseTcpSocket.setSocketListener(new ISocketListener()...);
+    baseTcpSocket.setSocketListener(new ISocketListener() {
+             @Override
+             public void recv(byte[] data, int offset, int size) {
+                 KLog.d(TAG, "read content successful");
+             }
+
+             @Override
+             public void writeSuccess(byte[] data) {
+                 KLog.d(TAG, "write content successful");
+             }
+
+             @Override
+             public void connSuccess() {
+                 KLog.d(TAG, "The connection is successful");
+             }
+
+             @Override
+             public void connFaild(Throwable t) {
+                 KLog.d(TAG, "The connection is connFaild");
+             }
+
+             @Override
+             public void connClose() {
+                 KLog.d(TAG, "The connection is disconnect");
+             }
+    });
     //开启连接
     baseTcpSocket.connect(this);
+
+    //--------------------------------------------------
     //发送数据
-     baseTcpSocket.send("hello world!".getBytes());
+    baseTcpSocket.send("hello world!".getBytes());
     //关闭连接
     baseTcpSocket.close();
 ```
@@ -91,7 +118,7 @@ public class App extends Application {
 
 -可在app Model中找到使用示例
 
-## base_iotutils 常用工具类
+## base_iotutils module工具类 请在下方查看部分工具类使用详情
 
 - 进制转换类 | DataConvertUtils
 
@@ -142,7 +169,7 @@ public class App extends Application {
 - 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
 
 
-# FileUtils文件操作 读写,删除,文件大小等
+# FileUtils 文件操作 读写,删除,文件大小等
 ```java
         //param1 文件路径 例如/sdcard/config.txt
         //param2 写入内容
@@ -153,7 +180,7 @@ public class App extends Application {
         //更多文件操作方法请查询FileUtils中的内容
 ```
 
-# KeyBoardUtils软键盘管理
+# KeyBoardUtils 软键盘管理
 ```java
        //打卡软键盘
        KeyBoardUtils.openKeybord(editeTextView);
@@ -201,65 +228,66 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-# DownloadSupport多任务下载  任务相互独立
+# DownloadSupport多任务下载  任务各自独立
 
 ![image](/pic/download.png)
 
 ```java
+        //初始化下载工具类
         DownloadSupport downloadSupport=new DownloadSupport();
 
-        //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
+        //---------------------------任务--------------------------------
         FileCacheData fileCacheData = new FileCacheData();
         fileCacheData.setUrl(downloadUrl);
         fileCacheData.setFileName(fileName1);
         fileCacheData.setRequestTag(downloadUrl);
         fileCacheData.setFilePath("/sdcard/" + fileName1);
-        addDownloadTask(fileCacheData);
-        //-----------------------------------------------------------
+        //开启任务下载 下载文件信息1
+        downloadSupport.addDownloadTask(fileCacheData);
+
         FileCacheData fileCacheData2 = new FileCacheData();
         fileCacheData2.setUrl(downloadUrl2);
         fileCacheData2.setFileName(fileName2);
         fileCacheData2.setRequestTag(downloadUrl2);
         fileCacheData2.setFilePath("/sdcard/" + fileName2);
-        addDownloadTask(fileCacheData2);
+         //开启任务下载 下载文件信息2
+        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
         //-----------------------------------------------------------
 
-        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
+        //下载进度
+        //多个任务使用同一个DownloadCallBack 可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
+        DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
+            @Override
+            public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+                Message message1 = handler.obtainMessage();
+                message1.obj = fileCacheData;
+                message1.arg1 = percent;
+                handler.sendMessage(message1);
+            }
+
+            @Override
+            public void error(Exception e) {
+                KLog.d(TAG, "error:>errMeg=" + e.getMessage());
+            }
+
+            @Override
+            public void downloadStatus(String requestTag, DownloadStatus downloadStatus) {
+                KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
+            }
+        };
+
+        //暂停所有任务
+        downloadSupport.pause();
+        //暂停单个任务
+        downloadSupport.pause(fileCacheData2.getRequestTag());
 
 
-       //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
-       DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
-           @Override
-           public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-               Message message1 = handler.obtainMessage();
-               message1.obj = fileCacheData;
-               message1.arg1 = percent;
-               handler.sendMessage(message1);
-           }
-
-           @Override
-           public void error(Exception e) {
-               KLog.d(TAG, "error:>errMeg=" + e.getMessage());
-           }
-
-           @Override
-           public void downloadStatus(String requestTag, DownloadStatus downloadStatus) {
-               KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
-           }
-       };
-
-       //暂停所有任务
-       downloadSupport.pause();
-       //暂停单个任务
-       downloadSupport.pause(fileCacheData2.getRequestTag());
-
-
-       //全部关闭
-       downloadSupport.cancel();
+        //全部关闭
+        downloadSupport.cancel();
 
 ```
 
-# NotificationUtils 使用
+# NotificationUtils 通知使用
 ```java
      //获取系统中是否已经通过 允许通知的权限
      if (NotifyUtils.notifyIsEnable()) {
@@ -294,7 +322,7 @@ public class App extends Application {
      NotifyUtils.closeNotify();
  ```
 
-# PlayUtils 使用
+# PlayUtils 音频播放
 ```java
       //开始播放
       PlayUtils.getInstance().
@@ -344,7 +372,7 @@ public class App extends Application {
      NetListenerUtils.getInstance().unRegisterReceiver();
  ```
  
-## 串口封装类
+## SerialPort|SerialPortFinder 串口封装类
 ```java
         //获得串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();
@@ -369,79 +397,7 @@ public class App extends Application {
         port.close();
         
 ```
-
-## 后台保活
-使用方式
-```java
-
-        创建Service继承 AbsWorkService重写方法
-        public class TraceServiceImpl extend AbsWorkService{
-             //是否 任务完成, 不再需要服务运行?
-                public static boolean sShouldStopService;
-                public static Disposable sDisposable;
-
-                public static void stopService() {
-                    //我们现在不再需要服务运行了, 将标志位置为 true
-                    sShouldStopService = true;
-                    //取消对任务的订阅
-                    if (sDisposable != null) sDisposable.dispose();
-                    //取消 Job / Alarm / Subscription
-                    cancelJobAlarmSub();
-                }
-
-                /**
-                 * 是否 任务完成, 不再需要服务运行?
-                 * @return 应当停止服务, true; 应当启动服务, false; 无法判断, 什么也不做, null.
-                 */
-                @Override
-                public Boolean shouldStopService(Intent intent, int flags, int startId) {
-                    return sShouldStopService;
-                }
-
-                @Override
-                public void startWork(Intent intent, int flags, int startId) {
-                    //在这里操作。。。。
-                }
-
-                @Override
-                public void stopWork(Intent intent, int flags, int startId) {
-                    stopService();
-                }
-
-                /**
-                 * 任务是否正在运行?
-                 * @return 任务正在运行, true; 任务当前不在运行, false; 无法判断, 什么也不做, null.
-                 */
-                @Override
-                public Boolean isWorkRunning(Intent intent, int flags, int startId) {
-                    //若还没有取消订阅, 就说明任务仍在运行.
-                    return sDisposable != null && !sDisposable.isDisposed();
-                }
-
-                @Override
-                public IBinder onBind(Intent intent, Void v) {
-                    return null;
-                }
-
-                @Override
-                public void onServiceKilled(Intent rootIntent) {
-                    System.out.println("保存数据到磁盘。");
-                }
-        }
-
-        //初始化后台保活Service
-        BaseIotUtils.initSerice(TraceServiceImpl.class, BaseIotUtils.DEFAULT_WAKE_UP_INTERVAL);
-
-        //开启service
-        TraceServiceImpl.sShouldStopService = false;
-        BaseIotUtils.startServiceMayBind(TraceServiceImpl.class);
-        
-        //关闭service
-        TraceServiceImpl.stopService();
-        
-```
-
-## adb操作工具类
+## ShellUtils adb操作工具类
 使用方式
 ```java
         //单条命令执行
@@ -455,7 +411,7 @@ public class App extends Application {
         }
 ```
 
-## PermissionsUtils操作工具类
+## PermissionsUtils 权限申请工具类
 使用方式
 ```java
         PermissionsUtils.with(mContext).
@@ -466,9 +422,19 @@ public class App extends Application {
 ```
 
 ## Version Code
+ ### v1.0.8
+> 新增了PlayUitls 音频播放器(状态管理)
+> DwonloadSupport(全新的多任务下载管理工具类)
+> 视频播放管理收集
+> 删除了服务保活工具，删除了原始的下载工具类
+> 添加了对该系统内的应用的管理，查看 PackagesUtils
+> 优化该app界面,使用操作等
+> 定时器功能添加 倒计时，计时器等
+> 收集greenDAO(收集整合，方便后期使用),封装(Sqlite)操作更加方便
  ### v1.0.3
 > 优化各个工具类
 > 新增部分工具类
+> 添加启动应用时的优化处理
  ### v1.0.2
-> 新增crash控制界面
-> 修改NotifyUtils支持6.0以上系统显示，并新增获取通知是否允许的状态NotifyUtils.notifyIsEnable();跳转应用设置界面NotifyUtils.toOpenNotify();
+> 项目优化
+> 基本工具类的手机整合
