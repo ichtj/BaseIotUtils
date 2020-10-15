@@ -24,8 +24,8 @@ import com.wave_chtj.example.base.BaseActivity;
  */
 public class DownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
-    ProgressBar pbProgressbar1, pbProgressbar2;
-    TextView tvResult1, tvResult2;
+    ProgressBar pbProgressbar1, pbProgressbar2,pbProgressbar3;
+    TextView tvResult1, tvResult2,tvResult3;
     private String saveRootPath = "/sdcard/";
     //文件下载地址
     public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
@@ -37,6 +37,15 @@ public class DownLoadAty extends BaseActivity {
     public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
     //替换的文件名称
     public String fileName2 = "update2.zip";
+
+
+    //文件下载地址
+    public static final String downloadUrl3 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/20200108-APK/Settings.apk";
+    //替换的文件名称
+    public String fileName3 = "Settings.apk";
+
+
+
     DownloadSupport downloadSupport;
 
 
@@ -46,11 +55,14 @@ public class DownLoadAty extends BaseActivity {
         setContentView(R.layout.activity_download);
         tvResult1 = findViewById(R.id.tvResult1);
         tvResult2 = findViewById(R.id.tvResult2);
+        tvResult3 = findViewById(R.id.tvResult3);
         pbProgressbar1 = findViewById(R.id.pbProgressbar1);
         pbProgressbar2 = findViewById(R.id.pbProgressbar2);
+        pbProgressbar3 = findViewById(R.id.pbProgressbar3);
         //设置最大进度位100
         pbProgressbar1.setMax(100);
         pbProgressbar2.setMax(100);
+        pbProgressbar3.setMax(100);
         downloadSupport=new DownloadSupport();
     }
 
@@ -87,6 +99,17 @@ public class DownLoadAty extends BaseActivity {
     public void downTaskPause2(View view) {
         if(fileCacheData2!=null){
             downloadSupport.pause(fileCacheData2.getRequestTag());
+        }
+    }
+
+    /**
+     * 暂停下载的任务
+     *
+     * @param view
+     */
+    public void downTaskPause3(View view) {
+        if(fileCacheData3!=null){
+            downloadSupport.pause(fileCacheData3.getRequestTag());
         }
     }
 
@@ -143,6 +166,23 @@ public class DownLoadAty extends BaseActivity {
         //-----------------------------------------------------------
     }
 
+    FileCacheData fileCacheData3= null;
+
+    //文件下载
+    public void downloadFile3(View view) {
+        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
+            ToastUtils.error("当前无网络连接！");
+            return;
+        }
+        fileCacheData3 = new FileCacheData();
+        fileCacheData3.setUrl(downloadUrl3);
+        fileCacheData3.setFileName(fileName3);
+        fileCacheData3.setRequestTag(downloadUrl3);
+        fileCacheData3.setFilePath(saveRootPath + fileName3);
+        addDownloadTask(fileCacheData3);
+        //-----------------------------------------------------------
+    }
+
     /**
      * 添加下载任务
      *
@@ -186,6 +226,10 @@ public class DownLoadAty extends BaseActivity {
                 case downloadUrl2:
                     pbProgressbar2.setProgress(msg.arg1);
                     tvResult2.setText("update2.zip >>> " + msg.arg1 + "%");
+                    break;
+                case downloadUrl3:
+                    pbProgressbar3.setProgress(msg.arg1);
+                    tvResult3.setText("Settings.apk >>> " + msg.arg1 + "%");
                     break;
             }
         }

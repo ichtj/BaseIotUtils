@@ -170,26 +170,31 @@ public class DownloadSupport {
                 downloadCallBack.download(fileCacheData, 100, true);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
                 downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                KLog.d(TAG,"save:>file already exist");
                 return;
             }
             //从文件的断点开始下载
             randomAccessFile.seek(current);
             byte[] buffer = new byte[2 * 1024];
             int len;
+            //每次读取最多不超过2*1024个字节
             while ((len = bis.read(buffer)) != -1) {
+                KLog.d(TAG,"save:>len="+len);
+                //先写入到文件中
+                randomAccessFile.write(buffer, 0, len);
                 if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.PAUSE) {
+                    //如果任务被暂停 那么停止读取字节
                     currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.PAUSE);
                     downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
                     return;
                 }
-                //每次读取最多不超过2*1024个字节
+                //记录当前进度
                 current += len;
                 fileCacheData.setCurrent(current);
                 //计算已经下载的百分比
                 int percent = (int) (fileCacheData.getCurrent() * 100 / fileCacheData.getTotal());
                 boolean isComplete = current >= fileCacheData.getTotal();
                 downloadCallBack.download(fileCacheData, percent, isComplete);
-                randomAccessFile.write(buffer, 0, len);
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
                     currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);

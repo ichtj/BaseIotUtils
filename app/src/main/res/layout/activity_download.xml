@@ -28,6 +28,13 @@
         android:text="文件下载update2.zip" />
 
     <Button
+        android:id="@+id/btn_start_down3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downloadFile3"
+        android:text="文件下载Settings.apk" />
+
+    <Button
         android:id="@+id/btn_pause1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -40,6 +47,13 @@
         android:layout_height="wrap_content"
         android:onClick="downTaskPause2"
         android:text="暂停任务update2.zip" />
+
+    <Button
+        android:id="@+id/btn_pause3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="downTaskPause3"
+        android:text="暂停任务Settings.apk" />
 
     <Button
         android:id="@+id/btn_pause"
@@ -86,6 +100,21 @@
 
     <ProgressBar
         android:id="@+id/pbProgressbar2"
+        style="@style/mProgressBarStyle"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:max="100"
+        android:progress="0" />
+    <TextView
+        android:id="@+id/tvResult3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings.apk" />
+
+    <ProgressBar
+        android:id="@+id/pbProgressbar3"
         style="@style/mProgressBarStyle"
         android:layout_width="match_parent"
         android:layout_height="20dp"
