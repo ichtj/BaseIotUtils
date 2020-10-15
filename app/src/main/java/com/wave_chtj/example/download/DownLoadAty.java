@@ -72,12 +72,13 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void clearFile(View view) {
-        downloadSupport.cancel();
         downloadSupport.deleteFile(saveRootPath);
         pbProgressbar1.setProgress(0);
         pbProgressbar2.setProgress(0);
+        pbProgressbar3.setProgress(0);
         tvResult1.setText("update1.zip >>> 0%");
         tvResult2.setText("update2.zip >>> 0%");
+        tvResult3.setText("Settings.apk >>> 0%");
     }
 
     /**

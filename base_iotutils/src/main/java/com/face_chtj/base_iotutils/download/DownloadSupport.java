@@ -1,5 +1,6 @@
 package com.face_chtj.base_iotutils.download;
 
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
@@ -21,18 +22,30 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * current 当前得进度 MD5
- * total   总进度    MD2
+ * 多任务下载管理工具类
+ * 任务整个过程依据requestTag来标识，请用不同的标识区分
+ * 注：该下载工具类没有使用Sqlite来进行保存进度，而是通过获取文件的长度来判断断点下载的位置
+ *    该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
+ *    具体使用请参考README.md的描述进行
+ *    多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
+ *
+ * 此工具类可满足多个场景需求
+ * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
  */
 public class DownloadSupport {
-
     private static final String TAG = DownloadSupport.class.getName();
     private OkHttpClient client;
     private Call call;
-    private String cacheFilePath = "/sdcard/baseiotcloud/";
-    private String cacheFileName = "history.txt";
+    //缓存文件存放目录
+    private String cacheFilePath = "/sdcard/downloadCache/";
+    //缓存的文件名称 BaseIotUtils需要初始化 具体请查看README.md
+    private String cacheFileName = BaseIotUtils.getContext().getPackageName()+".txt";
+    //当前正在里的任务
     private static Map<String, DownloadStatus> currentTaskList = new HashMap<>();
 
+    /**
+     * 任务进度 状态返回
+     */
     public interface DownloadCallBack {
         //下载过程
         void download(FileCacheData fileCacheData, int percent, boolean isComplete);
@@ -44,6 +57,9 @@ public class DownloadSupport {
         void error(Exception e);
     }
 
+    /**
+     * 初始化一次即可
+     */
     public DownloadSupport() {
         //在下载、暂停后的继续下载中可复用同一个client对象
         client = getProgressClient();
@@ -62,10 +78,11 @@ public class DownloadSupport {
         }
     }
 
-    //每次下载需要新建新的Call对象
+    /**
+     * 每次下载需要新建新的Call对象
+     * new File(fileCacheData.getFilePath()).length() 获取文件断点位置 并以此为起点去下载，请留意是否支持断点下载
+     */
     private Call newCall(FileCacheData fileCacheData) {
-        KLog.d(TAG,"newCall:>Breakpoint="+new File(fileCacheData.getFilePath()).length());
-        //断点位置
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
                 .tag(fileCacheData.getRequestTag())
@@ -92,10 +109,9 @@ public class DownloadSupport {
     }
 
     /**
-     * 相同的地址的url的任务不能重复下载，会提示任务存在
-     * 使用download会自动判断文件是否有下载过
-     * 会保留该url文件的进度 注意是是根据url来进行判断
-     * 不是根据本地文件来进行判断是否有下载过 ,所以url请设置固定地址,不然该文件的缓存会失效，并重新开始下载
+     * 相同的地址的requestTag的任务不会重复下载，会提示任务存在
+     * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务后，使用{@link #deleteFile(String)}删除缓存后即可
+     *
      */
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
         //防止任务重复下载，扰乱进度
@@ -179,7 +195,7 @@ public class DownloadSupport {
             int len;
             //每次读取最多不超过2*1024个字节
             while ((len = bis.read(buffer)) != -1) {
-                KLog.d(TAG,"save:>len="+len);
+                //KLog.d(TAG,"save:>len="+len);
                 //先写入到文件中
                 randomAccessFile.write(buffer, 0, len);
                 if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.PAUSE) {
@@ -236,7 +252,9 @@ public class DownloadSupport {
         }
     }
 
-    //按照requestTag关闭任务
+    /**
+     * 按照requestTag关闭任务
+     */
     public void cancel() {
         if(client!=null){
             client.dispatcher().cancelAll();
