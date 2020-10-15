@@ -247,14 +247,15 @@ public class App extends Application {
                KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
            }
        };
+
+       //暂停所有任务
+       downloadSupport.pause();
+       //暂停单个任务
+       downloadSupport.pause(fileCacheData2.getRequestTag());
+
+
        //全部关闭
        downloadSupport.cancel();
-
-       //关闭某个任务
-       downloadSupport.cancel(fileCacheData.getRequestTag());
-       downloadSupport.cancel(fileCacheData2.getRequestTag());
-
-
 
 ```
 
