@@ -23,7 +23,7 @@ allprojects {
 #### base_iotutils
 ```groovy
 dependencies {
-         //以宽高进行屏幕适配,shell,网络判断等多种工具类以及后台存活串口封装等
+         //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
          implementation 'com.face_chtj.base_iotutils:base_iotutils:1.5.1'
 }
 ```
@@ -135,8 +135,6 @@ public class App extends Application {
 - ShareProfrence工具类 | SPUtils
 
 - Toast工具类 | ToastUtils
-
-- 后台服务类 保活 | AbsWorkService
 
 - PackagesName相关信息工具类 | PackagesUtils
 
@@ -379,8 +377,10 @@ public class App extends Application {
         String[] entryValues = mSerialPortFinder.getAllDevicesPath();
         //根据串口地址和波特率开启串口
         SerialPort port =  null;
-        try{ 
-            port=new SerialPort(new File(entryValues[xxx]), xxx,0);
+        int baudrate=9600;//波特率 请自行选择所需波特率
+        try{
+            //entryValues[xxx] 中保存了一些串口地址 请自行选择
+            port=new SerialPort(new File(entryValues[xxx]), baudrate,0);
             Log.e(TAG,"开启成功");
         }catch(Exception e){
             e.printStackTrace();
