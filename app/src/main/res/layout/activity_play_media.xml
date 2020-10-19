@@ -40,5 +40,15 @@
             android:layout_height="wrap_content"
             android:onClick="stopMediaClick"
             android:text="停止" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="switchChannelLeftClick"
+            android:text="切换左声道" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="switchChannelRightClick"
+            android:text="切换右声道" />
     </LinearLayout>
 </LinearLayout>

@@ -53,6 +53,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     private Context mContext;
     private static final int FILE_SELECT_CODE = 10000;
     private TextView tvTruePath;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,19 +68,18 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 Manifest.permission.WRITE_SETTINGS,
                 Manifest.permission.REQUEST_INSTALL_PACKAGES,
                 Manifest.permission.REQUEST_DELETE_PACKAGES,
-        }).
-                subscribe(new Consumer<Boolean>() {
-                    @Override
-                    public void accept(Boolean granted) throws Exception {
-                        if (granted) { // Always true pre-M
-                            // I can control the camera now
-                            ToastUtils.success("已通过权限");
-                        } else {
-                            // Oups permission denied
-                            ToastUtils.error("未通过权限");
-                        }
-                    }
-                });
+        }).subscribe(new Consumer<Boolean>() {
+            @Override
+            public void accept(Boolean granted) throws Exception {
+                if (granted) { // Always true pre-M
+                    // I can control the camera now
+                    ToastUtils.success("已通过权限");
+                } else {
+                    // Oups permission denied
+                    ToastUtils.error("未通过权限");
+                }
+            }
+        });
         AppManager.getAppManager().finishActivity(StartPageAty.class);
     }
 

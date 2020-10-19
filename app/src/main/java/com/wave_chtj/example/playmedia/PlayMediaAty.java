@@ -42,7 +42,6 @@ public class PlayMediaAty extends BaseActivity {
 
                 }).
                 startPlaying("/sdcard/4576.wav");
-
     }
 
     boolean isPause = true;
@@ -75,5 +74,23 @@ public class PlayMediaAty extends BaseActivity {
         PlayUtils.getInstance().stopPlaying();
         isPause = true;
         btn_pause_resume.setText("暂停");
+    }
+
+    /**
+     * 左声道
+     *
+     * @param view
+     */
+    public void switchChannelLeftClick(View view) {
+        PlayUtils.getInstance().switchChannel(1,0);
+    }
+
+    /**
+     * 右声道
+     *
+     * @param view
+     */
+    public void switchChannelRightClick(View view) {
+        PlayUtils.getInstance().switchChannel(0,1);
     }
 }

@@ -207,6 +207,7 @@ public class DownLoadAty extends BaseActivity {
         @Override
         public void error(Exception e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
+            downloadSupport.cancel();
         }
 
         @Override

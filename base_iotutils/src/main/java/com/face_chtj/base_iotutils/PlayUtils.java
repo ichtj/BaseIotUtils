@@ -89,6 +89,16 @@ public class PlayUtils {
     }
 
     /**
+     * 切换声道
+     *
+     * @param leftVolume  0 则关闭左声道 1开启左声道
+     * @param rightVolume 0 则关闭右声道 1开启右声道
+     */
+    public void switchChannel(float leftVolume, float rightVolume) {
+        player.setVolume(leftVolume, rightVolume);
+    }
+
+    /**
      * 暂停播放
      */
     public void pausePlay() {
