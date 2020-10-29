@@ -50,5 +50,10 @@
             android:layout_height="wrap_content"
             android:onClick="switchChannelRightClick"
             android:text="切换右声道" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="switchChannelAllClick"
+            android:text="切换左右声道" />
     </LinearLayout>
 </LinearLayout>

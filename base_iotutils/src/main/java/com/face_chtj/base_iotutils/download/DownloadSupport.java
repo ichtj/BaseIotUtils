@@ -4,6 +4,7 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
+import com.face_chtj.base_iotutils.enumentity.DownloadStatus;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -52,6 +53,9 @@ public class DownloadSupport {
 
         //下载状态
         void downloadStatus(String requestTag, DownloadStatus downloadStatus);
+
+        //全部下载完毕
+        void allDownloadComplete();
 
         //异常状态
         void error(Exception e);
@@ -220,6 +224,9 @@ public class DownloadSupport {
             }
             //删除当前的这个执行任务
             currentTaskList.remove(fileCacheData.getRequestTag());
+            if(currentTaskList.size()<=0){
+                downloadCallBack.allDownloadComplete();
+            }
         } catch (IOException e) {
             e.printStackTrace();
             downloadCallBack.error(e);

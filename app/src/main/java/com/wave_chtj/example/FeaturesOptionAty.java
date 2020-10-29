@@ -12,7 +12,7 @@ import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.TextView;
 
-import com.face_chtj.base_iotutils.PlayUtils;
+import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -41,6 +41,8 @@ import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -65,6 +67,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.SYSTEM_ALERT_WINDOW,
+                Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_SETTINGS,
                 Manifest.permission.REQUEST_INSTALL_PACKAGES,
                 Manifest.permission.REQUEST_DELETE_PACKAGES,
@@ -82,7 +85,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         });
         AppManager.getAppManager().finishActivity(StartPageAty.class);
     }
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {

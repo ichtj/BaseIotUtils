@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.download.DownloadStatus;
+import com.face_chtj.base_iotutils.enumentity.DownloadStatus;
 import com.face_chtj.base_iotutils.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
@@ -208,6 +208,11 @@ public class DownLoadAty extends BaseActivity {
         public void error(Exception e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
             downloadSupport.cancel();
+        }
+
+        @Override
+        public void allDownloadComplete() {
+            KLog.d(TAG,"allDownloadComplete:>=");
         }
 
         @Override

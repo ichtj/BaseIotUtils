@@ -6,7 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.PlayUtils;
+import com.face_chtj.base_iotutils.enumentity.PLAY_STATUS;
+import com.face_chtj.base_iotutils.audio.PlayStateChangeListener;
+import com.face_chtj.base_iotutils.audio.PlayUtils;
+import com.face_chtj.base_iotutils.enumentity.VOLUME_TYPE;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -28,10 +31,9 @@ public class PlayMediaAty extends BaseActivity {
      */
     public void playMediaClick(View view) {
         PlayUtils.getInstance().
-                setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
-
+                setPlayStateChangeListener(new PlayStateChangeListener() {
                     @Override
-                    public void onPlayStateChange(PlayUtils.PLAY_STATUS play_status) {
+                    public void onPlayStateChange(PLAY_STATUS play_status) {
                         KLog.d(TAG," play_status= "+play_status.name());
                     }
 
@@ -82,7 +84,7 @@ public class PlayMediaAty extends BaseActivity {
      * @param view
      */
     public void switchChannelLeftClick(View view) {
-        PlayUtils.getInstance().switchChannel(1,0);
+        PlayUtils.getInstance().setVolumeType(VOLUME_TYPE.LEFT);
     }
 
     /**
@@ -91,6 +93,15 @@ public class PlayMediaAty extends BaseActivity {
      * @param view
      */
     public void switchChannelRightClick(View view) {
-        PlayUtils.getInstance().switchChannel(0,1);
+        PlayUtils.getInstance().setVolumeType(VOLUME_TYPE.RIGHT);
+    }
+
+    /**
+     * 左右声道
+     *
+     * @param view
+     */
+    public void switchChannelAllClick(View view) {
+        PlayUtils.getInstance().setVolumeType(VOLUME_TYPE.ALL);
     }
 }

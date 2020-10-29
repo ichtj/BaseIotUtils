@@ -72,6 +72,16 @@
                 android:gravity="center"
                 android:text="总数："
                 android:textSize="20pt" />
+
+            <TextView
+                android:id="@+id/tvTotal"
+                android:layout_width="160pt"
+                android:layout_height="90pt"
+                android:layout_gravity="center"
+                android:layout_marginTop="25pt"
+                android:gravity="center"
+                android:text="总流量消耗："
+                android:textSize="20pt" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

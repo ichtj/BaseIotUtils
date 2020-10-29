@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Formatter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,9 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.util.TrafficStatistics;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,9 +65,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvUid.setText("UID:" + list.get(position).getUid() + "");
         ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
         KLog.d(TAG, " uid= " + list.get(position).getUid());
-        double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
-        double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
-        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic + "MB");
+        //double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
+        //double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
+        long total=EthDataUsageUtils.getInstance().getAppDataUsageByUid(list.get(position).getUid(),DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
+        String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
+        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase );
         ((MyViewHolder) holder).tvStartApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

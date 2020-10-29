@@ -1,13 +1,17 @@
 package com.wave_chtj.example.allapp;
 
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.format.Formatter;
 import android.view.View;
 import android.widget.TextView;
 
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.app.PackagesUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
@@ -24,7 +28,7 @@ public class AllAppAty extends BaseActivity {
     private static final String TAG = "AllAppInfo";
     private RecyclerView rvList;
     AllAppAdapter newsAdapter = null;
-    private TextView tvCount;
+    private TextView tvCount,tvTotal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -32,6 +36,7 @@ public class AllAppAty extends BaseActivity {
         setContentView(R.layout.activity_allapp);
         tvCount = findViewById(R.id.tvCount);
         rvList = findViewById(R.id.rvList);
+        tvTotal = findViewById(R.id.tvTotal);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         List<AppEntity> appEntityList = PackagesUtils.getDeskTopAppList();
@@ -41,6 +46,11 @@ public class AllAppAty extends BaseActivity {
         //添加Android自带的分割线
         rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvList.setAdapter(newsAdapter);
+
+        long total=EthDataUsageUtils.getInstance().getSystemTotalUsageData(DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
+        String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
+        tvTotal.setText("总流量消耗："+totalPhrase);
+
     }
 
 
