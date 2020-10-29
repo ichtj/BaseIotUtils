@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.5.1'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.6.1'
 }
 ```
 
