@@ -1,8 +1,5 @@
-
 buildscript {
     repositories {
-        //上传至Bintray时启用 并注释这个括号内的最后一行
-        //maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
         mavenCentral()
@@ -22,12 +19,11 @@ buildscript {
 
 allprojects {
     repositories {
-        //上传至Bintray时启用 并注释这个括号内的最后两行
-        //maven{ url 'http://maven.aliyun.com/nexus/content/repositories/central/'}
         google()
         jcenter()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
+
     }
     tasks.withType(Javadoc) { // 新增
         options.addStringOption('Xdoclint:none', '-quiet')

@@ -4,8 +4,8 @@ import android.media.MediaPlayer;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.enumentity.PLAY_STATUS;
-import com.face_chtj.base_iotutils.enumentity.VOLUME_TYPE;
+import com.face_chtj.base_iotutils.enums.PLAY_STATUS;
+import com.face_chtj.base_iotutils.enums.VOLUME_TYPE;
 
 /**
  * 音频播放

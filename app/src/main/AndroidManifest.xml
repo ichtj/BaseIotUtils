@@ -4,17 +4,21 @@
     package="com.wave_chtj.example">
     <!---->
     <!--系统弹窗-->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!--bugly 更新 |热更新 需要的权限-->
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <!--读取eth相关-->
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" />
-    <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY" />
+    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
+        tools:ignore="ProtectedPermissions" />
 
     <!--读写文件权限-->
     <!--excel jxl.jar操作权限-->
@@ -47,12 +51,14 @@
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--usb设备监听-->
-    <uses-permission android:name="android.permission.HARDWARE_TEST" />
+    <uses-permission android:name="android.permission.HARDWARE_TEST"
+        tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.usb.host" />
 
     <uses-permission android:name="android.hardware.usb.accessory" />
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
 
     <application
         android:name=".application.DefaultApplication"

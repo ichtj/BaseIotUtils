@@ -20,6 +20,7 @@ import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
 import butterknife.BindView;
@@ -106,8 +107,13 @@ public class SocketAty extends BaseActivity {
                     baseTcpSocket.setSocketListener(new ISocketListener() {
                         @Override
                         public void recv(byte[] data, int offset, int size) {
+                            KLog.d(TAG,"recv:>="+Arrays.toString(data));
                             Message message = handler.obtainMessage();
-                            message.obj = "\n\r读到数据:" + Arrays.toString(data);
+                            try {
+                                message.obj = "\n\r读到数据:" + /*Arrays.toString(data);*/new String(data, "UTF-8");
+                            } catch (UnsupportedEncodingException e) {
+                                e.printStackTrace();
+                            }
                             handler.sendMessage(message);
                         }
 
@@ -144,7 +150,7 @@ public class SocketAty extends BaseActivity {
                     baseTcpSocket.connect(this);
                 }else if(selectOpiton==UDP_OPTION){
                     //设置参数 地址+端口
-                    baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),5000);
+                    baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),0);
                     //设置监听回调
                     baseUdpSocket.setSocketListener(new ISocketListener() {
                         @Override

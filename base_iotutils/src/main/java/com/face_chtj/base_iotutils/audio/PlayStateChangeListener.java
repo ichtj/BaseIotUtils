@@ -1,6 +1,6 @@
 package com.face_chtj.base_iotutils.audio;
 
-import com.face_chtj.base_iotutils.enumentity.PLAY_STATUS;
+import com.face_chtj.base_iotutils.enums.PLAY_STATUS;
 
 /**
  * 播放进度，状态监听

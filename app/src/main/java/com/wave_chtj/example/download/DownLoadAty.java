@@ -10,12 +10,14 @@ import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.enumentity.DownloadStatus;
+import com.face_chtj.base_iotutils.enums.DownloadStatus;
 import com.face_chtj.base_iotutils.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
+
+import java.util.List;
 
 /**
  * Create on 2019/10/10
@@ -24,8 +26,8 @@ import com.wave_chtj.example.base.BaseActivity;
  */
 public class DownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
-    ProgressBar pbProgressbar1, pbProgressbar2,pbProgressbar3;
-    TextView tvResult1, tvResult2,tvResult3;
+    ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3;
+    TextView tvResult1, tvResult2, tvResult3;
     private String saveRootPath = "/sdcard/";
     //文件下载地址
     public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
@@ -45,7 +47,6 @@ public class DownLoadAty extends BaseActivity {
     public String fileName3 = "Settings.apk";
 
 
-
     DownloadSupport downloadSupport;
 
 
@@ -63,7 +64,7 @@ public class DownLoadAty extends BaseActivity {
         pbProgressbar1.setMax(100);
         pbProgressbar2.setMax(100);
         pbProgressbar3.setMax(100);
-        downloadSupport=new DownloadSupport();
+        downloadSupport = new DownloadSupport();
     }
 
     /**
@@ -81,13 +82,23 @@ public class DownLoadAty extends BaseActivity {
         tvResult3.setText("Settings.apk >>> 0%");
     }
 
+
+    /**
+     * 是否正在下载
+     *
+     * @param view
+     */
+    public void getdown_status(View view) {
+        ToastUtils.info("是否正在执行下载:" + downloadSupport.isRunDownloadTask());
+    }
+
     /**
      * 暂停下载的任务
      *
      * @param view
      */
     public void downTaskPause1(View view) {
-        if(fileCacheData!=null){
+        if (fileCacheData != null) {
             downloadSupport.pause(fileCacheData.getRequestTag());
         }
     }
@@ -98,7 +109,7 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause2(View view) {
-        if(fileCacheData2!=null){
+        if (fileCacheData2 != null) {
             downloadSupport.pause(fileCacheData2.getRequestTag());
         }
     }
@@ -109,7 +120,7 @@ public class DownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause3(View view) {
-        if(fileCacheData3!=null){
+        if (fileCacheData3 != null) {
             downloadSupport.pause(fileCacheData3.getRequestTag());
         }
     }
@@ -167,7 +178,7 @@ public class DownLoadAty extends BaseActivity {
         //-----------------------------------------------------------
     }
 
-    FileCacheData fileCacheData3= null;
+    FileCacheData fileCacheData3 = null;
 
     //文件下载
     public void downloadFile3(View view) {
@@ -196,8 +207,8 @@ public class DownLoadAty extends BaseActivity {
     //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
     DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
         @Override
-        public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
-            KLog.d(TAG,"download:>filename="+fileCacheData.getFileName()+",percent="+percent+",current="+fileCacheData.getCurrent());
+        public void downloadProgress(FileCacheData fileCacheData, int percent) {
+            KLog.d(TAG, "download:>filename=" + fileCacheData.getFileName() + ",percent=" + percent + ",current=" + fileCacheData.getCurrent());
             Message message1 = handler.obtainMessage();
             message1.obj = fileCacheData;
             message1.arg1 = percent;
@@ -211,13 +222,16 @@ public class DownLoadAty extends BaseActivity {
         }
 
         @Override
-        public void allDownloadComplete() {
-            KLog.d(TAG,"allDownloadComplete:>=");
+        public void allDownloadComplete(List<FileCacheData> fileCacheDataList) {
+
+            for (int i = 0; i < fileCacheDataList.size(); i++) {
+                KLog.d(TAG,"allDownloadComplete:>requestTag="+fileCacheDataList.get(i).getRequestTag()+""+fileCacheDataList.get(i).getFileName()+","+fileCacheDataList.get(i).getCurrent()+","+fileCacheDataList.get(i).getTotal());
+            }
         }
 
         @Override
-        public void downloadStatus(String requestTag, DownloadStatus downloadStatus) {
-            KLog.d(TAG, "downloadStatus:>requestTag =" + requestTag + ",status=" + downloadStatus.name());
+        public void downloadStatus(FileCacheData fileCacheData, DownloadStatus downloadStatus) {
+            KLog.d(TAG, "downloadStatus:>requestTag =" + fileCacheData.getRequestTag() + ",status=" + downloadStatus.name());
         }
     };
     Handler handler = new Handler() {

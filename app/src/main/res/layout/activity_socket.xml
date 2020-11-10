@@ -38,7 +38,7 @@
                 android:background="@drawable/button_style_stroke"
                 android:hint="请输入ip地址"
                 android:paddingLeft="10dp"
-                android:text="192.168.1.211" />
+                android:text="192.168.1.159" />
 
             <EditText
                 android:id="@+id/etPort"
@@ -48,7 +48,7 @@
                 android:background="@drawable/button_style_stroke"
                 android:hint="端口"
                 android:paddingLeft="10dp"
-                android:text="8085" />
+                android:text="5555" />
         </LinearLayout>
 
         <LinearLayout

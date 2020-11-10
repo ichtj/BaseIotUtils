@@ -3,16 +3,28 @@ package com.wave_chtj.example;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
+import android.net.EthernetManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
+import android.telephony.NeighboringCellInfo;
+import android.telephony.TelephonyManager;
+import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
 import android.widget.TextView;
 
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
+import com.face_chtj.base_iotutils.entity.FileEntity;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -35,12 +47,14 @@ import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.entity.ExcelEntity;
+import com.wave_chtj.example.util.HttpLocationUtils;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
+import java.lang.reflect.Type;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.List;
@@ -84,7 +98,12 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             }
         });
         AppManager.getAppManager().finishActivity(StartPageAty.class);
+       //KLog.d(TAG,"onCreate:>="+ HttpLocationUtils.doGet(mcc,info1.getLac(),info1.getCid()));
+
+        List<FileEntity> fileEntityList = FileUtils.getFileDirectory("/system/");
+        KLog.d(TAG,"onCreate:>size="+fileEntityList.size());
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -173,6 +192,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             case R.id.btn_key_reg://usb设备监听注册
                 KeyEventUtils.getInstance().registerReceiver();
                 KeyEventUtils.getInstance().setIUsbDeviceListener(new IUsbDeviceListener() {
+                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                     @Override
                     public void deviceInfo(UsbDevice device, boolean isConn) {
                         KLog.d(TAG, "device: " + device.getProductName());

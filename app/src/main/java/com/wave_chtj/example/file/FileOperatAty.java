@@ -51,8 +51,7 @@ public class FileOperatAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btn_write:
                 String content = etContent.getText().toString();
-                boolean isConver =cbCover.isChecked();
-                boolean writeResult = FileUtils.writeFileData(filePath, content, isConver);
+                boolean writeResult = FileUtils.writeFileData(filePath, content, cbCover.isChecked());
                 String sizeMb = FileUtils.getFileFormatSize(filePath);
                 if (writeResult) {
                     tvResult.append("\n\r " + content + " -> 写入成功" + ",大小=" + sizeMb);

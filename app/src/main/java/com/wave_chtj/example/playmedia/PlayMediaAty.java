@@ -6,10 +6,10 @@ import android.view.View;
 import android.widget.Button;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.enumentity.PLAY_STATUS;
+import com.face_chtj.base_iotutils.enums.PLAY_STATUS;
 import com.face_chtj.base_iotutils.audio.PlayStateChangeListener;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
-import com.face_chtj.base_iotutils.enumentity.VOLUME_TYPE;
+import com.face_chtj.base_iotutils.enums.VOLUME_TYPE;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

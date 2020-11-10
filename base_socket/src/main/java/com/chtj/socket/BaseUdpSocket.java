@@ -132,10 +132,12 @@ public class BaseUdpSocket implements ISocket {
                 }
             } catch (SocketException e) {
                 e.printStackTrace();
+                Log.d(TAG,"run:>SocketException e="+e.getMessage());
                 if (mSocketListener != null) {
                     mSocketListener.connFaild(e);
                 }
             } catch (IOException e) {
+                Log.d(TAG,"run:>SocketException e="+e.getMessage());
                 e.printStackTrace();
                 if (mSocketListener != null) {
                     mSocketListener.connFaild(e);

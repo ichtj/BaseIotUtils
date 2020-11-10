@@ -4,14 +4,16 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
-import com.face_chtj.base_iotutils.enumentity.DownloadStatus;
+import com.face_chtj.base_iotutils.enums.DownloadStatus;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import okhttp3.Call;
@@ -26,10 +28,10 @@ import okhttp3.ResponseBody;
  * 多任务下载管理工具类
  * 任务整个过程依据requestTag来标识，请用不同的标识区分
  * 注：该下载工具类没有使用Sqlite来进行保存进度，而是通过获取文件的长度来判断断点下载的位置
- *    该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
- *    具体使用请参考README.md的描述进行
- *    多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
- *
+ * 该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
+ * 具体使用请参考README.md的描述进行
+ * 多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
+ * <p>
  * 此工具类可满足多个场景需求
  * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
  */
@@ -40,25 +42,51 @@ public class DownloadSupport {
     //缓存文件存放目录
     private String cacheFilePath = "/sdcard/downloadCache/";
     //缓存的文件名称 BaseIotUtils需要初始化 具体请查看README.md
-    private String cacheFileName = BaseIotUtils.getContext().getPackageName()+".txt";
+    private String cacheFileName = BaseIotUtils.getContext().getPackageName() + ".txt";
     //当前正在里的任务
     private static Map<String, DownloadStatus> currentTaskList = new HashMap<>();
+    private List<FileCacheData> fileCacheDataList = new ArrayList<>();
 
     /**
      * 任务进度 状态返回
      */
     public interface DownloadCallBack {
         //下载过程
-        void download(FileCacheData fileCacheData, int percent, boolean isComplete);
+        void downloadProgress(FileCacheData fileCacheData, int percent);
 
         //下载状态
-        void downloadStatus(String requestTag, DownloadStatus downloadStatus);
+        void downloadStatus(FileCacheData fileCacheData, DownloadStatus downloadStatus);
 
         //全部下载完毕
-        void allDownloadComplete();
+        void allDownloadComplete(List<FileCacheData> fileCacheDataList);
 
         //异常状态
         void error(Exception e);
+    }
+
+    /**
+     * 是否正在执行任务下载
+     *
+     * @return true| false
+     */
+    public boolean isRunDownloadTask() {
+        if (currentTaskList.size() > 0) {
+            //判断是否有暂停的任务 暂停的任务也相当于没有在执行任务下载
+            int count = 0;
+            for (Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()) {
+                if (currentTaskList.get(entry.getKey()) == DownloadStatus.PAUSE) {
+                    count++;
+                }
+            }
+            if (count == currentTaskList.size()) {
+                //如果暂停的任务等于总任务的数量 那么可以判定为 没有任务正在运行
+                return false;
+            } else {
+                return true;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -115,7 +143,6 @@ public class DownloadSupport {
     /**
      * 相同的地址的requestTag的任务不会重复下载，会提示任务存在
      * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务后，使用{@link #deleteFile(String)}删除缓存后即可
-     *
      */
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
         //防止任务重复下载，扰乱进度
@@ -128,7 +155,7 @@ public class DownloadSupport {
         }
         //该集合中没有任务正在处理
         currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
-        downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+        downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
         //获取url对应的key
         call = newCall(fileCacheData);
         call.enqueue(new Callback() {
@@ -184,13 +211,13 @@ public class DownloadSupport {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
             long current = randomAccessFile.length();
             //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
-            fileCacheData.setTotal(body.contentLength()+current);
-            KLog.d(TAG,"save:>total length="+fileCacheData.getTotal()+",curent="+current);
+            fileCacheData.setTotal(body.contentLength() + current);
+            KLog.d(TAG, "save:>total length=" + fileCacheData.getTotal() + ",curent=" + current);
             if (current >= fileCacheData.getTotal()) {
-                downloadCallBack.download(fileCacheData, 100, true);
+                downloadCallBack.downloadProgress(fileCacheData, 100);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
-                downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
-                KLog.d(TAG,"save:>file already exist");
+                downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+                KLog.d(TAG, "save:>file already exist");
                 return;
             }
             //从文件的断点开始下载
@@ -205,7 +232,7 @@ public class DownloadSupport {
                 if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.PAUSE) {
                     //如果任务被暂停 那么停止读取字节
                     currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.PAUSE);
-                    downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                    downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                     return;
                 }
                 //记录当前进度
@@ -214,18 +241,23 @@ public class DownloadSupport {
                 //计算已经下载的百分比
                 int percent = (int) (fileCacheData.getCurrent() * 100 / fileCacheData.getTotal());
                 boolean isComplete = current >= fileCacheData.getTotal();
-                downloadCallBack.download(fileCacheData, percent, isComplete);
+                downloadCallBack.downloadProgress(fileCacheData, percent);
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
                     currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
-                    downloadCallBack.downloadStatus(fileCacheData.getRequestTag(), currentTaskList.get(fileCacheData.getRequestTag()));
+                    downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                     break;
                 }
             }
+            //把已完成的任务添加到集合中去
+            fileCacheDataList.add(fileCacheData);
             //删除当前的这个执行任务
             currentTaskList.remove(fileCacheData.getRequestTag());
-            if(currentTaskList.size()<=0){
-                downloadCallBack.allDownloadComplete();
+            if (currentTaskList.size() <= 0) {
+                //将完成的所有任务回调回去
+                downloadCallBack.allDownloadComplete(fileCacheDataList);
+                //回调之后进行清除操作
+                fileCacheDataList.clear();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -263,13 +295,16 @@ public class DownloadSupport {
      * 按照requestTag关闭任务
      */
     public void cancel() {
-        if(client!=null){
+        if (client != null) {
             client.dispatcher().cancelAll();
         }
-        if(call!=null){
+        if (call != null) {
             call.cancel();
         }
-        if(currentTaskList!=null){
+        if (currentTaskList != null) {
+            currentTaskList.clear();
+        }
+        if (fileCacheDataList != null) {
             currentTaskList.clear();
         }
     }

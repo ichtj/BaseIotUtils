@@ -76,6 +76,13 @@
         android:onClick="clearFile"
         android:text="清理文件(先关闭所有任务⬆)" />
 
+    <Button
+        android:id="@+id/btn_getdown_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="getdown_status"
+        android:text="是否有任务正在执行下载" />
+
     <TextView
         android:id="@+id/tvResult1"
         android:layout_width="match_parent"
@@ -107,6 +114,7 @@
         android:layout_marginRight="5dp"
         android:max="100"
         android:progress="0" />
+
     <TextView
         android:id="@+id/tvResult3"
         android:layout_width="match_parent"

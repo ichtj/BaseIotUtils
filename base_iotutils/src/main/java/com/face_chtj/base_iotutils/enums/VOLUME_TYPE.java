@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.enumentity;
+package com.face_chtj.base_iotutils.enums;
 
 /**
  * LEFT左声道

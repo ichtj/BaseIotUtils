@@ -115,7 +115,7 @@ public class ScreenInfoUtils {
      * **/
     public static int getScreenBrightness() {
         ContentResolver contentResolver = BaseIotUtils.getContext().getContentResolver();
-        int defVal = 125;
+        int defVal = -1;
         return Settings.System.getInt(contentResolver,
                 Settings.System.SCREEN_BRIGHTNESS, defVal);
     }

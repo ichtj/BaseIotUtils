@@ -22,7 +22,7 @@ import java.util.List;
 /**
  * Create on 2020/6/29
  * author chtj
- * desc
+ * desc app列表
  */
 public class AllAppAty extends BaseActivity {
     private static final String TAG = "AllAppInfo";

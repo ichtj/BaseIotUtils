@@ -1,10 +1,14 @@
 package com.face_chtj.base_iotutils;
 
+import com.face_chtj.base_iotutils.entity.FileEntity;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author chtj
@@ -21,6 +25,7 @@ import java.text.DecimalFormat;
  */
 public class FileUtils {
     private static final String TAG = FileUtils.class.getSimpleName();
+
     /**
      * 写入数据
      *
@@ -30,7 +35,7 @@ public class FileUtils {
      * @return 是否成功 true|false
      */
     public static boolean writeFileData(String filename, String content, boolean isCover) {
-        FileOutputStream fos =null;
+        FileOutputStream fos = null;
         try {
             File file = new File(filename);
             //如果文件不存在
@@ -46,12 +51,12 @@ public class FileUtils {
         } catch (Exception e) {
             e.printStackTrace();
             KLog.e(TAG, "writeFileData: " + e.getMessage());
-        }finally {
-            try{
+        } finally {
+            try {
                 fos.close();//关闭文件输出流
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
-                KLog.e(TAG,"errMeg:"+e.getMessage());
+                KLog.e(TAG, "errMeg:" + e.getMessage());
             }
         }
         return false;
@@ -127,10 +132,10 @@ public class FileUtils {
      * 获取指定文件夹的大小
      *
      * @param directoryPath 文件夹路径
-     * @return 按照单位BYTE,KB, MB, GB返回
+     * @return 按照单位BYTE, KB, MB, GB返回
      */
     public static long getFileSizes(String directoryPath) {
-        KLog.d(TAG,"directoryPath="+directoryPath);
+        KLog.d(TAG, "directoryPath=" + directoryPath);
         File file = new File(directoryPath);
         long size = 0;
         if (file.exists() && file.isDirectory()) {
@@ -151,12 +156,39 @@ public class FileUtils {
         return size;
     }
 
+    /**
+     * 获取某个目录下的文件和文件夹
+     *
+     * @param directoryPath 文件夹路径
+     */
+    public static List<FileEntity> getFileDirectory(String directoryPath) {
+        List<FileEntity> fileListEntityList = new ArrayList<>();
+        KLog.d(TAG, "directoryPath=" + directoryPath);
+        File file = new File(directoryPath);
+        if (file.exists() && file.isDirectory()) {
+            File flist[] = file.listFiles();//文件夹目录下的所有文件
+            if (flist != null) {
+                for (int i = 0; i < flist.length; i++) {
+                    String size;
+                    if (flist[i].isDirectory()) {//判断是否父目录下还有子目录
+                        size = getDirectoryFormatSize(flist[i].getAbsolutePath());///
+                    } else {
+                        size = getFileFormatSize(flist[i].getAbsolutePath());
+                    }
+                    FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath()+"/", flist[i].isDirectory());
+                    fileListEntityList.add(fileEntity);
+                }
+            }
+        }
+        return fileListEntityList;
+    }
+
 
     /**
      * 得到文件夹大小
      *
      * @param directoryPath 文件夹路径
-     * @return 按照单位BYTE,KB, MB, GB返回
+     * @return 按照单位BYTE, KB, MB, GB返回
      */
     public static String getDirectoryFormatSize(String directoryPath) {
         // 转换文件大小
@@ -164,7 +196,11 @@ public class FileUtils {
         long lengthSum = getFileSizes(directoryPath);
         DecimalFormat df = new DecimalFormat("#.00");
         if (lengthSum < 1024) {
-            fileSizeString = df.format((double) lengthSum) + "B";
+            if(lengthSum==0){
+                fileSizeString ="0B";
+            }else{
+                fileSizeString = df.format((double) lengthSum) + "B";
+            }
         } else if (lengthSum < 1048576) {
             fileSizeString = df.format((double) lengthSum / 1024) + "K";
         } else if (lengthSum < 1073741824) {
@@ -177,14 +213,15 @@ public class FileUtils {
 
     /**
      * 获取文件大小
+     *
      * @param filePath
-     * @return 按照单位BYTE,KB, MB, GB返回
+     * @return 按照单位BYTE, KB, MB, GB返回
      */
     public static String getFileFormatSize(String filePath) {
-        File file=new File(filePath);
+        File file = new File(filePath);
         // 转换文件大小
         String fileSizeString = "";
-        if(file.exists()&&file.isFile()){
+        if (file.exists() && file.isFile()) {
             long lengthSum = file.length();
             DecimalFormat df = new DecimalFormat("#.00");
             if (lengthSum < 1024) {
@@ -207,7 +244,7 @@ public class FileUtils {
      * @return 文件总大小
      */
     public static long getFileSize(String filePath) {
-        KLog.d(TAG,"filePath="+filePath);
+        KLog.d(TAG, "filePath=" + filePath);
         File file = new File(filePath);
         long size = 0;
         if (file.exists()) {
@@ -215,12 +252,12 @@ public class FileUtils {
             try {
                 fis = new FileInputStream(file);//使用FileInputStream读入file的数据流
                 size = fis.available();//文件的大小
-            } catch (IOException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 try {
                     fis.close();
-                } catch (IOException e) {
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }

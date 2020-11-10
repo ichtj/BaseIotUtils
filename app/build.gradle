@@ -39,8 +39,7 @@ android {
             signingConfig signingConfigs.release
         }
         debug {
-            debuggable true
-            minifyEnabled = true
+            minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.debug
         }
@@ -66,9 +65,9 @@ android {
         variant.outputs.all {
             def fileName
             if (variant.buildType.name.equals('release')) {
-                fileName = "BaseIotUtils_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_release.apk"
+                fileName = "BaseIotUtils_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
             } else if (variant.buildType.name.equals('debug')) {
-                fileName = "BaseIotUitls_"+"v${variant.mergedFlavor.versionName}_"+new Date().format("yyyy-MM-dd")+"_debug.apk"
+                fileName = "BaseIotUitls_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
             }
             outputFileName = fileName;
         }
@@ -112,6 +111,8 @@ dependencies {
     //implementation rootProject.ext.dependencies["base_iotutils"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
+    //android RK3288 7.1.2 源码
+    compileOnly files('libs\\classes.jar')
 }
 
 greendao {
