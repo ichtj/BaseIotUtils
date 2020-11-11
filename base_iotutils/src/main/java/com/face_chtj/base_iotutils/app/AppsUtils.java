@@ -253,11 +253,12 @@ public class PackagesUtils {
 
     /**
      * 带提示窗口卸载
+     *
      * @param packageName 包名
      */
-    public static void uninstall(String packageName){
-        Intent intent=new Intent(Intent.ACTION_DELETE);
-        intent.setData(Uri.parse("package:"+packageName));
+    public static void uninstall(String packageName) {
+        Intent intent = new Intent(Intent.ACTION_DELETE);
+        intent.setData(Uri.parse("package:" + packageName));
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         BaseIotUtils.getContext().startActivity(intent);
     }
@@ -283,6 +284,7 @@ public class PackagesUtils {
 
     /**
      * 判断设备是否有root权限
+     *
      * @return
      */
     public static boolean isRoot() {
@@ -296,5 +298,25 @@ public class PackagesUtils {
             }
         }
         return false;
+    }
+
+    /**
+     * 获取APP是否正在运行
+     *
+     * @param packageName
+     * @return
+     */
+    public boolean isAppRunning(String packageName) {
+        boolean isAppRunning = false;
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(packageName) && info.baseActivity.getPackageName().equals(packageName)) {
+                isAppRunning = true;
+                //find it, break
+                break;
+            }
+        }
+        return isAppRunning;
     }
 }
