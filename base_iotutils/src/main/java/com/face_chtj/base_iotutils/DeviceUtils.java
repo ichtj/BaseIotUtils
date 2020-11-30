@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.app;
+package com.face_chtj.base_iotutils;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,11 +14,8 @@ import android.support.annotation.RequiresPermission;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 
-import com.face_chtj.base_iotutils.SPUtils;
-import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.BaseIotUtils;
-
 import java.io.File;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -49,6 +46,7 @@ import static android.content.Context.WIFI_SERVICE;
  * --获取唯一设备 UUID {@link #getUniqueDeviceId()}
  * --获取唯一设备 UUID {@link #getUniqueDeviceId(String prefix)}
  * --判断是否同一设备 {@link #isSameDevice(String uniqueDeviceId)}
+ * --获取本机IP {@link #getLocalIp()}
  */
 public final class DeviceUtils {
 
@@ -500,5 +498,28 @@ public final class DeviceUtils {
             return prefix + UUID.randomUUID().toString().replace("-", "");
         }
         return prefix + UUID.nameUUIDFromBytes(id.getBytes()).toString().replace("-", "");
+    }
+
+    /**
+     * 获取本机IP
+     * @return
+     */
+    public static String getLocalIp(){
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
+                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI
+                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "0.0.0.0";
     }
 }

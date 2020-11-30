@@ -8,8 +8,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Formatter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,15 +16,12 @@ import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.app.PackagesUtils;
+import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.util.TrafficStatistics;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -65,17 +60,20 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         ((MyViewHolder) holder).tvUid.setText("UID:" + list.get(position).getUid() + "");
         ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
         KLog.d(TAG, " uid= " + list.get(position).getUid());
-        //double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
-        //double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
-        long total=EthDataUsageUtils.getInstance().getAppDataUsageByUid(list.get(position).getUid(),DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
-        String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
-        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase );
+        //4.4系统获取流量
+        double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
+        double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
+        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic+"M");
+        //7.1.2系统获取流量
+        //long total=EthDataUsageUtils.getInstance().getAppDataUsageByUid(list.get(position).getUid(),DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
+        //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
+        //((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase);
         ((MyViewHolder) holder).tvStartApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KLog.d(TAG, "PackageName: " + list.get(posiNum).getPackageName());
                 try {
-                    PackagesUtils.openPackage(list.get(posiNum).getPackageName());
+                    AppsUtils.openPackage(list.get(posiNum).getPackageName());
                 } catch (Exception e) {
                     e.printStackTrace();
                     KLog.e(TAG, "errMeg:" + e.getMessage());
@@ -116,13 +114,13 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             @Override
             public void onClick(View v) {
                 //ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
-                if (PackagesUtils.isRoot()) {
+                if (AppsUtils.isRoot()) {
                     //如果已经root过 静默卸载
-                    PackagesUtils.uninstall(list.get(posiNum).getPackageName());
+                    AppsUtils.uninstall(list.get(posiNum).getPackageName());
                 } else {
                     //提示卸载 带弹窗
                     KLog.d(TAG, "uninstallSilent");
-                    boolean isOk = PackagesUtils.uninstallSilent(list.get(posiNum).getPackageName(), false);
+                    boolean isOk = AppsUtils.uninstallSilent(list.get(posiNum).getPackageName(), false);
                     if (isOk) {
                         ToastUtils.success("卸载成功");
                         list.remove(list.get(posiNum));

@@ -7,8 +7,11 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * @author chtj
@@ -24,8 +27,7 @@ import java.util.List;
  * --获取指定文件的大小 {@link #getFileSize(String)}
  */
 public class FileUtils {
-    private static final String TAG = FileUtils.class.getSimpleName();
-
+    private static final String TAG = "FileUtils";
     /**
      * 写入数据
      *
@@ -163,7 +165,6 @@ public class FileUtils {
      */
     public static List<FileEntity> getFileDirectory(String directoryPath) {
         List<FileEntity> fileListEntityList = new ArrayList<>();
-        KLog.d(TAG, "directoryPath=" + directoryPath);
         File file = new File(directoryPath);
         if (file.exists() && file.isDirectory()) {
             File flist[] = file.listFiles();//文件夹目录下的所有文件
@@ -175,7 +176,9 @@ public class FileUtils {
                     } else {
                         size = getFileFormatSize(flist[i].getAbsolutePath());
                     }
-                    FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath()+"/", flist[i].isDirectory());
+                    //获取上次修改的时间
+                    String lastModified = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.CHINA).format(new Date(flist[i].lastModified()));
+                    FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath() + "/", lastModified, flist[i].isDirectory());
                     fileListEntityList.add(fileEntity);
                 }
             }
@@ -196,9 +199,9 @@ public class FileUtils {
         long lengthSum = getFileSizes(directoryPath);
         DecimalFormat df = new DecimalFormat("#.00");
         if (lengthSum < 1024) {
-            if(lengthSum==0){
-                fileSizeString ="0B";
-            }else{
+            if (lengthSum == 0) {
+                fileSizeString = "0B";
+            } else {
                 fileSizeString = df.format((double) lengthSum) + "B";
             }
         } else if (lengthSum < 1048576) {

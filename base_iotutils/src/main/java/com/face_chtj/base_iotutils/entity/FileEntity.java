@@ -4,21 +4,33 @@ public class FileEntity {
     private String name;
     private String length;
     private String path;
+    private String lastModified;//上一次修改日期
     private boolean isDirectory;//是否是文件
 
-    public FileEntity(String name, String length, String path, boolean isDirectory) {
+    public FileEntity(String name, String length, String path, String lastModified, boolean isDirectory) {
         this.name = name;
         this.length = length;
         this.path = path;
+        this.lastModified = lastModified;
         this.isDirectory = isDirectory;
     }
-    public boolean getIsDirectory() {
+
+    public String getLastModified() {
+        return lastModified;
+    }
+
+    public void setLastModified(String lastModified) {
+        this.lastModified = lastModified;
+    }
+
+    public boolean isDirectory() {
         return isDirectory;
     }
 
-    public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
+    public void setDirectory(boolean directory) {
+        isDirectory = directory;
     }
+
     public String getName() {
         return name;
     }

@@ -20,7 +20,9 @@ import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
 import android.widget.TextView;
 
+import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.FileUtils;
+import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.entity.FileEntity;
 import com.google.gson.Gson;
@@ -98,10 +100,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             }
         });
         AppManager.getAppManager().finishActivity(StartPageAty.class);
-       //KLog.d(TAG,"onCreate:>="+ HttpLocationUtils.doGet(mcc,info1.getLac(),info1.getCid()));
-
-        List<FileEntity> fileEntityList = FileUtils.getFileDirectory("/system/");
-        KLog.d(TAG,"onCreate:>size="+fileEntityList.size());
     }
 
     @Override

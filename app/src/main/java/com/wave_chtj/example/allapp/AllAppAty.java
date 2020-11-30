@@ -1,18 +1,14 @@
 package com.wave_chtj.example.allapp;
 
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.format.Formatter;
 import android.view.View;
 import android.widget.TextView;
 
-import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.app.PackagesUtils;
+import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
@@ -28,7 +24,7 @@ public class AllAppAty extends BaseActivity {
     private static final String TAG = "AllAppInfo";
     private RecyclerView rvList;
     AllAppAdapter newsAdapter = null;
-    private TextView tvCount,tvTotal;
+    private TextView tvCount, tvTotal;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -39,7 +35,7 @@ public class AllAppAty extends BaseActivity {
         tvTotal = findViewById(R.id.tvTotal);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
-        List<AppEntity> appEntityList = PackagesUtils.getDeskTopAppList();
+        List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter = new AllAppAdapter(appEntityList);
         rvList.setLayoutManager(manager);
@@ -47,9 +43,10 @@ public class AllAppAty extends BaseActivity {
         rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvList.setAdapter(newsAdapter);
 
-        long total=EthDataUsageUtils.getInstance().getSystemTotalUsageData(DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
-        String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
-        tvTotal.setText("总流量消耗："+totalPhrase);
+        //7.1.2系统才可以使用此方式获取总流量
+        //long total=EthDataUsageUtils.getInstance().getSystemTotalUsageData(DataUsageTime.getTimesMonthMorning(), DataUsageTime.getNow());
+        //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
+        //tvTotal.setText("总流量消耗："+totalPhrase);
 
     }
 
@@ -60,7 +57,7 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getDeskTopApp(View view) {
-        List<AppEntity> appEntityList = PackagesUtils.getDeskTopAppList();
+        List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }
@@ -71,7 +68,7 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getNormalApp(View view) {
-        List<AppEntity> appEntityList = PackagesUtils.getNormalAppList();
+        List<AppEntity> appEntityList = AppsUtils.getNormalAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }
@@ -82,7 +79,7 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getSystemApp(View view) {
-        List<AppEntity> appEntityList = PackagesUtils.getSystemAppList();
+        List<AppEntity> appEntityList = AppsUtils.getSystemAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }

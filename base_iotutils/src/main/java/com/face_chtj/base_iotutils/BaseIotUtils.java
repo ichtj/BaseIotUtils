@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public final class BaseIotUtils {
-    private static final String TAG = BaseIotUtils.class.getSimpleName();
+    private static final String TAG = "BaseIotUtils";
     //全局上下文
     static Context sApp;
     //宽度

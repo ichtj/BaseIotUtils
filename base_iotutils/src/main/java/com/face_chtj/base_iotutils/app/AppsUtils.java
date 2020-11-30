@@ -23,8 +23,7 @@ import java.util.List;
 /**
  * @author chtj
  * create by chtj on 2019-8-6
- * desc:PackagesUtils相关工具类
- * --获取所有应用 {@link #getAllAppList()}
+ * desc:AppsUtils相关工具类
  * --查询设备内非系统应用 {@link #getNormalAppList()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
@@ -32,9 +31,8 @@ import java.util.List;
  * --获取APP-VersionName {@link #getAppVersionName()}
  * --判断 App 是否处于前台 {@link #isAppForeground()}
  */
-public class PackagesUtils {
-    private static final String TAG = "PackagesUtils";
-
+public class AppsUtils {
+    private static final String TAG = "AppsUtils";
     /**
      * 获取所有应用
      * 桌面
@@ -135,7 +133,7 @@ public class PackagesUtils {
         List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
         int pid = -1;
         for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess) {
-            KLog.d(TAG, "processName: " + amProcess.processName + ",pid=" + amProcess.pid);
+            //KLog.d(TAG, "processName: " + amProcess.processName + ",pid=" + amProcess.pid);
             if (amProcess.processName.indexOf(packagename) != -1) {
                 pid = amProcess.pid;
                 ProcessEntity processEntity = new ProcessEntity();
@@ -306,7 +304,7 @@ public class PackagesUtils {
      * @param packageName
      * @return
      */
-    public boolean isAppRunning(String packageName) {
+    public static boolean isAppRunning(String packageName) {
         boolean isAppRunning = false;
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
@@ -318,5 +316,19 @@ public class PackagesUtils {
             }
         }
         return isAppRunning;
+    }
+
+    /**
+     * 获取最顶层的应用
+     *
+     * @return
+     */
+    public static String getTopApp() {
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        if (list != null) {
+            return (list.get(0).topActivity.getPackageName());
+        } else
+            return null;
     }
 }

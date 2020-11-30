@@ -36,7 +36,7 @@ import okhttp3.ResponseBody;
  * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
  */
 public class DownloadSupport {
-    private static final String TAG = DownloadSupport.class.getName();
+    private static final String TAG = "DownloadSupport";
     private OkHttpClient client;
     private Call call;
     //缓存文件存放目录
