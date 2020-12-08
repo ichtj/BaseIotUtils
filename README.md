@@ -129,6 +129,8 @@ public class App extends Application {
 
 ## base_iotutils module工具类 请在下方查看部分工具类使用详情
 
+- app列表/基础信息 | AppsUtils 获取桌面应用/系统应用/app基础信息等
+
 - 屏幕相关属性 | ScreenInfoUtils
 
 - 进制转换类 | DataConvertUtils
@@ -155,7 +157,7 @@ public class App extends Application {
 
 - 事件管理 | RxBus
 
-- 断点下载 | DownloadSupport 多文件下载 状态监听 暂停
+- 断点下载 | DownloadSupport 多文件下载 状态监听 暂停等
 
 - Notification通知 | NotifyUtils
 
@@ -171,7 +173,7 @@ public class App extends Application {
 
 - 应用上方对话框(全局对话框) | SurfaceLoadDialog
 
-- 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
+- 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态等
 
 - 时间格式获取 | TimeUtils
 
