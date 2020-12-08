@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
-    package="com.wave_chtj.example">
-    <!---->
+    package="com.wave_chtj.example"
+    android:sharedUserId="android.uid.system">
+
+    <!--如果无法安装 请将android:sharedUserId="android.uid.system" 这句去掉 -->
     <!--系统弹窗-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -12,13 +13,18 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.READ_LOGS"
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
     <!--读取eth相关-->
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions"/>
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
         tools:ignore="ProtectedPermissions" />
 
     <!--读写文件权限-->
@@ -52,13 +58,15 @@
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--usb设备监听-->
-    <uses-permission android:name="android.permission.HARDWARE_TEST"
+    <uses-permission
+        android:name="android.permission.HARDWARE_TEST"
         tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.usb.host" />
 
     <uses-permission android:name="android.hardware.usb.accessory" />
 
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
     <application
@@ -85,8 +93,7 @@
             android:name=".FeaturesOptionAty"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <!--后台服务-->
         <!--串口相关-->
         <activity
@@ -121,7 +128,7 @@
         <!--查看所有app详情-->
         <activity android:name=".allapp.AllAppAty" />
         <!--定时器-->
-        <activity android:name=".timer.TimerAty"/>
+        <activity android:name=".timer.TimerAty" />
         <!--视频播放-->
         <activity
             android:name=".play.VideoPlayAty"
@@ -131,9 +138,10 @@
         <activity android:name=".playmedia.PlayMediaAty" />
 
         <!--在服务里面进行一些application应该执行的初始化操作-->
-        <service android:name=".application.InitializeService"
+        <service
+            android:name=".application.InitializeService"
             android:enabled="true"
-            android:exported="false"/>
+            android:exported="false" />
 
         <service android:name=".crash.MyService" />
         <!--重启后广播监听-->

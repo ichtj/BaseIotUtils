@@ -18,7 +18,7 @@ allprojects {
 
 ### Step 2. Add the dependency
 
-#### 以下存在两个library 请按需选择
+#### 以下存在三个library 请按需选择
 
 #### base_iotutils
 ```groovy
@@ -35,6 +35,15 @@ dependencies {
          implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
+### framework_utils
+```groovy
+//该工具类还未上传到仓库 后期可能会上线
+//但是这个工具类需要结合系统签名使用
+//实现对3288静态/动态设置IP 调整测试中
+//实现对freescale飞思卡尔静态/动态设置IP 调整测试中
+//固件升级/第三方app/系统app升级安装 调整测试中
+```
+
 ##  base_iotutils Module 说明
 
 ### 自定义Application
