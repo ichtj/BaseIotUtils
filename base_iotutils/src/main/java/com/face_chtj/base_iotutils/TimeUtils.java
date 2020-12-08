@@ -16,7 +16,8 @@ import java.util.Locale;
  * {@link #tsToYMD(int)} yyyy-MM-dd
  * {@link #tsToYMDcn(int)} yyyy年MM月dd日
  * {@link #getTodayDate()} 获取今天年月日
- * {@link #getMillisecondTime()} 当前毫秒级时间
+ * {@link #getCurrentDateHms()} 当前时分秒
+ * {@link #getCurrentDateHmss()} 当前时分秒毫秒级时间
  * {@link #getTime()} 获取当前系统的时间戳
  * {@link #getTodayAddMonthDate(int)} 获取今天添加月份的日期
  * {@link #getUTCTimeStr()} 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm
@@ -55,11 +56,21 @@ public class TimeUtils {
     }
 
     /**
+     * 获取今天年月日时分秒
+     * @return 2017-08-14 11:53:52
+     */
+    public static String getCurrentDateHms() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        return sdf.format(date);
+    }
+
+    /**
      *  当前毫秒级时间
      * @return 2017/04/07-11:01:06:109
      */
-    public static String getMillisecondTime() {
-        return new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss:SSS", Locale.CHINA).format(new Date());
+    public static String getCurrentDateHmss() {
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS", Locale.CHINA).format(new Date());
     }
     /**
      * 获取当前系统的时间戳
@@ -81,7 +92,6 @@ public class TimeUtils {
      * @return 日期
      */
     public static String getTodayAddMonthDate(int month) {
-
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date now = null;
         try {
@@ -93,9 +103,8 @@ public class TimeUtils {
         calendar.setTime(now);
         calendar.add(Calendar.MONTH, month);
         return sdf.format(calendar.getTime());
-
-
     }
+
     /**
      * 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm
      * 如果获取失败，返回null

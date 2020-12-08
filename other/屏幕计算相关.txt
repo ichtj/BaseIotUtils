@@ -1,0 +1,82 @@
+PPI = √（长度像素数? + 宽度像素数?） / 屏幕对角线英寸数
+px = dp*ppi/160
+dp = px / (ppi / 160)
+
+----------------160------------------------
+勾股定理
+(480*2+ 854*2)=979.65*2
+
+DPI
+979.65/3.7=265
+
+像素密度
+(265/3.7)/160=1.65
+
+屏幕布局宽度
+480/(1.65)=291dp
+
+
+----------------240------------------------
+
+勾股定理
+(480*2 + 854*2)=979.65*2
+
+979.65/3.7=265
+
+像素密度
+265/240=1.1
+
+屏幕布局宽度
+480/1.1=436dp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<family name="Alibaba-PuHuiTi-Bold"><font weight="400" style="normal">Alibaba-PuHuiTi-Bold.otf</font></family>
+<family name="Alibaba-PuHuiTi-Heavy"><font weight="400" style="normal">Alibaba-PuHuiTi-Heavy.otf</font></family>
+<family name="Alibaba-PuHuiTi-Light"><font weight="400" style="normal">Alibaba-PuHuiTi-Light.otf</font></family>
+<family name="Alibaba-PuHuiTi-Medium"><font weight="400" style="normal">Alibaba-PuHuiTi-Medium.otf</font></family>
+<family name="Alibaba-PuHuiTi-Regular"><font weight="400" style="normal">Alibaba-PuHuiTi-Regular.otf</font></family>
+<family name="AlibabaSans-Black"><font weight="400" style="normal">AlibabaSans-Black.otf</font></family>
+<family name="AlibabaSans-Bold"><font weight="400" style="normal">AlibabaSans-Bold.otf</font></family>
+<family name="AlibabaSans-BoldItalic"><font weight="400" style="normal">AlibabaSans-BoldItalic.otf</font></family>
+<family name="AlibabaSans-Heavy"><font weight="400" style="normal">AlibabaSans-Heavy.otf</font></family>
+<family name="AlibabaSans-HeavyItalic"><font weight="400" style="normal">AlibabaSans-HeavyItalic.otf</font></family>
+<family name="AlibabaSans-Italic"><font weight="400" style="normal">AlibabaSans-Italic.otf</font></family>
+<family name="AlibabaSans-Light"><font weight="400" style="normal">AlibabaSans-Light.otf</font></family>
+<family name="AlibabaSans-LightItalic"><font weight="400" style="normal">AlibabaSans-LightItalic.otf</font></family>
+<family name="AlibabaSans-Medium"><font weight="400" style="normal">AlibabaSans-Medium.otf</font></family>
+<family name="AlibabaSans-MediumItalic"><font weight="400" style="normal">AlibabaSans-MediumItalic.otf</font></family>
+<family name="AlibabaSans-Regular"><font weight="400" style="normal">AlibabaSans-Regular.otf</font></family>
+<family name="NotoSansCJKsc-Black"><font weight="400" style="normal">NotoSansCJKsc-Black.otf</font></family>
+<family name="NotoSansCJKsc-Bold"><font weight="400" style="normal">NotoSansCJKsc-Bold.otf</font></family>
+<family name="NotoSansCJKsc-DemiLight"><font weight="400" style="normal">NotoSansCJKsc-DemiLight.otf</font></family>
+<family name="NotoSansCJKsc-Light"><font weight="400" style="normal">NotoSansCJKsc-Light.otf</font></family>
+<family name="NotoSansCJKsc-Medium"><font weight="400" style="normal">NotoSansCJKsc-Medium.otf</font></family>
+<family name="NotoSansCJKsc-Regular"><font weight="400" style="normal">NotoSansCJKsc-Regular.otf</font></family>
+<family name="NotoSansCJKsc-Thin"><font weight="400" style="normal">NotoSansCJKsc-Thin.otf</font></family>
+<family name="TG-TYPE-Bold"><font weight="400" style="normal">TG-TYPE-Bold.otf</font></family>
+<family name="TG-TYPE-Regular"><font weight="400" style="normal">TG-TYPE-Regular.otf</font></family>

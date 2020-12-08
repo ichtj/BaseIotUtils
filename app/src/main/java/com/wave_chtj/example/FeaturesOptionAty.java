@@ -1,32 +1,23 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.hardware.usb.UsbDevice;
-import android.net.EthernetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
-import android.support.v4.app.ActivityCompat;
-import android.telephony.NeighboringCellInfo;
-import android.telephony.TelephonyManager;
-import android.telephony.gsm.GsmCellLocation;
 import android.view.View;
 import android.widget.TextView;
 
-import com.face_chtj.base_iotutils.DeviceUtils;
-import com.face_chtj.base_iotutils.FileUtils;
+import com.chtj.framework_utils.EthManagerUtils;
+import com.chtj.framework_utils.entity.IpConfigParams;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
-import com.face_chtj.base_iotutils.entity.FileEntity;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
+import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -49,16 +40,12 @@ import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.entity.ExcelEntity;
-import com.wave_chtj.example.util.HttpLocationUtils;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
-import java.lang.reflect.Type;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -68,7 +55,6 @@ import io.reactivex.functions.Consumer;
  */
 public class FeaturesOptionAty extends BaseActivity implements View.OnClickListener {
     private static final String TAG = "FeaturesOptionAty";
-    private Context mContext;
     private static final int FILE_SELECT_CODE = 10000;
     private TextView tvTruePath;
 
@@ -76,7 +62,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
-        mContext = FeaturesOptionAty.this;
         tvTruePath = findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
@@ -106,19 +91,19 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSeialPortNormal://串口测试
-                startActivity(new Intent(mContext, SerialPortAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, SerialPortAty.class));
                 break;
             case R.id.btnScreen://屏幕适配相关
-                startActivity(new Intent(mContext, ScreenActivity.class));
+                startActivity(new Intent(FeaturesOptionAty.this, ScreenActivity.class));
                 break;
             case R.id.btn_write_read://文件读写
-                startActivity(new Intent(mContext, FileOperatAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, FileOperatAty.class));
                 break;
             case R.id.btn_download://文件下载
-                startActivity(new Intent(mContext, DownLoadAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, DownLoadAty.class));
                 break;
             case R.id.btn_socket://Socket Tcp/upd
-                startActivity(new Intent(mContext, SocketAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, SocketAty.class));
                 break;
             case R.id.btn_notification_open://notification display
                 //获取系统中是否已经通过 允许通知的权限
@@ -144,10 +129,9 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
-                /*new Thread() {
+                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
-                        super.run();
                         try {
                             Thread.sleep(5000);
                             NotifyUtils.getInstance("111").setAppName("");
@@ -160,13 +144,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             KLog.e(TAG, "errMeg:" + e.getMessage());
                         }
                     }
-                }.start();*/
+                });
                 break;
             case R.id.btn_notification_close://关闭notification
                 NotifyUtils.closeNotify();
                 break;
             case R.id.btn_network://网络监听
-                startActivity(new Intent(mContext, NetChangeAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, NetChangeAty.class));
                 break;
             case R.id.btn_sysDialogShow://显示SystemDialog
                 SurfaceLoadDialog.getInstance().show("hello world");
@@ -202,11 +186,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 KeyEventUtils.getInstance().unRegisterReceiver();
                 break;
             case R.id.btn_sql://数据库操作
-                startActivity(new Intent(mContext, GreenDaoSqliteAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, GreenDaoSqliteAty.class));
                 break;
             case R.id.btn_jxl_open://打开Excel JXL版本 table.xls 可以在项目的File文件夹下找到
-                final Handler handler2 = new Handler();
-                handler2.post(new Runnable() {
+                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -228,8 +211,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 ToastUtils.success("export successful!");
                 break;
             case R.id.btn_poi_open://打开Excel POI版本 table.xls 可以在项目的File文件夹下找到
-                final Handler handler = new Handler();
-                handler.post(new Runnable() {
+                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
                         try {
@@ -246,7 +228,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 });
                 break;
             case R.id.btn_poi_export://导出Excel POI版本
-                new Handler().post(new Runnable() {
+                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
                         //poi.jar导出
@@ -257,10 +239,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 });
                 break;
             case R.id.btn_all_app://应用列表
-                startActivity(new Intent(mContext, AllAppAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, AllAppAty.class));
                 break;
             case R.id.btn_play://视频播放
-                startActivity(new Intent(mContext, VideoPlayAty.class));
+                startActivity(new Intent(FeaturesOptionAty.this, VideoPlayAty.class));
                 break;
             case R.id.btn_open_file://打开文件
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -281,11 +263,17 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
                 break;
-            case R.id.btn_timereboot:
-                startActivity(new Intent(mContext, TimerAty.class));
+            case R.id.btn_timereboot://定时器
+                startActivity(new Intent(FeaturesOptionAty.this, TimerAty.class));
                 break;
-            case R.id.btn_play_media:
-                startActivity(new Intent(mContext, PlayMediaAty.class));
+            case R.id.btn_play_media://音频播放
+                startActivity(new Intent(FeaturesOptionAty.this, PlayMediaAty.class));
+                break;
+            case R.id.btn_set_ip://设置静态IP
+                EthManagerUtils.setStaticIp(new IpConfigParams("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                break;
+            case R.id.btn_dhcp://设置动态IP
+                EthManagerUtils.setEthDhcp();
                 break;
         }
     }

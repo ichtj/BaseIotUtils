@@ -4,16 +4,28 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
 
     signingConfigs {
-        release {
+        rkrelease {
             storeFile file('D:\\rockchip7.jks')
             storePassword 'android'
             keyPassword 'android'
             keyAlias = 'rockchip'
         }
-        debug {
+        rkdebug {
             storeFile file('D:\\rockchip7.jks')
             storePassword 'android'
             keyAlias = 'rockchip'
+            keyPassword 'android'
+        }
+        fcrelease {
+            storeFile file('D:\\freescale.jks')
+            storePassword 'android'
+            keyAlias 'freescale'
+            keyPassword 'android'
+        }
+        fcdebug {
+            storeFile file('D:\\freescale.jks')
+            storePassword 'android'
+            keyAlias 'freescale'
             keyPassword 'android'
         }
     }
@@ -30,18 +42,30 @@ android {
             //设置支持的SO库架构
             abiFilters /*'armeabi' , 'x86',*/ 'armeabi-v7a'/*, 'x86_64', 'arm64-v8a'*/
         }
-        signingConfig signingConfigs.release
+        if (buildTypeInfo.indexOf("rk3288")!=-1) {
+            signingConfig signingConfigs.rkrelease
+        }else{
+            signingConfig signingConfigs.fcrelease
+        }
     }
     buildTypes {
         release {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+            if (buildTypeInfo.indexOf("rk3288")!=-1) {
+                signingConfig signingConfigs.rkrelease
+            }else{
+                signingConfig signingConfigs.fcrelease
+            }
         }
         debug {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.debug
+            if (buildTypeInfo.indexOf("rk3288")!=-1) {
+                signingConfig signingConfigs.rkrelease
+            }else{
+                signingConfig signingConfigs.fcrelease
+            }
         }
     }
     compileOptions {
@@ -99,6 +123,8 @@ dependencies {
     implementation rootProject.ext.support["annotations"]
     //TCP|UDP socket通信
     //implementation project(path: ':base_socket')
+    //framework jarutils
+    implementation project(path: ':framework_utils')
     implementation rootProject.ext.dependencies["base_socket"]
     //第三方数据操作
     implementation rootProject.ext.dependencies["greendao"]
@@ -111,8 +137,6 @@ dependencies {
     //implementation rootProject.ext.dependencies["base_iotutils"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
-    //android RK3288 7.1.2 源码
-    compileOnly files('libs\\classes.jar')
 }
 
 greendao {

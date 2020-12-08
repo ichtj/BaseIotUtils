@@ -2,12 +2,12 @@ package com.face_chtj.base_iotutils.entity;
 
 public class FileEntity {
     private String name;
-    private String length;
+    private long length;
     private String path;
     private String lastModified;//上一次修改日期
     private boolean isDirectory;//是否是文件
 
-    public FileEntity(String name, String length, String path, String lastModified, boolean isDirectory) {
+    public FileEntity(String name, long length, String path, String lastModified, boolean isDirectory) {
         this.name = name;
         this.length = length;
         this.path = path;
@@ -39,11 +39,11 @@ public class FileEntity {
         this.name = name;
     }
 
-    public String getLength() {
+    public long getLength() {
         return length;
     }
 
-    public void setLength(String length) {
+    public void setLength(long length) {
         this.length = length;
     }
 

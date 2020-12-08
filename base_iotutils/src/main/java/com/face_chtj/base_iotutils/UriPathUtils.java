@@ -21,7 +21,7 @@ public class UriPathUtils {
      *
      * @param uri     The Uri to query.
      */
-    public static String getPath(final Uri uri) {
+    public static String getPath(Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 

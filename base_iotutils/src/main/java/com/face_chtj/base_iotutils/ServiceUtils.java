@@ -1,6 +1,7 @@
 package com.face_chtj.base_iotutils;
 
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 
@@ -49,4 +50,15 @@ public class ServiceUtils {
         }
     }
 
+    /**
+     * 根据包名及Service路径启动这个service
+     *
+     * @param packName    包名
+     * @param servicePath Service路劲
+     */
+    public static void startService(String packName, String servicePath) {
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName(packName, servicePath));
+        BaseIotUtils.getContext().startService(intent);
+    }
 }

@@ -23,14 +23,17 @@
 #---------------------------------1.实体类---------------------------------
 -keep class com.wave_chtj.example.entity.PersonInfor {*; }
 -keep class com.wave_chtj.example.entity.ExcelEntity {*; }
+-keep class com.wave_chtj.example.playmedia.PlayMediaAty {*; }
 
 
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
 #base_iotutils
--keep class com.face_chtj.base_iotutils.entity.** { *; }
--keep class com.face_chtj.base_iotutils.PlayUtils { *; }
+-keep public class com.face_chtj.base_iotutils.entity.** { *; }
+-keep public class com.face_chtj.base_iotutils.enums.** { *; }
+-keep public class com.face_chtj.base_iotutils.audio.PlayStateChangeListener {*; }
+-keep public class com.face_chtj.base_iotutils.audio.PlayUtils {*; }
 
 #base_socket
 -keep class com.chtj.socket.SocketData { *; }
@@ -105,6 +108,7 @@ public static java.lang.String TABLENAME;
 -keep public class * extends android.app.backup.BackupAgentHelper
 -keep public class * extends android.preference.Preference
 -keep public class * extends android.view.View
+-keep public class * extends android.media.MediaPlayer
 -keep public class com.android.vending.licensing.ILicensingService
 -keep class android.support.** {*;}
 

@@ -139,9 +139,11 @@ public final class AdaptScreenUtils {
         for (Field metricsField : sMetricsFields) {
             try {
                 DisplayMetrics dm = (DisplayMetrics) metricsField.get(resources);
-                if (dm != null) dm.xdpi = newXdpi;
+                if (dm != null) {
+                    dm.xdpi = newXdpi;
+                }
             } catch (Exception e) {
-                KLog.e("AdaptScreenUtils", "applyMetricsFields: " + e.getMessage());
+                //KLog.d("AdaptScreenUtils", "applyMetricsFields: " + e.getMessage());
             }
         }
     }
@@ -151,7 +153,7 @@ public final class AdaptScreenUtils {
             //根据resoure,填充数据到field中
             return (DisplayMetrics) field.get(resources);
         } catch (Exception e) {
-            KLog.e("AdaptScreenUtils", "getMetricsFromField: " + e);
+            //KLog.d("AdaptScreenUtils", "getMetricsFromField: " + e);
             return null;
         }
     }

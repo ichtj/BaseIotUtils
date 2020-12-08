@@ -24,10 +24,11 @@ import java.util.Locale;
  * --得到文件夹大小 {@link #getDirectoryFormatSize(String)}----得到byte,kb,mb,gb
  * --得到文件大小 {@link #getFileFormatSize(String)}}----------得到byte,kb,mb,gb
  * --获取指定文件夹的大小 {@link #getFileSizes(String)}
- * --获取指定文件的大小 {@link #getFileSize(String)}
+ * --获取指定文件的可读大小 {@link #getFileAvailable(String)}
  */
 public class FileUtils {
     private static final String TAG = "FileUtils";
+
     /**
      * 写入数据
      *
@@ -150,7 +151,8 @@ public class FileUtils {
                     if (flist[i].isDirectory()) {//判断是否父目录下还有子目录
                         size = size + getFileSizes(flist[i].getAbsolutePath());///
                     } else {
-                        size = size + getFileSize(flist[i].getAbsolutePath());///
+                        //*getFileSize(flist[i].getAbsolutePath())*/
+                        size = size + flist[i].length();///
                     }
                 }
             }
@@ -170,11 +172,12 @@ public class FileUtils {
             File flist[] = file.listFiles();//文件夹目录下的所有文件
             if (flist != null) {
                 for (int i = 0; i < flist.length; i++) {
-                    String size;
+                    long size;
                     if (flist[i].isDirectory()) {//判断是否父目录下还有子目录
-                        size = getDirectoryFormatSize(flist[i].getAbsolutePath());///
+                        size = getFileSizes(flist[i].getAbsolutePath());///
                     } else {
-                        size = getFileFormatSize(flist[i].getAbsolutePath());
+                        //*getFileSize(flist[i].getAbsolutePath())*/
+                        size = flist[i].length();
                     }
                     //获取上次修改的时间
                     String lastModified = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.CHINA).format(new Date(flist[i].lastModified()));
@@ -246,7 +249,7 @@ public class FileUtils {
      * @param filePath 文件路径
      * @return 文件总大小
      */
-    public static long getFileSize(String filePath) {
+    public static long getFileAvailable(String filePath) {
         KLog.d(TAG, "filePath=" + filePath);
         File file = new File(filePath);
         long size = 0;

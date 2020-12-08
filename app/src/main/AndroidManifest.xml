@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="android.uid.system"
     package="com.wave_chtj.example">
     <!---->
     <!--系统弹窗-->
@@ -130,7 +131,9 @@
         <activity android:name=".playmedia.PlayMediaAty" />
 
         <!--在服务里面进行一些application应该执行的初始化操作-->
-        <service android:name=".application.InitializeService" />
+        <service android:name=".application.InitializeService"
+            android:enabled="true"
+            android:exported="false"/>
 
         <service android:name=".crash.MyService" />
         <!--重启后广播监听-->

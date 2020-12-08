@@ -22,6 +22,7 @@ public class PlayMediaAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_media);
         btn_pause_resume = findViewById(R.id.btn_pause_resume);
+        btn_pause_resume = findViewById(R.id.btn_pause_resume);
     }
 
     /**

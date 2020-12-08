@@ -1,6 +1,8 @@
 package com.face_chtj.base_iotutils.app;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
@@ -9,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
@@ -18,24 +21,30 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 /**
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:AppsUtils相关工具类
+ * --查询桌面所有应用 {@link #getDeskTopAppList()}
  * --查询设备内非系统应用 {@link #getNormalAppList()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}
  * --获取APP-VersionName {@link #getAppVersionName()}
  * --判断 App 是否处于前台 {@link #isAppForeground()}
+ * --根据包名启动app {@link #startApp(String)}
+ * --获得该包名的应用中的主界面 {@link #getMainIntent(String)}}
+ * --根据包名获取APP是否正在运行 {@link #isAppRunning(String)}
  */
 public class AppsUtils {
     private static final String TAG = "AppsUtils";
+
     /**
-     * 获取所有应用
-     * 桌面
+     * 查询桌面所有应用
      *
      * @return 包含包名下app名称，图标的明细信息list
      */
@@ -118,6 +127,7 @@ public class AppsUtils {
         }
         return appEntityList;
     }
+
 
     /**
      * 根据包名获取进程PID
@@ -243,12 +253,6 @@ public class AppsUtils {
     }
 
 
-    public static void openPackage(String packageName) throws Exception {
-        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
-        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
-        BaseIotUtils.getContext().startActivity(intent);
-    }
-
     /**
      * 带提示窗口卸载
      *
@@ -299,7 +303,7 @@ public class AppsUtils {
     }
 
     /**
-     * 获取APP是否正在运行
+     * 根据包名获取APP是否正在运行
      *
      * @param packageName
      * @return
@@ -328,7 +332,63 @@ public class AppsUtils {
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
         if (list != null) {
             return (list.get(0).topActivity.getPackageName());
-        } else
+        } else {
             return null;
+        }
     }
+
+    /**
+     * 获得该包名的应用中的MainActivity
+     *
+     * @param packageName 包名
+     * @return
+     */
+    public static Intent getMainIntent(String packageName) {
+        String mainAct = null;
+        PackageManager pkgMag = BaseIotUtils.getContext().getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        @SuppressLint("WrongConstant")
+        List<ResolveInfo> list = pkgMag.queryIntentActivities(intent,
+                PackageManager.GET_ACTIVITIES);
+        for (int i = 0; i < list.size(); i++) {
+            ResolveInfo info = list.get(i);
+            if (info.activityInfo.packageName.equals(packageName)) {
+                mainAct = info.activityInfo.name;
+                break;
+            }
+        }
+        if (TextUtils.isEmpty(mainAct)) {
+            return null;
+        }
+        intent.setComponent(new ComponentName(packageName, mainAct));
+        return intent;
+    }
+
+
+    /**
+     * 但是这个应用需要有一个最先启动的activity，即需要有个activity加上
+     * 打开设置里的应用详情
+     *
+     * @param packageName
+     * @throws Exception
+     */
+    public static void openPackage(String packageName) throws Exception {
+        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
+        Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+        BaseIotUtils.getContext().startActivity(intent);
+    }
+
+    /**
+     * 根据包名获取启动该app的主界面
+     *
+     * @param packageName 包名
+     */
+    public static void startApp(String packageName) {
+        //根据包名获取该应用的主页面
+        Intent intent = getMainIntent(packageName);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        BaseIotUtils.getContext().startActivity(intent);
+    }
+
+
 }

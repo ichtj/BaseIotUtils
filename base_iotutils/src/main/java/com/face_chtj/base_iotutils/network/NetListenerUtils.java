@@ -17,7 +17,7 @@ import com.face_chtj.base_iotutils.entity.NetTypeInfo;
  */
 public class NetListenerUtils extends BroadcastReceiver {
     private static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
-    private static final String TAG="NetChangeReceiver";
+    private static final String TAG="NetListenerUtils";
     private OnNetChangeLinstener mOnNetChangeLinstener;
     private static NetListenerUtils netListenerUtils;
 
@@ -70,7 +70,7 @@ public class NetListenerUtils extends BroadcastReceiver {
                 //获取当前网络类型
                 int type=NetUtils.getNetWorkType();
                 //判断网络是否连接正常，是否能够ping通
-                boolean isPingSuccessful=NetUtils.ping();
+                boolean isPingSuccessful=NetUtils.ping(1,2);
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
                     mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_NO,isPingSuccessful);

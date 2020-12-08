@@ -1,1 +1,2 @@
+include ':framework_utils'
 include ':app', ':base_iotutils', ':base_socket'

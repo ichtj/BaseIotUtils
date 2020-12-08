@@ -147,6 +147,14 @@ public final class DeviceUtils {
         if (manager == null) return false;
         return manager.isWifiEnabled();
     }
+    /**
+     * Get the firmware version
+     *
+     * @return
+     */
+    public static String getFwVersion() {
+        return Build.DISPLAY;
+    }
 
     /**
      * Enable or disable wifi.
