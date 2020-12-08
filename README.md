@@ -430,6 +430,22 @@ public class App extends Application {
         }
 ```
 
+## AppsUtils 工具类
+使用方式
+```java
+        AppsUtils.getSystemAppList();//查询手机内系统应用
+        AppsUtils.getDeskTopAppList();//查询桌面所有应用
+        AppsUtils.getNormalAppList();//查询手机内非系统应用
+        AppsUtils.getMainIntent();//获取某个应用的主界面
+        AppsUtils.isAppRunning();//根据包名获取APP是否正在运行
+        AppsUtils.startApp();//根据包名获取启动该app的主界面
+        AppsUtils.getAppName();//获取当前应用名称
+        AppsUtils.getPidByPackageName();//根据包名获取进程PID
+        AppsUtils.getAppVersionCode();//获取APP-VersionCode
+        AppsUtils.getAppVersionName();//获取APP-VersionName
+        AppsUtils.isAppForeground();//判断 App 是否处于前台
+```
+
 ## PermissionsUtils 权限申请工具类
 使用方式
 ```java
