@@ -120,6 +120,8 @@ public class App extends Application {
 
 ## base_iotutils module工具类 请在下方查看部分工具类使用详情
 
+- 屏幕相关属性 | ScreenInfoUtils
+
 - 进制转换类 | DataConvertUtils
 
 - 设备相关 | DeviceUtils
@@ -130,11 +132,7 @@ public class App extends Application {
 
 - 网络判断 | NetUtils
 
-- adb命令工具类 | ShellUtils
-
-- ShareProfrence工具类 | SPUtils
-
-- Toast工具类 | ToastUtils
+- adb命令工具类 | ShellUtils 可在这里操作adb的命令
 
 - PackagesName相关信息工具类 | PackagesUtils
 
@@ -148,11 +146,15 @@ public class App extends Application {
 
 - 事件管理 | RxBus
 
-- 断点下载 | DownloadSupport
+- 断点下载 | DownloadSupport 多文件下载 状态监听 暂停
 
 - Notification通知 | NotifyUtils
 
 - 权限管理 | PermissionsUtils
+
+- ShareProfrence工具类 | SPUtils
+
+- 字符串判断 | StringUtils
 
 - Service状态获取(是否正在运行) | ServiceUtils
 
@@ -160,11 +162,17 @@ public class App extends Application {
 
 - 应用上方对话框(全局对话框) | SurfaceLoadDialog
 
-- 压缩相关工具类 | ZipUtils
-
-- 字符串判断 | StringUtils
-
 - 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态
+
+- 时间格式获取 | TimeUtils
+
+- 吐司工具类 | ToastUtils
+
+- 文件地址转换真实路径 | UriPathUtils 主要针对android7.0之后的
+
+- 压缩相关 | ZipUtils
+
+- 线程池相关 | ScheduledTPoolUtils>TPoolUtils
 
 
 # FileUtils 文件操作 读写,删除,文件大小等
