@@ -12,10 +12,9 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chtj.framework_utils.EthManagerUtils;
-import com.chtj.framework_utils.entity.IpConfigParams;
-import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.app.AppsUtils;
+import com.chtj.framework.FEthTools;
+import com.chtj.framework.FScreentTools;
+import com.chtj.framework.entity.IpConfigParams;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -270,10 +269,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(FeaturesOptionAty.this, PlayMediaAty.class));
                 break;
             case R.id.btn_set_ip://设置静态IP
-                EthManagerUtils.setStaticIp(new IpConfigParams("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                FEthTools.setStaticIp(new IpConfigParams("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
                 break;
             case R.id.btn_dhcp://设置动态IP
-                EthManagerUtils.setEthDhcp();
+                FEthTools.setEthDhcp();
+                break;
+            case R.id.btn_screent://截屏
+                FScreentTools.takeScreenshot("/sdcard/");
                 break;
         }
     }

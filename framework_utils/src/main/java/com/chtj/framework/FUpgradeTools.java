@@ -1,13 +1,11 @@
-package com.chtj.framework_utils;
+package com.chtj.framework;
 
 import android.annotation.SuppressLint;
-import android.os.Build;
 import android.os.RecoverySystem;
 import android.util.Log;
 
-import com.chtj.framework_utils.entity.CmdResult;
-import com.chtj.framework_utils.entity.OperatType;
-import com.chtj.framework_utils.entity.UpgradeInterface;
+import com.chtj.framework.entity.OperatType;
+import com.chtj.framework.entity.UpgradeInterface;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -23,7 +21,7 @@ import java.lang.reflect.Method;
  * 更新工具类
  * 针对固件升级 APK等
  */
-public class UpgradeUtils {
+public class FUpgradeTools {
     private static final String TAG = "FirmwareUtils";
     /**
      * 固件最终存放的地址
@@ -35,7 +33,7 @@ public class UpgradeUtils {
      *
      * @param filePath
      */
-    public static void fwUpgrade(String filePath, UpgradeInterface upgradeInterface) {
+    public static void firmwareUpgrade(String filePath, UpgradeInterface upgradeInterface) {
         try {
             upgradeInterface.operating(OperatType.CHECK);
             RecoverySystem.verifyPackage(new File(filePath), new RecoverySystem.ProgressListener() {
@@ -48,7 +46,7 @@ public class UpgradeUtils {
                         copyFile(filePath, SAVA_FW_COPY_PATH);
                         try {
                             upgradeInterface.operating(OperatType.INSTALL);
-                            RecoverySystem.installPackage(BaseSystemUtils.getContext(), new File("/data/update.zip"));
+                            RecoverySystem.installPackage(FBaseTools.getContext(), new File("/data/update.zip"));
                         } catch (Exception e) {
                             e.printStackTrace();
                             upgradeInterface.error(e);
@@ -106,7 +104,7 @@ public class UpgradeUtils {
      * @param isSys    是否是系统应用
      * @return 操作结果
      */
-    public static CmdResult installApk(String filePath, boolean isSys) {
+    public static FShellTools.CommandResult installApk(String filePath, boolean isSys) {
         return installApk(filePath, isSys, false);
     }
 
@@ -118,8 +116,8 @@ public class UpgradeUtils {
      * @param isReboot 是否执行重启
      * @return 操作结果
      */
-    public static CmdResult installApk(String filePath, boolean isSys, boolean isReboot) {
-        CmdResult cmdResult = new CmdResult();
+    public static FShellTools.CommandResult installApk(String filePath, boolean isSys, boolean isReboot) {
+        FShellTools.CommandResult cmdResult = new FShellTools.CommandResult();
         Process process = null;
         DataOutputStream os = null;
         BufferedReader successResult = null;
@@ -154,7 +152,7 @@ public class UpgradeUtils {
             }
             os.writeBytes("exit\n");
             os.flush();
-            cmdResult.setResult(process.waitFor());
+            cmdResult.result=process.waitFor();
             //获取错误信息
             successMsg = new StringBuilder();
             errorMsg = new StringBuilder();
@@ -167,10 +165,10 @@ public class UpgradeUtils {
             while ((s = errorResult.readLine()) != null) {
                 errorMsg.append(s);
             }
-            cmdResult.setSuccessMeg(successMsg.toString());
-            cmdResult.setErrMeg(errorMsg.toString());
-            Log.i(TAG, cmdResult.getResult() + " | " + cmdResult.getSuccessMeg()
-                    + " | " + cmdResult.getErrMeg());
+            cmdResult.successMsg=successMsg.toString();
+            cmdResult.errorMsg=errorMsg.toString();
+            Log.i(TAG, cmdResult.result + " | " + cmdResult.successMsg
+                    + " | " + cmdResult.errorMsg);
         } catch (IOException e) {
             String errmsg = e.getMessage();
             if (errmsg != null) {

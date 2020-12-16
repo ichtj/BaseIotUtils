@@ -31,6 +31,7 @@ import java.util.List;
  * desc:AppsUtils相关工具类
  * --查询桌面所有应用 {@link #getDeskTopAppList()}
  * --查询设备内非系统应用 {@link #getNormalAppList()}
+ * --查询手机内系统应用 {@link #getSystemAppList()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}

@@ -1,4 +1,4 @@
-package com.chtj.framework_utils;
+package com.chtj.framework;
 
 import android.content.Context;
 import android.net.INetworkStatsService;
@@ -9,8 +9,9 @@ import android.net.TrafficStats;
 import android.os.RemoteException;
 import android.os.ServiceManager;
 import android.text.format.Formatter;
+import android.util.Log;
 
-import com.chtj.framework_utils.entity.DeviceType;
+import com.chtj.framework.entity.DeviceType;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -21,10 +22,27 @@ import static android.net.NetworkStats.TAG_NONE;
 import static android.net.NetworkStatsHistory.FIELD_RX_BYTES;
 import static android.net.NetworkStatsHistory.FIELD_TX_BYTES;
 
-/**
- * 流量使用情况
- */
-public class DataUsageUtils {
+public class FNetworkTools {
+    private static final String TAG = "NetWorkAboutUtils";
+
+    /**
+     * 获取dns
+     * @return
+     */
+    public static String[] getNetWorkDns() {
+        FShellTools.CommandResult commandResult = FShellTools.execCommand("getprop | grep net.dns", true);
+        if (commandResult.result == 0 && commandResult.successMsg != null) {
+            if (commandResult.successMsg.length() > 0) {
+                String[] result= commandResult.successMsg.replace("]: [", ":").replace("][","];[").split(";");
+                Log.d(TAG,"getDns:>="+result);
+                return result;
+            } else {
+                return null;
+            }
+        } else {
+            return null;
+        }
+    }
 
     /**
      * 获取该uid的流量消耗
@@ -33,15 +51,15 @@ public class DataUsageUtils {
      * @return
      */
     public static String getDataUsage(int uid) {
-        if (BaseSystemUtils.deviceType== DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType== DeviceType.DEVICE_FC5330) {
             long receiveRx = TrafficStats.getUidRxBytes(uid);//获取某个网络UID的接受字节数 总接收量
             long sendTx = TrafficStats.getUidTxBytes(uid);//获取某个网络UID的发送字节数 总接收量
             double traffic = receiveRx + sendTx;
             double sumTraffic = getDouble(traffic / 1024 / 1024);
             return sumTraffic + "MB";
-        } else if (BaseSystemUtils.deviceType== DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.deviceType== DeviceType.DEVICE_RK3288) {
             long total = getAppDataUsageByUid(uid, getTimesMonthMorning(), getNow());
-            String totalPhrase = Formatter.formatFileSize(BaseSystemUtils.getContext(), total);
+            String totalPhrase = Formatter.formatFileSize(FBaseTools.getContext(), total);
             return totalPhrase;
         } else {
             return "0B";

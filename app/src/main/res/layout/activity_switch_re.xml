@@ -27,15 +27,15 @@
         <Button
             android:id="@+id/btn_timereboot"
             android:layout_width="540pt"
-            android:layout_marginLeft="6dp"
             android:layout_height="185pt"
+            android:layout_marginLeft="6dp"
+            android:layout_toRightOf="@+id/btnSeialPortNormal"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:layout_toRightOf="@+id/btnSeialPortNormal"
             android:onClick="onClick"
             android:text="定时器"
             android:textColor="@color/black"
-            android:textSize="12sp"  />
+            android:textSize="12sp" />
 
 
         <Button
@@ -443,20 +443,22 @@
             android:text="播放音频"
             android:textColor="@color/black"
             android:textSize="12sp" />
+
         <Button
             android:id="@+id/btn_set_ip"
             android:layout_width="540pt"
             android:layout_height="94pt"
             android:layout_below="@+id/llFile"
-            android:layout_toRightOf="@+id/btn_play_media"
+            android:layout_marginLeft="6dp"
             android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/btn_play_media"
             android:background="@drawable/draw_top"
             android:gravity="center"
             android:onClick="onClick"
-            android:layout_marginLeft="6dp"
-            android:text="静态IP"
+            android:text="静态IP(system)"
             android:textColor="@color/black"
             android:textSize="12sp" />
+
         <Button
             android:id="@+id/btn_dhcp"
             android:layout_width="540pt"
@@ -468,7 +470,20 @@
             android:background="@drawable/draw_bottom"
             android:gravity="center"
             android:onClick="onClick"
-            android:text="动态IP"
+            android:text="动态IP(system)"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+
+        <Button
+            android:id="@+id/btn_screent"
+            android:layout_width="540pt"
+            android:layout_height="185pt"
+            android:layout_below="@+id/btn_play_media"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_switch"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="截屏(system)"
             android:textColor="@color/black"
             android:textSize="12sp" />
 

@@ -4,8 +4,8 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chtj.framework_utils.BaseSystemUtils;
-import com.chtj.framework_utils.entity.DeviceType;
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.entity.DeviceType;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
@@ -51,7 +51,7 @@ public class InitializeService extends IntentService {
                 setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
                 create(getApplication());
         //frameworkjarUtils
-        BaseSystemUtils.instance(DeviceType.DEVICE_RK3288).create(getApplication());
+        FBaseTools.instance(DeviceType.DEVICE_RK3288).create(getApplication());
     }
 
 

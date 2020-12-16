@@ -24,7 +24,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.0'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.2'
 }
 ```
 
@@ -145,7 +145,7 @@ public class App extends Application {
 
 - adb命令工具类 | ShellUtils 可在这里操作adb的命令
 
-- PackagesName相关信息工具类 | PackagesUtils
+- App相关信息工具类 | AppsUtils
 
 - 屏幕适配相关 | AdaptScreenUtils
 

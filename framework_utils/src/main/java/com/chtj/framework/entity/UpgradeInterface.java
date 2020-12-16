@@ -1,4 +1,4 @@
-package com.chtj.framework_utils.entity;
+package com.chtj.framework.entity;
 
 public interface UpgradeInterface {
     /**

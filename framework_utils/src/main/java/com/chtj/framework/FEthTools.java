@@ -1,4 +1,4 @@
-package com.chtj.framework_utils;
+package com.chtj.framework;
 
 import android.net.IpConfiguration;
 import android.net.LinkAddress;
@@ -8,8 +8,8 @@ import android.net.ethernet.EthernetDevInfo;
 import android.net.ethernet.EthernetManager;
 import android.util.Log;
 
-import com.chtj.framework_utils.entity.DeviceType;
-import com.chtj.framework_utils.entity.IpConfigParams;
+import com.chtj.framework.entity.DeviceType;
+import com.chtj.framework.entity.IpConfigParams;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -17,7 +17,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.util.regex.Pattern;
 
-public class EthManagerUtils {
+public class FEthTools {
     private static final String TAG = "EthManagerUtils";
     private final static String nullIpInfo = "0.0.0.0";
 
@@ -25,10 +25,10 @@ public class EthManagerUtils {
      * 开启以太网
      */
     public static void openEth() {
-        if (BaseSystemUtils.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
             android.net.ethernet.EthernetManager ethernetManager = EthernetManager.getInstance();
             ethernetManager.setEnabled(true);
-        } else if (BaseSystemUtils.deviceType == DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
 
         }
     }
@@ -37,11 +37,11 @@ public class EthManagerUtils {
      * 关闭以太网
      */
     public static void closeEth() {
-        if (BaseSystemUtils.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
             android.net.ethernet.EthernetManager ethernetManager = EthernetManager.getInstance();
             ethernetManager.setEnabled(false);
-        } else if (BaseSystemUtils.deviceType == DeviceType.DEVICE_RK3288) {
-            android.net.EthernetManager mEthManager = (android.net.EthernetManager) BaseSystemUtils.getContext().getSystemService("ethernet");
+        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
+            android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
             mEthManager.setEthernetEnabled(true);
         }
     }
@@ -51,12 +51,12 @@ public class EthManagerUtils {
      * 获取ip模式
      */
     public static String getIpMode() {
-        if (BaseSystemUtils.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
             android.net.ethernet.EthernetManager ethernetManager = EthernetManager.getInstance();
             boolean isDhcp = ethernetManager.isDhcp();
             return isDhcp ? "DHCP" : "STATIC";
-        } else if (BaseSystemUtils.deviceType == DeviceType.DEVICE_RK3288) {
-            android.net.EthernetManager mEthManager = (android.net.EthernetManager) BaseSystemUtils.getContext().getSystemService("ethernet");
+        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
+            android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
             boolean useDhcp = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.DHCP) ? true : false;
             boolean useStatic = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.STATIC) ? true : false;
             if (useDhcp) {
@@ -77,27 +77,26 @@ public class EthManagerUtils {
      * @param ipConfigParams
      */
     public static void setStaticIp(IpConfigParams ipConfigParams) {
-        if (BaseSystemUtils.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
             //设置静态IP FC5330
             setEthStaticFc(ipConfigParams);
-        } else if (BaseSystemUtils.deviceType == DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
             setEthStaticRk(ipConfigParams);
         }
     }
 
-
+    /**
+     * RK3288设置静态IP
+     * @param ipConfigParams
+     */
     private static void setEthStaticRk(IpConfigParams ipConfigParams) {
-        setStaticIpConfiguration(ipConfigParams);
-    }
-
-    private static void setStaticIpConfiguration(IpConfigParams ipConfigParams) {
-        android.net.EthernetManager mEthManager = (android.net.EthernetManager) BaseSystemUtils.getContext().getSystemService("ethernet");
+        android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
         String ipAddr = ipConfigParams.getIp();
         String gateway = ipConfigParams.getGateWay();
         String netMask = ipConfigParams.getMask();
         String dns1 = ipConfigParams.getDns1();
         String dns2 = ipConfigParams.getDns2();
-        int network_prefix_length = 24;
+        //int network_prefix_length = 24;
 
         StaticIpConfiguration mStaticIpConfiguration = new StaticIpConfiguration();
         /*
@@ -134,6 +133,7 @@ public class EthManagerUtils {
         IpConfiguration mIpConfiguration = new IpConfiguration(IpConfiguration.IpAssignment.STATIC, IpConfiguration.ProxySettings.NONE, mStaticIpConfiguration, null);
         mEthManager.setConfiguration(mIpConfiguration);
     }
+
 
     /*
      * convert subMask string to prefix length
@@ -180,7 +180,7 @@ public class EthManagerUtils {
      * 设置以太网为DHCP
      */
     public static void setEthDhcp() {
-        if (BaseSystemUtils.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
             try {
                 //动态 关闭 再打开
                 //先关闭以太网 再打开以太网
@@ -201,8 +201,8 @@ public class EthManagerUtils {
                 e.printStackTrace();
                 Log.e(TAG, "errMeg:" + e.getMessage());
             }
-        } else if (BaseSystemUtils.deviceType == DeviceType.DEVICE_RK3288) {
-            android.net.EthernetManager ethernetManager = (android.net.EthernetManager) BaseSystemUtils.getContext().getSystemService("ethernet");
+        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
+            android.net.EthernetManager ethernetManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
             ethernetManager.setConfiguration(new IpConfiguration(IpConfiguration.IpAssignment.DHCP, IpConfiguration.ProxySettings.NONE, null, null));
         }
     }
@@ -258,7 +258,7 @@ public class EthManagerUtils {
         }
         reader.close();
         return fileData.toString();
-    }/** Get the STB MacAddress*/
+    }
 
 
 }

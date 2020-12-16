@@ -31,6 +31,13 @@ dependencies {
     compileOnly  files('libs\\rk3288.jar')
     compileOnly  files('libs\\fc5330.jar')
     testImplementation 'junit:junit:4.+'
+    //network
+    //rxjava
+    api rootProject.ext.dependencies.rxjava
+    api rootProject.ext.dependencies.okhttp
+    api rootProject.ext.dependencies.retrofit
+    api rootProject.ext.dependencies["converter-gson"]
+    api rootProject.ext.dependencies["adapter-rxjava"]
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }

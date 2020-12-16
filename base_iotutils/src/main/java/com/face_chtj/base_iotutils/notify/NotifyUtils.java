@@ -44,10 +44,7 @@ public class NotifyUtils {
     private static final String TAG = "NotifyUtils";
     //系统通知
     private NotificationManager manager = null;
-    //android api 26 以下
     private Notification.Builder builder = null;
-    //android api 26 以上
-    private NotificationCompat.Builder nBuilder = null;
     //自定义的系统通知视图
     private RemoteViews contentView = null;
     private int notifyId = -1; //notification标识
@@ -122,36 +119,13 @@ public class NotifyUtils {
                     //设置点击关闭按钮"X"时的操作
                     notifyUtils.contentView.setOnClickPendingIntent(R.id.ivClose, pendingIntent);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        NotificationManagerCompat notification = NotificationManagerCompat.from(BaseIotUtils.getContext());
-                        boolean isEnabled = notification.areNotificationsEnabled();
-                        if (isEnabled) {
-                            NotificationChannel notificationChannel =
-                                    new NotificationChannel("1212", "hello", NotificationManager.IMPORTANCE_NONE);
-                            String description = "";
-                            //配置通知渠道的属性
-                            notificationChannel.setDescription(description);
-                            //设置通知出现时的闪光灯
-                            notificationChannel.enableLights(true);
-                            notificationChannel.setLightColor(Color.RED);
-                            //设置通知出现时的震动
-                            notificationChannel.enableVibration(true);
-                            notificationChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 100});
-                            //在notificationManager中创建通知渠道
-                            notifyUtils.manager.createNotificationChannel(notificationChannel);
-                            notifyUtils.nBuilder = new NotificationCompat.Builder(BaseIotUtils.getContext(), "1212")
-                                    .setSmallIcon(android.R.drawable.stat_notify_chat)
-                                    .setContentTitle("你有一条新的消息")
-                                    .setContentText("this is normal notification style")
-                                    .setTicker("notification ticker")
-                                    .setContent(notifyUtils.contentView)
-                                    .setPriority(1000)
-                                    .setAutoCancel(true)
-                                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
-                                    .setNumber(3)
-                                    .setDefaults(Notification.DEFAULT_SOUND | Notification.DEFAULT_VIBRATE)
-                                    .setOngoing(true);
-                        }
+                        //这里是android8.0以上
+                        NotificationChannel channel = new NotificationChannel("channel_1", "channel_name_1", NotificationManager.IMPORTANCE_HIGH);
+                        notifyUtils.manager.createNotificationChannel(channel);
+                        notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext(), "channel_1");
+                        notifyUtils.builder.setCustomContentView(notifyUtils.contentView);
                     } else {
+                        //8.0以下
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext());
                         //设置自定义View
                         notifyUtils.builder.setContent(notifyUtils.contentView);
@@ -239,7 +213,7 @@ public class NotifyUtils {
         }
         contentView.setTextViewText(R.id.tvAppName, appendStr);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         }
@@ -261,7 +235,7 @@ public class NotifyUtils {
         }
         contentView.setTextViewText(R.id.tvAppAbout, appendStr);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         }
@@ -283,7 +257,7 @@ public class NotifyUtils {
         }
         contentView.setTextViewText(R.id.tvRemarks, appendStr);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         }
@@ -305,7 +279,7 @@ public class NotifyUtils {
         }
         contentView.setTextViewText(R.id.tvPrompt, appendStr);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         }
@@ -327,7 +301,7 @@ public class NotifyUtils {
         }
         contentView.setTextViewText(R.id.tvDataTime, appendStr);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         }
@@ -344,8 +318,8 @@ public class NotifyUtils {
     public void setSlideOff(boolean mSlideOff) {
         this.mSlideOff = mSlideOff;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            this.nBuilder.setOngoing(!mSlideOff);
-            this.manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            this.builder.setOngoing(!mSlideOff);
+            this.manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             this.builder.setOngoing(!mSlideOff);
             this.manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
@@ -362,8 +336,8 @@ public class NotifyUtils {
     public void setmAutoCancel(boolean mAutoCancel) {
         this.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            nBuilder.setAutoCancel(mAutoCancel);
-            manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+            builder.setAutoCancel(mAutoCancel);
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
         } else {
             builder.setAutoCancel(mAutoCancel);
             manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
@@ -441,7 +415,7 @@ public class NotifyUtils {
         this.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             //app通知栏图标
-            nBuilder.setSmallIcon(icon);  //小图标，在大图标右下角
+            builder.setSmallIcon(icon);  //小图标，在大图标右下角
         } else {
             //app通知栏图标
             builder.setSmallIcon(icon);  //小图标，在大图标右下角
@@ -493,12 +467,12 @@ public class NotifyUtils {
             if (notifyId != -1) {
                 KLog.e(TAG, "notifyId=" + notifyId + ",mSlideOff=" + mSlideOff + ",mAutoCancel=" + mAutoCancel);
                 int sdkInt = android.os.Build.VERSION.SDK_INT;
-                KLog.d(TAG, "sdkInt: "+sdkInt);
-                if (sdkInt >= android.os.Build.VERSION_CODES.O && nBuilder != null) {
-                    KLog.e(TAG, "more than android api 26 ,nBuilder=" + nBuilder);
-                    nBuilder.setOngoing(!mSlideOff);//滑动不能清除
-                    nBuilder.setAutoCancel(mAutoCancel);//点击的时候消失
-                    manager.notify(notifyId, nBuilder.build());  //参数一为ID，用来区分不同APP的Notification
+                KLog.d(TAG, "sdkInt: " + sdkInt);
+                if (sdkInt >= android.os.Build.VERSION_CODES.O && builder != null) {
+                    KLog.e(TAG, "more than android api 26 ,nBuilder=" + builder);
+                    builder.setOngoing(!mSlideOff);//滑动不能清除
+                    builder.setAutoCancel(mAutoCancel);//点击的时候消失
+                    manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
                 } else if (sdkInt < android.os.Build.VERSION_CODES.O && builder != null) {
                     KLog.e(TAG, "less than android api 26,builder=" + builder);
                     builder.setOngoing(!mSlideOff);//滑动不能清除
