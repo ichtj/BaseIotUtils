@@ -12,6 +12,7 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.TextView;
 
+import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.network.FEthTools;
 import com.chtj.framework.FScreentTools;
 import com.chtj.framework.entity.IpConfigInfo;
@@ -270,13 +271,28 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(FeaturesOptionAty.this, PlayMediaAty.class));
                 break;
             case R.id.btn_set_ip://设置静态IP
-                FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                if (commonValue == CommonValue.EXEU_COMPLETE) {
+                    ToastUtils.success("静态IP设置成功！");
+                } else {
+                    ToastUtils.error("静态IP设置失败！errMeg=" + commonValue.getRemarks());
+                }
                 break;
             case R.id.btn_dhcp://设置动态IP
-                FEthTools.setEthDhcp();
+                CommonValue commonValue2 =FEthTools.setEthDhcp();
+                if (commonValue2 == CommonValue.EXEU_COMPLETE) {
+                    ToastUtils.success("动态IP设置成功！");
+                } else {
+                    ToastUtils.error("动态IP设置失败！errMeg=" + commonValue2.getRemarks());
+                }
                 break;
             case R.id.btn_screent://截屏
-                FScreentTools.takeScreenshot("/sdcard/");
+                boolean isOk = FScreentTools.takeScreenshot("/sdcard/");
+                if (isOk) {
+                    ToastUtils.success("截屏成功,位置:/sdcard/目录下");
+                } else {
+                    ToastUtils.error("截屏失败！");
+                }
                 break;
             case R.id.btn_keeplive://保活Activity
                 startActivity(new Intent(FeaturesOptionAty.this, KeepLiveAty.class));

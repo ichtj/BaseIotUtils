@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.RecoverySystem;
 import android.util.Log;
 
+import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.entity.InstallStatus;
 
 import java.io.BufferedReader;
@@ -25,12 +26,14 @@ public class FUpgradeTools {
     public interface UpgradeInterface {
         /**
          * 固件安装前的执行操作回调
+         *
          * @param installStatus
          */
         void operating(InstallStatus installStatus);
 
         /**
          * 固件安装前的过程执行失败
+         *
          * @param throwable
          */
         void error(Throwable throwable);
@@ -111,116 +114,97 @@ public class FUpgradeTools {
         }
     }
 
+    /**
+     * 卸载普通应用(第三方应用)
+     *
+     * @param packageName 包名
+     * @param isRebootNow 是否立即重启
+     * @return
+     */
+    public CommonValue uninstallNormalApp(String packageName, boolean isRebootNow) {
+        String[] commands = new String[]{
+                "pm uninstall  " + packageName,
+                isRebootNow ? FCommonTools.CMD_REBOOT : "",
+        };
+        FCmdTools.CommandResult commandResult = FCmdTools.execCommand(commands, true);
+        if (commandResult.result == 0) {
+            return CommonValue.EXEU_COMPLETE;
+        } else {
+            return CommonValue.EXEU_UNKNOWN_ERR;
+        }
+    }
+
+    /**
+     * 卸载系统应用
+     *
+     * @param apkName     包名
+     * @param isRebootNow 是否立即重启
+     * @return
+     */
+    public CommonValue uninstallSystemApp(String apkName, boolean isRebootNow) {
+        String replaceStr = apkName.replace(".apk", "") + "*";
+        String[] commands = new String[]{
+                "rm -rf /system/priv-app/" + replaceStr,
+                isRebootNow ? FCommonTools.CMD_REBOOT : "",
+        };
+        FCmdTools.CommandResult commandResult = FCmdTools.execCommand(commands, true);
+        if (commandResult.result == 0) {
+            return CommonValue.EXEU_COMPLETE;
+        } else {
+            if (commandResult.errorMsg != null && commandResult.errorMsg.contains("Read-only file system")) {
+                return CommonValue.CMD_READ_ONLY;
+            } else {
+                return CommonValue.EXEU_UNKNOWN_ERR;
+            }
+        }
+    }
+
 
     /**
      * App安装升级
      *
-     * @param filePath 文件存放地址
-     * @param isSys    是否是系统应用
+     * @param apkPath apk存放地址
+     * @param isSys   是否是系统应用
      * @return 操作结果
      */
-    public static FCmdTools.CommandResult installApk(String filePath, boolean isSys) {
-        return installApk(filePath, isSys, false);
+    public static CommonValue installApk(String apkPath, boolean isSys) {
+        return installApk(apkPath, isSys, false);
     }
 
     /**
      * App安装升级
      *
-     * @param filePath 文件存放地址
-     * @param isSys    是否是系统应用
-     * @param isReboot 是否执行重启
+     * @param apkPath     apk存放地址
+     * @param isSys       是否是系统应用
+     * @param isRebootNow 是否执行重启
      * @return 操作结果
      */
-    public static FCmdTools.CommandResult installApk(String filePath, boolean isSys, boolean isReboot) {
-        FCmdTools.CommandResult cmdResult = new FCmdTools.CommandResult();
-        Process process = null;
-        DataOutputStream os = null;
-        BufferedReader successResult = null;
-        BufferedReader errorResult = null;
-        StringBuilder successMsg = null;
-        StringBuilder errorMsg = null;
+    public static CommonValue installApk(String apkPath, boolean isSys, boolean isRebootNow) {
         String[] commands = null;
-        try {
-            if (isSys) {
-                String[] fileInfo = filePath.split("/");
-                String fileName = fileInfo[fileInfo.length - 1].replace(".apk", "");
-                commands = new String[]{
-                        "rm -rf /system/priv-app/" + fileName + "*",
-                        "cp -rf " + filePath + " /system/priv-app/",
-                        "chmod 777 /system/priv-app/" + fileName + "*",
-                        isReboot ? "reboot" : "",
-                };
+        if (isSys) {
+            String[] fileInfo = apkPath.split("/");
+            String fileName = fileInfo[fileInfo.length - 1].replace(".apk", "");
+            commands = new String[]{
+                    "rm -rf /system/priv-app/" + fileName + "*",
+                    "cp -rf " + apkPath + " /system/priv-app/",
+                    "chmod 777 /system/priv-app/" + fileName + "*",
+                    isRebootNow ? FCommonTools.CMD_REBOOT : "",
+            };
+        } else {
+            commands = new String[]{
+                    "pm install -rf " + apkPath,
+                    isRebootNow ? FCommonTools.CMD_REBOOT : "",
+            };
+        }
+        FCmdTools.CommandResult commandResult = FCmdTools.execCommand(commands, true);
+        if (commandResult.result == 0) {
+            return CommonValue.EXEU_COMPLETE;
+        } else {
+            if (commandResult.errorMsg != null && commandResult.errorMsg.contains("Read-only file system")) {
+                return CommonValue.CMD_READ_ONLY;
             } else {
-                commands = new String[]{
-                        "pm install -rf " + filePath,
-                        isReboot ? "reboot" : "",
-                };
-            }
-            process = Runtime.getRuntime().exec("su");
-            os = new DataOutputStream(process.getOutputStream());
-            for (String command : commands) {
-                if (command != null) {
-                    os.write(command.getBytes());
-                    os.writeBytes("\n");
-                    os.flush();
-                }
-            }
-            os.writeBytes("exit\n");
-            os.flush();
-            cmdResult.result=process.waitFor();
-            //获取错误信息
-            successMsg = new StringBuilder();
-            errorMsg = new StringBuilder();
-            successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
-            String s;
-            while ((s = successResult.readLine()) != null) {
-                successMsg.append(s);
-            }
-            while ((s = errorResult.readLine()) != null) {
-                errorMsg.append(s);
-            }
-            cmdResult.successMsg=successMsg.toString();
-            cmdResult.errorMsg=errorMsg.toString();
-            Log.i(TAG, cmdResult.result + " | " + cmdResult.successMsg
-                    + " | " + cmdResult.errorMsg);
-        } catch (IOException e) {
-            String errmsg = e.getMessage();
-            if (errmsg != null) {
-                Log.e(TAG, errmsg);
-            } else {
-                e.printStackTrace();
-            }
-        } catch (Exception e) {
-            String errmsg = e.getMessage();
-            if (errmsg != null) {
-                Log.e(TAG, errmsg);
-            } else {
-                e.printStackTrace();
-            }
-        } finally {
-            try {
-                if (os != null) {
-                    os.close();
-                }
-                if (successResult != null) {
-                    successResult.close();
-                }
-                if (errorResult != null) {
-                    errorResult.close();
-                }
-            } catch (IOException e) {
-                String errmsg = e.getMessage();
-                if (errmsg != null) {
-                    Log.e(TAG, errmsg);
-                } else {
-                    e.printStackTrace();
-                }
-            }
-            if (process != null) {
-                process.destroy();
+                return CommonValue.EXEU_UNKNOWN_ERR;
             }
         }
-        return cmdResult;
     }
 }

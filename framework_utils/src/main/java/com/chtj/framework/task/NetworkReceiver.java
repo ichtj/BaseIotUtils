@@ -55,6 +55,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             stringBuffer.append("nowTime=" + simpleDateFormat.format(new Date())+"\n\r");
             stringBuffer.append("netType=" + type+"\n\r");
             stringBuffer.append("gateway=" + gateway+"\n\r");
+            stringBuffer.append("localIp=" + FCommonTools.getLocalIp()+"\n\r");
             stringBuffer.append("ping114=" + isPingSuccessful+"\n\r");
             stringBuffer.append("pingGateway=" + isPingGateway+"\n\r");
             String[] dnsList= FNetworkTools.getNetWorkDns();

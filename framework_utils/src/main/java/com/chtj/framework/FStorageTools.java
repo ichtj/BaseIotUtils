@@ -6,6 +6,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.StatFs;
 
+import com.chtj.framework.entity.DeviceType;
 import com.chtj.framework.entity.Space;
 import com.chtj.framework.entity.RomSpace;
 
@@ -103,7 +104,7 @@ public class FStorageTools {
      */
     public static Space getTfSpace() {
         FCmdTools.CommandResult commandResult = null;
-        if (Build.VERSION.RELEASE.indexOf("4.4.2") != -1) {
+        if (FBaseTools.instance().getDeviceType()== DeviceType.DEVICE_FC5330) {
             commandResult = FCmdTools.execCommand("df | grep -rn /mnt/media_rw/extsd", true);
             if (commandResult.successMsg != null && commandResult.successMsg.length() >0) {
                 String[] resultCall = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
@@ -111,7 +112,7 @@ public class FStorageTools {
             } else {
                 return new Space(0,0,0);
             }
-        } else if (Build.VERSION.RELEASE.indexOf("7.1.2") != -1) {
+        } else if (FBaseTools.instance().getDeviceType()==DeviceType.DEVICE_RK3288) {
             commandResult =  FCmdTools.execCommand("df | grep -rn /mnt/media_rw",true);
             if (commandResult.successMsg != null && commandResult.successMsg.length() > 0) {
                 String[] result = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");

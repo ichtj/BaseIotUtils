@@ -25,7 +25,7 @@ public class FKeepLiveTools {
      */
     public static final String TYPE_ACTIVITY = "0";
     /**
-     * 包获得类型为服务
+     * 保活的类型为服务
      */
     public static final String TYPE_SERVICE = "1";
 
@@ -53,10 +53,8 @@ public class FKeepLiveTools {
                     it.remove();
                 }
             }
-            return toWrite(keepLiveData, keepLiveDataList, gson, isEnableNow);
-        } else {
-            return toWrite(keepLiveData, null, gson, isEnableNow);
         }
+        return toWrite(keepLiveData, null, gson, isEnableNow);
     }
 
 
@@ -101,7 +99,8 @@ public class FKeepLiveTools {
      * @param keepLiveDataList 以前添加的记录
      * @param isEnableNow      是否立即启用
      */
-    private static CommonValue toWrite(KeepLiveData keepLiveData, List<KeepLiveData> keepLiveDataList, Gson gson, boolean isEnableNow) {
+    private static CommonValue toWrite(KeepLiveData
+                                               keepLiveData, List<KeepLiveData> keepLiveDataList, Gson gson, boolean isEnableNow) {
         if (keepLiveDataList == null) {
             keepLiveDataList = new ArrayList<>();
         }
@@ -128,12 +127,12 @@ public class FKeepLiveTools {
                 FBaseTools.getContext().startService(new Intent(FBaseTools.sApp, FBaseService.class));
                 boolean isRunning = FCommonTools.isWorked(FBaseService.class.getName());
                 if (isRunning) {
-                    return CommonValue.KL_EXEU_COMPLETE;
+                    return CommonValue.EXEU_COMPLETE;
                 } else {
                     return CommonValue.KL_SERVICE_ACTIVATE_ERR;
                 }
             } else {
-                return CommonValue.KL_EXEU_COMPLETE;
+                return CommonValue.EXEU_COMPLETE;
             }
         }
     }
@@ -144,7 +143,7 @@ public class FKeepLiveTools {
     public static CommonValue clearKeepLive() {
         File file = new File(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
         if (file.exists()) {
-            return file.delete() ? CommonValue.KL_EXEU_COMPLETE :CommonValue.KL_FILE_DEL_ERR ;
+            return file.delete() ? CommonValue.EXEU_COMPLETE : CommonValue.KL_FILE_DEL_ERR;
         } else {
             return CommonValue.KL_DATA_ISNULL;
         }

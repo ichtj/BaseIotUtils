@@ -9,6 +9,8 @@ import android.net.ethernet.EthernetManager;
 import android.util.Log;
 
 import com.chtj.framework.FBaseTools;
+import com.chtj.framework.FCommonTools;
+import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.entity.DeviceType;
 import com.chtj.framework.entity.IpConfigInfo;
 
@@ -77,20 +79,41 @@ public class FEthTools {
      *
      * @param ipConfigInfo
      */
-    public static void setStaticIp(IpConfigInfo ipConfigInfo) {
-        if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_FC5330) {
-            //设置静态IP FC5330
-            setEthStaticFc(ipConfigInfo);
-        } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
-            setEthStaticRk(ipConfigInfo);
+    public static CommonValue setStaticIp(IpConfigInfo ipConfigInfo) {
+        if (checkIp(ipConfigInfo)) {
+            if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_FC5330) {
+                return setEthStaticFc(ipConfigInfo);
+            } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
+                return setEthStaticRk(ipConfigInfo);
+            } else {
+                return CommonValue.ETH_OTHER_DEVICES;
+            }
+        } else {
+            return CommonValue.ETH_IPCHECK_ERR;
         }
     }
 
     /**
+     * 检查ip地址输入是否合法
+     *
+     * @param ipConfigInfo
+     * @return
+     */
+    private static boolean checkIp(IpConfigInfo ipConfigInfo) {
+        boolean ipCheck = FCommonTools.matchesIp(ipConfigInfo.getIp());
+        boolean dns1Check = FCommonTools.matchesIp(ipConfigInfo.getDns1());
+        boolean dns2Check = FCommonTools.matchesIp(ipConfigInfo.getDns2());
+        boolean gateWaycheck = FCommonTools.matchesIp(ipConfigInfo.getGateWay());
+        boolean maskCheck = FCommonTools.matchesIp(ipConfigInfo.getMask());
+        return ipCheck && dns1Check && dns2Check && gateWaycheck && maskCheck;
+    }
+
+    /**
      * RK3288设置静态IP
+     *
      * @param ipConfigInfo
      */
-    private static void setEthStaticRk(IpConfigInfo ipConfigInfo) {
+    private static CommonValue setEthStaticRk(IpConfigInfo ipConfigInfo) {
         android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
         String ipAddr = ipConfigInfo.getIp();
         String gateway = ipConfigInfo.getGateWay();
@@ -110,8 +133,7 @@ public class FEthTools {
 
         if (inetAddr.getAddress().toString().isEmpty() || prefixLength == 0 || gatewayAddr.toString().isEmpty()
                 || dnsAddr.toString().isEmpty()) {
-            Log.d(TAG, "ip,mask or dnsAddr is wrong");
-            return;
+            return CommonValue.ETH_PARAMS_ERR;
         }
         String dnsStr2 = dns2;
         try {
@@ -120,19 +142,22 @@ public class FEthTools {
                     .forName("android.net.LinkAddress");
             mStaticIpConfiguration.ipAddress = (LinkAddress) linkAddressClass
                     .getDeclaredConstructor(classes).newInstance(inetAddr, prefixLength);
+
+
+            mStaticIpConfiguration.gateway = gatewayAddr;
+            mStaticIpConfiguration.dnsServers.add(dnsAddr);
+
+            if (!dnsStr2.isEmpty()) {
+                mStaticIpConfiguration.dnsServers.add(getIPv4Address(dnsStr2));
+            }
+            IpConfiguration mIpConfiguration = new IpConfiguration(IpConfiguration.IpAssignment.STATIC, IpConfiguration.ProxySettings.NONE, mStaticIpConfiguration, null);
+            mEthManager.setConfiguration(mIpConfiguration);
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "errMeg:" + e.getMessage());
+            return CommonValue.ETH_SECURITY_ERR;
         }
-
-        mStaticIpConfiguration.gateway = gatewayAddr;
-        mStaticIpConfiguration.dnsServers.add(dnsAddr);
-
-        if (!dnsStr2.isEmpty()) {
-            mStaticIpConfiguration.dnsServers.add(getIPv4Address(dnsStr2));
-        }
-        IpConfiguration mIpConfiguration = new IpConfiguration(IpConfiguration.IpAssignment.STATIC, IpConfiguration.ProxySettings.NONE, mStaticIpConfiguration, null);
-        mEthManager.setConfiguration(mIpConfiguration);
+        return CommonValue.EXEU_COMPLETE;
     }
 
 
@@ -180,7 +205,7 @@ public class FEthTools {
     /**
      * 设置以太网为DHCP
      */
-    public static void setEthDhcp() {
+    public static CommonValue setEthDhcp() {
         if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_FC5330) {
             try {
                 //动态 关闭 再打开
@@ -198,13 +223,24 @@ public class FEthTools {
                 mDevInfo.setConnectMode(EthernetDevInfo.ETHERNET_CONN_MODE_DHCP);
                 ethernetManager.updateDevInfo(mDevInfo);
                 ethernetManager.setEnabled(true);
+                return CommonValue.EXEU_COMPLETE;
             } catch (SecurityException e) {
                 e.printStackTrace();
                 Log.e(TAG, "errMeg:" + e.getMessage());
+                return CommonValue.ETH_SECURITY_ERR;
             }
         } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
-            android.net.EthernetManager ethernetManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
-            ethernetManager.setConfiguration(new IpConfiguration(IpConfiguration.IpAssignment.DHCP, IpConfiguration.ProxySettings.NONE, null, null));
+            try {
+                android.net.EthernetManager ethernetManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
+                ethernetManager.setConfiguration(new IpConfiguration(IpConfiguration.IpAssignment.DHCP, IpConfiguration.ProxySettings.NONE, null, null));
+                return CommonValue.EXEU_COMPLETE;
+            } catch (SecurityException e) {
+                e.printStackTrace();
+                Log.e(TAG, "errMeg:" + e.getMessage());
+                return CommonValue.ETH_SECURITY_ERR;
+            }
+        } else {
+            return CommonValue.ETH_OTHER_DEVICES;
         }
     }
 
@@ -212,7 +248,7 @@ public class FEthTools {
     /**
      * 设置以太网为静态模式
      */
-    private static boolean setEthStaticFc(IpConfigInfo ipConfigInfo) {
+    private static CommonValue setEthStaticFc(IpConfigInfo ipConfigInfo) {
         try {
             EthernetManager ethernetManager = EthernetManager.getInstance();
             EthernetDevInfo mDevInfo = ethernetManager.getSavedConfig();
@@ -232,11 +268,11 @@ public class FEthTools {
             mDevInfo.setConnectMode(EthernetDevInfo.ETHERNET_CONN_MODE_MANUAL);
             ethernetManager.updateDevInfo(mDevInfo);
             ethernetManager.setEnabled(true);
-            return true;
+            return CommonValue.EXEU_COMPLETE;
         } catch (SecurityException e) {
             e.printStackTrace();
             Log.e(TAG, "errMeg:" + e.getMessage());
-            return false;
+            return CommonValue.ETH_SECURITY_ERR;
         }
     }
 
@@ -248,7 +284,7 @@ public class FEthTools {
      * @return
      * @throws java.io.IOException
      */
-    public static String loadFileAsString(String filePath) throws java.io.IOException {
+    private static String loadFileAsString(String filePath) throws java.io.IOException {
         StringBuffer fileData = new StringBuffer(1000);
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         char[] buf = new char[1024];

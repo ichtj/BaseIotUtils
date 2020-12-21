@@ -51,7 +51,7 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
                 KeepLiveData keepLiveData = new KeepLiveData("com.face.baseiotcloud", FKeepLiveTools.TYPE_ACTIVITY, true);
                 CommonValue commonValue = FKeepLiveTools.addActivity(keepLiveData, true);
                 KLog.d(TAG, "onClick:>=" + commonValue.toString());
-                if (commonValue == CommonValue.KL_EXEU_COMPLETE) {
+                if (commonValue == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("执行成功！");
                     tvResult.setText("执行成功");
                 } else {
@@ -63,7 +63,7 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
                 KeepLiveData keepLiveData1 = new KeepLiveData("com.face.baseiotcloud", FKeepLiveTools.TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
                 CommonValue commonValue1 = FKeepLiveTools.addService(keepLiveData1, true);
                 KLog.d(TAG, "onClick:>=" + commonValue1.toString());
-                if (commonValue1 == CommonValue.KL_EXEU_COMPLETE) {
+                if (commonValue1 == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("执行成功！");
                     tvResult.setText("执行成功");
                 } else {
@@ -76,7 +76,7 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
                 break;
             case R.id.btn_cleanall:
                 CommonValue commonValue2 = FKeepLiveTools.clearKeepLive();
-                if (commonValue2 == CommonValue.KL_EXEU_COMPLETE) {
+                if (commonValue2 == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("清除成功！");
                     tvResult.setText("清除成功");
                 } else {

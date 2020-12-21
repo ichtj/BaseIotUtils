@@ -15,14 +15,25 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
 
 /**
- * 共用工具
+ * 一些共用的工具类合集
+ * 都是为了服务其他工具类的使用
  */
 public class FCommonTools {
     private static final String TAG = "FCommonTools";
+    /**
+     * 工具中所有调用重启系统的地方
+     */
+    public static final String CMD_REBOOT = "reboot";
+
 
     /**
      * 网络异常时的日志记录
@@ -320,7 +331,7 @@ public class FCommonTools {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.d(TAG, "readLineToList: "+e.getMessage());
+            Log.d(TAG, "readLineToList: " + e.getMessage());
         }
         return bmdList;
     }
@@ -353,6 +364,54 @@ public class FCommonTools {
             Log.e(TAG, "readFileData: " + e.getMessage());
         }
         return result;
+    }
+
+    /**
+     * ip正则表达式
+     * @param text
+     * @return
+     */
+    public static boolean matchesIp(String text) {
+        if (text != null && !text.isEmpty()) {
+            // 定义正则表达式
+            String regex = "^(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|[1-9])\\."
+                    + "(1\\d{2}|2[0-4]\\ d|25[0-5]|[1-9]\\d|\\d)\\."
+                    + "(1\\d{2}|2[0-4]\\d|25[0-5]|[1-9]\\d|\\d)\\."
+                    + "(1\\d{2}|2[0-4]\\ d|25[0-5]|[1-9]\\d|\\d)$";
+            // 判断ip地址是否与正则表达式匹配
+            if (text.matches(regex)) {
+                // 返回判断信息
+                return true;
+            } else {
+                // 返回判断信息
+                return false;
+            }
+        }
+        // 返回判断信息
+        return false;
+    }
+
+    /**
+     * 获取本机IP
+     * @return
+     */
+    public static String getLocalIp(){
+        try {
+            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
+                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
+                NetworkInterface netI = enNetI.nextElement();
+                for (Enumeration<InetAddress> enumIpAddr = netI
+                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
+                    InetAddress inetAddress = enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        return inetAddress.getHostAddress();
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return "0.0.0.0";
     }
 
 }
