@@ -1,13 +1,13 @@
 package com.chtj.framework.entity;
 
-public class IpConfigParams {
+public class IpConfigInfo {
     private String ip;
     private String dns1;
     private String dns2;
     private String gateWay;//默认网关
     private String mask;//子网掩码
 
-    public IpConfigParams(String ip, String dns1, String dns2, String gateWay, String mask) {
+    public IpConfigInfo(String ip, String dns1, String dns2, String gateWay, String mask) {
         this.ip = ip;
         this.dns1 = dns1;
         this.dns2 = dns2;

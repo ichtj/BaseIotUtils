@@ -28,7 +28,6 @@ public final class BaseIotUtils {
     private SCREEN_TYPE screen_type = SCREEN_TYPE.HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
-    private static final Map<Class<? extends Service>, ServiceConnection> BIND_STATE_MAP = new HashMap<>();
 
     private static volatile BaseIotUtils sInstance;
 

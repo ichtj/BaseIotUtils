@@ -1,23 +1,41 @@
 package com.chtj.framework;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 共用工具
  */
 public class FCommonTools {
     private static final String TAG = "FCommonTools";
+
+    /**
+     * 网络异常时的日志记录
+     */
+    public static final String SAVE_PATH = "/sdcard/LOGSAVE/network/";
+    public static final String SAVE_FILE_NAME = "netchange.txt";
+
+    /**
+     * 应用保活
+     */
+    public static final String SAVE_KEEPLIVE_PATH = "/sdcard/keeplive/";
+    public static final String SAVE_KEEPLIVE_FILE_NAME = "keeplive.txt";
+
 
     /**
      * 写入数据
@@ -232,6 +250,7 @@ public class FCommonTools {
 
     /**
      * 获取本地网关
+     *
      * @return
      */
     public static String getGateWay() {
@@ -250,4 +269,90 @@ public class FCommonTools {
         }
         return "error";
     }
+
+
+    /**
+     * 获取Service是否正在运行
+     *
+     * @param servicePath 完整包名的服务类名 com.xxx.xxx.XXService
+     * @return true正在运行|false没有运行
+     */
+    public static boolean isWorked(String servicePath) {
+        ActivityManager myManager = (ActivityManager) FBaseTools.getContext().getApplicationContext().getSystemService(
+                Context.ACTIVITY_SERVICE);
+        ArrayList<ActivityManager.RunningServiceInfo> runningService = (ArrayList<ActivityManager.RunningServiceInfo>) myManager
+                .getRunningServices(30);
+        for (int i = 0; i < runningService.size(); i++) {
+            if (runningService.get(i).service.getClassName().toString()
+                    .equals(servicePath)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    /**
+     * 按行读取txt文件中的包名
+     *
+     * @param filePath txt文件所在路径
+     * @return 返回读取到的所有包名list集合
+     */
+    public static List<String> readLineToList(String filePath) {
+        //将读出来的一行行数据使用Map存储
+        List<String> bmdList = new ArrayList<>();
+        try {
+            File file = new File(filePath);
+            if (file.isFile() && file.exists()) {  //文件存在的前提
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(file));
+                BufferedReader br = new BufferedReader(isr);
+                String lineTxt = null;
+                while ((lineTxt = br.readLine()) != null) {  //
+                    if (!"".equals(lineTxt)) {
+                        String reds = lineTxt.split("\\+")[0];  //java 正则表达式
+                        bmdList.add(reds);//依次放到集合中去
+                    }
+                }
+                isr.close();
+                br.close();
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.d(TAG, "readLineToList: "+e.getMessage());
+        }
+        return bmdList;
+    }
+
+    /**
+     * 读取文件内容
+     *
+     * @param fileName 路径+文件名称
+     * @return 读取到的内容
+     */
+    public static String readFileData(String fileName) {
+        String result = "";
+        try {
+            File file = new File(fileName);
+            if (!file.exists()) {
+                return "";
+            }
+            FileInputStream fis = new FileInputStream(file);
+            //获取文件长度
+            int lenght = fis.available();
+            byte[] buffer = new byte[lenght];
+            fis.read(buffer);
+            if (fis != null) {
+                fis.close();
+            }
+            //将byte数组转换成指定格式的字符串
+            result = new String(buffer, "UTF-8");
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "readFileData: " + e.getMessage());
+        }
+        return result;
+    }
+
 }

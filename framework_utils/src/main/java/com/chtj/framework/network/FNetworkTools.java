@@ -1,4 +1,4 @@
-package com.chtj.framework;
+package com.chtj.framework.network;
 
 import android.content.Context;
 import android.net.INetworkStatsService;
@@ -11,6 +11,8 @@ import android.os.ServiceManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.FCmdTools;
 import com.chtj.framework.entity.DeviceType;
 
 import java.text.SimpleDateFormat;
@@ -30,7 +32,7 @@ public class FNetworkTools {
      * @return
      */
     public static String[] getNetWorkDns() {
-        FShellTools.CommandResult commandResult = FShellTools.execCommand("getprop | grep net.dns", true);
+        FCmdTools.CommandResult commandResult = FCmdTools.execCommand("getprop | grep net.dns", true);
         if (commandResult.result == 0 && commandResult.successMsg != null) {
             if (commandResult.successMsg.length() > 0) {
                 String[] result= commandResult.successMsg.replace("]: [", ":").replace("][","];[").split(";");
@@ -51,13 +53,13 @@ public class FNetworkTools {
      * @return
      */
     public static String getDataUsage(int uid) {
-        if (FBaseTools.deviceType== DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.instance().getDeviceType()== DeviceType.DEVICE_FC5330) {
             long receiveRx = TrafficStats.getUidRxBytes(uid);//获取某个网络UID的接受字节数 总接收量
             long sendTx = TrafficStats.getUidTxBytes(uid);//获取某个网络UID的发送字节数 总接收量
             double traffic = receiveRx + sendTx;
             double sumTraffic = getDouble(traffic / 1024 / 1024);
             return sumTraffic + "MB";
-        } else if (FBaseTools.deviceType== DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.instance().getDeviceType()== DeviceType.DEVICE_RK3288) {
             long total = getAppDataUsageByUid(uid, getTimesMonthMorning(), getNow());
             String totalPhrase = Formatter.formatFileSize(FBaseTools.getContext(), total);
             return totalPhrase;

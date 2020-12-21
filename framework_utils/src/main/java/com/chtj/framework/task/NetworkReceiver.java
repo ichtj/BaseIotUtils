@@ -1,4 +1,4 @@
-package com.chtj.framework.receiver;
+package com.chtj.framework.task;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,13 +8,14 @@ import android.util.Log;
 
 import com.chtj.framework.FBaseTools;
 import com.chtj.framework.FCommonTools;
-import com.chtj.framework.FNetworkTools;
+import com.chtj.framework.network.FNetworkTools;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class NetworkReceiver extends BroadcastReceiver {
     public static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
-    private static final String TAG = "NetListenerUtils";
-    public static final String SAVE_PATH="/sdcard/LOGSAVE/network/";
-    public static final String SAVE_FILE_NAME="netchange.txt";
+    private static final String TAG = "NetworkReceiver";
 
 
     /**
@@ -47,15 +48,23 @@ public class NetworkReceiver extends BroadcastReceiver {
             String type = FCommonTools.getNetWorkTypeName();
             //判断网络是否连接正常，是否能够ping通
             StringBuffer stringBuffer = new StringBuffer();
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             boolean isPingSuccessful = FCommonTools.ping("114.114.114.114", 1, 2);
             String gateway = FCommonTools.getGateWay();
             boolean isPingGateway = FCommonTools.ping(gateway, 1, 2);
-            stringBuffer.append("netType=" + type);
-            stringBuffer.append("gateway=" + gateway);
-            stringBuffer.append("ping114=" + isPingSuccessful);
-            stringBuffer.append("pingGateway=" + isPingGateway);
-            stringBuffer.append("getDns=" + FNetworkTools.getNetWorkDns());
-            FCommonTools.writeFileData(SAVE_PATH+SAVE_FILE_NAME,stringBuffer.toString(),false);
+            stringBuffer.append("nowTime=" + simpleDateFormat.format(new Date())+"\n\r");
+            stringBuffer.append("netType=" + type+"\n\r");
+            stringBuffer.append("gateway=" + gateway+"\n\r");
+            stringBuffer.append("ping114=" + isPingSuccessful+"\n\r");
+            stringBuffer.append("pingGateway=" + isPingGateway+"\n\r");
+            String[] dnsList= FNetworkTools.getNetWorkDns();
+            StringBuffer dnsStr=new StringBuffer();
+            for (int i = 0; i <dnsList.length ; i++) {
+                dnsStr.append(dnsList[i]+" | ");
+            }
+            stringBuffer.append("getDns=" +dnsStr.toString()+"\n\r");
+            stringBuffer.append("///////////////////////////////////");
+            FCommonTools.writeFileData(FCommonTools.SAVE_PATH+FCommonTools.SAVE_FILE_NAME,stringBuffer.toString(),false);
         }
     }
 }

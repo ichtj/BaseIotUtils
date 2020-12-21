@@ -4,8 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.RecoverySystem;
 import android.util.Log;
 
-import com.chtj.framework.entity.OperatType;
-import com.chtj.framework.entity.UpgradeInterface;
+import com.chtj.framework.entity.InstallStatus;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -22,6 +21,22 @@ import java.lang.reflect.Method;
  * 针对固件升级 APK等
  */
 public class FUpgradeTools {
+
+    public interface UpgradeInterface {
+        /**
+         * 固件安装前的执行操作回调
+         * @param installStatus
+         */
+        void operating(InstallStatus installStatus);
+
+        /**
+         * 固件安装前的过程执行失败
+         * @param throwable
+         */
+        void error(Throwable throwable);
+    }
+
+
     private static final String TAG = "FirmwareUtils";
     /**
      * 固件最终存放的地址
@@ -35,17 +50,17 @@ public class FUpgradeTools {
      */
     public static void firmwareUpgrade(String filePath, UpgradeInterface upgradeInterface) {
         try {
-            upgradeInterface.operating(OperatType.CHECK);
+            upgradeInterface.operating(InstallStatus.CHECK);
             RecoverySystem.verifyPackage(new File(filePath), new RecoverySystem.ProgressListener() {
                 @SuppressLint("WrongConstant")
                 @Override
                 public void onProgress(int progress) {
-                    upgradeInterface.operating(OperatType.COPY);
+                    upgradeInterface.operating(InstallStatus.COPY);
                     Log.d(TAG, "onProgress() called with: progress = [" + progress + "]");
                     if (progress == 100) {
                         copyFile(filePath, SAVA_FW_COPY_PATH);
                         try {
-                            upgradeInterface.operating(OperatType.INSTALL);
+                            upgradeInterface.operating(InstallStatus.INSTALL);
                             RecoverySystem.installPackage(FBaseTools.getContext(), new File("/data/update.zip"));
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -104,7 +119,7 @@ public class FUpgradeTools {
      * @param isSys    是否是系统应用
      * @return 操作结果
      */
-    public static FShellTools.CommandResult installApk(String filePath, boolean isSys) {
+    public static FCmdTools.CommandResult installApk(String filePath, boolean isSys) {
         return installApk(filePath, isSys, false);
     }
 
@@ -116,8 +131,8 @@ public class FUpgradeTools {
      * @param isReboot 是否执行重启
      * @return 操作结果
      */
-    public static FShellTools.CommandResult installApk(String filePath, boolean isSys, boolean isReboot) {
-        FShellTools.CommandResult cmdResult = new FShellTools.CommandResult();
+    public static FCmdTools.CommandResult installApk(String filePath, boolean isSys, boolean isReboot) {
+        FCmdTools.CommandResult cmdResult = new FCmdTools.CommandResult();
         Process process = null;
         DataOutputStream os = null;
         BufferedReader successResult = null;

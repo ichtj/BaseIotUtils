@@ -58,9 +58,9 @@ public class FScreentTools {
         if (fileFullPath == "") {
             fileFullPath = "/sdcard/" + fileName;
         }
-        if (FShellTools.isRoot() || FShellTools.execCommand("mount -o rw,remount -t ext4 /system", true).result == 0) {
+        if (FCmdTools.isRoot() || FCmdTools.execCommand("mount -o rw,remount -t ext4 /system", true).result == 0) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                return FShellTools.execCommand("/system/bin/screencap -p " + fileFullPath + fileName, true).result == 0;
+                return FCmdTools.execCommand("/system/bin/screencap -p " + fileFullPath + fileName, true).result == 0;
             }
         } else {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2 && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {

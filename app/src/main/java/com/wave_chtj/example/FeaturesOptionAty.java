@@ -12,9 +12,9 @@ import android.support.annotation.RequiresApi;
 import android.view.View;
 import android.widget.TextView;
 
-import com.chtj.framework.FEthTools;
+import com.chtj.framework.network.FEthTools;
 import com.chtj.framework.FScreentTools;
-import com.chtj.framework.entity.IpConfigParams;
+import com.chtj.framework.entity.IpConfigInfo;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -29,6 +29,7 @@ import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.DownLoadAty;
 import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
+import com.wave_chtj.example.keeplive.KeepLiveAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.play.VideoPlayAty;
 import com.wave_chtj.example.playmedia.PlayMediaAty;
@@ -269,13 +270,16 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 startActivity(new Intent(FeaturesOptionAty.this, PlayMediaAty.class));
                 break;
             case R.id.btn_set_ip://设置静态IP
-                FEthTools.setStaticIp(new IpConfigParams("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
                 break;
             case R.id.btn_dhcp://设置动态IP
                 FEthTools.setEthDhcp();
                 break;
             case R.id.btn_screent://截屏
                 FScreentTools.takeScreenshot("/sdcard/");
+                break;
+            case R.id.btn_keeplive://保活Activity
+                startActivity(new Intent(FeaturesOptionAty.this, KeepLiveAty.class));
                 break;
         }
     }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wave_chtj.example"
-    >
+    package="com.wave_chtj.example">
     <!--如果无法安装 请将android:sharedUserId="android.uid.system" 这句去掉 -->
     <!--系统弹窗-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -136,6 +135,11 @@
         <!--音频播放-->
         <activity android:name=".playmedia.PlayMediaAty" />
 
+        <!--保活相关-->
+        <activity
+            android:name=".keeplive.KeepLiveAty"
+            android:theme="@style/AppTheme" />
+
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
@@ -143,6 +147,7 @@
             android:exported="false" />
 
         <service android:name=".crash.MyService" />
+
         <!--重启后广播监听-->
         <receiver
             android:name=".util.BaseIotReceiver"

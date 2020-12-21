@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="1080pt"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <com.wave_chtj.example.customizeview.TopTitleView
+        android:id="@+id/ttView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ivback="@mipmap/back"
+        app:name="AVTIVITY/SERVICE保活" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_add_aty"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="添加Activity" />
+
+        <Button
+            android:id="@+id/btn_add_service"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="添加SERVICE" />
+
+        <Button
+            android:id="@+id/btn_getall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="获取数据并刷新" />
+
+        <Button
+            android:id="@+id/btn_cleanall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:onClick="onClick"
+            android:text="清除保活内容" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/button_style_stroke"
+        android:gravity="left|top"
+        android:scrollbars="vertical"
+        android:text="" />
+
+</LinearLayout>

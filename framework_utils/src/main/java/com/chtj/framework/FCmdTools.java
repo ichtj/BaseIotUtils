@@ -23,7 +23,7 @@ import java.io.InputStreamReader;
  * --执行命令一条 {@link #execCommand(String command, boolean isRoot)}
  * --执行命令-多条 {@link #execCommand(String[] commands, boolean isRoot)}
  */
-public class FShellTools {
+public class FCmdTools {
     private static final String TAG="ShellUtils";
     
     public final static String COMMAND_SU = "su";

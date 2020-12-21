@@ -1,6 +1,6 @@
 package com.chtj.framework.entity;
 
-public enum OperatType {
+public enum InstallStatus {
     /*校验中*/
     CHECK,
     /*复制到system/data下*/

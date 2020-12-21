@@ -1,4 +1,4 @@
-package com.chtj.framework.keeplive;
+package com.chtj.framework.entity;
 
 /**
  * Create on 2019/11/18
@@ -6,28 +6,22 @@ package com.chtj.framework.keeplive;
  * desc
  */
 public class KeepLiveData {
-    private long id;
     private String packageName;
-    private String remarks;
-    private String isEnable;
+    private boolean isEnable;
     private String type;
     private String serviceName;
 
-    public KeepLiveData(long id, String packageName, String remarks, String isEnable, String type, String serviceName) {
-        this.id = id;
+    public KeepLiveData(String packageName, String type, boolean isEnable) {
         this.packageName = packageName;
-        this.remarks = remarks;
-        this.isEnable = isEnable;
         this.type = type;
-        this.serviceName=serviceName;
+        this.isEnable = isEnable;
     }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
+    public KeepLiveData(String packageName, String type, String serviceName, boolean isEnable) {
+        this.packageName = packageName;
+        this.type = type;
+        this.serviceName = serviceName;
+        this.isEnable = isEnable;
     }
 
     public String getPackageName() {
@@ -38,19 +32,11 @@ public class KeepLiveData {
         this.packageName = packageName;
     }
 
-    public String getRemarks() {
-        return remarks;
-    }
-
-    public void setRemarks(String remarks) {
-        this.remarks = remarks;
-    }
-
-    public String getIsEnable() {
+    public boolean getIsEnable() {
         return isEnable;
     }
 
-    public void setIsEnable(String isEnable) {
+    public void setIsEnable(boolean isEnable) {
         this.isEnable = isEnable;
     }
 
@@ -68,5 +54,15 @@ public class KeepLiveData {
 
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
+    }
+
+    @Override
+    public String toString() {
+        return "KeepLiveData{" +
+                "packageName='" + packageName + '\'' +
+                ", isEnable=" + isEnable +
+                ", type='" + type + '\'' +
+                ", serviceName='" + serviceName + '\'' +
+                '}';
     }
 }

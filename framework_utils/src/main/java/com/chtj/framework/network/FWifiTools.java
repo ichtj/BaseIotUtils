@@ -1,9 +1,10 @@
-package com.chtj.framework;
+package com.chtj.framework.network;
 
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
+import com.chtj.framework.FBaseTools;
 import com.chtj.framework.entity.DeviceType;
 
 /**
@@ -15,9 +16,9 @@ public class FWifiTools {
      */
     public static void openWifi() {
         WifiManager wifiManager = (WifiManager) FBaseTools.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_FC5330) {
             wifiManager.setWifiEnabled(true);
-        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
             wifiManager.setWifiEnabled(true);
         }
     }
@@ -27,9 +28,9 @@ public class FWifiTools {
      */
     public static void closeWifi() {
         WifiManager wifiManager = (WifiManager) FBaseTools.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
-        if (FBaseTools.deviceType == DeviceType.DEVICE_FC5330) {
+        if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_FC5330) {
             wifiManager.setWifiEnabled(false);
-        } else if (FBaseTools.deviceType == DeviceType.DEVICE_RK3288) {
+        } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
             wifiManager.setWifiEnabled(false);
         }
     }
