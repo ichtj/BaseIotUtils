@@ -1,5 +1,6 @@
 # 接入方式
-### app界面截图
+
+### app 界面截图 这里显示不全,部分功能可能未在图中显示
 
 ![image](/pic/apppic.png)
 
@@ -18,9 +19,10 @@ allprojects {
 
 ### Step 2. Add the dependency
 
-#### 以下存在三个library 请按需选择
+#### 以下存在三个 library 请按需选择
 
 #### base_iotutils
+
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
@@ -28,14 +30,50 @@ dependencies {
 }
 ```
 
+| 编号 | 工具类                         | 备注                                          |
+| ---- | ------------------------------ | --------------------------------------------- |
+| 1    | ZipUtils                       | 压缩相关工具类                                |
+| 2    | UriPathUtils                   | Uri 路径转真实路径 针对于 android7.0 以上特性 |
+| 3    | ToastUtils                     | 系统的 Toast 封装(各场景)                     |
+| 4    | TimeUtils                      | 时间工具类                                    |
+| 5    | SurfaceLoadDialog              | 应用上层弹窗                                  |
+| 6    | SPUtils                        | 存储工具类                                    |
+| 7    | ShellUtils                     | adb Shell 相关工具类                          |
+| 8    | ServiceUtils                   | Service 管理工具                              |
+| 9    | PermissionsUtils               | 权限申请工具类                                |
+| 10   | KLog                           | 日志打印                                      |
+| 11   | KeyBoardUtils                  | 打开关闭软键盘                                |
+| 12   | FileUtils                      | 文件工具类                                    |
+| 13   | DeviceUtils                    | 得到设备的相关信息                            |
+| 14   | DataConvertUtils               | 进制转换工具类                                |
+| 15   | ScheduledTPoolUtils/TPoolUtils | 线程池管理                                    |
+| 16   | SerialPort/SerialPortFinder    | 串口相关工具类                                |
+| 17   | AdaptScreenUtils               | 屏幕适配                                      |
+| 18   | NotifyUtils                    | notification 工具类                           |
+| 19   | NetUtils                       | 网络工具类                                    |
+| 20   | NetListenerUtils               | 网络变化广播                                  |
+| 21   | NetUtils                       | 网络工具类                                    |
+| 22   | DownloadSupport                | 多任务下载管理工具类(断点)                    |
+| 23   | PlayUtils                      | 音频播放(播放继续暂停)                        |
+| 24   | AppsUtils                      | 系统中 app 的相关工具类                       |
+| 25   | ScreenInfoUtils                | 屏幕相关工具类                                |
+| 26   | StatusBarUtil                  | 沉浸式状态栏                                  |
+
 #### base_socket
+
 ```groovy
 dependencies {
          //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
          implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
-### framework_utils 实现功能
+
+| 编号 | 工具类        | 备注           |
+| ---- | ------------- | -------------- |
+| 1    | BaseTcpSocket | TCP 通讯工具类 |
+| 2    | BaseUdpSocket | UDP 通讯工具类 |
+
+#### framework_utils 实现功能(后继陆更|目前未上传)
 
 | 编号 | 模块     | 功能                                          |
 | ---- | -------- | --------------------------------------------- |
@@ -45,34 +83,35 @@ dependencies {
 | 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
 | 6    | 日志     | 异常网络日志记录                              |
 
-##  base_iotutils Module 说明
+## base_iotutils Module 说明
 
-### 自定义Application
+### 自定义 Application
+
 ```java
-
 //注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
 
 public class App extends Application {
 
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        //如果(不)需要开启适配  请用此方式
-        BaseIotUtils.instance().create(getApplication());
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    //如果(不)需要开启适配  请用此方式
+    BaseIotUtils.instance().create(getApplication());
 
-        //如果需要开启适配 请用此方式
-        //1080(宽),1920(高)是为了适配而去设置相关的值
-        //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
-        BaseIotUtils.instance().
-              setBaseScreenParam(1080,1920,true).
-              setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
-              create(getApplication());
-    }
+    //如果需要开启适配 请用此方式
+    //1080(宽),1920(高)是为了适配而去设置相关的值
+    //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
+    BaseIotUtils
+      .instance()
+      .setBaseScreenParam(1080, 1920, true)
+      .setCreenType(SCREEN_TYPE.WIDTH)
+      .create(getApplication()); //按照宽度适配
+  }
 }
+
 ```
 
-
-##  base_socket Module使用说明
+## base_socket Module 使用说明
 
 ```java
     //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
@@ -116,21 +155,21 @@ public class App extends Application {
 
 ## 屏幕适配
 
-### 创建pt模拟器设备
+### 创建 pt 模拟器设备
 
 ![image](/pic/create_step.png)
 
 ![image](/pic/unit_pt.png)
 
-### 1080*1920 px 效果
+### 1080\*1920 px 效果
 
 ![image](/pic/big_screen.png)
 
--可在app Model中找到使用示例
+-可在 app Model 中找到使用示例
 
-## base_iotutils module工具类 请在下方查看部分工具类使用详情
+## base_iotutils module 工具类 请在下方查看部分工具类使用详情
 
-- app列表/基础信息 | AppsUtils 获取桌面应用/系统应用/app基础信息等
+- app 列表/基础信息 | AppsUtils 获取桌面应用/系统应用/app 基础信息等
 
 - 屏幕相关属性 | ScreenInfoUtils
 
@@ -144,9 +183,9 @@ public class App extends Application {
 
 - 网络判断 | NetUtils
 
-- adb命令工具类 | ShellUtils 可在这里操作adb的命令
+- adb 命令工具类 | ShellUtils 可在这里操作 adb 的命令
 
-- App相关信息工具类 | AppsUtils
+- App 相关信息工具类 | AppsUtils
 
 - 屏幕适配相关 | AdaptScreenUtils
 
@@ -160,15 +199,15 @@ public class App extends Application {
 
 - 断点下载 | DownloadSupport 多文件下载 状态监听 暂停等
 
-- Notification通知 | NotifyUtils
+- Notification 通知 | NotifyUtils
 
 - 权限管理 | PermissionsUtils
 
-- ShareProfrence工具类 | SPUtils
+- ShareProfrence 工具类 | SPUtils
 
 - 字符串判断 | StringUtils
 
-- Service状态获取(是否正在运行) | ServiceUtils
+- Service 状态获取(是否正在运行) | ServiceUtils
 
 - 时间工具类(返回各种时间格式) | TimeUtils
 
@@ -180,14 +219,14 @@ public class App extends Application {
 
 - 吐司工具类 | ToastUtils
 
-- 文件地址转换真实路径 | UriPathUtils 主要针对android7.0之后的
+- 文件地址转换真实路径 | UriPathUtils 主要针对 android7.0 之后的
 
 - 压缩相关 | ZipUtils
 
 - 线程池相关 | ScheduledTPoolUtils>TPoolUtils
 
-
 # FileUtils 文件操作 读写,删除,文件大小等
+
 ```java
         //param1 文件路径 例如/sdcard/config.txt
         //param2 写入内容
@@ -199,6 +238,7 @@ public class App extends Application {
 ```
 
 # KeyBoardUtils 软键盘管理
+
 ```java
        //打卡软键盘
        KeyBoardUtils.openKeybord(editeTextView);
@@ -207,8 +247,8 @@ public class App extends Application {
        KeyBoardUtils.closeKeybord(editeTextView);
 ```
 
+# NetUtils 网络工具类
 
-# NetUtils网络工具类
 ```java
         //得到网络类型 NETWORK_NO,NETWORK_WI,NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_UN,NETWORK_ETH
         NetUtils.getNetWorkType();
@@ -246,7 +286,7 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-# DownloadSupport多任务下载  任务各自独立
+# DownloadSupport 多任务下载 任务各自独立
 
 ![image](/pic/download.png)
 
@@ -306,6 +346,7 @@ public class App extends Application {
 ```
 
 # NotificationUtils 通知使用
+
 ```java
      //获取系统中是否已经通过 允许通知的权限
      if (NotifyUtils.notifyIsEnable()) {
@@ -338,9 +379,10 @@ public class App extends Application {
      NotifyUtils.getInstance("xxid").setDataTime("");
      //关闭此notification
      NotifyUtils.closeNotify();
- ```
+```
 
 # PlayUtils 音频播放
+
 ```java
       //开始播放
       PlayUtils.getInstance().
@@ -369,9 +411,10 @@ public class App extends Application {
 
       //停止播放
       PlayUtils.getInstance().stopPlaying();
- ```
+```
 
 # NetListenerUtils 网络监听者
+
 ```java
      //注册广播
      NetListenerUtils.getInstance().registerReceiver();
@@ -388,9 +431,10 @@ public class App extends Application {
      .......
      //注销广播
      NetListenerUtils.getInstance().unRegisterReceiver();
- ```
- 
+```
+
 ## SerialPort|SerialPortFinder 串口封装类
+
 ```java
         //获得串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();
@@ -406,7 +450,7 @@ public class App extends Application {
             e.printStackTrace();
             Log.e(TAG,"errMeg:"+e.getMessage());
         }
-        
+
         //写命令
         port.write(command);
         //读命令
@@ -415,10 +459,13 @@ public class App extends Application {
         port.read(byte[] buff,int lenght);
         //关闭串口
         port.close();
-        
+
 ```
-## ShellUtils adb操作工具类
+
+## ShellUtils adb 操作工具类
+
 使用方式
+
 ```java
         //单条命令执行
         ShellUtils.CommandResult commResult=ShellUtils.execCommand("reboot",true);
@@ -432,7 +479,9 @@ public class App extends Application {
 ```
 
 ## AppsUtils 工具类
+
 使用方式
+
 ```java
         AppsUtils.getSystemAppList();//查询手机内系统应用
         AppsUtils.getDeskTopAppList();//查询桌面所有应用
@@ -448,7 +497,9 @@ public class App extends Application {
 ```
 
 ## PermissionsUtils 权限申请工具类
+
 使用方式
+
 ```java
         PermissionsUtils.with(mContext).
             addPermission(Manifest.permission.ACCESS_FINE_LOCATION).
@@ -458,19 +509,25 @@ public class App extends Application {
 ```
 
 ## Version Code
- ### v1.0.8
-> 新增了PlayUitls 音频播放器(状态管理)
+
+### v1.0.8
+
+> 新增了 PlayUitls 音频播放器(状态管理)
 > DwonloadSupport(全新的多任务下载管理工具类)
 > 视频播放管理收集
 > 删除了服务保活工具，删除了原始的下载工具类
 > 添加了对该系统内的应用的管理，查看 PackagesUtils
-> 优化该app界面,使用操作等
+> 优化该 app 界面,使用操作等
 > 定时器功能添加 倒计时，计时器等
-> 收集greenDAO(收集整合，方便后期使用),封装(Sqlite)操作更加方便
- ### v1.0.3
+> 收集 greenDAO(收集整合，方便后期使用),封装(Sqlite)操作更加方便
+
+### v1.0.3
+
 > 优化各个工具类
 > 新增部分工具类
 > 添加启动应用时的优化处理
- ### v1.0.2
+
+### v1.0.2
+
 > 项目优化
 > 基本工具类的手机整合
