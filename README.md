@@ -35,14 +35,15 @@ dependencies {
          implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
-### framework_utils
-```groovy
-//该工具类还未上传到仓库 后期可能会上线
-//但是这个工具类需要结合系统签名使用
-//实现对3288静态/动态设置IP 调整测试中
-//实现对freescale飞思卡尔静态/动态设置IP 调整测试中
-//固件升级/第三方app/系统app升级安装 调整测试中
-```
+### framework_utils 实现功能
+
+| 编号 | 模块     | 功能                                          |
+| ---- | -------- | --------------------------------------------- |
+| 1    | 网络     | 静态/动态 IP,开启/关闭以太网 , 开启/关闭 WIFI |
+| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量      |
+| 3    | 升级管理 | apk 安装/卸载,固件升级                        |
+| 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
+| 6    | 日志     | 异常网络日志记录                              |
 
 ##  base_iotutils Module 说明
 

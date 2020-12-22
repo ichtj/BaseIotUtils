@@ -183,7 +183,9 @@ public class FBaseService extends Service {
         super.onDestroy();
         Log.d(TAG, "onDestroy: ");
         isStopTask = true;
-        networkReceiver.unRegisterReceiver();
+        if(networkReceiver!=null){
+            networkReceiver.unRegisterReceiver();
+        }
         if (sDisposable != null && !sDisposable.isDisposed()) {
             sDisposable.dispose();
         }

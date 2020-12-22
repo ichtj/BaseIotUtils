@@ -32,7 +32,8 @@ public class FEthTools {
             android.net.ethernet.EthernetManager ethernetManager = EthernetManager.getInstance();
             ethernetManager.setEnabled(true);
         } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
-
+            android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
+            mEthManager.setEthernetEnabled(true);
         }
     }
 
@@ -45,7 +46,7 @@ public class FEthTools {
             ethernetManager.setEnabled(false);
         } else if (FBaseTools.instance().getDeviceType() == DeviceType.DEVICE_RK3288) {
             android.net.EthernetManager mEthManager = (android.net.EthernetManager) FBaseTools.getContext().getSystemService("ethernet");
-            mEthManager.setEthernetEnabled(true);
+            mEthManager.setEthernetEnabled(false);
         }
     }
 
