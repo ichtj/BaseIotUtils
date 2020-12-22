@@ -30,34 +30,33 @@ dependencies {
 }
 ```
 
-| 编号 | 工具类                         | 备注                                          |
-| ---- | ------------------------------ | --------------------------------------------- |
-| 1    | ZipUtils                       | 压缩相关工具类                                |
-| 2    | UriPathUtils                   | Uri 路径转真实路径 针对于 android7.0 以上特性 |
-| 3    | ToastUtils                     | 系统的 Toast 封装(各场景)                     |
-| 4    | TimeUtils                      | 时间工具类                                    |
-| 5    | SurfaceLoadDialog              | 应用上层弹窗                                  |
-| 6    | SPUtils                        | 存储工具类                                    |
-| 7    | ShellUtils                     | adb Shell 相关工具类                          |
-| 8    | ServiceUtils                   | Service 管理工具                              |
-| 9    | PermissionsUtils               | 权限申请工具类                                |
-| 10   | KLog                           | 日志打印                                      |
-| 11   | KeyBoardUtils                  | 打开关闭软键盘                                |
-| 12   | FileUtils                      | 文件工具类                                    |
-| 13   | DeviceUtils                    | 得到设备的相关信息                            |
-| 14   | DataConvertUtils               | 进制转换工具类                                |
-| 15   | ScheduledTPoolUtils/TPoolUtils | 线程池管理                                    |
-| 16   | SerialPort/SerialPortFinder    | 串口相关工具类                                |
-| 17   | AdaptScreenUtils               | 屏幕适配                                      |
-| 18   | NotifyUtils                    | notification 工具类                           |
-| 19   | NetUtils                       | 网络工具类                                    |
-| 20   | NetListenerUtils               | 网络变化广播                                  |
-| 21   | NetUtils                       | 网络工具类                                    |
-| 22   | DownloadSupport                | 多任务下载管理工具类(断点)                    |
-| 23   | PlayUtils                      | 音频播放(播放继续暂停)                        |
-| 24   | AppsUtils                      | 系统中 app 的相关工具类                       |
-| 25   | ScreenInfoUtils                | 屏幕相关工具类                                |
-| 26   | StatusBarUtil                  | 沉浸式状态栏                                  |
+| 编号 | 工具类                         | 工具名称          | 实现功能                      |
+| ---- | ------------------------------ | ----------------- | ----------------------------- |
+| 1    | ZipUtils                       | 压缩相关          | 压缩解压,批量等               |
+| 2    | UriPathUtils                   | Uri 转真实路径    | android7.0uri 转换            |
+| 3    | ToastUtils                     | 系统的 Toast 封装 | 成功,失败，警告等提示         |
+| 4    | TimeUtils                      | 时间工具类        | Date 时间日期转换             |
+| 5    | SurfaceLoadDialog              | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
+| 6    | SPUtils                        | 存储工具类        | SharedPreferences 读写        |
+| 7    | ShellUtils                     | adb 相关工具类    | adb 命令执行                  |
+| 8    | ServiceUtils                   | Service 管理工具  | 启动,停止,判断存活等          |
+| 9    | PermissionsUtils               | 权限申请工具类    | 多权限申请                    |
+| 10   | KLog                           | 日志打印          | 日志标记打印                  |
+| 11   | KeyBoardUtils                  | 软键盘管理        | 打开,关闭                     |
+| 12   | FileUtils                      | 文件工具类        | 写入/读取文件相关信息         |
+| 13   | DeviceUtils                    | 设备的相关信息    | 设备出厂自带参数              |
+| 14   | DataConvertUtils               | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
+| 15   | ScheduledTPoolUtils/TPoolUtils | 线程池管理        | 线程重用                      |
+| 16   | SerialPort/SerialPortFinder    | 串口相关工具类    | 打开,通讯,关闭                |
+| 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                   |
+| 18   | NotifyUtils                    | notification      | 自定义 notification,动态调参  |
+| 19   | NetUtils                       | 网络工具类        | 网络类型/状态等获取           |
+| 20   | NetListenerUtils               | 网络变化广播      | 网络变化回调                  |
+| 22   | DownloadSupport                | 多任务下载管理    | 下载,暂停,状态回调            |
+| 23   | PlayUtils                      | 音频管理          | 播放继续暂停                  |
+| 24   | AppsUtils                      | pp 的相关         | 查询应用以及 app 的信息       |
+| 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
+| 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                    |
 
 #### base_socket
 
@@ -68,10 +67,10 @@ dependencies {
 }
 ```
 
-| 编号 | 工具类        | 备注           |
-| ---- | ------------- | -------------- |
-| 1    | BaseTcpSocket | TCP 通讯工具类 |
-| 2    | BaseUdpSocket | UDP 通讯工具类 |
+| 编号 | 工具类        | 备注           | 实现功能     |
+| ---- | ------------- | -------------- | ------------ |
+| 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
+| 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
 
 #### framework_utils 实现功能(后继陆更|目前未上传)
 
