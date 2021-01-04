@@ -162,7 +162,10 @@ public class App extends Application {
     baseTcpSocket.close();
 ```
 
-## 屏幕适配
+
+## base_iotutils module部分工具类
+
+### 屏幕适配
 
 ### 创建 pt 模拟器设备
 
@@ -176,65 +179,7 @@ public class App extends Application {
 
 -可在 app Model 中找到使用示例
 
-## base_iotutils module 工具类 请在下方查看部分工具类使用详情
-
-- app 列表/基础信息 | AppsUtils 获取桌面应用/系统应用/app 基础信息等
-
-- 屏幕相关属性 | ScreenInfoUtils
-
-- 进制转换类 | DataConvertUtils
-
-- 设备相关 | DeviceUtils
-
-- 音频播放 | PlayUtils
-
-- 键盘相关 | KeyBoardUtils
-
-- 网络判断 | NetUtils
-
-- adb 命令工具类 | ShellUtils 可在这里操作 adb 的命令
-
-- App 相关信息工具类 | AppsUtils
-
-- 屏幕适配相关 | AdaptScreenUtils
-
-- 串口工具 | SerialPort | SerialPortFinder
-
-- 日志管理(使用时开启日志) | KLog
-
-- 文件操作 | FileUtils
-
-- 事件管理 | RxBus
-
-- 断点下载 | DownloadSupport 多文件下载 状态监听 暂停等
-
-- Notification 通知 | NotifyUtils
-
-- 权限管理 | PermissionsUtils
-
-- ShareProfrence 工具类 | SPUtils
-
-- 字符串判断 | StringUtils
-
-- Service 状态获取(是否正在运行) | ServiceUtils
-
-- 时间工具类(返回各种时间格式) | TimeUtils
-
-- 应用上方对话框(全局对话框) | SurfaceLoadDialog
-
-- 网络侦听者 | NetListenerUtils 网络是否正常，类型，连接状态等
-
-- 时间格式获取 | TimeUtils
-
-- 吐司工具类 | ToastUtils
-
-- 文件地址转换真实路径 | UriPathUtils 主要针对 android7.0 之后的
-
-- 压缩相关 | ZipUtils
-
-- 线程池相关 | ScheduledTPoolUtils>TPoolUtils
-
-# FileUtils 文件操作 读写,删除,文件大小等
+### FileUtils 文件操作 读写,删除,文件大小等
 
 ```java
         //param1 文件路径 例如/sdcard/config.txt
@@ -246,7 +191,7 @@ public class App extends Application {
         //更多文件操作方法请查询FileUtils中的内容
 ```
 
-# KeyBoardUtils 软键盘管理
+### KeyBoardUtils 软键盘管理
 
 ```java
        //打卡软键盘
@@ -256,7 +201,7 @@ public class App extends Application {
        KeyBoardUtils.closeKeybord(editeTextView);
 ```
 
-# NetUtils 网络工具类
+### NetUtils 网络工具类
 
 ```java
         //得到网络类型 NETWORK_NO,NETWORK_WI,NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_UN,NETWORK_ETH
@@ -295,7 +240,7 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-# DownloadSupport 多任务下载 任务各自独立
+### DownloadSupport 多任务下载 任务各自独立
 
 ![image](/pic/download.png)
 
@@ -354,7 +299,7 @@ public class App extends Application {
 
 ```
 
-# NotificationUtils 通知使用
+### NotificationUtils 通知使用
 
 ```java
      //获取系统中是否已经通过 允许通知的权限
@@ -390,7 +335,7 @@ public class App extends Application {
      NotifyUtils.closeNotify();
 ```
 
-# PlayUtils 音频播放
+### PlayUtils 音频播放
 
 ```java
       //开始播放
@@ -422,7 +367,7 @@ public class App extends Application {
       PlayUtils.getInstance().stopPlaying();
 ```
 
-# NetListenerUtils 网络监听者
+### NetListenerUtils 网络监听者
 
 ```java
      //注册广播
@@ -442,7 +387,7 @@ public class App extends Application {
      NetListenerUtils.getInstance().unRegisterReceiver();
 ```
 
-## SerialPort|SerialPortFinder 串口封装类
+### SerialPort|SerialPortFinder 串口封装类
 
 ```java
         //获得串口地址
@@ -471,7 +416,7 @@ public class App extends Application {
 
 ```
 
-## ShellUtils adb 操作工具类
+### ShellUtils adb 操作工具类
 
 使用方式
 
@@ -487,7 +432,7 @@ public class App extends Application {
         }
 ```
 
-## AppsUtils 工具类
+### AppsUtils 工具类
 
 使用方式
 
@@ -505,7 +450,7 @@ public class App extends Application {
         AppsUtils.isAppForeground();//判断 App 是否处于前台
 ```
 
-## PermissionsUtils 权限申请工具类
+### PermissionsUtils 权限申请工具类
 
 使用方式
 
