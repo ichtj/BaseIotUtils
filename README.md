@@ -72,7 +72,7 @@ dependencies {
 | 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
 | 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
 
-#### framework_utils 实现功能(后继陆更|目前未上传)
+#### framework_utils 实现功能(后继陆更|目前未上传至 jcenter)
 
 | 编号 | 模块     | 功能                                          |
 | ---- | -------- | --------------------------------------------- |
@@ -81,6 +81,16 @@ dependencies {
 | 3    | 升级管理 | apk 安装/卸载,固件升级                        |
 | 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
 | 6    | 日志     | 异常网络日志记录                              |
+
+| 编号 | 工具类          | 工具名称       | 实现功能                       |
+| ---- | --------------- | -------------- | ------------------------------ |
+| 1    | FKeepAliveTools | 应用保活管理类 | Activity\Service 拉起          |
+| 2    | FScreentTools   | 屏幕信息工具类 | 截屏                           |
+| 3    | FStorageTools   | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
+| 4    | FUpgradeTools   | 升级管理       | 固件\apk 升级                  |
+| 5    | FEthTools       | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
+| 6    | FNetworkTools   | 网络工具类     | dns,流量获取                   |
+| 7    | FWifiTools      | WIFI 管理      | 开启关闭                       |
 
 ## base_iotutils Module 说明
 

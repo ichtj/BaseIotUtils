@@ -13,10 +13,12 @@ import com.chtj.framework.network.FNetworkTools;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ * 网络变化时记录网络状态
+ */
 public class NetworkReceiver extends BroadcastReceiver {
     public static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final String TAG = "NetworkReceiver";
-    private Context context;
 
     @Override
     public void onReceive(Context context, Intent intent) {
