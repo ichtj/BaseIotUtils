@@ -1,4 +1,4 @@
-package com.chtj.base_framework.entity;
+package com.chtj.framework.entity;
 
 public enum InstallStatus {
     /*校验中*/

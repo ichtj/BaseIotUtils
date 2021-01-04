@@ -1,10 +1,17 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
+import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.content.ComponentName;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.io.BufferedReader;
@@ -131,8 +138,8 @@ public class FCommonTools {
      * <li>NETWORK_NO     </li>
      * </ul>
      */
-    public static String getNetWorkTypeName() {
-        switch (getNetWorkType()) {
+    public static String getNetWorkTypeName(Context context) {
+        switch (getNetWorkType(context)) {
             case NETWORK_WIFI:
                 return "NETWORK_WIFI";
             case NETWORK_4G:
@@ -150,9 +157,9 @@ public class FCommonTools {
         }
     }
 
-    public static int getNetWorkType() {
+    public static int getNetWorkType(Context context) {
         // 获取ConnectivityManager
-        ConnectivityManager cm = (ConnectivityManager) FBaseTools.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
         NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
 
@@ -267,7 +274,7 @@ public class FCommonTools {
         String[] arr;
         try {
             Process process = Runtime.getRuntime().exec("ip route list table 0");
-            String data = null;
+            //String data = null;
             BufferedReader ie = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
             String string = in.readLine();
@@ -413,4 +420,83 @@ public class FCommonTools {
         return "0.0.0.0";
     }
 
+    /**
+     * 判断该包名的应用是否存在
+     *
+     * @param packageName
+     * @return
+     */
+    private static boolean existPackageName(Context context,String packageName) {
+        PackageManager packageManager =context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        for (int i = 0; i < pinfo.size(); i++) {
+            if (pinfo.get(i).packageName.equalsIgnoreCase(packageName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 启动第三方apk
+     * <p>
+     * 如果已经启动apk，则直接将apk从后台调到前台运行（类似home键之后再点击apk图标启动），如果未启动apk，则重新启动
+     */
+    public static void openApk(Context context,String packName) {
+        if (existPackageName(context,packName)) {
+            Intent intent = getAppOpenIntentByPackageName(context,packName);
+            context.startActivity(intent);
+            Log.d(TAG, "launch this apk...  packagename=" + packName);
+        } else {
+            Log.d(TAG, packName + " not find this packageName");
+        }
+    }
+
+
+    /**
+     * 启用其他应用中的Service
+     *
+     * @param packName       包名
+     * @param servicePackageName service包名路径
+     */
+    public static void openService(Context context,String packName, String servicePackageName) {
+        try {
+            Log.d(TAG, "launch this service...  packagename=" + packName);
+            Intent intent = new Intent();
+            intent.setComponent(new ComponentName(packName, servicePackageName));
+            context.startService(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e(TAG, "errMeg:" + e.getMessage());
+        }
+    }
+
+    /**
+     * 获取该包名中的主界面
+     *
+     * @param packageName
+     * @return
+     */
+    private static Intent getAppOpenIntentByPackageName(Context context,String packageName) {
+        String mainAct = null;
+        PackageManager pkgMag = context.getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_NEW_TASK);
+
+        @SuppressLint("WrongConstant") List<ResolveInfo> list = pkgMag.queryIntentActivities(intent,
+                PackageManager.GET_ACTIVITIES);
+        for (int i = 0; i < list.size(); i++) {
+            ResolveInfo info = list.get(i);
+            if (info.activityInfo.packageName.equals(packageName)) {
+                mainAct = info.activityInfo.name;
+                break;
+            }
+        }
+        if (TextUtils.isEmpty(mainAct)) {
+            return null;
+        }
+        intent.setComponent(new ComponentName(packageName, mainAct));
+        return intent;
+    }
 }

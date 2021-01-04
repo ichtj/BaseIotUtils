@@ -1,4 +1,4 @@
-package com.chtj.base_framework.network;
+package com.chtj.framework.network;
 
 import android.net.IpConfiguration;
 import android.net.LinkAddress;
@@ -8,11 +8,11 @@ import android.net.ethernet.EthernetDevInfo;
 import android.net.ethernet.EthernetManager;
 import android.util.Log;
 
-import com.chtj.base_framework.FBaseTools;
-import com.chtj.base_framework.FCommonTools;
-import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.entity.DeviceType;
-import com.chtj.base_framework.entity.IpConfigInfo;
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.FCommonTools;
+import com.chtj.framework.entity.CommonValue;
+import com.chtj.framework.entity.DeviceType;
+import com.chtj.framework.entity.IpConfigInfo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

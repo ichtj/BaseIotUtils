@@ -1,43 +1,40 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
-import com.chtj.base_framework.entity.DeviceType;
-import com.chtj.base_framework.task.FBaseService;
+import com.chtj.framework.entity.DeviceType;
+import com.chtj.framework.keep.FKeepAliveService;
 
 import java.io.File;
 
 public final class FBaseTools {
 
-    private static final String TAG = "FBaseSystemTools";
+    private static final String TAG = "FBaseTools";
     //全局上下文
     static Context sApp;
 
-
     /**
-     * 是否开启网络有关日志的记录
+     * 是否开启保活
      */
-    private Boolean isOpenNetWorkRecord = false;
-    public FBaseTools setOpenNetWorkRecord(Boolean openNetWorkRecord) {
-        this.isOpenNetWorkRecord = openNetWorkRecord;
-        return this;
-    }
+    private   boolean keepAliveStatus = false;
 
-    public Boolean getOpenNetWorkRecord() {
-        return isOpenNetWorkRecord;
+    public FBaseTools setKeepAliveStatus(boolean isKeepAlive) {
+        keepAliveStatus = isKeepAlive;
+        return sInstance;
     }
-
 
     /**
      * 当前操作的设备类型
      */
     private DeviceType deviceType;
+
     public FBaseTools setDeviceType(DeviceType deviceType) {
         this.deviceType = deviceType;
-        return this;
+        Log.d(TAG, "setDeviceType: " + deviceType.name());
+        return sInstance;
     }
 
     public DeviceType getDeviceType() {
@@ -50,6 +47,7 @@ public final class FBaseTools {
 
     /**
      * 单例模式
+     *
      * @return
      */
     public static FBaseTools instance() {
@@ -66,22 +64,19 @@ public final class FBaseTools {
     /**
      * 创建记录网络变化后的日志文件创建
      */
-    public void createFileAndOpenReceiver() {
-        if (FBaseTools.instance().isOpenNetWorkRecord) {
-            File file = new File(FCommonTools.SAVE_PATH);
-            if (!file.exists()) {
-                file.mkdir();
+    public void otherOperations() {
+        File file = new File(FCommonTools.SAVE_PATH);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        file = new File(FCommonTools.SAVE_PATH + FCommonTools.SAVE_FILE_NAME);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "errMeg:" + e.getMessage());
             }
-            file = new File(FCommonTools.SAVE_PATH + FCommonTools.SAVE_FILE_NAME);
-            if (!file.exists()) {
-                try {
-                    file.createNewFile();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    Log.e(TAG, "errMeg:" + e.getMessage());
-                }
-            }
-            getContext().startService(new Intent(FBaseTools.sApp, FBaseService.class));
         }
     }
 
@@ -93,7 +88,11 @@ public final class FBaseTools {
      */
     public void create(Application application) {
         FBaseTools.sApp = application.getApplicationContext();
-        createFileAndOpenReceiver();
+        otherOperations();
+        if(FBaseTools.instance().keepAliveStatus){
+            //用于执行任务 或是保活等操作
+            getContext().startService(new Intent(getContext(), FKeepAliveService.class));
+        }
     }
 
     /**

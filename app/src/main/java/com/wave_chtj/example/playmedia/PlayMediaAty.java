@@ -1,9 +1,10 @@
 package com.wave_chtj.example.playmedia;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
+
+import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.enums.PLAY_STATUS;

@@ -50,8 +50,11 @@ public class InitializeService extends IntentService {
                 setBaseScreenParam(1080, 1920, true).
                 setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
                 create(getApplication());
-        //frameworkjarUtils
-        FBaseTools.instance().setDeviceType(DeviceType.DEVICE_RK3288).setOpenNetWorkRecord(true).create(getApplication());
+
+        FBaseTools.instance()
+                .setDeviceType(DeviceType.DEVICE_RK3288)
+                .setKeepAliveStatus(true)
+                .create(getApplication());
     }
 
 

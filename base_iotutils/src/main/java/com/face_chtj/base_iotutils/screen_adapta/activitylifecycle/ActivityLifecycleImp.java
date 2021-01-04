@@ -3,8 +3,9 @@ package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
 import android.app.Activity;
 import android.app.Application;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 
 /**
  * Created to :Activity启动生命周期的监听.

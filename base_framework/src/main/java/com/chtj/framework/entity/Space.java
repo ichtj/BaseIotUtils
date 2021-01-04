@@ -1,4 +1,4 @@
-package com.chtj.base_framework.entity;
+package com.chtj.framework.entity;
 
 public class Space {
     private long totalSize;

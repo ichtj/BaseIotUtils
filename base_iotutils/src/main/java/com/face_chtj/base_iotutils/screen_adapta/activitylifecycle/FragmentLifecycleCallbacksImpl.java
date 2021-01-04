@@ -16,8 +16,9 @@
 package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
 
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 /**
  * ================================================

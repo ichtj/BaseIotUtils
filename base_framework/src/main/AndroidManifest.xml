@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chtj.base_framework">
-    <!-- 解决java.lang.SecurityException: ConnectivityService: Neither user 10134 nor current process has android.permission.ACCESS_NETWORK_STATE -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    package="com.chtj.framework">
     <uses-permission
         android:name="android.permission.RECOVERY"
         tools:ignore="ProtectedPermissions" />
+    <!--服务相关权限-->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--WIFI相关-->
     <!--监听网络状态变化-->
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <!--文件写入权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--文件读取权限-->
@@ -28,16 +29,11 @@
         android:name="android.permission.DELETE_PACKAGES"
         tools:ignore="ProtectedPermissions" />
     <application
-        android:persistent="true"
-        android:process=":framework">
+        android:persistent="true">
 
-        <service
-            android:name="com.chtj.base_framework.task.FBaseService"
-            android:isolatedProcess="false"
-            android:process=":framework" />
+        <receiver
+            android:name="com.chtj.framework.receiver.NetworkReceiver">
 
-        <receiver android:name="com.chtj.base_framework.task.NetworkReceiver"
-            android:process=":framework">
             <intent-filter
                 android:enabled="true"
                 android:exported="true"
@@ -45,5 +41,9 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+
+        <service android:name=".keep.FKeepAliveService" android:process=":resident" />
+        <service android:name=".keep.GuardService" android:process="android.media" />
     </application>
 </manifest>

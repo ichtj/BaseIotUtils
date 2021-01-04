@@ -1,4 +1,4 @@
-package com.chtj.base_framework.entity;
+package com.chtj.framework.entity;
 
 public class RomSpace extends Space {
     private long availableCounts;

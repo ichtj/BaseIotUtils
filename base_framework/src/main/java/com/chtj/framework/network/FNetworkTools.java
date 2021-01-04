@@ -1,4 +1,4 @@
-package com.chtj.base_framework.network;
+package com.chtj.framework.network;
 
 import android.content.Context;
 import android.net.INetworkStatsService;
@@ -11,9 +11,9 @@ import android.os.ServiceManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
-import com.chtj.base_framework.FBaseTools;
-import com.chtj.base_framework.FCmdTools;
-import com.chtj.base_framework.entity.DeviceType;
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.FCmdTools;
+import com.chtj.framework.entity.DeviceType;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;

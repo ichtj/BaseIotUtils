@@ -1,4 +1,4 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
 import android.content.Context;
 import android.graphics.Bitmap;

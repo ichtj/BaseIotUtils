@@ -1,7 +1,11 @@
 package com.wave_chtj.example.application;
 
 import android.app.Application;
-import android.support.multidex.MultiDex;
+import android.content.Context;
+
+import androidx.multidex.MultiDex;
+
+import com.chtj.framework.keep.Leoric;
 
 
 /**
@@ -16,9 +20,10 @@ public class DefaultApplication extends Application {
         InitializeService.start(this);
     }
     @Override
-    protected void attachBaseContext(android.content.Context base) {
+    protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
+        Leoric.init(base);
     }
 
 }

@@ -1,4 +1,4 @@
-package com.chtj.base_framework.entity;
+package com.chtj.framework.entity;
 
 /**
  * Create on 2019/11/18

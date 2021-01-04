@@ -4,10 +4,11 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.app.ScreenInfoUtils;

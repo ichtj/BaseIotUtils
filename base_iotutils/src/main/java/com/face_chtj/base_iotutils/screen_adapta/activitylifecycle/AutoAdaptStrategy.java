@@ -16,8 +16,9 @@
 package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
 
 import android.app.Activity;
-import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+
+import androidx.fragment.app.Fragment;
 
 /**
  * 屏幕适配逻辑策略类

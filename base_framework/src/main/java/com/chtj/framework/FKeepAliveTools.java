@@ -1,11 +1,11 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
-import android.content.Intent;
 import android.util.Log;
 
-import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.task.FBaseService;
-import com.chtj.base_framework.entity.KeepLiveData;
+import com.chtj.framework.entity.CommonValue;
+import com.chtj.framework.entity.KeepLiveData;
+import com.chtj.framework.keep.FKeepAliveService;
+import com.chtj.framework.keep.GuardService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -17,7 +17,7 @@ import java.util.List;
 /**
  * 应用保活
  */
-public class FKeepLiveTools {
+public class FKeepAliveTools {
 
     private static final String TAG = "FKeepLiveTools";
     /**
@@ -35,10 +35,9 @@ public class FKeepLiveTools {
      * 所以调用多次这个方法会覆盖之前那个需要拉起的界面
      *
      * @param keepLiveData 当前需要添加的记录
-     * @param isEnableNow  是否立即启用
      * @return 是否执行成功
      */
-    public static CommonValue addActivity(KeepLiveData keepLiveData, boolean isEnableNow) {
+    public static CommonValue addActivity(KeepLiveData keepLiveData) {
         Gson gson = new Gson();
         keepLiveData.setServiceName("");
         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
@@ -54,7 +53,7 @@ public class FKeepLiveTools {
                 }
             }
         }
-        return toWrite(keepLiveData, null, gson, isEnableNow);
+        return toWrite(keepLiveData, null, gson);
     }
 
 
@@ -63,10 +62,9 @@ public class FKeepLiveTools {
      * [包名,服务]一起校验  下一次添加时不可与之前记录中的[包名,服务]一致
      *
      * @param keepLiveData 当前需要添加的记录
-     * @param isEnableNow  是否立即启用
      * @return 是否执行成功
      */
-    public static CommonValue addService(KeepLiveData keepLiveData, boolean isEnableNow) {
+    public static CommonValue addService(KeepLiveData keepLiveData) {
         Gson gson = new Gson();
         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
         List<KeepLiveData> keepLiveDataList = gson.fromJson(readJson, new TypeToken<List<KeepLiveData>>() {
@@ -82,12 +80,12 @@ public class FKeepLiveTools {
                 }
             }
             if (!isFind) {
-                return toWrite(keepLiveData, keepLiveDataList, gson, isEnableNow);
+                return toWrite(keepLiveData, keepLiveDataList, gson);
             } else {
                 return CommonValue.KL_SERVICE_REPEAT;
             }
         } else {
-            return toWrite(keepLiveData, null, gson, isEnableNow);
+            return toWrite(keepLiveData, null, gson);
         }
     }
 
@@ -97,10 +95,9 @@ public class FKeepLiveTools {
      *
      * @param keepLiveData     当前需要添加的记录
      * @param keepLiveDataList 以前添加的记录
-     * @param isEnableNow      是否立即启用
      */
     private static CommonValue toWrite(KeepLiveData
-                                               keepLiveData, List<KeepLiveData> keepLiveDataList, Gson gson, boolean isEnableNow) {
+                                               keepLiveData, List<KeepLiveData> keepLiveDataList, Gson gson) {
         if (keepLiveDataList == null) {
             keepLiveDataList = new ArrayList<>();
         }
@@ -123,17 +120,7 @@ public class FKeepLiveTools {
             return CommonValue.KL_FILE_WRITE_ERR;
         } else {
             //如果是立即启用 那么需要判断服务是否开启
-            if (isEnableNow) {
-                FBaseTools.getContext().startService(new Intent(FBaseTools.sApp, FBaseService.class));
-                boolean isRunning = FCommonTools.isWorked(FBaseService.class.getName());
-                if (isRunning) {
-                    return CommonValue.EXEU_COMPLETE;
-                } else {
-                    return CommonValue.KL_SERVICE_ACTIVATE_ERR;
-                }
-            } else {
-                return CommonValue.EXEU_COMPLETE;
-            }
+            return CommonValue.EXEU_COMPLETE;
         }
     }
 
@@ -168,8 +155,7 @@ public class FKeepLiveTools {
      * 关闭保活服务
      */
     public static void stopKeepLive() {
-        FBaseService.isStopTask = true;
-        FBaseTools.getContext().stopService(new Intent(FBaseTools.getContext(), FBaseService.class));
+        FKeepAliveService.isKeepAliveStatus=false;
     }
 
 }

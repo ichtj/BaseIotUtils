@@ -1,4 +1,4 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 import android.util.Log;
 
 import java.io.BufferedReader;

@@ -1,11 +1,11 @@
-package com.chtj.base_framework.network;
+package com.chtj.framework.network;
 
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
 
-import com.chtj.base_framework.FBaseTools;
-import com.chtj.base_framework.entity.DeviceType;
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.entity.DeviceType;
 
 /**
  * wifi工具类

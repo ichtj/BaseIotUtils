@@ -1,4 +1,4 @@
-package com.chtj.base_framework.entity;
+package com.chtj.framework.entity;
 
 public class UsbDeviceInfo {
     private String name;//名称

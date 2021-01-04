@@ -1,11 +1,11 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
 import android.annotation.SuppressLint;
 import android.os.RecoverySystem;
 import android.util.Log;
 
-import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.entity.InstallStatus;
+import com.chtj.framework.entity.CommonValue;
+import com.chtj.framework.entity.InstallStatus;
 
 import java.io.File;
 import java.io.FileInputStream;

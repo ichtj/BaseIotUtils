@@ -1,13 +1,13 @@
-package com.chtj.base_framework;
+package com.chtj.framework;
 
 import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
 
-import com.chtj.base_framework.entity.DeviceType;
-import com.chtj.base_framework.entity.Space;
-import com.chtj.base_framework.entity.RomSpace;
+import com.chtj.framework.entity.DeviceType;
+import com.chtj.framework.entity.Space;
+import com.chtj.framework.entity.RomSpace;
 
 import java.io.File;
 

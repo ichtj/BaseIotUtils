@@ -63,5 +63,4 @@
         android:gravity="left|top"
         android:scrollbars="vertical"
         android:text="" />
-
 </LinearLayout>

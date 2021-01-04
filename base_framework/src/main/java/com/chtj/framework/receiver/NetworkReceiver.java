@@ -1,4 +1,4 @@
-package com.chtj.base_framework.task;
+package com.chtj.framework.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.util.Log;
 
-import com.chtj.base_framework.FBaseTools;
-import com.chtj.base_framework.FCommonTools;
-import com.chtj.base_framework.network.FNetworkTools;
+import com.chtj.framework.FBaseTools;
+import com.chtj.framework.FCommonTools;
+import com.chtj.framework.network.FNetworkTools;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,28 +16,7 @@ import java.util.Date;
 public class NetworkReceiver extends BroadcastReceiver {
     public static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final String TAG = "NetworkReceiver";
-
-
-    /**
-     * 注册广播
-     */
-    public void registerReceiver() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ANDROID_NET_CHANGE_ACTION);
-        FBaseTools.getContext().registerReceiver(this, intentFilter);
-    }
-
-    /**
-     * 销毁广播
-     */
-    public void unRegisterReceiver() {
-        try {
-            FBaseTools.getContext().unregisterReceiver(this);
-        } catch (Exception e) {
-            e.printStackTrace();
-            Log.e(TAG, "errMeg:" + e.getMessage());
-        }
-    }
+    private Context context;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -45,9 +24,9 @@ public class NetworkReceiver extends BroadcastReceiver {
         Log.e(TAG, "action=" + action);
         if (action.equals(ANDROID_NET_CHANGE_ACTION)) {
             //获取当前网络类型
-            String type = FCommonTools.getNetWorkTypeName();
+            String type = FCommonTools.getNetWorkTypeName(context);
             //判断网络是否连接正常，是否能够ping通
-            StringBuffer stringBuffer = new StringBuffer();
+            StringBuffer stringBuffer = new StringBuffer("\n\r");
             SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             boolean isPingSuccessful = FCommonTools.ping("114.114.114.114", 1, 2);
             String gateway = FCommonTools.getGateWay();
@@ -57,7 +36,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             stringBuffer.append("gateway=" + gateway+"\n\r");
             stringBuffer.append("localIp=" + FCommonTools.getLocalIp()+"\n\r");
             stringBuffer.append("ping114=" + isPingSuccessful+"\n\r");
-            stringBuffer.append("pingGateway=" + isPingGateway+"\n\r");
+            stringBuffer.append("pingGateway=" + isPingGateway);
             String[] dnsList= FNetworkTools.getNetWorkDns();
             StringBuffer dnsStr=new StringBuffer();
             for (int i = 0; i <dnsList.length ; i++) {

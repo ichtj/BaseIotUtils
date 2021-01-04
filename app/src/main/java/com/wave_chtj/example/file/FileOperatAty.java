@@ -2,12 +2,13 @@ package com.wave_chtj.example.file;
 
 import android.os.Bundle;
 import android.os.Environment;
-import android.support.annotation.Nullable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.FileUtils;
 import com.wave_chtj.example.R;
