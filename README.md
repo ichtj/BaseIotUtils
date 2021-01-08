@@ -1,12 +1,10 @@
 # 接入方式
 
-### app 界面截图 这里显示不全,部分功能可能未在图中显示
+## app 界面截图 这里显示不全,部分功能可能未在图中显示
 
 ![image](/pic/apppic.png)
 
-### Step 1. Add the JitPack repository to your build file
-
-Add it in your root **build.gradle** at the end of repositories:
+## Android项目根目录下文件build.gradle中添加
 
 ```groovy
 allprojects {
@@ -17,11 +15,9 @@ allprojects {
 }
 ```
 
-### Step 2. Add the dependency
+## 以下存在三个 library 请按需选择,并在App Module的build.gradle文件中添加
 
-#### 以下存在三个 library 请按需选择
-
-#### base_iotutils
+### base_iotutils
 
 ```groovy
 dependencies {
@@ -29,6 +25,66 @@ dependencies {
          implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.2'
 }
 ```
+
+### base_socket
+
+```groovy
+dependencies {
+         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
+         implementation 'com.chtj.base_socket:base_socket:1.0.2'
+}
+```
+
+
+### base_framework
+
+```groovy
+dependencies {
+         //请使用module导入的方式使用 目前未上传至jcenter
+         implementation project(path: ':base_framework')
+}
+```
+
+### 自定义 Application
+
+```java
+//注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
+
+public class App extends Application {
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+	//这里base_iotutils中的工具类初始化
+    //1080(宽),1920(高)是为了适配而去设置相关的值
+    //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
+    BaseIotUtils
+      .instance()
+      .setBaseScreenParam(1080, 1920, true)
+      .setCreenType(SCREEN_TYPE.WIDTH)
+      .create(getApplication()); //按照宽度适配
+
+	  //这个是base_framework中的工具类初始化
+	  //使用的系统签名后实现调用操作系统功能 并保活(保活目前不要系统签名)
+	  FBaseTools.instance()
+                .setDeviceType(DeviceType.DEVICE_RK3288)
+                .setKeepAliveStatus(true)
+                .create(getApplication());
+  }
+
+   @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+        Leoric.init(base);//用于配合base_framework工具使用的保活项
+    }
+
+}
+
+```
+
+## base_iotutils module工具类
+
 
 | 编号 | 工具类                         | 工具名称          | 实现功能                      |
 | ---- | ------------------------------ | ----------------- | ----------------------------- |
@@ -58,128 +114,21 @@ dependencies {
 | 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
 | 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                    |
 
-#### base_socket
+#### base_iotutils工具调用方式,及图片展示
 
-```groovy
-dependencies {
-         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
-         implementation 'com.chtj.base_socket:base_socket:1.0.2'
-}
-```
-
-| 编号 | 工具类        | 备注           | 实现功能     |
-| ---- | ------------- | -------------- | ------------ |
-| 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
-| 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
-
-#### framework_utils 实现功能(后继陆更|目前未上传至 jcenter)
-
-| 编号 | 模块     | 功能                                          |
-| ---- | -------- | --------------------------------------------- |
-| 1    | 网络     | 静态/动态 IP,开启/关闭以太网 , 开启/关闭 WIFI |
-| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量      |
-| 3    | 升级管理 | apk 安装/卸载,固件升级                        |
-| 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
-| 6    | 日志     | 异常网络日志记录                              |
-
-| 编号 | 工具类          | 工具名称       | 实现功能                       |
-| ---- | --------------- | -------------- | ------------------------------ |
-| 1    | FKeepAliveTools | 应用保活管理类 | Activity\Service 拉起          |
-| 2    | FScreentTools   | 屏幕信息工具类 | 截屏                           |
-| 3    | FStorageTools   | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
-| 4    | FUpgradeTools   | 升级管理       | 固件\apk 升级                  |
-| 5    | FEthTools       | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
-| 6    | FNetworkTools   | 网络工具类     | dns,流量获取                   |
-| 7    | FWifiTools      | WIFI 管理      | 开启关闭                       |
-
-## base_iotutils Module 说明
-
-### 自定义 Application
-
-```java
-//注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
-
-public class App extends Application {
-
-  @Override
-  public void onCreate() {
-    super.onCreate();
-    //如果(不)需要开启适配  请用此方式
-    BaseIotUtils.instance().create(getApplication());
-
-    //如果需要开启适配 请用此方式
-    //1080(宽),1920(高)是为了适配而去设置相关的值
-    //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
-    BaseIotUtils
-      .instance()
-      .setBaseScreenParam(1080, 1920, true)
-      .setCreenType(SCREEN_TYPE.WIDTH)
-      .create(getApplication()); //按照宽度适配
-  }
-}
-
-```
-
-## base_socket Module 使用说明
-
-```java
-    //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
-    BaseTcpSocket baseTcpSocket = new BaseTcpSocket("192.168.1.100",8080, 5000);
-    //监听回调
-    baseTcpSocket.setSocketListener(new ISocketListener() {
-             @Override
-             public void recv(byte[] data, int offset, int size) {
-                 KLog.d(TAG, "read content successful");
-             }
-
-             @Override
-             public void writeSuccess(byte[] data) {
-                 KLog.d(TAG, "write content successful");
-             }
-
-             @Override
-             public void connSuccess() {
-                 KLog.d(TAG, "The connection is successful");
-             }
-
-             @Override
-             public void connFaild(Throwable t) {
-                 KLog.d(TAG, "The connection is connFaild");
-             }
-
-             @Override
-             public void connClose() {
-                 KLog.d(TAG, "The connection is disconnect");
-             }
-    });
-    //开启连接
-    baseTcpSocket.connect(this);
-
-    //--------------------------------------------------
-    //发送数据
-    baseTcpSocket.send("hello world!".getBytes());
-    //关闭连接
-    baseTcpSocket.close();
-```
-
-
-## base_iotutils module部分工具类
-
-### 屏幕适配
-
-### 创建 pt 模拟器设备
+#### 屏幕适配 创建 pt 模拟器设备
 
 ![image](/pic/create_step.png)
 
 ![image](/pic/unit_pt.png)
 
-### 1080\*1920 px 效果
+#### 1080\*1920 px 效果
 
 ![image](/pic/big_screen.png)
 
 -可在 app Model 中找到使用示例
 
-### FileUtils 文件操作 读写,删除,文件大小等
+#### FileUtils 文件操作 读写,删除,文件大小等
 
 ```java
         //param1 文件路径 例如/sdcard/config.txt
@@ -191,7 +140,7 @@ public class App extends Application {
         //更多文件操作方法请查询FileUtils中的内容
 ```
 
-### KeyBoardUtils 软键盘管理
+#### KeyBoardUtils 软键盘管理
 
 ```java
        //打卡软键盘
@@ -201,7 +150,7 @@ public class App extends Application {
        KeyBoardUtils.closeKeybord(editeTextView);
 ```
 
-### NetUtils 网络工具类
+#### NetUtils 网络工具类
 
 ```java
         //得到网络类型 NETWORK_NO,NETWORK_WI,NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_UN,NETWORK_ETH
@@ -240,7 +189,7 @@ public class App extends Application {
         NetUtils.getPhoneType();
 ```
 
-### DownloadSupport 多任务下载 任务各自独立
+#### DownloadSupport 多任务下载 任务各自独立
 
 ![image](/pic/download.png)
 
@@ -299,7 +248,7 @@ public class App extends Application {
 
 ```
 
-### NotificationUtils 通知使用
+#### NotificationUtils 通知使用
 
 ```java
      //获取系统中是否已经通过 允许通知的权限
@@ -335,7 +284,7 @@ public class App extends Application {
      NotifyUtils.closeNotify();
 ```
 
-### PlayUtils 音频播放
+#### PlayUtils 音频播放
 
 ```java
       //开始播放
@@ -367,7 +316,7 @@ public class App extends Application {
       PlayUtils.getInstance().stopPlaying();
 ```
 
-### NetListenerUtils 网络监听者
+#### NetListenerUtils 网络监听者
 
 ```java
      //注册广播
@@ -387,7 +336,7 @@ public class App extends Application {
      NetListenerUtils.getInstance().unRegisterReceiver();
 ```
 
-### SerialPort|SerialPortFinder 串口封装类
+#### SerialPort|SerialPortFinder 串口封装类
 
 ```java
         //获得串口地址
@@ -416,7 +365,7 @@ public class App extends Application {
 
 ```
 
-### ShellUtils adb 操作工具类
+#### ShellUtils adb 操作工具类
 
 使用方式
 
@@ -432,7 +381,7 @@ public class App extends Application {
         }
 ```
 
-### AppsUtils 工具类
+#### AppsUtils 工具类
 
 使用方式
 
@@ -450,7 +399,7 @@ public class App extends Application {
         AppsUtils.isAppForeground();//判断 App 是否处于前台
 ```
 
-### PermissionsUtils 权限申请工具类
+#### PermissionsUtils 权限申请工具类
 
 使用方式
 
@@ -462,9 +411,78 @@ public class App extends Application {
             initPermission();
 ```
 
-## Version Code
+## base_socket module工具类
 
-### v1.0.8
+| 编号 | 工具类        | 备注           | 实现功能     |
+| ---- | ------------- | -------------- | ------------ |
+| 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
+| 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
+
+#### base_socket工具调用方式
+
+```java
+    //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
+    BaseTcpSocket baseTcpSocket = new BaseTcpSocket("192.168.1.100",8080, 5000);
+    //监听回调
+    baseTcpSocket.setSocketListener(new ISocketListener() {
+             @Override
+             public void recv(byte[] data, int offset, int size) {
+                 KLog.d(TAG, "read content successful");
+             }
+
+             @Override
+             public void writeSuccess(byte[] data) {
+                 KLog.d(TAG, "write content successful");
+             }
+
+             @Override
+             public void connSuccess() {
+                 KLog.d(TAG, "The connection is successful");
+             }
+
+             @Override
+             public void connFaild(Throwable t) {
+                 KLog.d(TAG, "The connection is connFaild");
+             }
+
+             @Override
+             public void connClose() {
+                 KLog.d(TAG, "The connection is disconnect");
+             }
+    });
+    //开启连接
+    baseTcpSocket.connect(this);
+
+    //--------------------------------------------------
+    //发送数据
+    baseTcpSocket.send("hello world!".getBytes());
+    //关闭连接
+    baseTcpSocket.close();
+```
+
+## framework_utils Module 实现功能(后继陆更)
+
+| 编号 | 模块     | 功能                                          |
+| ---- | -------- | --------------------------------------------- |
+| 1    | 网络     | 静态/动态 IP,开启/关闭以太网 , 开启/关闭 WIFI |
+| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量      |
+| 3    | 升级管理 | apk 安装/卸载,固件升级                        |
+| 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
+| 6    | 日志     | 异常网络日志记录                              |
+
+| 编号 | 工具类          | 工具名称       | 实现功能                       |
+| ---- | --------------- | -------------- | ------------------------------ |
+| 1    | FKeepAliveTools | 应用保活管理类 | Activity\Service 拉起          |
+| 2    | FScreentTools   | 屏幕信息工具类 | 截屏                           |
+| 3    | FStorageTools   | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
+| 4    | FUpgradeTools   | 升级管理       | 固件\apk 升级                  |
+| 5    | FEthTools       | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
+| 6    | FNetworkTools   | 网络工具类     | dns,流量获取                   |
+| 7    | FWifiTools      | WIFI 管理      | 开启关闭                       |
+
+
+## Version Code
+#### v1.0.8
 
 > 新增了 PlayUitls 音频播放器(状态管理)
 > DwonloadSupport(全新的多任务下载管理工具类)
@@ -475,13 +493,13 @@ public class App extends Application {
 > 定时器功能添加 倒计时，计时器等
 > 收集 greenDAO(收集整合，方便后期使用),封装(Sqlite)操作更加方便
 
-### v1.0.3
+#### v1.0.3
 
 > 优化各个工具类
 > 新增部分工具类
 > 添加启动应用时的优化处理
 
-### v1.0.2
+#### v1.0.2
 
 > 项目优化
 > 基本工具类的手机整合
