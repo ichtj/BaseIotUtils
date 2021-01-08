@@ -4,10 +4,12 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.util.Log;
 
 import com.chtj.framework.FBaseTools;
 import com.chtj.framework.FCommonTools;
+import com.chtj.framework.network.FEthTools;
 import com.chtj.framework.network.FNetworkTools;
 
 import java.text.SimpleDateFormat;
@@ -33,12 +35,20 @@ public class NetworkReceiver extends BroadcastReceiver {
             boolean isPingSuccessful = FCommonTools.ping("114.114.114.114", 1, 2);
             String gateway = FCommonTools.getGateWay();
             boolean isPingGateway = FCommonTools.ping(gateway, 1, 2);
+
             stringBuffer.append("nowTime=" + simpleDateFormat.format(new Date())+"\n\r");
+            stringBuffer.append("FirmwareVersion= [" + Build.DISPLAY + " ]"+"\n\r");
+            stringBuffer.append("EthIpMode= [" + FEthTools.getIpMode() + " ]"+"\n\r");
+            stringBuffer.append("AndroidVersion= [" + Build.VERSION.RELEASE + " ]"+"\n\r");
+            stringBuffer.append("AppVersionName= [" + FCommonTools.getAppVersionName(context) + " ]"+"\n\r");
+            stringBuffer.append("AppVersionCode= [" + FCommonTools.getAppVersionCode(context) + " ]"+"\n\r");
+            stringBuffer.append("Devices_isRoot= [" + FCommonTools.isRoot() + " ]"+"\n\r");
             stringBuffer.append("netType=" + type+"\n\r");
             stringBuffer.append("gateway=" + gateway+"\n\r");
             stringBuffer.append("localIp=" + FCommonTools.getLocalIp()+"\n\r");
             stringBuffer.append("ping114=" + isPingSuccessful+"\n\r");
-            stringBuffer.append("pingGateway=" + isPingGateway);
+            stringBuffer.append("pingGateway=" + isPingGateway+"\n\r");
+
             String[] dnsList= FNetworkTools.getNetWorkDns();
             StringBuffer dnsStr=new StringBuffer();
             for (int i = 0; i <dnsList.length ; i++) {
@@ -46,7 +56,7 @@ public class NetworkReceiver extends BroadcastReceiver {
             }
             stringBuffer.append("getDns=" +dnsStr.toString()+"\n\r");
             stringBuffer.append("///////////////////////////////////");
-            FCommonTools.writeFileData(FCommonTools.SAVE_PATH+FCommonTools.SAVE_FILE_NAME,stringBuffer.toString(),false);
+            FCommonTools.writeFileData(FCommonTools.SAVE_NETERR_PATH+context.getPackageName()+"/"+FCommonTools.SAVE_NETERR_FILE_NAME,stringBuffer.toString(),false);
         }
     }
 }

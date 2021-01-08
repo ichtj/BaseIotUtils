@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
  * Command执行结果 CommandResult
  *
  * 使用方式如下:
- * ShellUtils.CommandResult commandResult=ShellUtils.execCommand("reboot",true);//adb执行重启
+ * FCmdTools.CommandResult commandResult=FCmdTools.execCommand("reboot",true);//adb执行重启
  * 理论上commandResult.result=0时执行是成功的
  * Log.d(TAG, "commandResult errMeg="+commandResult.errorMsg+",result="+commandResult.result+",successMsg="+commandResult.successMsg);
  *
@@ -24,7 +24,7 @@ import java.io.InputStreamReader;
  * --执行命令-多条 {@link #execCommand(String[] commands, boolean isRoot)}
  */
 public class FCmdTools {
-    private static final String TAG="ShellUtils";
+    private static final String TAG="FCmdTools";
     
     public final static String COMMAND_SU = "su";
     public final static String COMMAND_SH = "sh";

@@ -3,9 +3,8 @@ package com.chtj.framework;
 import android.util.Log;
 
 import com.chtj.framework.entity.CommonValue;
-import com.chtj.framework.entity.KeepLiveData;
+import com.chtj.framework.entity.KeepAliveData;
 import com.chtj.framework.keep.FKeepAliveService;
-import com.chtj.framework.keep.GuardService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -34,26 +33,26 @@ public class FKeepAliveTools {
      * 添加需要拉起的界面 界面只能拉起一个 多个界面会造成混乱
      * 所以调用多次这个方法会覆盖之前那个需要拉起的界面
      *
-     * @param keepLiveData 当前需要添加的记录
+     * @param keepAliveData 当前需要添加的记录
      * @return 是否执行成功
      */
-    public static CommonValue addActivity(KeepLiveData keepLiveData) {
+    public static CommonValue addActivity(KeepAliveData keepAliveData) {
         Gson gson = new Gson();
-        keepLiveData.setServiceName("");
+        keepAliveData.setServiceName("");
         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
-        List<KeepLiveData> keepLiveDataList = gson.fromJson(readJson, new TypeToken<List<KeepLiveData>>() {
+        List<KeepAliveData> keepAliveDataList = gson.fromJson(readJson, new TypeToken<List<KeepAliveData>>() {
         }.getType());
-        if (keepLiveDataList != null && keepLiveDataList.size() > 0) {
-            Iterator<KeepLiveData> it = keepLiveDataList.iterator();
+        if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
+            Iterator<KeepAliveData> it = keepAliveDataList.iterator();
             while (it.hasNext()) {
-                KeepLiveData keepData = it.next();
+                KeepAliveData keepData = it.next();
                 if (keepData.getType().equals(TYPE_ACTIVITY)) {
                     //如果记录中存在Activity的记录 则清除
                     it.remove();
                 }
             }
         }
-        return toWrite(keepLiveData, null, gson);
+        return toWrite(keepAliveData, null, gson);
     }
 
 
@@ -61,31 +60,31 @@ public class FKeepAliveTools {
      * 添加需要保活的服务
      * [包名,服务]一起校验  下一次添加时不可与之前记录中的[包名,服务]一致
      *
-     * @param keepLiveData 当前需要添加的记录
+     * @param keepAliveData 当前需要添加的记录
      * @return 是否执行成功
      */
-    public static CommonValue addService(KeepLiveData keepLiveData) {
+    public static CommonValue addService(KeepAliveData keepAliveData) {
         Gson gson = new Gson();
         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
-        List<KeepLiveData> keepLiveDataList = gson.fromJson(readJson, new TypeToken<List<KeepLiveData>>() {
+        List<KeepAliveData> keepAliveDataList = gson.fromJson(readJson, new TypeToken<List<KeepAliveData>>() {
         }.getType());
-        if (keepLiveDataList != null && keepLiveDataList.size() > 0) {
+        if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
             boolean isFind = false;
-            for (int i = 0; i < keepLiveDataList.size(); i++) {
-                if (keepLiveDataList.get(i).getServiceName() != null && !keepLiveDataList.get(i).getServiceName().equals("")) {
-                    if (keepLiveDataList.get(i).getType().equals(TYPE_SERVICE) && keepLiveDataList.get(i).getServiceName().contains(keepLiveData.getServiceName())) {
+            for (int i = 0; i < keepAliveDataList.size(); i++) {
+                if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
+                    if (keepAliveDataList.get(i).getType().equals(TYPE_SERVICE) && keepAliveDataList.get(i).getServiceName().contains(keepAliveData.getServiceName())) {
                         isFind = true;
                         break;
                     }
                 }
             }
             if (!isFind) {
-                return toWrite(keepLiveData, keepLiveDataList, gson);
+                return toWrite(keepAliveData, keepAliveDataList, gson);
             } else {
                 return CommonValue.KL_SERVICE_REPEAT;
             }
         } else {
-            return toWrite(keepLiveData, null, gson);
+            return toWrite(keepAliveData, null, gson);
         }
     }
 
@@ -93,15 +92,15 @@ public class FKeepAliveTools {
     /**
      * 添加拉起的界面,服务
      *
-     * @param keepLiveData     当前需要添加的记录
-     * @param keepLiveDataList 以前添加的记录
+     * @param keepAliveData     当前需要添加的记录
+     * @param keepAliveDataList 以前添加的记录
      */
-    private static CommonValue toWrite(KeepLiveData
-                                               keepLiveData, List<KeepLiveData> keepLiveDataList, Gson gson) {
-        if (keepLiveDataList == null) {
-            keepLiveDataList = new ArrayList<>();
+    private static CommonValue toWrite(KeepAliveData
+                                               keepAliveData, List<KeepAliveData> keepAliveDataList, Gson gson) {
+        if (keepAliveDataList == null) {
+            keepAliveDataList = new ArrayList<>();
         }
-        keepLiveDataList.add(keepLiveData);
+        keepAliveDataList.add(keepAliveData);
         File file = new File(FCommonTools.SAVE_KEEPLIVE_PATH);
         if (!file.exists()) {
             file.mkdir();
@@ -115,7 +114,7 @@ public class FKeepAliveTools {
                 Log.e(TAG, "errMeg:" + e.getMessage());
             }
         }
-        boolean isWrite = FCommonTools.writeFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME, gson.toJson(keepLiveDataList), true);
+        boolean isWrite = FCommonTools.writeFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME, gson.toJson(keepAliveDataList), true);
         if (!isWrite) {
             return CommonValue.KL_FILE_WRITE_ERR;
         } else {
@@ -142,12 +141,12 @@ public class FKeepAliveTools {
      *
      * @return
      */
-    public static List<KeepLiveData> getKeepLive() {
+    public static List<KeepAliveData> getKeepLive() {
         Gson gson = new Gson();
         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
-        List<KeepLiveData> keepLiveDataList = gson.fromJson(readJson, new TypeToken<List<KeepLiveData>>() {
+        List<KeepAliveData> keepAliveDataList = gson.fromJson(readJson, new TypeToken<List<KeepAliveData>>() {
         }.getType());
-        return keepLiveDataList;
+        return keepAliveDataList;
     }
 
 

@@ -1,6 +1,7 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
 import android.net.Uri;
@@ -60,11 +61,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     private static final String TAG = "FeaturesOptionAty";
     private static final int FILE_SELECT_CODE = 10000;
     private TextView tvTruePath;
+    private Context context;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
+        context=FeaturesOptionAty.this;
         tvTruePath = findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
@@ -73,8 +76,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 Manifest.permission.SYSTEM_ALERT_WINDOW,
                 Manifest.permission.READ_PHONE_STATE,
                 Manifest.permission.WRITE_SETTINGS,
-                Manifest.permission.REQUEST_INSTALL_PACKAGES,
-                Manifest.permission.REQUEST_DELETE_PACKAGES,
         }).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean granted) throws Exception {
@@ -95,19 +96,19 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btnSeialPortNormal://串口测试
-                startActivity(new Intent(FeaturesOptionAty.this, SerialPortAty.class));
+                startActivity(new Intent(context, SerialPortAty.class));
                 break;
             case R.id.btnScreen://屏幕适配相关
-                startActivity(new Intent(FeaturesOptionAty.this, ScreenActivity.class));
+                startActivity(new Intent(context, ScreenActivity.class));
                 break;
             case R.id.btn_write_read://文件读写
-                startActivity(new Intent(FeaturesOptionAty.this, FileOperatAty.class));
+                startActivity(new Intent(context, FileOperatAty.class));
                 break;
             case R.id.btn_download://文件下载
-                startActivity(new Intent(FeaturesOptionAty.this, DownLoadAty.class));
+                startActivity(new Intent(context, DownLoadAty.class));
                 break;
             case R.id.btn_socket://Socket Tcp/upd
-                startActivity(new Intent(FeaturesOptionAty.this, SocketAty.class));
+                startActivity(new Intent(context, SocketAty.class));
                 break;
             case R.id.btn_notification_open://notification display
                 //获取系统中是否已经通过 允许通知的权限
@@ -154,7 +155,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 NotifyUtils.closeNotify();
                 break;
             case R.id.btn_network://网络监听
-                startActivity(new Intent(FeaturesOptionAty.this, NetChangeAty.class));
+                startActivity(new Intent(context, NetChangeAty.class));
                 break;
             case R.id.btn_sysDialogShow://显示SystemDialog
                 SurfaceLoadDialog.getInstance().show("hello world");
@@ -169,8 +170,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 ToastUtils.success("Hello Worold!");
                 break;
             case R.id.btn_test_crash://测试anr
-                stopService(new Intent(FeaturesOptionAty.this, MyService.class));
-                startService(new Intent(FeaturesOptionAty.this, MyService.class));
+                stopService(new Intent(context, MyService.class));
+                startService(new Intent(context, MyService.class));
                 break;
             case R.id.btn_test_exception://测试其他异常
                 int i = 1 / 0;
@@ -190,7 +191,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 KeyEventUtils.getInstance().unRegisterReceiver();
                 break;
             case R.id.btn_sql://数据库操作
-                startActivity(new Intent(FeaturesOptionAty.this, GreenDaoSqliteAty.class));
+                startActivity(new Intent(context, GreenDaoSqliteAty.class));
                 break;
             case R.id.btn_jxl_open://打开Excel JXL版本 table.xls 可以在项目的File文件夹下找到
                 TPoolUtils.newInstance().addExecuteTask(new Runnable() {
@@ -243,10 +244,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 });
                 break;
             case R.id.btn_all_app://应用列表
-                startActivity(new Intent(FeaturesOptionAty.this, AllAppAty.class));
+                startActivity(new Intent(context, AllAppAty.class));
                 break;
             case R.id.btn_play://视频播放
-                startActivity(new Intent(FeaturesOptionAty.this, VideoPlayAty.class));
+                startActivity(new Intent(context, VideoPlayAty.class));
                 break;
             case R.id.btn_open_file://打开文件
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -268,10 +269,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_timereboot://定时器
-                startActivity(new Intent(FeaturesOptionAty.this, TimerAty.class));
+                startActivity(new Intent(context, TimerAty.class));
                 break;
             case R.id.btn_play_media://音频播放
-                startActivity(new Intent(FeaturesOptionAty.this, PlayMediaAty.class));
+                startActivity(new Intent(context, PlayMediaAty.class));
                 break;
             case R.id.btn_set_ip://设置静态IP
                 CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
@@ -298,7 +299,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_keeplive://保活Activity
-                startActivity(new Intent(FeaturesOptionAty.this, KeepLiveAty.class));
+                startActivity(new Intent(context, KeepLiveAty.class));
                 break;
         }
     }

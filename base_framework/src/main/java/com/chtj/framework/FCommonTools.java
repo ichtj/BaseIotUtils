@@ -44,8 +44,8 @@ public class FCommonTools {
     /**
      * 网络异常时的日志记录
      */
-    public static final String SAVE_PATH = "/sdcard/LOGSAVE/network/";
-    public static final String SAVE_FILE_NAME = "netchange.txt";
+    public static final String SAVE_NETERR_PATH = "/sdcard/LOGSAVE/network/";
+    public static final String SAVE_NETERR_FILE_NAME = "netchange.txt";
 
     /**
      * 应用保活
@@ -498,5 +498,60 @@ public class FCommonTools {
         }
         intent.setComponent(new ComponentName(packageName, mainAct));
         return intent;
+    }
+
+    /**
+     * 获取APP-VersionCode
+     *
+     * @return
+     */
+    public static int getAppVersionCode(Context context) {
+        String pName = context.getPackageName();
+        int versionCode = 0;
+
+        try {
+            PackageInfo pinfo = context.getPackageManager().getPackageInfo(
+                    pName, PackageManager.GET_CONFIGURATIONS);
+            versionCode = pinfo.versionCode;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionCode;
+    }
+
+    /**
+     * 判断设备是否有root权限
+     *
+     * @return
+     */
+    public static boolean isRoot() {
+        String su = "su";
+        //手机本来已经有root权限（/system/bin/su已经存在，adb shell里面执行su就可以切换root权限下）
+        String[] locations = {"/system/bin/", "/system/xbin/", "/sbin/", "/system/sd/xbin/",
+                "/system/bin/failsafe/", "/data/local/xbin/", "/data/local/bin/", "/data/local/"};
+        for (String location : locations) {
+            if (new File(location + su).exists()) {
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * 获取APP-VersionName
+     *
+     * @return
+     */
+    public static String getAppVersionName(Context context) {
+        String pName =context.getPackageName();
+        String versionName = "";
+
+        try {
+            PackageInfo pinfo =context.getPackageManager().getPackageInfo(
+                    pName, PackageManager.GET_CONFIGURATIONS);
+            versionName = pinfo.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return versionName;
     }
 }

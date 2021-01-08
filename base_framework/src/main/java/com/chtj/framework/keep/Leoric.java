@@ -45,7 +45,6 @@ public class Leoric {
                 new LeoricConfigs.LeoricConfig(
                         "android.media",
                         GuardService.class.getCanonicalName()));
-        Log.d(TAG, "init: params="+configurations.toString());
         Reflection.unseal(base);
         Leoric client = new Leoric(configurations);
         client.initDaemon(base);

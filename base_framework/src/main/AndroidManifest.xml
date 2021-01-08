@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.chtj.framework">
+
     <uses-permission
         android:name="android.permission.RECOVERY"
         tools:ignore="ProtectedPermissions" />
@@ -28,12 +29,11 @@
     <uses-permission
         android:name="android.permission.DELETE_PACKAGES"
         tools:ignore="ProtectedPermissions" />
-    <application
-        android:persistent="true">
+    <application android:persistent="true">
 
         <receiver
-            android:name="com.chtj.framework.receiver.NetworkReceiver">
-
+            android:name="com.chtj.framework.receiver.NetworkReceiver"
+            android:process=":resident">
             <intent-filter
                 android:enabled="true"
                 android:exported="true"
@@ -42,8 +42,19 @@
             </intent-filter>
         </receiver>
 
+        <!--android:exported="true" 表示可以其他进程访问-->
+        <service
+            android:name=".keep.FKeepAliveService"
+            android:exported="true"
+            android:enabled="true"
+            android:process=":resident">
 
-        <service android:name=".keep.FKeepAliveService" android:process=":resident" />
-        <service android:name=".keep.GuardService" android:process="android.media" />
+            <intent-filter>
+                <action android:name="com.chtj.framework.IKeepAliveService" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".keep.GuardService"
+            android:process="android.media" />
     </application>
 </manifest>

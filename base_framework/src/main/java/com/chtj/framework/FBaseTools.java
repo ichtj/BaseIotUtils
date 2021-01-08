@@ -65,11 +65,11 @@ public final class FBaseTools {
      * 创建记录网络变化后的日志文件创建
      */
     public void otherOperations() {
-        File file = new File(FCommonTools.SAVE_PATH);
+        File file = new File(FCommonTools.SAVE_NETERR_PATH+FBaseTools.getContext().getPackageName()+"/");
         if (!file.exists()) {
-            file.mkdir();
+            file.mkdirs();
         }
-        file = new File(FCommonTools.SAVE_PATH + FCommonTools.SAVE_FILE_NAME);
+        file = new File(FCommonTools.SAVE_NETERR_PATH+FBaseTools.getContext().getPackageName()+"/" + FCommonTools.SAVE_NETERR_FILE_NAME);
         if (!file.exists()) {
             try {
                 file.createNewFile();

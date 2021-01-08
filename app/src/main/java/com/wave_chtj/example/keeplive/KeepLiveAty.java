@@ -9,7 +9,7 @@ import androidx.annotation.Nullable;
 
 import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.FKeepAliveTools;
-import com.chtj.framework.entity.KeepLiveData;
+import com.chtj.framework.entity.KeepAliveData;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
@@ -31,11 +31,11 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
 
     public void getData() {
         tvResult.setText("");
-        List<KeepLiveData> keepLiveDataList = FKeepAliveTools.getKeepLive();
-        if (keepLiveDataList != null && keepLiveDataList.size() > 0) {
-            ToastUtils.success("获取成功 数量=" + keepLiveDataList.size());
-            for (int i = 0; i < keepLiveDataList.size(); i++) {
-                tvResult.append((keepLiveDataList.get(i).getType().equals(FKeepAliveTools.TYPE_ACTIVITY) ? "ACTIVITY =" : "SERVICE =") + keepLiveDataList.get(i).toString() + "\n\r");
+        List<KeepAliveData> keepAliveDataList = FKeepAliveTools.getKeepLive();
+        if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
+            ToastUtils.success("获取成功 数量=" + keepAliveDataList.size());
+            for (int i = 0; i < keepAliveDataList.size(); i++) {
+                tvResult.append((keepAliveDataList.get(i).getType().equals(FKeepAliveTools.TYPE_ACTIVITY) ? "ACTIVITY =" : "SERVICE =") + keepAliveDataList.get(i).toString() + "\n\r");
             }
         } else {
             ToastUtils.error("获取失败 数量=0");
@@ -47,8 +47,8 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add_aty:
-                KeepLiveData keepLiveData = new KeepLiveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_ACTIVITY, true);
-                CommonValue commonValue = FKeepAliveTools.addActivity(keepLiveData);
+                KeepAliveData keepAliveData = new KeepAliveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_ACTIVITY, true);
+                CommonValue commonValue = FKeepAliveTools.addActivity(keepAliveData);
                 KLog.d(TAG, "onClick:>=" + commonValue.toString());
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("执行成功！");
@@ -59,8 +59,8 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
                 }
                 break;
             case R.id.btn_add_service:
-                KeepLiveData keepLiveData1 = new KeepLiveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
-                CommonValue commonValue1 = FKeepAliveTools.addService(keepLiveData1);
+                KeepAliveData keepAliveData1 = new KeepAliveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
+                CommonValue commonValue1 = FKeepAliveTools.addService(keepAliveData1);
                 KLog.d(TAG, "onClick:>=" + commonValue1.toString());
                 if (commonValue1 == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("执行成功！");
