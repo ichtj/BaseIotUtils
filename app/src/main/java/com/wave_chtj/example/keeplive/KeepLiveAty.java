@@ -35,7 +35,7 @@ public class KeepLiveAty extends BaseActivity implements OnClickListener {
         if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
             ToastUtils.success("获取成功 数量=" + keepAliveDataList.size());
             for (int i = 0; i < keepAliveDataList.size(); i++) {
-                tvResult.append((keepAliveDataList.get(i).getType().equals(FKeepAliveTools.TYPE_ACTIVITY) ? "ACTIVITY =" : "SERVICE =") + keepAliveDataList.get(i).toString() + "\n\r");
+                tvResult.append((keepAliveDataList.get(i).getType()==FKeepAliveTools.TYPE_ACTIVITY ? "ACTIVITY =" : "SERVICE =") + keepAliveDataList.get(i).toString() + "\n\r");
             }
         } else {
             ToastUtils.error("获取失败 数量=0");

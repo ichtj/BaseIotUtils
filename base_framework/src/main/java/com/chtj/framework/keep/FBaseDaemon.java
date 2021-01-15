@@ -20,33 +20,58 @@ package com.chtj.framework.keep;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.os.Build;
 import android.util.Log;
+
+import com.chtj.framework.keep.impl.IDaemonStrategy;
+import com.chtj.framework.keep.receiver.Receiver1;
+import com.chtj.framework.keep.receiver.Receiver2;
+import com.chtj.framework.keep.service.FKeepAliveService;
+import com.chtj.framework.keep.service.GuardService;
+import com.chtj.framework.keep.service.GuardService2;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 
-public class Leoric {
+public class FBaseDaemon {
 
-    private static final String TAG = "Leoric";
+    private static final String TAG = "FBaseDaemon";
 
-    private LeoricConfigs mConfigurations;
+    private DaemonConfigurations mConfigurations;
 
-    private Leoric(LeoricConfigs configurations) {
+    private FBaseDaemon(DaemonConfigurations configurations) {
         this.mConfigurations = configurations;
     }
 
     public static void init(Context base) {
-        LeoricConfigs configurations = new LeoricConfigs(
-                new LeoricConfigs.LeoricConfig(
-                        base.getPackageName() + ":resident",
-                        FKeepAliveService.class.getCanonicalName()),
-                new LeoricConfigs.LeoricConfig(
-                        "android.media",
-                        GuardService.class.getCanonicalName()));
+        DaemonConfigurations configurations;
+        int sdk = Build.VERSION.SDK_INT;
+        if (sdk >= 24) {
+            //android 7.0以上
+            configurations = new DaemonConfigurations(
+                    new DaemonConfigurations.LeoricConfig(
+                            base.getPackageName() + ":resident",
+                            FKeepAliveService.class.getCanonicalName()),
+                    new DaemonConfigurations.LeoricConfig(
+                            "android.media",
+                            GuardService.class.getCanonicalName()));
+        } else {
+            //android 7.0 以下
+            configurations = new DaemonConfigurations(
+                    new DaemonConfigurations.LeoricConfig(
+                            base.getPackageName() + ":resident",
+                            FKeepAliveService.class.getCanonicalName(),
+                            Receiver1.class.getCanonicalName()),
+                    new DaemonConfigurations.LeoricConfig(
+                            base.getPackageName() + ":resident2",
+                            GuardService2.class.getCanonicalName(),
+                            Receiver2.class.getCanonicalName()));
+        }
+        Log.d(TAG, "init: configurations="+configurations.toString());
         Reflection.unseal(base);
-        Leoric client = new Leoric(configurations);
+        FBaseDaemon client = new FBaseDaemon(configurations);
         client.initDaemon(base);
     }
 
@@ -63,22 +88,28 @@ public class Leoric {
         }
         String processName = getProcessName();
         String packageName = base.getPackageName();
-
         if (processName.startsWith(mConfigurations.PERSISTENT_CONFIG.processName)) {
-            ILeoricProcess.Fetcher.fetchStrategy().onPersistentCreate(base, mConfigurations);
+            IDaemonStrategy.Fetcher.fetchStrategy().onPersistentCreate(base, mConfigurations);
         } else if (processName.startsWith(mConfigurations.DAEMON_ASSISTANT_CONFIG.processName)) {
-            ILeoricProcess.Fetcher.fetchStrategy().onDaemonAssistantCreate(base, mConfigurations);
+            IDaemonStrategy.Fetcher.fetchStrategy().onDaemonAssistantCreate(base, mConfigurations);
         } else if (processName.startsWith(packageName)) {
-            ILeoricProcess.Fetcher.fetchStrategy().onInit(base);
+            IDaemonStrategy.Fetcher.fetchStrategy().onInit(base);
         }
-
         releaseIO();
     }
 
 
     private String getProcessName() {
         try {
-            File file = new File("/proc/self/cmdline");
+            int sdk = Build.VERSION.SDK_INT;
+            File file = null;
+            if (sdk >= 24) {
+                //android 7.0以上
+                file = new File("/proc/self/cmdline");
+            } else {
+                //android 7.0以下
+                file = new File("/proc/" + android.os.Process.myPid() + "/" + "cmdline");
+            }
             mBufferedReader = new BufferedReader(new FileReader(file));
             return mBufferedReader.readLine().trim();
         } catch (Exception e) {

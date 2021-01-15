@@ -34,4 +34,13 @@ public class Space {
     public void setAvailableSize(long availableSize) {
         this.availableSize = availableSize;
     }
+
+    @Override
+    public String toString() {
+        return "Space{" +
+                "totalSize=" + totalSize +
+                ", useSize=" + useSize +
+                ", availableSize=" + availableSize +
+                '}';
+    }
 }

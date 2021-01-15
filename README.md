@@ -64,12 +64,12 @@ public class App extends Application {
       .setCreenType(SCREEN_TYPE.WIDTH)
       .create(getApplication()); //按照宽度适配
 
-	  //这个是base_framework中的工具类初始化
-	  //使用的系统签名后实现调用操作系统功能 并保活(保活目前不要系统签名)
-	  FBaseTools.instance()
-                .setDeviceType(DeviceType.DEVICE_RK3288)
-                .setKeepAliveStatus(true)
-                .create(getApplication());
+	//这个是base_framework中的工具类初始化
+	//使用的系统签名后实现调用操作系统功能 并保活(保活目前不要系统签名)
+	FBaseTools.instance()
+              .setDeviceType(DeviceType.DEVICE_RK3288)
+              .setKeepAliveStatus(true)
+              .create(getApplication());
   }
 
    @Override

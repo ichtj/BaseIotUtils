@@ -1,5 +1,6 @@
 package com.chtj.framework.entity;
 
+import android.annotation.IntRange;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -11,16 +12,16 @@ import android.os.Parcelable;
 public class KeepAliveData implements Parcelable {
     private String packageName;
     private boolean isEnable;
-    private String type;
+    private int type;//0为Activity 1为Service服务
     private String serviceName;
 
-    public KeepAliveData(String packageName, String type, boolean isEnable) {
+    public KeepAliveData(String packageName, @IntRange(from = 0, to = 1) int type, boolean isEnable) {
         this.packageName = packageName;
         this.type = type;
         this.isEnable = isEnable;
     }
 
-    public KeepAliveData(String packageName, String type, String serviceName, boolean isEnable) {
+    public KeepAliveData(String packageName, @IntRange(from = 0, to = 1) int type, String serviceName, boolean isEnable) {
         this.packageName = packageName;
         this.type = type;
         this.serviceName = serviceName;
@@ -30,7 +31,7 @@ public class KeepAliveData implements Parcelable {
     protected KeepAliveData(Parcel in) {
         packageName = in.readString();
         isEnable = in.readByte() != 0;
-        type = in.readString();
+        type = in.readInt();
         serviceName = in.readString();
     }
 
@@ -62,11 +63,11 @@ public class KeepAliveData implements Parcelable {
         this.isEnable = isEnable;
     }
 
-    public String getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(@IntRange(from = 0, to = 1) int type) {
         this.type = type;
     }
 
@@ -97,14 +98,14 @@ public class KeepAliveData implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(packageName);
         dest.writeByte((byte) (isEnable ? 1 : 0));
-        dest.writeString(type);
+        dest.writeInt(type);
         dest.writeString(serviceName);
     }
 
     public void readFromParcel(Parcel in) {
         this.packageName = in.readString();
         this.isEnable = in.readBoolean();
-        this.type = in.readString();
+        this.type = in.readInt();
         this.serviceName = in.readString();
     }
 

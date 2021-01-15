@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 
 import com.chtj.framework.entity.DeviceType;
-import com.chtj.framework.keep.FKeepAliveService;
+import com.chtj.framework.keep.service.FKeepAliveService;
 
 import java.io.File;
 
@@ -33,7 +33,6 @@ public final class FBaseTools {
 
     public FBaseTools setDeviceType(DeviceType deviceType) {
         this.deviceType = deviceType;
-        Log.d(TAG, "setDeviceType: " + deviceType.name());
         return sInstance;
     }
 

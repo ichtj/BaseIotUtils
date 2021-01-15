@@ -15,13 +15,21 @@
  * limitations under the License.
  */
 
-package com.chtj.framework.keep;
+package com.chtj.framework.keep.service;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
+import android.util.Log;
 
-public class GuardService extends Service{
+public class GuardService2 extends Service{
+    private static final String TAG = "GuardService";
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Log.d(TAG, "onCreate: ");
+    }
 
     @Override
     public IBinder onBind(Intent intent) {

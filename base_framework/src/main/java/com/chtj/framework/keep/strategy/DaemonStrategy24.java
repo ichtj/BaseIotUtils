@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.chtj.framework.keep;
+package com.chtj.framework.keep.strategy;
 
 import android.annotation.SuppressLint;
 import android.content.ComponentName;
@@ -28,13 +28,17 @@ import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
 
+import com.chtj.framework.keep.DaemonConfigurations;
+import com.chtj.framework.keep.impl.IDaemonStrategy;
+import com.chtj.framework.keep.nativ.NativeLeoric;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 
-public class LeoricProcessImpl implements ILeoricProcess {
+public class DaemonStrategy24 implements IDaemonStrategy {
 
-    private static final String TAG = "LeoricProcessImpl";
+    private static final String TAG = "DaemonStrategy24";
 
     private final static String INDICATOR_DIR_NAME = "indicators";
     private final static String INDICATOR_PERSISTENT_FILENAME = "indicator_p";
@@ -53,7 +57,7 @@ public class LeoricProcessImpl implements ILeoricProcess {
     }
 
     @Override
-    public void onPersistentCreate(final Context context, LeoricConfigs configs) {
+    public void onPersistentCreate(final Context context, DaemonConfigurations configs) {
         initAmsBinder();
         initServiceParcel(context, configs.DAEMON_ASSISTANT_CONFIG.serviceName);
         startServiceByAmsBinder();
@@ -76,7 +80,7 @@ public class LeoricProcessImpl implements ILeoricProcess {
     }
 
     @Override
-    public void onDaemonAssistantCreate(final Context context, LeoricConfigs configs) {
+    public void onDaemonAssistantCreate(final Context context, DaemonConfigurations configs) {
         Log.d(TAG, "onDaemonAssistantCreate: ");
         initAmsBinder();
         initServiceParcel(context, configs.PERSISTENT_CONFIG.serviceName);

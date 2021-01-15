@@ -4,6 +4,7 @@ import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Environment;
 import android.os.StatFs;
+import android.util.Log;
 
 import com.chtj.framework.entity.DeviceType;
 import com.chtj.framework.entity.Space;
@@ -15,6 +16,7 @@ import java.io.File;
  * 存储，空间相关工具类
  */
 public class FStorageTools {
+    private static final String TAG = "FStorageTools";
 
     /**
      * 获取ram占用
@@ -105,6 +107,7 @@ public class FStorageTools {
         FCmdTools.CommandResult commandResult = null;
         if (FBaseTools.instance().getDeviceType()== DeviceType.DEVICE_FC5330) {
             commandResult = FCmdTools.execCommand("df | grep -rn /mnt/media_rw/extsd", true);
+            Log.d(TAG, "getTfSpace: successMeg="+commandResult.successMsg);
             if (commandResult.successMsg != null && commandResult.successMsg.length() >0) {
                 String[] resultCall = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
                 return new Space(Long.parseLong(resultCall[2]), Long.parseLong(resultCall[3]),Long.parseLong(resultCall[4]));

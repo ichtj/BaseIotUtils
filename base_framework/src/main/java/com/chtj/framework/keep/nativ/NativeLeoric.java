@@ -15,9 +15,11 @@
  * limitations under the License.
  */
 
-package com.chtj.framework.keep;
+package com.chtj.framework.keep.nativ;
 
-/* package */class NativeLeoric {
+import com.chtj.framework.keep.impl.IDaemonStrategy;
+
+public class NativeLeoric {
 
     static {
         try {
@@ -30,6 +32,6 @@ package com.chtj.framework.keep;
     public native void doDaemon(String indicatorSelfPath, String indicatorDaemonPath, String observerSelfPath, String observerDaemonPath);
 
     public void onDaemonDead() {
-        ILeoricProcess.Fetcher.fetchStrategy().onDaemonDead();
+        IDaemonStrategy.Fetcher.fetchStrategy().onDaemonDead();
     }
 }

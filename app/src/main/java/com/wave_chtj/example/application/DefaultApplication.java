@@ -5,7 +5,7 @@ import android.content.Context;
 
 import androidx.multidex.MultiDex;
 
-import com.chtj.framework.keep.Leoric;
+import com.chtj.framework.keep.FBaseDaemon;
 
 
 /**
@@ -23,7 +23,7 @@ public class DefaultApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-        Leoric.init(base);
+        FBaseDaemon.init(base);
     }
 
 }

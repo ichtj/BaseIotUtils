@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.entity.KeepAliveData;
-import com.chtj.framework.keep.FKeepAliveService;
+import com.chtj.framework.keep.service.FKeepAliveService;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -15,6 +15,9 @@ import java.util.List;
 
 /**
  * 应用保活
+ * 1.用于本地调用添加Activity或者Service保活
+ * 2.用于跨进程请使用aidl服务进行添加Activity或者Service保活
+ * ----将src/main/aidl目录复制到自己的项目中，然后初始化后调用
  */
 public class FKeepAliveTools {
 
@@ -22,11 +25,11 @@ public class FKeepAliveTools {
     /**
      * 保活的类型为Activity
      */
-    public static final String TYPE_ACTIVITY = "0";
+    public static final int TYPE_ACTIVITY = 0;
     /**
      * 保活的类型为服务
      */
-    public static final String TYPE_SERVICE = "1";
+    public static final int TYPE_SERVICE = 1;
 
 
     /**
@@ -46,7 +49,7 @@ public class FKeepAliveTools {
             Iterator<KeepAliveData> it = keepAliveDataList.iterator();
             while (it.hasNext()) {
                 KeepAliveData keepData = it.next();
-                if (keepData.getType().equals(TYPE_ACTIVITY)) {
+                if (keepData.getType()==TYPE_ACTIVITY) {
                     //如果记录中存在Activity的记录 则清除
                     it.remove();
                 }
@@ -72,7 +75,7 @@ public class FKeepAliveTools {
             boolean isFind = false;
             for (int i = 0; i < keepAliveDataList.size(); i++) {
                 if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
-                    if (keepAliveDataList.get(i).getType().equals(TYPE_SERVICE) && keepAliveDataList.get(i).getServiceName().contains(keepAliveData.getServiceName())) {
+                    if (keepAliveDataList.get(i).getType()==TYPE_SERVICE && keepAliveDataList.get(i).getServiceName().contains(keepAliveData.getServiceName())) {
                         isFind = true;
                         break;
                     }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.chtj.framework.keep;
+package com.chtj.framework.keep.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -28,7 +28,6 @@ import com.chtj.framework.FCommonTools;
 import com.chtj.framework.FKeepAliveTools;
 import com.chtj.framework.IKeepAliveListener;
 import com.chtj.framework.IKeepAliveService;
-import com.chtj.framework.entity.CmdResult;
 import com.chtj.framework.entity.CommonValue;
 import com.chtj.framework.entity.KeepAliveData;
 import com.chtj.framework.receiver.NetworkReceiver;
@@ -44,7 +43,7 @@ import io.reactivex.functions.Action;
 import io.reactivex.functions.Consumer;
 
 /**
- * 要使用跨进程的服务 必须设置
+ * 要使用跨进程的服务 必须设置 Service
  * android:exported="true"
  * android:enabled="true"
  * 使外部可以访问
@@ -62,7 +61,7 @@ public class FKeepAliveService extends Service {
         @Override
         public boolean addKeepLiveInfo(KeepAliveData info, IKeepAliveListener listener) throws RemoteException {
             Log.d(TAG,"addKeepLiveInfo:>="+info.toString());
-            if (info.getType().equals(FKeepAliveTools.TYPE_ACTIVITY)) {
+            if (info.getType()==FKeepAliveTools.TYPE_ACTIVITY) {
                 CommonValue commonValue = FKeepAliveTools.addActivity(info);
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
                     listener.onSuccess();
@@ -93,6 +92,7 @@ public class FKeepAliveService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.d(TAG, "onCreate: ");
         /**开启广播监听网络**/
         networkReceiver = new NetworkReceiver();
         IntentFilter intentFilter = new IntentFilter();
@@ -111,21 +111,21 @@ public class FKeepAliveService extends Service {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long count) throws Exception {
-                        Log.d(TAG, "accept: ");
+                        //Log.d(TAG, "accept: ");
                         if (!isKeepAliveStatus && sDisposable != null && !sDisposable.isDisposed()) {
                             sDisposable.dispose();
                         }
                         Gson gson = new Gson();
                         String readJson = FCommonTools.readFileData(FCommonTools.SAVE_KEEPLIVE_PATH + FCommonTools.SAVE_KEEPLIVE_FILE_NAME);
-                        Log.d(TAG, "accept:>readJson=" + readJson);
+                        //Log.d(TAG, "accept:>readJson=" + readJson);
                         List<KeepAliveData> keepAliveDataList = gson.fromJson(readJson, new TypeToken<List<KeepAliveData>>() {
                         }.getType());
                         if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
                             for (int i = 0; i < keepAliveDataList.size(); i++) {
-                                Log.d(TAG, "accept: readData=" + keepAliveDataList.get(i).toString());
-                                if (keepAliveDataList.get(i).getType().equals(FKeepAliveTools.TYPE_ACTIVITY)) {
+                                //Log.d(TAG, "accept: readData=" + keepAliveDataList.get(i).toString());
+                                if (keepAliveDataList.get(i).getType()==FKeepAliveTools.TYPE_ACTIVITY) {
                                     FCommonTools.openApk(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName());
-                                } else if (keepAliveDataList.get(i).getType().equals(FKeepAliveTools.TYPE_SERVICE)) {
+                                } else if (keepAliveDataList.get(i).getType()==FKeepAliveTools.TYPE_SERVICE) {
                                     if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
                                         FCommonTools.openService(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName(), keepAliveDataList.get(i).getServiceName());
                                     } else {

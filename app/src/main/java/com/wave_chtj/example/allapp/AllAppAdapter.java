@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.text.format.Formatter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chtj.framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
@@ -66,7 +68,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
         ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic+"M");
         //7.1.2系统获取流量
-        //long total= DataUsageUtils.getAppDataUsageByUid(list.get(position).getUid(),DataUsageUtils.getTimesMonthMorning(), DataUsageUtils.getNow());
+        //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
         //((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase);
         ((MyViewHolder) holder).tvStartApp.setOnClickListener(new View.OnClickListener() {

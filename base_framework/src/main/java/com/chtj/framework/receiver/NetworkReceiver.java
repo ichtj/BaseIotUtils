@@ -51,8 +51,10 @@ public class NetworkReceiver extends BroadcastReceiver {
 
             String[] dnsList= FNetworkTools.getNetWorkDns();
             StringBuffer dnsStr=new StringBuffer();
-            for (int i = 0; i <dnsList.length ; i++) {
-                dnsStr.append(dnsList[i]+" | ");
+            if(dnsList!=null){
+                for (int i = 0; i <dnsList.length ; i++) {
+                    dnsStr.append(dnsList[i]+" | ");
+                }
             }
             stringBuffer.append("getDns=" +dnsStr.toString()+"\n\r");
             stringBuffer.append("///////////////////////////////////");

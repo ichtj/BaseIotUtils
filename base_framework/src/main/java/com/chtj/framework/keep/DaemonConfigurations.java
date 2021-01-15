@@ -17,24 +17,33 @@
 
 package com.chtj.framework.keep;
 
-public class LeoricConfigs {
+import android.content.Context;
+
+public class DaemonConfigurations {
 
     public final LeoricConfig PERSISTENT_CONFIG;
     public final LeoricConfig DAEMON_ASSISTANT_CONFIG;
 
-    public LeoricConfigs(LeoricConfig persistentConfig, LeoricConfig daemonAssistantConfig) {
+    public DaemonConfigurations(LeoricConfig persistentConfig, LeoricConfig daemonAssistantConfig) {
         this.PERSISTENT_CONFIG = persistentConfig;
         this.DAEMON_ASSISTANT_CONFIG = daemonAssistantConfig;
     }
 
     public static class LeoricConfig {
 
-        final String processName;
-        final String serviceName;
-        //final String receiverName;
+        public  String processName;
+        public  String serviceName;
+        public  String receiverName;
         //final String activityName;
 
-        public LeoricConfig(String processName, String serviceName/*, String receiverName, String activityName*/) {
+        public LeoricConfig(String processName, String serviceName, String receiverName/* ,String activityName*/) {
+            this.processName = processName;
+            this.serviceName = serviceName;
+            this.receiverName = receiverName;
+            //this.activityName = activityName;
+        }
+
+        public LeoricConfig(String processName, String serviceName/*, String receiverName ,String activityName*/) {
             this.processName = processName;
             this.serviceName = serviceName;
             //this.receiverName = receiverName;
@@ -46,6 +55,7 @@ public class LeoricConfigs {
             return "LeoricConfig{" +
                     "processName='" + processName + '\'' +
                     ", serviceName='" + serviceName + '\'' +
+                    ", receiverName='" + receiverName + '\'' +
                     '}';
         }
     }
@@ -56,5 +66,17 @@ public class LeoricConfigs {
                 "PERSISTENT_CONFIG=" + PERSISTENT_CONFIG.toString() +
                 ", DAEMON_ASSISTANT_CONFIG=" + DAEMON_ASSISTANT_CONFIG.toString() +
                 '}';
+    }
+
+    /**
+     * listener of daemon for external
+     *
+     * @author Mars
+     *
+     */
+    public interface DaemonListener {
+        void onPersistentStart(Context context);
+        void onDaemonAssistantStart(Context context);
+        void onWatchDaemonDaed();
     }
 }

@@ -52,13 +52,9 @@ public class InitializeService extends IntentService {
                 create(getApplication());
 
         FBaseTools.instance()
-                .setDeviceType(DeviceType.DEVICE_RK3288)
+                .setDeviceType(DeviceType.DEVICE_FC5330)
                 .setKeepAliveStatus(true)
                 .create(getApplication());
     }
-
-
-
-
 
 }
