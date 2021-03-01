@@ -1,11 +1,7 @@
 package com.wave_chtj.example.allapp;
 
-import android.app.usage.NetworkStats;
-import android.app.usage.NetworkStatsManager;
-import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,10 +10,8 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chtj.framework.FBaseTools;
-import com.chtj.framework.network.FNetworkTools;
+import com.chtj.keepalive.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;

@@ -4,8 +4,7 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 
-import com.chtj.framework.FBaseTools;
-import com.chtj.framework.entity.DeviceType;
+import com.chtj.keepalive.FBaseTools;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
@@ -52,8 +51,7 @@ public class InitializeService extends IntentService {
                 create(getApplication());
 
         FBaseTools.instance()
-                .setDeviceType(DeviceType.DEVICE_FC5330)
-                .setKeepAliveStatus(true)
+                .setRecordLog(true)
                 .create(getApplication());
     }
 

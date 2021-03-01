@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".KeepAliveActivity">
+
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:id="@+id/etpkg"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style_stroke"
+        android:hint="请输入apk包名"
+        android:paddingLeft="10dp" />
+
+    <Button
+        android:id="@+id/btn_add_aty"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style_stroke"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="添加Activity"
+        android:textSize="13sp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style_stroke"
+        android:hint="请输入apk包名"
+        android:paddingLeft="10dp" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style_stroke"
+        android:hint="请输入Service路径"
+        android:paddingLeft="10dp" />
+
+    <Button
+        android:id="@+id/btn_add_service"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="10dp"
+        android:background="@drawable/button_style_stroke"
+        android:gravity="center"
+        android:onClick="onClick"
+        android:text="添加SERVICE"
+        android:textSize="13sp" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:orientation="horizontal"
+        tools:ignore="MissingConstraints">
+
+
+        <Button
+            android:id="@+id/btn_getall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_style_stroke"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="获取数据并刷新"
+            android:textSize="13sp" />
+
+        <Button
+            android:id="@+id/btn_cleanall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_style_stroke"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="清除保活内容"
+            android:textSize="13sp" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:background="@drawable/button_style_stroke"
+        android:gravity="left|top"
+        android:scrollbars="vertical"
+        android:text=""
+        android:textColor="@color/black" />
+</LinearLayout>

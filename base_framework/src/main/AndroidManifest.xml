@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chtj.framework">
+    package="com.chtj.keepalive">
 
     <uses-permission
         android:name="android.permission.RECOVERY"
@@ -32,8 +32,7 @@
     <application android:allowBackup="true" android:persistent="true">
 
         <receiver
-            android:name="com.chtj.framework.receiver.NetworkReceiver"
-            android:process=":resident">
+            android:name="com.chtj.keepalive.receiver.NetworkReceiver">
             <intent-filter
                 android:enabled="true"
                 android:exported="true"
@@ -41,32 +40,5 @@
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
-
-        <!--android:exported="true" 表示可以其他进程访问-->
-        <service
-            android:name=".keep.service.FKeepAliveService"
-            android:enabled="true"
-            android:exported="true"
-            android:process=":resident">
-
-            <intent-filter>
-                <action android:name="com.chtj.framework.IKeepAliveService" />
-            </intent-filter>
-        </service>
-        <receiver
-            android:name=".keep.receiver.Receiver1"
-            android:process=":resident" />
-        <service
-            android:name=".keep.service.GuardService"
-            android:process="android.media" />
-
-
-        <service
-            android:name=".keep.service.GuardService2"
-            android:process=":resident2" />
-
-        <receiver
-            android:name=".keep.receiver.Receiver2"
-            android:process="android.media" />
     </application>
 </manifest>

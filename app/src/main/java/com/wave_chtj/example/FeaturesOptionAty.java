@@ -1,32 +1,23 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.usage.NetworkStats;
-import android.app.usage.NetworkStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.RemoteException;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
-import com.chtj.framework.FBaseTools;
-import com.chtj.framework.FStorageTools;
-import com.chtj.framework.entity.CommonValue;
-import com.chtj.framework.network.FEthTools;
-import com.chtj.framework.FScreentTools;
-import com.chtj.framework.entity.IpConfigInfo;
-import com.chtj.framework.network.FNetworkTools;
+import com.chtj.keepalive.entity.CommonValue;
+import com.chtj.keepalive.network.FEthTools;
+import com.chtj.keepalive.FScreentTools;
+import com.chtj.keepalive.entity.IpConfigInfo;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
@@ -58,9 +49,6 @@ import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import io.reactivex.functions.Consumer;
@@ -82,7 +70,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         tvTruePath = findViewById(R.id.tvTruePath);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE,
+        rxPermissions.request(new String[]{
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.SYSTEM_ALERT_WINDOW,
                 Manifest.permission.READ_PHONE_STATE,
@@ -103,6 +92,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         });
 
         AppManager.getAppManager().finishActivity(StartPageAty.class);
+        KLog.d(TAG,"onCreate:>=");
     }
 
     @Override

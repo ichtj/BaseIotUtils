@@ -23,6 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="添加Activity" />
@@ -31,6 +32,7 @@
             android:id="@+id/btn_add_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:singleLine="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:onClick="onClick"
@@ -41,6 +43,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="获取数据并刷新" />
@@ -50,6 +53,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
             android:text="清除保活内容" />

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:id="@+id/rlBg"
-    android:background="@color/gray"
+    android:background="@color/black"
     android:padding="5dp">
 
     <ImageView
@@ -76,7 +76,7 @@
             android:gravity="left|center"
             android:singleLine="true"
             android:text="REMARKS:add remarks..."
-            android:textColor="@color/gray"
+            android:textColor="@color/white"
             android:textSize="11sp" />
 
         <LinearLayout
@@ -93,7 +93,7 @@
                 android:gravity="left|center"
                 android:singleLine="true"
                 android:text="prompt:add prompt..."
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
             <TextView
@@ -105,7 +105,7 @@
                 android:gravity="right|center"
                 android:singleLine="true"
                 android:text="2020-3-18"
-                android:textColor="@color/gray"
+                android:textColor="@color/white"
                 android:textSize="12sp" />
 
         </LinearLayout>

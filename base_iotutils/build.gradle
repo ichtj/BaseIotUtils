@@ -67,4 +67,4 @@ dependencies {
     api rootProject.ext.dependencies["adapter-rxjava"]
     api rootProject.ext.dependencies["ziputils"]
 }
-//apply from: '../bintray.gradle'
+apply from: '../bintray.gradle'

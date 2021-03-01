@@ -2,11 +2,7 @@ package com.wave_chtj.example.application;
 
 import android.app.Application;
 import android.content.Context;
-
 import androidx.multidex.MultiDex;
-
-import com.chtj.framework.keep.FBaseDaemon;
-
 
 /**
  * Create on 2019/11/5
@@ -23,7 +19,6 @@ public class DefaultApplication extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-        FBaseDaemon.init(base);
     }
 
 }

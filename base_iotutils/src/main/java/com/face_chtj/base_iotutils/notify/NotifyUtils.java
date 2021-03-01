@@ -250,7 +250,7 @@ public class NotifyUtils {
     public void setRemarks(String remarks) {
         String appendStr = "";
         if (remarks != null && !remarks.equals("")) {
-            appendStr = "备注:" + remarks;
+            appendStr = "remarks:" + remarks;
         } else {
             appendStr = "";
         }
@@ -272,7 +272,7 @@ public class NotifyUtils {
     public void setPrompt(String prompt) {
         String appendStr = "";
         if (prompt != null && !prompt.equals("")) {
-            appendStr = "提示:" + prompt;
+            appendStr = "prompt:" + prompt;
         } else {
             appendStr = "";
         }

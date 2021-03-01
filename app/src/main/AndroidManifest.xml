@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wave_chtj.example">
     <!--
-      - 如果无法安装 请将  android:sharedUserId="android.uid.system"  这句去掉
+      - 如果无法安装 请将    这句去掉
       - 如需使用：请配合rk3288或是飞思卡尔的系统签名
       - 签名文件所在路径：android\out\target\common\obj\JAVA_LIBRARIES\framework_intermediates\classes.jar
       -->
@@ -68,6 +68,9 @@
 
     <uses-permission android:name="android.hardware.usb.accessory" />
 
+    <protected-broadcast android:name="com.chtj.add.keepalive.info" />
+    <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
+
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -96,7 +99,7 @@
             android:name=".FeaturesOptionAty"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
         <!--后台服务-->
         <!--串口相关-->
         <activity
@@ -144,6 +147,19 @@
         <activity
             android:name=".keeplive.KeepLiveAty"
             android:theme="@style/AppTheme" />
+        <receiver
+            android:name=".keeplive.KeepLiveAty$MyKeepAliveReceiver"
+            android:enabled="true"
+            android:exported="true"
+            tools:ignore="Instantiatable">
+            <intent-filter
+                android:enabled="true"
+                android:exported="true"
+                android:priority="1000">
+                <action android:name="com.chtj.add.keepalive.info" />
+                <action android:name="com.chtj.add.keepalive.info.result" />
+            </intent-filter>
+        </receiver>
 
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service

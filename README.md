@@ -482,6 +482,11 @@ public class App extends Application {
 
 
 ## Version Code
+
+#### v1.0.9
+> 跨进程保活服务/Activity
+> 优化部分工具类使用
+
 #### v1.0.8
 
 > 新增了 PlayUitls 音频播放器(状态管理)
