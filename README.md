@@ -22,7 +22,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.2'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.4'
 }
 ```
 
@@ -65,10 +65,9 @@ public class App extends Application {
       .create(getApplication()); //按照宽度适配
 
 	//这个是base_framework中的工具类初始化
-	//使用的系统签名后实现调用操作系统功能 并保活(保活目前不要系统签名)
+	//使用的系统签名后 实现调用操作系统API
 	FBaseTools.instance()
               .setDeviceType(DeviceType.DEVICE_RK3288)
-              .setKeepAliveStatus(true)
               .create(getApplication());
   }
 
@@ -76,7 +75,7 @@ public class App extends Application {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(this);
-        Leoric.init(base);//用于配合base_framework工具使用的保活项
+        FBaseDaemon.init(base);//保活工具 library在base_keepalive Module中 请结合源码使用 后期添加使用说明
     }
 
 }
@@ -484,7 +483,7 @@ public class App extends Application {
 ## Version Code
 
 #### v1.0.9
-> 跨进程保活服务/Activity
+> 跨进程保活Service/Activity
 > 优化部分工具类使用
 
 #### v1.0.8
@@ -507,4 +506,4 @@ public class App extends Application {
 #### v1.0.2
 
 > 项目优化
-> 基本工具类的手机整合
+> 基本工具类的收集整合

@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chtj.keepalive.FKeepAliveTools;
 import com.chtj.keepalive.entity.CommonValue;
@@ -18,12 +20,18 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
 
     private static final String TAG = "KeepAliveActivity";
     TextView tvResult;
+    EditText etpkg;
+    EditText etpkg2;
+    EditText etServiceName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_keep_alive);
         tvResult = findViewById(R.id.tvResult);
+        etpkg = findViewById(R.id.etpkg);
+        etpkg2 = findViewById(R.id.etpkg2);
+        etServiceName = findViewById(R.id.etServiceName);
         getData();
     }
 
@@ -33,7 +41,7 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
         if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
             Log.d(TAG, "getData:获取成功 数量=" + keepAliveDataList.size());
             for (int i = 0; i < keepAliveDataList.size(); i++) {
-                tvResult.append((keepAliveDataList.get(i).getType()== FKeepAliveTools.TYPE_ACTIVITY ? "ACTIVITY =" : "SERVICE =") + keepAliveDataList.get(i).toString() + "\n\r");
+                tvResult.append((keepAliveDataList.get(i).getType() == FKeepAliveTools.TYPE_ACTIVITY ? "ACTIVITY =" : "SERVICE =") + keepAliveDataList.get(i).toString() + "\n\r");
             }
         } else {
             tvResult.setText("获取失败 数量=0");
@@ -44,7 +52,12 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_add_aty:
-                KeepAliveData keepAliveData = new KeepAliveData("com.wave_chtj.example", FKeepAliveTools.TYPE_ACTIVITY, true);
+                String pkg = etpkg.getText().toString().trim();
+                if (pkg == null || pkg.equals("")) {
+                    Toast.makeText(this, "请填写包名！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                KeepAliveData keepAliveData = new KeepAliveData(pkg, FKeepAliveTools.TYPE_ACTIVITY, true);
                 CommonValue commonValue = FKeepAliveTools.addActivity(keepAliveData);
                 Log.d(TAG, "onClick:>=" + commonValue.toString());
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
@@ -54,7 +67,17 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
                 }
                 break;
             case R.id.btn_add_service:
-                KeepAliveData keepAliveData1 = new KeepAliveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
+                String pkg2 = etpkg2.getText().toString().trim();
+                String serviceName = etServiceName.getText().toString().trim();
+                if (pkg2 == null || pkg2.equals("")) {
+                    Toast.makeText(this, "请填写包名！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (serviceName == null || serviceName.equals("")) {
+                    Toast.makeText(this, "请填服务名！", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                KeepAliveData keepAliveData1 = new KeepAliveData(pkg2, FKeepAliveTools.TYPE_SERVICE, serviceName, true);
                 CommonValue commonValue1 = FKeepAliveTools.addService(keepAliveData1);
                 Log.d(TAG, "onClick:>=" + commonValue1.toString());
                 if (commonValue1 == CommonValue.EXEU_COMPLETE) {

@@ -3,6 +3,32 @@ plugins {
 }
 
 android {
+    signingConfigs {
+        rkrelease {
+            storeFile file('D:\\rockchip7.jks')
+            storePassword 'android'
+            keyAlias 'rockchip'
+            keyPassword 'android'
+        }
+        rkdebug {
+            storeFile file('D:\\rockchip7.jks')
+            storePassword 'android'
+            keyAlias 'rockchip'
+            keyPassword 'android'
+        }
+        fcrelease {
+            storeFile file('D:\\freescale.jks')
+            keyAlias 'freescale'
+            storePassword 'android'
+            keyPassword 'android'
+        }
+        fcdebug {
+            storeFile file('D:\\freescale.jks')
+            storePassword 'android'
+            keyAlias 'freescale'
+            keyPassword 'android'
+        }
+    }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId "com.face.keepsample"
@@ -12,12 +38,31 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        if (buildTypeInfo.indexOf("rk3288") != -1) {
+            signingConfig signingConfigs.rkrelease
+        } else {
+            signingConfig signingConfigs.fcrelease
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (buildTypeInfo.indexOf("rk3288") != -1) {
+                signingConfig signingConfigs.rkrelease
+            } else {
+                signingConfig signingConfigs.fcrelease
+            }
+        }
+        debug {
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (buildTypeInfo.indexOf("rk3288") != -1) {
+                signingConfig signingConfigs.rkrelease
+            } else {
+                signingConfig signingConfigs.fcrelease
+            }
         }
     }
     compileOptions {
