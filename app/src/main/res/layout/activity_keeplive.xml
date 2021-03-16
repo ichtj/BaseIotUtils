@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
+
     <com.wave_chtj.example.customizeview.TopTitleView
         android:id="@+id/ttView"
         android:layout_width="match_parent"
@@ -23,19 +24,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
+            android:singleLine="true"
             android:text="添加Activity" />
 
         <Button
             android:id="@+id/btn_add_service"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:singleLine="true"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:onClick="onClick"
+            android:singleLine="true"
             android:text="添加SERVICE" />
 
         <Button
@@ -43,9 +44,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
+            android:singleLine="true"
             android:text="获取数据并刷新" />
 
         <Button
@@ -53,9 +54,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:singleLine="true"
             android:layout_weight="1"
             android:onClick="onClick"
+            android:singleLine="true"
             android:text="清除保活内容" />
     </LinearLayout>
 
@@ -63,8 +64,16 @@
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_weight="1"
         android:background="@drawable/button_style_stroke"
         android:gravity="left|top"
         android:scrollbars="vertical"
         android:text="" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="本app Module未直接导入base_keepalive Module的工具包，而是通过一个中间件keepsample.apk运行起来之后(这里面导入了base_keepalive并进行同意管理),本app Module通过跨进程通讯向keepsample添加保活" />
+
 </LinearLayout>

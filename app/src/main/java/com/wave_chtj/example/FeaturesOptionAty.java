@@ -8,17 +8,32 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.chtj.keepalive.FStorageTools;
 import com.chtj.keepalive.entity.CommonValue;
+import com.chtj.keepalive.entity.Space;
 import com.chtj.keepalive.network.FEthTools;
 import com.chtj.keepalive.FScreentTools;
 import com.chtj.keepalive.entity.IpConfigInfo;
+import com.chtj.keepalive.network.FNetworkTools;
+import com.chtj.keepalive.network.NetDbmListener;
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
+import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
@@ -43,14 +58,21 @@ import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.entity.ExcelEntity;
+import com.wave_chtj.example.util.RecycleAdapterDome;
+import com.wave_chtj.example.util.SingletonDisposable;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
 import com.wave_chtj.example.util.keyevent.KeyEventUtils;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+import butterknife.internal.Utils;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
 
 /**
@@ -61,13 +83,20 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
     private static final int FILE_SELECT_CODE = 10000;
     private TextView tvTruePath;
     private Context context;
+    private RecyclerView rvinfo;
+    private RecycleAdapterDome adapterDome;//声明适配器
+    private final static int GET_INFO = 0x100;
+    private final static int REFRESH_UI = 0x101;
+    private String dbm4G = 0 + " dBm " + 0 + " asu";
+    List<String> infoList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
-        context=FeaturesOptionAty.this;
+        context = FeaturesOptionAty.this;
         tvTruePath = findViewById(R.id.tvTruePath);
+        rvinfo = findViewById(R.id.rvinfo);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(new String[]{
@@ -90,9 +119,80 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
             }
         });
+        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
         AppManager.getAppManager().finishActivity(StartPageAty.class);
-        KLog.d(TAG,"onCreate:>=");
+        KLog.d(TAG, "onCreate:>currentapiVersion=" + currentapiVersion);
+
+        adapterDome = new RecycleAdapterDome(context, new ArrayList<String>());
+        GridLayoutManager manager = new GridLayoutManager(context, 2);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvinfo.setLayoutManager(manager);
+        rvinfo.setAdapter(adapterDome);
+        handler.sendEmptyMessageDelayed(GET_INFO, 2000);
+
+        FNetworkTools.lteListener(BaseIotUtils.getContext(), new NetDbmListener() {
+            @Override
+            public void getDbm(String dbmAsu) {
+                dbm4G = dbmAsu;
+            }
+        });
+
+        SingletonDisposable.add("timedRefresh", Observable.interval(0, 8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+            if (infoList != null && infoList.size() > 0) {
+                Space ramSpace = FStorageTools.getRamSpace();
+                Space romSpace = FStorageTools.getRomSpace();
+                Space sdSpace = FStorageTools.getSdcardSpace();
+                infoList.set(5,"运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G");
+                infoList.set(6,"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
+                infoList.set(7,"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
+                infoList.set(8,"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                infoList.set(9,"4G信号强度：" + dbm4G);
+                handler.sendEmptyMessage(REFRESH_UI);
+            }
+        }));
+    }
+
+
+    Handler handler = new Handler() {
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what) {
+                case GET_INFO:
+                    KLog.d(TAG, "handleMessage:>=");
+                    infoList = new ArrayList<>();
+                    String netType = NetUtils.getNetWorkTypeName();
+                    infoList.add("网络类型：" + netType);
+                    String appVersion = AppsUtils.getAppVersionName();
+                    infoList.add("APK版本：v" + appVersion);
+                    boolean isRoot = AppsUtils.isRoot();
+                    infoList.add("是否ROOT：" + isRoot);
+                    String localIp = DeviceUtils.getLocalIp();
+                    infoList.add("本地IP：" + localIp);
+                    String fwVersion = DeviceUtils.getFwVersion();
+                    infoList.add("固件版本：" + fwVersion);
+                    Space ramSpace = FStorageTools.getRamSpace();
+                    infoList.add("运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G");
+                    Space romSpace = FStorageTools.getRomSpace();
+                    infoList.add("内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
+                    Space sdSpace = FStorageTools.getSdcardSpace();
+                    infoList.add("SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
+                    infoList.add("以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                    infoList.add("4G信号强度：" + dbm4G);
+                    adapterDome.setList(infoList);
+                    break;
+                case REFRESH_UI:
+                    adapterDome.setList(infoList);
+                    break;
+            }
+        }
+    };
+
+    public String getGB(double num) {
+        double returnNum = num / 1024 / 1024 / 1024;
+        KLog.d(TAG, "getGB:>returnNum=" + returnNum);
+        return String.format("%.2f", returnNum);
     }
 
     @Override
@@ -286,7 +386,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_dhcp://设置动态IP
-                CommonValue commonValue2 =FEthTools.setEthDhcp();
+                CommonValue commonValue2 = FEthTools.setEthDhcp();
                 if (commonValue2 == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("动态IP设置成功！");
                 } else {
@@ -331,5 +431,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         SurfaceLoadDialog.getInstance().dismiss();
         KeyEventUtils.getInstance().unRegisterReceiver();
         PlayUtils.getInstance().stopPlaying();
+        SingletonDisposable.clearAll();
     }
 }

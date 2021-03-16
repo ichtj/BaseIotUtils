@@ -12,15 +12,25 @@
         android:orientation="vertical"
         android:padding="10dp">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvinfo"
+            android:layout_width="match_parent"
+            android:layout_height="500pt"
+            android:layout_marginBottom="10pt"
+            android:background="@drawable/button_switch"
+            android:orientation="horizontal"
+            android:padding="10pt"
+            app:spanCount="2" />
 
         <Button
             android:id="@+id/btnSeialPortNormal"
             android:layout_width="540pt"
             android:layout_height="185pt"
+            android:layout_below="@+id/rvinfo"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
-            android:text="串口收发"
+            android:text="@string/serial_rs"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
@@ -28,6 +38,7 @@
             android:id="@+id/btn_timereboot"
             android:layout_width="540pt"
             android:layout_height="185pt"
+            android:layout_below="@+id/rvinfo"
             android:layout_marginLeft="6dp"
             android:layout_toRightOf="@+id/btnSeialPortNormal"
             android:background="@drawable/button_switch"
@@ -492,12 +503,12 @@
             android:layout_width="540pt"
             android:layout_height="185pt"
             android:layout_below="@+id/btn_play_media"
+            android:layout_marginLeft="6dp"
             android:layout_marginTop="5dp"
             android:layout_toRightOf="@+id/btn_screent"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:onClick="onClick"
-            android:layout_marginLeft="6dp"
             android:text="ACTIVITY/SERVICE保活"
             android:textColor="@color/black"
             android:textSize="12sp" />

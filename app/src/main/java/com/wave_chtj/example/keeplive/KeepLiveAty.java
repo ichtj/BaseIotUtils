@@ -24,6 +24,9 @@ import com.wave_chtj.example.base.BaseActivity;
 
 import java.util.List;
 
+/**
+ * 这里使用了跨进程向keepsample Module中添加了com.face.keepsample的保活
+ */
 public class KeepLiveAty extends BaseActivity implements OnClickListener, IKeepAliveListener {
     private static final String TAG = "KeepLiveAty";
     TextView tvResult;

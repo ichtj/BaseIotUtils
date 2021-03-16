@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">物联工具</string>
+    <string name="serial_rs">串口收发</string>
+</resources>
