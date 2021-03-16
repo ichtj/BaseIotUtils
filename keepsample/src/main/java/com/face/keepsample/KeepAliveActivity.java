@@ -16,6 +16,11 @@ import com.chtj.keepalive.entity.KeepAliveData;
 
 import java.util.List;
 
+/**
+ * 如何其他app跨进程向base_keepalive中添加响应得保活呢？
+ * 参考app Module中路径com.wave_chtj.example.keeplive.KeepLiveAty中的使用
+ * 注意复制相应的aidl和实体类
+ */
 public class KeepAliveActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final String TAG = "KeepAliveActivity";
