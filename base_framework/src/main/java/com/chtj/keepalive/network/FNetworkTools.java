@@ -9,12 +9,16 @@ import android.net.TrafficStats;
 import android.os.Build;
 import android.os.RemoteException;
 import android.os.ServiceManager;
+import android.telephony.PhoneStateListener;
+import android.telephony.SignalStrength;
+import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
 import com.chtj.keepalive.FBaseTools;
 import com.chtj.keepalive.FCmdTools;
 
+import java.lang.reflect.Method;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -112,6 +116,42 @@ public class FNetworkTools {
         }
         Log.d(TAG, "geEthSysTotalUsageData total_value1:" + value);
         return value;
+    }
+
+    /**
+     * 获取4G信号
+     * 这里说的大于>-90 是指越接近正数信号越好
+     */
+    public static void lteListener(Context context, NetDbmListener netDbmListener) {
+        TelephonyManager tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+        PhoneStateListener phoneStateListener = new PhoneStateListener() {
+            @Override
+            public void onSignalStrengthsChanged(SignalStrength signalStrength) {
+                super.onSignalStrengthsChanged(signalStrength);
+                String dbmAsu = "";
+                try {
+                    Method method1 = signalStrength.getClass().getMethod("getDbm");
+                    int signalDbm = (int) method1.invoke(signalStrength);
+                    method1 = signalStrength.getClass().getMethod("getAsuLevel");
+                    int signalAsu = (int) method1.invoke(signalStrength);
+                    if (-1 == signalDbm) {
+                        signalDbm = 0;
+                    }
+                    if (-1 == signalAsu) {
+                        signalAsu = 0;
+                    }
+                    dbmAsu = signalDbm + " dBm " + signalAsu + " asu";
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Log.e(TAG, "errMeg:" + e.getMessage());
+                    dbmAsu = 0 + " dBm " + 0 + " asu";
+                }
+                netDbmListener.getDbm(dbmAsu);
+            }
+        };
+        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
+                | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
+                | PhoneStateListener.LISTEN_SERVICE_STATE);
     }
 
 

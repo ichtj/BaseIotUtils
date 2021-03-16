@@ -36,7 +36,7 @@ public class NetworkReceiver extends BroadcastReceiver {
 
             stringBuffer.append("nowTime=" + simpleDateFormat.format(new Date())+"\n\r");
             stringBuffer.append("FirmwareVersion= [" + Build.DISPLAY + " ]"+"\n\r");
-            stringBuffer.append("EthIpMode= [" + FEthTools.getIpMode() + " ]"+"\n\r");
+            stringBuffer.append("EthIpMode= [" + FEthTools.getIpMode(context) + " ]"+"\n\r");
             stringBuffer.append("AndroidVersion= [" + Build.VERSION.RELEASE + " ]"+"\n\r");
             stringBuffer.append("AppVersionName= [" + FCommonTools.getAppVersionName() + " ]"+"\n\r");
             stringBuffer.append("AppVersionCode= [" + FCommonTools.getAppVersionCode() + " ]"+"\n\r");

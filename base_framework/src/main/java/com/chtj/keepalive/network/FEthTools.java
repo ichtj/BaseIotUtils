@@ -1,5 +1,6 @@
 package com.chtj.keepalive.network;
 
+import android.content.Context;
 import android.net.IpConfiguration;
 import android.net.LinkAddress;
 import android.net.NetworkUtils;
@@ -56,19 +57,27 @@ public class FEthTools {
     /**
      * 获取ip模式
      */
-    public static String getIpMode() {
+    public static String getIpMode(Context context) {
         int sdk = Build.VERSION.SDK_INT;
         if (sdk >= 24) {
-            android.net.EthernetManager mEthManager = (android.net.EthernetManager)FBaseTools.getContext().getSystemService("ethernet");
+            String ipMode = "NONE";
+            android.net.EthernetManager mEthManager = (android.net.EthernetManager) context.getSystemService("ethernet");
             boolean useDhcp = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.DHCP) ? true : false;
             boolean useStatic = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.STATIC) ? true : false;
+            boolean usePppoe = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.PPPOE) ? true : false;
+            boolean useUnassigned = (mEthManager.getConfiguration().ipAssignment == IpConfiguration.IpAssignment.UNASSIGNED) ? true : false;
             if (useDhcp) {
-                return "DHCP";
+                ipMode = "DHCP";
             } else if (useStatic) {
-                return "STATIC";
+                ipMode = "STATIC";
+            } else if (usePppoe) {
+                ipMode = "PPPOE";
+            } else if (useUnassigned) {
+                ipMode = "UNASSIGNED";
             } else {
-                return "PPPOE";
+                ipMode = "NONE";
             }
+            return ipMode;
         } else {
             android.net.ethernet.EthernetManager ethernetManager = EthernetManager.getInstance();
             boolean isDhcp = ethernetManager.isDhcp();

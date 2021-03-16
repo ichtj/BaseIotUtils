@@ -1,6 +1,6 @@
 *.iml
 .gradle
-/File/me.txt
+/other/me.txt
 /local.properties
 /base_iotutils/local.properties
 /.idea/caches
@@ -8,6 +8,9 @@
 /.idea/modules.xml
 /.idea/workspace.xml
 /.idea/navEditor.xml
+/.idea/encodings.xml
+/.idea/gradle.xml
+/.idea/jarRepositories.xml
 /.idea/assetWizardSettings.xml
 .DS_Store
 /build
