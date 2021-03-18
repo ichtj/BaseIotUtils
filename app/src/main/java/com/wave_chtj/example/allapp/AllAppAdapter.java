@@ -15,6 +15,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chtj.keepalive.FIPTablesTools;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
@@ -64,7 +65,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
-        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic+"M");
+        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic + "M");
         //7.1.2系统获取流量
         //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
@@ -132,6 +133,28 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         });
+        ((MyViewHolder) holder).tvEnableNet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).getUid());
+                if (isClearResult) {
+                    ToastUtils.success("启用成功,该应用可正常上网！");
+                } else {
+                    ToastUtils.error("启用成功,请重试！");
+                }
+            }
+        });
+        ((MyViewHolder) holder).tvDisableNet.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).getUid());
+                if (isPutComplete) {
+                    ToastUtils.success("禁用成功,该应用无法上网！");
+                } else {
+                    ToastUtils.error("禁用失败,请重试！");
+                }
+            }
+        });
         if (list.get(position).getIsSys()) {
             ((MyViewHolder) holder).tvUnInstall.setVisibility(View.GONE);
         } else {
@@ -146,7 +169,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall;
+        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet;
         public ImageView ivAppIcon;
 
         public MyViewHolder(View itemView) {
@@ -160,6 +183,8 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvStartApp = itemView.findViewById(R.id.tvStartApp);
             tvTraffic = itemView.findViewById(R.id.tvTraffic);
             tvUnInstall = itemView.findViewById(R.id.tvUnInstall);
+            tvEnableNet = itemView.findViewById(R.id.tvEnableNet);
+            tvDisableNet = itemView.findViewById(R.id.tvDisableNet);
         }
     }
 }

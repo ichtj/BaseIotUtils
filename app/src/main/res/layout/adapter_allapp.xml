@@ -36,6 +36,33 @@
         android:textSize="20pt" />
 
     <TextView
+        android:id="@+id/tvEnableNet"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="40pt"
+        android:layout_toRightOf="@+id/tvTraffic"
+        android:background="@drawable/button_switch"
+        android:gravity="center"
+        android:text="开启网络"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvDisableNet"
+        android:layout_width="100pt"
+        android:layout_height="40pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="40pt"
+        android:layout_toRightOf="@+id/tvEnableNet"
+        android:background="@drawable/button_switch"
+        android:gravity="center"
+        android:text="禁用网络"
+        android:textColor="@android:color/holo_blue_bright"
+        android:textSize="20pt" />
+
+
+    <TextView
         android:id="@+id/tvCopy"
         android:layout_width="100pt"
         android:layout_height="40pt"
