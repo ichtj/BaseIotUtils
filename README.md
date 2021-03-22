@@ -18,7 +18,7 @@ allprojects {
 
 ## 以下存在三个 library 请按需选择,并在App Module的build.gradle文件中添加
 
-### base_iotutils
+### base_iotutils 物联基础工具类
 
 ```groovy
 dependencies {
@@ -27,7 +27,7 @@ dependencies {
 }
 ```
 
-### base_socket
+### base_socket socket tcp/udp通信
 
 ```groovy
 dependencies {
@@ -37,12 +37,21 @@ dependencies {
 ```
 
 
-### base_framework
+### base_framework 系统api调用
 
 ```groovy
 dependencies {
          //请使用module导入的方式使用 目前未上传至jcenter
          implementation project(path: ':base_framework')
+}
+```
+
+### base_keepalive 服务保活处理
+
+```groovy
+dependencies {
+         //请使用module导入的方式使用 目前未上传至jcenter
+         implementation project(path: ':base_keepalive')
 }
 ```
 
