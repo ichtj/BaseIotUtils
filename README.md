@@ -1,6 +1,7 @@
 # 接入方式
 
 ## app 界面截图 这里显示不全,部分功能可能未在图中显示
+## 下面会有使用方式,但可能不是最新的 maven jcenter版本,请下载后手动导入并尝试
 
 ![image](/pic/apppic.png)
 
@@ -22,7 +23,7 @@ allprojects {
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.4'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.2'
 }
 ```
 
