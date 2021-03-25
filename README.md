@@ -1,33 +1,37 @@
 # 接入方式
 
 ## app 界面截图 这里显示不全,部分功能可能未在图中显示
-## 下面会有使用方式,但可能不是最新的 maven jcenter版本,请下载后手动导入并尝试
+
+### 下面会有使用方式,需查看最新的工具,请下载后手动导入并尝试，其中的base_iotuitls工具类可以普遍适用，而其他工具module可能需要系统支持或者root情况下适用
 
 ![image](/pic/apppic.png)
 
-## Android项目根目录下文件build.gradle中添加
+## Android 项目根目录下文件 build.gradle 中添加
 
 ```groovy
 allprojects {
 	repositories {
 		...
 		maven { url 'https://www.jitpack.io' }
+		maven{
+            url 'https://dl.bintray.com/userchtj/maven'
+        }
 	}
 }
 ```
 
-## 以下存在三个 library 请按需选择,并在App Module的build.gradle文件中添加
+## 以下存在三个 library 请按需选择,并在 App Module 的 build.gradle 文件中添加
 
 ### base_iotutils 物联基础工具类
 
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.2'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.6'
 }
 ```
 
-### base_socket socket tcp/udp通信
+### base_socket socket tcp/udp 通信
 
 ```groovy
 dependencies {
@@ -36,13 +40,12 @@ dependencies {
 }
 ```
 
-
-### base_framework 系统api调用
+### base_framework 系统 api 调用
 
 ```groovy
 dependencies {
          //请使用module导入的方式使用 目前未上传至jcenter
-         implementation project(path: ':base_framework')
+		 implementation project(path: ':base_framework')
 }
 ```
 
@@ -65,7 +68,7 @@ public class App extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-	//这里base_iotutils中的工具类初始化
+    //这里base_iotutils中的工具类初始化
     //1080(宽),1920(高)是为了适配而去设置相关的值
     //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
     BaseIotUtils
@@ -74,26 +77,24 @@ public class App extends Application {
       .setCreenType(SCREEN_TYPE.WIDTH)
       .create(getApplication()); //按照宽度适配
 
-	//这个是base_framework中的工具类初始化
-	//使用的系统签名后 实现调用操作系统API
-	FBaseTools.instance()
-              .setDeviceType(DeviceType.DEVICE_RK3288)
-              .create(getApplication());
+    //这个是base_framework中的工具类初始化
+    //注：使用的系统签名后 实现调用操作系统API
+    FBaseTools
+      .instance()
+      .create(getApplication());
   }
 
-   @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-        FBaseDaemon.init(base);//保活工具 library在base_keepalive Module中 请结合源码使用 后期添加使用说明
-    }
-
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+    MultiDex.install(this);
+    FBaseDaemon.init(base); //服务保活处理初始化 base_keepalive
+  }
 }
 
 ```
 
-## base_iotutils module工具类
-
+## base_iotutils module 工具类
 
 | 编号 | 工具类                         | 工具名称          | 实现功能                      |
 | ---- | ------------------------------ | ----------------- | ----------------------------- |
@@ -123,7 +124,7 @@ public class App extends Application {
 | 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
 | 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                    |
 
-#### base_iotutils工具调用方式,及图片展示
+#### base_iotutils 工具调用方式,及图片展示
 
 #### 屏幕适配 创建 pt 模拟器设备
 
@@ -420,14 +421,14 @@ public class App extends Application {
             initPermission();
 ```
 
-## base_socket module工具类
+## base_socket module 工具类
 
 | 编号 | 工具类        | 备注           | 实现功能     |
 | ---- | ------------- | -------------- | ------------ |
 | 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
 | 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
 
-#### base_socket工具调用方式
+#### base_socket 工具调用方式
 
 ```java
     //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
@@ -473,27 +474,27 @@ public class App extends Application {
 
 | 编号 | 模块     | 功能                                          |
 | ---- | -------- | --------------------------------------------- |
-| 1    | 网络     | 静态/动态 IP,开启/关闭以太网 , 开启/关闭 WIFI |
+| 1    | 网络     | 以太网控制 , WIFI控制，应用网络管理 |
 | 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量      |
 | 3    | 升级管理 | apk 安装/卸载,固件升级                        |
-| 5    | 保活管理 | ACTIVITY/SERVICE 添加,启动 ACTIVITY/SERVICE   |
-| 6    | 日志     | 异常网络日志记录                              |
+| 4    | 日志     | 异常网络日志记录                              |
 
-| 编号 | 工具类          | 工具名称       | 实现功能                       |
-| ---- | --------------- | -------------- | ------------------------------ |
-| 1    | FKeepAliveTools | 应用保活管理类 | Activity\Service 拉起          |
-| 2    | FScreentTools   | 屏幕信息工具类 | 截屏                           |
-| 3    | FStorageTools   | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
-| 4    | FUpgradeTools   | 升级管理       | 固件\apk 升级                  |
-| 5    | FEthTools       | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
-| 6    | FNetworkTools   | 网络工具类     | dns,流量获取                   |
-| 7    | FWifiTools      | WIFI 管理      | 开启关闭                       |
-
+| 编号 | 工具类          | 工具名称         | 实现功能                       |
+| ---- | --------------- | ---------------- | ------------------------------ |
+| 1    | FScreentTools   | 屏幕信息工具类   | 截屏                           |
+| 2    | FStorageTools   | 存储空间管理     | TF\SD\RAM\ROM 空间获取         |
+| 3    | FUpgradeTools   | 升级管理         | 固件\apk 升级                  |
+| 4    | FEthTools       | 以太网管理       | 开启关闭，STATIC\DHCP 模式设置 |
+| 5    | FNetworkTools   | 网络工具类       | dns,流量获取                   |
+| 6    | FWifiTools      | WIFI 管理        | 开启关闭                       |
+| 7    | FUsbHubTools    | USB 接入设备获取 | 开启关闭                       |
+| 8    | FIPTablesTools  | adb 网络管理     | 应用网络开启关闭               |
 
 ## Version Code
 
 #### v1.0.9
-> 跨进程保活Service/Activity
+
+> 跨进程保活 Service/Activity
 > 优化部分工具类使用
 
 #### v1.0.8
