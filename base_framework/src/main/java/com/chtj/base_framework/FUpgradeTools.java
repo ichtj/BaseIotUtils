@@ -1,17 +1,20 @@
-package com.chtj.keepalive;
+package com.chtj.base_framework;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 import android.os.RecoverySystem;
 import android.util.Log;
 
-import com.chtj.keepalive.entity.CommonValue;
-import com.chtj.keepalive.entity.InstallStatus;
+import com.chtj.base_framework.entity.CommonValue;
+import com.chtj.base_framework.entity.InstallStatus;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 更新工具类
@@ -29,7 +32,6 @@ public class FUpgradeTools {
 
         /**
          * 固件安装前的过程执行失败
-         *
          */
         void error(String errInfo);
     }
@@ -46,7 +48,7 @@ public class FUpgradeTools {
      *
      * @param filePath
      */
-    public static void firmwareUpgrade( String filePath, UpgradeInterface upgradeInterface) {
+    public static void firmwareUpgrade(String filePath, UpgradeInterface upgradeInterface) {
         try {
             File file = new File(filePath);
             if (file.exists()) {
@@ -69,7 +71,7 @@ public class FUpgradeTools {
                         }
                     }
                 }, null);
-            }else{
+            } else {
                 upgradeInterface.error("Firmware does not exist");
             }
         } catch (Throwable e) {
@@ -207,4 +209,56 @@ public class FUpgradeTools {
             }
         }
     }
+
+    /**
+     * 获取U盘tf等ota包路径
+     *
+     * @return 存在update.zip的路径 并且这个update.zip这个文件大于100M
+     */
+    public static List<String> getDeviceUpdatePathList() {
+        List<String> filePath = new ArrayList<>();
+        int sdk = Build.VERSION.SDK_INT;
+        String fileRootPath = "";
+        File file = null;
+        if (sdk >= 24) {
+            fileRootPath = "/storage/";
+            file = new File(fileRootPath);
+            File[] fDevicesList = file.listFiles();
+            if (fDevicesList != null && fDevicesList.length > 0) {
+                for (int i = 0; i < fDevicesList.length; i++) {
+                    if (!fDevicesList[i].getName().equals("emulated") && !fDevicesList[i].getName().equals("self")) {
+                        File[] fDeviceInfo = fDevicesList[i].listFiles();
+                        for (int j = 0; j < fDeviceInfo.length; j++) {
+                            if (fDeviceInfo[j].getName().equals("update.zip") && fDeviceInfo[j].length() > 104857600) {
+                                //文件大于一百兆 并且名称为update.zip
+                                filePath.add(fDeviceInfo[j].getAbsolutePath());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        } else {
+            fileRootPath = "/mnt/media_rw/";//extsd udisk
+            file = new File(fileRootPath);
+            File[] fDevicesList = file.listFiles();
+            if (fDevicesList != null && fDevicesList.length > 0) {
+                for (int i = 0; i < fDevicesList.length; i++) {
+                    if (fDevicesList[i].getName().equals("sdisk") && fDevicesList[i].getName().equals("udisk")) {
+                        File[] fDeviceInfo = fDevicesList[i].listFiles();
+                        for (int j = 0; j < fDeviceInfo.length; j++) {
+                            if (fDeviceInfo[j].getName().equals("update.zip") && fDeviceInfo[j].length() > 104857600) {
+                                //文件大于一百兆 并且名称为update.zip
+                                filePath.add(fDeviceInfo[j].getAbsolutePath());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return filePath;
+    }
+
+
 }
