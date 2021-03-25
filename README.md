@@ -44,8 +44,8 @@ dependencies {
 
 ```groovy
 dependencies {
-         //请使用module导入的方式使用 目前未上传至jcenter
-		 implementation project(path: ':base_framework')
+        //如未能正确使用,请下载源码调试
+		implementation 'com.chtj.base_framework:base_framework:1.0.5'
 }
 ```
 
@@ -53,8 +53,9 @@ dependencies {
 
 ```groovy
 dependencies {
-         //请使用module导入的方式使用 目前未上传至jcenter
-         implementation project(path: ':base_keepalive')
+        //如未能正确使用,请下载源码调试
+        //请使用module导入的方式使用 目前未上传至jcenter
+		implementation 'com.chtj.keepalive:base_keepalive:1.0.1'
 }
 ```
 
