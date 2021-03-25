@@ -37,4 +37,20 @@ public class FWifiTools {
         }
     }
 
+    /**
+     * wifi是否已经打开
+     *
+     * @return
+     */
+    public static boolean isOpen() {
+        WifiManager wifiManager = (WifiManager) FBaseTools.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_DISABLED) {
+            return false;
+        } else if (wifiManager.getWifiState() == WifiManager.WIFI_STATE_ENABLED) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

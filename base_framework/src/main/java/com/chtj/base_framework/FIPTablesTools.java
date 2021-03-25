@@ -29,8 +29,8 @@ public class FIPTablesTools {
         //获取手机内所有应用
         List<PackageInfo> paklist = pManager.getInstalledPackages(0);
         for (int i = 0; i < paklist.size(); i++) {
-            PackageInfo pak = (PackageInfo) paklist.get(i);
-            Log.d(TAG, "getUid: pkg="+pak.applicationInfo.packageName+",uid="+pak.applicationInfo.uid);
+            PackageInfo pak = paklist.get(i);
+            Log.d(TAG, "getUid: pkg=" + pak.applicationInfo.packageName + ",uid=" + pak.applicationInfo.uid);
             //判断是否为非系统预装的应用程序
             if (apkPkg.equals(pak.applicationInfo.packageName)) {
                 // customs applications
@@ -70,7 +70,7 @@ public class FIPTablesTools {
                 "iptables -L OUTPUT -nv  --line-number"
         };
         FCmdTools.CommandResult result = FCmdTools.execCommand(cmdArry, true);
-        Log.d(TAG, "getOutPutRulePostion: result.successMsg="+result.successMsg);
+        Log.d(TAG, "getOutPutRulePostion: result.successMsg=" + result.successMsg);
         if (result.result == 0) {
             int position = -1;
             Pattern pattern = Pattern.compile("owner UID match [0-9]{5}");
