@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -21,14 +20,17 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chtj.keepalive.FStorageTools;
-import com.chtj.keepalive.entity.CommonValue;
-import com.chtj.keepalive.entity.Space;
-import com.chtj.keepalive.network.FEthTools;
-import com.chtj.keepalive.FScreentTools;
-import com.chtj.keepalive.entity.IpConfigInfo;
-import com.chtj.keepalive.network.FNetworkTools;
-import com.chtj.keepalive.network.NetDbmListener;
+import com.chtj.base_framework.FStorageTools;
+import com.chtj.base_framework.FUpgradeTools;
+import com.chtj.base_framework.FUsbHubTools;
+import com.chtj.base_framework.entity.CommonValue;
+import com.chtj.base_framework.entity.EhciInfo;
+import com.chtj.base_framework.entity.Space;
+import com.chtj.base_framework.network.FEthTools;
+import com.chtj.base_framework.FScreentTools;
+import com.chtj.base_framework.entity.IpConfigInfo;
+import com.chtj.base_framework.network.FNetworkTools;
+import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
@@ -70,7 +72,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import butterknife.internal.Utils;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -119,11 +120,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
             }
         });
-        int currentapiVersion = android.os.Build.VERSION.SDK_INT;
-
         AppManager.getAppManager().finishActivity(StartPageAty.class);
-        KLog.d(TAG, "onCreate:>currentapiVersion=" + currentapiVersion);
-
         adapterDome = new RecycleAdapterDome(context, new ArrayList<String>());
         GridLayoutManager manager = new GridLayoutManager(context, 2);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -151,6 +148,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 handler.sendEmptyMessage(REFRESH_UI);
             }
         }));
+
     }
 
 
@@ -191,7 +189,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
 
     public String getGB(double num) {
         double returnNum = num / 1024 / 1024 / 1024;
-        KLog.d(TAG, "getGB:>returnNum=" + returnNum);
+        //KLog.d(TAG, "getGB:>returnNum=" + returnNum);
         return String.format("%.2f", returnNum);
     }
 
@@ -230,6 +228,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                                     , "文件压缩，文件下载，日志管理，时间管理，网络判断。。。"
                                     , "this is a library ..."
                                     , "2020-3-18"
+                                    , "xxx"
                                     , false
                                     , false)
                             .exeuNotify();
@@ -247,6 +246,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                             NotifyUtils.getInstance("111").setRemarks("");
                             NotifyUtils.getInstance("111").setPrompt("");
                             NotifyUtils.getInstance("111").setDataTime("");
+                            NotifyUtils.getInstance("111").setTopRight("");
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());

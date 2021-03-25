@@ -1,4 +1,4 @@
-package com.chtj.keepalive.network;
+package com.chtj.base_framework.network;
 
 import android.content.Context;
 import android.net.INetworkStatsService;
@@ -15,8 +15,8 @@ import android.telephony.TelephonyManager;
 import android.text.format.Formatter;
 import android.util.Log;
 
-import com.chtj.keepalive.FBaseTools;
-import com.chtj.keepalive.FCmdTools;
+import com.chtj.base_framework.FBaseTools;
+import com.chtj.base_framework.FCmdTools;
 
 import java.lang.reflect.Method;
 import java.util.Calendar;

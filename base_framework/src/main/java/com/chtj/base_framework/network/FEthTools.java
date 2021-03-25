@@ -1,4 +1,4 @@
-package com.chtj.keepalive.network;
+package com.chtj.base_framework.network;
 
 import android.content.Context;
 import android.net.IpConfiguration;
@@ -10,10 +10,10 @@ import android.net.ethernet.EthernetManager;
 import android.os.Build;
 import android.util.Log;
 
-import com.chtj.keepalive.FBaseTools;
-import com.chtj.keepalive.FCommonTools;
-import com.chtj.keepalive.entity.CommonValue;
-import com.chtj.keepalive.entity.IpConfigInfo;
+import com.chtj.base_framework.FBaseTools;
+import com.chtj.base_framework.FCommonTools;
+import com.chtj.base_framework.entity.CommonValue;
+import com.chtj.base_framework.entity.IpConfigInfo;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

@@ -1,11 +1,11 @@
-package com.chtj.keepalive;
+package com.chtj.base_framework;
 
 import android.app.Application;
 import android.content.Context;
 import android.content.IntentFilter;
 import android.util.Log;
 
-import com.chtj.keepalive.receiver.NetworkReceiver;
+import com.chtj.base_framework.receiver.NetworkReceiver;
 
 import java.io.File;
 

@@ -4,17 +4,14 @@ import android.os.Bundle;
 import android.text.format.Formatter;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chtj.keepalive.FIPTablesTools;
-import com.chtj.keepalive.network.FNetworkTools;
+import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
@@ -68,21 +65,6 @@ public class AllAppAty extends BaseActivity {
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }
-
-    /**
-     * 清除iptables所有添加的规则
-     *
-     * @param view
-     */
-    public void clearIptablesRuleClick(View view) {
-        boolean isClearResult = FIPTablesTools.clearAllRule();
-        if (isClearResult) {
-            ToastUtils.success("清除所有规则成功！");
-        } else {
-            ToastUtils.error("清除所有规则失败！");
-        }
-    }
-
 
     /**
      * 查询可卸载应用

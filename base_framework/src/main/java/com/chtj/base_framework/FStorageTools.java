@@ -1,4 +1,4 @@
-package com.chtj.keepalive;
+package com.chtj.base_framework;
 
 import android.app.ActivityManager;
 import android.content.Context;
@@ -7,8 +7,8 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.util.Log;
 
-import com.chtj.keepalive.entity.Space;
-import com.chtj.keepalive.entity.RomSpace;
+import com.chtj.base_framework.entity.Space;
+import com.chtj.base_framework.entity.RomSpace;
 
 import java.io.File;
 

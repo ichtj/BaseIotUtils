@@ -1,4 +1,4 @@
-package com.chtj.keepalive.entity;
+package com.chtj.base_framework.entity;
 
 public class EhciInfo {
     private String product;

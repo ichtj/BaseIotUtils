@@ -1,11 +1,11 @@
-package com.chtj.keepalive.network;
+package com.chtj.base_framework.network;
 
 
 import android.content.Context;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 
-import com.chtj.keepalive.FBaseTools;
+import com.chtj.base_framework.FBaseTools;
 
 /**
  * wifi工具类

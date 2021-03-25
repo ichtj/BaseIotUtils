@@ -1,4 +1,4 @@
-package com.chtj.keepalive.receiver;
+package com.chtj.base_framework.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -6,9 +6,9 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
-import com.chtj.keepalive.FCommonTools;
-import com.chtj.keepalive.network.FEthTools;
-import com.chtj.keepalive.network.FNetworkTools;
+import com.chtj.base_framework.FCommonTools;
+import com.chtj.base_framework.network.FEthTools;
+import com.chtj.base_framework.network.FNetworkTools;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

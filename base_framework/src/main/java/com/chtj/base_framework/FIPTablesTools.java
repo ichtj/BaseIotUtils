@@ -1,4 +1,4 @@
-package com.chtj.keepalive;
+package com.chtj.base_framework;
 
 import android.content.Context;
 import android.content.pm.PackageInfo;

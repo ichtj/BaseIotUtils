@@ -1,4 +1,4 @@
-package com.chtj.keepalive.entity;
+package com.chtj.base_framework.entity;
 
 public enum CommonValue {
     EXEU_COMPLETE(0, "执行成功"),

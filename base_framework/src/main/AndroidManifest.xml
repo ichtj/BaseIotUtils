@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.chtj.keepalive">
+    package="com.chtj.base_framework">
 
     <uses-permission
         android:name="android.permission.RECOVERY"
@@ -32,7 +32,7 @@
     <application android:allowBackup="true" android:persistent="true">
 
         <receiver
-            android:name="com.chtj.keepalive.receiver.NetworkReceiver">
+            android:name="com.chtj.base_framework.receiver.NetworkReceiver">
             <intent-filter
                 android:enabled="true"
                 android:exported="true"
