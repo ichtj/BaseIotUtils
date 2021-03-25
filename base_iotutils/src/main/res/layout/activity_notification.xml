@@ -56,6 +56,19 @@
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
+            <TextView
+                android:id="@+id/tvTopRight"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:ellipsize="end"
+                android:singleLine="true"
+                android:gravity="right|center"
+                android:text="xxx"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
             <ImageView
                 android:visibility="gone"
                 android:id="@+id/ivClose"

@@ -13,6 +13,7 @@ import android.os.Build;
 
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationManagerCompat;
+
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -219,6 +220,28 @@ public class NotifyUtils {
     }
 
     /**
+     * 右上角字符串
+     * 外部调用此方法时，请先调用{@link #getInstance(String)} }
+     *
+     * @param str topright str
+     * @return this
+     */
+    public void setTopRight(String str) {
+        String appendStr = "";
+        if (str != null && !str.equals("")) {
+            appendStr = str;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvTopRight, appendStr);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
+        } else {
+            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
+        }
+    }
+
+    /**
      * 设置APP about
      * 外部调用此方法时，请先调用{@link #getInstance(String)}
      *
@@ -352,15 +375,16 @@ public class NotifyUtils {
      * @param remarks     备注
      * @param prompt      提示
      * @param dataTime    时间
+     * @param topRight    右上字符串
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime,String topRight, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
         return notifyUtils;
     }
 
@@ -373,15 +397,16 @@ public class NotifyUtils {
      * @param remarks     备注
      * @param prompt      提示
      * @param dataTime    时间
+     * @param topRight    右上字符串
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel,String topRight) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
         return notifyUtils;
     }
 
@@ -394,22 +419,23 @@ public class NotifyUtils {
      * @param remarks     备注
      * @param prompt      提示
      * @param dataTime    时间
+     * @param topRight    右上字符串
      * @param mSlideOff   滑动是否删除
      * @param mAutoCancel 点击是否消失
      *                    该步骤执行完成之后需要执行下一个方法{@link #exeuNotify()}
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime,String topRight, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
         return notifyUtils;
     }
 
     /**
      * 参数的统一整理
      */
-    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime) {
+    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime,String topRight) {
         this.mSlideOff = mSlideOff;
         this.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -436,14 +462,14 @@ public class NotifyUtils {
 
 
         if (remarks != null && !remarks.equals("")) {
-            appendStr = "备注:" + remarks;
+            appendStr = "remarks:" + remarks;
         } else {
             appendStr = "";
         }
         contentView.setTextViewText(R.id.tvRemarks, appendStr);
 
         if (prompt != null && !prompt.equals("")) {
-            appendStr = "提示:" + prompt;
+            appendStr = "prompt:" + prompt;
         } else {
             appendStr = "";
         }
@@ -455,6 +481,13 @@ public class NotifyUtils {
             appendStr = "";
         }
         contentView.setTextViewText(R.id.tvDataTime, appendStr);
+
+        if (topRight != null && !topRight.equals("")) {
+            appendStr = topRight;
+        } else {
+            appendStr = "";
+        }
+        contentView.setTextViewText(R.id.tvTopRight, appendStr);
     }
 
     /**
