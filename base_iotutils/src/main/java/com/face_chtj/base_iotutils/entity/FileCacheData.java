@@ -1,4 +1,5 @@
 package com.face_chtj.base_iotutils.entity;
+import java.util.Map;
 
 public class FileCacheData {
     private String iid;
@@ -6,34 +7,16 @@ public class FileCacheData {
     private String fileName;
     private String filePath;
     private String requestTag;
-    private String str;//备用字段1
-    private String str1;//备用字段2
-    private String str2;//备用字段3
+    private Map<String,String> spareList;//备用字段请存储在这里
     private long current;
     private long total;
 
-    public String getStr2() {
-        return str2;
+    public Map<String, String> getSpareList() {
+        return spareList;
     }
 
-    public void setStr2(String str2) {
-        this.str2 = str2;
-    }
-
-    public String getStr1() {
-        return str1;
-    }
-
-    public void setStr1(String str1) {
-        this.str1 = str1;
-    }
-
-    public String getStr() {
-        return str;
-    }
-
-    public void setStr(String str) {
-        this.str = str;
+    public void setSpareList(Map<String, String> spareList) {
+        this.spareList = spareList;
     }
 
     public String getIid() {
