@@ -54,7 +54,6 @@ dependencies {
 ```groovy
 dependencies {
         //如未能正确使用,请下载源码调试
-        //请使用module导入的方式使用 目前未上传至jcenter
 		implementation 'com.chtj.keepalive:base_keepalive:1.0.1'
 }
 ```
