@@ -1,6 +1,7 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
+import android.app.usage.StorageStatsManager;
 import android.content.Context;
 import android.content.Intent;
 import android.hardware.usb.UsbDevice;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
+import android.os.storage.StorageManager;
 import android.view.View;
 import android.widget.TextView;
 
@@ -148,8 +150,10 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 handler.sendEmptyMessage(REFRESH_UI);
             }
         }));
-
     }
+
+
+
 
 
     Handler handler = new Handler() {
