@@ -2,7 +2,7 @@
 
 ## app 界面截图 这里显示不全,部分功能可能未在图中显示
 
-### 下面会有使用方式,需查看最新的工具,请下载后手动导入并尝试，其中的base_iotuitls工具类可以普遍适用，而其他工具module可能需要系统支持或者root情况下适用
+### 下面会有使用方式,需查看最新的工具,请下载后手动导入并尝试，其中的 base_iotuitls 工具类可以普遍适用，而其他工具 module 可能需要系统支持或者 root 情况下适用
 
 ![image](/pic/apppic.png)
 
@@ -22,16 +22,16 @@ allprojects {
 
 ## 以下存在三个 library 请按需选择,并在 App Module 的 build.gradle 文件中添加
 
-### base_iotutils 物联基础工具类
+### ① base_iotutils 物联基础工具类
 
 ```groovy
 dependencies {
          //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.6'
+         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.7'
 }
 ```
 
-### base_socket socket tcp/udp 通信
+### ② base_socket socket tcp/udp 通信
 
 ```groovy
 dependencies {
@@ -40,7 +40,7 @@ dependencies {
 }
 ```
 
-### base_framework 系统 api 调用
+### ③ base_framework 系统 api 调用
 
 ```groovy
 dependencies {
@@ -49,7 +49,7 @@ dependencies {
 }
 ```
 
-### base_keepalive 服务保活处理
+### ④ base_keepalive 服务保活处理
 
 ```groovy
 dependencies {
@@ -61,6 +61,7 @@ dependencies {
 ### 自定义 Application
 
 ```java
+//以下功能只是按需选择,每个Module library功能描述可在页面下方查看
 //注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
 
 public class App extends Application {
@@ -68,33 +69,31 @@ public class App extends Application {
   @Override
   public void onCreate() {
     super.onCreate();
-    //这里base_iotutils中的工具类初始化
-    //1080(宽),1920(高)是为了适配而去设置相关的值
-    //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
+    //① base_iotutils 物联基础工具类
     BaseIotUtils
       .instance()
       .setBaseScreenParam(1080, 1920, true)
       .setCreenType(SCREEN_TYPE.WIDTH)
       .create(getApplication()); //按照宽度适配
 
-    //这个是base_framework中的工具类初始化
-    //注：使用的系统签名后 实现调用操作系统API
-    FBaseTools
-      .instance()
-      .create(getApplication());
+    //② base_socket socket tcp/udp 通信 直接使用即可无需初始化
+
+    //③ base_framework 系统 api 调用
+    FBaseTools.instance().create(getApplication());
   }
 
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     MultiDex.install(this);
-    FBaseDaemon.init(base); //服务保活处理初始化 base_keepalive
+    //④ base_keepalive 服务保活处理
+    FBaseDaemon.init(base);
   }
 }
 
 ```
 
-## base_iotutils module 工具类
+## ① base_iotutils 物联基础工具类说明
 
 | 编号 | 工具类                         | 工具名称          | 实现功能                      |
 | ---- | ------------------------------ | ----------------- | ----------------------------- |
@@ -252,13 +251,12 @@ public class App extends Application {
         //暂停单个任务
         downloadSupport.pause(fileCacheData2.getRequestTag());
 
-
         //全部关闭
         downloadSupport.cancel();
 
 ```
 
-#### NotificationUtils 通知使用
+#### NotificationUtils 通知栏通知工具类使用
 
 ```java
      //获取系统中是否已经通过 允许通知的权限
@@ -421,7 +419,7 @@ public class App extends Application {
             initPermission();
 ```
 
-## base_socket module 工具类
+## ② base_socket socket tcp/udp 通信说明
 
 | 编号 | 工具类        | 备注           | 实现功能     |
 | ---- | ------------- | -------------- | ------------ |
@@ -470,35 +468,224 @@ public class App extends Application {
     baseTcpSocket.close();
 ```
 
-## framework_utils Module 实现功能(后继陆更)
+## ③ base_framework 系统 api 调用说明
 
-| 编号 | 模块     | 功能                                          |
-| ---- | -------- | --------------------------------------------- |
-| 1    | 网络     | 以太网控制 , WIFI控制，应用网络管理 |
-| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量      |
-| 3    | 升级管理 | apk 安装/卸载,固件升级                        |
-| 4    | 日志     | 异常网络日志记录                              |
+| 编号 | 模块     | 功能                                     |
+| ---- | -------- | ---------------------------------------- |
+| 1    | 网络     | 以太网控制 , WIFI 控制，应用网络管理     |
+| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量 |
+| 3    | 升级管理 | apk 安装/卸载,固件升级                   |
+| 4    | 日志     | 异常网络日志记录                         |
 
-| 编号 | 工具类          | 工具名称         | 实现功能                       |
-| ---- | --------------- | ---------------- | ------------------------------ |
-| 1    | FScreentTools   | 屏幕信息工具类   | 截屏                           |
-| 2    | FStorageTools   | 存储空间管理     | TF\SD\RAM\ROM 空间获取         |
-| 3    | FUpgradeTools   | 升级管理         | 固件\apk 升级                  |
-| 4    | FEthTools       | 以太网管理       | 开启关闭，STATIC\DHCP 模式设置 |
-| 5    | FNetworkTools   | 网络工具类       | dns,流量获取                   |
-| 6    | FWifiTools      | WIFI 管理        | 开启关闭                       |
-| 7    | FUsbHubTools    | USB 接入设备获取 | 开启关闭                       |
-| 8    | FIPTablesTools  | adb 网络管理     | 应用网络开启关闭               |
+| 编号 | 工具类         | 工具名称       | 实现功能                       |
+| ---- | -------------- | -------------- | ------------------------------ |
+| 1    | FScreentTools  | 屏幕信息工具类 | 截屏                           |
+| 2    | FStorageTools  | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
+| 3    | FUpgradeTools  | 升级管理       | 固件\apk 升级                  |
+| 4    | FEthTools      | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
+| 5    | FNetworkTools  | 网络工具类     | dns,流量获取                   |
+| 6    | FWifiTools     | WIFI 管理      | 开启关闭                       |
+| 7    | FUsbHubTools   | USB 管理       | 接入设备获取                   |
+| 8    | FIPTablesTools | 应用网络管理   | 应用网络开启关闭               |
+
+## ④ base_keepalive 服务保活处理
+
+| 编号 | 模块     | 功能              |
+| ---- | -------- | ----------------- |
+| 1    | ACTIVITY | activity 界面拉起 |
+| 2    | SERVICE  | service 服务拉起  |
+
+#### FKeepAliveTools 直接添加 SERVICE/ACTIVITY
+
+使用方式 直接引用 library
+
+```java
+    //添加ACTIVITY拉起
+    KeepAliveData keepAliveData = new KeepAliveData("com.xxx.xxx", FKeepAliveTools.TYPE_ACTIVITY, true);
+    CommonValue commonValue = FKeepAliveTools.addActivity(keepAliveData);
+    if (commonValue == CommonValue.EXEU_COMPLETE) {
+        return true;
+    } else {
+        return false;
+    }
+    //
+    KeepAliveData keepAliveData2 = new KeepAliveData("com.xxx.xxx", FKeepAliveTools.TYPE_SERVICE, "Service的具体路劲com.xxx.xxx.xxService", true);
+    CommonValue commonValue = FKeepAliveTools.addService(keepAliveData2);
+    if (commonValue == CommonValue.EXEU_COMPLETE) {
+        return true;
+    } else {
+        return false;
+    }
+```
+
+使用方式 作为一个中间组件调用 其他 app 可以跨进程添加或者清理
+
+```java
+    //将base_keepalive中的aidl中的文件复制到自己的项目中
+    //将base_keepalive/src/com/chtj/keepalive/entity中的实体类一同复制到自己项目中，并保持包名一致
+    //此时这个项目已经作为一个中间件，用于处理所有APP对其的添加，删除操作
+    //为什么这样做？有时并不想每个项目都引用这个base_keepalive进行保活，而是在已经存在的library中去直接调用，避免重复造轮子
+
+    public class KeepLiveAty extends BaseActivity implements OnClickListener, IKeepAliveListener {
+        private static final String TAG = "KeepLiveAty";
+        TextView tvResult;
+        /**
+         * 保活的类型为Activity
+         */
+        public static final int TYPE_ACTIVITY = 0;
+        /**
+         * 保活的类型为服务
+         */
+        public static final int TYPE_SERVICE = 1;
+
+        IKeepAliveService iKeepAliveService;
+
+        @Override
+        protected void onCreate(@Nullable Bundle savedInstanceState) {
+            ....
+            Intent intent = new Intent();
+            intent.setAction("com.chtj.keepalive.IKeepAliveService");
+            intent.setPackage("com.face.keepsample");
+            bindService(intent, conn, Context.BIND_AUTO_CREATE);
+            getData();
+        }
+
+        public void getData() {
+            try {
+                List<KeepAliveData> keepAliveDataList = iKeepAliveService.getKeepLiveInfo();
+                if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
+                    ToastUtils.success("获取成功 数量=" + keepAliveDataList.size());
+                } else {
+                    ToastUtils.error("获取失败 数量=0");
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                KLog.e(TAG, "errMeg:" + e.getMessage());
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_add_aty:
+                    try {
+                        KeepAliveData keepAliveData = new KeepAliveData("com.wave_chtj.example", TYPE_ACTIVITY, true);
+                        boolean isAddAty = iKeepAliveService.addKeepLiveInfo(keepAliveData, this);
+                        KLog.d(TAG, "onClick:>btn_add_aty=" + isAddAty);
+                        if (isAddAty) {
+                            ToastUtils.success("执行成功！");
+                        } else {
+                            ToastUtils.error("执行失败！");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        KLog.e(TAG, "errMeg:" + e.getMessage());
+                    }
+                    break;
+                case R.id.btn_add_service:
+                    try {
+                        KeepAliveData keepAliveInfo = new KeepAliveData("com.face.baseiotcloud", TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
+                        boolean isaddInfo = iKeepAliveService.addKeepLiveInfo(keepAliveInfo, this);
+                        KLog.d(TAG, "onClick:>btn_add_service=" + isaddInfo);
+                        if (isaddInfo) {
+                            ToastUtils.success("执行成功！");
+                        } else {
+                            ToastUtils.error("执行失败！");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        KLog.e(TAG, "errMeg:" + e.getMessage());
+                    }
+                    break;
+                case R.id.btn_getall:
+                    getData();
+                    break;
+                case R.id.btn_cleanall:
+                    try {
+                        boolean isClearAll = iKeepAliveService.clearAllKeepAliveInfo();
+                        if (isClearAll) {
+                            ToastUtils.success("清除成功！");
+                        } else {
+                            ToastUtils.error("清除失败！");
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        KLog.e(TAG, "errMeg:" + e.getMessage());
+                    }
+                    break;
+            }
+        }
+
+        ServiceConnection conn = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+                iKeepAliveService = IKeepAliveService.Stub.asInterface(service);
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+                iKeepAliveService = null;
+            }
+        };
+
+
+        IKeepAliveListener.Stub iKeepAliveListener = new IKeepAliveListener.Stub() {
+            @Override
+            public void onError(String errMeg) throws RemoteException {
+                Log.d(TAG, "onError: " + errMeg);
+            }
+
+            @Override
+            public void onSuccess() throws RemoteException {
+                Log.d(TAG, "onSuccess: ");
+            }
+        };
+
+        @Override
+        protected void onDestroy() {
+            super.onDestroy();
+            if (iKeepAliveService != null) {
+                unbindService(conn);
+            }
+        }
+
+        @Override
+        public void onError(String errMeg) throws RemoteException {
+            Log.d(TAG, "onError: ");
+        }
+
+        @Override
+        public void onSuccess() throws RemoteException {
+            Log.d(TAG, "onSuccess: ");
+        }
+
+        @Override
+        public IBinder asBinder() {
+            return iKeepAliveListener;
+        }
+    }
+```
 
 ## Version Code
 
+#### v1.1.0
+
+```
+> 本机信息展示(网络,设备空间等)
+> 下载工具类 DownloadSupport参数传递更方便,可自行定义每个下载任务的信息
+> 系统API调用,例如网络相关,空间相关等
+```
+
 #### v1.0.9
 
+```
 > 跨进程保活 Service/Activity
 > 优化部分工具类使用
+```
 
 #### v1.0.8
 
+```
 > 新增了 PlayUitls 音频播放器(状态管理)
 > DwonloadSupport(全新的多任务下载管理工具类)
 > 视频播放管理收集
@@ -507,14 +694,19 @@ public class App extends Application {
 > 优化该 app 界面,使用操作等
 > 定时器功能添加 倒计时，计时器等
 > 收集 greenDAO(收集整合，方便后期使用),封装(Sqlite)操作更加方便
+```
 
 #### v1.0.3
 
+```
 > 优化各个工具类
 > 新增部分工具类
 > 添加启动应用时的优化处理
+```
 
 #### v1.0.2
 
+```
 > 项目优化
 > 基本工具类的收集整合
+```
