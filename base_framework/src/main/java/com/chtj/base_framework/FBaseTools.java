@@ -2,10 +2,12 @@ package com.chtj.base_framework;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.usb.UsbManager;
 import android.util.Log;
 
-import com.chtj.base_framework.receiver.NetworkReceiver;
+import com.chtj.base_framework.upgrade.OtaUpgradeReceiver;
 
 import java.io.File;
 
@@ -14,8 +16,9 @@ public final class FBaseTools {
     private static final String TAG = "FBaseTools";
     //全局上下文
     static Context sApp;
-    static boolean isOpenLogRecord;
+    //static boolean isOpenLogRecord;
     private static volatile FBaseTools sInstance;
+    OtaUpgradeReceiver otaUpgradeReceiver;
 
     /**
      * 单例模式
@@ -38,10 +41,10 @@ public final class FBaseTools {
      *
      * @return
      */
-    public FBaseTools setRecordLog(boolean isLogRecord) {
-        isOpenLogRecord = isLogRecord;
-        return sInstance;
-    }
+    //public FBaseTools setRecordLog(boolean isLogRecord) {
+    //    //isOpenLogRecord = isLogRecord;
+    //    return sInstance;
+    //}
 
     /**
      * 初始化上下文，注册interface
@@ -70,12 +73,15 @@ public final class FBaseTools {
                 Log.e(TAG, "errMeg:" + e.getMessage());
             }
         }
-        if (isOpenLogRecord) {
-            //开启网络异常日志记录
-            NetworkReceiver networkReceiver = new NetworkReceiver();
-            IntentFilter intentFilter = new IntentFilter();
-            intentFilter.addAction(NetworkReceiver.ANDROID_NET_CHANGE_ACTION);
-            getContext().registerReceiver(networkReceiver, intentFilter);
+        if(otaUpgradeReceiver==null){
+            //IntentFilter filter = new IntentFilter();
+            //filter.addAction("android.hardware.usb.action.USB_STATE");
+            //filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
+            //filter.addAction(UsbManager.ACTION_USB_DEVICE_DETACHED);
+            //filter.addAction(Intent.ACTION_MEDIA_MOUNTED);
+            //filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
+            //otaUpgradeReceiver=new OtaUpgradeReceiver();
+            //getContext().registerReceiver(otaUpgradeReceiver, filter);
         }
     }
 

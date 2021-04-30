@@ -1,10 +1,13 @@
-package com.chtj.base_framework;
+package com.chtj.base_framework.upgrade;
 
 import android.annotation.SuppressLint;
 import android.os.Build;
 import android.os.RecoverySystem;
 import android.util.Log;
 
+import com.chtj.base_framework.FBaseTools;
+import com.chtj.base_framework.FCmdTools;
+import com.chtj.base_framework.FCommonTools;
 import com.chtj.base_framework.entity.CommonValue;
 import com.chtj.base_framework.entity.InstallStatus;
 
@@ -19,8 +22,10 @@ import java.util.List;
 /**
  * 更新工具类
  * 针对固件升级 APK等
+ * 请将任务放置到子线程中调用 防止执行超时
  */
 public class FUpgradeTools {
+    private static final String TAG = "FUpgradeTools";
 
     public interface UpgradeInterface {
         /**
@@ -36,8 +41,6 @@ public class FUpgradeTools {
         void error(String errInfo);
     }
 
-
-    private static final String TAG = "FirmwareUtils";
     /**
      * 固件最终存放的地址
      */
@@ -49,35 +52,46 @@ public class FUpgradeTools {
      * @param filePath
      */
     public static void firmwareUpgrade(String filePath, UpgradeInterface upgradeInterface) {
-        try {
-            File file = new File(filePath);
-            if (file.exists()) {
-                upgradeInterface.operating(InstallStatus.CHECK);
-                RecoverySystem.verifyPackage(file, new RecoverySystem.ProgressListener() {
-                    @SuppressLint("WrongConstant")
-                    @Override
-                    public void onProgress(int progress) {
-                        upgradeInterface.operating(InstallStatus.COPY);
-                        Log.d(TAG, "onProgress() called with: progress = [" + progress + "]");
-                        if (progress == 100) {
-                            copyFile(filePath, SAVA_FW_COPY_PATH);
-                            try {
-                                upgradeInterface.operating(InstallStatus.INSTALL);
-                                RecoverySystem.installPackage(FBaseTools.getContext(), new File("/data/update.zip"));
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                upgradeInterface.error(e.getMessage());
-                            }
+        if (OtaUpgradeThreadTools.newInstance().isTaskEnd()) {
+            //判断是否有任务正在执行 有则忽略 无则向下执行
+            OtaUpgradeThreadTools.newInstance().addExecuteTask(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        File file = new File(filePath);
+                        if (file.exists()) {
+                            upgradeInterface.operating(InstallStatus.CHECK);
+                            RecoverySystem.verifyPackage(file, new RecoverySystem.ProgressListener() {
+                                @SuppressLint("WrongConstant")
+                                @Override
+                                public void onProgress(int progress) {
+                                    if (progress == 100) {
+                                        Log.d(TAG, "onProgress() called with: progress = [ 100 ]");
+                                        upgradeInterface.operating(InstallStatus.COPY);
+                                        copyFile(filePath, SAVA_FW_COPY_PATH);
+                                        try {
+                                            upgradeInterface.operating(InstallStatus.INSTALL);
+                                            FRecoverySystemTools.installPackage(FBaseTools.getContext(), new File(SAVA_FW_COPY_PATH));
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            upgradeInterface.error(e.getMessage());
+                                        }
+                                    }
+                                }
+                            }, null);
+                        } else {
+                            upgradeInterface.error("Firmware does not exist");
                         }
+                    } catch (Throwable e) {
+                        e.printStackTrace();
+                        upgradeInterface.error(e.getMessage());
+                        Log.e(TAG, "errMeg:" + e.getMessage());
                     }
-                }, null);
-            } else {
-                upgradeInterface.error("Firmware does not exist");
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-            upgradeInterface.error(e.getMessage());
-            Log.e(TAG, "errMeg:" + e.getMessage());
+                }
+            });
+        } else {
+            //此处将忽略添加的任务 因为上一次的任务正在运行中 并没有结束
+            Log.d(TAG, "firmwareUpgrade: The ota upgrade task has been run, please do not repeat it!");
         }
     }
 
@@ -89,7 +103,7 @@ public class FUpgradeTools {
      */
     private static void copyFile(String oldPath, String newPath) {
         try {
-            int bytesum = 0;
+            //int bytesum = 0;
             int byteread = 0;
             File oldfile = new File(oldPath);
             if (oldfile.exists()) { //文件存在时
@@ -97,10 +111,10 @@ public class FUpgradeTools {
                 FileOutputStream fs = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
                 while ((byteread = inStream.read(buffer)) != -1) {
-                    bytesum += byteread;
-                    System.out.println(bytesum);
+                    //bytesum += byteread;
                     fs.write(buffer, 0, byteread);
                 }
+                Log.d(TAG, "copyFile: finsh complete!");
                 inStream.close();
                 try {
                     Class<?> c = Class.forName("android.os.SystemProperties");

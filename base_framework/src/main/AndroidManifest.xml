@@ -29,15 +29,51 @@
     <uses-permission
         android:name="android.permission.DELETE_PACKAGES"
         tools:ignore="ProtectedPermissions" />
-    <application android:allowBackup="true" android:persistent="true">
+    <!--固件升级相关-->
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions"></uses-permission>
+    <uses-permission
+        android:name="android.permission.RECOVERY"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.ACCESS_CACHE_FILESYSTEM"
+        tools:ignore="ProtectedPermissions"></uses-permission>
+    <uses-permission
+        android:name="android.permission.WRITE_MEDIA_STORAGE"
+        tools:ignore="ProtectedPermissions"></uses-permission>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission
+        android:name="android.permission.ACCESS_MTP"
+        tools:ignore="ProtectedPermissions" />
+    <!--唤醒锁-->
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <!--设备重启广播-->
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <!--usb相关-->
+    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
 
-        <receiver
-            android:name="com.chtj.base_framework.receiver.NetworkReceiver">
-            <intent-filter
-                android:enabled="true"
-                android:exported="true"
-                android:priority="1000">
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+    <uses-sdk android:minSdkVersion="14" />
+    <application
+        android:allowBackup="true"
+        android:persistent="true">
+        <!--固件升级服务-->
+        <service android:name=".upgrade.FUpgradeService" />
+        <!--ota升级广播 用于usb设备接入检测 升级结果回调-->
+        <receiver android:name=".upgrade.OtaUpgradeReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <data android:scheme="file" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <data android:scheme="file" />
             </intent-filter>
         </receiver>
     </application>
