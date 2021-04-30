@@ -6,8 +6,8 @@ ext {
             applicationId             : "com.wave_chtj.example",
             minSdkVersion             : 19,
             targetSdkVersion          : 29,
-            versionCode               : 10,
-            versionName               : "1.0.9",
+            versionCode               : 11,
+            versionName               : "1.1.0",
     ]
     //support配置
     support = [
