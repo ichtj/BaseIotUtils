@@ -9,7 +9,7 @@
         android:layout_height="90pt"
         android:layout_marginLeft="10pt"
         android:layout_marginTop="10pt"
-        android:src="@drawable/ic_launcher" />
+        android:src="@drawable/closenotification" />
 
     <TextView
         android:id="@+id/tvAppName"

@@ -1,9 +1,10 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.usage.StorageStatsManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.hardware.usb.UsbDevice;
 import android.net.Uri;
 import android.os.Build;
@@ -11,7 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.os.storage.StorageManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -23,16 +24,15 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.FStorageTools;
-import com.chtj.base_framework.FUpgradeTools;
-import com.chtj.base_framework.FUsbHubTools;
 import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.entity.EhciInfo;
+import com.chtj.base_framework.entity.InstallStatus;
 import com.chtj.base_framework.entity.Space;
 import com.chtj.base_framework.network.FEthTools;
 import com.chtj.base_framework.FScreentTools;
 import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.chtj.base_framework.network.NetDbmListener;
+import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
@@ -137,7 +137,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             }
         });
 
-        SingletonDisposable.add("timedRefresh", Observable.interval(0, 8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
+        SingletonDisposable.add("timedRefresh", Observable.interval(3, 8, TimeUnit.SECONDS).observeOn(AndroidSchedulers.mainThread()).subscribe(aLong -> {
             if (infoList != null && infoList.size() > 0) {
                 Space ramSpace = FStorageTools.getRamSpace();
                 Space romSpace = FStorageTools.getRomSpace();
@@ -150,8 +150,19 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 handler.sendEmptyMessage(REFRESH_UI);
             }
         }));
+        IntentFilter intentFilter=new IntentFilter();
+        intentFilter.addAction("android.intent.action.CN_OTA_RESULT");
+        registerReceiver(broadcastReceiver,intentFilter);
     }
 
+    BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if(intent.getAction().equals("android.intent.action.CN_OTA_RESULT")){
+                Log.d(TAG, "onReceive: android.intent.action.CN_OTA_RESULT");
+            }
+        }
+    };
 
 
 
@@ -162,7 +173,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             super.handleMessage(msg);
             switch (msg.what) {
                 case GET_INFO:
-                    KLog.d(TAG, "handleMessage:>=");
                     infoList = new ArrayList<>();
                     String netType = NetUtils.getNetWorkTypeName();
                     infoList.add("网络类型：" + netType);
@@ -407,6 +417,19 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.btn_keeplive://保活Activity
                 startActivity(new Intent(context, KeepLiveAty.class));
+                break;
+            case R.id.btn_ota://ota升级
+                FUpgradeTools.firmwareUpgrade("/sdcard/update.zip", new FUpgradeTools.UpgradeInterface() {
+                    @Override
+                    public void operating(InstallStatus installStatus) {
+                        Log.d(TAG, "operating: "+installStatus.name());
+                    }
+
+                    @Override
+                    public void error(String errInfo) {
+                        Log.d(TAG, "error: ");
+                    }
+                });
                 break;
         }
     }

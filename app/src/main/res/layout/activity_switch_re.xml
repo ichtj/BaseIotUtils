@@ -512,6 +512,32 @@
             android:text="ACTIVITY/SERVICE保活"
             android:textColor="@color/black"
             android:textSize="12sp" />
+        <Button
+            android:id="@+id/btn_ota"
+            android:layout_width="540pt"
+            android:layout_height="185pt"
+            android:layout_below="@+id/btn_screent"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/button_switch"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="ota升级"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
+        <Button
+            android:id="@+id/btn_other"
+            android:layout_width="540pt"
+            android:layout_height="185pt"
+            android:layout_below="@+id/btn_keeplive"
+            android:layout_marginLeft="6dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/btn_ota"
+            android:background="@drawable/button_switch"
+            android:gravity="center"
+            android:onClick="onClick"
+            android:text="more"
+            android:textColor="@color/black"
+            android:textSize="12sp" />
 
     </RelativeLayout>
 </ScrollView>

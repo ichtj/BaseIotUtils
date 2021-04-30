@@ -149,20 +149,6 @@
         <activity
             android:name=".keeplive.KeepLiveAty"
             android:theme="@style/AppTheme" />
-        <receiver
-            android:name=".keeplive.KeepLiveAty$MyKeepAliveReceiver"
-            android:enabled="true"
-            android:exported="true"
-            tools:ignore="Instantiatable">
-            <intent-filter
-                android:enabled="true"
-                android:exported="true"
-                android:priority="1000">
-                <action android:name="com.chtj.add.keepalive.info" />
-                <action android:name="com.chtj.add.keepalive.info.result" />
-            </intent-filter>
-        </receiver>
-
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"

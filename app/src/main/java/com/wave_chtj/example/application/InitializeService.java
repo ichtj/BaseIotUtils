@@ -51,7 +51,6 @@ public class InitializeService extends IntentService {
                 create(getApplication());
 
         FBaseTools.instance()
-                .setRecordLog(true)
                 .create(getApplication());
     }
 
