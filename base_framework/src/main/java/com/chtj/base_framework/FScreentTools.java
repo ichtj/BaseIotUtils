@@ -39,9 +39,9 @@ public class FScreentTools {
      * 截屏
      * 默认保存在sdcard目录下
      *
-     * @return
+     * @return 文件存放路径
      */
-    public static boolean takeScreenshot() {
+    public static String takeScreenshot() {
         return takeScreenshot("");
     }
 
@@ -52,7 +52,7 @@ public class FScreentTools {
      * <p>
      * 例如：/sdcard/local/20201515.png
      */
-    public static boolean takeScreenshot(String fileFullPath) {
+    public static String takeScreenshot(String fileFullPath) {
         SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
         String fileName = format.format(new Date(System.currentTimeMillis())) + ".png";
         if (fileFullPath == "") {
@@ -60,7 +60,7 @@ public class FScreentTools {
         }
         if (FCmdTools.isRoot() || FCmdTools.execCommand("mount -o rw,remount -t ext4 /system", true).result == 0) {
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
-                return FCmdTools.execCommand("/system/bin/screencap -p " + fileFullPath + fileName, true).result == 0;
+                return FCmdTools.execCommand("/system/bin/screencap -p " + fileFullPath + fileName, true).result == 0?fileFullPath:"";
             }
         } else {
             if (android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.JELLY_BEAN_MR2 && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
@@ -105,7 +105,7 @@ public class FScreentTools {
 
                 // If we couldn't take the screenshot, notify the user
                 if (mScreenBitmap == null) {
-                    return false;
+                    return "";
                 }
 
                 // Optimizations
@@ -114,9 +114,9 @@ public class FScreentTools {
 
                 saveBitmap2file(mScreenBitmap, fileFullPath);
             }
-            return true;
+            return fileFullPath;
         }
-        return false;
+        return "";
     }
 
 
