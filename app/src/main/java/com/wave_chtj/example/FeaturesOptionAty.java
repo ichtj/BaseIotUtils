@@ -145,7 +145,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 infoList.set(5,"运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G");
                 infoList.set(6,"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
                 infoList.set(7,"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
-                infoList.set(8,"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                try {
+                    infoList.set(8,"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                }catch (Throwable e){
+                    e.printStackTrace();
+                    KLog.e(TAG,"errMeg:"+e.getMessage());
+                    infoList.set(8,"以太网IP模式：NONE");
+                }
                 infoList.set(9,"4G信号强度：" + dbm4G);
                 handler.sendEmptyMessage(REFRESH_UI);
             }
@@ -190,7 +196,13 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                     infoList.add("内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
                     Space sdSpace = FStorageTools.getSdcardSpace();
                     infoList.add("SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
-                    infoList.add("以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                    try {
+                        infoList.add("以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+                    }catch (Throwable e){
+                        e.printStackTrace();
+                        KLog.e(TAG,"errMeg:"+e.getMessage());
+                        infoList.add("以太网IP模式：NONE");
+                    }
                     infoList.add("4G信号强度：" + dbm4G);
                     adapterDome.setList(infoList);
                     break;
