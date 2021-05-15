@@ -17,7 +17,6 @@ import androidx.core.app.NotificationManagerCompat;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.R;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
@@ -51,7 +50,7 @@ public class NotifyUtils {
     private boolean mSlideOff = true;//滑动时是否可以删除
     private boolean mAutoCancel = false;//点击的时候是否消失
     private OnNotifyLinstener mOnNotifyLinstener;
-    private static NotifyUtils notifyUtils;
+    private static volatile NotifyUtils notifyUtils;
     private NotifyBroadcastReceiver mNotifyBroadcastReceiver;
     //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
@@ -149,7 +148,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setOnNotifyLinstener(OnNotifyLinstener onNotifyLinstener) {
-        this.mOnNotifyLinstener = onNotifyLinstener;
+        notifyUtils.mOnNotifyLinstener = onNotifyLinstener;
         return notifyUtils;
     }
 
@@ -160,7 +159,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setEnableCloseButton(boolean isEnable) {
-        contentView.setViewVisibility(R.id.ivClose, isEnable ? View.VISIBLE : View.GONE);
+        notifyUtils.contentView.setViewVisibility(R.id.ivClose, isEnable ? View.VISIBLE : View.GONE);
         return notifyUtils;
     }
 
@@ -171,7 +170,7 @@ public class NotifyUtils {
      * @param ivLogo setImageViewResource
      */
     private void setIvLogo(int ivLogo) {
-        contentView.setImageViewResource(R.id.iv_logo, ivLogo);
+        notifyUtils.contentView.setImageViewResource(R.id.iv_logo, ivLogo);
     }
 
     /**
@@ -181,7 +180,7 @@ public class NotifyUtils {
      */
     private void setIvLogo(Bitmap ivLogo) {
         if (ivLogo != null) {
-            contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
+            notifyUtils.contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
         }
     }
 
@@ -193,7 +192,7 @@ public class NotifyUtils {
      */
     public void setIvLogo(Uri ivLogo) {
         if (ivLogo != null) {
-            contentView.setImageViewUri(R.id.iv_logo, ivLogo);
+            notifyUtils.contentView.setImageViewUri(R.id.iv_logo, ivLogo);
         }
     }
 
@@ -211,12 +210,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvAppName, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvAppName, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -233,12 +228,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvTopRight, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvTopRight, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -255,12 +246,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvAppAbout, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -277,12 +264,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvRemarks, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvRemarks, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -299,12 +282,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvPrompt, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvPrompt, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -321,12 +300,8 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvDataTime, appendStr);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.contentView.setTextViewText(R.id.tvDataTime, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
 
@@ -338,14 +313,9 @@ public class NotifyUtils {
      * @return this
      */
     public void setSlideOff(boolean mSlideOff) {
-        this.mSlideOff = mSlideOff;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            this.builder.setOngoing(!mSlideOff);
-            this.manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            this.builder.setOngoing(!mSlideOff);
-            this.manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.mSlideOff = mSlideOff;
+        notifyUtils.builder.setOngoing(!mSlideOff);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -356,14 +326,9 @@ public class NotifyUtils {
      * @return this
      */
     public void setmAutoCancel(boolean mAutoCancel) {
-        this.mAutoCancel = mAutoCancel;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            builder.setAutoCancel(mAutoCancel);
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        } else {
-            builder.setAutoCancel(mAutoCancel);
-            manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-        }
+        notifyUtils.mAutoCancel = mAutoCancel;
+        notifyUtils.builder.setAutoCancel(mAutoCancel);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
     }
 
     /**
@@ -382,9 +347,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime,String topRight, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
         return notifyUtils;
     }
 
@@ -404,9 +369,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel,String topRight) {
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel, String topRight) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
         return notifyUtils;
     }
 
@@ -426,24 +391,24 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime,String topRight, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime,topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
         return notifyUtils;
     }
 
     /**
      * 参数的统一整理
      */
-    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime,String topRight) {
-        this.mSlideOff = mSlideOff;
-        this.mAutoCancel = mAutoCancel;
+    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime, String topRight) {
+        notifyUtils.mSlideOff = mSlideOff;
+        notifyUtils.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             //app通知栏图标
-            builder.setSmallIcon(icon);  //小图标，在大图标右下角
+            notifyUtils.builder.setSmallIcon(icon);  //小图标，在大图标右下角
         } else {
             //app通知栏图标
-            builder.setSmallIcon(icon);  //小图标，在大图标右下角
+            notifyUtils.builder.setSmallIcon(icon);  //小图标，在大图标右下角
         }
         String appendStr = "";
         if (appName != null && !appName.equals("")) {
@@ -451,14 +416,14 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvAppName, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvAppName, appendStr);
 
         if (appAbout != null && !appAbout.equals("")) {
             appendStr = appAbout;
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvAppAbout, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appendStr);
 
 
         if (remarks != null && !remarks.equals("")) {
@@ -466,28 +431,28 @@ public class NotifyUtils {
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvRemarks, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvRemarks, appendStr);
 
         if (prompt != null && !prompt.equals("")) {
             appendStr = "prompt:" + prompt;
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvPrompt, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvPrompt, appendStr);
 
         if (dataTime != null && !dataTime.equals("")) {
             appendStr = dataTime;
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvDataTime, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvDataTime, appendStr);
 
         if (topRight != null && !topRight.equals("")) {
             appendStr = topRight;
         } else {
             appendStr = "";
         }
-        contentView.setTextViewText(R.id.tvTopRight, appendStr);
+        notifyUtils.contentView.setTextViewText(R.id.tvTopRight, appendStr);
     }
 
     /**
@@ -495,25 +460,16 @@ public class NotifyUtils {
      * 更改参数时执行
      */
     public void exeuNotify() {
-        if (manager != null) {
-            if (notifyId != -1) {
-                KLog.e(TAG, "notifyId=" + notifyId + ",mSlideOff=" + mSlideOff + ",mAutoCancel=" + mAutoCancel);
-                int sdkInt = android.os.Build.VERSION.SDK_INT;
-                KLog.d(TAG, "sdkInt: " + sdkInt);
-                if (sdkInt >= android.os.Build.VERSION_CODES.O && builder != null) {
-                    KLog.e(TAG, "more than android api 26 ,nBuilder=" + builder);
-                    builder.setOngoing(!mSlideOff);//滑动不能清除
-                    builder.setAutoCancel(mAutoCancel);//点击的时候消失
-                    manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
-                } else if (sdkInt < android.os.Build.VERSION_CODES.O && builder != null) {
-                    KLog.e(TAG, "less than android api 26,builder=" + builder);
-                    builder.setOngoing(!mSlideOff);//滑动不能清除
-                    builder.setAutoCancel(mAutoCancel);//点击的时候消失
-                    manager.notify(notifyId, builder.build());  //参数一为ID，用来区分不同APP的Notification
+        if (notifyUtils.manager != null) {
+            if (notifyUtils.notifyId != -1) {
+                if (notifyUtils.builder != null) {
+                    notifyUtils.builder.setOngoing(!notifyUtils.mSlideOff);//滑动不能清除
+                    notifyUtils.builder.setAutoCancel(notifyUtils.mAutoCancel);//点击的时候消失
+                    notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
                 }
-                SPUtils.putBoolean("needClose", mAutoCancel);
-                if (mOnNotifyLinstener != null) {
-                    mOnNotifyLinstener.enableStatus(true);
+                SPUtils.putBoolean("needClose", notifyUtils.mAutoCancel);
+                if (notifyUtils.mOnNotifyLinstener != null) {
+                    notifyUtils.mOnNotifyLinstener.enableStatus(true);
                 }
             } else {
                 throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
@@ -530,7 +486,6 @@ public class NotifyUtils {
      */
     public static void closeNotify() {
         if (notifyUtils != null) {
-            KLog.d(TAG, "notifyId=" + notifyUtils.notifyId);
             if (notifyUtils.manager != null) {
                 if (notifyUtils.notifyId != -1) {
                     notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
