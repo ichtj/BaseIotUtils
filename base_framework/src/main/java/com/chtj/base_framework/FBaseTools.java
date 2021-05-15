@@ -60,19 +60,19 @@ public final class FBaseTools {
      * 创建记录网络变化后的日志文件创建
      */
     public void otherOperations() {
-        File file = new File(FCommonTools.SAVE_NETERR_PATH + FBaseTools.sApp.getPackageName() + "/");
-        if (!file.exists()) {
-            file.mkdirs();
-        }
-        file = new File(FCommonTools.SAVE_NETERR_PATH + FBaseTools.sApp.getPackageName() + "/" + FCommonTools.SAVE_NETERR_FILE_NAME);
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e(TAG, "errMeg:" + e.getMessage());
-            }
-        }
+        //File file = new File(FCommonTools.SAVE_NETERR_PATH + FBaseTools.sApp.getPackageName() + "/");
+        //if (!file.exists()) {
+        //    file.mkdirs();
+        //}
+        //file = new File(FCommonTools.SAVE_NETERR_PATH + FBaseTools.sApp.getPackageName() + "/" + FCommonTools.SAVE_NETERR_FILE_NAME);
+        //if (!file.exists()) {
+        //    try {
+        //        file.createNewFile();
+        //    } catch (Exception e) {
+        //        e.printStackTrace();
+        //        Log.e(TAG, "errMeg:" + e.getMessage());
+        //    }
+        //}
         if(otaUpgradeReceiver==null){
             //IntentFilter filter = new IntentFilter();
             //filter.addAction("android.hardware.usb.action.USB_STATE");
