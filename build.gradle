@@ -6,8 +6,8 @@ buildscript {
     }
     dependencies {
         //加上这两行
-        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        //classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
+        //classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
         //butterknife
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         //Sqlite数据库
@@ -23,6 +23,7 @@ allprojects {
         jcenter()
         mavenCentral()
         maven { url 'https://www.jitpack.io' }
+        maven { url 'http://127.0.0.1:8081/repository/maven-releases/' }
 
     }
     tasks.withType(Javadoc) { // 新增

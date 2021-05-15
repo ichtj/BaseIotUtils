@@ -27,7 +27,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 }
-
 dependencies {
     compileOnly files('libs\\rk3288.jar')
     compileOnly files('libs\\fc5330.jar')
@@ -42,4 +41,5 @@ dependencies {
     //androidTestImplementation 'com.android.support.test:runner:1.0.2'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
-apply from: '../bintray.gradle'
+//apply from: '../bintray.gradle'
+//apply from: '../maven.gradle'

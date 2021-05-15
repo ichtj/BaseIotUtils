@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin:'maven' //新增
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -68,3 +69,6 @@ dependencies {
     api rootProject.ext.dependencies["ziputils"]
 }
 //apply from: '../bintray.gradle'
+apply from: '../maven.gradle'
+
+
