@@ -156,21 +156,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 handler.sendEmptyMessage(REFRESH_UI);
             }
         }));
-        IntentFilter intentFilter=new IntentFilter();
-        intentFilter.addAction("android.intent.action.CN_OTA_RESULT");
-        registerReceiver(broadcastReceiver,intentFilter);
+
     }
-
-    BroadcastReceiver broadcastReceiver=new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if(intent.getAction().equals("android.intent.action.CN_OTA_RESULT")){
-                Log.d(TAG, "onReceive: android.intent.action.CN_OTA_RESULT");
-            }
-        }
-    };
-
-
 
 
     Handler handler = new Handler() {
@@ -420,8 +407,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
                 break;
             case R.id.btn_screent://截屏
-                boolean isOk = FScreentTools.takeScreenshot("/sdcard/");
-                if (isOk) {
+                String imgPath = FScreentTools.takeScreenshot("/sdcard/");
+                if (imgPath!=null&&!imgPath.equals("")) {
                     ToastUtils.success("截屏成功,位置:/sdcard/目录下");
                 } else {
                     ToastUtils.error("截屏失败！");
