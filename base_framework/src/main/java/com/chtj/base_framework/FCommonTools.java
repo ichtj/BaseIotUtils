@@ -42,11 +42,6 @@ public class FCommonTools {
     public static final String CMD_REBOOT = "reboot";
 
 
-    /**
-     * 网络异常时的日志记录
-     */
-    public static final String SAVE_NETERR_PATH = "/sdcard/LOGSAVE/network/";
-    public static final String SAVE_NETERR_FILE_NAME = "netchange.txt";
 
     /**
      * 写入数据
