@@ -22,11 +22,13 @@ public class OtaUpgradeReceiver extends BroadcastReceiver {
                 break;
             case Intent.ACTION_MEDIA_MOUNTED://设备接入
                 String inOtaPath = intent.getData().toString().replace("file://","");
-                Log.d(TAG, "onReceive: action=" + action + ", inOtaPath=" + inOtaPath);
-                Intent serviceIntent = new Intent(context, FUpgradeService.class);
-                serviceIntent.putExtra("action", "connect");
-                serviceIntent.putExtra("otaPath", inOtaPath);
-                context.startService(serviceIntent);
+                if(!inOtaPath.contains("storage/emulated")){//防止系统重启完成之后挂载了sdcard对此服务造成影响
+                    Log.d(TAG, "onReceive: action=" + action + ", inOtaPath=" + inOtaPath);
+                    Intent serviceIntent = new Intent(context, FUpgradeService.class);
+                    serviceIntent.putExtra("action", "connect");
+                    serviceIntent.putExtra("otaPath", inOtaPath);
+                    context.startService(serviceIntent);
+                }
                 break;
             case Intent.ACTION_MEDIA_UNMOUNTED://设备卸载
                 String unOtaPath = intent.getData().toString().replace("file://","");
