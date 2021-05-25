@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="900pt"
-    android:layout_height="140pt">
+    android:padding="10pt"
+    android:layout_height="150pt">
 
     <ImageView
         android:id="@+id/ivAppIcon"
         android:layout_width="90pt"
         android:layout_height="90pt"
-        android:layout_marginLeft="10pt"
         android:layout_marginTop="10pt"
         android:src="@drawable/closenotification" />
 
     <TextView
         android:id="@+id/tvAppName"
-        android:layout_width="wrap_content"
+        android:layout_width="165pt"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="10pt"
         android:layout_marginTop="40pt"
         android:layout_toRightOf="@+id/ivAppIcon"
         android:singleLine="true"
@@ -25,7 +25,7 @@
 
     <TextView
         android:id="@+id/tvTraffic"
-        android:layout_width="wrap_content"
+        android:layout_width="130pt"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10pt"
         android:layout_marginTop="40pt"
@@ -36,12 +36,24 @@
         android:textSize="20pt" />
 
     <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="115pt"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="40pt"
+        android:layout_toRightOf="@+id/tvTraffic"
+        android:gravity="center|left"
+        android:singleLine="true"
+        android:text="0.0.0"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+    <TextView
         android:id="@+id/tvEnableNet"
         android:layout_width="100pt"
         android:layout_height="40pt"
         android:layout_marginLeft="10pt"
         android:layout_marginTop="40pt"
-        android:layout_toRightOf="@+id/tvTraffic"
+        android:layout_toRightOf="@+id/tvVersion"
         android:background="@drawable/button_switch"
         android:gravity="center"
         android:text="开启网络"
@@ -68,7 +80,6 @@
         android:layout_height="40pt"
         android:layout_alignParentRight="true"
         android:layout_marginTop="40pt"
-        android:layout_marginRight="10pt"
         android:background="@drawable/button_switch"
         android:gravity="center"
         android:text="复制"
@@ -80,7 +91,6 @@
         android:layout_width="320pt"
         android:layout_height="40pt"
         android:layout_below="@+id/ivAppIcon"
-        android:layout_marginLeft="10pt"
         android:gravity="left|center"
         android:singleLine="true"
         android:text="packName"
@@ -132,8 +142,8 @@
         android:layout_height="40pt"
         android:layout_below="@+id/ivAppIcon"
         android:layout_marginLeft="10pt"
-        android:layout_marginRight="10pt"
-        android:layout_toRightOf="@+id/tvUnInstall"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
         android:background="@drawable/button_switch"
         android:gravity="center"
         android:text=" 详情 "

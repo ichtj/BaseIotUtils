@@ -30,6 +30,7 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
+        <activity android:name=".SelectAppActivity"/>
     </application>
 
 </manifest>

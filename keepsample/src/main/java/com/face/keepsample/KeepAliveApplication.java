@@ -4,12 +4,15 @@ import android.app.Application;
 import android.content.Context;
 
 import com.chtj.keepalive.FBaseDaemon;
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.KLog;
 
 public class KeepAliveApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        KLog.init(true);
+        BaseIotUtils.instance().create(this);
     }
 
     @Override

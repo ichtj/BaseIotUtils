@@ -233,12 +233,11 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 int i = 1 / 0;
                 break;
             case FKey.KEY_USB_HUB:
-                ToastUtils.info("开始usb设备监听");
+                ToastUtils.info("usb设备监听开始,插入或拔出将提示！");
                 UsbHubTools.getInstance().registerReceiver();
                 UsbHubTools.getInstance().setIUsbDeviceListener(new IUsbHubListener() {
                     @Override
                     public void deviceInfo(String action, String path, boolean isConn) {
-                        KLog.d(TAG, "deviceInfo:>action=" + action + ",path=" + path + ",isConn=" + isConn);
                         ToastUtils.info("path:" + path + ",isConn=" + isConn);
                     }
                 });

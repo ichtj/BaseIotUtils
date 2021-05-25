@@ -2,17 +2,33 @@ package com.face.keepsample;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.preference.ListPreference;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.chtj.keepalive.FKeepAliveTools;
 import com.chtj.keepalive.entity.CommonValue;
 import com.chtj.keepalive.entity.KeepAliveData;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.app.AppsUtils;
+import com.face_chtj.base_iotutils.entity.AppEntity;
 
 import java.util.List;
 
@@ -22,12 +38,14 @@ import java.util.List;
  * 注意复制相应的aidl和实体类
  */
 public class KeepAliveActivity extends AppCompatActivity implements View.OnClickListener {
-
     private static final String TAG = "KeepAliveActivity";
+    public static final int REQUEST_CODE=1100;
     TextView tvResult;
     EditText etpkg;
     EditText etpkg2;
     EditText etServiceName;
+    Button btn_to_select;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -36,16 +54,17 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
         tvResult = findViewById(R.id.tvResult);
         etpkg = findViewById(R.id.etpkg);
         etpkg2 = findViewById(R.id.etpkg2);
+        btn_to_select = findViewById(R.id.btn_to_select);
         etServiceName = findViewById(R.id.etServiceName);
         getData();
     }
 
     public void getData() {
-        boolean isFirst =SPUtils.getBoolean(this,"isFirst",true);
-        if(isFirst){
+        boolean isFirst = SPUtils.getBoolean(this, "isFirst", true);
+        if (isFirst) {
             KeepAliveData keepAliveData = new KeepAliveData("com.ss.testserial", FKeepAliveTools.TYPE_ACTIVITY, true);
             FKeepAliveTools.addActivity(keepAliveData);
-            SPUtils.putBoolean(this,"isFirst",false);
+            SPUtils.putBoolean(this, "isFirst", false);
         }
         tvResult.setText("");
         List<KeepAliveData> keepAliveDataList = FKeepAliveTools.getKeepLive();
@@ -108,6 +127,26 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
                     tvResult.setText("清除失败 errMeg=" + commonValue2.getRemarks());
                 }
                 break;
+            case R.id.btn_to_select://选择APP
+                startActivityForResult(new Intent(this,SelectAppActivity.class),REQUEST_CODE);
+                break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE&& resultCode == RESULT_OK){
+            String packageName = data.getStringExtra("packageName");
+            KeepAliveData keepAliveData = new KeepAliveData(packageName, FKeepAliveTools.TYPE_ACTIVITY, true);
+            CommonValue commonValue = FKeepAliveTools.addActivity(keepAliveData);
+            Log.d(TAG, "onClick:>=" + commonValue.toString());
+            if (commonValue == CommonValue.EXEU_COMPLETE) {
+                ToastUtils.success("已修改成功！");
+            } else {
+                ToastUtils.error("修改失败！");
+            }
+            getData();
         }
     }
 }

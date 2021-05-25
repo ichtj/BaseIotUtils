@@ -57,20 +57,22 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final int posiNum = position;
-        ((MyViewHolder) holder).tvAppName.setText("名称:" + list.get(position).getAppName());
-        ((MyViewHolder) holder).tvPackName.setText("包名:" + list.get(position).getPackageName());
-        ((MyViewHolder) holder).tvUid.setText("UID:" + list.get(position).getUid() + "");
-        ((MyViewHolder) holder).ivAppIcon.setImageDrawable(list.get(position).getIcon());
+        MyViewHolder myViewHolder=(MyViewHolder) holder;
+        myViewHolder.tvAppName.setText(list.get(position).getAppName());
+        myViewHolder.tvPackName.setText(list.get(position).getPackageName());
+        myViewHolder.tvUid.setText("UID:" + list.get(position).getUid() + "");
+        myViewHolder.ivAppIcon.setImageDrawable(list.get(position).getIcon());
         KLog.d(TAG, " uid= " + list.get(position).getUid());
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
-        ((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + sumTraffic + "M");
+        myViewHolder.tvTraffic.setText("use:" + sumTraffic + "M");
+        myViewHolder.tvVersion.setText("v:" +list.get(position).getVersionName()+"."+list.get(position).getVersionCode());
         //7.1.2系统获取流量
         //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
         //((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase);
-        ((MyViewHolder) holder).tvStartApp.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvStartApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 KLog.d(TAG, "PackageName: " + list.get(posiNum).getPackageName());
@@ -84,7 +86,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
         //复制到剪切板
-        ((MyViewHolder) holder).tvCopy.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvCopy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //获取剪贴板管理器：
@@ -96,7 +98,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 ToastUtils.success("复制包名成功");
             }
         });
-        ((MyViewHolder) holder).tvToAppInfo.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvToAppInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent localIntent = new Intent();
@@ -112,7 +114,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 BaseIotUtils.getContext().startActivity(localIntent);
             }
         });
-        ((MyViewHolder) holder).tvUnInstall.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvUnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
@@ -133,7 +135,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         });
-        ((MyViewHolder) holder).tvEnableNet.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvEnableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).getUid());
@@ -144,7 +146,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         });
-        ((MyViewHolder) holder).tvDisableNet.setOnClickListener(new View.OnClickListener() {
+        myViewHolder.tvDisableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).getUid());
@@ -156,9 +158,9 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             }
         });
         if (list.get(position).getIsSys()) {
-            ((MyViewHolder) holder).tvUnInstall.setVisibility(View.GONE);
+            myViewHolder.tvUnInstall.setVisibility(View.GONE);
         } else {
-            ((MyViewHolder) holder).tvUnInstall.setVisibility(View.VISIBLE);
+            myViewHolder.tvUnInstall.setVisibility(View.VISIBLE);
         }
     }
 
@@ -169,7 +171,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet;
+        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet,tvVersion;
         public ImageView ivAppIcon;
 
         public MyViewHolder(View itemView) {
@@ -185,6 +187,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvUnInstall = itemView.findViewById(R.id.tvUnInstall);
             tvEnableNet = itemView.findViewById(R.id.tvEnableNet);
             tvDisableNet = itemView.findViewById(R.id.tvDisableNet);
+            tvVersion = itemView.findViewById(R.id.tvVersion);
         }
     }
 }

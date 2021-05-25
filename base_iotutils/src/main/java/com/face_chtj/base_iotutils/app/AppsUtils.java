@@ -67,7 +67,9 @@ public class AppsUtils {
                 if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
                     isSys = true;
                 }
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, icon, false, i, ai.uid, isSys, getAllProcess(packageName));
+                String versionCode=pm.getPackageInfo(packageName,0).versionCode+"";
+                String versionName=pm.getPackageInfo(packageName,0).versionName;
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName,versionCode+"",versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName));
                 appEntityList.add(entity);
             }
         } catch (Exception e) {
@@ -95,8 +97,14 @@ public class AppsUtils {
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
+                        pak.versionCode+"",
+                        pak.versionName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid, false, getAllProcess(pak.applicationInfo.packageName));
+                        false,
+                        i,
+                        pak.applicationInfo.uid,
+                        false,
+                        getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);
             }
         }
@@ -121,6 +129,8 @@ public class AppsUtils {
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pak.applicationInfo.packageName,
+                        pak.versionCode+"",
+                        pak.versionName,
                         pManager.getApplicationIcon(pak.applicationInfo),
                         false, i, pak.applicationInfo.uid, true, getAllProcess(pak.applicationInfo.packageName));
                 appEntityList.add(entity);

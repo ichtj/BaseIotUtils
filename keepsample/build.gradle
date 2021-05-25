@@ -79,4 +79,7 @@ dependencies {
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
     implementation project(path: ':base_keepalive')
+    implementation(rootProject.ext.dependencies["base_iotutils"]) {
+        transitive = true
+    }
 }

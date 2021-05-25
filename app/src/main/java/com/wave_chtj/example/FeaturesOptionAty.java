@@ -110,11 +110,11 @@ public class FeaturesOptionAty extends BaseActivity{
                 infoList.put(FKey.KEY_ROM, new String[]{"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G"});
                 infoList.put(FKey.KEY_SD_SPACE, new String[]{"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G"});
                 try {
-                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
+                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
                 } catch (Throwable e) {
-                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"以太网IP模式：NONE"});
+                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"ETH模式：NONE"});
                 }
-                infoList.put(FKey.KEY_DBM, new String[]{"4G信号强度：" + dbm4G});
+                infoList.put(FKey.KEY_DBM, new String[]{"4G信号值：" + dbm4G});
                 handler.sendEmptyMessage(FLAG_REFRESH_UI);
             }
         }));
@@ -145,11 +145,11 @@ public class FeaturesOptionAty extends BaseActivity{
                     Space sdSpace = FStorageTools.getSdcardSpace();
                     infoList.put(FKey.KEY_SD_SPACE,new String[]{"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G"});
                     try {
-                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
+                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
                     } catch (Throwable e) {
-                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"以太网IP模式：NONE"});
+                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"ETH模式：NONE"});
                     }
-                    infoList.put(FKey.KEY_DBM,new String[]{"4G信号强度：" + dbm4G});
+                    infoList.put(FKey.KEY_DBM,new String[]{"4G信号值：" + dbm4G});
                     infoList.put(FKey.KEY_SERIAL_PORT,new String[]{"串口收发" });
                     infoList.put(FKey.KEY_TIMERD,new String[]{"定时器" });
                     infoList.put(FKey.KEY_SCREEN,new String[]{"屏幕相关" });
@@ -159,29 +159,29 @@ public class FeaturesOptionAty extends BaseActivity{
                     infoList.put(FKey.KEY_TCP_UDP,new String[]{"TCP|UDP" });
                     infoList.put(FKey.KEY_NOTIFY_SHOW,new String[]{"通知开启" });
                     infoList.put(FKey.KEY_NOTIFY_CLOSE,new String[]{"通知关闭" });
-                    infoList.put(FKey.KEY_SYS_DIALOG_SHOW,new String[]{"显示SystemDialog" });
-                    infoList.put(FKey.KEY_SYS_DIALOG_CLOSE,new String[]{"关闭SystemDialog" });
-                    infoList.put(FKey.KEY_TOAST,new String[]{"普通toast" });
-                    infoList.put(FKey.KEY_TOAST_BG,new String[]{"图形背景toast" });
+                    infoList.put(FKey.KEY_SYS_DIALOG_SHOW,new String[]{"系统弹窗" });
+                    infoList.put(FKey.KEY_SYS_DIALOG_CLOSE,new String[]{"关闭系统弹窗" });
+                    infoList.put(FKey.KEY_TOAST,new String[]{"普通吐司" });
+                    infoList.put(FKey.KEY_TOAST_BG,new String[]{"图形吐司" });
                     infoList.put(FKey.KEY_ERR_ANR,new String[]{"测试anr" });
                     infoList.put(FKey.KEY_ERR_OTHER,new String[]{"测试其他异常" });
-                    infoList.put(FKey.KEY_USB_HUB,new String[]{"USB设备注册监听" });
-                    infoList.put(FKey.KEY_USB_HUB_UNREGIST,new String[]{"USB解除注册" });
-                    infoList.put(FKey.KEY_GREEN_DAO,new String[]{"greenDAO数据库使用" });
+                    infoList.put(FKey.KEY_USB_HUB,new String[]{"USB设备监听" });
+                    infoList.put(FKey.KEY_USB_HUB_UNREGIST,new String[]{"USB监听解除" });
+                    infoList.put(FKey.KEY_GREEN_DAO,new String[]{"数据库封装" });
                     infoList.put(FKey.KEY_JXL_OPEN,new String[]{"JXL打开excel" });
                     infoList.put(FKey.KEY_JXL_EXPORT,new String[]{"JXL导出excel" });
                     infoList.put(FKey.KEY_POI_OPEN,new String[]{"POI打开excel" });
                     infoList.put(FKey.KEY_POI_EXPORT,new String[]{"POI导出excel" });
                     infoList.put(FKey.KEY_APP_LIST,new String[]{"应用列表" });
                     infoList.put(FKey.KEY_VIDEO,new String[]{"视频播放" });
-                    infoList.put(FKey.KEY_URL_CONVERT,new String[]{"UriPath转真实路径(点我)" });
-                    infoList.put(FKey.KEY_ASSETS,new String[]{"获取Assets文件下的文件:" });
+                    infoList.put(FKey.KEY_URL_CONVERT,new String[]{"Uri转路径" });
+                    infoList.put(FKey.KEY_ASSETS,new String[]{"获取Assets文件" });
                     infoList.put(FKey.KEY_AUDIO,new String[]{"播放音频" });
-                    infoList.put(FKey.KEY_IP_SET_STATIC,new String[]{"静态IP(system)" });
-                    infoList.put(FKey.KEY_IP_SET_DHCP,new String[]{"动态IP(system)" });
-                    infoList.put(FKey.KEY_SCREENSHOT,new String[]{"截屏(system)" });
-                    infoList.put(FKey.KEY_KEEPALIVE,new String[]{"ACTIVITY/SERVICE保活" });
-                    infoList.put(FKey.KEY_OTA,new String[]{"ota升级" });
+                    infoList.put(FKey.KEY_IP_SET_STATIC,new String[]{"静态IP(ROOT)" });
+                    infoList.put(FKey.KEY_IP_SET_DHCP,new String[]{"动态IP(ROOT)" });
+                    infoList.put(FKey.KEY_SCREENSHOT,new String[]{"截屏(ROOT)" });
+                    infoList.put(FKey.KEY_KEEPALIVE,new String[]{"ATY/SERVICE保活" });
+                    infoList.put(FKey.KEY_OTA,new String[]{"ota升级(RK|FC)" });
                     infoList.put(FKey.KEY_MORE,new String[]{"更多...." });
                     adapterDome.setList(infoList);
                     break;

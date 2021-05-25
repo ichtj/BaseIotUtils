@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/ll_item"
+    android:orientation="horizontal"
+    android:padding="8dp">
+
+    <ImageView
+        android:id="@+id/ivAppIcon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ic_launcher_background" />
+
+    <TextView
+        android:id="@+id/tvAppName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10pt"
+        android:layout_toRightOf="@+id/ivAppIcon"
+        android:singleLine="true"
+        android:text="appName"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+
+    <TextView
+        android:id="@+id/tvPackName"
+        android:layout_width="wrap_content"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10pt"
+        android:gravity="left|center"
+        android:singleLine="true"
+        android:text="packName"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+    <TextView
+        android:id="@+id/tvVersion"
+        android:layout_width="wrap_content"
+        android:layout_height="40pt"
+        android:layout_below="@+id/ivAppIcon"
+        android:layout_gravity="center"
+        android:layout_marginLeft="10pt"
+        android:gravity="left|center"
+        android:singleLine="true"
+        android:text="版本"
+        android:textColor="@android:color/black"
+        android:textSize="20pt" />
+</LinearLayout>

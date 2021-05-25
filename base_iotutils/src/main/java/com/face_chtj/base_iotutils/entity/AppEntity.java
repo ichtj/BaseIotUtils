@@ -18,6 +18,14 @@ public class AppEntity {
      */
     private String packageName;
     /**
+     * 版本号
+     */
+    private String versionCode;
+    /**
+     * 版本名称
+     */
+    private String versionName;
+    /**
      * app图标
      */
     private Drawable icon;
@@ -46,7 +54,7 @@ public class AppEntity {
     public AppEntity() {
     }
 
-    public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> mProcessEntity) {
+    /*public AppEntity(String id, String appName, String packageName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> mProcessEntity) {
         this.id = id;
         this.appName = appName;
         this.packageName = packageName;
@@ -56,6 +64,41 @@ public class AppEntity {
         this.uid = uid;
         this.isSys = isSys;
         this.mProcessEntity = mProcessEntity;
+    }*/
+
+
+    public AppEntity(String id, String appName, String packageName, String versionCode, String versionName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> mProcessEntity) {
+        this.id = id;
+        this.appName = appName;
+        this.packageName = packageName;
+        this.versionCode = versionCode;
+        this.versionName = versionName;
+        this.icon = icon;
+        this.isCheck = isCheck;
+        this.position = position;
+        this.uid = uid;
+        this.isSys = isSys;
+        this.mProcessEntity = mProcessEntity;
+    }
+
+    public String getVersionCode() {
+        return versionCode;
+    }
+
+    public void setVersionCode(String versionCode) {
+        this.versionCode = versionCode;
+    }
+
+    public String getVersionName() {
+        return versionName;
+    }
+
+    public void setVersionName(String versionName) {
+        this.versionName = versionName;
+    }
+
+    public void setIsSys(boolean isSys) {
+        this.isSys = isSys;
     }
 
     public boolean getIsSys() {
@@ -68,10 +111,6 @@ public class AppEntity {
 
     public void setmProcessEntity(List<ProcessEntity> mProcessEntity) {
         this.mProcessEntity = mProcessEntity;
-    }
-
-    public void setIsSys(boolean isSys) {
-        this.isSys = isSys;
     }
 
     public Drawable getIcon() {
