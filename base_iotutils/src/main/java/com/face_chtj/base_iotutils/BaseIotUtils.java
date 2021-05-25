@@ -79,10 +79,10 @@ public final class BaseIotUtils {
     public static void autoConvertDensityOfGlobal(Activity activity) {
         if (BaseIotUtils.instance().mAutoScreenAdaptation) {
             if (BaseIotUtils.instance().screen_type == SCREEN_TYPE.WIDTH) {
-                KLog.d(TAG, "Adaptation is open and adapting to width");
+                //KLog.d(TAG, "Adaptation is open and adapting to width");
                 AdaptScreenUtils.adaptWidth(activity.getResources(), BaseIotUtils.instance().defaultWidth);
             } else {
-                KLog.d(TAG, "Adaptation is open and adapting to height");
+                //KLog.d(TAG, "Adaptation is open and adapting to height");
                 AdaptScreenUtils.adaptHeight(activity.getResources(), BaseIotUtils.instance().defaultHeight);
             }
         } else {

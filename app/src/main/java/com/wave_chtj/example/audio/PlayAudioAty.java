@@ -1,4 +1,4 @@
-package com.wave_chtj.example.playmedia;
+package com.wave_chtj.example.audio;
 
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +14,7 @@ import com.face_chtj.base_iotutils.enums.VOLUME_TYPE;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
-public class PlayMediaAty extends BaseActivity {
+public class PlayAudioAty extends BaseActivity {
     private static final String TAG = "PlayMediaAty";
     Button btn_pause_resume;
 

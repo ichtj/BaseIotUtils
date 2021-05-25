@@ -6,7 +6,7 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.customizeview.TopTitleView
+    <com.wave_chtj.example.util.TopTitleView
         android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,7 +34,7 @@
         android:text="播放"
         android:textSize="12sp" />
 
-    <com.wave_chtj.example.play.VideoPlayerView
+    <com.wave_chtj.example.video.VideoPlayerView
         android:id="@+id/jz_video"
         android:layout_width="match_parent"
         android:layout_height="640pt"

@@ -76,14 +76,18 @@
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
+    <!--usb相关-->
+    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
+
     <application
         android:name=".application.DefaultApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/app_img"
+        android:icon="@drawable/app_img"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:persistent="true"
-        android:roundIcon="@mipmap/app_img"
+        android:roundIcon="@drawable/app_img"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <!--启动页-->
@@ -119,7 +123,7 @@
             android:windowSoftInputMode="adjustPan" />
         <!--文件下载-->
         <activity
-            android:name=".download.DownLoadAty"
+            android:name=".download.FileDownLoadAty"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--Socket udp/tcp-->
@@ -139,15 +143,15 @@
         <activity android:name=".timer.TimerAty" />
         <!--视频播放-->
         <activity
-            android:name=".play.VideoPlayAty"
+            android:name=".video.VideoPlayAty"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
             android:screenOrientation="unspecified" />
         <!--音频播放-->
-        <activity android:name=".playmedia.PlayMediaAty" />
+        <activity android:name=".audio.PlayAudioAty" />
 
         <!--保活相关-->
         <activity
-            android:name=".keeplive.KeepLiveAty"
+            android:name=".keeplive.KeepAliveAty"
             android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service

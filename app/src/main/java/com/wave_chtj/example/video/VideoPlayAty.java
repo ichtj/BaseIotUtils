@@ -1,4 +1,4 @@
-package com.wave_chtj.example.play;
+package com.wave_chtj.example.video;
 
 import android.os.Bundle;
 import android.view.View;

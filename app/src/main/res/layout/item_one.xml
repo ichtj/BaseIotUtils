@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Button xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/tvOneStr"
+    android:layout_width="540pt"
+    android:layout_height="185pt"
+    android:background="@drawable/button_switch"
+    android:gravity="center"
+    android:onClick="onClick"
+    android:text="@string/serial_rs"
+    android:layout_margin="5dp"
+    android:textColor="@color/black"
+    android:textSize="12sp" />

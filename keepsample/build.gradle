@@ -4,28 +4,28 @@ plugins {
 
 android {
     signingConfigs {
-        rkrelease {
-            storeFile file('D:\\rockchip7.jks')
+        debug {
+            storeFile file('D:\\facefuture.jks')
             storePassword 'android'
-            keyAlias 'rockchip'
+            if (buildTypeInfo.indexOf("rk3288") != -1) {
+                keyAlias 'rockchip'  //rk7.1.2默认签名
+            } else if (buildTypeInfo.indexOf("rkcn") != -1) {
+                keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
+            } else {
+                keyAlias 'freescale' //飞思卡尔默认签名
+            }
             keyPassword 'android'
         }
-        rkdebug {
-            storeFile file('D:\\rockchip7.jks')
+        release {
+            storeFile file('D:\\facefuture.jks')
             storePassword 'android'
-            keyAlias 'rockchip'
-            keyPassword 'android'
-        }
-        fcrelease {
-            storeFile file('D:\\freescale.jks')
-            keyAlias 'freescale'
-            storePassword 'android'
-            keyPassword 'android'
-        }
-        fcdebug {
-            storeFile file('D:\\freescale.jks')
-            storePassword 'android'
-            keyAlias 'freescale'
+            if (buildTypeInfo.indexOf("rk3288") != -1) {
+                keyAlias 'rockchip'  //rk7.1.2默认签名
+            } else if (buildTypeInfo.indexOf("rkcn") != -1) {
+                keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
+            } else {
+                keyAlias 'freescale' //飞思卡尔默认签名
+            }
             keyPassword 'android'
         }
     }
@@ -38,31 +38,19 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-        if (buildTypeInfo.indexOf("rk3288") != -1) {
-            signingConfig signingConfigs.rkrelease
-        } else {
-            signingConfig signingConfigs.fcrelease
-        }
+        signingConfig signingConfigs.debug
     }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (buildTypeInfo.indexOf("rk3288") != -1) {
-                signingConfig signingConfigs.rkrelease
-            } else {
-                signingConfig signingConfigs.fcrelease
-            }
+            signingConfig signingConfigs.release
         }
         debug {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            if (buildTypeInfo.indexOf("rk3288") != -1) {
-                signingConfig signingConfigs.rkrelease
-            } else {
-                signingConfig signingConfigs.fcrelease
-            }
+            signingConfig signingConfigs.debug
         }
     }
     compileOptions {

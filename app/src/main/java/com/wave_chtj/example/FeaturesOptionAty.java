@@ -1,77 +1,43 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.hardware.usb.UsbDevice;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
-import android.view.View;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.FStorageTools;
-import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.entity.InstallStatus;
 import com.chtj.base_framework.entity.Space;
 import com.chtj.base_framework.network.FEthTools;
-import com.chtj.base_framework.FScreentTools;
-import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.chtj.base_framework.network.NetDbmListener;
-import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
-import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
-import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.crash.MyService;
-import com.wave_chtj.example.download.DownLoadAty;
-import com.wave_chtj.example.file.FileOperatAty;
-import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
-import com.wave_chtj.example.keeplive.KeepLiveAty;
-import com.wave_chtj.example.network.NetChangeAty;
-import com.wave_chtj.example.play.VideoPlayAty;
-import com.wave_chtj.example.playmedia.PlayMediaAty;
-import com.wave_chtj.example.screen.ScreenActivity;
-import com.wave_chtj.example.serialport.SerialPortAty;
-import com.wave_chtj.example.socket.SocketAty;
 import com.face_chtj.base_iotutils.UriPathUtils;
-import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
-import com.wave_chtj.example.entity.ExcelEntity;
-import com.wave_chtj.example.util.RecycleAdapterDome;
+import com.wave_chtj.example.util.BaseIotRvAdapter;
+import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.SingletonDisposable;
-import com.wave_chtj.example.util.excel.JXLExcelUtils;
-import com.wave_chtj.example.util.excel.POIExcelUtils;
-import com.wave_chtj.example.util.keyevent.IUsbDeviceListener;
-import com.wave_chtj.example.util.keyevent.KeyEventUtils;
+import com.wave_chtj.example.util.keyevent.UsbHubTools;
 
-import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -81,24 +47,23 @@ import io.reactivex.functions.Consumer;
 /**
  * 功能选择
  */
-public class FeaturesOptionAty extends BaseActivity implements View.OnClickListener {
+public class FeaturesOptionAty extends BaseActivity{
     private static final String TAG = "FeaturesOptionAty";
-    private static final int FILE_SELECT_CODE = 10000;
-    private TextView tvTruePath;
+    public static final int FILE_SELECT_CODE = 10000;
     private Context context;
     private RecyclerView rvinfo;
-    private RecycleAdapterDome adapterDome;//声明适配器
-    private final static int GET_INFO = 0x100;
-    private final static int REFRESH_UI = 0x101;
+    private BaseIotRvAdapter adapterDome;//声明适配器
+    private final static int FLAG_DEVICE_INFO = 0x100;
+    private final static int FLAG_REFRESH_UI = 0x101;
     private String dbm4G = 0 + " dBm " + 0 + " asu";
-    List<String> infoList = new ArrayList<>();
+    LinkedHashMap<Integer,String[]> infoList = new LinkedHashMap<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
+        AppManager.getAppManager().finishActivity(StartPageAty.class);
         context = FeaturesOptionAty.this;
-        tvTruePath = findViewById(R.id.tvTruePath);
         rvinfo = findViewById(R.id.rvinfo);
         /**获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
@@ -122,13 +87,12 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 }
             }
         });
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
-        adapterDome = new RecycleAdapterDome(context, new ArrayList<String>());
+        adapterDome = new BaseIotRvAdapter(context, infoList);
         GridLayoutManager manager = new GridLayoutManager(context, 2);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvinfo.setLayoutManager(manager);
         rvinfo.setAdapter(adapterDome);
-        handler.sendEmptyMessageDelayed(GET_INFO, 2000);
+        handler.sendEmptyMessageDelayed(FLAG_DEVICE_INFO, 2000);
 
         FNetworkTools.lteListener(BaseIotUtils.getContext(), new NetDbmListener() {
             @Override
@@ -142,58 +106,86 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
                 Space ramSpace = FStorageTools.getRamSpace();
                 Space romSpace = FStorageTools.getRomSpace();
                 Space sdSpace = FStorageTools.getSdcardSpace();
-                infoList.set(5,"运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G");
-                infoList.set(6,"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
-                infoList.set(7,"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
+                infoList.put(FKey.KEY_RAM, new String[]{"运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G"});
+                infoList.put(FKey.KEY_ROM, new String[]{"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G"});
+                infoList.put(FKey.KEY_SD_SPACE, new String[]{"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G"});
                 try {
-                    infoList.set(8,"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
-                }catch (Throwable e){
-                    e.printStackTrace();
-                    KLog.e(TAG,"errMeg:"+e.getMessage());
-                    infoList.set(8,"以太网IP模式：NONE");
+                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
+                } catch (Throwable e) {
+                    infoList.put(FKey.KEY_ETH_MODE, new String[]{"以太网IP模式：NONE"});
                 }
-                infoList.set(9,"4G信号强度：" + dbm4G);
-                handler.sendEmptyMessage(REFRESH_UI);
+                infoList.put(FKey.KEY_DBM, new String[]{"4G信号强度：" + dbm4G});
+                handler.sendEmptyMessage(FLAG_REFRESH_UI);
             }
         }));
 
     }
-
 
     Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             switch (msg.what) {
-                case GET_INFO:
-                    infoList = new ArrayList<>();
+                case FLAG_DEVICE_INFO:
+                    infoList = new LinkedHashMap<>();
                     String netType = NetUtils.getNetWorkTypeName();
-                    infoList.add("网络类型：" + netType);
+                    infoList.put(FKey.KEY_NET_TYPE,new String[]{"网络类型：" + netType});
                     String appVersion = AppsUtils.getAppVersionName();
-                    infoList.add("APK版本：v" + appVersion);
+                    infoList.put(FKey.KEY_APK_VERSION,new String[]{"APK版本：v" + appVersion});
                     boolean isRoot = AppsUtils.isRoot();
-                    infoList.add("是否ROOT：" + isRoot);
+                    infoList.put(FKey.KEY_IS_ROOT,new String[]{"是否ROOT：" + isRoot});
                     String localIp = DeviceUtils.getLocalIp();
-                    infoList.add("本地IP：" + localIp);
+                    infoList.put(FKey.KEY_LOCAL_IP,new String[]{"本地IP：" + localIp});
                     String fwVersion = DeviceUtils.getFwVersion();
-                    infoList.add("固件版本：" + fwVersion);
+                    infoList.put(FKey.KEY_FW_VERSION,new String[]{"固件版本：" + fwVersion});
                     Space ramSpace = FStorageTools.getRamSpace();
-                    infoList.add("运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G");
+                    infoList.put(FKey.KEY_RAM,new String[]{"运存：" + getGB(ramSpace.getTotalSize()) + "G/" + getGB(ramSpace.getUseSize()) + "G/" + getGB(ramSpace.getAvailableSize()) + "G"});
                     Space romSpace = FStorageTools.getRomSpace();
-                    infoList.add("内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G");
+                    infoList.put(FKey.KEY_ROM,new String[]{"内存：" + getGB(romSpace.getTotalSize()) + "G/" + getGB(romSpace.getUseSize()) + "G/" + getGB(romSpace.getAvailableSize()) + "G"});
                     Space sdSpace = FStorageTools.getSdcardSpace();
-                    infoList.add("SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G");
+                    infoList.put(FKey.KEY_SD_SPACE,new String[]{"SD：" + getGB(sdSpace.getTotalSize()) + "G/" + getGB(sdSpace.getUseSize()) + "G/" + getGB(sdSpace.getAvailableSize()) + "G"});
                     try {
-                        infoList.add("以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
-                    }catch (Throwable e){
-                        e.printStackTrace();
-                        KLog.e(TAG,"errMeg:"+e.getMessage());
-                        infoList.add("以太网IP模式：NONE");
+                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"以太网IP模式：" + FEthTools.getIpMode(BaseIotUtils.getContext())});
+                    } catch (Throwable e) {
+                        infoList.put(FKey.KEY_ETH_MODE,new String[]{"以太网IP模式：NONE"});
                     }
-                    infoList.add("4G信号强度：" + dbm4G);
+                    infoList.put(FKey.KEY_DBM,new String[]{"4G信号强度：" + dbm4G});
+                    infoList.put(FKey.KEY_SERIAL_PORT,new String[]{"串口收发" });
+                    infoList.put(FKey.KEY_TIMERD,new String[]{"定时器" });
+                    infoList.put(FKey.KEY_SCREEN,new String[]{"屏幕相关" });
+                    infoList.put(FKey.KEY_FILE_RW,new String[]{"文件读写" });
+                    infoList.put(FKey.KEY_NETWORK,new String[]{"网络监听" });
+                    infoList.put(FKey.KEY_FILEDOWN,new String[]{"文件下载" });
+                    infoList.put(FKey.KEY_TCP_UDP,new String[]{"TCP|UDP" });
+                    infoList.put(FKey.KEY_NOTIFY_SHOW,new String[]{"通知开启" });
+                    infoList.put(FKey.KEY_NOTIFY_CLOSE,new String[]{"通知关闭" });
+                    infoList.put(FKey.KEY_SYS_DIALOG_SHOW,new String[]{"显示SystemDialog" });
+                    infoList.put(FKey.KEY_SYS_DIALOG_CLOSE,new String[]{"关闭SystemDialog" });
+                    infoList.put(FKey.KEY_TOAST,new String[]{"普通toast" });
+                    infoList.put(FKey.KEY_TOAST_BG,new String[]{"图形背景toast" });
+                    infoList.put(FKey.KEY_ERR_ANR,new String[]{"测试anr" });
+                    infoList.put(FKey.KEY_ERR_OTHER,new String[]{"测试其他异常" });
+                    infoList.put(FKey.KEY_USB_HUB,new String[]{"USB设备注册监听" });
+                    infoList.put(FKey.KEY_USB_HUB_UNREGIST,new String[]{"USB解除注册" });
+                    infoList.put(FKey.KEY_GREEN_DAO,new String[]{"greenDAO数据库使用" });
+                    infoList.put(FKey.KEY_JXL_OPEN,new String[]{"JXL打开excel" });
+                    infoList.put(FKey.KEY_JXL_EXPORT,new String[]{"JXL导出excel" });
+                    infoList.put(FKey.KEY_POI_OPEN,new String[]{"POI打开excel" });
+                    infoList.put(FKey.KEY_POI_EXPORT,new String[]{"POI导出excel" });
+                    infoList.put(FKey.KEY_APP_LIST,new String[]{"应用列表" });
+                    infoList.put(FKey.KEY_VIDEO,new String[]{"视频播放" });
+                    infoList.put(FKey.KEY_URL_CONVERT,new String[]{"UriPath转真实路径(点我)" });
+                    infoList.put(FKey.KEY_ASSETS,new String[]{"获取Assets文件下的文件:" });
+                    infoList.put(FKey.KEY_AUDIO,new String[]{"播放音频" });
+                    infoList.put(FKey.KEY_IP_SET_STATIC,new String[]{"静态IP(system)" });
+                    infoList.put(FKey.KEY_IP_SET_DHCP,new String[]{"动态IP(system)" });
+                    infoList.put(FKey.KEY_SCREENSHOT,new String[]{"截屏(system)" });
+                    infoList.put(FKey.KEY_KEEPALIVE,new String[]{"ACTIVITY/SERVICE保活" });
+                    infoList.put(FKey.KEY_OTA,new String[]{"ota升级" });
+                    infoList.put(FKey.KEY_MORE,new String[]{"更多...." });
                     adapterDome.setList(infoList);
                     break;
-                case REFRESH_UI:
+                case FLAG_REFRESH_UI:
                     adapterDome.setList(infoList);
                     break;
             }
@@ -202,235 +194,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
 
     public String getGB(double num) {
         double returnNum = num / 1024 / 1024 / 1024;
-        //KLog.d(TAG, "getGB:>returnNum=" + returnNum);
         return String.format("%.2f", returnNum);
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnSeialPortNormal://串口测试
-                startActivity(new Intent(context, SerialPortAty.class));
-                break;
-            case R.id.btnScreen://屏幕适配相关
-                startActivity(new Intent(context, ScreenActivity.class));
-                break;
-            case R.id.btn_write_read://文件读写
-                startActivity(new Intent(context, FileOperatAty.class));
-                break;
-            case R.id.btn_download://文件下载
-                startActivity(new Intent(context, DownLoadAty.class));
-                break;
-            case R.id.btn_socket://Socket Tcp/upd
-                startActivity(new Intent(context, SocketAty.class));
-                break;
-            case R.id.btn_notification_open://notification display
-                //获取系统中是否已经通过 允许通知的权限
-                if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.getInstance("111")
-                            .setEnableCloseButton(false)//设置是否显示关闭按钮
-                            .setOnNotifyLinstener(new OnNotifyLinstener() {
-                                @Override
-                                public void enableStatus(boolean isEnable) {
-                                    KLog.e(TAG, "isEnable=" + isEnable);
-                                }
-                            })
-                            .setNotifyParam(R.drawable.app_img, R.drawable.app_img
-                                    , "BaseIotUtils"
-                                    , "工具类"
-                                    , "文件压缩，文件下载，日志管理，时间管理，网络判断。。。"
-                                    , "this is a library ..."
-                                    , "2020-3-18"
-                                    , "xxx"
-                                    , false
-                                    , false)
-                            .exeuNotify();
-                } else {
-                    //去开启通知
-                    NotifyUtils.toOpenNotify();
-                }
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            Thread.sleep(5000);
-                            NotifyUtils.getInstance("111").setAppName("");
-                            NotifyUtils.getInstance("111").setAppAbout("");
-                            NotifyUtils.getInstance("111").setRemarks("");
-                            NotifyUtils.getInstance("111").setPrompt("");
-                            NotifyUtils.getInstance("111").setDataTime("");
-                            NotifyUtils.getInstance("111").setTopRight("");
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
-                        }
-                    }
-                });
-                break;
-            case R.id.btn_notification_close://关闭notification
-                NotifyUtils.closeNotify();
-                break;
-            case R.id.btn_network://网络监听
-                startActivity(new Intent(context, NetChangeAty.class));
-                break;
-            case R.id.btn_sysDialogShow://显示SystemDialog
-                SurfaceLoadDialog.getInstance().show("hello world");
-                break;
-            case R.id.btn_sysDialogHide://关闭SystemDialog
-                SurfaceLoadDialog.getInstance().dismiss();
-                break;
-            case R.id.btn_generalToast://普通吐司
-                ToastUtils.showShort("Hello Worold!");
-                break;
-            case R.id.btn_showToast://图形化吐司
-                ToastUtils.success("Hello Worold!");
-                break;
-            case R.id.btn_test_crash://测试anr
-                stopService(new Intent(context, MyService.class));
-                startService(new Intent(context, MyService.class));
-                break;
-            case R.id.btn_test_exception://测试其他异常
-                int i = 1 / 0;
-                break;
-            case R.id.btn_key_reg://usb设备监听注册
-                KeyEventUtils.getInstance().registerReceiver();
-                KeyEventUtils.getInstance().setIUsbDeviceListener(new IUsbDeviceListener() {
-                    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-                    @Override
-                    public void deviceInfo(UsbDevice device, boolean isConn) {
-                        KLog.d(TAG, "device: " + device.getProductName());
-                        KLog.d(TAG, "isConn: " + isConn);
-                    }
-                });
-                break;
-            case R.id.btn_key_unreg://usb设备监听注册
-                KeyEventUtils.getInstance().unRegisterReceiver();
-                break;
-            case R.id.btn_sql://数据库操作
-                startActivity(new Intent(context, GreenDaoSqliteAty.class));
-                break;
-            case R.id.btn_jxl_open://打开Excel JXL版本 table.xls 可以在项目的File文件夹下找到
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            //第一种jxl.jar 只能读取xls
-                            List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
-                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
-                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
-                            ToastUtils.success("read failed!");
-                        }
-                    }
-                });
-                break;
-            case R.id.btn_jxl_export://导出Excel JXL版本
-                //第一种 jxl.jar导出
-                JXLExcelUtils.exportExcel();
-                ToastUtils.success("export successful!");
-                break;
-            case R.id.btn_poi_open://打开Excel POI版本 table.xls 可以在项目的File文件夹下找到
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            //poi.jar 可以读取xls xlsx 两种
-                            List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
-                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
-                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
-                            ToastUtils.success("read failed!");
-                        }
-                    }
-                });
-                break;
-            case R.id.btn_poi_export://导出Excel POI版本
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
-                    @Override
-                    public void run() {
-                        //poi.jar导出
-                        boolean isOK = POIExcelUtils.createExcelFile();
-                        KLog.d(TAG, "isOK: " + isOK);
-                        ToastUtils.success("export successful!");
-                    }
-                });
-                break;
-            case R.id.btn_all_app://应用列表
-                startActivity(new Intent(context, AllAppAty.class));
-                break;
-            case R.id.btn_play://视频播放
-                startActivity(new Intent(context, VideoPlayAty.class));
-                break;
-            case R.id.btn_open_file://打开文件
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "请选择文件"), FILE_SELECT_CODE);
-                break;
-            case R.id.btn_getAssets://获取Assets目录下的文件
-                try {
-                    InputStream input = getAssets().open("table.xls");
-                    if (input != null) {
-                        ToastUtils.success("found table.xls");
-                    } else {
-                        ToastUtils.success("not found table.xls");
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
-                }
-                break;
-            case R.id.btn_timereboot://定时器
-                startActivity(new Intent(context, TimerAty.class));
-                break;
-            case R.id.btn_play_media://音频播放
-                startActivity(new Intent(context, PlayMediaAty.class));
-                break;
-            case R.id.btn_set_ip://设置静态IP
-                CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
-                if (commonValue == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success("静态IP设置成功！");
-                } else {
-                    ToastUtils.error("静态IP设置失败！errMeg=" + commonValue.getRemarks());
-                }
-                break;
-            case R.id.btn_dhcp://设置动态IP
-                CommonValue commonValue2 = FEthTools.setEthDhcp();
-                if (commonValue2 == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success("动态IP设置成功！");
-                } else {
-                    ToastUtils.error("动态IP设置失败！errMeg=" + commonValue2.getRemarks());
-                }
-                break;
-            case R.id.btn_screent://截屏
-                String imgPath = FScreentTools.takeScreenshot("/sdcard/");
-                if (imgPath!=null&&!imgPath.equals("")) {
-                    ToastUtils.success("截屏成功,位置:/sdcard/目录下");
-                } else {
-                    ToastUtils.error("截屏失败！");
-                }
-                break;
-            case R.id.btn_keeplive://保活Activity
-                startActivity(new Intent(context, KeepLiveAty.class));
-                break;
-            case R.id.btn_ota://ota升级
-                FUpgradeTools.firmwareUpgrade("/sdcard/update.zip", new FUpgradeTools.UpgradeInterface() {
-                    @Override
-                    public void operating(InstallStatus installStatus) {
-                        Log.d(TAG, "operating: "+installStatus.name());
-                    }
-
-                    @Override
-                    public void error(String errInfo) {
-                        Log.d(TAG, "error: ");
-                    }
-                });
-                break;
-        }
     }
 
     @Override
@@ -438,7 +202,7 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         super.onActivityResult(requestCode, resultCode, data);
         if (data == null) {
             // 用户未选择任何文件，直接返回
-            ToastUtils.success("未选择任何文件!");
+            ToastUtils.error("未选择任何文件!");
             return;
         }
         if (requestCode == FILE_SELECT_CODE) {
@@ -446,7 +210,6 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
             String filePath = UriPathUtils.getPath(uri);
             KLog.d(TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath());
             ToastUtils.success("文件地址:" + filePath);
-            tvTruePath.setText("Uri转换后的真实路径：" + filePath);
         }
     }
 
@@ -455,7 +218,8 @@ public class FeaturesOptionAty extends BaseActivity implements View.OnClickListe
         super.onDestroy();
         NotifyUtils.closeNotify();
         SurfaceLoadDialog.getInstance().dismiss();
-        KeyEventUtils.getInstance().unRegisterReceiver();
+        ToastUtils.info("解除usb设备监听注册");
+        UsbHubTools.getInstance().unRegisterReceiver();
         PlayUtils.getInstance().stopPlaying();
         SingletonDisposable.clearAll();
     }

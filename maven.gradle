@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 
 /*base_iotutils*/
-uploadArchives {
+/*uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -17,7 +17,7 @@ uploadArchives {
             }
         }
     }
-}
+}*/
 
 /*base_framework*/
 /*uploadArchives {
@@ -59,7 +59,7 @@ uploadArchives {
 
 
 /*base_xlink*/
-/*uploadArchives {
+uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -75,4 +75,4 @@ uploadArchives {
             }
         }
     }
-}*/
+}

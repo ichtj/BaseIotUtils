@@ -41,6 +41,12 @@ public class KeepAliveActivity extends AppCompatActivity implements View.OnClick
     }
 
     public void getData() {
+        boolean isFirst =SPUtils.getBoolean(this,"isFirst",true);
+        if(isFirst){
+            KeepAliveData keepAliveData = new KeepAliveData("com.ss.testserial", FKeepAliveTools.TYPE_ACTIVITY, true);
+            FKeepAliveTools.addActivity(keepAliveData);
+            SPUtils.putBoolean(this,"isFirst",false);
+        }
         tvResult.setText("");
         List<KeepAliveData> keepAliveDataList = FKeepAliveTools.getKeepLive();
         if (keepAliveDataList != null && keepAliveDataList.size() > 0) {

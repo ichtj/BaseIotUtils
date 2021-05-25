@@ -1,4 +1,4 @@
-package com.wave_chtj.example.customizeview;
+package com.wave_chtj.example.util;
 
 import android.app.Activity;
 import android.content.Context;

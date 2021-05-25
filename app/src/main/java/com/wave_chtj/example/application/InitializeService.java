@@ -42,7 +42,7 @@ public class InitializeService extends IntentService {
 
     private void performInit() {
         KLog.init(true);
-        CrashHandler.getInstance().init(getApplication());
+        //CrashHandler.getInstance().init(getApplication());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //1080,1920是为了适配而去设置相关的值
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)

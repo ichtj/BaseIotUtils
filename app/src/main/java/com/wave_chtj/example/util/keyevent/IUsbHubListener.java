@@ -7,12 +7,11 @@ import android.hardware.usb.UsbDevice;
  * author chtj
  * desc 监听usb设备回调接口
  */
-public interface IUsbDeviceListener {
+public interface IUsbHubListener {
     /**
      * 设备信息
-     * @param device 设备信息
      * @param isConn true 接入 | false 拔出
      */
-    void deviceInfo(UsbDevice device,boolean isConn);
+    void deviceInfo(String action,String path,boolean isConn);
 
 }

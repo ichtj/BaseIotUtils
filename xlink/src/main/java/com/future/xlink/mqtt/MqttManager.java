@@ -166,7 +166,11 @@ public class MqttManager {
             if (params.automaticReconnect) {
                 //只在客户端主动创建初始化连接时回调
                 if (isInitconnect) {
-                    XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));
+                    if(arg1.getMessage().contains("无权连接")){
+                        XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_NO_PERMISSION));
+                    }else{
+                        XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));
+                    }
                 }
             } else {
                 XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));

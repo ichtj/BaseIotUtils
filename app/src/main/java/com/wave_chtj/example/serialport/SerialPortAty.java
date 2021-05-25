@@ -21,7 +21,7 @@ import com.face_chtj.base_iotutils.serialport.SerialPort;
 import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.customizeview.TopTitleView;
+import com.wave_chtj.example.util.TopTitleView;
 
 import java.io.File;
 import java.util.Arrays;

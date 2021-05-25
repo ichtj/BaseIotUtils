@@ -25,7 +25,7 @@ import java.util.List;
  * author chtj
  * desc 文件下载
  */
-public class DownLoadAty extends BaseActivity {
+public class FileDownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3;
     TextView tvResult1, tvResult2, tvResult3;

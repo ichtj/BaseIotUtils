@@ -51,4 +51,4 @@ dependencies {
     //implementation 'com.fasterxml.jackson.core:jackson-annotations:2.9.0.pr3'
 
 }
-//apply from: '../maven.gradle'
+apply from: '../maven.gradle'

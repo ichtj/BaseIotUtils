@@ -2,14 +2,6 @@ package com.chtj.base_framework;
 
 import android.app.Application;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.hardware.usb.UsbManager;
-import android.util.Log;
-
-import com.chtj.base_framework.upgrade.OtaUpgradeReceiver;
-
-import java.io.File;
 
 public final class FBaseTools {
 
@@ -18,7 +10,7 @@ public final class FBaseTools {
     static Context sApp;
     //static boolean isOpenLogRecord;
     private static volatile FBaseTools sInstance;
-    OtaUpgradeReceiver otaUpgradeReceiver;
+    //OtaUpgradeReceiver otaUpgradeReceiver;
 
     /**
      * 单例模式
@@ -53,13 +45,13 @@ public final class FBaseTools {
      */
     public void create(Application application) {
         FBaseTools.sApp = application.getApplicationContext();
-        otherOperations();
+        //otherOperations();
     }
 
     /**
      * 创建记录网络变化后的日志文件创建
      */
-    public void otherOperations() {
+    //public void otherOperations() {
         //File file = new File(FCommonTools.SAVE_NETERR_PATH + FBaseTools.sApp.getPackageName() + "/");
         //if (!file.exists()) {
         //    file.mkdirs();
@@ -73,7 +65,7 @@ public final class FBaseTools {
         //        Log.e(TAG, "errMeg:" + e.getMessage());
         //    }
         //}
-        if(otaUpgradeReceiver==null){
+        //if(otaUpgradeReceiver==null){
             //IntentFilter filter = new IntentFilter();
             //filter.addAction("android.hardware.usb.action.USB_STATE");
             //filter.addAction(UsbManager.ACTION_USB_DEVICE_ATTACHED);
@@ -82,8 +74,8 @@ public final class FBaseTools {
             //filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
             //otaUpgradeReceiver=new OtaUpgradeReceiver();
             //getContext().registerReceiver(otaUpgradeReceiver, filter);
-        }
-    }
+        //}
+    //}
 
     /**
      * 获取ApplicationContext

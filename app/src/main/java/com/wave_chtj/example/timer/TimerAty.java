@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.customizeview.TopTitleView;
+import com.wave_chtj.example.util.TopTitleView;
 
 import java.text.DecimalFormat;
 

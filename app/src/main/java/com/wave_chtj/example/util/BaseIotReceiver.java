@@ -6,8 +6,6 @@ import android.content.Intent;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.wave_chtj.example.FeaturesOptionAty;
-import com.wave_chtj.example.download.DownLoadAty;
-import com.wave_chtj.example.socket.SocketAty;
 
 /**
  * Create on 2020/6/4
