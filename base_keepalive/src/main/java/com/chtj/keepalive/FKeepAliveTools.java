@@ -22,7 +22,7 @@ import java.util.List;
 public class FKeepAliveTools {
 
 
-    private static final String TAG = "FKeepLiveTools";
+    private static final String TAG = "FKeepAliveTools";
     /**
      * 保活的类型为Activity
      */
@@ -56,7 +56,7 @@ public class FKeepAliveTools {
                 }
             }
         }
-        return toWrite(keepAliveData, null, gson);
+        return toWrite(keepAliveData, keepAliveDataList, gson);
     }
 
 
