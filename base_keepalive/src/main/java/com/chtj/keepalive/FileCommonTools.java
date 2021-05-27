@@ -21,8 +21,8 @@ public class FileCommonTools {
     /**
      * 应用保活
      */
-    public static final String SAVE_KEEPLIVE_PATH = "/sdcard/keeplive/";
-    public static final String SAVE_KEEPLIVE_FILE_NAME = "keeplive.txt";
+    public static final String SAVE_KEEPLIVE_PATH = "/sdcard/keepalive/";
+    public static final String SAVE_KEEPLIVE_FILE_NAME = "keepalive.txt";
     /**
      * 读取文件内容
      *
