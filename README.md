@@ -99,7 +99,7 @@ public class App extends Application {
 | 2    | UriPathUtils                   | Uri 转真实路径    | android7.0uri 转换            |
 | 3    | ToastUtils                     | 系统的 Toast 封装 | 成功,失败，警告等提示         |
 | 4    | TimeUtils                      | 时间工具类        | Date 时间日期转换             |
-| 5    | SurfaceLoadDialog              | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
+| 5    | ISysDialog                     | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
 | 6    | SPUtils                        | 存储工具类        | SharedPreferences 读写        |
 | 7    | ShellUtils                     | adb 相关工具类    | adb 命令执行                  |
 | 8    | ServiceUtils                   | Service 管理工具  | 启动,停止,判断存活等          |

@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -37,8 +38,13 @@ import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.SingletonDisposable;
 import com.wave_chtj.example.util.keyevent.UsbHubTools;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -118,8 +124,9 @@ public class FeaturesOptionAty extends BaseActivity{
                 handler.sendEmptyMessage(FLAG_REFRESH_UI);
             }
         }));
-
     }
+
+
 
     Handler handler = new Handler() {
         @Override
@@ -155,7 +162,7 @@ public class FeaturesOptionAty extends BaseActivity{
                     infoList.put(FKey.KEY_SCREEN,new String[]{"屏幕相关" });
                     infoList.put(FKey.KEY_FILE_RW,new String[]{"文件读写" });
                     infoList.put(FKey.KEY_NETWORK,new String[]{"网络监听" });
-                    infoList.put(FKey.KEY_FILEDOWN,new String[]{"文件下载" });
+                    infoList.put(FKey.KEY_FILEDOWN,new String[]{"多文件下载" });
                     infoList.put(FKey.KEY_TCP_UDP,new String[]{"TCP|UDP" });
                     infoList.put(FKey.KEY_NOTIFY_SHOW,new String[]{"通知开启" });
                     infoList.put(FKey.KEY_NOTIFY_CLOSE,new String[]{"通知关闭" });

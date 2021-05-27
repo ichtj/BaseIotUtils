@@ -257,11 +257,9 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //第一种jxl.jar 只能读取xls
                             List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
-                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
-                            ToastUtils.success("read failed!");
                         }
                     }
                 });
@@ -279,11 +277,9 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                             //poi.jar 可以读取xls xlsx 两种
                             List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
-                            ToastUtils.success("readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
-                            ToastUtils.success("read failed!");
                         }
                     }
                 });
@@ -295,7 +291,6 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                         //poi.jar导出
                         boolean isOK = POIExcelUtils.createExcelFile();
                         KLog.d(TAG, "isOK: " + isOK);
-                        ToastUtils.success("export successful!");
                     }
                 });
                 break;

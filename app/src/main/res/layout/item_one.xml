@@ -2,7 +2,7 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvOneStr"
     android:layout_width="match_parent"
-    android:layout_height="100pt"
+    android:layout_height="85pt"
     android:background="@drawable/button_switch"
     android:gravity="center"
     android:onClick="onClick"
