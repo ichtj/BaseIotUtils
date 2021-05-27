@@ -28,16 +28,21 @@ import cn.jzvd.JzvdStd;
 public class VideoPlayAty extends BaseActivity {
     private static final String TAG = "VideoPlayAty";
     VideoPlayerView jz_video;
-    Button btn_load_video;
-    Button btn_play;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_play);
+        initFile();
         jz_video = findViewById(R.id.jz_video);
-        btn_load_video = findViewById(R.id.btn_load_video);
-        btn_play = findViewById(R.id.btn_play);
+        //设置地址
+        jz_video.setUp("/sdcard/aging.mp4"
+                , "VPU");
+        //设置缩略图
+        //jz_video.posterImageView.setImageDrawable(ContextCompat.getDrawable(VideoPlayAty.this,R.drawable.jz_loading_bg));
+        //全屏按钮
+        jz_video.fullscreenButton.setVisibility(View.VISIBLE);
+        jz_video.startButton.performClick();
     }
 
 
@@ -48,7 +53,7 @@ public class VideoPlayAty extends BaseActivity {
     //解压缩后的路径
     private static final String unZipPath = "/sdcard/";
 
-    public void initFile(View view) {
+    public void initFile() {
         try {
             //视频文件不存在时将文件保存到本地
             if (!new File(savePath).exists()) {
@@ -71,11 +76,6 @@ public class VideoPlayAty extends BaseActivity {
             KLog.e(TAG, "errMeg:" + e.getMessage());
         }
     }
-
-    public void playVideoClick(View view) {
-        playVideo();
-    }
-
     /**
      * 将InputStream写入本地文件
      *
@@ -97,20 +97,6 @@ public class VideoPlayAty extends BaseActivity {
         input.close();
     }
 
-    /**
-     * 播放相关
-     */
-    private void playVideo() {
-        //设置地址
-        jz_video.setUp("/sdcard/aging.mp4"
-                , "VPU");
-        //设置缩略图
-        //jz_video.posterImageView.setImageDrawable(ContextCompat.getDrawable(VideoPlayAty.this,R.drawable.jz_loading_bg));
-        //全屏按钮
-        jz_video.fullscreenButton.setVisibility(View.VISIBLE);
-        //自动播放
-        jz_video.startButton.performClick();
-    }
 
     @Override
     protected void onPause() {
