@@ -13,26 +13,26 @@ import android.widget.TextView;
  * author chtj
  * desc 应用上层弹窗
  *
- * 调用方式 SurfaceLoadDialog.getInstance().show("hello world");
- * 更改文本时再次调用 SurfaceLoadDialog.getInstance().show("hello world"); 即可
+ * 调用方式 BSysDialog.getInstance().show("hello world");
+ * 更改文本时再次调用 BSysDialog.getInstance().show("hello world"); 即可
  *
  * {@link #dismiss()} 关闭
  * {@link #show(String)} 显示的文字
  *
  */
-public class SurfaceLoadDialog {
-    private static final String TAG = "SurfaceLoadDialog";
+public class ISysDialog {
+    private static final String TAG = "BSysDialog";
     private WindowManager wm;
     private TextView tvRemarks;
     private View scanView;
-    private static SurfaceLoadDialog mSurfaceLoadDialog;
+    private static ISysDialog mISysDialog;
     private boolean isInitView = false;
 
-    public static SurfaceLoadDialog getInstance() {
-        if (mSurfaceLoadDialog == null || !mSurfaceLoadDialog.isInitView) {
-            synchronized (SurfaceLoadDialog.class) {
-                if (mSurfaceLoadDialog == null || !mSurfaceLoadDialog.isInitView) {
-                    mSurfaceLoadDialog = new SurfaceLoadDialog();
+    public static ISysDialog getInstance() {
+        if (mISysDialog == null || !mISysDialog.isInitView) {
+            synchronized (ISysDialog.class) {
+                if (mISysDialog == null || !mISysDialog.isInitView) {
+                    mISysDialog = new ISysDialog();
                     int nowSdkVersion = Build.VERSION.SDK_INT;
                     KLog.d(TAG, "nowSdkVersion=" + nowSdkVersion);
                     if (nowSdkVersion >= 23) {
@@ -56,15 +56,15 @@ public class SurfaceLoadDialog {
                 }
             }
         }
-        return mSurfaceLoadDialog;
+        return mISysDialog;
     }
 
 
     private static void initAddView(int apiType) {
-        mSurfaceLoadDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
+        mISysDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
         WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
-        mSurfaceLoadDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
-        mSurfaceLoadDialog.tvRemarks = mSurfaceLoadDialog.scanView.findViewById(R.id.tvRemarks);
+        mISysDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
+        mISysDialog.tvRemarks = mISysDialog.scanView.findViewById(R.id.tvRemarks);
         if (apiType == 1) {
             //6.0~7.0系统以及6.0以下系统使用同一模式
             wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
@@ -76,8 +76,8 @@ public class SurfaceLoadDialog {
         wmParams.flags = 40;
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mSurfaceLoadDialog.wm.addView(mSurfaceLoadDialog.scanView, wmParams);
-        mSurfaceLoadDialog.isInitView = true;
+        mISysDialog.wm.addView(mISysDialog.scanView, wmParams);
+        mISysDialog.isInitView = true;
     }
 
     // 显示系统级提示框（自定义布局）
@@ -88,10 +88,10 @@ public class SurfaceLoadDialog {
     }
 
     public void dismiss() {
-        if (mSurfaceLoadDialog.wm != null) {
-            mSurfaceLoadDialog.wm.removeView(mSurfaceLoadDialog.scanView);
-            mSurfaceLoadDialog.wm = null;
-            mSurfaceLoadDialog = null;
+        if (mISysDialog.wm != null) {
+            mISysDialog.wm.removeView(mISysDialog.scanView);
+            mISysDialog.wm = null;
+            mISysDialog = null;
         }
     }
 }
