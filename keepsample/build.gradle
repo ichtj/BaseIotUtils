@@ -34,8 +34,8 @@ android {
         applicationId "com.face.keepsample"
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 2
+        versionName "1.0.1"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         signingConfig signingConfigs.debug
@@ -78,7 +78,10 @@ dependencies {
     api rootProject.ext.support["appcompat-v7"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
-    implementation project(path: ':base_keepalive')
+    //implementation project(path: ':base_keepalive')
+    implementation(rootProject.ext.dependencies["base_keepalive"]) {
+        transitive = true
+    }
     implementation(rootProject.ext.dependencies["base_iotutils"]) {
         transitive = true
     }

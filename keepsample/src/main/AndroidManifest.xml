@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:sharedUserId="android.uid.system"
-    package="com.face.keepsample">
+    package="com.face.keepsample"
+    android:sharedUserId="android.uid.system">
     <!--文件写入权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--文件读取权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+
     <application
-        android:name=".KeepAliveApplication"
+        android:name=".KSampleApplication"
         android:allowBackup="true"
         android:icon="@mipmap/keepalive"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/keepalive"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".KeepAliveActivity">
+        <activity
+            android:name=".IndexActivity"
+            android:windowSoftInputMode="stateHidden|adjustUnspecified">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!--<data android:scheme="myapp" android:host=".app" android:pathPrefix="/openwith"/>-->
@@ -23,14 +26,17 @@
             </intent-filter>
         </activity>
         <receiver
-            android:name=".KeepAliveBootReceiver"
+            android:name=".KSampleBootReceiver"
             android:enabled="true"
             android:exported="true">
             <intent-filter android:priority="1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED"></action>
             </intent-filter>
         </receiver>
-        <activity android:name=".SelectAppActivity"/>
+
+        <activity android:name=".SelectAppActivity" />
+        <activity android:name=".SelectServiceActivity" />
+        <service android:name=".KSampleService" />
     </application>
 
 </manifest>

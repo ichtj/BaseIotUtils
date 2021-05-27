@@ -2,16 +2,12 @@ package com.face.keepsample;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,11 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.chtj.keepalive.FKeepAliveTools;
-import com.chtj.keepalive.entity.CommonValue;
-import com.chtj.keepalive.entity.KeepAliveData;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 
@@ -36,10 +30,11 @@ import java.util.List;
  */
 public class SelectAppActivity extends AppCompatActivity {
     RecyclerView rv_info;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.view_all_app);
+        setContentView(R.layout.activity_all_app);
         SelectAppAdapter selectAppAdapter=new SelectAppAdapter(AppsUtils.getDeskTopAppList());
         rv_info=findViewById(R.id.rv_info);
         rv_info.setLayoutManager(new LinearLayoutManager(getApplicationContext(),LinearLayoutManager.VERTICAL,false));
@@ -63,7 +58,7 @@ public class SelectAppActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View v = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.item_select, null, false);
+            View v = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.item_app_select, null, false);
             RecyclerView.ViewHolder holder = null;
             holder = new MyViewHolder(v);
             return holder;
@@ -79,11 +74,14 @@ public class SelectAppActivity extends AppCompatActivity {
             myViewHolder.ll_item.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    KLog.d(TAG,"onClick:>packageName="+list.get(position).getPackageName());
-                    Intent intent = new Intent(SelectAppActivity.this,KeepAliveActivity.class);
-                    intent.putExtra("packageName",list.get(position).getPackageName());
-                    setResult(RESULT_OK,intent);
-                    finish();
+                    if(list.get(position).getPackageName().equals(getPackageName())){
+                        ToastUtils.error("不能选择本应用!");
+                    }else{
+                        Intent intent = new Intent(SelectAppActivity.this, IndexActivity.class);
+                        intent.putExtra("packageName",list.get(position).getPackageName());
+                        setResult(RESULT_OK,intent);
+                        finish();
+                    }
                 }
             });
         }

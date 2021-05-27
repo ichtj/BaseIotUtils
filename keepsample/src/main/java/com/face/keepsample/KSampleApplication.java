@@ -7,7 +7,7 @@ import com.chtj.keepalive.FBaseDaemon;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
 
-public class KeepAliveApplication extends Application {
+public class KSampleApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
