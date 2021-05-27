@@ -67,9 +67,9 @@ public class AppsUtils {
                 if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
                     isSys = true;
                 }
-                String versionCode=pm.getPackageInfo(packageName,0).versionCode+"";
-                String versionName=pm.getPackageInfo(packageName,0).versionName;
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName,versionCode+"",versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName));
+                String versionCode = pm.getPackageInfo(packageName, 0).versionCode + "";
+                String versionName = pm.getPackageInfo(packageName, 0).versionName;
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, versionCode + "", versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName),getRunService(packageName));
                 appEntityList.add(entity);
             }
         } catch (Exception e) {
@@ -94,17 +94,18 @@ public class AppsUtils {
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
                 // customs applications
+                String pkgName=pak.applicationInfo.packageName;
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
-                        pak.applicationInfo.packageName,
-                        pak.versionCode+"",
+                        pkgName,
+                        pak.versionCode + "",
                         pak.versionName,
                         pManager.getApplicationIcon(pak.applicationInfo),
                         false,
                         i,
                         pak.applicationInfo.uid,
                         false,
-                        getAllProcess(pak.applicationInfo.packageName));
+                        getAllProcess(pkgName),getRunService(pkgName));
                 appEntityList.add(entity);
             }
         }
@@ -126,13 +127,14 @@ public class AppsUtils {
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) != 0) {
                 // customs applications
+                String pkgName=pak.applicationInfo.packageName;
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
-                        pak.applicationInfo.packageName,
-                        pak.versionCode+"",
+                        pkgName,
+                        pak.versionCode + "",
                         pak.versionName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid, true, getAllProcess(pak.applicationInfo.packageName));
+                        false, i, pak.applicationInfo.uid, true, getAllProcess(pkgName),getRunService(pkgName));
                 appEntityList.add(entity);
             }
         }
@@ -164,6 +166,23 @@ public class AppsUtils {
             }
         }
         return processEntityList;
+    }
+
+    /**
+     * 根据包名获取正在运行的服务
+     * @param packagename 包名
+     * @return 正在运行的Service
+     */
+    public static List<String> getRunService(String packagename) {
+        List<String> serviceList=new ArrayList<>();
+        ActivityManager activityManager = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo serviceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
+            ComponentName service=serviceInfo.service;
+            if(service.getPackageName().equals(packagename)){
+                serviceList.add(service.getClassName());
+            }
+        }
+        return serviceList;
     }
 
     /**
