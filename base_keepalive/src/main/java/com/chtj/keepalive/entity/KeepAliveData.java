@@ -82,7 +82,7 @@ public class KeepAliveData implements Parcelable {
 
     @Override
     public String toString() {
-        return "KeepLiveData{" +
+        return "KeepAliveData{" +
                 "packageName='" + packageName + '\'' +
                 ", isEnable=" + isEnable +
                 ", type='" + type + '\'' +
