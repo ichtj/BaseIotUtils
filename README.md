@@ -1,8 +1,8 @@
 # 接入方式
 
-## app 界面截图 这里显示不全,部分功能可能未在图中显示
+## app 界面截图
 
-### 下面会有使用方式,需查看最新的工具,请下载后手动导入并尝试，其中的 base_iotuitls 工具类可以普遍适用，而其他工具 module 可能需要系统支持或者 root 情况下适用
+### 下面有使用方式,或下载后手动导入使用，其中的base_iotuitls工具类可以普遍适用，而其他工具 module 可能需要系统支持或者 root 情况下适用
 
 ![image](/pic/apppic.png)
 
@@ -13,18 +13,19 @@ allprojects {
 	repositories {
 		...
 		maven { url 'https://www.jitpack.io' }
+		//这个是自己搭建的私服 未对外开放,jcenter bintray已停用,目前无法使用远程依赖
 		maven { url 'https://dl.bintray.com/userchtj/maven' }
 	}
 }
 ```
 
-## 以下存在三个 library 请按需选择,并在 App Module 的 build.gradle 文件中添加
+## 以下存在三个library按需选择,在App的build.gradle文件中添加
 
 ### ① base_iotutils 物联基础工具类
 
 ```groovy
 dependencies {
-         //以宽高进行屏幕适配,shellUtils,网络判断等多种工具类以及串口封装等
+         //多个物联基础工具类,推荐使用import module导入的方式
          implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.7'
 }
 ```
@@ -33,7 +34,7 @@ dependencies {
 
 ```groovy
 dependencies {
-         //socket通信 tcp/udp工具类 使用方式请参考app module中的代码
+         //Socket TCP|UDP,推荐使用import module导入的方式
          implementation 'com.chtj.base_socket:base_socket:1.0.2'
 }
 ```
@@ -42,7 +43,7 @@ dependencies {
 
 ```groovy
 dependencies {
-        //如未能正确使用,请下载源码调试
+         //framework API调用,推荐使用import module导入的方式
 		implementation 'com.chtj.base_framework:base_framework:1.0.5'
 }
 ```
@@ -51,7 +52,7 @@ dependencies {
 
 ```groovy
 dependencies {
-        //如未能正确使用,请下载源码调试
+         //android [4.4.2]~[7.1.2]永久保活,推荐使用import module导入的方式
 		implementation 'com.chtj.keepalive:base_keepalive:1.0.1'
 }
 ```
@@ -59,9 +60,8 @@ dependencies {
 ### 自定义 Application
 
 ```java
-//以下功能只是按需选择,每个Module library功能描述可在页面下方查看
-//注意：别忘了在 Manifest 中通过 android:name 使用这个自定义的 Application.
-
+//每个Module library功能描述可在页面下方查看
+//别忘了在 Manifest 中通过使用这个自定义的 Application,这里有各个library的初始化
 public class App extends Application {
 
   @Override
@@ -74,7 +74,7 @@ public class App extends Application {
       .setCreenType(SCREEN_TYPE.WIDTH)
       .create(getApplication()); //按照宽度适配
 
-    //② base_socket socket tcp/udp 通信 直接使用即可无需初始化
+    //② base_socket socket tcp/udp 通信 无需在这里初始化,直接使用即可
 
     //③ base_framework 系统 api 调用
     FBaseTools.instance().create(getApplication());
@@ -121,26 +121,14 @@ public class App extends Application {
 | 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
 | 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                    |
 
-#### base_iotutils 工具调用方式,及图片展示
-
-#### 屏幕适配 创建 pt 模拟器设备
-
-![image](/pic/create_step.png)
-
-![image](/pic/unit_pt.png)
-
-#### 1080\*1920 px 效果
-
-![image](/pic/big_screen.png)
-
--可在 app Model 中找到使用示例
+## base_iotutils 工具调用方式,及图片展示
 
 #### FileUtils 文件操作 读写,删除,文件大小等
 
 ```java
-        //param1 文件路径 例如/sdcard/config.txt
-        //param2 写入内容
-        //param3 是否覆盖这个文件里的内容
+        //@filePath 文件路径 例如/sdcard/config.txt
+        //@content 写入内容
+        //@isCover 是否覆盖这个文件里的内容
         boolean writeResult = FileUtils.writeFileData(filePath, content, true);
         //读取filePath文件中的内容
         String readResult = FileUtils.readFileData(filePath);
@@ -201,25 +189,29 @@ public class App extends Application {
 ![image](/pic/download.png)
 
 ```java
-        //初始化下载工具类
+        //①初始化下载工具类
         DownloadSupport downloadSupport=new DownloadSupport();
 
-        //---------------------------任务--------------------------------
+        //---------------------------任务1--------------------------------
         FileCacheData fileCacheData = new FileCacheData();
         fileCacheData.setUrl(downloadUrl);
         fileCacheData.setFileName(fileName1);
         fileCacheData.setRequestTag(downloadUrl);
         fileCacheData.setFilePath("/sdcard/" + fileName1);
-        //开启任务下载 下载文件信息1
-        downloadSupport.addDownloadTask(fileCacheData);
 
+        //---------------------------任务2--------------------------------
         FileCacheData fileCacheData2 = new FileCacheData();
         fileCacheData2.setUrl(downloadUrl2);
         fileCacheData2.setFileName(fileName2);
         fileCacheData2.setRequestTag(downloadUrl2);
         fileCacheData2.setFilePath("/sdcard/" + fileName2);
-         //开启任务下载 下载文件信息2
+
+
+
+        //开启任务下载 下载文件信息1
         downloadSupport.addStartTask(fileCacheData, downloadCallBack);
+         //开启任务下载 下载文件信息2
+        downloadSupport.addStartTask(fileCacheData2, downloadCallBack);
         //-----------------------------------------------------------
 
         //下载进度
@@ -473,7 +465,6 @@ public class App extends Application {
 | 1    | 网络     | 以太网控制 , WIFI 控制，应用网络管理     |
 | 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量 |
 | 3    | 升级管理 | apk 安装/卸载,固件升级                   |
-| 4    | 日志     | 异常网络日志记录                         |
 
 | 编号 | 工具类         | 工具名称       | 实现功能                       |
 | ---- | -------------- | -------------- | ------------------------------ |
