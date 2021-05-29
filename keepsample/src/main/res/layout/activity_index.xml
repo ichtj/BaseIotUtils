@@ -1,69 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".IndexActivity">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:lineSpacingExtra="5dp"
-            android:text="*该APP相当于一个APK启动管理器,如果本应用正常启动,那么将会定时检测所保活的ACTIVITY或者SERVICE,目前适用于[4.4.2] [7.1.2]其他系统暂未适配\n*拉起ACTIVITY手动添加请点击[添加ACTIVITY]或点击[①去选择],查看并选择\n*拉起SERVICE手动添加请点击[添加SERVICE]或点击[②去选择],查看并选择"
-            android:textColor="@android:color/holo_red_light" />
-
-        <ImageView
-            android:layout_width="48dp"
-            android:id="@+id/ivClose"
-            android:layout_height="48dp"
-            android:onClick="onClick"
-            android:layout_gravity="center"
-            android:src="@mipmap/close_app" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/button_style_stroke"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/etpkg"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:hint="请输入应用包名"
-            android:paddingLeft="10dp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="该功能为拉起一个MainActivity,只能添加一个,重复添加将会替换上一个"
-            android:textColor="@android:color/holo_green_dark" />
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:orientation="vertical"
+        tools:context=".IndexActivity">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:lineSpacingExtra="5dp"
+                android:text="*该APP相当于一个APK启动管理器,如果本应用正常启动,那么将会定时检测所保活的ACTIVITY或者SERVICE,目前适用于[4.4.2] [7.1.2]其他系统暂未适配\n*拉起ACTIVITY手动添加请点击[添加ACTIVITY]或点击[①去选择],查看并选择\n*拉起SERVICE手动添加请点击[添加SERVICE]或点击[②去选择],查看并选择"
+                android:textColor="@android:color/holo_red_light" />
+
+            <ImageView
+                android:id="@+id/ivClose"
+                android:layout_width="48dp"
+                android:layout_height="48dp"
+                android:layout_gravity="center"
+                android:onClick="onClick"
+                android:src="@mipmap/close_app" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/button_style_stroke"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/etpkg"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="请输入应用包名"
+                android:paddingLeft="10dp" />
+
+            <TextView
+                android:id="@+id/tv1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etpkg"
+                android:text="该功能为拉起一个MainActivity,只能添加一个,重复添加将会替换上一个"
+                android:textColor="@android:color/holo_green_dark" />
+
 
             <Button
                 android:id="@+id/btn_add_aty"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
+                android:layout_below="@+id/tv1"
                 android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="5dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_gray"
@@ -74,60 +77,62 @@
 
             <Button
                 android:id="@+id/btn_select_app"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
+                android:layout_below="@+id/tv1"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
+                android:layout_marginTop="10dp"
+                android:layout_toRightOf="@+id/btn_add_aty"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_gray"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:text="①去选择"
                 android:textSize="13sp" />
-        </LinearLayout>
 
-    </LinearLayout>
+        </RelativeLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_style_stroke"
-        android:orientation="vertical">
-
-        <EditText
-            android:id="@+id/etpkg2"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:hint="请输入应用包名" />
-
-        <EditText
-            android:id="@+id/etServiceName"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="10dp"
-            android:hint="请输入Service路径" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="*该功能为拉起一个Service,可添加多个需要保活的Service,例如{ 【包名】：com.test.example 【Service路径】：com.test.example.MyService }"
-            android:textColor="@android:color/holo_green_dark" />
-
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="20dp"
+            android:background="@drawable/button_style_stroke"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <EditText
+                android:id="@+id/etpkg2"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:hint="请输入应用包名" />
+
+            <EditText
+                android:id="@+id/etServiceName"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/etpkg2"
+                android:hint="请输入Service路径" />
+
+            <TextView
+                android:id="@+id/tv2"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/etServiceName"
+                android:text="*该功能为拉起一个Service,可添加多个需要保活的Service,例如{ 【包名】：com.test.example 【Service路径】：com.test.example.MyService }"
+                android:textColor="@android:color/holo_green_dark" />
+
 
             <Button
                 android:id="@+id/btn_add_service"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
+                android:layout_below="@+id/tv2"
                 android:layout_gravity="center"
                 android:layout_marginRight="5dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_gray"
                 android:gravity="center"
@@ -137,75 +142,74 @@
 
             <Button
                 android:id="@+id/btn_select_service"
-                android:layout_width="match_parent"
+                android:layout_width="200dp"
                 android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:layout_below="@+id/tv2"
                 android:layout_gravity="center"
                 android:layout_marginLeft="5dp"
+                android:layout_toRightOf="@+id/btn_add_service"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_gray"
                 android:gravity="center"
                 android:onClick="onClick"
                 android:text="②去选择"
                 android:textSize="13sp" />
-        </LinearLayout>
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/button_style_stroke"
-        android:orientation="vertical">
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:orientation="horizontal"
-            tools:ignore="MissingConstraints">
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_style_stroke"
+            android:orientation="vertical">
 
-
-            <Button
-                android:id="@+id/btn_getall"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginRight="5dp"
+                android:layout_margin="10dp"
+                android:orientation="horizontal"
+                tools:ignore="MissingConstraints">
+
+
+                <Button
+                    android:id="@+id/btn_getall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_gray"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="获取数据并刷新"
+                    android:textSize="13sp" />
+
+                <Button
+                    android:id="@+id/btn_cleanall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_gray"
+                    android:gravity="center"
+                    android:onClick="onClick"
+                    android:text="清除保活内容"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvSaveList"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_gray"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:text="获取数据并刷新"
-                android:textSize="13sp" />
-
-            <Button
-                android:id="@+id/btn_cleanall"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="5dp"
-                android:layout_weight="1"
-                android:background="@drawable/button_style_gray"
-                android:gravity="center"
-                android:onClick="onClick"
-                android:text="清除保活内容"
-                android:textSize="13sp" />
+                android:padding="5dp" />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/tvResult"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_style_gray"
-            android:gravity="left|top"
-            android:lineSpacingExtra="5dp"
-            android:padding="10dp"
-            android:scrollbars="vertical"
-            android:text=""
-            android:textColor="@color/black" />
     </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

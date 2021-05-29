@@ -3,6 +3,7 @@
     package="com.face.keepsample"
     android:sharedUserId="android.uid.system">
     <!--文件写入权限-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--文件读取权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />

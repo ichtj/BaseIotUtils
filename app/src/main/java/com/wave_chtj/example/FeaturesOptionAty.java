@@ -1,12 +1,15 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.PowerManager;
+import android.os.SystemClock;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -125,8 +128,6 @@ public class FeaturesOptionAty extends BaseActivity{
             }
         }));
     }
-
-
 
     Handler handler = new Handler() {
         @Override

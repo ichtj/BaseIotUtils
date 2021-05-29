@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
@@ -46,11 +47,16 @@ public class AllAppAty extends BaseActivity {
         //添加Android自带的分割线
         rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvList.setAdapter(newsAdapter);
-
-        //7.1.2系统才可以使用此方式获取总流量
-        long total = FNetworkTools.getEthTotalUsage(FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
-        String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
-        tvTotal.setText("总流量消耗：" + totalPhrase);
+        try {
+            //7.1.2系统才可以使用此方式获取总流量
+            long total = FNetworkTools.getEthTotalUsage(FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
+            String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
+            tvTotal.setText("总流量消耗：" + totalPhrase);
+        }catch (Exception e){
+            e.printStackTrace();
+            KLog.e(TAG,"errMeg:"+e.getMessage());
+            tvTotal.setText("总流量消耗：计算异常");
+        }
 
     }
 

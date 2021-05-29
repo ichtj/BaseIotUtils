@@ -127,13 +127,15 @@ public class FKeepAliveService extends Service {
                         if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
                             for (int i = 0; i < keepAliveDataList.size(); i++) {
                                 //Log.d(TAG, "accept: readData=" + keepAliveDataList.get(i).toString());
-                                if (keepAliveDataList.get(i).getType() == FKeepAliveTools.TYPE_ACTIVITY) {
-                                    FileCommonTools.openApk(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName());
-                                } else if (keepAliveDataList.get(i).getType() == FKeepAliveTools.TYPE_SERVICE) {
-                                    if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
-                                        FileCommonTools.openService(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName(), keepAliveDataList.get(i).getServiceName());
-                                    } else {
-                                        Log.d(TAG, "accept: service open err");
+                                if(keepAliveDataList.get(i).getIsEnable()){
+                                    if (keepAliveDataList.get(i).getType() == FKeepAliveTools.TYPE_ACTIVITY) {
+                                        FileCommonTools.openApk(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName());
+                                    } else if (keepAliveDataList.get(i).getType() == FKeepAliveTools.TYPE_SERVICE) {
+                                        if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
+                                            FileCommonTools.openService(FKeepAliveService.this, keepAliveDataList.get(i).getPackageName(), keepAliveDataList.get(i).getServiceName());
+                                        } else {
+                                            Log.d(TAG, "accept: service open err");
+                                        }
                                     }
                                 }
                             }

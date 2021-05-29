@@ -8,7 +8,10 @@
       - 如需使用：请配合rk3288或是飞思卡尔的系统签名
       - 签名文件所在路径：android\out\target\common\obj\JAVA_LIBRARIES\framework_intermediates\classes.jar
       -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.DEVICE_POWER" />
     <!--服务相关权限-->
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <!--系统弹窗-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />

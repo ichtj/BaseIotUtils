@@ -32,6 +32,34 @@ public class FKeepAliveTools {
      */
     public static final int TYPE_SERVICE = 1;
 
+    /**
+     * 添加多个保活对象
+     * @param keepAliveDataList
+     * @return 执行结果
+     */
+    public static CommonValue addMoreData(List<KeepAliveData> keepAliveDataList) {
+        Gson gson=new Gson();
+        File file = new File(FileCommonTools.SAVE_KEEPLIVE_PATH);
+        if (!file.exists()) {
+            file.mkdir();
+        }
+        file = new File(FileCommonTools.SAVE_KEEPLIVE_PATH + FileCommonTools.SAVE_KEEPLIVE_FILE_NAME);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (Exception e) {
+                e.printStackTrace();
+                Log.e(TAG, "errMeg:" + e.getMessage());
+            }
+        }
+        boolean isWrite = FileCommonTools.writeFileData(FileCommonTools.SAVE_KEEPLIVE_PATH + FileCommonTools.SAVE_KEEPLIVE_FILE_NAME, gson.toJson(keepAliveDataList), true);
+        if (!isWrite) {
+            return CommonValue.KL_FILE_WRITE_ERR;
+        } else {
+            //如果是立即启用 那么需要判断服务是否开启
+            return CommonValue.EXEU_COMPLETE;
+        }
+    }
 
     /**
      * 添加需要拉起的界面 界面只能拉起一个 多个界面会造成混乱
@@ -50,7 +78,7 @@ public class FKeepAliveTools {
             Iterator<KeepAliveData> it = keepAliveDataList.iterator();
             while (it.hasNext()) {
                 KeepAliveData keepData = it.next();
-                if (keepData.getType()==TYPE_ACTIVITY) {
+                if (keepData.getType() == TYPE_ACTIVITY) {
                     //如果记录中存在Activity的记录 则清除
                     it.remove();
                 }
@@ -76,7 +104,7 @@ public class FKeepAliveTools {
             boolean isFind = false;
             for (int i = 0; i < keepAliveDataList.size(); i++) {
                 if (keepAliveDataList.get(i).getServiceName() != null && !keepAliveDataList.get(i).getServiceName().equals("")) {
-                    if (keepAliveDataList.get(i).getType()==TYPE_SERVICE && keepAliveDataList.get(i).getServiceName().contains(keepAliveData.getServiceName())) {
+                    if (keepAliveDataList.get(i).getType() == TYPE_SERVICE && keepAliveDataList.get(i).getServiceName().contains(keepAliveData.getServiceName())) {
                         isFind = true;
                         break;
                     }
@@ -158,10 +186,8 @@ public class FKeepAliveTools {
      * 关闭保活服务
      */
     public static void stopKeepLive() {
-        FKeepAliveService.isKeepAliveStatus=false;
+        FKeepAliveService.isKeepAliveStatus = false;
     }
-
-
 
 
 }
