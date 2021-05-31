@@ -8,9 +8,9 @@
     <com.face.keepsample.TopTitleView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="10pt"
+        android:layout_marginRight="10pt"
         app:ivback="@mipmap/back"
         app:name="添加ACTIVITY" />
 
@@ -18,9 +18,9 @@
         android:id="@+id/rv_info"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="10dp"
-        android:padding="10dp" />
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="10pt"
+        android:layout_marginRight="10pt"
+        android:padding="10pt" />
 </LinearLayout>
 
