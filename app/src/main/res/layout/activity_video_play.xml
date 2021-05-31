@@ -17,6 +17,6 @@
         android:id="@+id/jz_video"
         android:layout_width="match_parent"
         android:layout_height="640pt"
-        android:layout_margin="10dp" />
+        android:layout_margin="10pt" />
 
 </LinearLayout>

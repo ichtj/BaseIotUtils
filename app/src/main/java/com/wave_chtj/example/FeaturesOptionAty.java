@@ -1,16 +1,12 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.PowerManager;
-import android.os.SystemClock;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,13 +37,8 @@ import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.SingletonDisposable;
 import com.wave_chtj.example.util.keyevent.UsbHubTools;
 
-import java.io.BufferedReader;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.LinkedHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -128,7 +119,6 @@ public class FeaturesOptionAty extends BaseActivity{
             }
         }));
     }
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(@NonNull Message msg) {

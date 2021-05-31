@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
+    android:layout_width="1080pt"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
@@ -12,77 +12,86 @@
         android:layout_height="wrap_content"
         app:ivback="@mipmap/back"
         app:name="串口收发" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="10dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:padding="10pt">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="15pt"
             android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80pt"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:layout_width="80pt"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center"
                     android:text="串口地址："
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textSize="13pt" />
 
                 <Spinner
                     android:id="@+id/sp_com"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1" />
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:textSize="13pt" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_height="80pt"
+                android:layout_marginTop="10pt"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
+                    android:layout_width="80pt"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center"
                     android:text="波特率："
-                    android:textColor="@android:color/black" />
+                    android:textColor="@android:color/black"
+                    android:textSize="13pt" />
 
                 <Spinner
                     android:id="@+id/sp_burate"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:entries="@array/burate" />
+                    android:entries="@array/burate"
+                    android:textSize="13pt" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="80pt"
+                android:layout_marginTop="15pt"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btn_init"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="开启串口并初始化基本信息" />
+                    android:text="开启串口并初始化基本信息"
+                    android:textSize="13pt" />
 
                 <Button
                     android:id="@+id/btn_close"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:text="关闭串口" />
+                    android:text="关闭串口"
+                    android:textSize="13pt" />
 
             </LinearLayout>
         </LinearLayout>
@@ -91,38 +100,45 @@
         <EditText
             android:id="@+id/etCommand"
             android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="80pt"
+            android:layout_marginTop="20pt"
             android:background="@drawable/button_style_stroke"
             android:hint="请填写命令"
-            android:paddingLeft="10dp"
-            android:text="AA55030050002B" />
+            android:paddingLeft="10pt"
+            android:text="AA55030050002B"
+            android:textSize="16pt" />
 
         <Button
             android:id="@+id/btn_test_send"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="写数据" />
+            android:layout_height="80pt"
+            android:layout_marginTop="15pt"
+            android:text="写数据"
+            android:textSize="13pt" />
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="80pt"
+            android:layout_marginTop="8pt"
             android:orientation="horizontal">
 
             <Button
                 android:id="@+id/btn_clear"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:text="清空" />
+                android:text="清空"
+                android:textSize="13pt" />
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_alignParentLeft="true"
                 android:layout_centerInParent="true"
-                android:text="返回结果：" />
+                android:gravity="center|left"
+                android:text="返回结果："
+                android:textSize="13pt" />
         </RelativeLayout>
 
         <TextView

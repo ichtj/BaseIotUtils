@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="1080pt"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     android:orientation="vertical">
     <com.wave_chtj.example.util.TopTitleView
@@ -16,57 +17,57 @@
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="5pt">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="这里为app内背光显示,并非改变系统亮度(60dp)"
-            android:textSize="13sp" />
+            android:text="这里为app内背光显示,并非改变系统亮度(60pt)"
+            android:textSize="13pt" />
 
         <TextView
             android:id="@+id/tvProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="当前进度："
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <SeekBar
             android:id="@+id/sbProgress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:orientation="vertical"
-        android:padding="5dp">
+        android:padding="5pt">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
-            android:text="这里会改为手动调整背光模式,调整这里后将会改变系统亮度并且保持(60dp)"
-            android:textSize="13sp" />
+            android:text="这里会改为手动调整背光模式,调整这里后将会改变系统亮度并且保持(60pt)"
+            android:textSize="13pt" />
 
         <TextView
             android:id="@+id/tvSysProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="系统当前进度："
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <SeekBar
             android:id="@+id/sbSysProgress"
             style="?android:attr/progressBarStyleHorizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp" />
+            android:layout_marginLeft="15pt"
+            android:layout_marginRight="15pt" />
     </LinearLayout>
 
     <TextView
@@ -76,7 +77,7 @@
         android:background="#0E0909"
         android:text="width=1080pt height=200pt"
         android:textColor="@color/white"
-        android:textSize="13sp" />
+        android:textSize="13pt" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -90,7 +91,7 @@
             android:gravity="center"
             android:text="width=540pt height=200pt"
             android:textColor="#fff"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="540pt"
@@ -99,26 +100,26 @@
             android:background="#0d0"
             android:text="width=540pt height=200pt"
             android:textColor="#fff"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
     </LinearLayout>
 
     <TextView
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:background="#fd0"
-        android:text="weight=1080pt height=200pt"
+        android:text="width=1080pt height=200pt"
         android:gravity="center"
         android:textColor="#fff"
-        android:textSize="13sp" />
+        android:textSize="13pt" />
 
     <TextView
         android:layout_width="1080pt"
         android:layout_height="200pt"
         android:background="#d00"
         android:gravity="center"
-        android:text="weight=1080pt height=200pt"
+        android:text="width=1080pt height=200pt"
         android:textColor="#fff"
-        android:textSize="13sp" />
+        android:textSize="13pt" />
 
 
     <LinearLayout
@@ -131,9 +132,9 @@
             android:layout_height="match_parent"
             android:background="@color/colorPrimary"
             android:gravity="center"
-            android:text="weight=270pt height=200pt"
+            android:text="width=270pt height=200pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
 
         <TextView
@@ -141,32 +142,32 @@
             android:layout_height="match_parent"
             android:background="#131113"
             android:gravity="center"
-            android:text="weight=270pt height=270pt"
+            android:text="width=270pt height=270pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="270pt"
             android:layout_height="match_parent"
             android:background="#d0a"
             android:gravity="center"
-            android:text="weight=270pt height=270pt"
+            android:text="width=270pt height=270pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="270pt"
             android:layout_height="match_parent"
             android:background="#532F4A"
             android:gravity="center"
-            android:text="weight=270pt height=270pt"
+            android:text="width=270pt height=270pt"
             android:textColor="#B2C0B2"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="370pt"
+        android:layout_height="470pt"
         android:orientation="horizontal">
 
         <TextView
@@ -174,53 +175,53 @@
             android:layout_height="match_parent"
             android:background="#aef"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="180pt"
             android:layout_height="match_parent"
             android:background="#acf"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="180pt"
             android:layout_height="match_parent"
             android:background="#BE2DBE"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="180pt"
             android:layout_height="match_parent"
             android:background="#fcf"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="180pt"
             android:layout_height="match_parent"
             android:background="#C1083B"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
 
         <TextView
             android:layout_width="180pt"
             android:layout_height="match_parent"
             android:background="#DC2ADC"
             android:gravity="center"
-            android:text="weight=180pt height=370pt"
+            android:text="width=180pt height=470pt"
             android:textColor="#0d0"
-            android:textSize="13sp" />
+            android:textSize="13pt" />
     </LinearLayout>
 </LinearLayout>

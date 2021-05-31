@@ -8,27 +8,27 @@
         android:layout_width="540pt"
         android:layout_height="94pt"
         android:layout_below="@+id/btn_download"
-        android:layout_marginLeft="6dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5pt"
+        android:layout_marginTop="5pt"
         android:layout_toRightOf="@+id/btn_socket"
         android:background="@drawable/draw_top"
         android:gravity="center"
         android:onClick="onClick"
         android:text="选项一"
         android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textSize="12pt" />
 
     <Button
         android:id="@+id/btn_two"
         android:layout_width="540pt"
         android:layout_height="94pt"
         android:layout_below="@+id/btn_notification_open"
-        android:layout_marginLeft="6dp"
+        android:layout_marginLeft="5pt"
         android:layout_toRightOf="@+id/btn_socket"
         android:background="@drawable/draw_bottom"
         android:gravity="center"
         android:onClick="onClick"
         android:text="选项二"
         android:textColor="@color/black"
-        android:textSize="12sp" />
+        android:textSize="12pt" />
 </LinearLayout>

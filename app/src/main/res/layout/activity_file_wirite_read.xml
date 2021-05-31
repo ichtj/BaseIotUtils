@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
+    android:layout_width="1080pt"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
         android:id="@+id/ttView"
@@ -15,51 +15,63 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="15pt"
+        android:layout_marginRight="10pt"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_content"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="70pt"
             android:layout_weight="1"
             android:background="@drawable/button_style_stroke" />
 
         <CheckBox
             android:id="@+id/cbCover"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5pt"
+            android:layout_marginRight="5pt"
             android:checked="true"
-            android:text="覆盖" />
+            android:text="覆盖"
+            android:textSize="13pt" />
 
         <Button
             android:id="@+id/btn_write"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="写数据" />
+            android:layout_height="match_parent"
+            android:text="写数据"
+            android:textSize="13pt" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80pt"
+        android:layout_marginLeft="10pt"
+        android:layout_marginTop="15pt"
+        android:layout_marginRight="10pt"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_del"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="5pt"
             android:layout_weight="1"
-            android:text="删除文件" />
+            android:text="删除文件"
+            android:textSize="13pt" />
 
         <Button
             android:id="@+id/btn_read"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="5pt"
             android:layout_weight="1"
-            android:text="读数据" />
+            android:text="读数据"
+            android:textSize="13pt" />
 
     </LinearLayout>
 
@@ -67,6 +79,7 @@
         android:id="@+id/tv_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_weight="1" />
+        android:layout_marginTop="10pt"
+        android:layout_weight="1"
+        android:padding="10pt" />
 </LinearLayout>

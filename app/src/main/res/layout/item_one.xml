@@ -7,6 +7,6 @@
     android:gravity="center"
     android:onClick="onClick"
     android:text="@string/serial_rs"
-    android:layout_margin="5dp"
+    android:layout_margin="5pt"
     android:textColor="@color/black"
-    android:textSize="12sp" />
+    android:textSize="12pt" />
