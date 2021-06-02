@@ -17,12 +17,6 @@ public interface MessageListener {
      * @param cause 异常中断原因
      * */
     void connectionLost(ConnectLostType type,Throwable cause);
-//    /**
-//     * mqtt连接成功状态返回
-//     * @param  reconnect 是否重连成功
-//     * @param  msg 重连的描述
-//     * */
-//    void connectComplete(boolean reconnect, String msg);
     /**
      * 连接创建后结果返回
      * @param type 创建连接后结果定义返回

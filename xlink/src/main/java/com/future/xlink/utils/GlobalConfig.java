@@ -9,7 +9,7 @@ public class GlobalConfig {
      */
     public static String LOG_INFO_NAME="info.log";
     public static String LOG_ERROR_NAME="error.log";
-    public static final String SYS_ROOT_PATH = "/mnt/sdcard" + File.separator + "xlink" + File.separator;
+    public static final String SYS_ROOT_PATH = "/sdcard" + File.separator + "xlink" + File.separator;
     public static String PATH_LOG_INFO = File.separator + "log" + File.separator + "info" + File.separator + LOG_INFO_NAME;
     public static String PATH_LOG_ERROR = File.separator + "log" + File.separator + "error" + File.separator +LOG_ERROR_NAME;
     public static String PROPERT_URL = "";
@@ -17,9 +17,6 @@ public class GlobalConfig {
     public static final String MY_PROPERTIES = "my.properties"; //参数存储文件
 
     public static final String HTTP_SERVER = "http://iot.frozenmoment.cn:10130/"; //生产测试环境
-    //public static final String HTTP_SERVER = "http://8.129.71.194:10130/"; //生产测试环境
-    //public  static  final  String HTTP_SERVER="http://192.168.1.249:10130/";//线下测试环境
-    //public  static  final  String HTTP_SERVER="http://47.106.129.104:10130/";//线下测试环境
     public static final String AGENT_SERVER_LIST = "api/iot/reg/device/servers"; //代理服务端地址
     public static final String AGENT_REGISTER = "/api/iot/reg/device/register"; //注册服务器
     public static final String PRODUCT_UNIQUE = "api/iot/reg/device/unique"; //设备sn唯一性验证

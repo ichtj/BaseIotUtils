@@ -76,7 +76,7 @@ public class RxMqttService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log4J.info(TAG, "onStartCommand", "开启服务");
+        Log4J.info(TAG, "onStartCommand", "start service");
         if (intent != null) {
             params = (InitParams) intent.getSerializableExtra(INIT_PARAM);
             InitState initState = null; //获取参数状态
@@ -136,7 +136,7 @@ public class RxMqttService extends Service {
         super.onDestroy();
         try {
             map.clear();
-            Log4J.info(TAG, "onDestroy", "停止服务");
+            Log4J.info(TAG, "onDestroy", "stop service");
             stopCheckReconnect();
             XBus.unregister(this);
             threadTerminated = true;
@@ -295,7 +295,6 @@ public class RxMqttService extends Service {
         mcuprotocal.type = type;
         mcuprotocal.tx = protocal.tx;
         map.put(mcuprotocal.iid, mcuprotocal);
-
     }
 
     /**
@@ -370,7 +369,6 @@ public class RxMqttService extends Service {
                     if (TextUtils.isEmpty(protocal.rx))
                         protocal.rx = JckJsonHelper.toJson(new RespStatus(RespType.RESP_OUTTIME.getTye(), RespType.RESP_OUTTIME.getValue()));
                 }
-//                if (judgeMethod(true,protocal))
                 //超时两端都需要汇报
                 sendTxMsg(protocal);
                 sendRxMsg(protocal);
@@ -439,7 +437,7 @@ public class RxMqttService extends Service {
                 response.iid = msg.iid;
 
                 response.payload = msg.tx;
-                boolean isComplete=mqttManager.publish(msg.ack, 2, JckJsonHelper.toJson(response).getBytes());
+                boolean isComplete = mqttManager.publish(msg.ack, 2, JckJsonHelper.toJson(response).getBytes());
                 Log4J.info(TAG, "sendRxMsg", "test msg-->" + JckJsonHelper.toJson(response));
                 //Log.d(TAG.getSimpleName(), "sendRxMsg: isComplete="+isComplete);
                 return isComplete;
@@ -461,13 +459,12 @@ public class RxMqttService extends Service {
             boolean isConnect = mqttManager.isConnect();
             Log.d(TAG.getSimpleName(), "checkReconnect: isConnect=" + isConnect);
             if (!isConnect) {
-                int specifiedTime=outtime * 60 / 5;
+                int specifiedTime = outtime * 60 / 5;
                 MessageListener listener = XLink.getInstance().getListener();
                 ConnectLostType type = null;
-                if(aLong.intValue() == specifiedTime){
+                if (aLong.intValue() == specifiedTime) {
                     Log.d(TAG.getSimpleName(), "checkReconnect: next ");
-                    //stopCheckReconnect();
-                    boolean state = PingUtils.ping("www.baidu.com");
+                    boolean state = PingUtils.ping("114.114.114.114");
                     if (state) {
                         //百度能ping通，说明网络通讯正常；
                         boolean state2 = PingUtils.ping(GlobalConfig.HTTP_SERVER);
@@ -485,7 +482,7 @@ public class RxMqttService extends Service {
                     if (listener != null) {
                         listener.connectionLost(type, new Throwable(type.getValue()));
                     }
-                }else if(aLong.intValue() > specifiedTime){
+                } else if (aLong.intValue() > specifiedTime) {
                     //本地网络异常，3
                     type = ConnectLostType.LOST_TYPE_3;
                     if (listener != null) {

@@ -12,9 +12,7 @@ public class PingUtils {
         String line = null;
         Process process = null;
         BufferedReader successReader = null;
-
         try {
-//            String [] pings=null;
             String url=null;
             if (host.startsWith("http://")){
                 url=host.substring("http://".length());
@@ -25,7 +23,6 @@ public class PingUtils {
             }
             String [] pingHosts=url.split(":");
             String command = "ping -c " + pingCount + " " + pingHosts[0];
-            //Log4J.info(PingUtils.class, "ping", command);
             process = Runtime.getRuntime().exec(command);
             if (process == null) {
                 Log4J.info(PingUtils.class, "ping", "ping fail:process is null.");
@@ -56,7 +53,6 @@ public class PingUtils {
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
-            //Log4J.info(PingUtils.class, "ping", "ping exit.");
             if (process != null) {
                 process.destroy();
             }

@@ -26,8 +26,6 @@ private final  static  Class TAG=PropertiesUtil.class;
 		if (mPropUtil == null) {
 			mPropUtil = new PropertiesUtil();
 			mPropUtil.mContext = context;
-			String packageName=Utils.getPackageName(context);
-//			mPropUtil.mPath = GlobalConfig.SYS_ROOT_PATH+packageName+File.separator;
 			mPropUtil.mPath=GlobalConfig.PROPERT_URL;
 			mPropUtil.mFile = GlobalConfig.MY_PROPERTIES;
 		}
@@ -45,18 +43,9 @@ private final  static  Class TAG=PropertiesUtil.class;
 	}
 
 	public PropertiesUtil init() {
-		Log4J.info(TAG, "init","path="+mPath+",file="+mFile);
 		try {
 			File dir = new File(mPath);
-			//if (!dir.exists()) {
-			//	Log4J.info(TAG, "init", "init: !dir.exists()");
-			//	dir.mkdirs();
-			//}
 			File file = new File(dir, mFile);
-			//if (!file.exists()) {
-			//	Log4J.info(TAG, "init", "init: !file.exists()");
-			//	file.createNewFile();
-			//}
 			InputStream is = new FileInputStream(file);
 			mProp = new Properties();
 			mProp.load(is);

@@ -35,14 +35,10 @@ public class XLink {
      */
     private Context context;
     /**
-     * 初始化参数
-     */
-    private InitParams params;
-    /**
      * 消息回调接口
      */
     MessageListener listener;
-    Intent intent = null;
+    //Intent intent = null;
 
     private XLink() {
 
@@ -52,10 +48,6 @@ public class XLink {
     public MessageListener getListener() {
         return listener;
     }
-
-    //public void setListener(MessageListener listener) {
-    //    this.listener = listener;
-    //}
 
     public static XLink getInstance() {
         if (null == mInstance) {
@@ -73,23 +65,24 @@ public class XLink {
      */
     public void init(@NonNull Context context, @NonNull InitParams params, @NonNull MessageListener listener) {
         //日志文件路径设置
-        GlobalConfig.PATH_LOG_INFO = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + GlobalConfig.PATH_LOG_INFO;
-        GlobalConfig.PATH_LOG_ERROR = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + GlobalConfig.PATH_LOG_ERROR;
-        GlobalConfig.PROPERT_URL = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + File.separator + params.sn + File.separator;
-        createLogFile(context);//创建info,error日志的存储路径和.log文件
+        String pkgName = Utils.getPackageName(context);
+        GlobalConfig.PATH_LOG_INFO = GlobalConfig.SYS_ROOT_PATH + pkgName + GlobalConfig.PATH_LOG_INFO;
+        GlobalConfig.PATH_LOG_ERROR = GlobalConfig.SYS_ROOT_PATH + pkgName + GlobalConfig.PATH_LOG_ERROR;
+        GlobalConfig.PROPERT_URL = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + params.sn + File.separator;
+        createFile(pkgName);//创建info,error日志的存储路径和.log文件my.properties文件
         this.context = context;
-        this.params = params;
         this.listener = listener;
-        this.intent = new Intent(context, RxMqttService.class);
-        this.intent.putExtra(RxMqttService.INIT_PARAM, this.params);
-        context.startService(this.intent);
-
+        Intent intent = new Intent(context, RxMqttService.class);
+        intent.putExtra(RxMqttService.INIT_PARAM, params);
+        context.startService(intent);
     }
 
-    private void createLogFile(Context context) {
-        String packageName = context.getPackageName();
-        String logInfo = GlobalConfig.SYS_ROOT_PATH + packageName + File.separator + "log" + File.separator + "info";
-        String logError = GlobalConfig.SYS_ROOT_PATH + packageName + File.separator + "log" + File.separator + "error";
+    /**
+     * 初始化时创建配置文件
+     */
+    private void createFile(String pkgName) {
+        String logInfo = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + "log" + File.separator + "info";
+        String logError = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + "log" + File.separator + "error";
         File infoLogFile = new File(logInfo);
         if (!infoLogFile.exists()) {
             infoLogFile.mkdirs();
@@ -147,9 +140,7 @@ public class XLink {
      * 注销函数，注销后，重连mqtt需要重新调用init()函数
      */
     public void unInit() {
-        if (intent != null && context != null) {
-            context.stopService(intent);
-        }
+        context.stopService(new Intent(context, RxMqttService.class));
         // 清空保存在文件夹中的数据
         PropertiesUtil.getInstance(context).clearProperties(context);
         this.listener = null;

@@ -10,6 +10,7 @@ import com.future.xlink.bean.Register;
 import com.future.xlink.bean.common.ConnectType;
 import com.future.xlink.logs.Log4J;
 import com.future.xlink.utils.Carrier;
+import com.future.xlink.utils.GlobalConfig;
 import com.future.xlink.utils.Utils;
 import com.future.xlink.utils.XBus;
 
@@ -22,6 +23,8 @@ import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.MqttException;
 import org.eclipse.paho.client.mqttv3.MqttMessage;
 import org.eclipse.paho.client.mqttv3.persist.MqttDefaultFilePersistence;
+
+import java.io.File;
 
 /**
  * 管理mqtt的连接,发布,订阅,断开连接, 断开重连等操作
@@ -148,7 +151,7 @@ public class MqttManager {
 
         @Override
         public void onSuccess(IMqttToken arg0) {
-            Log4J.info(TAG, "onSuccess", "onSuccess" + "连接成功 ");
+            Log4J.info(TAG, "onSuccess", "connection onSuccess");
             DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
             disconnectedBufferOptions.setBufferEnabled(params.bufferEnable);
             disconnectedBufferOptions.setBufferSize(params.bufferSize);
@@ -167,7 +170,16 @@ public class MqttManager {
                 //只在客户端主动创建初始化连接时回调
                 if (isInitconnect) {
                     if(arg1.getMessage().contains("无权连接")){
+                        //可能是此设备在其他产品中，或者设备已被删除 本地的缓存需要重新生成
                         XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_NO_PERMISSION));
+                        try {
+                            //删除配置文件
+                            String path=GlobalConfig.SYS_ROOT_PATH+ Utils.getPackageName(context) + File.separator + params.sn + File.separator+GlobalConfig.MY_PROPERTIES;
+                            boolean isDel=new File(path).delete();
+                            Log.d(TAG.getName(), "onFailure: isDel="+isDel);
+                        }catch (Exception e){
+                            Log.d(TAG.getName(), "onFailure: errMeg="+e.getMessage());
+                        }
                     }else{
                         XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));
                     }
@@ -247,26 +259,6 @@ public class MqttManager {
         return flag;
 
     }
-
-
-    /**
-     * 取消连接
-     *
-     * @throws MqttException
-     */
-
-    //public void disConnect() throws MqttException {
-    //    if (client != null && client.isConnected()) {
-    //        conOpt = null;
-    //        context = null;
-    //        client.disconnect();
-    //        client.unregisterResources();
-    //        client.close();
-    //        Log4J.info(TAG, "disConnect", "取消了mqtt连接" + (client == null));
-    //        client = null;
-    //    }
-    //}
-
 
     /**
      * 释放单例, 及其所引用的资源

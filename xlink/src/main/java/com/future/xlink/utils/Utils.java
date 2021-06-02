@@ -83,9 +83,6 @@ public class Utils {
                 Log4J.info(MqttManager.class, "GetNetworkType", "Network getSubtype : " + Integer.valueOf(networkType).toString());
             }
         }
-
-       // Log4J.info(MqttManager.class, "GetNetworkType", "Network Type : " + strNetworkType);
-
         return strNetworkType;
     }
 
@@ -97,7 +94,6 @@ public class Utils {
      * asu 与 dbm 之间的换算关系是 dbm=-113 + 2*asu
      */
     public static void getCurrentNetDBM(Context context) {
-
         final TelephonyManager tm = (TelephonyManager) context
                 .getSystemService(Context.TELEPHONY_SERVICE);
         PhoneStateListener mylistener = new PhoneStateListener() {
@@ -141,26 +137,12 @@ public class Utils {
                         itedbm = String.valueOf(signalStrength.getEvdoDbm());
                     }
                     Log4J.info(Utils.class, "getCurrentNetDBM", ProvidersName + " itemdm 3G-->" + itedbm);
-
-//                    String yys = IntenetUtil.getYYS(getApplication());//获取当前运营商
-//                    if (yys=="中国移动") {
-//                        setDBM(0+"");//中国移动3G不可获取，故在此返回0
-//                    }else if (yys=="中国联通") {
-//                        int cdmaDbm = signalStrength.getCdmaDbm();
-//                        setDBM(cdmaDbm+"");
-//                    }else if (yys=="中国电信") {
-//                        int evdoDbm = signalStrength.getEvdoDbm();
-//                        setDBM(evdoDbm+"");
-//                    }
-
                 } else {
                     //2G网络最佳范围>-90dBm 越大越好
                     int asu = signalStrength.getGsmSignalStrength();
                     int dbm = -113 + 2 * asu;
                     Log4J.info(Utils.class, "getCurrentNetDBM", ProvidersName + " itemdm 2G-->" + dbm);
-//                    setDBM(dbm+"");
                 }
-
             }
         };
         //开始监听
