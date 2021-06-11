@@ -1,8 +1,8 @@
 package com.future.xlink.bean;
 
-import androidx.annotation.NonNull;
-
 import java.io.Serializable;
+
+import io.reactivex.annotations.NonNull;
 
 /**
  * 初始化参数

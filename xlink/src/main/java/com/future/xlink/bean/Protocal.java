@@ -1,11 +1,7 @@
 package com.future.xlink.bean;
 
-import androidx.annotation.NonNull;
 
-import com.future.xlink.bean.request.Payload;
-import com.future.xlink.utils.GlobalConfig;
-
-import java.lang.reflect.Type;
+import io.reactivex.annotations.NonNull;
 
 public  class Protocal <T>{
 

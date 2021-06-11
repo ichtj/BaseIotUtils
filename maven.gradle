@@ -39,6 +39,7 @@ apply plugin: 'maven'
 }*/
 
 /*base_keepalive*/
+/*
 uploadArchives {
     configuration = configurations.archives
     repositories {
@@ -56,10 +57,11 @@ uploadArchives {
         }
     }
 }
+*/
 
 
 /*base_xlink*/
-/*uploadArchives {
+uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -75,4 +77,4 @@ uploadArchives {
             }
         }
     }
-}*/
+}

@@ -24,7 +24,7 @@ public class GlobalConfig {
 
     public static int MQTT_OutTime = 10;   //设置超时时间，单位：秒
     public static int MQTT_KeepAliveTime = 20;  //心跳包发送间隔，单位：秒
-    public static final int OVER_TIME = 30 * 60 * 1000; //消息处理超时，默认30分钟
+    public static final int OVER_TIME = 10 * 60 * 1000; //消息处理超时，默认30分钟
     public static int MQTT_RECONNECT_TIME = 10; //默认自动超时反馈时长 单位：分钟
     /**
      * 设置阿里云的 AccessKey，用于鉴权

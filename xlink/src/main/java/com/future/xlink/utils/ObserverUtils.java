@@ -22,6 +22,7 @@ import com.future.xlink.logs.Log4J;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -56,7 +57,7 @@ public class ObserverUtils {
             @Override
             public void onNext(BaseResponse<LogPayload> baseResponse) {
                 super.onNext(baseResponse);
-                Log4J.info(TAG, "getUploadLogUrl", JckJsonHelper.toJson(baseResponse));
+                Log4J.info(TAG, "getUploadLogUrl", GsonUtils.toJsonWtihNullField(baseResponse));
                 if (baseResponse.status == 0) {
                     //日志上传接口请求成功，上传文件
                     String path = Environment.getExternalStorageDirectory().getPath() + File.separator + bean.filename;
@@ -113,6 +114,7 @@ public class ObserverUtils {
                 if (baseResponse.isSuccess() && baseResponse.isSuccessNonNull()) {
                     //获取服务器列表成功，进行ping操作，获得最佳连接链路
                     List<String> pinglist = baseResponse.payload.servers;
+                    Log4J.info(TAG,"onNext pinglist:",""+ pinglist.toString());
                     if (pinglist == null || pinglist.size() == 0) {
                         //返回失败1
                         XBus.post(new Carrier(Carrier.TYPE_MODE_INIT_RX, InitState.INIT_GETAGENT_FAIL));
@@ -158,10 +160,11 @@ public class ObserverUtils {
             @Override
             public void onNext(BaseResponse<Register> registerBaseResponse) {
                 super.onNext(registerBaseResponse);
-                Log4J.info(TAG, "onNext", "status:" + registerBaseResponse.status);
+                Log4J.info(TAG, "registerRequest onNext", "status:" + registerBaseResponse.status);
                 if (registerBaseResponse.isSuccess() && registerBaseResponse.isSuccessNonNull()) {
                     //mqtt连接
                     Register register = registerBaseResponse.payload;
+                    Log4J.info(TAG, "registerRequest onNext", "get register:" + register.toString());
                     PropertiesUtil.saveProperties(context, register);
                     Register readFileregister = PropertiesUtil.getProperties(context);
                     if (!readFileregister.isNull()) {

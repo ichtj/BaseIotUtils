@@ -12,4 +12,13 @@ public class Register {
                 TextUtils.isEmpty(mqttUsername)||TextUtils.isEmpty(mqttPassword);
     }
 
+    @Override
+    public String toString() {
+        return "Register{" +
+                "ssid='" + ssid + '\'' +
+                ", mqttBroker='" + mqttBroker + '\'' +
+                ", mqttUsername='" + mqttUsername + '\'' +
+                ", mqttPassword='" + mqttPassword + '\'' +
+                '}';
+    }
 }

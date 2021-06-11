@@ -35,13 +35,12 @@ public class MqttManager {
     // 单例
     private static MqttManager mInstance = null;
     // 回调
-    private MqttCallback mCallback;
     private MqttAndroidClient client;
     private MqttConnectOptions conOpt;
     private Context context;
     private InitParams params;
     private boolean isInitconnect = false;// 是否初始化重连
-
+    private MqttCallback mCallback;
 
     private MqttManager() {
         mCallback = new MqttCallbackBus();
@@ -49,32 +48,14 @@ public class MqttManager {
 
 
     public static MqttManager getInstance() {
-        if (null == mInstance) {
-            mInstance = new MqttManager();
+        if (mInstance == null) {
+            synchronized (MqttManager.class) {
+                if (mInstance == null) {
+                    mInstance = new MqttManager();
+                }
+            }
         }
         return mInstance;
-    }
-
-
-
-    /**
-     * 检查网络是否正常
-     *
-     * @param context
-     * @return
-     */
-    protected boolean isConnectIsNormal(Context context) {
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getApplicationContext()
-                .getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo info = connectivityManager.getActiveNetworkInfo();
-        if (info != null && info.isConnected() && info.isAvailable()) {
-            String name = info.getTypeName();
-            //Log4J.info(TAG, "isConnectIsNormal", "isConnectIsNormal MQTT Current network name：" + name + "type-->" + Utils.GetNetworkType(info));
-            return true;
-        } else {
-            //Log4J.info(TAG, "isConnectIsNormal", "isConnectIsNormal MQTT No network available");
-            return false;
-        }
     }
 
     /**
@@ -83,60 +64,62 @@ public class MqttManager {
      * @return
      */
 
-    public boolean creatConnect(Context context, InitParams params, Register register) {
-        Log.d(TAG.getSimpleName(), "doConntect: use old client");
+    public void creatConnect(Context context, InitParams params, Register register) {
         this.context = context;
         this.params = params;
-        boolean flag = false;
         isInitconnect = true;
         String tmpDir = System.getProperty("java.io.tmpdir");
         MqttDefaultFilePersistence dataStore = new MqttDefaultFilePersistence(tmpDir);
         try {
             conOpt = MqConnectionFactory.getMqttConnectOptions(params, register);
+            //解析注册时服务器返回的用户名密码 如果解析异常 ，可能是无权限
+            if(conOpt.getUserName()==null||conOpt.getPassword()==null||conOpt.getUserName().equals("")||conOpt.getPassword().equals("")){
+                XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_NO_PERMISSION));
+                //删除配置文件
+                String path = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + File.separator + params.sn + File.separator + GlobalConfig.MY_PROPERTIES;
+                boolean isDel = new File(path).delete();
+                Log.d(TAG.getName(), "creatConnect: isDel my.properties=" + isDel);
+                return;
+            }
             // Construct an MQTT blocking mode client ;clientId需要修改为设备sn
             client = new MqttAndroidClient(context, register.mqttBroker, params.sn, dataStore);
+            Log4J.info(getClass(), "creatConnect", "client id=" + client.getClientId() + ",dataStore=" + tmpDir);
             // Set this wrapper as the callback handler
             client.setCallback(mCallback);
-            flag = doConnect(context);//todo
-            Log.d(TAG.getSimpleName(), "creatConnect: flag=" + flag);
+            connAndListener(context);
         } catch (Exception e) {
             e.printStackTrace();
             Log4J.crash(getClass(), "creatConnect", e);
-            boolean isNetConn = isConnectIsNormal(context);
-            Log.d(TAG.getSimpleName(), "creatConnect: errMeg=" + e.getMessage() + ",isNetConn==" + isNetConn);
-            //XBus.post(new Carrier(Carrier.TYPE_REMOTE_TIME_OUT, ConnectType.CONNECT_RESPONSE_TIMEOUT));
         }
-        return flag;
     }
 
     /**
-     * 建立连接
-     *
-     * @return
+     * 建立连接 并监听连接回调
+     * 连接结果将在 iMqttActionListener中进行回调 使用旧连接
      */
-
-    public boolean doConnect(Context context) throws MqttException {
-        Log.d(TAG.getSimpleName(), "doConntect: use old client");
-        boolean flag = false;
-        //&&isConnectIsNormal(context)
-        if (client != null && !client.isConnected()) {
-            IMqttToken itoken = client.connect(conOpt, context, iMqttActionListener);
-            itoken.waitForCompletion();
-            Log4J.info(TAG, "doConnect", "doConnect" + "Connected to " + client.getServerURI() + " with client ID " + client.getClientId() + "connected==" + client.isConnected());
-            flag = true;
-
+    public void connAndListener(Context context) {
+        try {
+            if (client != null && !client.isConnected()) {
+                IMqttToken itoken = client.connect(conOpt, context, iMqttActionListener);
+                Log4J.info(TAG, "connAndListener", "Waiting for connection to complete！");
+                //阻止当前线程，直到该令牌关联的操作完成
+                itoken.waitForCompletion();
+                Log4J.info(TAG, "connAndListener", "Connected to " + client.getServerURI() + " with client ID " + client.getClientId() + " connected==" + client.isConnected());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log4J.crash(TAG, "connAndListener", e);
         }
-        return flag;
     }
 
-    public boolean doConntect(Context context, InitParams params, Register register) throws MqttException {
+    public void doConntect(Context context, InitParams params, Register register) {
         if (client == null) {
             //client为空时代表需要重新建立连接
-            return creatConnect(context, params, register);
+            creatConnect(context, params, register);
         } else {
             //client不为空时表明 利用原有的连接信息
             this.context = context;
-            return doConnect(context);
+            connAndListener(context);
         }
     }
 
@@ -165,22 +148,21 @@ public class MqttManager {
         @Override
         public void onFailure(IMqttToken arg0, Throwable arg1) {
             Log4J.info(TAG, "onFailure", "onFailure-->" + arg1.getMessage());
-            Log.d(TAG.getSimpleName(), "onFailure: params.automaticReconnect=" + params.automaticReconnect + ",isInitconnect=" + isInitconnect);
             if (params.automaticReconnect) {
                 //只在客户端主动创建初始化连接时回调
                 if (isInitconnect) {
-                    if(arg1.getMessage().contains("无权连接")){
-                        //可能是此设备在其他产品中，或者设备已被删除 本地的缓存需要重新生成
-                        XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_NO_PERMISSION));
+                    if (arg1.getMessage().contains("无权连接")) {
                         try {
+                            //1.可能是此设备在其他产品中 2.或者设备已被删除 3.该sn未添加到平台
+                            XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_NO_PERMISSION));
                             //删除配置文件
-                            String path=GlobalConfig.SYS_ROOT_PATH+ Utils.getPackageName(context) + File.separator + params.sn + File.separator+GlobalConfig.MY_PROPERTIES;
-                            boolean isDel=new File(path).delete();
-                            Log.d(TAG.getName(), "onFailure: isDel="+isDel);
-                        }catch (Exception e){
-                            Log.d(TAG.getName(), "onFailure: errMeg="+e.getMessage());
+                            String path = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + File.separator + params.sn + File.separator + GlobalConfig.MY_PROPERTIES;
+                            boolean isDel = new File(path).delete();
+                            Log.d(TAG.getName(), "onFailure: isDel my.properties=" + isDel);
+                        } catch (Exception e) {
+                            Log4J.crash(TAG, "onFailure", e);
                         }
-                    }else{
+                    } else {
                         XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));
                     }
                 }
@@ -202,18 +184,16 @@ public class MqttManager {
     public boolean publish(String topicName, int qos, byte[] payload) {
         boolean flag = false;
         //有消息发送之后，isInitconnect 状态设置为false,系统重连之后不再回调onFailure
-        isInitconnect = false;//isConnectIsNormal(context) 判断网络是否正常然后在发送 不然没有意义
-        //Log.d(TAG.getSimpleName(), "publish: data");
-        if (client != null && client.isConnected() && isConnectIsNormal(context)) {
-            Log4J.info(TAG, "publish", "Publishing to topic \"" + topicName + "\" qos " + qos);
+        isInitconnect = false;
+        if (client != null && client.isConnected()) {
             // Create and configure a message
             MqttMessage message = new MqttMessage(payload);
             message.setQos(qos);
+            Log4J.info(TAG, "publish", "Publishing to topic \"" + topicName + "\" qos " + qos + ",messageId=" + message.getId());
             // Send the message to the server, control is not returned until
             // it has been delivered to the server meeting the specified
             // quality of service.
             try {
-
                 client.publish(topicName, message);
                 flag = true;
             } catch (MqttException e) {
@@ -242,12 +222,6 @@ public class MqttManager {
     public boolean subscribe(String topicName, int qos) {
         boolean flag = false;
         if (client != null && client.isConnected()) {
-            // Subscribe to the requested topic
-            // The QoS specified is the maximum level that messages will be sent to the client at.
-            // For instance if QoS 1 is specified, any messages originally published at QoS 2 will
-            // be downgraded to 1 when delivering to the client but messages published at 1 and 0
-            // will be received at the same level they were published at.
-
             Log4J.info(TAG, "subscribe", "subscribe" + "Subscribing to topic \"" + topicName + "\" qos " + qos);
             try {
                 client.subscribe(topicName, qos);
@@ -262,26 +236,33 @@ public class MqttManager {
 
     /**
      * 释放单例, 及其所引用的资源
+     * 连接主动断开
+     * 重新连接时
      */
-
     public void release() {
+        if (mInstance != null) {
+            mInstance.disConnect();
+            mInstance = null;
+        }
+    }
+
+    /**
+     * 断开连接
+     */
+    public void disConnect() {
         try {
             if (client != null && client.isConnected()) {
-                Log4J.info(TAG, "release", "释放了mqtt连接");
-                conOpt = null;
-                context = null;
-                client.disconnect();
+                Log4J.info(TAG, "release", "Released the mqtt connection");
                 client.unregisterResources();
                 client.close();
-                //Log4J.info(TAG, "disConnect", "取消了mqtt连接" + (client == null));
                 client = null;
-            }
-            if (mInstance != null) {
-                mInstance = null;
+                conOpt = null;
+                context = null;
             }
         } catch (Exception e) {
             e.printStackTrace();
-//            Log4J.crash(MqttManager.class, "release", e);
+            Log4J.crash(MqttManager.class, "release", e);
         }
     }
+
 }

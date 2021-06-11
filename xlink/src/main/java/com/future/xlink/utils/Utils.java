@@ -5,13 +5,9 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Build;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
-import android.util.Log;
-
-import androidx.annotation.RequiresApi;
 
 import com.future.xlink.bean.InitParams;
 import com.future.xlink.logs.Log4J;
@@ -166,6 +162,23 @@ public class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    /**
+     * 判断网络是否正常
+     *
+     * @param context
+     * @return
+     */
+    public static boolean isNetNormal(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService("connectivity");
+        NetworkInfo networkInfo = cm.getActiveNetworkInfo();
+        if (networkInfo.isAvailable() && networkInfo.isConnected()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

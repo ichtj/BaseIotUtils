@@ -2,14 +2,9 @@ package com.future.xlink;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
 
 import com.future.xlink.bean.InitParams;
 import com.future.xlink.bean.Protocal;
-import com.future.xlink.bean.common.ConnectLostType;
 import com.future.xlink.bean.common.RespType;
 import com.future.xlink.bean.mqtt.RespStatus;
 import com.future.xlink.listener.MessageListener;
@@ -17,13 +12,14 @@ import com.future.xlink.mqtt.MqttManager;
 import com.future.xlink.mqtt.RxMqttService;
 import com.future.xlink.utils.Carrier;
 import com.future.xlink.utils.GlobalConfig;
-import com.future.xlink.utils.JckJsonHelper;
+import com.future.xlink.utils.GsonUtils;
 import com.future.xlink.utils.PropertiesUtil;
 import com.future.xlink.utils.Utils;
 import com.future.xlink.utils.XBus;
 
 import java.io.File;
-import java.net.ConnectException;
+
+import io.reactivex.annotations.NonNull;
 
 public class XLink {
     /**
@@ -175,11 +171,12 @@ public class XLink {
     }
 
     private void publish(int type, Protocal protocal) {
-        if (MqttManager.getInstance().isConnect())
+        if (MqttManager.getInstance().isConnect()) {
+            //状态为连接 才能添加消息到集合
             XBus.post(new Carrier(type, protocal));
-        else {
+        } else {
             if (this.listener != null) {
-                protocal.rx = JckJsonHelper.toJson(new RespStatus(RespType.RESP_CONNECT_LOST.getTye(), RespType.RESP_CONNECT_LOST.getValue()));
+                protocal.rx = GsonUtils.toJsonWtihNullField(new RespStatus(RespType.RESP_CONNECT_LOST.getTye(), RespType.RESP_CONNECT_LOST.getValue()));
                 this.listener.messageArrived(protocal);
             }
         }

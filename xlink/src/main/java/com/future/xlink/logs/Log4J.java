@@ -3,10 +3,8 @@ package com.future.xlink.logs;
 import android.util.Log;
 
 
-import androidx.annotation.NonNull;
-
 import com.future.xlink.utils.GlobalConfig;
-import com.future.xlink.utils.JckJsonHelper;
+import com.future.xlink.utils.GsonUtils;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -15,6 +13,7 @@ import org.apache.log4j.PatternLayout;
 import java.io.IOException;
 
 import de.mindpipe.android.logging.log4j.LogConfigurator;
+import io.reactivex.annotations.NonNull;
 
 /**
  * 日志工具配置
@@ -66,28 +65,28 @@ public class Log4J {
         }
     }
 
-    private static String concat(Class <?> clazz, String method) {
+    private static String concat(Class<?> clazz, String method) {
         return clazz.getName() + "#" + method;
     }
 
-    private static String concat(Class <?> clazz, String method, String value) {
+    private static String concat(Class<?> clazz, String method, String value) {
         return clazz.getName() + "#" + method + ":" + value;
     }
 
-    public static void crash(Class <?> clazz, String method, @NonNull Throwable e) {
+    public static void crash(Class<?> clazz, String method, @NonNull Throwable e) {
         errorLogger.error(concat(clazz, method), e);
     }
 
-    public static void info(Class <?> clazz, String method, @NonNull Throwable e) {
+    public static void info(Class<?> clazz, String method, @NonNull Throwable e) {
         infoLogger.info(concat(clazz, method), e);
     }
 
-    public static void info(Class <?> clazz, String method, @NonNull String value) {
+    public static void info(Class<?> clazz, String method, @NonNull String value) {
         infoLogger.info(concat(clazz, method, value));
     }
 
-    public static void json(Class <?> clazz, String method, @NonNull Object value) {
-        infoLogger.info(concat(clazz, method, JckJsonHelper.toJson(value)));
+    public static void json(Class<?> clazz, String method, @NonNull Object value) {
+        infoLogger.info(concat(clazz, method, GsonUtils.toJsonWtihNullField(value)));
     }
 
     public static void http(String msg) {

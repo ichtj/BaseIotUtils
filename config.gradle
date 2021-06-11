@@ -24,10 +24,20 @@ ext {
             "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
             "rxandroid"               : "io.reactivex.rxjava2:rxandroid:2.1.1",
             //network
+            "mqttv3"                  : "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0",
+            "mqttv-service"           : "org.eclipse.paho:org.eclipse.paho.android.service:1.1.1",
+            //okhttp
+            "okhttp12"                : "com.squareup.okhttp3:okhttp:3.12.1",
             "okhttp"                  : "com.squareup.okhttp3:okhttp:3.10.0",
+            //rxjava
             "retrofit"                : "com.squareup.retrofit2:retrofit:2.6.2",
             "converter-gson"          : "com.squareup.retrofit2:converter-gson:2.6.2",
             "adapter-rxjava"          : "com.squareup.retrofit2:adapter-rxjava2:2.6.2",
+            //logging
+            "logging"                 : "de.mindpipe.android:android-logging-log4j:1.0.3",
+            "log4j"                   : "log4j:log4j:1.2.17",
+            //eventbus
+            "eventbus"                : "org.greenrobot:eventbus:3.1.1",
             //json解析
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
