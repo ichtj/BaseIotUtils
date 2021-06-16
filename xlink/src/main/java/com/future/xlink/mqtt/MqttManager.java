@@ -1,14 +1,11 @@
 package com.future.xlink.mqtt;
 
 import android.content.Context;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.util.Log;
 
 import com.future.xlink.bean.InitParams;
 import com.future.xlink.bean.Register;
 import com.future.xlink.bean.common.ConnectType;
-import com.future.xlink.logs.Log4J;
 import com.future.xlink.utils.Carrier;
 import com.future.xlink.utils.GlobalConfig;
 import com.future.xlink.utils.Utils;
@@ -31,7 +28,7 @@ import java.io.File;
  */
 
 public class MqttManager {
-    private final Class TAG = MqttManager.class;
+    private static final String TAG = "MqttManager";
     // 单例
     private static MqttManager mInstance = null;
     // 回调
@@ -78,18 +75,18 @@ public class MqttManager {
                 //删除配置文件
                 String path = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + File.separator + params.sn + File.separator + GlobalConfig.MY_PROPERTIES;
                 boolean isDel = new File(path).delete();
-                Log.d(TAG.getName(), "creatConnect: isDel my.properties=" + isDel);
+                Log.d(TAG, "creatConnect: isDel my.properties=" + isDel);
                 return;
             }
             // Construct an MQTT blocking mode client ;clientId需要修改为设备sn
             client = new MqttAndroidClient(context, register.mqttBroker, params.sn, dataStore);
-            Log4J.info(getClass(), "creatConnect", "client id=" + client.getClientId() + ",dataStore=" + tmpDir);
+            Log.d(TAG, "creatConnect client id=" + client.getClientId() + ",dataStore=" + tmpDir);
             // Set this wrapper as the callback handler
             client.setCallback(mCallback);
             connAndListener(context);
         } catch (Exception e) {
             e.printStackTrace();
-            Log4J.crash(getClass(), "creatConnect", e);
+            Log.e(TAG, "creatConnect", e);
         }
     }
 
@@ -101,14 +98,14 @@ public class MqttManager {
         try {
             if (client != null && !client.isConnected()) {
                 IMqttToken itoken = client.connect(conOpt, context, iMqttActionListener);
-                Log4J.info(TAG, "connAndListener", "Waiting for connection to complete！");
+                Log.d(TAG, "connAndListener Waiting for connection to complete！");
                 //阻止当前线程，直到该令牌关联的操作完成
                 itoken.waitForCompletion();
-                Log4J.info(TAG, "connAndListener", "Connected to " + client.getServerURI() + " with client ID " + client.getClientId() + " connected==" + client.isConnected());
+                Log.d(TAG, "connAndListener Connected to " + client.getServerURI() + " with client ID " + client.getClientId() + " connected==" + client.isConnected());
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log4J.crash(TAG, "connAndListener", e);
+            Log.e(TAG, "connAndListener", e);
         }
     }
 
@@ -134,7 +131,7 @@ public class MqttManager {
 
         @Override
         public void onSuccess(IMqttToken arg0) {
-            Log4J.info(TAG, "onSuccess", "connection onSuccess");
+            Log.d(TAG, "onSuccess connection onSuccess");
             DisconnectedBufferOptions disconnectedBufferOptions = new DisconnectedBufferOptions();
             disconnectedBufferOptions.setBufferEnabled(params.bufferEnable);
             disconnectedBufferOptions.setBufferSize(params.bufferSize);
@@ -147,7 +144,7 @@ public class MqttManager {
 
         @Override
         public void onFailure(IMqttToken arg0, Throwable arg1) {
-            Log4J.info(TAG, "onFailure", "onFailure-->" + arg1.getMessage());
+            Log.d(TAG, "onFailure onFailure-->" + arg1.getMessage());
             if (params.automaticReconnect) {
                 //只在客户端主动创建初始化连接时回调
                 if (isInitconnect) {
@@ -158,9 +155,9 @@ public class MqttManager {
                             //删除配置文件
                             String path = GlobalConfig.SYS_ROOT_PATH + Utils.getPackageName(context) + File.separator + params.sn + File.separator + GlobalConfig.MY_PROPERTIES;
                             boolean isDel = new File(path).delete();
-                            Log.d(TAG.getName(), "onFailure: isDel my.properties=" + isDel);
+                            Log.d(TAG, "onFailure: isDel my.properties=" + isDel);
                         } catch (Exception e) {
-                            Log4J.crash(TAG, "onFailure", e);
+                            Log.e(TAG, "onFailure", e);
                         }
                     } else {
                         XBus.post(new Carrier(Carrier.TYPE_MODE_CONNECTED, ConnectType.CONNECT_FAIL));
@@ -189,7 +186,7 @@ public class MqttManager {
             // Create and configure a message
             MqttMessage message = new MqttMessage(payload);
             message.setQos(qos);
-            Log4J.info(TAG, "publish", "Publishing to topic \"" + topicName + "\" qos " + qos + ",messageId=" + message.getId());
+            Log.d(TAG, "publish Publishing to topic \"" + topicName + "\" qos " + qos + ",messageId=" + message.getId());
             // Send the message to the server, control is not returned until
             // it has been delivered to the server meeting the specified
             // quality of service.
@@ -199,7 +196,7 @@ public class MqttManager {
             } catch (MqttException e) {
             }
         } else {
-            Log.d(TAG.getSimpleName(), "publish: client == null && !client.isConnected() || !isConnectIsNormal(context)");
+            Log.d(TAG, "publish: client == null && !client.isConnected() || !isConnectIsNormal(context)");
         }
         return flag;
     }
@@ -222,7 +219,7 @@ public class MqttManager {
     public boolean subscribe(String topicName, int qos) {
         boolean flag = false;
         if (client != null && client.isConnected()) {
-            Log4J.info(TAG, "subscribe", "subscribe" + "Subscribing to topic \"" + topicName + "\" qos " + qos);
+            Log.d(TAG, "subscribe " + "Subscribing to topic \"" + topicName + "\" qos " + qos);
             try {
                 client.subscribe(topicName, qos);
                 flag = true;
@@ -252,7 +249,7 @@ public class MqttManager {
     public void disConnect() {
         try {
             if (client != null && client.isConnected()) {
-                Log4J.info(TAG, "release", "Released the mqtt connection");
+                Log.d(TAG, "release the mqtt connection");
                 client.unregisterResources();
                 client.close();
                 client = null;
@@ -261,7 +258,7 @@ public class MqttManager {
             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log4J.crash(MqttManager.class, "release", e);
+            Log.e(TAG, "release", e);
         }
     }
 

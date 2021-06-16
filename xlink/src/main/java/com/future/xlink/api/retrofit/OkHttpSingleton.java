@@ -1,9 +1,7 @@
 package com.future.xlink.api.retrofit;
 
 import android.text.TextUtils;
-
-
-import com.future.xlink.logs.Log4J;
+import android.util.Log;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
@@ -18,10 +16,10 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
-import okhttp3.internal.Util;
 import okio.Buffer;
 
 final class OkHttpSingleton {
+    private static final String TAG = "OkHttpSingleton";
     private static final long CONNECT_TIMEOUT = 60;
     private static final long WRITE_TIMEOUT = 30;
     private static final long READ_TIMEOUT = 30;
@@ -60,9 +58,9 @@ final class OkHttpSingleton {
                     String params = getParameters(request.body());
                     String urlStr = request.url().toString();
                     if (TextUtils.isEmpty(params)) {
-                        Log4J.http(urlStr);
+                        Log.d(TAG,urlStr);
                     } else {
-                        Log4J.http(urlStr + "&" + params);
+                        Log.d(TAG,urlStr + "&" + params);
                     }
 //                }
             } catch (Exception e) {

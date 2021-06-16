@@ -8,17 +8,18 @@ import android.net.NetworkInfo;
 import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.future.xlink.bean.InitParams;
-import com.future.xlink.logs.Log4J;
 import com.future.xlink.mqtt.MqttManager;
 
 import java.util.UUID;
 
 public class Utils {
+    private static final String TAG = "Utils";
     public static String getToken(InitParams params, String time) {
         String token = "Basic " + AESUtils.encrypt(params.key, params.sn + ":" + params.secret + ":" + time);
-        //Log4J.info(Utils.class, "getToken", token);
+        //Log.d(Utils.class, "getToken", token);
         return token;
     }
 
@@ -39,7 +40,7 @@ public class Utils {
             } else if (networkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 String _strSubTypeName = networkInfo.getSubtypeName();
 
-                Log4J.info(MqttManager.class, "GetNetworkType", "Network getSubtypeName : " + _strSubTypeName);
+                Log.d(TAG, "GetNetworkType Network getSubtypeName : " + _strSubTypeName);
 
                 // TD-SCDMA   networkType is 17
                 int networkType = networkInfo.getSubtype();
@@ -76,7 +77,7 @@ public class Utils {
                         break;
                 }
 
-                Log4J.info(MqttManager.class, "GetNetworkType", "Network getSubtype : " + Integer.valueOf(networkType).toString());
+                Log.d(TAG, "GetNetworkType Network getSubtype : " + Integer.valueOf(networkType).toString());
             }
         }
         return strNetworkType;
@@ -115,7 +116,7 @@ public class Utils {
                 if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_LTE) {
                     //4G网络 最佳范围   >-90dBm 越大越好
                     int Itedbm = Integer.parseInt(params[9]);
-                    Log4J.info(Utils.class, "getCurrentNetDBM", ProvidersName + " itemdm 4G-->" + Itedbm);
+                    Log.d(TAG, "getCurrentNetDBM "+ProvidersName + " itemdm 4G-->" + Itedbm);
 //                    setDBM(Itedbm+"");
 
                 } else if (tm.getNetworkType() == TelephonyManager.NETWORK_TYPE_HSDPA ||
@@ -132,12 +133,12 @@ public class Utils {
                     } else if ("中国电信".equalsIgnoreCase(ProvidersName)) {
                         itedbm = String.valueOf(signalStrength.getEvdoDbm());
                     }
-                    Log4J.info(Utils.class, "getCurrentNetDBM", ProvidersName + " itemdm 3G-->" + itedbm);
+                    Log.d(TAG, "getCurrentNetDBM "+ProvidersName + " itemdm 3G-->" + itedbm);
                 } else {
                     //2G网络最佳范围>-90dBm 越大越好
                     int asu = signalStrength.getGsmSignalStrength();
                     int dbm = -113 + 2 * asu;
-                    Log4J.info(Utils.class, "getCurrentNetDBM", ProvidersName + " itemdm 2G-->" + dbm);
+                    Log.d(TAG, "getCurrentNetDBM "+ProvidersName + " itemdm 2G-->" + dbm);
                 }
             }
         };

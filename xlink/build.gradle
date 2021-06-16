@@ -28,8 +28,9 @@ android {
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //logging
-    implementation rootProject.ext.dependencies["logging"]
-    implementation rootProject.ext.dependencies["log4j"]
+    //implementation rootProject.ext.dependencies["logging"]
+    //implementation rootProject.ext.dependencies["log4j"]
+    //implementation rootProject.ext.dependencies["logger"]
     //gson
     implementation rootProject.ext.dependencies["gson"]
     //eventbus
@@ -46,4 +47,4 @@ dependencies {
     implementation rootProject.ext.dependencies["mqttv-service"]
     //implementation files('libs/org.eclipse.paho.android.service-1.1.1.jar')
 }
-apply from: '../maven.gradle'
+/*apply from: '../maven.gradle'*/

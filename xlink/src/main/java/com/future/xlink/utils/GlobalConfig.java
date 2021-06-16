@@ -1,19 +1,18 @@
 package com.future.xlink.utils;
 
-import java.io.File;
 
 public class GlobalConfig {
 
     /**
      * Log4j
      */
-    public static String LOG_INFO_NAME="info.log";
-    public static String LOG_ERROR_NAME="error.log";
-    public static final String SYS_ROOT_PATH = "/sdcard" + File.separator + "xlink" + File.separator;
-    public static String PATH_LOG_INFO = File.separator + "log" + File.separator + "info" + File.separator + LOG_INFO_NAME;
-    public static String PATH_LOG_ERROR = File.separator + "log" + File.separator + "error" + File.separator +LOG_ERROR_NAME;
+    public static final String SYS_ROOT_PATH = "/sdcard" + "/" + "xlink" + "/";
+    //public static String PATH_LOG_INFO = "/" + "log" + "/" + "info" + "/";
+    //public static String PATH_LOG_ERROR = "/" + "log" + "/" + "error" + "/";
     public static String PROPERT_URL = "";
-    public static final String PATH_LOG_SUFFIX = ".log";
+    //public static String LOG_INFO_NAME = "";//info.log
+    //public static String LOG_ERROR_NAME = "";//error.log
+    //public static final String PATH_LOG_SUFFIX = ".log";
     public static final String MY_PROPERTIES = "my.properties"; //参数存储文件
 
     public static final String HTTP_SERVER = "http://iot.frozenmoment.cn:10130/"; //生产测试环境

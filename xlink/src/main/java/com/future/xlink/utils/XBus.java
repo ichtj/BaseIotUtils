@@ -1,22 +1,22 @@
 package com.future.xlink.utils;
 
-import com.future.xlink.logs.Log4J;
+import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
 
 public final class XBus {
-    private static final Class TAG = XBus.class.getClass();
+    private static final String TAG = "XBus";
     public static void post(Carrier event) {
         EventBus.getDefault().post(event);
     }
 
     public static void register(Object subscriber) {
-        Log4J.info(TAG, "register", "register xbus");
+        Log.d(TAG, "register xbus");
         EventBus.getDefault().register(subscriber);
     }
 
     public static void unregister(Object subscriber) {
-        Log4J.info(TAG, "unregister", "unregister xbus");
+        Log.d(TAG, "unregister xbus");
         EventBus.getDefault().unregister(subscriber);
     }
 }

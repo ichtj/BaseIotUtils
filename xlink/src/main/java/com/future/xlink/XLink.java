@@ -2,6 +2,7 @@ package com.future.xlink;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import com.future.xlink.bean.InitParams;
 import com.future.xlink.bean.Protocal;
@@ -18,10 +19,14 @@ import com.future.xlink.utils.Utils;
 import com.future.xlink.utils.XBus;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import io.reactivex.annotations.NonNull;
 
 public class XLink {
+    private static final String TAG = "XLink";
     /**
      * 单例
      */
@@ -60,12 +65,9 @@ public class XLink {
      * @param listener 初始化回调函数
      */
     public void init(@NonNull Context context, @NonNull InitParams params, @NonNull MessageListener listener) {
-        //日志文件路径设置
         String pkgName = Utils.getPackageName(context);
-        GlobalConfig.PATH_LOG_INFO = GlobalConfig.SYS_ROOT_PATH + pkgName + GlobalConfig.PATH_LOG_INFO;
-        GlobalConfig.PATH_LOG_ERROR = GlobalConfig.SYS_ROOT_PATH + pkgName + GlobalConfig.PATH_LOG_ERROR;
-        GlobalConfig.PROPERT_URL = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + params.sn + File.separator;
-        createFile(pkgName);//创建info,error日志的存储路径和.log文件my.properties文件
+        GlobalConfig.PROPERT_URL = GlobalConfig.SYS_ROOT_PATH + pkgName + "/" + params.sn + "/";
+        createFile();//创建info,error日志的存储路径和.log文件my.properties文件
         this.context = context;
         this.listener = listener;
         Intent intent = new Intent(context, RxMqttService.class);
@@ -73,44 +75,22 @@ public class XLink {
         context.startService(intent);
     }
 
+
+
     /**
      * 初始化时创建配置文件
      */
-    private void createFile(String pkgName) {
-        String logInfo = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + "log" + File.separator + "info";
-        String logError = GlobalConfig.SYS_ROOT_PATH + pkgName + File.separator + "log" + File.separator + "error";
-        File infoLogFile = new File(logInfo);
-        if (!infoLogFile.exists()) {
-            infoLogFile.mkdirs();
-        }
-        File errLogFile = new File(logError);
+    private void createFile() {
+        //创建err文件夹
+        File errLogFile = new File(GlobalConfig.PROPERT_URL);
         if (!errLogFile.exists()) {
             errLogFile.mkdirs();
         }
-        File snConfigPath = new File(GlobalConfig.PROPERT_URL);
-        if (!snConfigPath.exists()) {
-            snConfigPath.mkdirs();
-        }
+        //创建配置文件
         File configBySn = new File(GlobalConfig.PROPERT_URL, GlobalConfig.MY_PROPERTIES);
         if (!configBySn.exists()) {
             try {
                 configBySn.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        File logInfoFile = new File(logInfo, GlobalConfig.LOG_INFO_NAME);
-        if (!logInfoFile.exists()) {
-            try {
-                logInfoFile.createNewFile();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-        File logErrorFile = new File(logError, GlobalConfig.LOG_ERROR_NAME);
-        if (!logErrorFile.exists()) {
-            try {
-                logErrorFile.createNewFile();
             } catch (Exception e) {
                 e.printStackTrace();
             }

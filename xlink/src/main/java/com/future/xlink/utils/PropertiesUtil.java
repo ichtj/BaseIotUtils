@@ -1,10 +1,10 @@
 package com.future.xlink.utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.future.xlink.bean.Constants;
 import com.future.xlink.bean.Register;
-import com.future.xlink.logs.Log4J;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -14,8 +14,7 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 public class PropertiesUtil {
-private final  static  Class TAG=PropertiesUtil.class;
-
+	private static final String TAG = "PropertiesUtil";
 	private Context mContext;
 	private String mPath;
 	private String mFile;
@@ -52,7 +51,7 @@ private final  static  Class TAG=PropertiesUtil.class;
 			is.close();
 		} catch (Exception e) {
 			e.printStackTrace();
-			Log4J.info(TAG, "init", "init: errMeg="+e.getMessage());
+			Log.e(TAG, "init: errMeg="+e.getMessage());
 		}
 		return this;
 	}

@@ -11,8 +11,7 @@ import javax.crypto.spec.SecretKeySpec;
 
 public class AESUtils {
 
-    private static final String TAG = AESUtils.class.getSimpleName();
-
+    private static final String TAG = "AESUtils";
     /**
      * 采用AES加密算法
      */

@@ -1,12 +1,11 @@
 package com.future.xlink.mqtt;
 
 
+import android.util.Log;
+
 import com.future.xlink.bean.InitParams;
 import com.future.xlink.bean.Register;
-//import com.future.xlink.utils.AESEncrypter;
-import com.future.xlink.logs.Log4J;
 import com.future.xlink.utils.AESUtils;
-import com.future.xlink.utils.GlobalConfig;
 
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 
@@ -14,7 +13,8 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
 public class MqConnectionFactory {
-    private static final Class TAG = MqConnectionFactory.class;
+    private static final String TAG = "MqConnectionFactory";
+
     public static MqttConnectOptions getMqttConnectOptions(InitParams params, Register register) {
         MqttConnectOptions conOpt = new MqttConnectOptions();
         try {
@@ -28,16 +28,16 @@ public class MqConnectionFactory {
             // 用户名
             //conOpt.setUserName(AESEncrypter.decrypt(register.mqttUsername,null));
             //conOpt.setPassword(AESEncrypter.decrypt(register.mqttPassword,null).toCharArray());     //将字符串转换为字符串数组
-            Log4J.info(TAG,"getMqttConnectOptions:","start>>> key:"+params.key+",mqttUsername="+register.mqttUsername+",mqttPassword="+register.mqttPassword);
-            String userName=AESUtils.decrypt(params.key, register.mqttUsername);
-            char[] password=AESUtils.decrypt(params.key, register.mqttPassword).toCharArray();
-            Log4J.info(TAG,"getMqttConnectOptions:","decrypt>>> userName:"+userName+",password="+password);
+            Log.d(TAG, "getMqttConnectOptions: start>>> key:" + params.key + ",mqttUsername=" + register.mqttUsername + ",mqttPassword=" + register.mqttPassword);
+            String userName = AESUtils.decrypt(params.key, register.mqttUsername);
+            char[] password = AESUtils.decrypt(params.key, register.mqttPassword).toCharArray();
+            Log.d(TAG, "getMqttConnectOptions: decrypt>>> userName:" + userName + ",password=" + password);
             conOpt.setUserName(userName);
             conOpt.setPassword(password);
             conOpt.setServerURIs(new String[]{register.mqttBroker});
             conOpt.setMqttVersion(MqttConnectOptions.MQTT_VERSION_3_1_1);
         } catch (Exception e) {
-            Log4J.crash(TAG,"getMqttConnectOptions:",e);
+            Log.d(TAG, "getMqttConnectOptions:", e);
         }
         return conOpt;
     }
