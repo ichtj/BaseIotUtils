@@ -28,7 +28,7 @@ public class FStorageTools {
         ActivityManager manager = (ActivityManager) FBaseTools.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         ActivityManager.MemoryInfo info = new ActivityManager.MemoryInfo();
         manager.getMemoryInfo(info);
-        return new Space(info.totalMem, info.totalMem - info.availMem, info.availMem);
+        return new Space(info.totalMem/1024/1024, (info.totalMem - info.availMem)/1024/1024, info.availMem/1024/1024);
     }
 
     /**
@@ -50,7 +50,7 @@ public class FStorageTools {
         long availRomSize = availableCounts * size;
         /*内部存储总大小*/
         long totalRomSize = totalCounts * size;
-        return new RomSpace(totalRomSize, totalRomSize - availRomSize, availRomSize, availableCounts, totalCounts, size);
+        return new RomSpace(totalRomSize/1024/1024, (totalRomSize - availRomSize)/1024/1024, availRomSize/1024/1024, availableCounts, totalCounts, size);
     }
 
 
@@ -63,7 +63,7 @@ public class FStorageTools {
         long total = getTotalInternalMemorySize();
         long available = getAvailableInternalMemorySize();
         long use = total - available;
-        return new Space(total, use, available);
+        return new Space(total/1024/1024, use/1024/1024, available/1024/1024);
     }
 
     /**
@@ -104,25 +104,30 @@ public class FStorageTools {
      * @return
      */
     public static Space getTfSpace() {
-        FCmdTools.CommandResult commandResult = null;
-        int sdk = Build.VERSION.SDK_INT;
-        if (sdk >= 24) {
-            commandResult = FCmdTools.execCommand("df | grep -rn /mnt/media_rw", true);
-            if (commandResult.successMsg != null && commandResult.successMsg.length() > 0) {
-                String[] result = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
-                return new Space(Integer.valueOf(result[2]), Integer.valueOf(result[3]), Integer.valueOf(result[4]));
+        try {
+            FCmdTools.CommandResult commandResult = null;
+            int sdk = Build.VERSION.SDK_INT;
+            if (sdk >= 24) {
+                commandResult = FCmdTools.execCommand("df | grep -rn /mnt/media_rw", true);
+                if (commandResult.successMsg != null && commandResult.successMsg.length() > 0) {
+                    String[] result = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
+                    return new Space(Integer.valueOf(result[2])/1024, Integer.valueOf(result[3])/1024, Integer.valueOf(result[4])/1024);
+                } else {
+                    return new Space(0, 0, 0);
+                }
             } else {
-                return new Space(0, 0, 0);
+                commandResult = FCmdTools.execCommand("busybox df -m | grep /mnt/media_rw/extsd", true);
+                Log.d(TAG, "getTfSpace: successMeg=" + commandResult.successMsg);
+                if (commandResult.successMsg != null && commandResult.successMsg.length() > 0) {
+                    String[] resultCall = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
+                    return new Space(Long.parseLong(resultCall[0]), Long.parseLong(resultCall[1]), Long.parseLong(resultCall[2]));
+                } else {
+                    return new Space(0, 0, 0);
+                }
             }
-        } else {
-            commandResult = FCmdTools.execCommand("df | grep -rn /mnt/media_rw/extsd", true);
-            Log.d(TAG, "getTfSpace: successMeg=" + commandResult.successMsg);
-            if (commandResult.successMsg != null && commandResult.successMsg.length() > 0) {
-                String[] resultCall = commandResult.successMsg.substring(4).trim().replaceAll("\\s+", " ").split(" ");
-                return new Space(Long.parseLong(resultCall[2]), Long.parseLong(resultCall[3]), Long.parseLong(resultCall[4]));
-            } else {
-                return new Space(0, 0, 0);
-            }
+        }catch (Exception e){
+            Log.e(TAG,"errMeg:"+e.getMessage());
+            return new Space(0, 0, 0);
         }
     }
 }

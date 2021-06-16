@@ -461,7 +461,7 @@ public class FCommonTools {
      */
     public static void openService(Context context,String packName, String servicePackageName) {
         try {
-            Log.d(TAG, "launch this service...  packagename=" + packName);
+            Log.d(TAG, "launch this service...  servicePackageName=" + servicePackageName);
             Intent intent = new Intent();
             intent.setComponent(new ComponentName(packName, servicePackageName));
             context.startService(intent);
