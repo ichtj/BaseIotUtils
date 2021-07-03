@@ -36,12 +36,13 @@ ext {
             //logging
             "logging"                 : "de.mindpipe.android:android-logging-log4j:1.0.3",
             "log4j"                   : "log4j:log4j:1.2.17",
+            "logger"                  : "com.orhanobut:logger:2.2.0",
             //eventbus
             "eventbus"                : "org.greenrobot:eventbus:3.1.1",
             //json解析
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
-            "base_keepalive"           : "com.chtj.keepalive:base_keepalive:1.0.7",
+            "base_keepalive"           : "com.chtj.keepalive:base_keepalive:1.0.9",
             "base_iotutils"           : "com.face_chtj.base_iotutils:base_iotutils:1.10.5",
             "base_framework"           : "com.chtj.base_framework:base_framework:1.2.0",
             "base_socket"             : "com.chtj.base_socket:base_socket:1.0.2",

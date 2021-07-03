@@ -1,7 +1,7 @@
 apply plugin: 'maven'
 
 /*base_iotutils*/
-/*uploadArchives {
+uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -17,7 +17,7 @@ apply plugin: 'maven'
             }
         }
     }
-}*/
+}
 
 /*base_framework*/
 /*uploadArchives {
@@ -39,8 +39,7 @@ apply plugin: 'maven'
 }*/
 
 /*base_keepalive*/
-/*
-uploadArchives {
+/*uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -56,12 +55,11 @@ uploadArchives {
             }
         }
     }
-}
-*/
+}*/
 
 
 /*base_xlink*/
-uploadArchives {
+/*uploadArchives {
     configuration = configurations.archives
     repositories {
         mavenDeployer {
@@ -77,4 +75,4 @@ uploadArchives {
             }
         }
     }
-}
+}*/
