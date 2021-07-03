@@ -27,7 +27,7 @@ import static android.content.Context.NOTIFICATION_SERVICE;
  * Create on 2019/12/27
  * author chtj
  * desc ：NotifyUtils 工具类
- * {@link #getInstance(String)} ()}-----------初始化相关参数
+ * {@link #getInstance(int)} ()}-----------初始化相关参数
  * {@link #setIvLogo(int)}----------设置logo  setImageViewResource
  * {@link #setIvLogo(Uri)}----------设置logo  setImageViewUri
  * {@link #setIvLogo(Bitmap)}-------设置logo  setImageViewBitmap
@@ -97,7 +97,7 @@ public class NotifyUtils {
      * NotificationManager.IMPORTANCE_DEFAULT 开启通知，不会弹出，发出提示音，状态栏中显示
      * NotificationManager.IMPORTANCE_HIGH 开启通知，会弹出，发出提示音，状态栏中显示
      */
-    public static NotifyUtils getInstance(String notifyId) {
+    public static NotifyUtils getInstance(int notifyId) {
         if (notifyUtils == null) {
             synchronized (NotifyUtils.class) {
                 if (notifyUtils == null) {
@@ -108,7 +108,7 @@ public class NotifyUtils {
                     IntentFilter filter = new IntentFilter();
                     filter.addAction(ACTION_CLOSE_NOTIFY);
                     BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyBroadcastReceiver, filter);
-                    notifyUtils.notifyId = Integer.valueOf(notifyId);
+                    notifyUtils.notifyId = /*Integer.valueOf(*/notifyId/*)*/;
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
@@ -138,6 +138,16 @@ public class NotifyUtils {
             }
         }
         return notifyUtils;
+    }
+
+
+    public NotificationManager getManager() {
+        return manager;
+    }
+
+
+    public Notification.Builder getBuilder() {
+        return builder;
     }
 
 
@@ -197,8 +207,26 @@ public class NotifyUtils {
     }
 
     /**
+     * 设置进度
+     * 外部调用此方法时，请先调用{@link #getInstance(int)} }
+     *
+     * @param progress 进度
+     * @return this
+     */
+    public void setProgress(String progress) {
+        String appendStr = "";
+        if (progress != null && !progress.equals("")) {
+            appendStr = progress;
+        } else {
+            appendStr = "";
+        }
+        notifyUtils.contentView.setTextViewText(R.id.tvProgress, appendStr);
+        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+    }
+
+    /**
      * 设置APP名称
-     * 外部调用此方法时，请先调用{@link #getInstance(String)} }
+     * 外部调用此方法时，请先调用{@link #getInstance(int)} }
      *
      * @param appName APP名称
      * @return this
@@ -216,7 +244,7 @@ public class NotifyUtils {
 
     /**
      * 右上角字符串
-     * 外部调用此方法时，请先调用{@link #getInstance(String)} }
+     * 外部调用此方法时，请先调用{@link #getInstance(int)} }
      *
      * @param str topright str
      * @return this
@@ -234,7 +262,7 @@ public class NotifyUtils {
 
     /**
      * 设置APP about
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param appAbout APP about
      * @return this
@@ -252,7 +280,7 @@ public class NotifyUtils {
 
     /**
      * 设置需要显示备注信息
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param remarks 需要显示备注信息
      * @return this
@@ -270,7 +298,7 @@ public class NotifyUtils {
 
     /**
      * 设置需要提示的消息
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param prompt 需要提示的消息
      * @return this
@@ -288,7 +316,7 @@ public class NotifyUtils {
 
     /**
      * 时间
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param dataTime 时间
      * @return this
@@ -307,7 +335,7 @@ public class NotifyUtils {
 
     /**
      * 设置滑动是否删除
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param mSlideOff true|false
      * @return this
@@ -320,7 +348,7 @@ public class NotifyUtils {
 
     /**
      * 设置点击是否消失
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      *
      * @param mAutoCancel true|false
      * @return this
@@ -347,9 +375,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, String topRight, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight,String progress, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
         return notifyUtils;
     }
 
@@ -369,9 +397,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel, String topRight) {
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel, String topRight,String progress) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
         return notifyUtils;
     }
 
@@ -391,16 +419,16 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, String topRight, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight,String progress, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
         return notifyUtils;
     }
 
     /**
      * 参数的统一整理
      */
-    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime, String topRight) {
+    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime, String topRight,String progress) {
         notifyUtils.mSlideOff = mSlideOff;
         notifyUtils.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -453,6 +481,13 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvTopRight, appendStr);
+
+        if (progress != null && !progress.equals("")) {
+            appendStr = progress;
+        } else {
+            appendStr = "";
+        }
+        notifyUtils.contentView.setTextViewText(R.id.tvProgress, appendStr);
     }
 
     /**
@@ -481,7 +516,7 @@ public class NotifyUtils {
 
     /**
      * 调用此方法前，必须首先执行过{@link #exeuNotify()}
-     * 外部调用此方法时，请先调用{@link #getInstance(String)}
+     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      * 关闭消息通知
      */
     public static void closeNotify() {
