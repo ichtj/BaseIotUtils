@@ -14,6 +14,8 @@ public class KSampleApplication extends Application {
         super.onCreate();
         KLog.init(true);
         BaseIotUtils.instance().setBaseScreenParam(1080, 1920, true).setCreenType(SCREEN_TYPE.WIDTH).create(this);
+        //防止应用弹出错误信息 影响体验效果
+        CrashHandler.getInstance().init(this);
     }
 
     @Override

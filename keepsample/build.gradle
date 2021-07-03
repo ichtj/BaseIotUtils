@@ -43,9 +43,13 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+            // Zipalign优化
+            zipAlignEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
             minifyEnabled = false
@@ -62,9 +66,9 @@ android {
         variant.outputs.all {
             def fileName
             if (variant.buildType.name.equals('release')) {
-                fileName = "KeepAliveSample_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
+                fileName = "NewKeepAlive_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
             } else if (variant.buildType.name.equals('debug')) {
-                fileName = "KeepAliveSample_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
+                fileName = "NewKeepAlive_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
             }
             outputFileName = fileName;
         }
@@ -72,13 +76,11 @@ android {
 }
 
 dependencies {
-
     androidTestImplementation rootProject.ext.support["runner"]
     androidTestImplementation rootProject.ext.support["espresso"]
     api rootProject.ext.support["appcompat-v7"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
-    //implementation project(path: ':base_keepalive')
     implementation(rootProject.ext.dependencies["base_keepalive"]) {
         transitive = true
     }

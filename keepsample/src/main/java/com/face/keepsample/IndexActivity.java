@@ -60,7 +60,6 @@ public class IndexActivity extends AppCompatActivity implements View.OnClickList
         rvSaveList.setAdapter(indexAdapter);
         //启动一个后台服务添加默认的Service
         startService(new Intent(this, KSampleService.class));
-        KLog.d(TAG,"onCreate:>="+ScreenInfoUtils.getScreenInfo(IndexActivity.this));
     }
 
 
