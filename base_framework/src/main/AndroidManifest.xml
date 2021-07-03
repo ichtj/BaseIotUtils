@@ -46,6 +46,9 @@
     <uses-permission
         android:name="android.permission.ACCESS_MTP"
         tools:ignore="ProtectedPermissions" />
+
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <!--唤醒锁-->
     <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
     <!--设备重启广播-->

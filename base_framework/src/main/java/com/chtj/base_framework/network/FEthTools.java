@@ -11,6 +11,7 @@ import android.os.Build;
 import android.util.Log;
 
 import com.chtj.base_framework.FBaseTools;
+import com.chtj.base_framework.FCmdTools;
 import com.chtj.base_framework.FCommonTools;
 import com.chtj.base_framework.entity.CommonValue;
 import com.chtj.base_framework.entity.IpConfigInfo;
@@ -306,5 +307,19 @@ public class FEthTools {
         return fileData.toString();
     }
 
+
+    /**
+     * 判断网线拔插状态
+     * 通过命令cat /sys/class/net/eth0/carrier，如果插有网线的话，读取到的值是1，否则为0
+     *
+     * @return 是否插入网线
+     */
+    public static boolean isCablePluggedIn() {
+        FCmdTools.CommandResult fResult = FCmdTools.execCommand("cat /sys/class/net/eth0/carrier", true);
+        if (fResult.result == 0 && fResult.successMsg.trim().equals("1")) {  //有网线插入时返回1，拔出时返回0
+            return true;
+        }
+        return false;
+    }
 
 }

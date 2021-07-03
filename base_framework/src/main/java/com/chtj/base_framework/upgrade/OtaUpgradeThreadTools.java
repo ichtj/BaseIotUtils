@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * 线程池管理 管理整个项目中所有的线程，所以不能有多个实例对象
  * @author chtj
  */
-class OtaUpgradeThreadTools {
+public class OtaUpgradeThreadTools {
     private static OtaUpgradeThreadTools sOtaUpgradeThreadTools = new OtaUpgradeThreadTools();
 
     /*线程池维护线程的最少数量 核心线程数*/
