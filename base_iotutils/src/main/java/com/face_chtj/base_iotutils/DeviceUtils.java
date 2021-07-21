@@ -20,7 +20,9 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.UUID;
 
 import static android.Manifest.permission.ACCESS_WIFI_STATE;
@@ -513,22 +515,29 @@ public final class DeviceUtils {
      * 获取本机IP
      * @return
      */
-    public static String getLocalIp(){
+    public static String getLocalIp() {
+        List<String> ipList = new ArrayList<>();
         try {
-            for (Enumeration<NetworkInterface> enNetI = NetworkInterface
-                    .getNetworkInterfaces(); enNetI.hasMoreElements(); ) {
-                NetworkInterface netI = enNetI.nextElement();
-                for (Enumeration<InetAddress> enumIpAddr = netI
-                        .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
-                    InetAddress inetAddress = enumIpAddr.nextElement();
+            Enumeration enNetI = NetworkInterface.getNetworkInterfaces();
+            while (enNetI.hasMoreElements()) {
+                NetworkInterface netI = (NetworkInterface) enNetI.nextElement();
+                Enumeration enumIpAddr = netI.getInetAddresses();
+
+                while (enumIpAddr.hasMoreElements()) {
+                    InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
                     if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
-                        return inetAddress.getHostAddress();
+                        ipList.add(inetAddress.getHostAddress());
                     }
                 }
             }
-        } catch (SocketException e) {
-            e.printStackTrace();
+        } catch (SocketException var4) {
+            var4.printStackTrace();
+            return "0.0.0.0";
         }
-        return "0.0.0.0";
+        if(ipList.size()>0){
+            return ipList.get(ipList.size() - 1);
+        }else{
+            return "0.0.0.0";
+        }
     }
 }
