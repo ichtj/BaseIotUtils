@@ -2,6 +2,7 @@ package com.wave_chtj.example.allapp;
 
 import android.os.Bundle;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
@@ -57,7 +59,6 @@ public class AllAppAty extends BaseActivity {
             KLog.e(TAG,"errMeg:"+e.getMessage());
             tvTotal.setText("总流量消耗：计算异常");
         }
-
     }
 
 
@@ -90,6 +91,11 @@ public class AllAppAty extends BaseActivity {
      */
     public void getSystemApp(View view) {
         List<AppEntity> appEntityList = AppsUtils.getSystemAppList();
+        for (int i = 0; i < appEntityList.size(); i++) {
+            for (int j = 0; j < appEntityList.get(i).getmProcessEntity().size(); j++) {
+                Log.d(TAG, "onCreate: process pid="+appEntityList.get(i).getmProcessEntity().get(j).getPid()+",pkgName="+appEntityList.get(i).getmProcessEntity().get(j).getProcessName());
+            }
+        }
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }

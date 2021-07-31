@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.FScreentTools;
@@ -21,8 +22,8 @@ import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.network.FEthTools;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.ISysDialog;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.SurfaceLoadDialog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
@@ -55,10 +56,10 @@ import java.util.List;
 
 public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> implements View.OnClickListener {
     private static final String TAG = "BaseIotRvAdapter";
-    private Context context;
     private static final int LAYOUT_NO_BG = 1;
     private static final int LAYOUT_ONE = 2;
     private static final int LAYOUT_TWO = 3;
+    private Context mContext;
 
     public void setList(LinkedHashMap<Integer, String[]> itemList) {
         this.itemList = itemList;
@@ -70,8 +71,8 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private View inflater;
 
     //构造方法，传入数据
-    public BaseIotRvAdapter(Context context, LinkedHashMap<Integer, String[]> itemList) {
-        this.context = context;
+    public BaseIotRvAdapter(Context mContext, LinkedHashMap<Integer, String[]> itemList) {
+        this.mContext = mContext;
         this.itemList = itemList;
     }
 
@@ -81,15 +82,15 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
         //创建ViewHolder，返回每一项的布局
         switch (viewType) {
             case LAYOUT_NO_BG:
-                inflater = LayoutInflater.from(context).inflate(R.layout.item_nobg, parent, false);
+                inflater = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_nobg, parent, false);
                 NoBgViewHolder noBgViewHolder = new NoBgViewHolder(inflater);
                 return noBgViewHolder;
             case LAYOUT_ONE:
-                inflater = LayoutInflater.from(context).inflate(R.layout.item_one, parent, false);
+                inflater = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_one, parent, false);
                 OneViewHolder oneViewHolder = new OneViewHolder(inflater);
                 return oneViewHolder;
             case LAYOUT_TWO:
-                inflater = LayoutInflater.from(context).inflate(R.layout.item_two, parent, false);
+                inflater = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_two, parent, false);
                 TwoViewHolder twoViewHolder = new TwoViewHolder(inflater);
                 return twoViewHolder;
             default:
@@ -127,7 +128,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     public int getItemViewType(int position) {
         if (position < 10) {
             return LAYOUT_NO_BG;
-        }else{
+        } else {
             return LAYOUT_ONE;
         } /*else if (position <= 15) {
             return LAYOUT_ONE;
@@ -145,6 +146,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     @Override
     public void onClick(View v) {
+        Context context = v.getContext();
         switch (Integer.valueOf(v.getTag().toString())) {
             case FKey.KEY_SERIAL_PORT:
                 context.startActivity(new Intent(context, SerialPortAty.class));
@@ -170,7 +172,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.getInstance("111")
+                    NotifyUtils.getInstance(111)
                             .setEnableCloseButton(false)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
@@ -185,6 +187,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                                     , "this is a library ..."
                                     , "2020-3-18"
                                     , "xxx"
+                                    , ""
                                     , false
                                     , false)
                             .exeuNotify();
@@ -197,12 +200,12 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                     public void run() {
                         try {
                             Thread.sleep(5000);
-                            NotifyUtils.getInstance("111").setAppName("");
-                            NotifyUtils.getInstance("111").setAppAbout("");
-                            NotifyUtils.getInstance("111").setRemarks("");
-                            NotifyUtils.getInstance("111").setPrompt("");
-                            NotifyUtils.getInstance("111").setDataTime("");
-                            NotifyUtils.getInstance("111").setTopRight("");
+                            NotifyUtils.getInstance(111).setAppName("");
+                            NotifyUtils.getInstance(111).setAppAbout("");
+                            NotifyUtils.getInstance(111).setRemarks("");
+                            NotifyUtils.getInstance(111).setPrompt("");
+                            NotifyUtils.getInstance(111).setDataTime("");
+                            NotifyUtils.getInstance(111).setTopRight("");
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
@@ -214,10 +217,10 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 NotifyUtils.closeNotify();
                 break;
             case FKey.KEY_SYS_DIALOG_SHOW:
-                SurfaceLoadDialog.getInstance().show("hello world");
+                ISysDialog.getInstance().show("hello world");
                 break;
             case FKey.KEY_SYS_DIALOG_CLOSE:
-                SurfaceLoadDialog.getInstance().dismiss();
+                ISysDialog.getInstance().dismiss();
                 break;
             case FKey.KEY_TOAST:
                 ToastUtils.showShort("Hello Worold!");
@@ -250,10 +253,15 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 context.startActivity(new Intent(context, GreenDaoSqliteAty.class));
                 break;
             case FKey.KEY_JXL_OPEN:
+                ToastUtils.info("请查看日志确定读取结果");
                 TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
                         try {
+                            InputStream input = context.getAssets().open("table.xls");
+                            if (input != null) {
+                                TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls",input);
+                            }
                             //第一种jxl.jar 只能读取xls
                             List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
@@ -270,10 +278,15 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 ToastUtils.success("export successful!");
                 break;
             case FKey.KEY_POI_OPEN:
+                ToastUtils.info("请查看日志确定读取结果");
                 TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
                         try {
+                            InputStream input = context.getAssets().open("table.xls");
+                            if (input != null) {
+                                TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls",input);
+                            }
                             //poi.jar 可以读取xls xlsx 两种
                             List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
@@ -285,6 +298,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
                 break;
             case FKey.KEY_POI_EXPORT:
+                ToastUtils.info("请查看日志确定导出结果");
                 TPoolUtils.newInstance().addExecuteTask(new Runnable() {
                     @Override
                     public void run() {
@@ -295,7 +309,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 });
                 break;
             case FKey.KEY_APP_LIST:
-                context.startActivity(new Intent(context, AllAppAty.class));
+                context.startActivity(new Intent(v.getContext(), AllAppAty.class));
                 break;
             case FKey.KEY_VIDEO:
                 context.startActivity(new Intent(context, VideoPlayAty.class));
@@ -304,7 +318,7 @@ public class BaseIotRvAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                ((Activity) context).startActivityForResult(Intent.createChooser(intent, "请选择文件"), FeaturesOptionAty.FILE_SELECT_CODE);
+                ((Activity) mContext).startActivityForResult(Intent.createChooser(intent, "请选择文件"), FeaturesOptionAty.FILE_SELECT_CODE);
                 break;
             case FKey.KEY_ASSETS:
                 try {

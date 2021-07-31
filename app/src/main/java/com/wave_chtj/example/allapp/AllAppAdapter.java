@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,10 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myViewHolder.tvUid.setText("UID:" + list.get(position).getUid() + "");
         myViewHolder.ivAppIcon.setImageDrawable(list.get(position).getIcon());
         KLog.d(TAG, " uid= " + list.get(position).getUid());
+        for (int i = 0; i < list.get(position).getmProcessEntity().size(); i++) {
+                Log.d(TAG, "onCreate: process pid="+list.get(position).getmProcessEntity().get(i).getPid()+",pkgName="+list.get(position).getmProcessEntity().get(i).getProcessName());
+
+        }
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);

@@ -4,6 +4,9 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ZipUtils;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * Create on 2020/7/17
@@ -38,19 +41,24 @@ public class TableFileUtils {
             return false;
         }
     }
-    //public void writeToSdcard(){
-    //    //视频文件不存在时将文件保存到本地
-    //    if(!new File(savePath).exists()){
-    //        input = getAssets().open(fileName);
-    //        writeToLocal(savePath, input);
-    //        boolean isUnzip = ZipUtils.unzipFile(savePath, unZipPath);
-    //        if(isUnzip&&new File(savePath).exists()){
-    //            if (myService.mCallResult != null) {
-    //                myService.mCallResult.unZipPlay();
-    //            }
-    //        }
-    //    }else{
-    //        KLog.d(TAG, "Aging_Test_Video.mp4 exist");
-    //    }
-    //}
+    /**
+     * 将InputStream写入本地文件
+     *
+     * @param destDirPath 写入本地目录
+     * @param input       输入流
+     * @throws IOException
+     */
+    public static void writeToLocal(String destDirPath, InputStream input)
+            throws IOException {
+
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(destDirPath);
+        while ((index = input.read(bytes)) != -1) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        downloadFile.close();
+        input.close();
+    }
 }

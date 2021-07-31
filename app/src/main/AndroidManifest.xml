@@ -40,15 +40,14 @@
     <!--读写文件权限-->
     <!--excel jxl.jar操作权限-->
     <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--静默安装权限-->
-    <uses-permission
+    <!--<uses-permission
         android:name="android.permission.INSTALL_PACKAGES"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="permission.REQUEST_INSTALL_PACKAGES" />-->
     <!--应用卸载权限-->
     <uses-permission
         android:name="android.permission.DELETE_PACKAGES"
@@ -65,23 +64,18 @@
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--usb设备监听-->
-    <uses-permission
-        android:name="android.permission.HARDWARE_TEST"
-        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.HARDWARE_TEST" tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.usb.host" />
-
+    <uses-feature android:name="android.hardware.usb.host" />
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.hardware.usb.accessory" />
-
-    <protected-broadcast android:name="com.chtj.add.keepalive.info" />
-    <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
-
+    <!--读取或写入系统设置-->
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
 
-    <!--usb相关-->
-    <uses-feature android:name="android.hardware.usb.host" />
-    <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <protected-broadcast android:name="com.chtj.add.keepalive.info" />
+    <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
 
     <application
         android:name=".application.DefaultApplication"

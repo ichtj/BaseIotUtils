@@ -80,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="5pt"
-        android:text="本app Module未直接导入base_keepalive Module的工具包，而是通过一个中间件keepsample.apk运行起来之后(这里面导入了base_keepalive并进行同意管理),本app Module通过跨进程通讯向keepsample添加保活"
+        android:text="请确保系统中存在keepsample.apk，它是通过一个中间件keepsample.apk运行起来之后(keepsample.apk引用入了base_keepalive library并进行管理),本app Module通过跨进程通讯向keepsample添加保活"
         android:textSize="13pt" />
 
 </LinearLayout>

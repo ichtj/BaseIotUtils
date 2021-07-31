@@ -16,7 +16,6 @@ import com.wave_chtj.example.base.BaseActivity;
  * desc $ 启动页
  */
 public class StartPageAty extends BaseActivity {
-    private static final String TAG="StartPageAty";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,18 +28,5 @@ public class StartPageAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        try {
-            boolean isFrist=SPUtils.getBoolean("isFirst",true);
-            if(isFrist){
-                //如果是第一次进来
-                SPUtils.putBoolean("isFirst",false);
-            }else{
-                //如果是第二次及以后进来
-
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            KLog.e(TAG,"errMeg:"+e.getMessage());
-        }
     }
 }
