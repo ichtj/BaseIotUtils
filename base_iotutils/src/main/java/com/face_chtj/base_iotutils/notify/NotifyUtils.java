@@ -375,9 +375,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, int ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, String topRight,String progress, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight, String progress, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight, progress);
         return notifyUtils;
     }
 
@@ -397,9 +397,9 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Bitmap ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel, String topRight,String progress) {
+            , String prompt, String dataTime, boolean mSlideOff, boolean mAutoCancel, String topRight, String progress) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight, progress);
         return notifyUtils;
     }
 
@@ -419,16 +419,16 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setNotifyParam(@DrawableRes int icon, Uri ivLogo, String appName, String appAbout, String remarks
-            , String prompt, String dataTime, String topRight,String progress, boolean mSlideOff, boolean mAutoCancel) {
+            , String prompt, String dataTime, String topRight, String progress, boolean mSlideOff, boolean mAutoCancel) {
         setIvLogo(ivLogo);
-        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight,progress);
+        addParam(icon, mSlideOff, mAutoCancel, appName, appAbout, remarks, prompt, dataTime, topRight, progress);
         return notifyUtils;
     }
 
     /**
      * 参数的统一整理
      */
-    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime, String topRight,String progress) {
+    private void addParam(@DrawableRes int icon, boolean mSlideOff, boolean mAutoCancel, String appName, String appAbout, String remarks, String prompt, String dataTime, String topRight, String progress) {
         notifyUtils.mSlideOff = mSlideOff;
         notifyUtils.mAutoCancel = mAutoCancel;
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -516,29 +516,21 @@ public class NotifyUtils {
 
     /**
      * 调用此方法前，必须首先执行过{@link #exeuNotify()}
-     * 外部调用此方法时，请先调用{@link #getInstance(int)}
      * 关闭消息通知
      */
     public static void closeNotify() {
-        if (notifyUtils != null) {
-            if (notifyUtils.manager != null) {
-                if (notifyUtils.notifyId != -1) {
-                    notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
-                    if (notifyUtils.mOnNotifyLinstener != null) {
-                        notifyUtils.mOnNotifyLinstener.enableStatus(false);
-                        //销毁广播
-                        if (notifyUtils.mNotifyBroadcastReceiver != null) {
-                            BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
-                        }
-                        notifyUtils.mOnNotifyLinstener = null;
-                        notifyUtils = null;
-                    } else {
-                        throw new NullPointerException("mOnNotifyLinstener ==null");
-                    }
-                }
-            } else {
-                throw new NullPointerException("manager or builder ==null");
+        if (notifyUtils != null && notifyUtils.manager != null && notifyUtils.notifyId != -1) {
+            notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
+            if (notifyUtils.mOnNotifyLinstener != null) {
+                //通知监听对象
+                notifyUtils.mOnNotifyLinstener.enableStatus(false);
+                notifyUtils.mOnNotifyLinstener = null;
             }
+            //销毁广播
+            if (notifyUtils.mNotifyBroadcastReceiver != null) {
+                BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
+            }
+            notifyUtils = null;
         }
     }
 }
