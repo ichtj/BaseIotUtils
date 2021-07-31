@@ -1,6 +1,7 @@
 package com.chtj.keepalive;
 
 import android.annotation.SuppressLint;
+import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ public class FileCommonTools {
      */
     public static final String SAVE_KEEPLIVE_PATH = "/sdcard/keepalive/";
     public static final String SAVE_KEEPLIVE_FILE_NAME = "keepalive.txt";
+
     /**
      * 读取文件内容
      *
@@ -52,6 +54,7 @@ public class FileCommonTools {
         }
         return result;
     }
+
     /**
      * 写入数据
      *
@@ -94,7 +97,7 @@ public class FileCommonTools {
      * @param packageName
      * @return
      */
-    private static Intent getAppOpenIntentByPackageName(Context context,String packageName) {
+    private static Intent getAppOpenIntentByPackageName(Context context, String packageName) {
         String mainAct = null;
         PackageManager pkgMag = context.getPackageManager();
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -116,18 +119,28 @@ public class FileCommonTools {
         intent.setComponent(new ComponentName(packageName, mainAct));
         return intent;
     }
+
     /**
      * 启动第三方apk
      * <p>
      * 如果已经启动apk，则直接将apk从后台调到前台运行（类似home键之后再点击apk图标启动），如果未启动apk，则重新启动
      */
     public static void openApk(Context context, String packName) {
-        if (existPackageName(context,packName)) {
-            Intent intent = getAppOpenIntentByPackageName(context,packName);
+        if (needStartAty(context, packName)) {
+            Intent intent = getAppOpenIntentByPackageName(context, packName);
             context.startActivity(intent);
             Log.d(TAG, "launch this apk...  packagename=" + packName);
         } else {
-            Log.d(TAG, packName + " not find this packageName");
+            boolean isFindPkg=false;
+            PackageManager packageManager =context.getPackageManager();
+            List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+            for (int i = 0; i < pinfo.size(); i++) {
+                if (pinfo.get(i).packageName.equalsIgnoreCase(packName)) {
+                    isFindPkg=true;
+                    break;
+                }
+            }
+            Log.d(TAG, isFindPkg?"find this packageName "+packName:" not find this packageName"+packName);
         }
     }
 
@@ -135,10 +148,10 @@ public class FileCommonTools {
     /**
      * 启用其他应用中的Service
      *
-     * @param packName       包名
+     * @param packName           包名
      * @param servicePackageName service包名路径
      */
-    public static void openService(Context context,String packName, String servicePackageName) {
+    public static void openService(Context context, String packName, String servicePackageName) {
         try {
             Log.d(TAG, "launch this service...  servicePackageName=" + servicePackageName);
             Intent intent = new Intent();
@@ -156,15 +169,21 @@ public class FileCommonTools {
      * @param packageName
      * @return
      */
-    private static boolean existPackageName(Context context,String packageName) {
-        PackageManager packageManager =context.getPackageManager();
-        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
-        for (int i = 0; i < pinfo.size(); i++) {
-            if (pinfo.get(i).packageName.equalsIgnoreCase(packageName)) {
-                return true;
+    private static boolean needStartAty(Context context, String packageName) {
+        boolean isNeedStartAty = false;
+        ActivityManager am = (ActivityManager) context.getSystemService("activity");
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
+        if (list != null && list.size() > 0) {
+            String topPkg = ((ActivityManager.RunningTaskInfo) list.get(0)).topActivity.getPackageName();
+            //return list != null ? ((RunningTaskInfo)list.get(0)).topActivity.getPackageName() : null;
+            if (topPkg != null && packageName.equals(topPkg)) {
+                //证明应用已存在 并且已运行在前台
+                isNeedStartAty = false;
+            } else {
+                //表示apk未运行在前台
+                isNeedStartAty = true;
             }
         }
-        return false;
+        return isNeedStartAty;
     }
-
 }

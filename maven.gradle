@@ -1,6 +1,6 @@
 apply plugin: 'maven'
 
-/*base_iotutils*/
+//base_iotutils
 uploadArchives {
     configuration = configurations.archives
     repositories {
