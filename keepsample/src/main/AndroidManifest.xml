@@ -16,6 +16,7 @@
         android:icon="@mipmap/keepalive"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/keepalive"
+        android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -24,7 +25,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <!--<data android:scheme="myapp" android:host=".app" android:pathPrefix="/openwith"/>-->
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <receiver

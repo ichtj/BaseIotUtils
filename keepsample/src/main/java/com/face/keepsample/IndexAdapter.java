@@ -1,5 +1,7 @@
 package com.face.keepsample;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,12 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.keepalive.FKeepAliveTools;
+import com.chtj.keepalive.entity.CommonValue;
 import com.chtj.keepalive.entity.KeepAliveData;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.StringUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,10 +30,11 @@ import java.util.List;
 public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHolder> {
     private static final String TAG = "IndexAdapter";
     private List<SimpleKeepAlive> list;
+    private Context mContext;
 
-    public IndexAdapter(List<SimpleKeepAlive> list) {
+    public IndexAdapter(List<SimpleKeepAlive> list,Context mContext) {
         this.list = list;
-
+        this.mContext=mContext;
     }
 
     public void setList(List<SimpleKeepAlive> list) {
@@ -75,11 +82,27 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHol
         holder.ivDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                list.remove(position);
-                KLog.d(TAG,"onClick:>list.size="+list.size());
-                notifyItemRemoved(position);
-                notifyItemRangeChanged(position, list.size());
-                saveItemInfo();
+                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                builder.setTitle("提示");
+                builder.setMessage("确认删除对 "+list.get(position).getAppName()+" 的保活吗?");
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        list.remove(position);
+                        KLog.d(TAG, "onClick:>list.size=" + list.size());
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, list.size());
+                        saveItemInfo();
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
             }
         });
     }
@@ -101,7 +124,7 @@ public class IndexAdapter extends RecyclerView.Adapter<IndexAdapter.IndexViewHol
 
     class IndexViewHolder extends RecyclerView.ViewHolder {
         public TextView tvAppName, tvPackName, tvType, tv_service;
-        public ImageView ivAppIcon,ivDel;
+        public ImageView ivAppIcon, ivDel;
         public CheckBox cbEnable;
         public LinearLayout ll_item;
 

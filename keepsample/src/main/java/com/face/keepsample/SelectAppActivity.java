@@ -28,7 +28,7 @@ import java.util.List;
  * 参考app Module中路径com.wave_chtj.example.keeplive.KeepLiveAty中的使用
  * 注意复制相应的aidl和实体类
  */
-public class SelectAppActivity extends AppCompatActivity {
+public class SelectAppActivity extends BaseActivity {
     RecyclerView rv_info;
 
     @Override

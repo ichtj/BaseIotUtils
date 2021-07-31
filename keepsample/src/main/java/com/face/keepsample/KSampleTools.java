@@ -24,7 +24,7 @@ public class KSampleTools {
         //默认添加IotCloud APK
         keepAliveDataList.add(new KeepAliveData("com.face.baseiotcloud", FKeepAliveTools.TYPE_SERVICE,"com.face.baseiotcloud.service.OtherService",true));
         //客户应用
-        //keepAliveDataList.add(new KeepAliveData("com.ss.testserial", FKeepAliveTools.TYPE_ACTIVITY, true));
+        keepAliveDataList.add(new KeepAliveData("com.zgkx.change", FKeepAliveTools.TYPE_ACTIVITY, true));
         //这里可以添加其他的应用
         return keepAliveDataList;
     }
