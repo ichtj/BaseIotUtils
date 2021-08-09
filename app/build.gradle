@@ -101,7 +101,7 @@ dependencies {
     //jxl Excel表格操作
     api rootProject.ext.dependencies["jxlutils"]
     //socket client
-    api rootProject.ext.dependencies["socket-client"]
+    //api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
@@ -117,6 +117,7 @@ dependencies {
     implementation rootProject.ext.dependencies["greendao"]
     //视频播放
     implementation rootProject.ext.dependencies["videoplay"]
+    implementation rootProject.ext.dependencies["base_adapter"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
     //物联网开发基础工具类

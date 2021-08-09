@@ -64,7 +64,6 @@ public class UsbHubTools extends BroadcastReceiver  {
                 BaseIotUtils.getContext().unregisterReceiver(usbHubTools);
             }
         }catch(Exception e){
-            e.printStackTrace();
             KLog.e(TAG,"errMeg:this broadcastReceiver not register");
         }
         if (mIUsbHubListener != null) {

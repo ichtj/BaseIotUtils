@@ -1,21 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tvOneStr"
     android:layout_width="match_parent"
     android:layout_height="50pt"
-    android:orientation="vertical">
-
-    <TextView
-        android:id="@+id/tvOneStr"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="2pt"
-        android:layout_marginTop="2pt"
-        android:layout_marginRight="2pt"
-        android:layout_marginBottom="2pt"
-        android:gravity="center"
-        android:textSize="12pt"
-        android:singleLine="true"
-        android:text="测试"
-        android:textColor="@color/black" />
-</LinearLayout>
+    android:layout_marginLeft="2pt"
+    android:layout_marginTop="2pt"
+    android:layout_marginRight="2pt"
+    android:layout_marginBottom="2pt"
+    android:gravity="center"
+    android:singleLine="true"
+    android:text="测试"
+    android:textColor="@color/black"
+    android:textSize="12pt" />

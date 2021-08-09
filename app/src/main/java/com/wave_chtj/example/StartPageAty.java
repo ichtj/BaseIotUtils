@@ -2,6 +2,7 @@ package com.wave_chtj.example;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;

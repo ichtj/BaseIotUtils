@@ -21,7 +21,7 @@ import android.widget.TextView;
  *
  */
 public class ISysDialog {
-    private static final String TAG = "BSysDialog";
+    private static final String TAG = "ISysDialog";
     private WindowManager wm;
     private TextView tvRemarks;
     private View scanView;

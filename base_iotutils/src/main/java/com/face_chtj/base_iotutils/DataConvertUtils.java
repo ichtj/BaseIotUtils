@@ -1,6 +1,5 @@
 package com.face_chtj.base_iotutils;
 
-
 /**
  * @author chtj
  * create by chtj on 2019-8-6
@@ -17,13 +16,15 @@ package com.face_chtj.base_iotutils;
  * --十六进制转字节数组 {@link #decodeHexString(String hexString)}
  * --十进制转十六进制 {@link #decToHex(int dec)}
  * --十六进制转十进制 {@link #hexToDec(String hex)}
- *
- *
+ * --十进制转byte数组 低字节在前 {@link #decToByteLH(int n,int length)}
+ * --十进制转byte数组 高字节在前 {@link #decToByteHL(int n,int length)}
+ * --根据原始数据获取crc8 校验值 {@link #calcCrc8(byte[] data)}
  */
 public class DataConvertUtils {
 
     /**
      * 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数
+     *
      * @param num
      * @return
      */
@@ -33,41 +34,45 @@ public class DataConvertUtils {
 
     /**
      * 将int转成byte
+     *
      * @param number
      * @return byte字节
      */
-    public static byte intToByte(int number){
+    public static byte intToByte(int number) {
         return hexToByte(intToHex(number));
     }
 
     /**
      * 将int转成hex字符串
+     *
      * @param number
      * @return
      */
-    public static String intToHex(int number){
+    public static String intToHex(int number) {
         String st = Integer.toHexString(number).toUpperCase();
-        return String.format("%2s",st).replaceAll(" ","0");
+        return String.format("%2s", st).replaceAll(" ", "0");
     }
 
     /**
      * 字节转十进制
+     *
      * @param b
      * @return
      */
-    public static int byteToDec(byte b){
+    public static int byteToDec(byte b) {
         String s = byteToHex(b);
         return (int) hexToDec(s);
     }
 
     /**
      * 字节数组转十进制
+     *
      * @param bytes
      * @return
      */
-    public static int bytesToDec(byte[] bytes){
+    public static int bytesToDec(byte[] bytes) {
         String s = encodeHexString(bytes);
-        return (int)  hexToDec(s);
+        return (int) hexToDec(s);
     }
 
     /**
@@ -82,6 +87,7 @@ public class DataConvertUtils {
 
     /**
      * 字节转十六进制字符串
+     *
      * @param num
      * @return
      */
@@ -94,6 +100,7 @@ public class DataConvertUtils {
 
     /**
      * 十六进制转byte字节
+     *
      * @param hexString
      * @return
      */
@@ -103,22 +110,23 @@ public class DataConvertUtils {
         return (byte) ((firstDigit << 4) + secondDigit);
     }
 
-    private static  int toDigit(char hexChar) {
+    private static int toDigit(char hexChar) {
         int digit = Character.digit(hexChar, 16);
-        if(digit == -1) {
+        if (digit == -1) {
             throw new IllegalArgumentException(
-                    "Invalid Hexadecimal Character: "+ hexChar);
+                    "Invalid Hexadecimal Character: " + hexChar);
         }
         return digit;
     }
 
     /**
      * 字节数组转十六进制
+     *
      * @param byteArray
      * @return
      */
     public static String encodeHexString(byte[] byteArray) {
-        if(byteArray==null){
+        if (byteArray == null) {
             return "";
         }
         StringBuffer hexStringBuffer = new StringBuffer();
@@ -130,6 +138,7 @@ public class DataConvertUtils {
 
     /**
      * 十六进制转字节数组
+     *
      * @param hexString
      * @return
      */
@@ -147,10 +156,11 @@ public class DataConvertUtils {
 
     /**
      * 十进制转十六进制
+     *
      * @param dec
      * @return
      */
-    public static String decToHex(int dec){
+    public static String decToHex(int dec) {
         String hex = Integer.toHexString(dec);
         if (hex.length() == 1) {
             hex = '0' + hex;
@@ -160,11 +170,62 @@ public class DataConvertUtils {
 
     /**
      * 十六进制转十进制
+     *
      * @param hex
      * @return
      */
-    public static long hexToDec(String hex){
+    public static long hexToDec(String hex) {
         return Long.parseLong(hex, 16);
+    }
+
+    /**
+     * 将int转为低字节在前，高字节在后的byte数组
+     */
+    public static byte[] decToByteLH(int n, int length) {
+        byte[] b = new byte[length];
+        int cursor = 0;
+        for (int i = 0; i < length; i++) {
+            b[i] = (byte) (n >> cursor & 0xff);
+            cursor += 8;
+        }
+        return b;
+    }
+
+    /**
+     * 将int转为高字节在前，低字节在后的byte数组
+     * @param n int
+     * @return byte[]
+     */
+    public static byte[] decToByteHL(int n,int length) {
+        byte[] b = new byte[length];
+        int cursor=0;
+        for (int i = 0; i <length ; i++) {
+            b[length-i-1]=(byte) (n >> cursor & 0xff);
+            cursor += 8;
+        }
+        return b;
+    }
+
+    /**
+     * 根据原始数据获取crc8 校验值
+     *
+     * @param data 原始数据
+     * @return 校验值
+     */
+    public static byte calcCrc8(byte[] data) {
+        byte crc = 0;
+        for (int j = 0; j < data.length; j++) {
+            crc ^= data[j];
+            for (int i = 0; i < 8; i++) {
+                if ((crc & 0x01) != 0) {
+                    crc = (byte) (((crc & 0xff)) >>> 1);
+                    crc ^= 0x8c;
+                } else {
+                    crc = (byte) (((crc & 0xff)) >>> 1);
+                }
+            }
+        }
+        return crc;
     }
 
 }

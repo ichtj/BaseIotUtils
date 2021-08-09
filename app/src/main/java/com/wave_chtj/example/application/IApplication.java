@@ -9,7 +9,7 @@ import androidx.multidex.MultiDex;
  * author chtj
  * desc
  */
-public class DefaultApplication extends Application {
+public class IApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();

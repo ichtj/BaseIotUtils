@@ -43,7 +43,7 @@ ext {
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
             "base_keepalive"           : "com.chtj.keepalive:base_keepalive:1.1.1",
-            "base_iotutils"           : "com.face_chtj.base_iotutils:base_iotutils:2.1.0",
+            "base_iotutils"           : "com.face_chtj.base_iotutils:base_iotutils:2.1.1",
             "base_framework"           : "com.chtj.base_framework:base_framework:1.3.5",
             "base_socket"             : "com.chtj.base_socket:base_socket:1.0.2",
             "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",
@@ -59,6 +59,8 @@ ext {
             //findByView butterknife
             "butterknife"             : "com.jakewharton:butterknife:10.2.3",
             "butterknife-compiler"    : "com.jakewharton:butterknife-compiler:10.2.3",
+            //recycleView baseAdapter
+            "base_adapter"    : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6",
 
             //ZIP压缩工具类
             "ziputils"                : "net.lingala.zip4j:zip4j:1.3.2",
