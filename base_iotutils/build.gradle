@@ -1,5 +1,7 @@
 apply plugin: 'com.android.library'
-apply plugin:'maven' //新增
+/*apply plugin:'maven' //新增*/
+apply plugin: 'com.github.dcendents.android-maven'
+group='wave-chtj'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -69,6 +71,6 @@ dependencies {
     api rootProject.ext.dependencies["ziputils"]
 }
 //apply from: '../bintray.gradle'
-apply from: '../maven.gradle'
+/*apply from: '../maven.gradle'*/
 
 
