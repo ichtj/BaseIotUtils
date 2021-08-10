@@ -2,8 +2,6 @@
 
 ## app 界面截图
 
-### 下面有使用方式,或下载后手动导入使用，其中的base_iotuitls工具类可以普遍适用，而其他工具 module 可能需要系统支持或者 root 情况下适用
-
 ![image](/pic/apppic.png)
 
 ## Android 项目根目录下文件 build.gradle 中添加
@@ -17,9 +15,9 @@ allprojects {
 }
 ```
 
-## 以下四个library按需选择,在App的build.gradle文件中添加
+## 在App的build.gradle文件中添加
 
-### ① base_iotutils 物联基础工具类 [![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
+### base_iotutils 物联基础工具类 [![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
 
 ```groovy
 dependencies {
@@ -28,32 +26,6 @@ dependencies {
 }
 ```
 
-### ② base_socket socket tcp/udp 通信 [![](https://jitpack.io/v/wave-chtj/BaseSocket.svg)](https://jitpack.io/#wave-chtj/BaseSocket)
-
-```groovy
-dependencies {
-         //Socket TCP|UDP
-         implementation 'com.github.wave-chtj:BaseSocket:1.0.1'
-}
-```
-
-### ③ base_framework 系统api调用 [![](https://jitpack.io/v/wave-chtj/BaseFramework.svg)](https://jitpack.io/#wave-chtj/BaseFramework)
-
-```groovy
-dependencies {
-         //framework API调用
-		 implementation 'com.github.wave-chtj:BaseFramework:1.0.1'
-}
-```
-
-### ④ base_keepalive 服务保活处理 [![](https://jitpack.io/v/wave-chtj/BaseKeepAlive.svg)](https://jitpack.io/#wave-chtj/BaseKeepAlive)
-
-```groovy
-dependencies {
-         //android 保活
-	     implementation 'com.github.wave-chtj:BaseKeepAlive:1.0.1'
-}
-```
 
 ### 自定义 Application
 
@@ -71,19 +43,12 @@ public class App extends Application {
       .setBaseScreenParam(1080, 1920, true)
       .setCreenType(SCREEN_TYPE.WIDTH)
       .create(getApplication()); //按照宽度适配
-
-    //② base_socket socket tcp/udp 通信 无需在这里初始化,直接使用即可
-
-    //③ base_framework 系统 api 调用
-    FBaseTools.instance().create(getApplication());
   }
 
   @Override
   protected void attachBaseContext(Context base) {
     super.attachBaseContext(base);
     MultiDex.install(this);
-    //④ base_keepalive 服务保活处理
-    FBaseDaemon.init(base);
   }
 }
 
@@ -405,253 +370,6 @@ public class App extends Application {
             addPermission(Manifest.permission.ACCESS_COARSE_LOCATION).
             addPermission(Manifest.permission......).
             initPermission();
-```
-
-## ② base_socket socket tcp/udp 通信说明
-
-| 编号 | 工具类        | 备注           | 实现功能     |
-| ---- | ------------- | -------------- | ------------ |
-| 1    | BaseTcpSocket | TCP 通讯工具类 | 发送接收回调 |
-| 2    | BaseUdpSocket | UDP 通讯工具类 | 发送接收回调 |
-
-#### base_socket 工具调用方式
-
-```java
-    //BaseUdpSocket | BaseTcpSocket tcp|udp 使用方式类似
-    BaseTcpSocket baseTcpSocket = new BaseTcpSocket("192.168.1.100",8080, 5000);
-    //监听回调
-    baseTcpSocket.setSocketListener(new ISocketListener() {
-             @Override
-             public void recv(byte[] data, int offset, int size) {
-                 KLog.d(TAG, "read content successful");
-             }
-
-             @Override
-             public void writeSuccess(byte[] data) {
-                 KLog.d(TAG, "write content successful");
-             }
-
-             @Override
-             public void connSuccess() {
-                 KLog.d(TAG, "The connection is successful");
-             }
-
-             @Override
-             public void connFaild(Throwable t) {
-                 KLog.d(TAG, "The connection is connFaild");
-             }
-
-             @Override
-             public void connClose() {
-                 KLog.d(TAG, "The connection is disconnect");
-             }
-    });
-    //开启连接
-    baseTcpSocket.connect(this);
-
-    //--------------------------------------------------
-    //发送数据
-    baseTcpSocket.send("hello world!".getBytes());
-    //关闭连接
-    baseTcpSocket.close();
-```
-
-## ③ base_framework 系统 api 调用说明
-
-| 编号 | 模块     | 功能                                     |
-| ---- | -------- | ---------------------------------------- |
-| 1    | 网络     | 以太网控制 , WIFI 控制，应用网络管理     |
-| 2    | 存储空间 | sdcard 容量,TF 卡容量, ram 容量,rom 容量 |
-| 3    | 升级管理 | apk 安装/卸载,固件升级                   |
-
-| 编号 | 工具类         | 工具名称       | 实现功能                       |
-| ---- | -------------- | -------------- | ------------------------------ |
-| 1    | FScreentTools  | 屏幕信息工具类 | 截屏                           |
-| 2    | FStorageTools  | 存储空间管理   | TF\SD\RAM\ROM 空间获取         |
-| 3    | FUpgradeTools  | 升级管理       | 固件\apk 升级                  |
-| 4    | FEthTools      | 以太网管理     | 开启关闭，STATIC\DHCP 模式设置 |
-| 5    | FNetworkTools  | 网络工具类     | dns,流量获取                   |
-| 6    | FWifiTools     | WIFI 管理      | 开启关闭                       |
-| 7    | FUsbHubTools   | USB 管理       | 接入设备获取                   |
-| 8    | FIPTablesTools | 应用网络管理   | 应用网络开启关闭               |
-
-## ④ base_keepalive 服务保活处理
-![image](/pic/keepalive.png)
-
-| 编号 | 模块     | 功能              |
-| ---- | -------- | ----------------- |
-| 1    | ACTIVITY | activity 界面拉起 |
-| 2    | SERVICE  | service 服务拉起  |
-
-#### FKeepAliveTools 直接添加 SERVICE/ACTIVITY
-
-使用方式 直接引用 library
-
-```java
-    //添加ACTIVITY拉起
-    KeepAliveData keepAliveData = new KeepAliveData("com.xxx.xxx", FKeepAliveTools.TYPE_ACTIVITY, true);
-    CommonValue commonValue = FKeepAliveTools.addActivity(keepAliveData);
-    if (commonValue == CommonValue.EXEU_COMPLETE) {
-        return true;
-    } else {
-        return false;
-    }
-    //
-    KeepAliveData keepAliveData2 = new KeepAliveData("com.xxx.xxx", FKeepAliveTools.TYPE_SERVICE, "Service的具体路劲com.xxx.xxx.xxService", true);
-    CommonValue commonValue = FKeepAliveTools.addService(keepAliveData2);
-    if (commonValue == CommonValue.EXEU_COMPLETE) {
-        return true;
-    } else {
-        return false;
-    }
-```
-
-使用方式 作为一个中间组件调用 其他 app 可以跨进程添加或者清理
-
-```java
-    //将base_keepalive中的aidl中的文件复制到自己的项目中
-    //将base_keepalive/src/com/chtj/keepalive/entity中的实体类一同复制到自己项目中，并保持包名一致
-    //此时这个项目已经作为一个中间件，用于处理所有APP对其的添加，删除操作
-    //为什么这样做？有时并不想每个项目都引用这个base_keepalive进行保活，而是在已经存在的library中去直接调用，避免重复造轮子
-
-    public class KeepLiveAty extends BaseActivity implements OnClickListener, IKeepAliveListener {
-        private static final String TAG = "KeepLiveAty";
-        TextView tvResult;
-        /**
-         * 保活的类型为Activity
-         */
-        public static final int TYPE_ACTIVITY = 0;
-        /**
-         * 保活的类型为服务
-         */
-        public static final int TYPE_SERVICE = 1;
-
-        IKeepAliveService iKeepAliveService;
-
-        @Override
-        protected void onCreate(@Nullable Bundle savedInstanceState) {
-            ....
-            Intent intent = new Intent();
-            intent.setAction("com.chtj.keepalive.IKeepAliveService");
-            intent.setPackage("com.face.keepsample");
-            bindService(intent, conn, Context.BIND_AUTO_CREATE);
-            getData();
-        }
-
-        public void getData() {
-            try {
-                List<KeepAliveData> keepAliveDataList = iKeepAliveService.getKeepLiveInfo();
-                if (keepAliveDataList != null && keepAliveDataList.size() > 0) {
-                    ToastUtils.success("获取成功 数量=" + keepAliveDataList.size());
-                } else {
-                    ToastUtils.error("获取失败 数量=0");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-                KLog.e(TAG, "errMeg:" + e.getMessage());
-            }
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.btn_add_aty:
-                    try {
-                        KeepAliveData keepAliveData = new KeepAliveData("com.wave_chtj.example", TYPE_ACTIVITY, true);
-                        boolean isAddAty = iKeepAliveService.addKeepLiveInfo(keepAliveData, this);
-                        KLog.d(TAG, "onClick:>btn_add_aty=" + isAddAty);
-                        if (isAddAty) {
-                            ToastUtils.success("执行成功！");
-                        } else {
-                            ToastUtils.error("执行失败！");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        KLog.e(TAG, "errMeg:" + e.getMessage());
-                    }
-                    break;
-                case R.id.btn_add_service:
-                    try {
-                        KeepAliveData keepAliveInfo = new KeepAliveData("com.face.baseiotcloud", TYPE_SERVICE, "com.face.baseiotcloud.service.OtherService", true);
-                        boolean isaddInfo = iKeepAliveService.addKeepLiveInfo(keepAliveInfo, this);
-                        KLog.d(TAG, "onClick:>btn_add_service=" + isaddInfo);
-                        if (isaddInfo) {
-                            ToastUtils.success("执行成功！");
-                        } else {
-                            ToastUtils.error("执行失败！");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        KLog.e(TAG, "errMeg:" + e.getMessage());
-                    }
-                    break;
-                case R.id.btn_getall:
-                    getData();
-                    break;
-                case R.id.btn_cleanall:
-                    try {
-                        boolean isClearAll = iKeepAliveService.clearAllKeepAliveInfo();
-                        if (isClearAll) {
-                            ToastUtils.success("清除成功！");
-                        } else {
-                            ToastUtils.error("清除失败！");
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        KLog.e(TAG, "errMeg:" + e.getMessage());
-                    }
-                    break;
-            }
-        }
-
-        ServiceConnection conn = new ServiceConnection() {
-            @Override
-            public void onServiceConnected(ComponentName name, IBinder service) {
-                iKeepAliveService = IKeepAliveService.Stub.asInterface(service);
-            }
-
-            @Override
-            public void onServiceDisconnected(ComponentName name) {
-                iKeepAliveService = null;
-            }
-        };
-
-
-        IKeepAliveListener.Stub iKeepAliveListener = new IKeepAliveListener.Stub() {
-            @Override
-            public void onError(String errMeg) throws RemoteException {
-                Log.d(TAG, "onError: " + errMeg);
-            }
-
-            @Override
-            public void onSuccess() throws RemoteException {
-                Log.d(TAG, "onSuccess: ");
-            }
-        };
-
-        @Override
-        protected void onDestroy() {
-            super.onDestroy();
-            if (iKeepAliveService != null) {
-                unbindService(conn);
-            }
-        }
-
-        @Override
-        public void onError(String errMeg) throws RemoteException {
-            Log.d(TAG, "onError: ");
-        }
-
-        @Override
-        public void onSuccess() throws RemoteException {
-            Log.d(TAG, "onSuccess: ");
-        }
-
-        @Override
-        public IBinder asBinder() {
-            return iKeepAliveListener;
-        }
-    }
 ```
 
 ## Version Code
