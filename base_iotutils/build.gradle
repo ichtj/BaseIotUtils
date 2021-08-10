@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 /*apply plugin:'maven' //新增*/
 apply plugin: 'com.github.dcendents.android-maven'
-group='com.githup.wave-chtj'
+group='com.githup.wave-chtj:BaseIotUtils:base_iotutils'
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
