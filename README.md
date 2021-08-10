@@ -1,9 +1,4 @@
 # 接入方式
-
-## app 界面截图
-
-![image](/pic/apppic.png)
-
 ## Android 项目根目录下文件 build.gradle 中添加
 
 ```groovy
@@ -54,7 +49,12 @@ public class App extends Application {
 
 ```
 
-## ① base_iotutils 物联基础工具类说明
+## app 界面截图
+
+![image](/pic/apppic.png)
+
+
+## base_iotutils 物联基础工具类说明
 
 | 编号 | 工具类                         | 工具名称          | 实现功能                      |
 | ---- | ------------------------------ | ----------------- | ----------------------------- |
