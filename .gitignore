@@ -2,7 +2,6 @@
 .gradle
 /other/me.txt
 /local.properties
-/base_iotutils/local.properties
 /.idea/caches
 /.idea/libraries
 /.idea/modules.xml
