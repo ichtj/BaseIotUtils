@@ -1,3 +1,11 @@
+# 注：项目中存在的多个Module已经进行模块转移,如需调用,请按以下方式调用
+
+### BaseFramework [Framework API调用 点我](https://github.com/wave-chtj/BaseFramework)
+
+### BaseKeepAlive [Activity|Service保活 点我](https://github.com/wave-chtj/BaseKeepAlive)
+
+### BaseSocket    [Socket TCP|UDP 点我](https://github.com/wave-chtj/BaseSocket)
+
 # 接入方式
 ## Android 项目根目录下文件 build.gradle 中添加
 
