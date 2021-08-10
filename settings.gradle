@@ -1,5 +1,3 @@
 include ':keepsample'
-include ':base_keepalive'
-include ':base_framework'
-include ':app', ':base_iotutils', ':base_socket'
-include ':xlink'
+include ':base_iotutils'
+include ':app'
