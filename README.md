@@ -23,17 +23,17 @@ allprojects {
 
 ```groovy
 dependencies {
-         //多个物联基础工具类,推荐使用import module导入的方式
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.0.6'
+         //多个物联网相关基础工具类
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.0.1'
 }
 ```
 
-### ② base_socket socket tcp/udp 通信
+### ② base_socket socket tcp/udp 通信 [![](https://jitpack.io/v/wave-chtj/BaseSocket.svg)](https://jitpack.io/#wave-chtj/BaseSocket)
 
 ```groovy
 dependencies {
-         //Socket TCP|UDP,推荐使用import module导入的方式
-         implementation 'com.chtj.base_socket:base_socket:1.0.2'
+         //Socket TCP|UDP
+         implementation 'com.github.wave-chtj:BaseSocket:1.0.1'
 }
 ```
 
@@ -41,8 +41,8 @@ dependencies {
 
 ```groovy
 dependencies {
-         //framework API调用,推荐使用import module导入的方式
-		implementation 'com.github.wave-chtj:BaseFramework:1.0.1'
+         //framework API调用
+		 implementation 'com.github.wave-chtj:BaseFramework:1.0.1'
 }
 ```
 
@@ -50,7 +50,7 @@ dependencies {
 
 ```groovy
 dependencies {
-         //android 保活,推荐使用import module导入的方式
+         //android 保活
 	     implementation 'com.github.wave-chtj:BaseKeepAlive:1.0.1'
 }
 ```
