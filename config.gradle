@@ -43,7 +43,7 @@ ext {
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
-            "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.0.6",
+            "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.0.1",
             "base_framework"          : "com.github.wave-chtj:BaseFramework:1.0.1",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
             //权限管理
