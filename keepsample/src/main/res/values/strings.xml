@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">NewKeepAlive</string>
-    <declare-styleable name="TopTitleView">
-        <attr name="name" format="string"></attr>
-        <attr name="ivback" format="reference"></attr>
-    </declare-styleable>
-</resources>

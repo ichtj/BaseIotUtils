@@ -1,3 +1,2 @@
-include ':keepsample'
 include ':base_iotutils'
 include ':app'
