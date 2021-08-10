@@ -17,7 +17,7 @@ allprojects {
 }
 ```
 
-## 以下存在三个library按需选择,在App的build.gradle文件中添加
+## 以下四个library按需选择,在App的build.gradle文件中添加
 
 ### ① base_iotutils 物联基础工具类 [![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
 
