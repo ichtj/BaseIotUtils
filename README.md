@@ -13,20 +13,18 @@ allprojects {
 	repositories {
 		...
 		maven { url 'https://www.jitpack.io' }
-		//这个是自己搭建的私服 未对外开放,jcenter bintray已停用,目前无法使用远程依赖
-		maven { url 'https://dl.bintray.com/userchtj/maven' }
 	}
 }
 ```
 
 ## 以下存在三个library按需选择,在App的build.gradle文件中添加
 
-### ① base_iotutils 物联基础工具类
+### ① base_iotutils 物联基础工具类 [![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
 
 ```groovy
 dependencies {
          //多个物联基础工具类,推荐使用import module导入的方式
-         implementation 'com.face_chtj.base_iotutils:base_iotutils:1.8.7'
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.0.6'
 }
 ```
 
@@ -39,21 +37,21 @@ dependencies {
 }
 ```
 
-### ③ base_framework 系统 api 调用
+### ③ base_framework 系统api调用 [![](https://jitpack.io/v/wave-chtj/BaseFramework.svg)](https://jitpack.io/#wave-chtj/BaseFramework)
 
 ```groovy
 dependencies {
          //framework API调用,推荐使用import module导入的方式
-		implementation 'com.chtj.base_framework:base_framework:1.0.5'
+		implementation 'com.github.wave-chtj:BaseFramework:1.0.1'
 }
 ```
 
-### ④ base_keepalive 服务保活处理
+### ④ base_keepalive 服务保活处理 [![](https://jitpack.io/v/wave-chtj/BaseKeepAlive.svg)](https://jitpack.io/#wave-chtj/BaseKeepAlive)
 
 ```groovy
 dependencies {
-         //android [4.4.2]~[7.1.2]永久保活,推荐使用import module导入的方式
-		implementation 'com.chtj.keepalive:base_keepalive:1.0.1'
+         //android 保活,推荐使用import module导入的方式
+	     implementation 'com.github.wave-chtj:BaseKeepAlive:1.0.1'
 }
 ```
 
