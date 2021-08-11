@@ -1,3 +1,0 @@
-E:/utils/BaseIotUtils/base_iotutils/.cxx/cmake/release/x86/CMakeFiles/serialport.dir
-E:/utils/BaseIotUtils/base_iotutils/.cxx/cmake/release/x86/CMakeFiles/edit_cache.dir
-E:/utils/BaseIotUtils/base_iotutils/.cxx/cmake/release/x86/CMakeFiles/rebuild_cache.dir
