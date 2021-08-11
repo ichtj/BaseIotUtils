@@ -1,6 +1,6 @@
 package com.face_chtj.base_iotutils.network;
 
-import com.face_chtj.base_iotutils.entity.NetTypeInfo;
+import com.face_chtj.base_iotutils.enums.NET_TYPE;
 
 /**
  * Create on 2020/1/3
@@ -8,5 +8,5 @@ import com.face_chtj.base_iotutils.entity.NetTypeInfo;
  * desc
  */
 public interface OnNetChangeLinstener {
-    void changed(NetTypeInfo type, boolean isNormal);
+    void changed(NET_TYPE type, boolean isNormal);
 }

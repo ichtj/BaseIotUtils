@@ -39,10 +39,6 @@ public class DownloadSupport {
     private static final String TAG = "DownloadSupport";
     private OkHttpClient client;
     private Call call;
-    //缓存文件存放目录
-    private String cacheFilePath = "/sdcard/downloadCache/";
-    //缓存的文件名称 BaseIotUtils需要初始化 具体请查看README.md
-    private String cacheFileName = BaseIotUtils.getContext().getPackageName() + ".txt";
     //当前正在里的任务
     private static Map<String, DownloadStatus> currentTaskList = new HashMap<>();
     private List<FileCacheData> fileCacheDataList = new ArrayList<>();
@@ -95,19 +91,6 @@ public class DownloadSupport {
     public DownloadSupport() {
         //在下载、暂停后的继续下载中可复用同一个client对象
         client = getProgressClient();
-        try {
-            File file = new File(cacheFilePath);
-            if (!file.exists()) {
-                file.mkdirs();
-            }
-            file = new File(cacheFilePath + cacheFileName);
-            if (!file.exists()) {
-                file.createNewFile();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            KLog.e(TAG, "errMeg:" + e.getMessage());
-        }
     }
 
     /**
@@ -142,7 +125,7 @@ public class DownloadSupport {
 
     /**
      * 相同的地址的requestTag的任务不会重复下载，会提示任务存在
-     * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务后，使用{@link #deleteFile(String)}删除缓存后即可
+     * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务
      */
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
         //防止任务重复下载，扰乱进度
@@ -200,8 +183,6 @@ public class DownloadSupport {
      * @param downloadCallBack
      */
     private void save(Response response, FileCacheData fileCacheData, DownloadCallBack downloadCallBack) {
-        //存储下载信息 用于清理缓存文件
-        FileUtils.writeFileData(cacheFilePath + cacheFileName, fileCacheData.getFileName() + "_", false);
         ResponseBody body = response.body();
         InputStream in = body.byteStream();
         BufferedInputStream bis = new BufferedInputStream(in);
@@ -292,7 +273,7 @@ public class DownloadSupport {
     }
 
     /**
-     * 按照requestTag关闭任务
+     * 关闭任务
      */
     public void cancel() {
         if (client != null) {
@@ -305,30 +286,6 @@ public class DownloadSupport {
             currentTaskList.clear();
         }
         if (fileCacheDataList != null) {
-            currentTaskList.clear();
-        }
-    }
-
-    /**
-     * 删除以往下载的文件信息
-     */
-    public void deleteFile(String saveRootPath) {
-        //查询以往记录的下载信息
-        String result = FileUtils.readFileData(cacheFilePath + cacheFileName);
-        KLog.d(TAG, "deleteFile:>read File=" + result);
-        if (result.equals("")) {
-            KLog.d(TAG, "deleteFile:> no file");
-        } else {
-            String[] fileArray = result.split("_");
-            for (int i = 0; i < fileArray.length; i++) {
-                if (!fileArray[i].equals("null") && !fileArray.equals("")) {
-                    FileUtils.delFile(saveRootPath + fileArray[i]);
-                }
-            }
-            //最后删除该文件
-            FileUtils.delFile(cacheFilePath + cacheFileName);
-        }
-        if (currentTaskList != null) {
             currentTaskList.clear();
         }
     }

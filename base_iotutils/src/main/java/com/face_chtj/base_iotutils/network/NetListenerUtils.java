@@ -8,7 +8,7 @@ import android.net.ConnectivityManager;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.entity.NetTypeInfo;
+import com.face_chtj.base_iotutils.enums.NET_TYPE;
 
 /**
  * Create on 2020/1/3
@@ -73,19 +73,19 @@ public class NetListenerUtils extends BroadcastReceiver {
                 boolean isPingSuccessful=NetUtils.ping(1,2);
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_NO,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_NO,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_WIFI){//1
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_WIFI,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_WIFI,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_2G){//2
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_2G,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_2G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_3G){//3
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_3G,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_3G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_4G){//4
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_4G,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_4G,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_ETHERNET){//9
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_ETH,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_ETH,isPingSuccessful);
                 }else{
-                    mOnNetChangeLinstener.changed(NetTypeInfo.NETWORK_UNKNOWN,isPingSuccessful);
+                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_UNKNOWN,isPingSuccessful);
                 }
             }
         }

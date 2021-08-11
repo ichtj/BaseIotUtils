@@ -12,7 +12,7 @@ import com.face_chtj.base_iotutils.SPUtils;
  * author chtj
  * desc
  */
-public class NotifyBroadcastReceiver extends BroadcastReceiver {
+class NotifyBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG="NotifyBroadcastReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {
