@@ -48,10 +48,29 @@ public class IntervalUtils {
      * @param consumer     回调
      */
     public static void add(@NonNull String tag, long initialDelay, long period, TimeUnit unit, Consumer<Long> consumer) {
+        add(tag, initialDelay, period, unit, consumer, new Consumer<Throwable>() {
+            @Override
+            public void accept(Throwable throwable) throws Exception {
+                KLog.d(TAG,"throwable="+throwable.getMessage());
+            }
+        });
+    }
+
+    /**
+     * 添加定时任务
+     *
+     * @param tag          标志
+     * @param initialDelay 延迟多久执行
+     * @param period       隔多久执行一次
+     * @param unit         设定时间单位
+     * @param consumer     回调
+     * @param tConsumer     异常
+     */
+    public static void add(@NonNull String tag, long initialDelay, long period, TimeUnit unit, Consumer<Long> consumer,Consumer<Throwable> tConsumer) {
         //判断任务是否存在
         if (!StringUtils.isEmpty(tag) && !Builder.map.containsKey(tag)) {
             Disposable disposable = Observable.interval(initialDelay, period, unit)
-                    .subscribe(consumer);
+                    .subscribe(consumer, tConsumer);
             //不存在的时候才添加进任务列表
             Builder.map.put(tag, disposable);
         } else {
