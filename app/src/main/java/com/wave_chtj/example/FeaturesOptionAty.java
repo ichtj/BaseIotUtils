@@ -60,7 +60,7 @@ import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.IndexAdapter;
 import com.wave_chtj.example.util.FKey;
-import com.wave_chtj.example.util.SingletonDisposable;
+import com.wave_chtj.example.util.IntervalUtils;
 import com.wave_chtj.example.util.TableFileUtils;
 import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
@@ -482,7 +482,7 @@ public class FeaturesOptionAty extends BaseActivity {
         ToastUtils.info("解除usb设备监听注册");
         UsbHubTools.getInstance().unRegisterReceiver();
         PlayUtils.getInstance().stopPlaying();
-        SingletonDisposable.clearAll();
+        IntervalUtils.clearAll();
         SingleTPoolUtils.shutdown();
     }
 }

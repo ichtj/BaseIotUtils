@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.enums.DownloadStatus;
@@ -18,6 +19,9 @@ import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,8 +32,9 @@ import java.util.List;
 public class FileDownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3, pbProgressbar4;
-    TextView tvResult1, tvResult2, tvResult3,tvResult4;
+    TextView tvResult1, tvResult2, tvResult3, tvResult4;
     private String saveRootPath = "/sdcard/";
+    private String saveCachePath = "/sdcard/fileDownload.txt";
     //文件下载地址
     public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
     //替换的文件名称
@@ -73,6 +78,16 @@ public class FileDownLoadAty extends BaseActivity {
         pbProgressbar2.setMax(100);
         pbProgressbar3.setMax(100);
         pbProgressbar4.setMax(100);
+
+        File file = new File(saveCachePath);
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
         downloadSupport = new DownloadSupport();
     }
 
@@ -82,7 +97,13 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void clearFile(View view) {
-        downloadSupport.deleteFile(saveRootPath);
+        String[] readArry = FileUtils.readFileData(saveCachePath).split("_");
+        if (readArry != null && readArry.length > 0) {
+            for (int i = 0; i < readArry.length; i++) {
+                FileUtils.delFile(readArry[i]);
+            }
+        }
+        FileUtils.writeFileData(saveCachePath, "", true);
         pbProgressbar1.setProgress(0);
         pbProgressbar2.setProgress(0);
         pbProgressbar3.setProgress(0);
@@ -135,6 +156,7 @@ public class FileDownLoadAty extends BaseActivity {
             downloadSupport.pause(fileCacheData3.getRequestTag());
         }
     }
+
     /**
      * 暂停下载的任务
      *
@@ -179,6 +201,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData.setRequestTag(downloadUrl1);
         fileCacheData.setFilePath(saveRootPath + fileName1);
         addDownloadTask(fileCacheData);
+        FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName1, false);
         //-----------------------------------------------------------
     }
 
@@ -196,6 +219,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData2.setRequestTag(downloadUrl2);
         fileCacheData2.setFilePath(saveRootPath + fileName2);
         addDownloadTask(fileCacheData2);
+        FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName2, false);
         //-----------------------------------------------------------
     }
 
@@ -213,8 +237,10 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData3.setRequestTag(downloadUrl3);
         fileCacheData3.setFilePath(saveRootPath + fileName3);
         addDownloadTask(fileCacheData3);
+        FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName3, false);
         //-----------------------------------------------------------
     }
+
     FileCacheData fileCacheData4 = null;
 
     //文件下载
@@ -229,6 +255,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData4.setRequestTag(downloadUrl4);
         fileCacheData4.setFilePath(saveRootPath + fileName4);
         addDownloadTask(fileCacheData4);
+        FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName4, false);
         //-----------------------------------------------------------
     }
 
@@ -262,7 +289,7 @@ public class FileDownLoadAty extends BaseActivity {
         public void allDownloadComplete(List<FileCacheData> fileCacheDataList) {
 
             for (int i = 0; i < fileCacheDataList.size(); i++) {
-                KLog.d(TAG,"allDownloadComplete:>requestTag="+fileCacheDataList.get(i).getRequestTag()+""+fileCacheDataList.get(i).getFileName()+","+fileCacheDataList.get(i).getCurrent()+","+fileCacheDataList.get(i).getTotal());
+                KLog.d(TAG, "allDownloadComplete:>requestTag=" + fileCacheDataList.get(i).getRequestTag() + "" + fileCacheDataList.get(i).getFileName() + "," + fileCacheDataList.get(i).getCurrent() + "," + fileCacheDataList.get(i).getTotal());
             }
         }
 

@@ -13,10 +13,10 @@ import io.reactivex.annotations.NonNull;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class SingletonDisposable {
+public class IntervalUtils {
     private static final String TAG = "SingletonDisposable";
 
-    private SingletonDisposable() {
+    private IntervalUtils() {
     }
 
     private static class Builder {
@@ -56,11 +56,11 @@ public class SingletonDisposable {
      */
     public static void add(@NonNull String tag, long initialDelay, long period, TimeUnit unit, Consumer<Long> consumer) {
         //判断任务是否存在
-        if (!StringUtils.isEmpty(tag) && !SingletonDisposable.Builder.map.containsKey(tag)) {
+        if (!StringUtils.isEmpty(tag) && !IntervalUtils.Builder.map.containsKey(tag)) {
             Disposable disposable = Observable.interval(initialDelay, period, unit)
                     .subscribe(consumer);
             //不存在的时候才添加进任务列表
-            SingletonDisposable.Builder.map.put(tag, disposable);
+            IntervalUtils.Builder.map.put(tag, disposable);
         } else {
             KLog.e(TAG, "There is no task that has been added, and the added tag is empty");
         }
@@ -72,8 +72,8 @@ public class SingletonDisposable {
      * @param tag 标志
      */
     public static void clear(@NonNull String tag) {
-        if (SingletonDisposable.Builder.map.containsKey(tag)) {
-            Disposable disposable = SingletonDisposable.Builder.map.get(tag);
+        if (IntervalUtils.Builder.map.containsKey(tag)) {
+            Disposable disposable = IntervalUtils.Builder.map.get(tag);
             if (disposable != null && !disposable.isDisposed()) {
                 disposable.dispose();
             }
@@ -85,7 +85,7 @@ public class SingletonDisposable {
      */
     public static void clearAll() {
         KLog.d(TAG, "clearAll:>=");
-        Iterator<Map.Entry<String, Disposable>> it = SingletonDisposable.Builder.map.entrySet().iterator();
+        Iterator<Map.Entry<String, Disposable>> it = IntervalUtils.Builder.map.entrySet().iterator();
         while (it.hasNext()) {
             Map.Entry<String, Disposable> itEntry = it.next();
             Object itKey = itEntry.getKey();
@@ -95,7 +95,7 @@ public class SingletonDisposable {
                 disposable.dispose();
             }
             it.remove();
-            KLog.d(TAG, "clearAll:>size=" + SingletonDisposable.Builder.map.size());
+            KLog.d(TAG, "clearAll:>size=" + IntervalUtils.Builder.map.size());
         }
     }
 }
