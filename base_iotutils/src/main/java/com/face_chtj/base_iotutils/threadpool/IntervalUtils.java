@@ -29,23 +29,13 @@ public class IntervalUtils {
     /**
      * 添加定时任务
      *
-     * @param tag      标志
-     * @param consumer 回调
-     */
-    public static void add(@NonNull String tag, Consumer<Long> consumer) {
-        add(tag, 0, 10, consumer);
-    }
-
-    /**
-     * 添加定时任务
-     *
      * @param tag          标志
-     * @param initialDelay 延迟多久执行
      * @param period       隔多久执行一次
+     * @param unit         设定时间单位
      * @param consumer     回调
      */
-    public static void add(@NonNull String tag, long initialDelay, long period, Consumer<Long> consumer) {
-        add(tag, initialDelay, period, TimeUnit.SECONDS, consumer);
+    public static void add(@NonNull String tag, long period, TimeUnit unit, Consumer<Long> consumer) {
+        add(tag, 0, period, unit, consumer);
     }
 
     /**
