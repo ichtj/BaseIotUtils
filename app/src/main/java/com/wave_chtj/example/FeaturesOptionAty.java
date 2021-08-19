@@ -91,7 +91,7 @@ public class FeaturesOptionAty extends BaseActivity {
         setContentView(R.layout.activity_switch_re);
         AppManager.getAppManager().finishActivity(StartPageAty.class);
         rvinfo = findViewById(R.id.rvinfo);
-        /**获取权限*/
+        /*获取权限*/
         RxPermissions rxPermissions = new RxPermissions(this);
         rxPermissions.request(new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -129,7 +129,6 @@ public class FeaturesOptionAty extends BaseActivity {
             }
         });
     }
-
 
     public void initData() {
         indexBeanList = new ArrayList<>();

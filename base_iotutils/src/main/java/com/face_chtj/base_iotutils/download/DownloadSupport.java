@@ -1,7 +1,5 @@
 package com.face_chtj.base_iotutils.download;
 
-import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.enums.DownloadStatus;

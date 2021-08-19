@@ -129,7 +129,7 @@ public class NotifyUtils {
                         //设置自定义View
                         notifyUtils.builder.setContent(notifyUtils.contentView);
                         //设置点击通知时的操作
-                        notifyUtils.builder.setContentIntent(pendingIntent);
+                        //notifyUtils.builder.setContentIntent(pendingIntent);
                         //app通知栏图标
                         //notifyUtils.builder.setSmallIcon(R.drawable.ic_launcher);  //小图标，在大图标右下角
                         notifyUtils.builder.setLargeIcon(BitmapFactory.decodeResource(BaseIotUtils.getContext().getResources(), R.drawable.app_img)); //大图标，没有设置时小图标就是大图标
