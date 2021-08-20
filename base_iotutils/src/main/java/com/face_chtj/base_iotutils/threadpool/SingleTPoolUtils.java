@@ -89,10 +89,14 @@ public class SingleTPoolUtils {
      * @return
      */
     public static boolean isTaskEnd() {
-        if (mThreadPool != null && mThreadPool.getActiveCount() == 0) {
+        if(mThreadPool==null){
             return true;
-        } else {
-            return false;
+        }else{
+            if(mThreadPool.getActiveCount() == 0){
+                return true;
+            }else{
+                return false;
+            }
         }
     }
 
