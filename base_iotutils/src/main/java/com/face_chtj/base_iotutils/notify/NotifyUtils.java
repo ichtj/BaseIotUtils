@@ -120,6 +120,7 @@ public class NotifyUtils {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         //这里是android8.0以上
                         NotificationChannel channel = new NotificationChannel("channel_1", "channel_name_1", NotificationManager.IMPORTANCE_HIGH);
+                        channel.setImportance(NotificationManager.IMPORTANCE_NONE);
                         notifyUtils.manager.createNotificationChannel(channel);
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext(), "channel_1");
                         notifyUtils.builder.setCustomContentView(notifyUtils.contentView);
