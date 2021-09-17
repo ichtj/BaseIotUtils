@@ -126,32 +126,32 @@ public class DownloadSupport {
      * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务
      */
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
-        //防止任务重复下载，扰乱进度
-        if (currentTaskList != null && currentTaskList.size() > 0) {
-            DownloadStatus downloadStatus = currentTaskList.get(fileCacheData.getRequestTag());
-            if (downloadStatus == DownloadStatus.RUNNING) {
-                KLog.d(TAG, "download:>the task already exist");
-                return;
+        if(fileCacheData!=null){
+            //防止任务重复下载，扰乱进度
+            if (currentTaskList != null && currentTaskList.size() > 0) {
+                DownloadStatus downloadStatus = currentTaskList.get(fileCacheData.getRequestTag());
+                if (downloadStatus == DownloadStatus.RUNNING) {
+                    KLog.d(TAG, "download:>the task already exist");
+                    return;
+                }
             }
-        }else{
-            return;
+            //该集合中没有任务正在处理
+            currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
+            downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+            //获取url对应的key
+            call = newCall(fileCacheData);
+            call.enqueue(new Callback() {
+                @Override
+                public void onFailure(Call call, IOException e) {
+
+                }
+
+                @Override
+                public void onResponse(Call call, Response response) throws IOException {
+                    save(response, fileCacheData, downloadCallBack);
+                }
+            });
         }
-        //该集合中没有任务正在处理
-        currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
-        downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
-        //获取url对应的key
-        call = newCall(fileCacheData);
-        call.enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                save(response, fileCacheData, downloadCallBack);
-            }
-        });
     }
 
     /**
