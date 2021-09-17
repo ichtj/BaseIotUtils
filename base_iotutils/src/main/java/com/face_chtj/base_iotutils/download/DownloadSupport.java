@@ -133,6 +133,8 @@ public class DownloadSupport {
                 KLog.d(TAG, "download:>the task already exist");
                 return;
             }
+        }else{
+            return;
         }
         //该集合中没有任务正在处理
         currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
