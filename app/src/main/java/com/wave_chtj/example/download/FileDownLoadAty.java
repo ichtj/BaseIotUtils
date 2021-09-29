@@ -280,7 +280,7 @@ public class FileDownLoadAty extends BaseActivity {
         }
 
         @Override
-        public void error(Exception e) {
+        public void error(Throwable e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
             downloadSupport.cancel();
         }
