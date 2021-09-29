@@ -1,5 +1,7 @@
 package com.face_chtj.base_iotutils.download;
 
+import android.util.Log;
+
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.enums.DownloadStatus;
@@ -55,7 +57,7 @@ public class DownloadSupport {
         void allDownloadComplete(List<FileCacheData> fileCacheDataList);
 
         //异常状态
-        void error(Exception e);
+        void error(Throwable e);
     }
 
     /**
@@ -96,10 +98,12 @@ public class DownloadSupport {
      * new File(fileCacheData.getFilePath()).length() 获取文件断点位置 并以此为起点去下载，请留意是否支持断点下载
      */
     private Call newCall(FileCacheData fileCacheData) {
+        long fileLength=new File(fileCacheData.getFilePath()).length();
+        Log.d(TAG, "newCall: fileLength="+fileLength);
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
                 .tag(fileCacheData.getRequestTag())
-                .header("RANGE", "bytes=" + new File(fileCacheData.getFilePath()).length() + "-")//断点续传要用到的，指示下载的区间
+                .header("RANGE", "bytes=" +fileLength  + "-")//断点续传要用到的，指示下载的区间
                 .build();
         return client.newCall(request);
     }
@@ -190,11 +194,12 @@ public class DownloadSupport {
         RandomAccessFile randomAccessFile = null;
         try {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
-            long current = randomAccessFile.length();
+            long currentFileLenght = randomAccessFile.length();
+            long bodyContentLength=body.contentLength();
+            fileCacheData.setTotal( bodyContentLength+ currentFileLenght);
+            Log.d(TAG, "save: currentFileLenght="+currentFileLenght+",bodyContentLength="+bodyContentLength+",totalLength="+fileCacheData.getTotal());
             //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
-            fileCacheData.setTotal(body.contentLength() + current);
-            KLog.d(TAG, "save:>total length=" + fileCacheData.getTotal() + ",curent=" + current);
-            if (current >= fileCacheData.getTotal()) {
+            if (currentFileLenght >= fileCacheData.getTotal()) {
                 downloadCallBack.downloadProgress(fileCacheData, 100);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
                 downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
@@ -202,7 +207,7 @@ public class DownloadSupport {
                 return;
             }
             //从文件的断点开始下载
-            randomAccessFile.seek(current);
+            randomAccessFile.seek(currentFileLenght);
             byte[] buffer = new byte[2 * 1024];
             int len;
             //每次读取最多不超过2*1024个字节
@@ -217,11 +222,11 @@ public class DownloadSupport {
                     return;
                 }
                 //记录当前进度
-                current += len;
-                fileCacheData.setCurrent(current);
+                currentFileLenght += len;
+                fileCacheData.setCurrent(currentFileLenght);
                 //计算已经下载的百分比
                 int percent = (int) (fileCacheData.getCurrent() * 100 / fileCacheData.getTotal());
-                boolean isComplete = current >= fileCacheData.getTotal();
+                boolean isComplete = currentFileLenght >= fileCacheData.getTotal();
                 downloadCallBack.downloadProgress(fileCacheData, percent);
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
@@ -240,31 +245,27 @@ public class DownloadSupport {
                 //回调之后进行清除操作
                 fileCacheDataList.clear();
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
             downloadCallBack.error(e);
         } finally {
             if (bis != null) {
                 try {
                     bis.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
             }
             if (in != null) {
                 try {
                     in.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
             }
             if (randomAccessFile != null) {
                 try {
                     randomAccessFile.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
+                } catch (Throwable e) {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
             }
