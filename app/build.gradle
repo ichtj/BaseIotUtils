@@ -5,24 +5,28 @@ android {
 
     signingConfigs {
         debug {
-            storeFile file('../other/facefuture.jks')
+            storeFile file('D:\\facefuture.jks')
             storePassword 'android'
             if (buildTypeInfo.indexOf("rk3288") != -1) {
                 keyAlias 'rockchip'  //rk7.1.2默认签名
             } else if (buildTypeInfo.indexOf("rkcn") != -1) {
                 keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
+            } else if (buildTypeInfo.indexOf("imx8") != -1) {
+                keyAlias 'imx8'     //rk7.1.2 DongChenChaiNiao_Prj签名
             } else {
                 keyAlias 'freescale' //飞思卡尔默认签名
             }
             keyPassword 'android'
         }
         release {
-            storeFile file('../other/facefuture.jks')
+            storeFile file('D:\\facefuture.jks')
             storePassword 'android'
             if (buildTypeInfo.indexOf("rk3288") != -1) {
                 keyAlias 'rockchip'  //rk7.1.2默认签名
             } else if (buildTypeInfo.indexOf("rkcn") != -1) {
                 keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
+            } else if (buildTypeInfo.indexOf("imx8") != -1) {
+                keyAlias 'imx8'     //rk7.1.2 DongChenChaiNiao_Prj签名
             } else {
                 keyAlias 'freescale' //飞思卡尔默认签名
             }

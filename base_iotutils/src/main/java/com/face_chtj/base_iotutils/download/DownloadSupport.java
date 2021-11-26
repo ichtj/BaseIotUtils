@@ -40,7 +40,7 @@ public class DownloadSupport {
     private OkHttpClient client;
     private Call call;
     //当前正在里的任务
-    private static Map<String, DownloadStatus> currentTaskList = new HashMap<>();
+    private static Map<String, Integer> currentTaskList = new HashMap<>();
     private List<FileCacheData> fileCacheDataList = new ArrayList<>();
 
     /**
@@ -51,7 +51,7 @@ public class DownloadSupport {
         void downloadProgress(FileCacheData fileCacheData, int percent);
 
         //下载状态
-        void downloadStatus(FileCacheData fileCacheData, DownloadStatus downloadStatus);
+        void downloadStatus(FileCacheData fileCacheData, int downloadStatus);
 
         //全部下载完毕
         void allDownloadComplete(List<FileCacheData> fileCacheDataList);
@@ -69,8 +69,8 @@ public class DownloadSupport {
         if (currentTaskList.size() > 0) {
             //判断是否有暂停的任务 暂停的任务也相当于没有在执行任务下载
             int count = 0;
-            for (Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()) {
-                if (currentTaskList.get(entry.getKey()) == DownloadStatus.PAUSE) {
+            for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
+                if (currentTaskList.get(entry.getKey()) == DownloadStatus.STATUS_PAUSE) {
                     count++;
                 }
             }
@@ -98,12 +98,12 @@ public class DownloadSupport {
      * new File(fileCacheData.getFilePath()).length() 获取文件断点位置 并以此为起点去下载，请留意是否支持断点下载
      */
     private Call newCall(FileCacheData fileCacheData) {
-        long fileLength=new File(fileCacheData.getFilePath()).length();
-        Log.d(TAG, "newCall: fileLength="+fileLength);
+        long fileLength = new File(fileCacheData.getFilePath()).length();
+        Log.d(TAG, "newCall: fileLength=" + fileLength);
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
                 .tag(fileCacheData.getRequestTag())
-                .header("RANGE", "bytes=" +fileLength  + "-")//断点续传要用到的，指示下载的区间
+                .header("RANGE", "bytes=" + fileLength + "-")//断点续传要用到的，指示下载的区间
                 .build();
         return client.newCall(request);
     }
@@ -130,18 +130,17 @@ public class DownloadSupport {
      * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务
      */
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
-        if(fileCacheData!=null){
+        if (fileCacheData != null) {
+            String requestTag = fileCacheData.getRequestTag();
             //防止任务重复下载，扰乱进度
-            if (currentTaskList != null && currentTaskList.size() > 0) {
-                DownloadStatus downloadStatus = currentTaskList.get(fileCacheData.getRequestTag());
-                if (downloadStatus == DownloadStatus.RUNNING) {
-                    KLog.d(TAG, "download:>the task already exist");
-                    return;
-                }
+            if (currentTaskList != null && currentTaskList.size() > 0 &&
+                    currentTaskList.get(requestTag) == DownloadStatus.STATUS_RUNNING) {
+                KLog.d(TAG, "download:>the task already exist");
+                return;
             }
             //该集合中没有任务正在处理
-            currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.RUNNING);
-            downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+            currentTaskList.put(requestTag, DownloadStatus.STATUS_RUNNING);
+            downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(requestTag));
             //获取url对应的key
             call = newCall(fileCacheData);
             call.enqueue(new Callback() {
@@ -162,8 +161,8 @@ public class DownloadSupport {
      * 暂停所有任务
      */
     public void pause() {
-        for (Map.Entry<String, DownloadStatus> entry : currentTaskList.entrySet()) {
-            currentTaskList.put(entry.getKey(), DownloadStatus.PAUSE);
+        for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
+            currentTaskList.put(entry.getKey(), DownloadStatus.STATUS_PAUSE);
         }
     }
 
@@ -174,7 +173,7 @@ public class DownloadSupport {
      */
     public void pause(String requestTag) {
         if (currentTaskList != null && currentTaskList.size() > 0 && currentTaskList.containsKey(requestTag)) {
-            currentTaskList.put(requestTag, DownloadStatus.PAUSE);
+            currentTaskList.put(requestTag, DownloadStatus.STATUS_PAUSE);
         }
     }
 
@@ -195,13 +194,13 @@ public class DownloadSupport {
         try {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
             long currentFileLenght = randomAccessFile.length();
-            long bodyContentLength=body.contentLength();
-            fileCacheData.setTotal( bodyContentLength+ currentFileLenght);
-            Log.d(TAG, "save: currentFileLenght="+currentFileLenght+",bodyContentLength="+bodyContentLength+",totalLength="+fileCacheData.getTotal());
+            long bodyContentLength = body.contentLength();
+            fileCacheData.setTotal(bodyContentLength + currentFileLenght);
+            Log.d(TAG, "save: currentFileLenght=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
             //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
             if (currentFileLenght >= fileCacheData.getTotal()) {
                 downloadCallBack.downloadProgress(fileCacheData, 100);
-                currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
+                currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
                 downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                 KLog.d(TAG, "save:>file already exist");
                 return;
@@ -215,9 +214,9 @@ public class DownloadSupport {
                 //KLog.d(TAG,"save:>len="+len);
                 //先写入到文件中
                 randomAccessFile.write(buffer, 0, len);
-                if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.PAUSE) {
+                if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.STATUS_PAUSE) {
                     //如果任务被暂停 那么停止读取字节
-                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.PAUSE);
+                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_PAUSE);
                     downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                     return;
                 }
@@ -230,7 +229,7 @@ public class DownloadSupport {
                 downloadCallBack.downloadProgress(fileCacheData, percent);
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
-                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.COMPLETE);
+                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
                     downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                     break;
                 }
