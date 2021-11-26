@@ -133,10 +133,11 @@ public class DownloadSupport {
         if (fileCacheData != null) {
             String requestTag = fileCacheData.getRequestTag();
             //防止任务重复下载，扰乱进度
-            if (currentTaskList != null && currentTaskList.size() > 0 &&
-                    currentTaskList.get(requestTag) == DownloadStatus.STATUS_RUNNING) {
-                KLog.d(TAG, "download:>the task already exist");
-                return;
+            if (currentTaskList != null && currentTaskList.size() > 0) {
+                if(currentTaskList.get(requestTag) == DownloadStatus.STATUS_RUNNING){
+                    KLog.d(TAG, "download:>the task already exist");
+                    return;
+                }
             }
             //该集合中没有任务正在处理
             currentTaskList.put(requestTag, DownloadStatus.STATUS_RUNNING);

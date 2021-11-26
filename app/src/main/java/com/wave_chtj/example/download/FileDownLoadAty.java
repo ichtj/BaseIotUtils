@@ -294,8 +294,8 @@ public class FileDownLoadAty extends BaseActivity {
         }
 
         @Override
-        public void downloadStatus(FileCacheData fileCacheData, DownloadStatus downloadStatus) {
-            KLog.d(TAG, "downloadStatus:>requestTag =" + fileCacheData.getRequestTag() + ",status=" + downloadStatus.name());
+        public void downloadStatus(FileCacheData fileCacheData, int downloadStatus) {
+            KLog.d(TAG, "downloadStatus:>requestTag =" + fileCacheData.getRequestTag() + ",status=" + downloadStatus);
         }
     };
     Handler handler = new Handler() {
