@@ -19,7 +19,7 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('D:\\facefuture.jks')
+            storeFile file('../other/facefuture.jks')
             storePassword 'android'
             if (buildTypeInfo.indexOf("rk3288") != -1) {
                 keyAlias 'rockchip'  //rk7.1.2默认签名
