@@ -134,7 +134,8 @@ public class DownloadSupport {
             String requestTag = fileCacheData.getRequestTag();
             //防止任务重复下载，扰乱进度
             if (currentTaskList != null && currentTaskList.size() > 0) {
-                if(currentTaskList.get(requestTag) == DownloadStatus.STATUS_RUNNING){
+                boolean isExist=currentTaskList.get(requestTag) == DownloadStatus.STATUS_RUNNING;
+                if(isExist){
                     KLog.d(TAG, "download:>the task already exist");
                     return;
                 }
