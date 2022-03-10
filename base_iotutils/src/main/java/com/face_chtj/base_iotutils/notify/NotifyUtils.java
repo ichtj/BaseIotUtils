@@ -180,7 +180,7 @@ public class NotifyUtils {
      * @param notifyId int整型
      * @return this
      */
-    private NotifyUtils setNotifyId(int notifyId){
+    public NotifyUtils setNotifyId(int notifyId){
         notifyUtils.notifyId=notifyId;
         return notifyUtils;
     }
