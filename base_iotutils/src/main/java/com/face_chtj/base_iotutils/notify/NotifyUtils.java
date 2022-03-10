@@ -190,7 +190,7 @@ public class NotifyUtils {
      *
      * @param icon setImageViewResource
      */
-    private NotifyUtils setSmallIcon(@DrawableRes int icon) {
+    public NotifyUtils setSmallIcon(@DrawableRes int icon) {
         notifyUtils.builder.setSmallIcon(icon);
         return notifyUtils;
     }
