@@ -200,7 +200,7 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewResource
      */
-    private NotifyUtils setIvLogo(int ivLogo) {
+    public NotifyUtils setIvLogo(int ivLogo) {
         notifyUtils.contentView.setImageViewResource(R.id.iv_logo, ivLogo);
         return notifyUtils;
     }
@@ -210,7 +210,7 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewBitmap
      */
-    private NotifyUtils setIvLogo(Bitmap ivLogo) {
+    public NotifyUtils setIvLogo(Bitmap ivLogo) {
         if (ivLogo != null) {
             notifyUtils.contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
         }
