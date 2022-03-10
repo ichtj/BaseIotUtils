@@ -52,7 +52,7 @@
                 android:ellipsize="end"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="adout"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -65,7 +65,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center"
                 android:singleLine="true"
-                android:text="xxx"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
