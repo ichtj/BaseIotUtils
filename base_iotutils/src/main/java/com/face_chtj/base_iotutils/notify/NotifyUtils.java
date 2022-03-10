@@ -180,8 +180,9 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewResource
      */
-    private void setIvLogo(int ivLogo) {
+    private NotifyUtils setIvLogo(int ivLogo) {
         notifyUtils.contentView.setImageViewResource(R.id.iv_logo, ivLogo);
+        return notifyUtils;
     }
 
     /**
@@ -189,10 +190,11 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewBitmap
      */
-    private void setIvLogo(Bitmap ivLogo) {
+    private NotifyUtils setIvLogo(Bitmap ivLogo) {
         if (ivLogo != null) {
             notifyUtils.contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
         }
+        return notifyUtils;
     }
 
     /**
@@ -201,10 +203,11 @@ public class NotifyUtils {
      * @param ivLogo setImageViewUri
      * @return this
      */
-    public void setIvLogo(Uri ivLogo) {
+    public NotifyUtils setIvLogo(Uri ivLogo) {
         if (ivLogo != null) {
             notifyUtils.contentView.setImageViewUri(R.id.iv_logo, ivLogo);
         }
+        return notifyUtils;
     }
 
     /**
@@ -214,7 +217,7 @@ public class NotifyUtils {
      * @param progress 进度
      * @return this
      */
-    public void setProgress(String progress) {
+    public NotifyUtils setProgress(String progress) {
         String appendStr = "";
         if (progress != null && !progress.equals("")) {
             appendStr = progress;
@@ -222,7 +225,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvProgress, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -232,7 +235,7 @@ public class NotifyUtils {
      * @param appName APP名称
      * @return this
      */
-    public void setAppName(String appName) {
+    public NotifyUtils setAppName(String appName) {
         String appendStr = "";
         if (appName != null && !appName.equals("")) {
             appendStr = appName;
@@ -240,7 +243,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvAppName, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -250,7 +253,7 @@ public class NotifyUtils {
      * @param str topright str
      * @return this
      */
-    public void setTopRight(String str) {
+    public NotifyUtils setTopRight(String str) {
         String appendStr = "";
         if (str != null && !str.equals("")) {
             appendStr = str;
@@ -258,7 +261,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvTopRight, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -268,7 +271,7 @@ public class NotifyUtils {
      * @param appAbout APP about
      * @return this
      */
-    public void setAppAbout(String appAbout) {
+    public NotifyUtils setAppAbout(String appAbout) {
         String appendStr = "";
         if (appAbout != null && !appAbout.equals("")) {
             appendStr = appAbout;
@@ -276,7 +279,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -286,7 +289,7 @@ public class NotifyUtils {
      * @param remarks 需要显示备注信息
      * @return this
      */
-    public void setRemarks(String remarks) {
+    public NotifyUtils setRemarks(String remarks) {
         String appendStr = "";
         if (remarks != null && !remarks.equals("")) {
             appendStr = "remarks:" + remarks;
@@ -294,7 +297,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvRemarks, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -304,7 +307,7 @@ public class NotifyUtils {
      * @param prompt 需要提示的消息
      * @return this
      */
-    public void setPrompt(String prompt) {
+    public NotifyUtils setPrompt(String prompt) {
         String appendStr = "";
         if (prompt != null && !prompt.equals("")) {
             appendStr = "prompt:" + prompt;
@@ -312,7 +315,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvPrompt, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
@@ -322,7 +325,7 @@ public class NotifyUtils {
      * @param dataTime 时间
      * @return this
      */
-    public void setDataTime(String dataTime) {
+    public NotifyUtils setDataTime(String dataTime) {
         String appendStr = "";
         if (dataTime != null && !dataTime.equals("")) {
             appendStr = dataTime;
@@ -330,7 +333,7 @@ public class NotifyUtils {
             appendStr = "";
         }
         notifyUtils.contentView.setTextViewText(R.id.tvDataTime, appendStr);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
 
@@ -341,10 +344,9 @@ public class NotifyUtils {
      * @param mSlideOff true|false
      * @return this
      */
-    public void setSlideOff(boolean mSlideOff) {
-        notifyUtils.mSlideOff = mSlideOff;
-        notifyUtils.builder.setOngoing(!mSlideOff);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+    public NotifyUtils setSlideOff(boolean mSlideOff) {
+        notifyUtils.mSlideOff = !mSlideOff;
+        return notifyUtils;
     }
 
     /**
@@ -354,10 +356,9 @@ public class NotifyUtils {
      * @param mAutoCancel true|false
      * @return this
      */
-    public void setmAutoCancel(boolean mAutoCancel) {
+    public NotifyUtils setmAutoCancel(boolean mAutoCancel) {
         notifyUtils.mAutoCancel = mAutoCancel;
-        notifyUtils.builder.setAutoCancel(mAutoCancel);
-        notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        return notifyUtils;
     }
 
     /**
