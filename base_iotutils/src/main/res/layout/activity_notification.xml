@@ -95,7 +95,7 @@
                 android:gravity="left|center"
                 android:layout_marginRight="6dp"
                 android:singleLine="true"
-                android:text="REMARKS:add remarks..."
+                android:text="remarks:"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -107,7 +107,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center"
                 android:singleLine="true"
-                android:text="download:%"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
@@ -127,7 +127,7 @@
                 android:ellipsize="end"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="prompt:add prompt..."
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
