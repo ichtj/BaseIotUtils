@@ -59,31 +59,26 @@ public class TimeUtils {
      * 获取今天年月日时分秒
      * @return 2017-08-14 11:53:52
      */
-    public static String getCurrentDateHms() {
+    public static String getTodayDateHms(String pattern) {
         Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.CHINA);
         return sdf.format(date);
     }
 
     /**
-     *  当前毫秒级时间
-     * @return 2017/04/07-11:01:06:109
-     */
-    public static String getCurrentDateHmss() {
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss:SSS", Locale.CHINA).format(new Date());
-    }
-    /**
-     * 获取当前系统的时间戳
+     * 获取当前系统秒级别的时间戳
      * @return 1502697135
      */
     public static int getTime() {
         return (int) (System.currentTimeMillis() / 1000);
     }
 
-    public static String tsToYMDcn(int time) {
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy年MM月dd日");
-        long time1000 = Long.parseLong(String.valueOf(time)) * 1000;
-        return fm.format(time1000);
+    /**
+     * 获取当前系统毫秒的时间戳
+     * @return 1502697135
+     */
+    public static long getTimeMs() {
+        return System.currentTimeMillis();
     }
 
     /**
@@ -130,7 +125,6 @@ public class TimeUtils {
         UTCTimeBuffer.append(year).append("-").append(month).append("-").append(day);
         UTCTimeBuffer.append("T").append(hour).append(":").append(minute).append(":").append(second) ;
         return UTCTimeBuffer.toString();
-
     }
 
 }

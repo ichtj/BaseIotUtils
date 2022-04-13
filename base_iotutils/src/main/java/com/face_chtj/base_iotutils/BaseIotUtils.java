@@ -2,17 +2,10 @@ package com.face_chtj.base_iotutils;
 
 import android.app.Activity;
 import android.app.Application;
-import android.app.Service;
 import android.content.Context;
-import android.content.ServiceConnection;
-
-import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.DefaultAutoAdaptStrategy;
 import com.face_chtj.base_iotutils.screen_adapta.AdaptScreenUtils;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public final class BaseIotUtils {
     private static final String TAG = "BaseIotUtils";
@@ -24,8 +17,12 @@ public final class BaseIotUtils {
     private int defaultHeight = 1920;
     //是否开启适配
     private boolean mAutoScreenAdaptation = false;
+    /**以高度适配 {@link #setCreenType(int)}*/
+    public static final int SCREEN_HEIGHT=0x1010;
+    /**以宽度适配  {@link #setCreenType(int)}*/
+    public static final int SCREEN_WIDTH=0x1011;
     //屏幕适配类型 高度|宽度
-    private SCREEN_TYPE screen_type = SCREEN_TYPE.HEIGHT;
+    private int screen_type = SCREEN_HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
 
@@ -62,13 +59,11 @@ public final class BaseIotUtils {
 
     /**
      * 设置以宽度或者高度来配置
-     * WIDTH 按宽度适配
-     * HEIGHT 按高度适配
-     *
-     * @param screen_type dp
-     * @return
+     * {@link #SCREEN_WIDTH} 按宽度适配
+     * {@link #SCREEN_HEIGHT} 按高度适配
+     * @param screen_type {@link #SCREEN_WIDTH}{@link #SCREEN_HEIGHT}
      */
-    public BaseIotUtils setCreenType(SCREEN_TYPE screen_type) {
+    public BaseIotUtils setCreenType(int screen_type) {
         this.screen_type = screen_type;
         return this;
     }
@@ -78,7 +73,7 @@ public final class BaseIotUtils {
      */
     public static void autoConvertDensityOfGlobal(Activity activity) {
         if (BaseIotUtils.instance().mAutoScreenAdaptation) {
-            if (BaseIotUtils.instance().screen_type == SCREEN_TYPE.WIDTH) {
+            if (BaseIotUtils.instance().screen_type == SCREEN_WIDTH) {
                 //KLog.d(TAG, "Adaptation is open and adapting to width");
                 AdaptScreenUtils.adaptWidth(activity.getResources(), BaseIotUtils.instance().defaultWidth);
             } else {

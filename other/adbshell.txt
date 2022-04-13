@@ -110,3 +110,6 @@ mount -o ro,remount -t ext4 /dev/block/platform/ff0f0000.dwmmc/by-name/system 32
 
 #测试MainActivity启动速度 执行10次 可以查看平均值
 adb shell am start -S -R 10 -W packagename/.MainActivity
+
+停止Service
+am stopservice com.face.baseiotcloud/com.future.xlink.mqtt.RxMqttService

@@ -34,7 +34,6 @@ import static android.content.Context.WIFI_SERVICE;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:得到设备的相关信息
- * --判断设备是否 rooted {@link #isDeviceRooted()}
  * --判断设备 ADB 是否可用 {@link #isAdbEnabled()}
  * --获取设备系统版本号 {@link #getSDKVersionName()}
  * --获取设备系统版本码 {@link #getSDKVersionCode()}
@@ -56,26 +55,6 @@ public final class DeviceUtils {
     private DeviceUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
-
-    /**
-     * Return whether device is rooted.
-     * 判断设备是否 rooted
-     *
-     * @return {@code true}: yes<br>{@code false}: no
-     */
-    public static boolean isDeviceRooted() {
-        String su = "su";
-        String[] locations = {"/system/bin/", "/system/xbin/", "/sbin/", "/system/sd/xbin/",
-                "/system/bin/failsafe/", "/data/local/xbin/", "/data/local/bin/", "/data/local/",
-                "/system/sbin/", "/usr/bin/", "/vendor/bin/"};
-        for (String location : locations) {
-            if (new File(location + su).exists()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     /**
      * Return whether ADB is enabled.
      * 判断设备 ADB 是否可用

@@ -12,7 +12,6 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.enums.DownloadStatus;
 import com.face_chtj.base_iotutils.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
@@ -21,7 +20,6 @@ import com.wave_chtj.example.base.BaseActivity;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -287,7 +285,6 @@ public class FileDownLoadAty extends BaseActivity {
 
         @Override
         public void allDownloadComplete(List<FileCacheData> fileCacheDataList) {
-
             for (int i = 0; i < fileCacheDataList.size(); i++) {
                 KLog.d(TAG, "allDownloadComplete:>requestTag=" + fileCacheDataList.get(i).getRequestTag() + "" + fileCacheDataList.get(i).getFileName() + "," + fileCacheDataList.get(i).getCurrent() + "," + fileCacheDataList.get(i).getTotal());
             }

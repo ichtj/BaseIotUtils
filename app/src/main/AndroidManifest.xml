@@ -2,7 +2,7 @@
 <!--
   - 如果无法安装 请将  android:sharedUserId="android.uid.system"  这句去掉
   - 如需使用：请配合rk3288或是飞思卡尔的系统签名
-  - 签名文件所在路径：android\out\target\common\obj\JAVA_LIBRARIES\framework_intermediates\classes.jar
+  - frameworks.jar文件所在路径：android\out\target\common\obj\JAVA_LIBRARIES\framework_intermediates\classes.jar
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"

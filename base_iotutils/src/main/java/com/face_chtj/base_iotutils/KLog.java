@@ -9,12 +9,12 @@ import org.json.JSONObject;
 
 /**
  * 日志管理
- * KLog.d(TAG,"");
- * KLog.e(TAG,"");
- * KLog.v(TAG,"");
- * KLog.i(TAG,"");
- * KLog.w(TAG,"");
- * KLog.a(TAG,"");
+ * KLog.d(TAG,"xxx");
+ * KLog.e(TAG,"xxx");
+ * KLog.v(TAG,"xxx");
+ * KLog.i(TAG,"xxx");
+ * KLog.w(TAG,"xxx");
+ * KLog.a(TAG,"xxx");
  */
 public class KLog {
 

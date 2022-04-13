@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.enums;
+package com.face_chtj.base_iotutils.entity;
 
 /***
  * 下载状态

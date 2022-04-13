@@ -4,7 +4,7 @@ import android.util.Log;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
-import com.face_chtj.base_iotutils.enums.DownloadStatus;
+import com.face_chtj.base_iotutils.entity.DownloadStatus;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -72,17 +72,14 @@ public class DownloadSupport {
             for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
                 if (currentTaskList.get(entry.getKey()) == DownloadStatus.STATUS_PAUSE) {
                     count++;
+                    if(count == currentTaskList.size()){
+                        return false;
+                    }
                 }
             }
-            if (count == currentTaskList.size()) {
-                //如果暂停的任务等于总任务的数量 那么可以判定为 没有任务正在运行
-                return false;
-            } else {
-                return true;
-            }
-        } else {
-            return false;
+            return true;
         }
+        return false;
     }
 
     /**
@@ -148,7 +145,7 @@ public class DownloadSupport {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-
+                    KLog.e(TAG,e.getMessage());
                 }
 
                 @Override
@@ -270,7 +267,6 @@ public class DownloadSupport {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                 }
             }
-
         }
     }
 

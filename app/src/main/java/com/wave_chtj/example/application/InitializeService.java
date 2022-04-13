@@ -7,8 +7,6 @@ import android.content.Intent;
 import com.chtj.base_framework.FBaseTools;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.SCREEN_TYPE;
-import com.wave_chtj.example.crash.CrashHandler;
 
 
 /**
@@ -48,7 +46,7 @@ public class InitializeService extends IntentService {
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
         BaseIotUtils.instance().
                 setBaseScreenParam(1080, 1920, true).
-                setCreenType(SCREEN_TYPE.WIDTH).//按照宽度适配
+                setCreenType(BaseIotUtils.SCREEN_WIDTH).//按照宽度适配
                 create(getApplication());
 
         FBaseTools.instance()

@@ -2,11 +2,14 @@ package com.wave_chtj.example;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 
@@ -31,6 +34,7 @@ import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.ISysDialog;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
@@ -233,7 +237,8 @@ public class FeaturesOptionAty extends BaseActivity {
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.getInstance(111)
+                    NotifyUtils.getInstance()
+                            .setNotifyId(111)
                             .setEnableCloseButton(false)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new OnNotifyLinstener() {
                                 @Override
@@ -241,16 +246,6 @@ public class FeaturesOptionAty extends BaseActivity {
                                     KLog.e(TAG, "isEnable=" + isEnable);
                                 }
                             })
-                            .setNotifyParam(R.drawable.app_img, R.drawable.app_img
-                                    , "BaseIotUtils"
-                                    , "工具类"
-                                    , "文件压缩，文件下载，日志管理，时间管理，网络判断。。。"
-                                    , "this is a library ..."
-                                    , "2020-3-18"
-                                    , "xxx"
-                                    , ""
-                                    , false
-                                    , false)
                             .exeuNotify();
                 } else {
                     //去开启通知
@@ -261,12 +256,12 @@ public class FeaturesOptionAty extends BaseActivity {
                     public void run() {
                         try {
                             Thread.sleep(5000);
-                            NotifyUtils.getInstance(111).setAppName("");
-                            NotifyUtils.getInstance(111).setAppAbout("");
-                            NotifyUtils.getInstance(111).setRemarks("");
-                            NotifyUtils.getInstance(111).setPrompt("");
-                            NotifyUtils.getInstance(111).setDataTime("");
-                            NotifyUtils.getInstance(111).setTopRight("");
+                            NotifyUtils.getInstance().setAppName("");
+                            NotifyUtils.getInstance().setAppAbout("");
+                            NotifyUtils.getInstance().setRemarks("");
+                            NotifyUtils.getInstance().setPrompt("");
+                            NotifyUtils.getInstance().setDataTime("");
+                            NotifyUtils.getInstance().setTopRight("");
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());
