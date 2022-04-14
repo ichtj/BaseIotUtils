@@ -1,12 +1,15 @@
-git remote add origin xxxx //Ìí¼ÓÔ¶³ÌµØÖ·
-git remote set-url --add origin xxx //Ìí¼Ó¶à¸öÔ¶³ÌµØÖ·
-git remote rm origin  //É¾³ýµØÖ·
-git reset --hard xx·ÖÖ§ //°æ±¾»ØÍË ¼Ó--hardÉ¾³ýµ±Ç°ÒÑÐÞ¸ÄÎ´Ìá½»µÄ¼ÇÂ¼
-git reset //»ØÍË°æ±¾ ±£Áô´úÂë
-git commit --amend "" ÖØÐÂÉèÖÃ±¸×¢
-git cherry-pick xxxcommitid  ¿ÉÒÔ½«ÁíÍâÒ»¸ö·ÖÖ§µÄcommidÌá½»µ½±¾·ÖÖ® ²»³åÍ»Çé¿öÏÂ
-git push origin xxx -f  Ìá½»µ±Ç°µÄ¼ÇÂ¼
+git remote add origin xxxx //ï¿½ï¿½ï¿½Ô¶ï¿½Ìµï¿½Ö·
+git remote set-url --add origin xxx //ï¿½ï¿½Ó¶ï¿½ï¿½Ô¶ï¿½Ìµï¿½Ö·
+git remote rm origin  //É¾ï¿½ï¿½ï¿½ï¿½Ö·
+git reset --hard xxï¿½ï¿½Ö§ //ï¿½æ±¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½--hardÉ¾ï¿½ï¿½ï¿½ï¿½Ç°ï¿½ï¿½ï¿½Þ¸ï¿½Î´ï¿½á½»ï¿½Ä¼ï¿½Â¼
+git reset //ï¿½ï¿½ï¿½Ë°æ±¾ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+git commit --amend "" ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã±ï¿½×¢
+git cherry-pick xxxcommitid  ï¿½ï¿½ï¿½Ô½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½Ö§ï¿½ï¿½commidï¿½á½»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö® ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½
+git push origin xxx -f  ï¿½á½»ï¿½ï¿½Ç°ï¿½Ä¼ï¿½Â¼
 
-git diff device/rockchip/rk3288/system.prop > ../system.prop.patch  //´ò²¹¶¡
+git diff device/rockchip/rk3288/system.prop > ../system.prop.patch  //ï¿½ò²¹¶ï¿½
 
-git clone git²Ö¿âµØÖ· --depth=1 Ö»ÏÂÔØµ½×îÐÂ°æ±¾£¬¶ø²»ÊÇ´øÓÐÈ«²¿ÀúÊ·°æ±¾µÄ²Ö¿â¡£
+git clone gitï¿½Ö¿ï¿½ï¿½Ö· --depth=1 Ö»ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½Â°æ±¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç´ï¿½ï¿½ï¿½È«ï¿½ï¿½ï¿½ï¿½Ê·ï¿½æ±¾ï¿½Ä²Ö¿â¡£
+
+
+

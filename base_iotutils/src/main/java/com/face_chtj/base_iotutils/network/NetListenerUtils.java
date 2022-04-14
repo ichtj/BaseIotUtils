@@ -70,7 +70,7 @@ public class NetListenerUtils extends BroadcastReceiver {
                 //获取当前网络类型
                 int type=NetUtils.getNetWorkType();
                 //判断网络是否连接正常，是否能够ping通
-                boolean isPingSuccessful=NetUtils.ping(1,2);
+                boolean isPingSuccessful=NetUtils.ping(2,1);
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
                     mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_NO,isPingSuccessful);

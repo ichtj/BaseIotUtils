@@ -243,7 +243,7 @@ public class NetUtils {
         String result = null;
         try {
             String ip = "www.baidu.com";// ping 的地址，可以换成任何一种可靠的外网
-            Process p = Runtime.getRuntime().exec("ping -c 3 -w 8 " + ip);// ping网址3次
+            Process p = Runtime.getRuntime().exec("ping -c 2 -w 1 " + ip);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
@@ -274,21 +274,21 @@ public class NetUtils {
     /**
      * 动态控制执行次数和时间
      * @param count 执行次数
-     * @param time 时间
+     * @param second 时间秒
      * @return 是否成功
      */
-    public static final boolean ping(int count,int time){
-        return ping("www.baidu.com",count,time);
+    public static final boolean ping(int count,int second){
+        return ping("www.baidu.com",count,second);
     }
 
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip,int count,int time) {
+    public static final boolean ping(String ip,int count,int second) {
         String result = null;
         try {
-            Process p = Runtime.getRuntime().exec("ping -c "+count+" -w "+time+" " + ip);// ping网址3次
+            Process p = Runtime.getRuntime().exec("ping -c "+count+" -W "+second+" " + ip);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
@@ -325,7 +325,7 @@ public class NetUtils {
         String result = null;
         try {
             // ping网址3次
-            Process p = Runtime.getRuntime().exec("ping -c 3 -w 8 " + ip);
+            Process p = Runtime.getRuntime().exec("ping -c 2 -w 1 " + ip);
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
