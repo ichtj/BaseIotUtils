@@ -61,6 +61,13 @@
                 android:layout_marginRight="10dp"
                 android:layout_width="18dp"
                 android:layout_height="18dp"/>
+            <ImageView
+                android:id="@+id/ivNetStatus"
+                android:src="@drawable/netfailed"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"/>
             <TextView
                 android:id="@+id/tvTopRight"
                 android:layout_width="wrap_content"

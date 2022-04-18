@@ -225,6 +225,25 @@ public class NotifyUtils {
     }
 
     /**
+     * setIvNetStatus
+     *
+     */
+    public NotifyUtils setIvNetStatus(boolean isShow) {
+        return setIvNetStatus(isShow,R.drawable.success);
+    }
+
+    /**
+     * setIvNetStatus
+     *
+     * @param ivDrawable setImageViewResource
+     */
+    public NotifyUtils setIvNetStatus(boolean isShow,int ivDrawable) {
+        notifyUtils.contentView.setViewVisibility(R.id.ivNetStatus,isShow?View.VISIBLE:View.GONE);
+        notifyUtils.contentView.setImageViewResource(R.id.ivNetStatus, ivDrawable);
+        return notifyUtils;
+    }
+
+    /**
      * 设置logo
      *
      * @param ivLogo setImageViewBitmap

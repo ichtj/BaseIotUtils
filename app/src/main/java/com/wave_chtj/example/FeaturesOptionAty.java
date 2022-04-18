@@ -258,22 +258,22 @@ public class FeaturesOptionAty extends BaseActivity {
                     //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
+                Handler handler=new Handler();
+                handler.post(new Runnable() {
                     @Override
                     public void run() {
                         try {
                             Thread.sleep(5000);
-                            NotifyUtils.getInstance().setAppName("");
-                            NotifyUtils.getInstance().setAppAbout("");
-                            NotifyUtils.getInstance().setRemarks("");
-                            NotifyUtils.getInstance().setPrompt("");
-                            NotifyUtils.getInstance().setDataTime("");
-                            NotifyUtils.getInstance().setTopRight("");
-                            NotifyUtils.getInstance().setIvStatus(true,R.drawable.failed);
-                        } catch (Exception e) {
+                        } catch (InterruptedException e) {
                             e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
                         }
+                        NotifyUtils.getInstance().setAppName("");
+                        NotifyUtils.getInstance().setAppAbout("");
+                        NotifyUtils.getInstance().setRemarks("");
+                        NotifyUtils.getInstance().setPrompt("");
+                        NotifyUtils.getInstance().setDataTime("");
+                        NotifyUtils.getInstance().setTopRight("");
+                        NotifyUtils.getInstance().setIvStatus(true,R.drawable.failed);
                     }
                 });
                 break;
