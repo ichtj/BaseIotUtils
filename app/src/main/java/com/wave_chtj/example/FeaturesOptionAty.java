@@ -246,6 +246,13 @@ public class FeaturesOptionAty extends BaseActivity {
                                     KLog.e(TAG, "isEnable=" + isEnable);
                                 }
                             })
+                            .setAppName("BaseIotUtils")
+                            .setAppAbout(AppsUtils.getAppVersionName())
+                            .setPrompt("this a prompt")
+                            .setProgress("this a progress")
+                            .setTopRight("xxxx")
+                            .setDataTime("2022-04-18")
+                            .setRemarks("this is a remarks")
                             .exeuNotify();
                 } else {
                     //去开启通知
@@ -262,6 +269,7 @@ public class FeaturesOptionAty extends BaseActivity {
                             NotifyUtils.getInstance().setPrompt("");
                             NotifyUtils.getInstance().setDataTime("");
                             NotifyUtils.getInstance().setTopRight("");
+                            NotifyUtils.getInstance().setIvStatus(true,R.drawable.failed);
                         } catch (Exception e) {
                             e.printStackTrace();
                             KLog.e(TAG, "errMeg:" + e.getMessage());

@@ -20,6 +20,7 @@ import android.widget.RemoteViews;
 import com.face_chtj.base_iotutils.R;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.StringUtils;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -132,7 +133,7 @@ public class NotifyUtils {
                         //设置点击通知时的操作
                         //notifyUtils.builder.setContentIntent(pendingIntent);
                         //app通知栏图标
-                        //notifyUtils.builder.setSmallIcon(R.drawable.ic_launcher);  //小图标，在大图标右下角
+                        notifyUtils.builder.setSmallIcon(R.drawable.app_img);  //小图标，在大图标右下角
                         notifyUtils.builder.setLargeIcon(BitmapFactory.decodeResource(BaseIotUtils.getContext().getResources(), R.drawable.app_img)); //大图标，没有设置时小图标就是大图标
                     }
                 }
@@ -206,6 +207,24 @@ public class NotifyUtils {
     }
 
     /**
+     * 设置IvStatus
+     *
+     */
+    public NotifyUtils setIvStatus(boolean isShow) {
+        return setIvStatus(isShow,R.drawable.success);
+    }
+    /**
+     * 设置IvStatus
+     *
+     * @param ivDrawable setImageViewResource
+     */
+    public NotifyUtils setIvStatus(boolean isShow,int ivDrawable) {
+        notifyUtils.contentView.setViewVisibility(R.id.ivStatus,isShow?View.VISIBLE:View.GONE);
+        notifyUtils.contentView.setImageViewResource(R.id.ivStatus, ivDrawable);
+        return notifyUtils;
+    }
+
+    /**
      * 设置logo
      *
      * @param ivLogo setImageViewBitmap
@@ -238,14 +257,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setProgress(String progress) {
-        String appendStr = "";
-        if (progress != null && !progress.equals("")) {
-            appendStr = progress;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvProgress, appendStr);
-        return notifyUtils;
+        return setView(R.id.tvProgress,progress);
     }
 
     /**
@@ -256,32 +268,15 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setAppName(String appName) {
-        String appendStr = "";
-        if (appName != null && !appName.equals("")) {
-            appendStr = appName;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvAppName, appendStr);
-        return notifyUtils;
+        return setView(R.id.tvAppName,appName);
     }
 
     /**
      * 右上角字符串
      * 外部调用此方法时，请先调用{@link #setNotifyId(int)} }
-     *
-     * @param str topright str
-     * @return this
      */
-    public NotifyUtils setTopRight(String str) {
-        String appendStr = "";
-        if (str != null && !str.equals("")) {
-            appendStr = str;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvTopRight, appendStr);
-        return notifyUtils;
+    public NotifyUtils setTopRight(String topRight) {
+        return setView(R.id.tvTopRight,topRight);
     }
 
     /**
@@ -292,13 +287,18 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setAppAbout(String appAbout) {
+        notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appAbout);
+        return setView(R.id.tvAppAbout,appAbout);
+    }
+
+    private NotifyUtils setView(int viewId,String content) {
         String appendStr = "";
-        if (appAbout != null && !appAbout.equals("")) {
-            appendStr = appAbout;
+        if (!StringUtils.isEmpty(content)) {
+            appendStr = content;
         } else {
             appendStr = "";
         }
-        notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appendStr);
+        notifyUtils.contentView.setTextViewText(viewId, appendStr);
         return notifyUtils;
     }
 
@@ -310,14 +310,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setRemarks(String remarks) {
-        String appendStr = "";
-        if (remarks != null && !remarks.equals("")) {
-            appendStr = "remarks:" + remarks;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvRemarks, appendStr);
-        return notifyUtils;
+        return setView(R.id.tvRemarks,remarks);
     }
 
     /**
@@ -328,14 +321,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setPrompt(String prompt) {
-        String appendStr = "";
-        if (prompt != null && !prompt.equals("")) {
-            appendStr = "prompt:" + prompt;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvPrompt, appendStr);
-        return notifyUtils;
+        return setView(R.id.tvPrompt,prompt);
     }
 
     /**
@@ -346,14 +332,7 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setDataTime(String dataTime) {
-        String appendStr = "";
-        if (dataTime != null && !dataTime.equals("")) {
-            appendStr = dataTime;
-        } else {
-            appendStr = "";
-        }
-        notifyUtils.contentView.setTextViewText(R.id.tvDataTime, appendStr);
-        return notifyUtils;
+        return setView(R.id.tvDataTime,dataTime);
     }
 
 

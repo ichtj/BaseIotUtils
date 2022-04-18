@@ -41,7 +41,6 @@
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
-
             <TextView
                 android:id="@+id/tvAppAbout"
                 android:layout_width="wrap_content"
@@ -55,7 +54,13 @@
                 android:text=""
                 android:textColor="@color/white"
                 android:textSize="12sp" />
-
+            <ImageView
+                android:id="@+id/ivStatus"
+                android:src="@drawable/success"
+                android:layout_gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_width="18dp"
+                android:layout_height="18dp"/>
             <TextView
                 android:id="@+id/tvTopRight"
                 android:layout_width="wrap_content"
@@ -65,7 +70,7 @@
                 android:ellipsize="end"
                 android:gravity="right|center"
                 android:singleLine="true"
-                android:text=""
+                android:text="xxx"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
