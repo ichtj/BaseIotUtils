@@ -37,7 +37,6 @@
                 android:layout_marginRight="10dp"
                 android:gravity="left|center"
                 android:singleLine="true"
-                android:text="APPName"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 android:textStyle="bold" />
@@ -56,7 +55,7 @@
                 android:textSize="12sp" />
             <ImageView
                 android:id="@+id/ivStatus"
-                android:src="@drawable/success"
+                android:src="@drawable/failed"
                 android:layout_gravity="center"
                 android:layout_marginRight="10dp"
                 android:layout_width="18dp"
@@ -106,7 +105,6 @@
                 android:gravity="left|center"
                 android:layout_marginRight="6dp"
                 android:singleLine="true"
-                android:text="remarks:"
                 android:textColor="@color/white"
                 android:textSize="11sp" />
 
@@ -150,7 +148,6 @@
                 android:ellipsize="end"
                 android:gravity="right|center"
                 android:singleLine="true"
-                android:text="2020-3-18"
                 android:textColor="@color/white"
                 android:textSize="12sp" />
 
