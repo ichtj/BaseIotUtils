@@ -230,17 +230,14 @@ public class AppsUtils {
      * @return
      */
     public static int getAppVersionCode() {
-        String pName = BaseIotUtils.getContext().getPackageName();
-        int versionCode = 0;
-
         try {
-            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
-                    pName, PackageManager.GET_CONFIGURATIONS);
-            versionCode = pinfo.versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Context context=BaseIotUtils.getContext();
+            PackageInfo pinfo = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            return  pinfo.versionCode;
+        } catch (Exception e) {
+            return 0;
         }
-        return versionCode;
     }
 
     /**
@@ -249,17 +246,14 @@ public class AppsUtils {
      * @return
      */
     public static String getAppVersionName() {
-        String pName = BaseIotUtils.getContext().getPackageName();
-        String versionName = "";
-
         try {
-            PackageInfo pinfo = BaseIotUtils.getContext().getPackageManager().getPackageInfo(
-                    pName, PackageManager.GET_CONFIGURATIONS);
-            versionName = pinfo.versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
+            Context context=BaseIotUtils.getContext();
+            PackageInfo pinfo = context.getPackageManager().getPackageInfo(
+                    context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
+            return pinfo.versionName;
+        } catch (Exception e) {
+            return "";
         }
-        return versionName;
     }
 
     /**
@@ -268,13 +262,14 @@ public class AppsUtils {
      * @return true |false
      */
     public static boolean isAppForeground() {
-        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        Context context=BaseIotUtils.getContext();
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return false;
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
         if (info == null || info.size() == 0) return false;
         for (ActivityManager.RunningAppProcessInfo aInfo : info) {
             if (aInfo.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                if (aInfo.processName.equals(BaseIotUtils.getContext().getPackageName())) {
+                if (aInfo.processName.equals(context.getPackageName())) {
                     return true;
                 }
             }

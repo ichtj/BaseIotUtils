@@ -11,6 +11,7 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
@@ -31,6 +32,7 @@ public class FileDownLoadAty extends BaseActivity {
     private static final String TAG = "DownLoadAty";
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3, pbProgressbar4;
     TextView tvResult1, tvResult2, tvResult3, tvResult4;
+    TextView tvTime1, tvTime2, tvTime3, tvTime4;
     private String saveRootPath = "/sdcard/";
     private String saveCachePath = "/sdcard/fileDownload.txt";
     //文件下载地址
@@ -71,6 +73,10 @@ public class FileDownLoadAty extends BaseActivity {
         pbProgressbar2 = findViewById(R.id.pbProgressbar2);
         pbProgressbar3 = findViewById(R.id.pbProgressbar3);
         pbProgressbar4 = findViewById(R.id.pbProgressbar4);
+        tvTime1 = findViewById(R.id.tvTime1);
+        tvTime2 = findViewById(R.id.tvTime2);
+        tvTime3 = findViewById(R.id.tvTime3);
+        tvTime4 = findViewById(R.id.tvTime4);
         //设置最大进度位100
         pbProgressbar1.setMax(100);
         pbProgressbar2.setMax(100);
@@ -110,6 +116,10 @@ public class FileDownLoadAty extends BaseActivity {
         tvResult2.setText("update2.zip >>> 0%");
         tvResult3.setText("Settings.apk >>> 0%");
         tvResult4.setText("lock.BIN >>> 0%");
+        tvTime1.setText("");
+        tvTime2.setText("");
+        tvTime3.setText("");
+        tvTime4.setText("");
     }
 
 
@@ -200,6 +210,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData.setFilePath(saveRootPath + fileName1);
         addDownloadTask(fileCacheData);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName1, false);
+        tvTime1.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
@@ -218,6 +229,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData2.setFilePath(saveRootPath + fileName2);
         addDownloadTask(fileCacheData2);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName2, false);
+        tvTime2.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
@@ -236,6 +248,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData3.setFilePath(saveRootPath + fileName3);
         addDownloadTask(fileCacheData3);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName3, false);
+        tvTime3.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
@@ -254,6 +267,7 @@ public class FileDownLoadAty extends BaseActivity {
         fileCacheData4.setFilePath(saveRootPath + fileName4);
         addDownloadTask(fileCacheData4);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName4, false);
+        tvTime4.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
@@ -281,6 +295,11 @@ public class FileDownLoadAty extends BaseActivity {
         public void error(Throwable e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
             downloadSupport.cancel();
+        }
+
+        @Override
+        public void taskExist(FileCacheData fileCacheData) {
+            ToastUtils.warning("任务存在");
         }
 
         @Override

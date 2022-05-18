@@ -31,13 +31,19 @@ import okhttp3.ResponseBody;
  * 该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
  * 具体使用请参考README.md的描述进行
  * 多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
+ *
+ * BufferedInputStream 8192解释
+ * 我们调用缓冲流来读取数据，系统会先看一下缓冲区中有没有可用数据，有的话直接从缓冲区中复制数据给用户
+ * 如果缓冲区中没有可用数据，则从真正的InputStream中读一次性读取8K的数据保存在缓冲区中，然后再从缓冲区中复制数据给用户
+ * 如果用户接收数据的数组长度大于或等于缓冲区的长度，则系统就不会使用缓存区来保存数据了，而是直接从InputStream中读取数据保存到用户的数组中
  * <p>
  * 此工具类可满足多个场景需求
  * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
- */
+ * */
 public class DownloadSupport {
     private static final String TAG = "DownloadSupport";
     private OkHttpClient client;
+    private int MAX_BUFF_SIZE=2048;
     private Call call;
     //当前正在里的任务
     private static Map<String, Integer> currentTaskList = new HashMap<>();
@@ -58,6 +64,9 @@ public class DownloadSupport {
 
         //异常状态
         void error(Throwable e);
+
+        //任务存在
+        void taskExist(FileCacheData fileCacheData );
     }
 
     /**
@@ -86,6 +95,17 @@ public class DownloadSupport {
      * 初始化一次即可
      */
     public DownloadSupport() {
+        initData(MAX_BUFF_SIZE);
+    }
+    /**
+     * 初始化一次即可
+     */
+    public DownloadSupport(int maxBuffSize) {
+        initData(maxBuffSize);
+    }
+
+    private void initData(int maxBuffSize){
+        this.MAX_BUFF_SIZE=maxBuffSize;
         //在下载、暂停后的继续下载中可复用同一个client对象
         client = getProgressClient();
     }
@@ -129,11 +149,11 @@ public class DownloadSupport {
     public void addStartTask(final FileCacheData fileCacheData, final DownloadCallBack downloadCallBack) {
         if (fileCacheData != null) {
             String requestTag = fileCacheData.getRequestTag();
-            //防止任务重复下载，扰乱进度
+            //防止任务重复下载
             if (currentTaskList != null && currentTaskList.size() > 0) {
                 Integer status=currentTaskList.get(requestTag);
                 if(status!=null&&status==DownloadStatus.STATUS_RUNNING){
-                    KLog.d(TAG, "download:>the task already exist");
+                    downloadCallBack.taskExist(fileCacheData);
                     return;
                 }
             }
@@ -145,7 +165,8 @@ public class DownloadSupport {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    KLog.e(TAG,e.getMessage());
+                    KLog.d(TAG,"onFailure:>="+e.getMessage());
+                    downloadCallBack.error(e);
                 }
 
                 @Override
@@ -195,27 +216,23 @@ public class DownloadSupport {
             long currentFileLenght = randomAccessFile.length();
             long bodyContentLength = body.contentLength();
             fileCacheData.setTotal(bodyContentLength + currentFileLenght);
-            Log.d(TAG, "save: currentFileLenght=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
+            Log.d(TAG, "save: currentFileLength=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
             //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
             if (currentFileLenght >= fileCacheData.getTotal()) {
                 downloadCallBack.downloadProgress(fileCacheData, 100);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
                 downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
-                KLog.d(TAG, "save:>file already exist");
                 return;
             }
             //从文件的断点开始下载
             randomAccessFile.seek(currentFileLenght);
-            byte[] buffer = new byte[2 * 1024];
+            byte[] buffer = new byte[MAX_BUFF_SIZE];
             int len;
             //每次读取最多不超过2*1024个字节
             while ((len = bis.read(buffer)) != -1) {
-                //KLog.d(TAG,"save:>len="+len);
                 //先写入到文件中
                 randomAccessFile.write(buffer, 0, len);
                 if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.STATUS_PAUSE) {
-                    //如果任务被暂停 那么停止读取字节
-                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_PAUSE);
                     downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
                     return;
                 }
