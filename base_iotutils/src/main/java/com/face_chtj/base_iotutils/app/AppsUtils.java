@@ -36,6 +36,8 @@ import java.util.List;
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}
  * --获取APP-VersionName {@link #getAppVersionName()}
+ * --获取getSdkVersion {@link #getSdkVersion()}
+ * --获取getAndroidVersion {@link #getAndroidVersion()}
  * --判断 App 是否处于前台 {@link #isAppForeground()}
  * --根据包名启动app {@link #startApp(String)}
  * --获得该包名的应用中的主界面 {@link #getMainIntent(String)}}
@@ -43,6 +45,22 @@ import java.util.List;
  */
 public class AppsUtils {
     private static final String TAG = "AppsUtils";
+
+    /**
+     *获取当前系统使用的android api版本号
+     */
+    public static int getSdkVersion(){
+        return android.os.Build.VERSION.SDK_INT;
+    }
+
+
+    /**
+     *获取当前系统的android版本
+     * 例如android4.4 android7.1.2 android11等
+     */
+    public static String getAndroidVersion(){
+        return android.os.Build.VERSION.RELEASE;
+    }
 
     /**
      * 查询桌面所有应用

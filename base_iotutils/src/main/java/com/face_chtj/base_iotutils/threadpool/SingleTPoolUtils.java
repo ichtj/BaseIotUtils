@@ -16,6 +16,7 @@ import java.util.concurrent.TimeUnit;
  * 查看任务是否结束 {@link #isTaskEnd()}
  * 关闭线程池 {@link #shutdown()}
  * 关闭线程池 {@link #shutdownNow()}
+ * 返回此执行程序使用的任务队列 {@link #getQueueSize()}
  *
  * @author chtj
  */
@@ -30,11 +31,20 @@ public class SingleTPoolUtils {
     /*线程池维护线程的最大数量 最大线程数*/
     private static final int SIZE_MAX_POOL = 1;
 
-    /*线程池维护线程所允许的空闲时间*/
-    private static final int TIME_KEEP_ALIVE = 5000;
+    /*线程池中空闲线程等待工作的超时时间单位*/
+    private static TimeUnit TIME_UNIT=TimeUnit.SECONDS;
 
     /*线程池所使用的缓冲队列大小*/
-    private static final int SIZE_WORK_QUEUE = 500;
+    private static final int SIZE_WORK_QUEUE = 10;
+
+    /**
+     * 是否允许核心线程超时退出{SIZE_CORE_POOL}
+     * 当为 false 时，核心线程永远不会由于缺少传入任务而终止
+     */
+    private static final boolean ALLOW_CORE_THREAD_TIMEOUT = true;
+
+    /*如果一个线程处在空闲状态的时间超过了该属性值，就会因为超时而退出。是否允许超时退出则取决于上面的逻辑。*/
+    private static final int TIME_KEEP_ALIVE = 600;
 
     /**
      * 线程池单例创建方法
@@ -46,12 +56,13 @@ public class SingleTPoolUtils {
             synchronized (SingleTPoolUtils.class) {
                 if (mThreadPool == null) {
                     mThreadPool = new ThreadPoolExecutor(SIZE_CORE_POOL, SIZE_MAX_POOL,
-                            TIME_KEEP_ALIVE, TimeUnit.SECONDS, new ArrayBlockingQueue<Runnable>(SIZE_WORK_QUEUE), new RejectedExecutionHandler() {
+                            TIME_KEEP_ALIVE, TIME_UNIT, new ArrayBlockingQueue<Runnable>(SIZE_WORK_QUEUE), new RejectedExecutionHandler() {
                         @Override
                         public void rejectedExecution(Runnable task, ThreadPoolExecutor executor) {
                             Log.d(TAG, "rejectedExecution: task=" + task.toString() + ",rejected from=" + executor.toString());
                         }
                     });
+                    mThreadPool.allowCoreThreadTimeOut(ALLOW_CORE_THREAD_TIMEOUT);
                 }
                 return mThreadPool;
             }
@@ -97,6 +108,17 @@ public class SingleTPoolUtils {
             }else{
                 return false;
             }
+        }
+    }
+
+    /**
+     * 返回此执行程序使用的任务队列
+     */
+    public static int getQueueSize(){
+        if(mThreadPool!=null){
+            return -1;
+        }else{
+           return mThreadPool.getQueue().size();
         }
     }
 

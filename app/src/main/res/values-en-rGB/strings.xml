@@ -1,4 +1,4 @@
 <resources>
     <string name="app_name">BaseIotUtils</string>
-    <string name="serial_rs">SerialSendReceive</string>
+    <string name="serial_rs">SerialPortTools</string>
 </resources>

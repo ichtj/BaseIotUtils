@@ -64,13 +64,14 @@
     <application
         android:name=".application.IApplication"
         android:allowBackup="true"
-        android:icon="@drawable/app_img"
-        android:label="@string/app_name"
+        android:icon="${APP_ICON}"
+        android:label="${APP_NAME}"
         android:largeHeap="true"
         android:persistent="true"
-        android:roundIcon="@drawable/app_img"
+        android:roundIcon="${APP_ICON}"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        tools:replace="label">
         <!--启动页-->
         <activity
             android:name=".StartPageAty"
@@ -133,6 +134,8 @@
         <activity
             android:name=".keeplive.KeepAliveAty"
             android:theme="@style/AppTheme" />
+        <activity android:name=".temget.TempGetAty"
+            android:theme="@style/AppTheme"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"

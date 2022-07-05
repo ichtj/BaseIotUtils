@@ -82,7 +82,7 @@ import io.reactivex.functions.Consumer;
  * 功能选择
  */
 public class FeaturesOptionAty extends BaseActivity {
-    private static final String TAG = "FeaturesOptionAty";
+    private static final String TAG = FeaturesOptionAty.class.getSimpleName()+"M";
     public static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
     private IndexAdapter adapterDome;//声明适配器
@@ -133,7 +133,6 @@ public class FeaturesOptionAty extends BaseActivity {
             }
         });
     }
-
     public void initData() {
         indexBeanList = new ArrayList<>();
         String netType = NetUtils.getNetWorkTypeName();

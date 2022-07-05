@@ -113,3 +113,16 @@ adb shell am start -S -R 10 -W packagename/.MainActivity
 
 停止Service
 am stopservice com.face.baseiotcloud/com.future.xlink.mqtt.RxMqttService
+
+
+adb shell am broadcast -a 广播名 --ei/es/ez 参数名 参数类型
+
+ei 对应 integer 类型
+
+es 对应 String 类型
+
+ez 对应 boolean 类型
+
+ef 对应 float 类型
+
+el 对应 long 类型

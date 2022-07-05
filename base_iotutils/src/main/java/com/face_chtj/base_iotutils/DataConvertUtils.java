@@ -144,8 +144,7 @@ public class DataConvertUtils {
      */
     public static byte[] decodeHexString(String hexString) {
         if (hexString.length() % 2 == 1) {
-            throw new IllegalArgumentException(
-                    "Invalid hexadecimal String supplied.");
+            hexString=hexString+"0";
         }
         byte[] bytes = new byte[hexString.length() / 2];
         for (int i = 0; i < hexString.length(); i += 2) {

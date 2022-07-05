@@ -1,8 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
-
 android {
-
     signingConfigs {
         debug {
             storeFile file('../other/facefuture.jks')
@@ -35,7 +33,7 @@ android {
     }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
-        applicationId rootProject.ext.android.applicationId
+        applicationId rootProject.ext.APP_ID
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -47,6 +45,11 @@ android {
             abiFilters /*'armeabi' , 'x86',*/ 'armeabi-v7a'/*, 'x86_64', 'arm64-v8a'*/
         }
         signingConfig signingConfigs.debug
+        if ("${APP_ID}".contains("serialport")){
+            manifestPlaceholders = [APP_NAME:"${APP_SERIAL_NAME}",APP_ICON:"${APP_SERIAL_ICON}"]
+        }else{
+            manifestPlaceholders = [APP_NAME:"${APP_BASE_NAME}",APP_ICON:"${APP_BASE_ICON}"]
+        }
     }
     buildTypes {
         release {
@@ -79,11 +82,12 @@ android {
     //配置自定义打包名称
     applicationVariants.all { variant ->
         variant.outputs.all {
+            def apkName="${APP_NAME}";//获取app名称
             def fileName
             if (variant.buildType.name.equals('release')) {
-                fileName = "BaseIotUtils_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
+                fileName = apkName+"_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
             } else if (variant.buildType.name.equals('debug')) {
-                fileName = "BaseIotUitls_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
+                fileName = apkName+"_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
             }
             outputFileName = fileName;
         }
