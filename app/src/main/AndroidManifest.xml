@@ -6,6 +6,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="android.uid.system"
     package="com.wave_chtj.example">
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DEVICE_POWER"
@@ -13,8 +14,9 @@
     <!--服务相关权限-->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <!--系统弹窗-->
+    <!--访问粗略位置-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <!--系统弹窗-->
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <!--监听网络状态变化-->
@@ -28,13 +30,15 @@
     <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY" tools:ignore="ProtectedPermissions" />
-
-    <!--读写文件权限-->
-    <!--excel jxl.jar操作权限-->
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!--挂载文件系统-->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" tools:ignore="ProtectedPermissions" />
+    <!--读取文件权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!--写入文件权限-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!--应用安装权限-->
+    <uses-permission android:name="android.permission.INSTALL_PACKAGES" tools:ignore="ProtectedPermissions"  />
     <!--应用卸载权限-->
     <uses-permission android:name="android.permission.DELETE_PACKAGES" tools:ignore="ProtectedPermissions" />
     <!--后台保活重要权限-->
@@ -48,10 +52,8 @@
     <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.hardware.usb.accessory" />
     <!--读取或写入系统设置-->
-    <uses-permission
-        android:name="android.permission.WRITE_SETTINGS"
-        tools:ignore="ProtectedPermissions" />
-    <!--自定义广播-->
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
+    <!--自定义保活广播-->
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
 
@@ -108,7 +110,7 @@
             android:name=".download.FileDownLoadAty"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
-        <!--Socket udp/tcp-->
+        <!--网络编程 UDP | tcp收发-->
         <activity
             android:name=".socket.SocketAty"
             android:theme="@style/AppTheme"
@@ -134,16 +136,19 @@
         <activity
             android:name=".keeplive.KeepAliveAty"
             android:theme="@style/AppTheme" />
+        <!--温度相关-->
         <activity android:name=".temget.TempGetAty"
+            android:theme="@style/AppTheme"/>
+        <!--apk静默安装-->
+        <activity android:name=".install.InstallAPkAty"
             android:theme="@style/AppTheme"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
             android:enabled="true"
             android:exported="false" />
-
+       <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
-
         <!--重启后广播监听-->
         <receiver
             android:name=".util.BaseIotReceiver"

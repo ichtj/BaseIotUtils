@@ -55,6 +55,7 @@ import com.wave_chtj.example.entity.ExcelEntity;
 import com.wave_chtj.example.entity.IndexBean;
 import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
+import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.screen.ScreenActivity;
@@ -189,6 +190,7 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_SCREENSHOT, new String[]{"截屏(ROOT)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_KEEPALIVE, new String[]{"ATY/SERVICE保活"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
     }
 
@@ -428,6 +430,9 @@ public class FeaturesOptionAty extends BaseActivity {
                 break;
             case FKey.KEY_OTA:
                 showOtaUpgrade();
+                break;
+            case FKey.KEY_INSTALL:
+                startActivity(new Intent(this, InstallAPkAty.class));
                 break;
             case FKey.KEY_MORE:
                 break;

@@ -43,5 +43,6 @@ public class FKey {
     public static final int       KEY_SCREENSHOT=39;//截屏
     public static final int        KEY_KEEPALIVE=40;//保活
     public static final int              KEY_OTA=41;//ota升级
-    public static final int             KEY_MORE=42;//其他
+    public static final int          KEY_INSTALL=42;//静默安装
+    public static final int             KEY_MORE=43;//其他
 }
