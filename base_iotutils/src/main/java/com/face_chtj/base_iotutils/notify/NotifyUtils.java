@@ -1,11 +1,16 @@
 package com.face_chtj.base_iotutils.notify;
 
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,6 +19,7 @@ import android.os.Build;
 import androidx.annotation.DrawableRes;
 import androidx.core.app.NotificationManagerCompat;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
@@ -23,6 +29,8 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.StringUtils;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
+
+import java.util.List;
 
 /**
  * Create on 2019/12/27
@@ -113,11 +121,16 @@ public class NotifyUtils {
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
+                    //点击通知栏跳转应用
+                    Intent toAtyintent=getAppOpenIntentByPackageName(BaseIotUtils.getContext(),BaseIotUtils.getContext().getPackageName());
                     //点击关闭按钮时效果
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(BaseIotUtils.getContext(),
-                            1, new Intent(ACTION_CLOSE_NOTIFY), PendingIntent.FLAG_UPDATE_CURRENT);
+                            1, new Intent(ACTION_CLOSE_NOTIFY), PendingIntent.FLAG_UPDATE_CURRENT);//点击关闭按钮时效果
+                    PendingIntent pendingToIntent = PendingIntent.getActivity(BaseIotUtils.getContext(),
+                            0, toAtyintent, PendingIntent.FLAG_UPDATE_CURRENT);
                     //设置点击关闭按钮"X"时的操作
                     notifyUtils.contentView.setOnClickPendingIntent(R.id.ivClose, pendingIntent);
+                    notifyUtils.contentView.setOnClickPendingIntent(R.id.rlBg, pendingToIntent);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         //这里是android8.0以上
                         NotificationChannel channel = new NotificationChannel("channel_1", "channel_name_1", NotificationManager.IMPORTANCE_HIGH);
@@ -141,7 +154,34 @@ public class NotifyUtils {
         }
         return notifyUtils;
     }
+    /**
+     * 获取该包名中的主界面
+     *
+     * @param packageName
+     * @return
+     */
+    private static Intent getAppOpenIntentByPackageName(Context context, String packageName) {
+        String mainAct = null;
+        PackageManager pkgMag = context.getPackageManager();
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_LAUNCHER);
+        intent.setFlags(Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED | Intent.FLAG_ACTIVITY_NEW_TASK);
 
+        @SuppressLint("WrongConstant") List<ResolveInfo> list = pkgMag.queryIntentActivities(intent,
+                PackageManager.GET_ACTIVITIES);
+        for (int i = 0; i < list.size(); i++) {
+            ResolveInfo info = list.get(i);
+            if (info.activityInfo.packageName.equals(packageName)) {
+                mainAct = info.activityInfo.name;
+                break;
+            }
+        }
+        if (TextUtils.isEmpty(mainAct)) {
+            return null;
+        }
+        intent.setComponent(new ComponentName(packageName, mainAct));
+        return intent;
+    }
 
     public NotificationManager getManager() {
         return manager;

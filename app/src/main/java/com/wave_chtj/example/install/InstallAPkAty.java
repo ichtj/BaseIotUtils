@@ -100,8 +100,12 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void pmUnInstall(View view) {
-        boolean isInstalled= InstallTools.pmUnInstallBySilent(pkgName);
-        Log.d(TAG, "onCreate: isInstalled="+isInstalled);
+        InstallTools.deletePackage(this, pkgName, new InstallTools.IResult() {
+            @Override
+            public void getResult(boolean isComplete, String err) {
+                Log.d(TAG, "systemApiUnInstall getResult: isComplete="+isComplete+",err="+err);
+            }
+        });
     }
 
 
