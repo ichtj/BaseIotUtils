@@ -137,7 +137,7 @@ public class AppsUtils {
      * @param packageName 包名
      * @return 是否存在
      */
-    private static boolean existLocal(String packageName) {
+    public static boolean existLocal(String packageName) {
         if (StringUtils.isEmpty(packageName)) {
             return false;
         }
@@ -321,7 +321,7 @@ public class AppsUtils {
      * @param packageName 包名
      * @return 运行状态
      */
-    private static boolean isAppRunning(String packageName) {
+    public static boolean isAppRunning(String packageName) {
         boolean isAppRunning = false;
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
