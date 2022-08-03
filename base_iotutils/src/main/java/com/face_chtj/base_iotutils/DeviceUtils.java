@@ -1,6 +1,7 @@
 package com.face_chtj.base_iotutils;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.os.SystemClock;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -49,6 +51,8 @@ import static android.content.Context.WIFI_SERVICE;
  * --获取唯一设备 UUID {@link #getUniqueDeviceId(String prefix)}
  * --判断是否同一设备 {@link #isSameDevice(String uniqueDeviceId)}
  * --获取本机IP {@link #getLocalIp()}
+ * --获取系统运行时间 {@link #getSystemRunningTime()}
+ * --获取IMEI 或者MEID {@link #getImeiOrMeid()}
  */
 public final class DeviceUtils {
 
@@ -518,5 +522,46 @@ public final class DeviceUtils {
         }else{
             return "0.0.0.0";
         }
+    }
+
+    /**
+     * 获取系统运行时间
+     *
+     * @return 时:分:秒
+     */
+    public static String getSystemRunningTime() {
+        long ut = SystemClock.elapsedRealtime() / 1000;
+
+        if (ut == 0) {
+            ut = 1;
+        }
+        int s = (int) (ut % 60);
+        int m = (int) ((ut / 60) % 60);
+        int h = (int) ((ut / 3600));
+        return h + ":" + pad(m) + ":" + pad(s);
+    }
+
+    /**
+     * 时间转化 系统运行时间
+     */
+    private static String pad(int n) {
+        if (n >= 10) {
+            return String.valueOf(n);
+        } else {
+            return "0" + String.valueOf(n);
+        }
+    }
+
+    /**
+     * 获取IMEI 或者MEID
+     * android.permission.READ_PRIVILEGED_PHONE_STATE
+     * @return 手机IMEI
+     */
+    public static String getImeiOrMeid() {
+        TelephonyManager manager = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Activity.TELEPHONY_SERVICE);
+        if (manager != null) {
+            return manager.getDeviceId();
+        }
+        return null;
     }
 }

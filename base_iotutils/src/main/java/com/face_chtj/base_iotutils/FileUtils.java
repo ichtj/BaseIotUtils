@@ -1,11 +1,16 @@
 package com.face_chtj.base_iotutils;
 
+import android.util.Log;
+
 import com.face_chtj.base_iotutils.entity.FileEntity;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
+import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -20,6 +25,8 @@ import java.util.Locale;
  * --写入数据 {@link #writeFileData(String filename, String content, boolean isCover)}
  * --读取文件内容 {@link #readFileData(String fileName)}
  * --修改文件名称 {@link #reFileName(String sourcePath, String goalPath)}
+ * --复制文件到指定目录下 {@link #copyFile(String, String)}
+ * --将InputStream写入本地文件 {@link #writeToLocal(String, InputStream)}
  * --删除文件 {@link #delFile(String fileName)}
  * --得到文件夹大小 {@link #getDirectoryFormatSize(String)}----得到byte,kb,mb,gb
  * --得到文件大小 {@link #getFileFormatSize(String)}}----------得到byte,kb,mb,gb
@@ -93,6 +100,46 @@ public class FileUtils {
             KLog.e(TAG, "readFileData: " + e.getMessage());
         }
         return result;
+    }
+
+    /**
+     * 复制文件到指定目录下
+     *
+     * @param oldPath 源地址
+     * @param newPath 目标地址
+     */
+    public static void copyFile(String oldPath, String newPath) {
+        int byteread = 0;
+        File oldfile = new File(oldPath);
+        if (oldfile.exists()) { //文件存在时
+            InputStream inStream=null;
+            FileOutputStream fos_stm=null;
+            try {
+                inStream= new FileInputStream(oldPath); //读入原文件
+                fos_stm= new FileOutputStream(newPath);
+                byte[] buffer = new byte[1444];
+                while ((byteread = inStream.read(buffer)) != -1) {
+                    fos_stm.write(buffer, 0, byteread);
+                }
+            }catch (Throwable throwable){
+                Log.e(TAG, "copyFile1: ", throwable);
+            }finally {
+                try {
+                    if(inStream!=null){
+                        inStream.close();
+                    }
+                }catch (Throwable throwable){
+                    Log.e(TAG, "copyFile2: ", throwable);
+                }
+                try {
+                    if(fos_stm!=null){
+                        fos_stm.close();
+                    }
+                }catch (Throwable throwable){
+                    Log.e(TAG, "copyFile3: ", throwable);
+                }
+            }
+        }
     }
 
     /**
@@ -269,5 +316,25 @@ public class FileUtils {
             }
         }
         return size;
+    }
+
+    /**
+     * 将InputStream写入本地文件
+     *
+     * @param destDirPath 写入本地目录
+     * @param input       输入流
+     */
+    public static void writeToLocal(String destDirPath, InputStream input)
+            throws IOException {
+
+        int index;
+        byte[] bytes = new byte[1024];
+        FileOutputStream downloadFile = new FileOutputStream(destDirPath);
+        while ((index = input.read(bytes)) != -1) {
+            downloadFile.write(bytes, 0, index);
+            downloadFile.flush();
+        }
+        downloadFile.close();
+        input.close();
     }
 }

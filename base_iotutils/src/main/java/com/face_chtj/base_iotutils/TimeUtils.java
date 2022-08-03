@@ -14,10 +14,8 @@ import java.util.Locale;
  *
  * {@link #tsToMs(int)} yyyy-MM-dd HH:mm:ss
  * {@link #tsToYMD(int)} yyyy-MM-dd
- * {@link #tsToYMDcn(int)} yyyy年MM月dd日
  * {@link #getTodayDate()} 获取今天年月日
- * {@link #getCurrentDateHms()} 当前时分秒
- * {@link #getCurrentDateHmss()} 当前时分秒毫秒级时间
+ * {@link #getTodayDateHms(String)} 获取今天年月日 可添加格式
  * {@link #getTime()} 获取当前系统的时间戳
  * {@link #getTodayAddMonthDate(int)} 获取今天添加月份的日期
  * {@link #getUTCTimeStr()} 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm

@@ -15,6 +15,7 @@ import android.text.TextUtils;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.StringUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
 import com.face_chtj.base_iotutils.BaseIotUtils;
@@ -128,6 +129,25 @@ public class AppsUtils {
             }
         }
         return appEntityList;
+    }
+
+    /**
+     * 根据输入的包名 查找应用是否在本地
+     *
+     * @param packageName 包名
+     * @return 是否存在
+     */
+    private static boolean existLocal(String packageName) {
+        if (StringUtils.isEmpty(packageName)) {
+            return false;
+        }
+        try {
+            BaseIotUtils.getContext().getPackageManager().getApplicationInfo(
+                    packageName, PackageManager.GET_UNINSTALLED_PACKAGES);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
     }
 
     /**
@@ -295,6 +315,27 @@ public class AppsUtils {
         return false;
     }
 
+    /**
+     * 获取APP是否正在运行
+     *
+     * @param packageName 包名
+     * @return 运行状态
+     */
+    private static boolean isAppRunning(String packageName) {
+        boolean isAppRunning = false;
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+        for (ActivityManager.RunningTaskInfo info : list) {
+            if (info.topActivity.getPackageName().equals(packageName) && info.baseActivity.getPackageName().equals(packageName)) {
+                isAppRunning = true;
+                //find it, break
+                break;
+            }
+        }
+        return isAppRunning;
+    }
+
+
 
     /**
      * 带提示窗口卸载
@@ -343,26 +384,6 @@ public class AppsUtils {
             }
         }
         return false;
-    }
-
-    /**
-     * 根据包名获取APP是否正在运行
-     *
-     * @param packageName
-     * @return
-     */
-    public static boolean isAppRunning(String packageName) {
-        boolean isAppRunning = false;
-        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
-        for (ActivityManager.RunningTaskInfo info : list) {
-            if (info.topActivity.getPackageName().equals(packageName) && info.baseActivity.getPackageName().equals(packageName)) {
-                isAppRunning = true;
-                //find it, break
-                break;
-            }
-        }
-        return isAppRunning;
     }
 
     /**
