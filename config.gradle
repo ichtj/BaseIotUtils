@@ -1,7 +1,7 @@
 ext {
     //以下包名选择其中一个 可对应进去不同的界面
     //注意：com.wave_chtj.example包含全部的功能
-    APP_ID='com.test.reboot'//com.test.serialport //com.wave_chtj.example //com.test.reboot
+    APP_ID='com.wave_chtj.example'//com.test.serialport //com.wave_chtj.example //com.test.reboot
     //串口工具
     APP_SERIAL_NAME='SerialPortTools'
     APP_SERIAL_ICON='@mipmap/ic_launcher'
