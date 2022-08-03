@@ -1,17 +1,23 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -75,7 +81,10 @@ import com.wave_chtj.example.video.VideoPlayAty;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.reactivex.functions.Consumer;
 
@@ -83,7 +92,7 @@ import io.reactivex.functions.Consumer;
  * 功能选择
  */
 public class FeaturesOptionAty extends BaseActivity {
-    private static final String TAG = FeaturesOptionAty.class.getSimpleName()+"M";
+    private static final String TAG = FeaturesOptionAty.class.getSimpleName() + "M";
     public static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
     private IndexAdapter adapterDome;//声明适配器
@@ -94,6 +103,8 @@ public class FeaturesOptionAty extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_switch_re);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         AppManager.getAppManager().finishActivity(StartPageAty.class);
         rvinfo = findViewById(R.id.rvinfo);
         /*获取权限*/
@@ -134,6 +145,7 @@ public class FeaturesOptionAty extends BaseActivity {
             }
         });
     }
+
     public void initData() {
         indexBeanList = new ArrayList<>();
         String netType = NetUtils.getNetWorkTypeName();
@@ -192,9 +204,41 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
+        Handler handler = new Handler();
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("dumpsys window | grep mCurrentFocus", true);
+                if (commandResult.result == 0) {
+                    KLog.d(TAG, "run:>topAty=" + commandResult.successMsg);
+                    if (commandResult.successMsg != null) {
+                        KLog.d(TAG, "run:>=" + topAppInfo("com.meituan.banma.smartcabinet"));
+                    }
+                } else {
+                    KLog.d(TAG, "run:>errMeg=" + commandResult.errorMsg);
+                }
+                handler.postDelayed(this, 3000);
+            }
+        });
     }
 
-
+    /**
+     * 使用正则表达式提取中括号中的内容
+     */
+    public boolean topAppInfo(String pkg) {
+        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("dumpsys window | grep mCurrentFocus", true);
+        if (commandResult.result == 0) {
+            Pattern p = Pattern.compile("\\{(.*?)\\}");
+            Matcher m = p.matcher(commandResult.successMsg);
+            while (m.find()) {
+                String readInfo=m.group().substring(1, m.group().length() - 1);
+                if (readInfo.contains(pkg)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -259,7 +303,7 @@ public class FeaturesOptionAty extends BaseActivity {
                     //去开启通知
                     NotifyUtils.toOpenNotify();
                 }
-                Handler handler=new Handler();
+                Handler handler = new Handler();
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -274,7 +318,7 @@ public class FeaturesOptionAty extends BaseActivity {
                         NotifyUtils.getInstance().setPrompt("");
                         NotifyUtils.getInstance().setDataTime("");
                         NotifyUtils.getInstance().setTopRight("");
-                        NotifyUtils.getInstance().setIvStatus(true,R.drawable.failed);
+                        NotifyUtils.getInstance().setIvStatus(true, R.drawable.failed);
                     }
                 });
                 break;

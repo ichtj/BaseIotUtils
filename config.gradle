@@ -1,11 +1,16 @@
 ext {
-    APP_ID='com.wave_chtj.example'
-    APP_NAME='SerialPortTools'
+    //以下包名选择其中一个 可对应进去不同的界面
+    //注意：com.wave_chtj.example包含全部的功能
+    APP_ID='com.test.reboot'//com.test.serialport //com.wave_chtj.example //com.test.reboot
+    //串口工具
     APP_SERIAL_NAME='SerialPortTools'
-    APP_BASE_NAME='BaseIotUtils'
     APP_SERIAL_ICON='@mipmap/ic_launcher'
+    //基础物联工具
+    APP_BASE_NAME='BaseIotUtils'
     APP_BASE_ICON='@drawable/app_img'
-    APP_ICON='@drawable/app_img'
+    //测试重启工具
+    APP_REBOOT_NAME='TestReboot'
+    APP_REBOOT_ICON='@mipmap/reboot'
     //android开发版本配置
     android = [
             compileSdkVersion         : 29,
@@ -49,7 +54,7 @@ ext {
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
-            "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.3.3",
+            "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.3.4",
             "base_framework"          : "com.github.wave-chtj:BaseFramework:1.0.6",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
             //权限管理

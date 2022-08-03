@@ -6,8 +6,8 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
-    package="com.wave_chtj.example">
+
+    package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.DEVICE_POWER"
         tools:ignore="ProtectedPermissions" />
@@ -56,6 +56,9 @@
     <!--自定义保活广播-->
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
 
     <!--启动模式
          standard：      标准模式     不管实例是否已经存在 都会创建一个实例
@@ -142,6 +145,8 @@
         <!--apk静默安装-->
         <activity android:name=".install.InstallAPkAty"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".reboot.RebootAty"
+            android:theme="@style/AppTheme"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
@@ -149,6 +154,10 @@
             android:exported="false" />
        <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
+
+        <service android:name=".reboot.RebootCustomService"
+            android:enabled="true"
+            android:exported="true"/>
         <!--重启后广播监听-->
         <receiver
             android:name=".util.BaseIotReceiver"

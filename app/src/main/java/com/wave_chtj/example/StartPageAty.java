@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.reboot.RebootAty;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.temget.TempGetAty;
 
@@ -27,8 +28,8 @@ public class StartPageAty extends BaseActivity {
         KLog.d(TAG,"onCreate:>pkgName="+pkgName);
         if(pkgName.contains("serialport")){
             startActivity(new Intent(this, SerialPortAty.class));
-        }else if(pkgName.contains("temperature")){
-            startActivity(new Intent(this, TempGetAty.class));
+        }else if(pkgName.contains("reboot")){
+            startActivity(new Intent(this, RebootAty.class));
         }else{
             startActivity(new Intent(this, FeaturesOptionAty.class));
         }

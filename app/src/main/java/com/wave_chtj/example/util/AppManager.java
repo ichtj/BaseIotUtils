@@ -80,12 +80,14 @@ public class AppManager {
      * 结束所有Activity
      */
     public void finishAllActivity() {
-        for (int i = 0; i < activityStack.size(); i++) {
-            if (null != activityStack.get(i)) {
-                activityStack.get(i).finish();
+        if(activityStack!=null){
+            for (int i = 0; i < activityStack.size(); i++) {
+                if (null != activityStack.get(i)) {
+                    activityStack.get(i).finish();
+                }
             }
+            activityStack.clear();
         }
-        activityStack.clear();
     }
 
     /**

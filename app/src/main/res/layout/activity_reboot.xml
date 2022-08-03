@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    tools:context=".MainActivity">
+
+
+    <EditText
+        android:id="@+id/etCycle"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="设置重启周期(秒)"
+        android:inputType="number"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:onClick="setCycleClick"
+        android:text="设置" />
+    <TextView
+        android:id="@+id/tvRebootCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="已重启0次"/>
+
+</LinearLayout>

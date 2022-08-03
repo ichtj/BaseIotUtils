@@ -45,11 +45,7 @@ android {
             abiFilters /*'armeabi' , 'x86',*/ 'armeabi-v7a'/*, 'x86_64', 'arm64-v8a'*/
         }
         signingConfig signingConfigs.debug
-        if ("${APP_ID}".contains("serialport")){
-            manifestPlaceholders = [APP_NAME:"${APP_SERIAL_NAME}",APP_ICON:"${APP_SERIAL_ICON}"]
-        }else{
-            manifestPlaceholders = [APP_NAME:"${APP_BASE_NAME}",APP_ICON:"${APP_BASE_ICON}"]
-        }
+        manifestPlaceholders = [APP_NAME: getAppInfo(0), APP_ICON: getAppInfo(1)]
     }
     buildTypes {
         release {
@@ -82,16 +78,45 @@ android {
     //配置自定义打包名称
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def apkName="${APP_NAME}";//获取app名称
-            def fileName
+            def fileName;
             if (variant.buildType.name.equals('release')) {
-                fileName = apkName+"_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
+                fileName = getAppInfo(0) + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
             } else if (variant.buildType.name.equals('debug')) {
-                fileName = apkName+"_" + "v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
+                fileName = getAppInfo(0) + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
             }
             outputFileName = fileName;
         }
     }
+}
+
+def getAppInfo(int type) {
+    def appInfo;
+    if ("${APP_ID}".contains("serialport")) {
+        if (type == 0) {
+            appInfo = "${APP_SERIAL_NAME}";
+        } else {
+            appInfo = "${APP_SERIAL_ICON}";
+        }
+    } else if ("${APP_ID}".contains("example")) {
+        if (type == 0) {
+            appInfo = "${APP_BASE_NAME}";
+        } else {
+            appInfo = "${APP_BASE_ICON}";
+        }
+    } else if ("${APP_ID}".contains("reboot")) {
+        if (type == 0) {
+            appInfo = "${APP_REBOOT_NAME}";
+        } else {
+            appInfo = "${APP_REBOOT_ICON}";
+        }
+    } else {
+        if (type == 0) {
+            appInfo = "${APP_BASE_NAME}";
+        } else {
+            appInfo = "${APP_BASE_ICON}";
+        }
+    }
+    return appInfo;
 }
 
 dependencies {
@@ -114,9 +139,9 @@ dependencies {
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.support["annotations"]
-    //implementation(rootProject.ext.dependencies["base_iotutils"]) {
-    //    transitive = true
-    //}
+    implementation(rootProject.ext.dependencies["base_iotutils"]) {
+        transitive = true
+    }
     implementation(rootProject.ext.dependencies["base_framework"]) {
         transitive = true
     }
@@ -129,7 +154,7 @@ dependencies {
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
     //物联网开发基础工具类
-    implementation project(path: ':base_iotutils')
+    //implementation project(path: ':base_iotutils')
     //TCP|UDP socket通信
     //implementation project(path: ':base_socket')
     //framework jarutils

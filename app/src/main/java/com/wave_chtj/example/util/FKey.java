@@ -1,16 +1,16 @@
 package com.wave_chtj.example.util;
 
 public class FKey {
-    public static final int         KEY_NET_TYPE=0;//网络类型
-    public static final int      KEY_APK_VERSION=1;//Apk版本
-    public static final int          KEY_IS_ROOT=2;//是否Root
-    public static final int         KEY_LOCAL_IP=3;//本地IP
-    public static final int       KEY_FW_VERSION=4;//固件版本
-    public static final int              KEY_RAM=5;//系统RAM空间
-    public static final int              KEY_ROM=6;//系统ROM空间
-    public static final int         KEY_SD_SPACE=7;//SDcard空间
-    public static final int         KEY_ETH_MODE=8;//以太网IP模式 静态 动态
-    public static final int              KEY_DBM=9;//4G信号值
+    public static final int          KEY_NET_TYPE=0;//网络类型
+    public static final int       KEY_APK_VERSION=1;//Apk版本
+    public static final int           KEY_IS_ROOT=2;//是否Root
+    public static final int          KEY_LOCAL_IP=3;//本地IP
+    public static final int        KEY_FW_VERSION=4;//固件版本
+    public static final int               KEY_RAM=5;//系统RAM空间
+    public static final int               KEY_ROM=6;//系统ROM空间
+    public static final int          KEY_SD_SPACE=7;//SDcard空间
+    public static final int          KEY_ETH_MODE=8;//以太网IP模式 静态 动态
+    public static final int               KEY_DBM=9;//4G信号值
     public static final int      KEY_SERIAL_PORT=10;//串口收发
     public static final int           KEY_TIMERD=11;//定时器
     public static final int           KEY_SCREEN=12;//屏幕相关

@@ -126,3 +126,7 @@ ez 对应 boolean 类型
 ef 对应 float 类型
 
 el 对应 long 类型
+
+# 获取顶层应用
+java: dumpsys window | grep mCurrentFocus
+cmd:adb shell dumpsys window | findstr mCurrentFocus
