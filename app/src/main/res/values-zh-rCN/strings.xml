@@ -1,4 +1,36 @@
 <resources>
+    <string name="reboot_app_name">测试重启工具</string>
     <string name="app_name">物联工具</string>
     <string name="serial_rs">串口收发</string>
+    <string name="net_type">网络类型：[%1$s]</string>
+    <string name="net_status">网络状态：</string>
+    <string name="net_dbm">dBm：[%1$s]</string>
+    <string name="net_ok">网络状态：true</string>
+    <string name="net_err">网络状态：false</string>
+    <string name="ping_list">PingList：[%1$s]</string>
+    <string name="now_time">当前时间：[%1$s]</string>
+    <string name="net_reset_hard">硬</string>
+    <string name="net_reset_soft">软</string>
+    <string name="net_reset_mode">重置模式：[%1$s]</string>
+    <string name="net_reset_err_count">重置异常次数：[%1$s]</string>
+    <string name="net_reset_total_count">总记录次数：[%1$s]</string>
+    <string name="net_now_ping">请输入一个地址Ping</string>
+    <string name="net_ping">ping</string>
+    <string name="input_add_err">请输入正确的地址！</string>
+    <string name="ping_ok">ping结果正常！</string>
+    <string name="ping_err">ping结果异常！</string>
+    <string name="service_start_err">后台服务启动失败！</string>
+    <string name="ping_addr_result">ping地址结果：[%1$s]</string>
+    <string name="service_start_succ">重启服务成功！</string>
+    <string name="del_cache_succ">删除缓存日志成功！</string>
+    <string name="del_cache_failed">删除缓存日志失败！</string>
+    <string name="reset_err_count">重置异常次数</string>
+    <string name="clear_all_logfile">清除所有缓存日志</string>
+    <string name="err_after_is_continue">模块重置失败后任务执行次数：</string>
+    <string name="reset_first_errcount">重置异常次数为0成功！</string>
+    <string name="exeu_one">一次</string>
+    <string name="exeu_more">无限次</string>
+    <string name="net_monitor_remarks">注意：定时器每分钟会执行一次lastCount累加,lastCount为5的倍数时执行模块重置\n--------在模块重置后lastCount-4等于5的倍数时执行网络检测,网络异常次数加1</string>
+    <string name="airplane_mode">飞行模式</string>
+    <string name="module_reset">模块复位</string>
 </resources>

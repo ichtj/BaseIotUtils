@@ -3,32 +3,16 @@ apply plugin: 'org.greenrobot.greendao' // apply plugin
 android {
     signingConfigs {
         debug {
-            storeFile file('../other/facefuture.jks')
-            storePassword 'android'
-            if (buildTypeInfo.indexOf("rk3288") != -1) {
-                keyAlias 'rockchip'  //rk7.1.2默认签名
-            } else if (buildTypeInfo.indexOf("rkcn") != -1) {
-                keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
-            } else if (buildTypeInfo.indexOf("imx8") != -1) {
-                keyAlias 'imx8'     //rk7.1.2 DongChenChaiNiao_Prj签名
-            } else {
-                keyAlias 'freescale' //飞思卡尔默认签名
-            }
-            keyPassword 'android'
+            storeFile file("${BUILD_SIGN_PATH}")
+            storePassword "${BUILD_SIGN_PWD}"
+            keyAlias "${BUILD_SIGN}"
+            keyPassword "${BUILD_SIGN_PWD}"
         }
         release {
-            storeFile file('../other/facefuture.jks')
-            storePassword 'android'
-            if (buildTypeInfo.indexOf("rk3288") != -1) {
-                keyAlias 'rockchip'  //rk7.1.2默认签名
-            } else if (buildTypeInfo.indexOf("rkcn") != -1) {
-                keyAlias 'cainiao'     //rk7.1.2 DongChenChaiNiao_Prj签名
-            } else if (buildTypeInfo.indexOf("imx8") != -1) {
-                keyAlias 'imx8'     //rk7.1.2 DongChenChaiNiao_Prj签名
-            } else {
-                keyAlias 'freescale' //飞思卡尔默认签名
-            }
-            keyPassword 'android'
+            storeFile file("${BUILD_SIGN_PATH}")
+            storePassword "${BUILD_SIGN_PWD}"
+            keyAlias "${BUILD_SIGN}"
+            keyPassword "${BUILD_SIGN_PWD}"
         }
     }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -89,6 +73,10 @@ android {
     }
 }
 
+/**
+ * @param type 0 获取APP名称
+ * @param type1  获取APP图标
+ */
 def getAppInfo(int type) {
     def appInfo;
     if ("${APP_ID}".contains("serialport")) {
@@ -108,6 +96,12 @@ def getAppInfo(int type) {
             appInfo = "${APP_REBOOT_NAME}";
         } else {
             appInfo = "${APP_REBOOT_ICON}";
+        }
+    } else if ("${APP_ID}".contains("netmonitor")) {
+        if (type == 0) {
+            appInfo = "${APP_NETMONITOR_NAME}";
+        } else {
+            appInfo = "${APP_NETMONITOR_ICON}";
         }
     } else {
         if (type == 0) {
@@ -139,9 +133,9 @@ dependencies {
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.support["annotations"]
-    implementation(rootProject.ext.dependencies["base_iotutils"]) {
-        transitive = true
-    }
+    //implementation(rootProject.ext.dependencies["base_iotutils"]) {
+    //    transitive = true
+    //}
     implementation(rootProject.ext.dependencies["base_framework"]) {
         transitive = true
     }
@@ -154,7 +148,7 @@ dependencies {
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
     //物联网开发基础工具类
-    //implementation project(path: ':base_iotutils')
+    implementation project(path: ':base_iotutils')
     //TCP|UDP socket通信
     //implementation project(path: ':base_socket')
     //framework jarutils

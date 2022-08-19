@@ -1,6 +1,8 @@
 package com.wave_chtj.example.base;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,5 +37,9 @@ public class BaseActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         //KLog.d(TAG,"onDestroy");
+    }
+
+    protected void startAty(Class classes){
+        startActivity(new Intent(this,classes));
     }
 }

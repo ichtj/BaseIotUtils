@@ -33,11 +33,6 @@ public class TempGetAty extends BaseActivity {
         tvTemp2=findViewById(R.id.tvTemp2);
         tvTemp3=findViewById(R.id.tvTemp3);
         getTemp();
-        String getPkgName=getPackageName();
-        KLog.d("onCreate:>getPkgName="+getPkgName);
-        if(getPkgName.contains("temperature")){
-            AppManager.getAppManager().finishActivity(StartPageAty.class);
-        }
     }
     public void getTemp(){
         Observable

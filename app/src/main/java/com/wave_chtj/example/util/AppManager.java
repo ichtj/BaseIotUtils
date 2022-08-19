@@ -41,16 +41,22 @@ public class AppManager {
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        Activity activity = activityStack.lastElement();
-        return activity;
+        if(activityStack!=null&&activityStack.size()>0){
+            Activity activity = activityStack.lastElement();
+            return activity;
+        }else{
+            return null;
+        }
     }
 
     /**
      * 结束当前Activity（堆栈中最后一个压入的）
      */
     public void finishActivity() {
-        Activity activity = activityStack.lastElement();
-        finishActivity(activity);
+        if(activityStack!=null&&activityStack.size()>0){
+            Activity activity = activityStack.lastElement();
+            finishActivity(activity);
+        }
     }
 
     /**
@@ -58,7 +64,9 @@ public class AppManager {
      */
     public void finishActivity(Activity activity) {
         if (activity != null) {
-            activityStack.remove(activity);
+            if(activityStack.size()>0){
+                activityStack.remove(activity);
+            }
             activity.finish();
             activity = null;
         }
@@ -68,19 +76,22 @@ public class AppManager {
      * 结束指定类名的Activity
      */
     public void finishActivity(Class cls) {
-        for (Activity activity : activityStack) {
-            if (activity.getClass().equals(cls)) {
-                finishActivity(activity);
-                break;
+        if(activityStack!=null&&activityStack.size()>0){
+            for (Activity activity : activityStack) {
+                if (activity.getClass().equals(cls)) {
+                    finishActivity(activity);
+                    break;
+                }
             }
         }
+
     }
 
     /**
      * 结束所有Activity
      */
     public void finishAllActivity() {
-        if(activityStack!=null){
+        if(activityStack!=null&&activityStack.size()>0){
             for (int i = 0; i < activityStack.size(); i++) {
                 if (null != activityStack.get(i)) {
                     activityStack.get(i).finish();

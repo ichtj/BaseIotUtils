@@ -1,6 +1,38 @@
 <resources>
+    <string name="reboot_app_name">TestReboot</string>
     <string name="app_name">BaseIotUtils</string>
     <string name="serial_rs">SerialPortTools</string>
+    <string name="net_status">Net Status：</string>
+    <string name="net_dbm">dBm：[%1$s]</string>
+    <string name="net_type">Net Type：[%1$s]</string>
+    <string name="net_ok">Net Status：true</string>
+    <string name="net_err">Net Status：false</string>
+    <string name="ping_list">PingList：[%1$s]</string>
+    <string name="now_time">Now Time：[%1$s]</string>
+    <string name="net_reset_hard">Hard</string>
+    <string name="net_reset_soft">Soft</string>
+    <string name="net_reset_mode">Reset Mode：[%1$s]</string>
+    <string name="net_reset_err_count">Reset Error Count：[%1$s]</string>
+    <string name="net_reset_total_count">Total Count：[%1$s]</string>
+    <string name="net_now_ping">Please enter an address to ping</string>
+    <string name="net_ping">ping</string>
+    <string name="input_add_err">Please enter correct address！</string>
+    <string name="ping_ok">ping result is normal！</string>
+    <string name="ping_err">ping result is abnormal！</string>
+    <string name="service_start_err">Background service failed to start！</string>
+    <string name="ping_addr_result">ping addr result：[%1$s]</string>
+    <string name="service_start_succ">Restart the service successfully！</string>
+    <string name="del_cache_succ">Delete cache log successfully！</string>
+    <string name="del_cache_failed">Failed to delete cache log！</string>
+    <string name="reset_err_count">Reset Error Count</string>
+    <string name="clear_all_logfile">clear all logFile</string>
+    <string name="err_after_is_continue">Number of task executions after module reset failed：</string>
+    <string name="reset_first_errcount">Reset the number of exceptions to 0 successfully！</string>
+    <string name="exeu_one">one</string>
+    <string name="exeu_more">more</string>
+    <string name="net_monitor_remarks">注意：定时器每分钟会执行一次lastCount累加,lastCount为5的倍数时执行模块重置\n--------在模块重置后lastCount-4等于5的倍数时执行网络检测,网络异常次数加1</string>
+    <string name="airplane_mode">AirplaneMode</string>
+    <string name="module_reset">Module reset</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
         <attr name="ivback" format="reference"></attr>

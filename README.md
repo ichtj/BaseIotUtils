@@ -25,7 +25,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.3.4'
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.3.8'
 }
 ```
 
@@ -80,17 +80,20 @@ public class App extends Application {
 | 12   | FileUtils                      | 文件工具类        | 写入/读取文件相关信息         |
 | 13   | DeviceUtils                    | 设备的相关信息    | 设备出厂自带参数              |
 | 14   | DataConvertUtils               | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
-| 15   | ScheduledTPoolUtils/TPoolUtils | 线程池管理        | 线程重用                      |
+| 15   | SingleTPoolUtils/TPoolUtils    | 线程池管理        | 线程重用                     |
 | 16   | SerialPort/SerialPortFinder    | 串口相关工具类    | 打开,通讯,关闭                |
-| 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                   |
-| 18   | NotifyUtils                    | notification      | 自定义 notification,动态调参  |
+| 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                  |
+| 18   | NotifyUtils                    | 通知工具类        | 自定义 notification,动态调参  |
 | 19   | NetUtils                       | 网络工具类        | 网络类型/状态等获取           |
 | 20   | NetListenerUtils               | 网络变化广播      | 网络变化回调                  |
 | 22   | DownloadSupport                | 多任务下载管理    | 下载,暂停,状态回调            |
-| 23   | PlayUtils                      | 音频管理          | 播放继续暂停                  |
-| 24   | AppsUtils                      | pp 的相关         | 查询应用以及 app 的信息       |
+| 23   | PlayUtils                      | 音频管理          | 播放继续暂停                 |
+| 24   | AppsUtils                      | App的相关工具     | 查询应用以及 app 的信息       |
 | 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
-| 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                    |
+| 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                   |
+| 27   | JsonFormatTool                 | JSON格式化工具    | JSON字符串格式化             |
+| 28   | HttpUtils                      | 网络请求工具类     | get,post请求                |
+| 29   | MD5Utils                       | MD5工具类         | 获取字符串,文件MD5           |
 
 ## base_iotutils 工具调用方式,及图片展示
 

@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   - 如果无法安装 请将  android:sharedUserId="android.uid.system"  这句去掉
   - 如需使用：请配合rk3288或是飞思卡尔的系统签名
   - frameworks.jar文件所在路径：android\out\target\common\obj\JAVA_LIBRARIES\framework_intermediates\classes.jar
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
     package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.DEVICE_POWER"
+    <uses-permission
+        android:name="android.permission.DEVICE_POWER"
         tools:ignore="ProtectedPermissions" />
+    <!--飞行模式权限-->
+    <uses-permission android:name="android.Manifest.permission.MODIFY_PHONE_STATE" />
     <!--服务相关权限-->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -25,37 +26,60 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_TASKS" />
-    <uses-permission android:name="android.permission.READ_LOGS" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_LOGS"
+        tools:ignore="ProtectedPermissions" />
     <!--读取eth相关-->
-    <uses-permission android:name="android.permission.PACKAGE_USAGE_STATS" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_PRIVILEGED_PHONE_STATE" tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.READ_NETWORK_USAGE_HISTORY" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_PRIVILEGED_PHONE_STATE"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
+        tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--挂载文件系统-->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!--读取文件权限-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--写入文件权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!--应用安装权限-->
-    <uses-permission android:name="android.permission.INSTALL_PACKAGES" tools:ignore="ProtectedPermissions"  />
+    <uses-permission
+        android:name="android.permission.INSTALL_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
     <!--应用卸载权限-->
-    <uses-permission android:name="android.permission.DELETE_PACKAGES" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.DELETE_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
     <!--后台保活重要权限-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!--usb设备监听-->
-    <uses-permission android:name="android.permission.HARDWARE_TEST" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.HARDWARE_TEST"
+        tools:ignore="ProtectedPermissions" />
+
     <uses-feature android:name="android.hardware.usb.host" />
     <uses-feature android:name="android.hardware.usb.host" />
+
     <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.hardware.usb.accessory" />
     <!--读取或写入系统设置-->
-    <uses-permission android:name="android.permission.WRITE_SETTINGS" tools:ignore="ProtectedPermissions" />
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
     <!--自定义保活广播-->
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
@@ -140,24 +164,37 @@
             android:name=".keeplive.KeepAliveAty"
             android:theme="@style/AppTheme" />
         <!--温度相关-->
-        <activity android:name=".temget.TempGetAty"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".temget.TempGetAty"
+            android:theme="@style/AppTheme" />
         <!--apk静默安装-->
-        <activity android:name=".install.InstallAPkAty"
-            android:theme="@style/AppTheme"/>
-        <activity android:name=".reboot.RebootAty"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".install.InstallAPkAty"
+            android:theme="@style/AppTheme" />
+        <!--重启工具-->
+        <activity
+            android:name=".reboot.RebootAty"
+            android:theme="@style/AppTheme" />
+        <!--网络重置监听工具-->
+        <activity
+            android:name=".network.NetResetMonitorAty"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
             android:enabled="true"
             android:exported="false" />
-       <!-- 测试anr的服务类-->
+        <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
-
-        <service android:name=".reboot.RebootCustomService"
+        <!--测试重启后台服务-->
+        <service
+            android:name=".reboot.RebootCustomService"
             android:enabled="true"
-            android:exported="true"/>
+            android:exported="true" />
+        <!--网络重置监听的服务-->
+        <service android:name=".network.NetResetMonitorService"
+            android:enabled="true"
+            android:exported="true" />
         <!--重启后广播监听-->
         <receiver
             android:name=".util.BaseIotReceiver"

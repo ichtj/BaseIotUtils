@@ -28,6 +28,7 @@ import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.util.AppManager;
+import com.wave_chtj.example.util.SwitchUtils;
 import com.wave_chtj.example.util.TopTitleView;
 
 import java.io.File;
@@ -116,7 +117,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
         rbHex.setOnCheckedChangeListener(this);
         String getPkgName = getPackageName();
         KLog.d("onCreate:>getPkgName=" + getPkgName);
-        if (getPkgName.contains("serialport")) {
+        if (getPkgName.contains(SwitchUtils.FLAG_SERIALPORT_PKG)) {
             AppManager.getAppManager().finishActivity(StartPageAty.class);
         }
     }

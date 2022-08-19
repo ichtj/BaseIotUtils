@@ -64,6 +64,7 @@ import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
+import com.wave_chtj.example.network.NetResetMonitorAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.socket.SocketAty;
@@ -175,6 +176,7 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_SCREEN, new String[]{"屏幕相关"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_FILE_RW, new String[]{"文件读写"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_NETWORK, new String[]{"网络监听"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.KEY_RESET_MONITOR, new String[]{"网络重置监听"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_FILEDOWN, new String[]{"多文件下载"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_TCP_UDP, new String[]{"TCP|UDP"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_NOTIFY_SHOW, new String[]{"通知开启"}, IndexAdapter.LAYOUT_ONE));
@@ -204,41 +206,8 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("dumpsys window | grep mCurrentFocus", true);
-                if (commandResult.result == 0) {
-                    KLog.d(TAG, "run:>topAty=" + commandResult.successMsg);
-                    if (commandResult.successMsg != null) {
-                        KLog.d(TAG, "run:>=" + topAppInfo("com.meituan.banma.smartcabinet"));
-                    }
-                } else {
-                    KLog.d(TAG, "run:>errMeg=" + commandResult.errorMsg);
-                }
-                handler.postDelayed(this, 3000);
-            }
-        });
     }
 
-    /**
-     * 使用正则表达式提取中括号中的内容
-     */
-    public boolean topAppInfo(String pkg) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("dumpsys window | grep mCurrentFocus", true);
-        if (commandResult.result == 0) {
-            Pattern p = Pattern.compile("\\{(.*?)\\}");
-            Matcher m = p.matcher(commandResult.successMsg);
-            while (m.find()) {
-                String readInfo=m.group().substring(1, m.group().length() - 1);
-                if (readInfo.contains(pkg)) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -259,25 +228,28 @@ public class FeaturesOptionAty extends BaseActivity {
     public void clickByPosition(int position) {
         switch (position) {
             case FKey.KEY_SERIAL_PORT:
-                startActivity(new Intent(this, SerialPortAty.class));
+                startAty(SerialPortAty.class);
                 break;
             case FKey.KEY_TIMERD:
-                startActivity(new Intent(this, TimerAty.class));
+                startAty(TimerAty.class);
                 break;
             case FKey.KEY_SCREEN:
-                startActivity(new Intent(this, ScreenActivity.class));
+                startAty(ScreenActivity.class);
                 break;
             case FKey.KEY_FILE_RW:
-                startActivity(new Intent(this, FileOperatAty.class));
+                startAty(FileOperatAty.class);
                 break;
             case FKey.KEY_NETWORK:
-                startActivity(new Intent(this, NetChangeAty.class));
+                startAty(NetChangeAty.class);
+                break;
+            case FKey.KEY_RESET_MONITOR:
+                startAty(NetResetMonitorAty.class);
                 break;
             case FKey.KEY_FILEDOWN:
-                startActivity(new Intent(this, FileDownLoadAty.class));
+                startAty(FileDownLoadAty.class);
                 break;
             case FKey.KEY_TCP_UDP:
-                startActivity(new Intent(this, SocketAty.class));
+                startAty(SocketAty.class);
                 break;
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
@@ -359,7 +331,7 @@ public class FeaturesOptionAty extends BaseActivity {
                 UsbHubTools.getInstance().unRegisterReceiver();
                 break;
             case FKey.KEY_GREEN_DAO:
-                startActivity(new Intent(this, GreenDaoSqliteAty.class));
+                startAty(GreenDaoSqliteAty.class);
                 break;
             case FKey.KEY_JXL_OPEN:
                 ToastUtils.info("请查看日志确定读取结果");
@@ -418,10 +390,10 @@ public class FeaturesOptionAty extends BaseActivity {
                 });
                 break;
             case FKey.KEY_APP_LIST:
-                startActivity(new Intent(this, AllAppAty.class));
+                startAty(AllAppAty.class);
                 break;
             case FKey.KEY_VIDEO:
-                startActivity(new Intent(this, VideoPlayAty.class));
+                startAty(VideoPlayAty.class);
                 break;
             case FKey.KEY_URL_CONVERT:
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -443,7 +415,7 @@ public class FeaturesOptionAty extends BaseActivity {
                 }
                 break;
             case FKey.KEY_AUDIO:
-                startActivity(new Intent(this, PlayAudioAty.class));
+                startAty(PlayAudioAty.class);
                 break;
             case FKey.KEY_IP_SET_DHCP:
                 CommonValue commonValue2 = FEthTools.setEthDhcp();
@@ -470,15 +442,16 @@ public class FeaturesOptionAty extends BaseActivity {
                 }
                 break;
             case FKey.KEY_KEEPALIVE:
-                startActivity(new Intent(this, KeepAliveAty.class));
+                startAty(KeepAliveAty.class);
                 break;
             case FKey.KEY_OTA:
                 showOtaUpgrade();
                 break;
             case FKey.KEY_INSTALL:
-                startActivity(new Intent(this, InstallAPkAty.class));
+                startAty(InstallAPkAty.class);
                 break;
             case FKey.KEY_MORE:
+                ToastUtils.info("敬请期待！");
                 break;
         }
     }
