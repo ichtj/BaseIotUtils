@@ -11,10 +11,12 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
@@ -46,14 +48,22 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
     private RadioButton btnSoft;
     private RadioButton rbOne;
     private RadioButton rbMore;
+    private RadioButton rbRebootYes;
+    private RadioButton rbRebootNo;
     private Button btnAirplaneMode;
+    private Button btnRestartMode;
     private TextView tvModeResetTitle;
+    private LinearLayout llFifteenView,llResetExeu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_reset_monitor);
         KLog.d(TAG, "onCreate ");
+        rbRebootYes = findViewById(R.id.rbRebootYes);
+        rbRebootYes.setOnCheckedChangeListener(this);
+        rbRebootNo = findViewById(R.id.rbRebootNo);
+        rbRebootNo.setOnCheckedChangeListener(this);;
         tvDbm = findViewById(R.id.tvDbm);
         tvResetMode = findViewById(R.id.tvResetMode);
         tvNowTime = findViewById(R.id.tvNowTime);
@@ -67,9 +77,14 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
         btnSoft = findViewById(R.id.btnSoft);
         rbOne = findViewById(R.id.rbOne);
         rbMore = findViewById(R.id.rbMore);
+        rbOne.setOnCheckedChangeListener(this);
+        rbMore.setOnCheckedChangeListener(this);
         tvTotalCount = findViewById(R.id.tvTotalCount);
         tvModeResetTitle = findViewById(R.id.tvModeResetTitle);
         btnAirplaneMode = findViewById(R.id.btnAirplaneMode);
+        btnRestartMode = findViewById(R.id.btnRestartMode);
+        llFifteenView = findViewById(R.id.llFifteenView);
+        llResetExeu = findViewById(R.id.llResetExeu);
 
         Intent intent = new Intent(this, NetResetMonitorService.class);
         startService(intent);
@@ -108,6 +123,12 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
                 rbMore.setChecked(true);
             }else{
                 rbOne.setChecked(true);
+            }
+            boolean timerdAchieve=netResetMonitorService.getTimerdAchieve();
+            if(timerdAchieve){
+                rbRebootYes.setChecked(true);
+            }else{
+                rbRebootNo.setChecked(true);
             }
             netResetMonitorService.setNetMonitorCallBack(new NetMonitorCallBack() {
                 @Override
@@ -179,8 +200,8 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
         int resetMode = netResetMonitorService.getResetModeValue();
         KLog.d(TAG,"changeResetModeTitle resetMode="+resetMode);
         tvResetMode.setText(String.format(getString(R.string.net_reset_mode), netResetMonitorService.getResetMode()));
-        if(resetMode==0||resetMode==1){
-            if(resetMode==0){
+        if(resetMode==NetResetMonitorService.FLAG_MODE_HARD||resetMode==NetResetMonitorService.FLAG_MODE_SOFT){
+            if(resetMode==NetResetMonitorService.FLAG_MODE_HARD){
                 btnHard.setChecked(true);
             }else{
                 btnSoft.setChecked(true);
@@ -190,12 +211,50 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
 
             tvModeResetTitle.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD) );
             tvModeResetTitle.setTextColor( Color.GREEN);
-        }else{
+
+            btnRestartMode.setTypeface(Typeface.DEFAULT);
+            btnRestartMode.setTextColor( Color.WHITE);
+            llFifteenView.setVisibility(View.VISIBLE);
+            llResetExeu.setVisibility(View.VISIBLE);
+        }else if(resetMode==NetResetMonitorService.FLAG_MODE_AIRPLANE){
             btnAirplaneMode.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
             btnAirplaneMode.setTextColor( Color.GREEN);
 
             tvModeResetTitle.setTypeface(Typeface.DEFAULT);
             tvModeResetTitle.setTextColor( Color.WHITE);
+
+            btnRestartMode.setTypeface(Typeface.DEFAULT);
+            btnRestartMode.setTextColor( Color.WHITE);
+            llFifteenView.setVisibility(View.VISIBLE);
+            llResetExeu.setVisibility(View.VISIBLE);
+        }else{
+            btnAirplaneMode.setTypeface(Typeface.DEFAULT);
+            btnAirplaneMode.setTextColor( Color.WHITE);
+
+            tvModeResetTitle.setTypeface(Typeface.DEFAULT);
+            tvModeResetTitle.setTextColor( Color.WHITE);
+
+            btnRestartMode.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
+            btnRestartMode.setTextColor( Color.GREEN);
+            llFifteenView.setVisibility(View.GONE);
+            llResetExeu.setVisibility(View.GONE);
+        }
+    }
+
+    /**
+     * 重启模式
+     *
+     * @param view
+     */
+    public void btnRestartModeClick(View view) {
+        if (isBound) {
+            loadInitData();
+            netResetMonitorService.setModeRestartCallBack(NetResetMonitorService.FLAG_MODE_REBOOT);
+            changeResetModeTitle();
+            //ToastUtils.success(getString(R.string.service_start_succ));
+            KLog.d(TAG, "btnAirplaneModeClick ");
+        } else {
+            ToastUtils.error(getString(R.string.service_start_err));
         }
     }
 
@@ -207,7 +266,7 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
     public void btnAirplaneModeClick(View view) {
         if (isBound) {
             loadInitData();
-            netResetMonitorService.setModeRestartCallBack(2);
+            netResetMonitorService.setModeRestartCallBack(NetResetMonitorService.FLAG_MODE_AIRPLANE);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
             KLog.d(TAG, "btnAirplaneModeClick ");
@@ -224,7 +283,7 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
     public void btnHardClick(View view) {
         if (isBound) {
             loadInitData();
-            netResetMonitorService.setModeRestartCallBack(0);
+            netResetMonitorService.setModeRestartCallBack(NetResetMonitorService.FLAG_MODE_HARD);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
             KLog.d(TAG, "btnHardClick ");
@@ -241,7 +300,7 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
     public void btnSoftClick(View view) {
         if (isBound) {
             loadInitData();
-            netResetMonitorService.setModeRestartCallBack(1);
+            netResetMonitorService.setModeRestartCallBack(NetResetMonitorService.FLAG_MODE_SOFT);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
             KLog.d(TAG, "btnSoftClick ");
@@ -311,6 +370,7 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
         if(isChecked){
             switch (buttonView.getId()){
                 case R.id.rbOne:
+                    Log.d(TAG, "onCheckedChanged: rbOne");
                     if(netResetMonitorService!=null){
                         netResetMonitorService.setCyclesCount(1);
                     }else{
@@ -318,8 +378,25 @@ public class NetResetMonitorAty extends BaseActivity implements CompoundButton.O
                     }
                     break;
                 case R.id.rbMore:
+                    Log.d(TAG, "onCheckedChanged: rbMore");
                     if(netResetMonitorService!=null){
                         netResetMonitorService.setCyclesCount(0);
+                    }else{
+                        ToastUtils.error(getString(R.string.service_start_err));
+                    }
+                    break;
+                case R.id.rbRebootYes:
+                    Log.d(TAG, "onCheckedChanged: rbRebootYes");
+                    if(netResetMonitorService!=null){
+                        netResetMonitorService.setDefaultTimerdAchieve(true);
+                    }else{
+                        ToastUtils.error(getString(R.string.service_start_err));
+                    }
+                    break;
+                case R.id.rbRebootNo:
+                    Log.d(TAG, "onCheckedChanged: rbRebootNo");
+                    if(netResetMonitorService!=null){
+                        netResetMonitorService.setDefaultTimerdAchieve(false);
                     }else{
                         ToastUtils.error(getString(R.string.service_start_err));
                     }

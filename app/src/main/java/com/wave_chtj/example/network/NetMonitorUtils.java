@@ -12,6 +12,9 @@ import android.util.Log;
 
 import com.chtj.base_framework.FBaseTools;
 import com.chtj.base_framework.network.NetDbmListener;
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
 
 import java.lang.reflect.Method;
@@ -76,7 +79,21 @@ public class NetMonitorUtils {
         return dns;
     }
 
-
+    /**
+     * 重启系统
+     */
+    public static void rebootSystem() {
+        try {
+            //adb命令进行重启
+            ShellUtils.execCommand("reboot",true);
+            //调用系统接口进行重启
+            Intent intent = new Intent(Intent.ACTION_REBOOT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            BaseIotUtils.getContext().startActivity(intent);
+        } catch (Throwable ex) {
+            KLog.e(ex);
+        }
+    }
     /**
      * 最简单最易理解的两重循环去重
      * 随机指定范围内N个不重复的数

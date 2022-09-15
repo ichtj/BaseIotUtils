@@ -33,4 +33,5 @@
     <string name="net_monitor_remarks">注意：定时器每分钟会执行一次lastCount累加,lastCount为5的倍数时执行模块重置\n--------在模块重置后lastCount-4等于5的倍数时执行网络检测,网络异常次数加1</string>
     <string name="airplane_mode">飞行模式</string>
     <string name="module_reset">模块复位</string>
+    <string name="reset_model_reboot">重启模式</string>
 </resources>

@@ -31,7 +31,22 @@
                 android:layout_gravity="center"
                 android:layout_marginBottom="15pt"
                 android:orientation="horizontal">
+                <Button
+                    android:id="@+id/btnRestartMode"
+                    android:layout_weight="1"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:singleLine="true"
+                    android:background="@drawable/button_style_left"
+                    android:onClick="btnRestartModeClick"
+                    android:text="@string/reset_model_reboot"
+                    android:textColor="@color/white"
+                    android:textSize="20sp" />
 
+                <View
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
                 <Button
                     android:id="@+id/btnAirplaneMode"
                     android:layout_weight="1"
@@ -104,9 +119,55 @@
 
             </LinearLayout>
             <LinearLayout
+                android:id="@+id/llFifteenView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginBottom="15pt"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:text="15分钟后是否重启："
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="15pt"
+                    android:paddingRight="15pt"
+                    android:background="@drawable/button_style_stroke"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rbRebootYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:singleLine="true"
+                        android:text="true"
+                        android:textColor="@color/black" />
+
+                    <RadioButton
+                        android:id="@+id/rbRebootNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="false"
+                        android:textColor="@color/black" />
+
+
+                </RadioGroup>
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/llResetExeu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15pt"
                 android:orientation="horizontal">
 
                 <TextView
@@ -217,6 +278,13 @@
                 android:layout_marginBottom="15pt"
                 android:text="@string/net_monitor_remarks"
                 android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/tvSaveLocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="*记录的日志存放在/sdcard/Documents/目录下"
+                android:textColor="#FF0000" />
 
             <LinearLayout
                 android:layout_width="match_parent"

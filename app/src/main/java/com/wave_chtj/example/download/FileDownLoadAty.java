@@ -13,7 +13,7 @@ import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.download.DownloadSupport;
+import com.face_chtj.base_iotutils.network.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;

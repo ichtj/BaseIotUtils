@@ -9,6 +9,7 @@ import android.net.ConnectivityManager;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.enums.NET_TYPE;
+import com.face_chtj.base_iotutils.network.callback.INetChangeCallback;
 
 /**
  * Create on 2020/1/3
@@ -18,7 +19,7 @@ import com.face_chtj.base_iotutils.enums.NET_TYPE;
 public class NetListenerUtils extends BroadcastReceiver {
     private static final String ANDROID_NET_CHANGE_ACTION = "android.net.conn.CONNECTIVITY_CHANGE";
     private static final String TAG="NetListenerUtils";
-    private OnNetChangeLinstener mOnNetChangeLinstener;
+    private INetChangeCallback mINetChangeCallback;
     private static NetListenerUtils netListenerUtils;
 
     //单例模式
@@ -36,8 +37,8 @@ public class NetListenerUtils extends BroadcastReceiver {
     /**
      * 设置回调
      */
-    public void setOnNetChangeLinstener(OnNetChangeLinstener onNetChangeLinstener) {
-        mOnNetChangeLinstener = onNetChangeLinstener;
+    public void setOnNetChangeLinstener(INetChangeCallback iNetChangeCallback) {
+        mINetChangeCallback = iNetChangeCallback;
     }
 
     /**
@@ -66,26 +67,26 @@ public class NetListenerUtils extends BroadcastReceiver {
         String action=intent.getAction();
         KLog.e(TAG,"action="+action);
         if(action.equals(ANDROID_NET_CHANGE_ACTION)){
-            if(mOnNetChangeLinstener!=null){
+            if(mINetChangeCallback !=null){
                 //获取当前网络类型
                 int type=NetUtils.getNetWorkType();
                 //判断网络是否连接正常，是否能够ping通
                 boolean isPingSuccessful=NetUtils.ping(2,1);
                 KLog.e(TAG,"type="+type);
                 if(type== -1){//TYPE_NONE
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_NO,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_NO,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_WIFI){//1
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_WIFI,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_WIFI,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_2G){//2
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_2G,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_2G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_3G){//3
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_3G,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_3G,isPingSuccessful);
                 }else if(type==NetUtils.NETWORK_4G){//4
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_4G,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_4G,isPingSuccessful);
                 }else if(type==ConnectivityManager.TYPE_ETHERNET){//9
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_ETH,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_ETH,isPingSuccessful);
                 }else{
-                    mOnNetChangeLinstener.changed(NET_TYPE.NETWORK_UNKNOWN,isPingSuccessful);
+                    mINetChangeCallback.changed(NET_TYPE.NETWORK_UNKNOWN,isPingSuccessful);
                 }
             }
         }

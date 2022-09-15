@@ -3,6 +3,8 @@ package com.face_chtj.base_iotutils;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+
+import com.face_chtj.base_iotutils.network.callback.IDefaultUrlCallback;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
 import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.DefaultAutoAdaptStrategy;
 import com.face_chtj.base_iotutils.screen_adapta.AdaptScreenUtils;
@@ -25,7 +27,7 @@ public final class BaseIotUtils {
     private int screen_type = SCREEN_HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
-
+    private IDefaultUrlCallback iDefaultUrlCallback;
     private static volatile BaseIotUtils sInstance;
 
     //单例模式
@@ -38,6 +40,14 @@ public final class BaseIotUtils {
             }
         }
         return sInstance;
+    }
+
+    public static void initBaseUrlMap(IDefaultUrlCallback iDefaultUrlCallback) {
+        instance().iDefaultUrlCallback = iDefaultUrlCallback;
+    }
+
+    public static IDefaultUrlCallback getiBaseUrlCallback() {
+        return instance().iDefaultUrlCallback;
     }
 
 

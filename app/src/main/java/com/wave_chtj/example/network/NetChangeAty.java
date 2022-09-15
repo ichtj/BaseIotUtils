@@ -11,7 +11,7 @@ import com.face_chtj.base_iotutils.enums.NET_TYPE;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.network.NetListenerUtils;
-import com.face_chtj.base_iotutils.network.OnNetChangeLinstener;
+import com.face_chtj.base_iotutils.network.callback.INetChangeCallback;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -41,7 +41,7 @@ public class NetChangeAty extends BaseActivity {
     //开始监听
     public void startLinstener(View view) {
         NetListenerUtils.getInstance().registerReceiver();
-        NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
+        NetListenerUtils.getInstance().setOnNetChangeLinstener(new INetChangeCallback() {
             @Override
             public void changed(NET_TYPE type, boolean isNormal) {
                 //isNormal 网络经过ping后 true为网络正常 false为网络异常

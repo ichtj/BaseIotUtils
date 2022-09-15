@@ -6,7 +6,7 @@ ext {
 
     //以下包名选择其中一个 可对应生成不同的包名 跳转不同界面
     //注意：com.wave_chtj.example包含全部的功能
-    APP_ID='com.wave_chtj.example'//com.test.serialport //com.wave_chtj.example //com.test.reboot //com.test.netmonitor
+    APP_ID='com.test.netmonitor'//com.test.serialport //com.wave_chtj.example //com.test.reboot //com.test.netmonitor
     //串口工具
     APP_SERIAL_NAME='@string/serial_rs'
     APP_SERIAL_ICON='@mipmap/ic_launcher'
@@ -26,8 +26,8 @@ ext {
             buildToolsVersion         : "29.0.2",
             minSdkVersion             : 19,
             targetSdkVersion          : 29,
-            versionCode               : 11,
-            versionName               : "1.1.0",
+            versionCode               : 13,
+            versionName               : "1.1.2",
     ]
     //support配置
     support = [
@@ -41,6 +41,7 @@ ext {
     ]
     //依赖第三方配置
     dependencies = [
+            "converter-scalars"       : "com.squareup.retrofit2:converter-scalars:2.0.0",
             "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
             "rxandroid"               : "io.reactivex.rxjava2:rxandroid:2.1.1",
             //network

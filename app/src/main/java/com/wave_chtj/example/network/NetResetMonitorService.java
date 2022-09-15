@@ -39,7 +39,7 @@ public class NetResetMonitorService extends Service {
     /**
      * 任务每分钟执行一次
      */
-    private int initialDelay = 1*60;
+    private int initialDelay = 1 * 60;
     private NetMonitorCallBack netMonitorCallBack;
     public final static String NET_LOG_RECORD_PATH = "/sdcard/Documents/";
     public String nowFilePath;
@@ -47,20 +47,34 @@ public class NetResetMonitorService extends Service {
     public String KEY_SAVE_ERR_COUNT = "netMonitorErrCount";
     public String KEY_RESET_MOED = "netResetMode";
     public String KEY_TOTAL_COUNT = "totalCount";
+    public String KEY_TIME_ACHIEVE = "timeAchieve";
+    public String KEY_CYCLES_COUNT = "cyclesCount";
 
-    public String dbmInfo=0 + " dBm " + 0 + " asu";
+    public String dbmInfo = 0 + " dBm " + 0 + " asu";
+
+    public static final int FLAG_MODE_HARD=0;
+    public static final int FLAG_MODE_SOFT=1;
+    public static final int FLAG_MODE_AIRPLANE=2;
+    public static final int FLAG_MODE_REBOOT=3;
+
+
     /**
      * 0为硬复位
      * 1为软复位
      * 2为飞行模式
+     * 3为纯重启模式
      */
-    private static final int DEFAULT_RESET_MODE = 0;
+    private static final int DEFAULT_RESET_MODE = FLAG_MODE_REBOOT;
 
     /**
      * 0为无限次
      * 1为1次
      */
     private static final int DEFAULT_CYCLES_COUNT = 0;
+    /**
+     * 每15分钟到达时是否重启
+     */
+    private static boolean DEFAULT_TIMERD_ACHIEVE = true;
 
     public void setNetMonitorCallBack(NetMonitorCallBack netMonitorCallBack) {
         this.netMonitorCallBack = netMonitorCallBack;
@@ -135,12 +149,20 @@ public class NetResetMonitorService extends Service {
         }
     }
 
+    public void setDefaultTimerdAchieve(boolean isEnable) {
+        SPUtils.putBoolean(KEY_TIME_ACHIEVE, isEnable);
+    }
+
+    public boolean getTimerdAchieve() {
+        return SPUtils.getBoolean(KEY_TIME_ACHIEVE, DEFAULT_TIMERD_ACHIEVE);
+    }
+
     public void setCyclesCount(int count) {
-        SPUtils.putInt("cyclesCount", count);
+        SPUtils.putInt(KEY_CYCLES_COUNT, count);
     }
 
     public int getCyclesCount() {
-        return SPUtils.getInt("cyclesCount", DEFAULT_CYCLES_COUNT);
+        return SPUtils.getInt(KEY_CYCLES_COUNT, DEFAULT_CYCLES_COUNT);
     }
 
     public void setErrCount(int count) {
@@ -185,7 +207,7 @@ public class NetResetMonitorService extends Service {
         FLteTools.instance().init4GDbm(new NetDbmListener() {
             @Override
             public void getDbm(String dbmAsu) {
-                dbmInfo=dbmAsu;
+                dbmInfo = dbmAsu;
             }
         });
     }
@@ -205,12 +227,14 @@ public class NetResetMonitorService extends Service {
     public String getResetMode() {
         int resetMode = SPUtils.getInt(KEY_RESET_MOED, DEFAULT_RESET_MODE);
         String resetModeStr = getString(R.string.net_reset_hard);
-        if (resetMode == 0) {
+        if (resetMode == FLAG_MODE_HARD) {
             resetModeStr = getString(R.string.net_reset_hard);
-        }else if (resetMode == 1) {
+        } else if (resetMode == FLAG_MODE_SOFT) {
             resetModeStr = getString(R.string.net_reset_soft);
-        }else{
+        } else if (resetMode == FLAG_MODE_AIRPLANE) {
             resetModeStr = getString(R.string.airplane_mode);
+        } else {
+            resetModeStr = getString(R.string.reset_model_reboot);
         }
         return resetModeStr;
     }
@@ -285,32 +309,32 @@ public class NetResetMonitorService extends Service {
                             if (TextUtils.isEmpty(nowFilePath)) {
                                 nowFilePath = NET_LOG_RECORD_PATH + TimeUtils.getTodayDateHms("yyyyMMddHHmmss") + ".log";
                             }
+                            int resetMode = getResetModeValue();
                             if (aLong != 0 && aLong % 5 == 0) {
-                                int resetMode=getResetModeValue();
-                                String recordSetMode="";
-                                if ( resetMode== 0||resetMode==1) {
+                                String recordSetMode = "";
+                                if (resetMode == FLAG_MODE_HARD || resetMode == FLAG_MODE_SOFT) {
                                     ShellUtils.CommandResult commandResult2 = ShellUtils.execCommand(NetMonitorUtils.CMD_STOP_RILL, true);
                                     KLog.d(TAG, "accept commandResult2=" + commandResult2.result + ",errMeg=" + commandResult2.errorMsg);
 
-                                    FileUtils.writeFileData(nowFilePath, "停止Rill服务 stop ril-daemon stopRillTime="+TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss")+"\n", false);
+                                    FileUtils.writeFileData(nowFilePath, "停止Rill服务 stop ril-daemon stopRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
                                     Thread.sleep(20000);
 
-                                    if(resetMode==0){
+                                    if (resetMode == FLAG_MODE_HARD) {
                                         ShellUtils.CommandResult commandResult0 = ShellUtils.execCommand(NetMonitorUtils.CMD_HARD_RESET, true);
                                         KLog.d(TAG, "accept commandResult0=" + commandResult0.result + ",errMeg=" + commandResult0.errorMsg);
-                                        recordSetMode="硬复位指令 写入-->"+ TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
-                                    }else{
+                                        recordSetMode = "硬复位指令 写入-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                    } else {
                                         ShellUtils.CommandResult commandResult1 = ShellUtils.execCommand(NetMonitorUtils.CMD_SOFT_RESET, true);
                                         KLog.d(TAG, "accept commandResult1=" + commandResult1.result + ",errMeg=" + commandResult1.errorMsg);
-                                        recordSetMode="软复位指令 写入-->"+ TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                        recordSetMode = "软复位指令 写入-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
                                     }
                                     FileUtils.writeFileData(nowFilePath, recordSetMode, false);
 
                                     ShellUtils.CommandResult commandResult3 = ShellUtils.execCommand(NetMonitorUtils.CMD_START_RILL, true);
                                     KLog.d(TAG, "accept commandResult3=" + commandResult3.result + ",errMeg=" + commandResult3.errorMsg);
-                                    FileUtils.writeFileData(nowFilePath, "启动Rill服务 start ril-daemon startRillTime="+TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss")+"\n", false);
-                                }else{
-                                    recordSetMode="飞行模式 开启后关闭-->"+ TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                    FileUtils.writeFileData(nowFilePath, "启动Rill服务 start ril-daemon startRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
+                                } else if (resetMode == FLAG_MODE_AIRPLANE) {
+                                    recordSetMode = "飞行模式 开启后关闭-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
                                     //开启飞行模式
                                     ShellUtils.CommandResult commandResult = ShellUtils.execCommand(NetMonitorUtils.CMD_ARIPLANEMODE_ON, true);
                                     KLog.d(TAG, "accept commandResult=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
@@ -359,7 +383,7 @@ public class NetResetMonitorService extends Service {
                                 stringBuilder.append("resetMode：[" + getResetMode() + "]\n");
                                 stringBuilder.append("errCount：[" + errCount + "]\n");
                                 stringBuilder.append("totalCount：[" + totalCount + "]\n");
-                                stringBuilder.append("------"+ (cyclesCount == 0 ? "继续执行" : "已结束") +"cyclesCount=[ "+cyclesCount+" ]\n");
+                                stringBuilder.append("------" + (cyclesCount == 0 ? "继续执行" : "已结束") + "cyclesCount=[ " + cyclesCount + " ]\n");
 
                                 FileUtils.writeFileData(nowFilePath, stringBuilder.toString(), false);
                                 if (!isPing) {
@@ -369,6 +393,29 @@ public class NetResetMonitorService extends Service {
                                     } else {
                                         KLog.d(TAG, "accept task cyclesCount==more");
                                     }
+                                }
+                            }
+                            boolean isAdditional = aLong != 0 && aLong % 15 == 0 && getTimerdAchieve();
+                            boolean isToRebootMode = aLong != 0 && aLong % 10 == 0 ;
+                            if(resetMode==FLAG_MODE_REBOOT){
+                                if(isToRebootMode){
+                                    KLog.d(TAG, "accept 10分钟到了 执行重启");
+                                    String[] pingList = NetMonitorUtils.getPingDns(2, NetMonitorUtils.DNS_LIST);
+                                    StringBuilder stringBuilder=new StringBuilder();
+                                    stringBuilder.append("重启前检查网络------>>>\n");
+                                    stringBuilder.append("pingList：["+Arrays.toString(pingList)+"]\n");
+                                    boolean isNetPing=NetMonitorUtils.checkNetWork(pingList,2,1);
+                                    stringBuilder.append("isNetPing：[>>>>>>>>"+isNetPing+"<<<<<<<<]\n");
+                                    stringBuilder.append(".......10分钟到了,执行重启.......");
+                                    FileUtils.writeFileData(nowFilePath, stringBuilder.toString(), false);
+                                    NetMonitorUtils.rebootSystem();
+                                }
+                            }else{
+                                //重启模式不生效的时候默认启用 其他模式的附加重启
+                                if (isAdditional) {
+                                    KLog.d(TAG, "accept 15分钟到了 执行重启");
+                                    FileUtils.writeFileData(nowFilePath, ".......15分钟到了,执行重启.......", false);
+                                    NetMonitorUtils.rebootSystem();
                                 }
                             }
                         }

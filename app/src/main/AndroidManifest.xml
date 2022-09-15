@@ -179,6 +179,9 @@
         <activity
             android:name=".network.NetResetMonitorAty"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
+
+        <activity android:name=".test.TestAty"
+            android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
