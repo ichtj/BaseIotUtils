@@ -42,8 +42,9 @@ public final class BaseIotUtils {
         return sInstance;
     }
 
-    public static void initBaseUrlMap(IDefaultUrlCallback iDefaultUrlCallback) {
+    public static BaseIotUtils initBaseUrlMap(IDefaultUrlCallback iDefaultUrlCallback) {
         instance().iDefaultUrlCallback = iDefaultUrlCallback;
+        return instance();
     }
 
     public static IDefaultUrlCallback getiBaseUrlCallback() {
@@ -63,7 +64,7 @@ public final class BaseIotUtils {
         this.defaultWidth = defaultWidth;
         this.defaultHeight = defaultHeight;
         this.mAutoScreenAdaptation = mAutoScreenAdaptation;
-        return this;
+        return instance();
     }
 
 
@@ -75,7 +76,7 @@ public final class BaseIotUtils {
      */
     public BaseIotUtils setCreenType(int screen_type) {
         this.screen_type = screen_type;
-        return this;
+        return instance();
     }
 
     /**
