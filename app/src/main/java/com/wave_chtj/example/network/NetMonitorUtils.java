@@ -48,17 +48,17 @@ public class NetMonitorUtils {
      * dns列表
      */
     public static final String[] DNS_LIST = new String[]{
-            "114.114.114.114", "223.5.5.5", "223.6.6.6", "180.76.76.76", "8.8.8.8",
-            "114.114.115.115", "119.29.29.29", "210.2.4.8", "9.9.9.9", "199.91.73.222",
+            "114.114.114.114", "223.5.5.5", "223.6.6.6", "180.76.76.76"/*, "8.8.8.8"*/,
+            "114.114.115.115", "119.29.29.29", "210.2.4.8","182.254.116.116"/*, "9.9.9.9"*/, "199.91.73.222",
             "101.226.4.6", "1.2.4.8"};
 
 
     /**
      * 判断网络是否异常
      */
-    public static boolean checkNetWork(String[] dnsList, int count, int second) {
+    public static boolean checkNetWork(String[] dnsList, int count, int deadline) {
         for (String pingAddr : dnsList) {
-            if (NetUtils.ping(pingAddr, count, second)) {
+            if (NetUtils.ping(pingAddr, count, deadline)) {
                 //If it is abnormal when entering the program network at the beginning, then only prompt once
                 return true;
             }
