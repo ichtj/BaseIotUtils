@@ -13,6 +13,7 @@ import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.network.callback.IDownloadCallback;
 import com.face_chtj.base_iotutils.network.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.network.NetUtils;
@@ -281,7 +282,7 @@ public class FileDownLoadAty extends BaseActivity {
     }
 
     //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
-    DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
+    IDownloadCallback downloadCallBack = new IDownloadCallback() {
         @Override
         public void downloadProgress(FileCacheData fileCacheData, int percent) {
             KLog.d(TAG, "download:>filename=" + fileCacheData.getFileName() + ",percent=" + percent + ",current=" + fileCacheData.getCurrent());

@@ -189,6 +189,10 @@
             android:exported="false" />
         <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
+        <service android:name=".crash.MyCrashService1" android:process=":crash1"/>
+        <service android:name=".crash.MyCrashService2" android:process=":crash2"/>
+        <service android:name=".crash.MyCrashService3" android:process=":crash3"/>
+
         <!--测试重启后台服务-->
         <service
             android:name=".reboot.RebootCustomService"

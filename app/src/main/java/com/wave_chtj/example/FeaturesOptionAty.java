@@ -39,6 +39,7 @@ import com.chtj.base_framework.network.NetDbmListener;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.ISysDialog;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.app.AppsUtils;
@@ -55,6 +56,9 @@ import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.PlayAudioAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.face_chtj.base_iotutils.UriPathUtils;
+import com.wave_chtj.example.crash.MyCrashService1;
+import com.wave_chtj.example.crash.MyCrashService2;
+import com.wave_chtj.example.crash.MyCrashService3;
 import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.FileDownLoadAty;
 import com.wave_chtj.example.entity.ExcelEntity;
@@ -80,6 +84,7 @@ import com.wave_chtj.example.util.keyevent.UsbHubTools;
 import com.wave_chtj.example.video.VideoPlayAty;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -205,6 +210,7 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_KEEPALIVE, new String[]{"ATY/SERVICE保活"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.KEY_CRASH, new String[]{"死机验证"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
     }
 
@@ -452,6 +458,11 @@ public class FeaturesOptionAty extends BaseActivity {
                 break;
             case FKey.KEY_MORE:
                 ToastUtils.info("敬请期待！");
+                break;
+            case FKey.KEY_CRASH:
+                startService(new Intent(this, MyCrashService1.class));
+                startService(new Intent(this, MyCrashService2.class));
+                startService(new Intent(this, MyCrashService3.class));
                 break;
         }
     }

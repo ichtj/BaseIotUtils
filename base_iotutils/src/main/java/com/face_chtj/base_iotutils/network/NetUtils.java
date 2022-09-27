@@ -273,22 +273,23 @@ public class NetUtils {
 
     /**
      * 动态控制执行次数和时间
-     * @param count 执行次数
+     *
+     * @param count  执行次数
      * @param second 时间秒
      * @return 是否成功
      */
-    public static final boolean ping(int count,int second){
-        return ping("www.baidu.com",count,second);
+    public static final boolean ping(int count, int second,int delay) {
+        return ping("www.baidu.com", count, second,delay);
     }
 
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip,int count,int second) {
+    public static final boolean ping(String ip, int count, int deadline, int dalay) {
         String result = null;
         try {
-            Process p = Runtime.getRuntime().exec("ping -c "+count+" -W "+second+" " + ip);// ping网址3次
+            Process p = Runtime.getRuntime().exec("ping -c " + count + " -w " + deadline + " -W " + dalay + " " + ip);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
