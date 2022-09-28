@@ -19,6 +19,8 @@ import java.util.Locale;
  * {@link #getTime()} 获取当前系统的时间戳
  * {@link #getTodayAddMonthDate(int)} 获取今天添加月份的日期
  * {@link #getUTCTimeStr()} 得到UTC时间，类型为字符串，格式为"yyyy-MM-dd HH:mm
+ * {@link #differentDaysByMillisecond(Date, Date)} 两个Date间隔天数计算
+ * {@link #getWeekOfDate()} 获取当前日期是星期几
  *
  */
 public class TimeUtils {
@@ -123,6 +125,32 @@ public class TimeUtils {
         UTCTimeBuffer.append(year).append("-").append(month).append("-").append(day);
         UTCTimeBuffer.append("T").append(hour).append(":").append(minute).append(":").append(second) ;
         return UTCTimeBuffer.toString();
+    }
+
+
+    /**
+     * 两个Date间隔天数计算
+     * @param after 临近的时间
+     * @param before 之前的时间
+     * @return 间隔天数
+     */
+    public static int differentDaysByMillisecond(Date after, Date before) {
+        return Math.abs((int) ((after.getTime() - before.getTime()) / (1000 * 3600 * 24)));
+    }
+
+    /**
+     * 获取当前日期是星期几<br>
+     *
+     * @return 当前日期是星期几
+     */
+    public static String getWeekOfDate() {
+        String[] weekDays = {"星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"};
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(new Date());
+        int w = cal.get(Calendar.DAY_OF_WEEK) - 1;
+        if (w < 0)
+            w = 0;
+        return weekDays[w];
     }
 
 }

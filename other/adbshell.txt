@@ -36,19 +36,10 @@ mmm packages/apps/ethNetwork  //单编
 然后重启android studio
 
 -----------------------文件内容--------------------------
-cat xxx.txt //查看文件内容
-
-adb pull sdfilepath computer //从sd卡拷贝文件到电脑
-
-将应用复制到system/priv_app
-adb push C:/dell/test.txt /system/
-cat /system/SecureSetting.apk > /system/app/SecureSetting.apk // 这一步可以用 cp 实现，但一般设备中没有包含该命令。
-
-rm -r path 删除文件及文件下的内容
-rm  path   删除文件
+cat /sdcard/xxx.txt //查看文件内容
 
 ls -al   查看文件权限
-chmod 765 filename 为应用设置权限
+chmod 777 filename 为应用设置权限
 -------------------------------------------------
 ----------xshell/putty 文件相关
 rz 上传文件
@@ -85,14 +76,7 @@ wm density 480  //修改屏幕dpi
 -------------------------------------------------
 logcat -b radio -v time //查看网络
 -------------------------------------------------
-adb logcat V/D/I/W/E/F/S 查看日志
-  V    Verbose
-  D    Debug
-  I    Info
-  W    Warn
-  E    Error
-  F    Fatal
-  S    Silent (supress all output)
+adb logcat -V/D/I/W/E/F/S 查看日志
  //清除所有日志
 adb logcat -c -b main -b events -b radio -b system
 -----------------------------------------------
@@ -103,10 +87,6 @@ getprop | grep plat
 mount -o rw,remount /system  system获取权限
 
 mount -o rw,remount -t ext4 /system //通用
-
-mount -o rw,remount -t ext4 /dev/block/platform/ff0f0000.dwmmc/by-name/system 3288读写
-
-mount -o ro,remount -t ext4 /dev/block/platform/ff0f0000.dwmmc/by-name/system 3288只读
 
 #测试MainActivity启动速度 执行10次 可以查看平均值
 adb shell am start -S -R 10 -W packagename/.MainActivity
@@ -130,3 +110,11 @@ el 对应 long 类型
 # 获取顶层应用
 java: dumpsys window | grep mCurrentFocus
 cmd:adb shell dumpsys window | findstr mCurrentFocus
+
+# android 4.4.2查找大于50M的文件到指定文件夹
+cd sdcard;busybox find ./ -size +51200k > /sdcard/report.txt;cd /
+
+# android 7.1.2查找大于50M的文件到指定文件夹
+find sdcard/ -size +50M > /sdcard/report.txt
+#列出sdcar文件夹下层级为1 的文件信息
+du -m -d 1 /sdcard/*
