@@ -1,22 +1,15 @@
 package com.wave_chtj.example;
 
 import android.Manifest;
-import android.app.ActivityManager;
 import android.app.AlertDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
-import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
@@ -38,27 +31,23 @@ import com.chtj.base_framework.network.FNetworkTools;
 import com.chtj.base_framework.network.NetDbmListener;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.DeviceUtils;
-import com.face_chtj.base_iotutils.FileUtils;
-import com.face_chtj.base_iotutils.ISysDialog;
-import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.app.AppsUtils;
+import com.face_chtj.base_iotutils.display.DeviceUtils;
+import com.face_chtj.base_iotutils.display.ISysDialog;
+import com.face_chtj.base_iotutils.display.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.notify.OnNotifyLinstener;
 import com.face_chtj.base_iotutils.threadpool.SingleTPoolUtils;
 import com.face_chtj.base_iotutils.threadpool.TPoolUtils;
 import com.tbruyelle.rxpermissions2.RxPermissions;
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.PlayAudioAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.face_chtj.base_iotutils.UriPathUtils;
-import com.wave_chtj.example.crash.MyCrashService1;
-import com.wave_chtj.example.crash.MyCrashService2;
-import com.wave_chtj.example.crash.MyCrashService3;
+import com.wave_chtj.example.crash.CrashTools;
 import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.FileDownLoadAty;
 import com.wave_chtj.example.entity.ExcelEntity;
@@ -84,13 +73,9 @@ import com.wave_chtj.example.util.keyevent.UsbHubTools;
 import com.wave_chtj.example.video.VideoPlayAty;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import io.reactivex.functions.Consumer;
 
@@ -167,7 +152,7 @@ public class FeaturesOptionAty extends BaseActivity {
         Space ramSpace = FStorageTools.getRamSpace();
         indexBeanList.add(new IndexBean(FKey.KEY_RAM, new String[]{"运存：" + ramSpace.getTotalSize() + "M/" + ramSpace.getUseSize() + "M/" + ramSpace.getAvailableSize() + "M"}, IndexAdapter.LAYOUT_NO_BG));
         Space romSpace = FStorageTools.getRomSpace();
-        indexBeanList.add(new IndexBean(FKey.KEY_ROM, new String[]{"内存：" + romSpace.getTotalSize() + "M/" + romSpace.getUseSize() + "M/" + romSpace.getAvailableSize() + "M"}, IndexAdapter.LAYOUT_NO_BG));
+        indexBeanList.add(new IndexBean(FKey.KEY_ROM, new String[]{"内存：" + 0 + "M/" + 0 + "M/" + 0 + "M"}, IndexAdapter.LAYOUT_NO_BG));
         Space sdSpace = FStorageTools.getSdcardSpace();
         indexBeanList.add(new IndexBean(FKey.KEY_SD_SPACE, new String[]{"SD：" + sdSpace.getTotalSize() + "M/" + sdSpace.getUseSize() + "M/" + sdSpace.getAvailableSize() + "M"}, IndexAdapter.LAYOUT_NO_BG));
         try {
@@ -460,9 +445,7 @@ public class FeaturesOptionAty extends BaseActivity {
                 ToastUtils.info("敬请期待！");
                 break;
             case FKey.KEY_CRASH:
-                startService(new Intent(this, MyCrashService1.class));
-                startService(new Intent(this, MyCrashService2.class));
-                startService(new Intent(this, MyCrashService3.class));
+                CrashTools.crashtest();
                 break;
         }
     }

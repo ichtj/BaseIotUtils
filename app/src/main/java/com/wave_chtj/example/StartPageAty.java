@@ -1,12 +1,10 @@
 package com.wave_chtj.example;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.WindowManager;
 
 import androidx.annotation.Nullable;
 
-import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.network.NetResetMonitorAty;
 import com.wave_chtj.example.reboot.RebootAty;

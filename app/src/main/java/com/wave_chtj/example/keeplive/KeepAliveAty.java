@@ -18,7 +18,7 @@ import com.chtj.keepalive.IKeepAliveListener;
 import com.chtj.keepalive.IKeepAliveService;
 import com.chtj.keepalive.entity.KeepAliveData;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

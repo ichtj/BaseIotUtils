@@ -31,6 +31,13 @@ android {
         signingConfig signingConfigs.debug
         manifestPlaceholders = [APP_NAME: getAppInfo(0), APP_ICON: getAppInfo(1)]
     }
+
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled true

@@ -19,9 +19,9 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.face_chtj.base_iotutils.DataConvertUtils;
+import com.face_chtj.base_iotutils.convert.BytesHexUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.face_chtj.base_iotutils.serialport.SerialPort;
 import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
 import com.wave_chtj.example.R;
@@ -201,7 +201,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                         serialOne.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
                         if (isHexCmd) {
-                            message.obj = DataConvertUtils.encodeHexString(bytes);
+                            message.obj = BytesHexUtils.encodeHexString(bytes);
                         } else {
                             message.obj = new String(bytes, StandardCharsets.UTF_8);
                         }
@@ -239,7 +239,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                         serialTwo.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
                         if (isHexCmd) {
-                            message.obj = DataConvertUtils.encodeHexString(bytes);
+                            message.obj = BytesHexUtils.encodeHexString(bytes);
                         } else {
                             message.obj = new String(bytes, StandardCharsets.UTF_8);
                         }
@@ -291,7 +291,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                                 hexComm = "0" + hexComm;
                             }
                             KLog.d(TAG, "onViewClicked:>hexComm=" + hexComm);
-                            serialOne.write(isHexCmd ? DataConvertUtils.decodeHexString(hexComm) : hexComm.getBytes());
+                            serialOne.write(isHexCmd ? BytesHexUtils.decodeHexString(hexComm) : hexComm.getBytes());
                             if (!TextUtils.isEmpty(autoMs)) {
                                 if (cbMs.isChecked()) {
                                     handler.postDelayed(this, Integer.parseInt(autoMs));
@@ -323,7 +323,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                                 hexComm2 = "0" + hexComm2;
                             }
                             KLog.d(TAG, "onViewClicked:>hexComm2=" + hexComm2);
-                            serialTwo.write(isHexCmd ? DataConvertUtils.decodeHexString(hexComm2) : hexComm2.getBytes());
+                            serialTwo.write(isHexCmd ? BytesHexUtils.decodeHexString(hexComm2) : hexComm2.getBytes());
                             if (!TextUtils.isEmpty(autoMs2)) {
                                 if (cbMs2.isChecked()) {
                                     handler.postDelayed(this, Integer.parseInt(autoMs2));

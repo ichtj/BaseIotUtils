@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.convert;
 
 /**
  * @author chtj
@@ -20,7 +20,7 @@ package com.face_chtj.base_iotutils;
  * --十进制转byte数组 高字节在前 {@link #decToByteHL(int n,int length)}
  * --根据原始数据获取crc8 校验值 {@link #calcCrc8(byte[] data)}
  */
-public class DataConvertUtils {
+public class BytesHexUtils {
 
     /**
      * 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数

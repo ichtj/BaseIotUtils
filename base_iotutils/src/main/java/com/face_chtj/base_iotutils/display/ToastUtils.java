@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.display;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -20,6 +20,9 @@ import androidx.annotation.CheckResult;
 import androidx.annotation.ColorInt;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
+
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.R;
 
 /**
  * 在系统的Toast基础上封装

@@ -7,10 +7,9 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.enums.NET_TYPE;
 import com.face_chtj.base_iotutils.network.NetUtils;
-import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.network.NetListenerUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
+import com.face_chtj.base_iotutils.network.NetChangeMonitor;
 import com.face_chtj.base_iotutils.network.callback.INetChangeCallback;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
@@ -40,13 +39,13 @@ public class NetChangeAty extends BaseActivity {
 
     //开始监听
     public void startLinstener(View view) {
-        NetListenerUtils.getInstance().registerReceiver();
-        NetListenerUtils.getInstance().setOnNetChangeLinstener(new INetChangeCallback() {
+        NetChangeMonitor.instance().registerReceiver(new INetChangeCallback() {
             @Override
-            public void changed(NET_TYPE type, boolean isNormal) {
+            public void changed(int netType, boolean isNormal) {
                 //isNormal 网络经过ping后 true为网络正常 false为网络异常
-                KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
-                tvType.setText("" + type.name());
+                String netTypeName=NetUtils.convertNetTypeName(netType);
+                KLog.e(TAG, "network type=" + netTypeName + ",isNormal=" + isNormal);
+                tvType.setText("" + netTypeName);
                 tvStatus.setText("" + isNormal);
             }
         });
@@ -55,6 +54,6 @@ public class NetChangeAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetListenerUtils.getInstance().unRegisterReceiver();
+        NetChangeMonitor.instance().unRegisterReceiver();
     }
 }

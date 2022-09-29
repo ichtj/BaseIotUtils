@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
+package com.face_chtj.base_iotutils.display.activitylifecycle;
 
 import android.app.Activity;
 import android.app.Application;

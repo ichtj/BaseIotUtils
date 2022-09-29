@@ -18,8 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.FIPTablesTools;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.app.AppsUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
+import com.face_chtj.base_iotutils.display.AppsUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.wave_chtj.example.R;

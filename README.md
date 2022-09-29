@@ -79,7 +79,7 @@ public class App extends Application {
 | 11   | KeyBoardUtils                  | 软键盘管理        | 打开,关闭                     |
 | 12   | FileUtils                      | 文件工具类        | 写入/读取文件相关信息         |
 | 13   | DeviceUtils                    | 设备的相关信息    | 设备出厂自带参数              |
-| 14   | DataConvertUtils               | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
+| 14   | BytesHexUtils                  | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
 | 15   | SingleTPoolUtils/TPoolUtils    | 线程池管理        | 线程重用                     |
 | 16   | SerialPort/SerialPortFinder    | 串口相关工具类    | 打开,通讯,关闭                |
 | 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                  |

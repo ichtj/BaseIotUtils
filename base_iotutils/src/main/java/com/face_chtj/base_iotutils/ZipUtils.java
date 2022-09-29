@@ -5,6 +5,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 
+import com.face_chtj.base_iotutils.convert.TypeDataUtils;
+
 import net.lingala.zip4j.exception.ZipException;
 import net.lingala.zip4j.model.FileHeader;
 import net.lingala.zip4j.model.ZipParameters;
@@ -67,7 +69,7 @@ public class ZipUtils {
      * @return 文件
      */
     private static   File getFileByPath(String filePath) {
-        return StringUtils.isEmpty(filePath) ? null : new File(filePath);
+        return TypeDataUtils.isEmpty(filePath) ? null : new File(filePath);
     }
     /**
      * 批量压缩文件
@@ -191,13 +193,13 @@ public class ZipUtils {
      */
     private static boolean zipFile(File resFile, String rootPath, ZipOutputStream zos, String comment)
             throws IOException {
-        rootPath = rootPath + (StringUtils.isEmpty(rootPath) ? "" : File.separator) + resFile.getName();
+        rootPath = rootPath + (TypeDataUtils.isEmpty(rootPath) ? "" : File.separator) + resFile.getName();
         if (resFile.isDirectory()) {
             File[] fileList = resFile.listFiles();
             // 如果是空文件夹那么创建它，我把'/'换为File.separator测试就不成功，eggPain
             if (fileList.length <= 0) {
                 ZipEntry entry = new ZipEntry(rootPath + '/');
-                if (!StringUtils.isEmpty(comment)) {
+                if (!TypeDataUtils.isEmpty(comment)) {
                     entry.setComment(comment);
                 }
                 zos.putNextEntry(entry);
@@ -215,7 +217,7 @@ public class ZipUtils {
             try {
                 is = new BufferedInputStream(new FileInputStream(resFile));
                 ZipEntry entry = new ZipEntry(rootPath);
-                if (!StringUtils.isEmpty(comment)) {
+                if (!TypeDataUtils.isEmpty(comment)) {
                     entry.setComment(comment);
                 }
                 zos.putNextEntry(entry);
@@ -544,7 +546,7 @@ public class ZipUtils {
         parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
         // 压缩级别
         parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-        if (!StringUtils.isEmpty(passwd)) {
+        if (!TypeDataUtils.isEmpty(passwd)) {
             parameters.setEncryptFiles(true);
             // 加密方式
             parameters.setEncryptionMethod(Zip4jConstants.ENC_METHOD_STANDARD);
@@ -581,7 +583,7 @@ public class ZipUtils {
      * @return 正确的压缩文件存放路径
      */
     private static String buildDestinationZipFilePath(File srcFile, String destParam) {
-        if (StringUtils.isEmpty(destParam)) {
+        if (TypeDataUtils.isEmpty(destParam)) {
             if (srcFile.isDirectory()) {
                 destParam = srcFile.getParent() + File.separator + srcFile.getName() + ".zip";
             } else {
@@ -628,7 +630,7 @@ public class ZipUtils {
         // 默认COMP_DEFLATE
         parameters.setCompressionMethod(Zip4jConstants.COMP_DEFLATE);
         parameters.setCompressionLevel(Zip4jConstants.DEFLATE_LEVEL_NORMAL);
-        if (!StringUtils.isEmpty(passwd)) {
+        if (!TypeDataUtils.isEmpty(passwd)) {
             parameters.setEncryptFiles(true);
             parameters.setEncryptionMethod(0);
             parameters.setPassword(passwd.toCharArray());

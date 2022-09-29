@@ -5,9 +5,9 @@ import android.app.Application;
 import android.content.Context;
 
 import com.face_chtj.base_iotutils.network.callback.IDefaultUrlCallback;
-import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.ActivityLifecycleImp;
-import com.face_chtj.base_iotutils.screen_adapta.activitylifecycle.DefaultAutoAdaptStrategy;
-import com.face_chtj.base_iotutils.screen_adapta.AdaptScreenUtils;
+import com.face_chtj.base_iotutils.display.activitylifecycle.ActivityLifecycleImp;
+import com.face_chtj.base_iotutils.display.activitylifecycle.DefaultAutoAdaptStrategy;
+import com.face_chtj.base_iotutils.display.AdaptScreenUtils;
 
 public final class BaseIotUtils {
     private static final String TAG = "BaseIotUtils";

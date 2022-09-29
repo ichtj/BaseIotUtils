@@ -11,8 +11,8 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.TimeUtils;
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.convert.TimeUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.face_chtj.base_iotutils.network.callback.IDownloadCallback;
 import com.face_chtj.base_iotutils.network.download.DownloadSupport;
 import com.face_chtj.base_iotutils.entity.FileCacheData;

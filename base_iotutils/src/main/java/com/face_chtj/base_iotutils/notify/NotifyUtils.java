@@ -26,7 +26,7 @@ import android.widget.RemoteViews;
 import com.face_chtj.base_iotutils.R;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.StringUtils;
+import com.face_chtj.base_iotutils.convert.TypeDataUtils;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -352,7 +352,7 @@ public class NotifyUtils {
 
     private NotifyUtils setView(int viewId,String content) {
         String appendStr = "";
-        if (!StringUtils.isEmpty(content)) {
+        if (!TypeDataUtils.isEmpty(content)) {
             appendStr = content;
         } else {
             appendStr = "";

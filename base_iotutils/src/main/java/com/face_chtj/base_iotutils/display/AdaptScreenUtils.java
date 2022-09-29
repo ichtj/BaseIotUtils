@@ -1,9 +1,8 @@
-package com.face_chtj.base_iotutils.screen_adapta;
+package com.face_chtj.base_iotutils.display;
 
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
-import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.lang.reflect.Field;

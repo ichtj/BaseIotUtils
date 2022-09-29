@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.display;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -17,7 +17,6 @@ import android.text.TextUtils;
 import androidx.annotation.RequiresApi;
 import androidx.annotation.RequiresPermission;
 
-import java.io.File;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -31,6 +30,10 @@ import static android.Manifest.permission.ACCESS_WIFI_STATE;
 import static android.Manifest.permission.CHANGE_WIFI_STATE;
 import static android.Manifest.permission.INTERNET;
 import static android.content.Context.WIFI_SERVICE;
+
+import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.SPUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 
 /**
  * @author chtj

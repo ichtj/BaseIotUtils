@@ -1,4 +1,6 @@
-package com.face_chtj.base_iotutils;
+package com.face_chtj.base_iotutils.convert;
+
+import com.face_chtj.base_iotutils.KLog;
 
 import java.io.FileInputStream;
 import java.security.MessageDigest;

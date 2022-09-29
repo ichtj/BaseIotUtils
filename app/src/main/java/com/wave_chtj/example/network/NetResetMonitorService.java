@@ -19,7 +19,7 @@ import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.TimeUtils;
+import com.face_chtj.base_iotutils.convert.TimeUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 
@@ -187,7 +187,7 @@ public class NetResetMonitorService extends Service {
             return;
         }
         netMonitorCallBack.getNetType(NetUtils.getNetWorkTypeName());
-        String[] pingList = NetMonitorUtils.getPingDns(2, NetMonitorUtils.DNS_LIST);
+        String[] pingList = NetMonitorUtils.getPingDns(2, NetUtils.DNS_LIST);
         boolean isPing = NetMonitorUtils.checkNetWork(pingList, 2, 1);
         netMonitorCallBack.getPingResult(isPing);
         netMonitorCallBack.getPingList(pingList);
@@ -352,7 +352,7 @@ public class NetResetMonitorService extends Service {
                             //如果有一次正常 那么
                             boolean isContinue = (aLong - 2) % 5 == 0 || (aLong - 3) % 5 == 0 || (aLong - 4) % 5 == 0;
                             if (aLong != 0 && aLong != 1 && aLong != 2 && aLong != 3 && aLong != 4 && isContinue) {
-                                String[] pingList = NetMonitorUtils.getPingDns(2, NetMonitorUtils.DNS_LIST);
+                                String[] pingList = NetMonitorUtils.getPingDns(2, NetUtils.DNS_LIST);
                                 boolean isPing = NetMonitorUtils.checkNetWork(pingList, 2, 1);
                                 int errCount = getErrCount();
                                 int totalCount = getTotalCount();
@@ -400,7 +400,7 @@ public class NetResetMonitorService extends Service {
                             if(resetMode==FLAG_MODE_REBOOT){
                                 if(isToRebootMode){
                                     KLog.d(TAG, "accept 10分钟到了 执行重启");
-                                    String[] pingList = NetMonitorUtils.getPingDns(2, NetMonitorUtils.DNS_LIST);
+                                    String[] pingList = NetMonitorUtils.getPingDns(2, NetUtils.DNS_LIST);
                                     StringBuilder stringBuilder=new StringBuilder();
                                     stringBuilder.append("重启前检查网络------>>>\n");
                                     stringBuilder.append("pingList：["+Arrays.toString(pingList)+"]\n");
@@ -446,7 +446,7 @@ public class NetResetMonitorService extends Service {
             if (ACTION_NET_CHANGE.equals(action)) {//网络变化
                 if (netMonitorCallBack != null) {
                     String netType = NetUtils.getNetWorkTypeName();
-                    boolean isPing = NetMonitorUtils.checkNetWork(NetMonitorUtils.getPingDns(2, NetMonitorUtils.DNS_LIST), 2, 1);
+                    boolean isPing = NetMonitorUtils.checkNetWork(NetMonitorUtils.getPingDns(2, NetUtils.DNS_LIST), 2, 1);
                     KLog.d(TAG, "action==> " + action + ", netType==> " + netType + ",isPing==> " + isPing);
                     handler.sendMessage(handler.obtainMessage(FLAG_GET_NETTYPE, netType));
                 }

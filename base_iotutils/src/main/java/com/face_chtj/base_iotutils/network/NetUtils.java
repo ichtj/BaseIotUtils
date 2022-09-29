@@ -9,6 +9,7 @@ import android.os.Build;
 import android.telephony.TelephonyManager;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.KLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -63,6 +64,11 @@ public class NetUtils {
     private static final int NETWORK_TYPE_TD_SCDMA = 17;
     private static final int NETWORK_TYPE_IWLAN = 18;
 
+    /*dns列表*/
+    public static final String[] DNS_LIST = new String[]{
+            "114.114.114.114", "223.5.5.5", "223.6.6.6", "180.76.76.76"/*, "8.8.8.8"*/,
+            "114.114.115.115", "119.29.29.29", "210.2.4.8"/*, "9.9.9.9"*/, "182.254.116.116", "199.91.73.222",
+            "101.226.4.6", "1.2.4.8"};
     /**
      * 需添加权限
      *
@@ -192,6 +198,30 @@ public class NetUtils {
     }
 
     /**
+     * 根据网络内容转换为网络名称字符串
+     * @param netType
+     * @return
+     */
+    public static String convertNetTypeName(int netType){
+        switch (netType) {
+            case NETWORK_WIFI:
+                return "NETWORK_WIFI";
+            case NETWORK_4G:
+                return "NETWORK_4G";
+            case NETWORK_3G:
+                return "NETWORK_3G";
+            case NETWORK_2G:
+                return "NETWORK_2G";
+            case NETWORK_ETH:
+                return "NETWORK_ETH";
+            case NETWORK_NO:
+                return "NETWORK_NO";
+            default:
+                return "NETWORK_UNKNOWN";
+        }
+    }
+
+    /**
      * 判断网络连接是否可用
      */
     public static boolean isNetworkAvailable() {
@@ -232,6 +262,22 @@ public class NetUtils {
     public static boolean isConnected() {
         NetworkInfo info = getActiveNetworkInfo();
         return info != null && info.isConnected();
+    }
+
+    /**
+     * 根据输入的dns列表循环判断网络是否异常
+     * dns中只要有一个通过 那么证明网络正常
+     */
+    public static boolean checkNetWork(String[] dnsList, int count, int deadline) {
+        for (String pingAddr : dnsList) {
+            boolean isPing=NetUtils.ping(pingAddr, count, deadline);
+            KLog.d("checkNetWork() isPing >> "+isPing);
+            if (isPing) {
+                //If it is abnormal when entering the program network at the beginning, then only prompt once
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

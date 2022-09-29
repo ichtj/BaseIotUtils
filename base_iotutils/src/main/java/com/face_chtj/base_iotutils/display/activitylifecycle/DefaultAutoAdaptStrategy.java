@@ -13,23 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.face_chtj.base_iotutils.screen_adapta.activitylifecycle;
+package com.face_chtj.base_iotutils.display.activitylifecycle;
 
 import android.app.Activity;
-import android.util.DisplayMetrics;
 
-import androidx.fragment.app.Fragment;
+import com.face_chtj.base_iotutils.BaseIotUtils;
 
 /**
- * 屏幕适配逻辑策略类
+ * ================================================
+ * 屏幕适配逻辑策略默认实现类,
  */
-public interface AutoAdaptStrategy {
+public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
+    private static final String TAG = DefaultAutoAdaptStrategy.class.getSimpleName();
 
-    /**
-     * 开始执行屏幕适配逻辑
-     *
-     * @param target   需要屏幕适配的对象 (可能是 {@link Activity} 或者 {@link Fragment})
-     * @param activity 需要拿到当前的 {@link Activity} 才能修改 {@link DisplayMetrics#density}
-     */
-    void applyAdapt(Object target, Activity activity);
+    @Override
+    public void applyAdapt(Object target, Activity activity) {
+        //是否开启了适配
+        BaseIotUtils.autoConvertDensityOfGlobal(activity);
+    }
 }

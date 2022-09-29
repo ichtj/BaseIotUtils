@@ -16,7 +16,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.app.ScreenInfoUtils;
+import com.face_chtj.base_iotutils.display.ScreenInfoUtils;
 
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;

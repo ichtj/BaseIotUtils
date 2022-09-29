@@ -2,12 +2,11 @@ package com.wave_chtj.example.video;
 
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.face_chtj.base_iotutils.ZipUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
