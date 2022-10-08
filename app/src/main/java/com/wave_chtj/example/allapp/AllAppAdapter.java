@@ -147,7 +147,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 if (isClearResult) {
                     ToastUtils.success("启用成功,该应用可正常上网！");
                 } else {
-                    ToastUtils.error("启用成功,请重试！");
+                    ToastUtils.error("启用失败,请重试！");
                 }
             }
         });

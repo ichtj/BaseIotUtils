@@ -271,7 +271,7 @@ public class NetUtils {
     public static boolean checkNetWork(String[] dnsList, int count, int deadline) {
         for (String pingAddr : dnsList) {
             boolean isPing=NetUtils.ping(pingAddr, count, deadline);
-            KLog.d("checkNetWork() isPing >> "+isPing);
+            //KLog.d("checkNetWork() isPing >> "+isPing);
             if (isPing) {
                 //If it is abnormal when entering the program network at the beginning, then only prompt once
                 return true;

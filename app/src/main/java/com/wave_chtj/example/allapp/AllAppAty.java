@@ -11,10 +11,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.chtj.base_framework.FIPTablesTools;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.display.AppsUtils;
+import com.face_chtj.base_iotutils.display.ToastUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
@@ -70,6 +72,18 @@ public class AllAppAty extends BaseActivity {
         List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
+    }
+
+    /**
+     * 启用全部应用的网络访问
+     */
+    public void enableAllAppNetClick(View view){
+        boolean isPass=FIPTablesTools.clearAllRule();
+        if(isPass){
+            ToastUtils.success("启用成功！");
+        }else{
+            ToastUtils.error("启用失败！");
+        }
     }
 
     /**
