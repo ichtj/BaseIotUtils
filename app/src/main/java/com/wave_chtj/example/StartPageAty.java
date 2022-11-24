@@ -6,7 +6,7 @@ import android.view.WindowManager;
 import androidx.annotation.Nullable;
 
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.network.NetResetMonitorAty;
+import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.reboot.RebootAty;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.test.TestAty;
@@ -30,7 +30,7 @@ public class StartPageAty extends BaseActivity {
         } else if (pkgName.contains(SwitchUtils.FLAG_REBOOT_PKG)) {
             startAty(RebootAty.class);
         } else if (pkgName.contains(SwitchUtils.FLAG_NETMONITOR_PKG)) {
-            startAty(NetResetMonitorAty.class);
+            startAty(NetMonitorAty.class);
         } else if (pkgName.contains(SwitchUtils.FLAG_EXAMPLE_PKG)) {
             startAty(FeaturesOptionAty.class);
         }else if(pkgName.contains("com.zto.ztoexpresscabinet")||pkgName.contains("com.ingenious_eyes.cabinet")){

@@ -4,11 +4,13 @@ import android.util.Log;
 
 import com.face_chtj.base_iotutils.entity.FileEntity;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
@@ -32,6 +34,7 @@ import java.util.Locale;
  * --得到文件大小 {@link #getFileFormatSize(String)}}----------得到byte,kb,mb,gb
  * --获取指定文件夹的大小 {@link #getFileSizes(String)}
  * --获取指定文件的可读大小 {@link #getFileAvailable(String)}
+ * --读取文件中的每一行内容到集合中去 {@link #readLineToList(String)}
  */
 public class FileUtils {
     private static final String TAG = "FileUtils";
@@ -205,6 +208,36 @@ public class FileUtils {
             }
         }
         return size;
+    }
+
+    /**
+     * 读取文件中的每一行内容到集合中去
+     * @return 返回读取到的所有包名list集合
+     */
+    public static List<String> readLineToList(String filePath) {
+        //将读出来的一行行数据使用Map存储
+        List<String> bmdList = new ArrayList<String>();
+        try {
+            File file = new File(filePath);
+            if (file.isFile() && file.exists()) {  //文件存在的前提
+                InputStreamReader isr = new InputStreamReader(new FileInputStream(file));
+                BufferedReader br = new BufferedReader(isr);
+                String lineTxt = null;
+                while ((lineTxt = br.readLine()) != null) {  //
+                    if (!"".equals(lineTxt)) {
+                        String reds = lineTxt.split("\\+")[0];  //java 正则表达式
+                        bmdList.add(reds);//依次放到集合中去
+                    }
+                }
+                isr.close();
+                br.close();
+            } else {
+                System.out.println("can not find file");//找不到文件情况下
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return bmdList;
     }
 
     /**

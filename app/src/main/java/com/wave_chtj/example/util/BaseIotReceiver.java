@@ -7,8 +7,7 @@ import android.util.Log;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.wave_chtj.example.FeaturesOptionAty;
-import com.wave_chtj.example.network.NetResetMonitorAty;
-import com.wave_chtj.example.network.NetResetMonitorService;
+import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.reboot.RebootCustomService;
 
 /**
@@ -31,7 +30,7 @@ public class BaseIotReceiver extends BroadcastReceiver {
             } else if (pkgName.contains(SwitchUtils.FLAG_SERIALPORT_PKG)) {
 
             } else if (pkgName.contains(SwitchUtils.FLAG_NETMONITOR_PKG)) {
-                Intent intent1 = new Intent(context, NetResetMonitorAty.class);
+                Intent intent1 = new Intent(context, NetMonitorAty.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);
             } else if (pkgName.contains(SwitchUtils.FLAG_EXAMPLE_PKG)) {

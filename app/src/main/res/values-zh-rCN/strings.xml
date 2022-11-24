@@ -20,7 +20,7 @@
     <string name="ping_ok">ping结果正常！</string>
     <string name="ping_err">ping结果异常！</string>
     <string name="service_start_err">后台服务启动失败！</string>
-    <string name="ping_addr_result">ping地址结果：[%1$s]</string>
+    <string name="ping_addr_result">ping地址结果：[%1$s] 当前时间：[%2$s]</string>
     <string name="service_start_succ">重启服务成功！</string>
     <string name="del_cache_succ">删除缓存日志成功！</string>
     <string name="del_cache_failed">删除缓存日志失败！</string>

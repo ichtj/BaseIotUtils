@@ -57,7 +57,7 @@ import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
-import com.wave_chtj.example.network.NetResetMonitorAty;
+import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.socket.SocketAty;
@@ -234,7 +234,7 @@ public class FeaturesOptionAty extends BaseActivity {
                 startAty(NetChangeAty.class);
                 break;
             case FKey.KEY_RESET_MONITOR:
-                startAty(NetResetMonitorAty.class);
+                startAty(NetMonitorAty.class);
                 break;
             case FKey.KEY_FILEDOWN:
                 startAty(FileDownLoadAty.class);

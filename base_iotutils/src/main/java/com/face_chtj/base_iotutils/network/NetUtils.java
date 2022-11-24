@@ -7,9 +7,9 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.KLog;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -279,100 +279,51 @@ public class NetUtils {
         }
         return false;
     }
-
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping() {
-
-        String result = null;
-        try {
-            String ip = "www.baidu.com";// ping 的地址，可以换成任何一种可靠的外网
-            Process p = Runtime.getRuntime().exec("ping -c 2 -w 1 " + ip);// ping网址3次
-            // 读取ping的内容，可以不加
-            InputStream input = p.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(input));
-            StringBuffer stringBuffer = new StringBuffer();
-            String content = "";
-            while ((content = in.readLine()) != null) {
-                stringBuffer.append(content);
-            }
-//            Log.d("------ping-----", "result content : " + stringBuffer.toString());
-            // ping的状态
-            int status = p.waitFor();
-            if (status == 0) {
-                result = "success";
-                return true;
-            } else {
-                result = "failed";
-            }
-        } catch (IOException e) {
-            result = "IOException";
-        } catch (InterruptedException e) {
-            result = "InterruptedException";
-        } finally {
-//            Log.d("----result---", "result = " + result);
-        }
-        return false;
-    }
-
-    /**
-     * 动态控制执行次数和时间
-     *
-     * @param count  执行次数
-     * @param deadline 时间秒
-     * @return 是否成功
-     */
-    public static final boolean ping(int count, int deadline) {
-        return ping("www.baidu.com", count, deadline);
+    public static final boolean ping(String ip){
+        return ping(ip,0);
     }
 
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip, int count, int deadline) {
-        String result = null;
-        try {
-            Process p = Runtime.getRuntime().exec("ping -c " + count + " -w " + deadline + " " + ip);// ping网址3次
-            // 读取ping的内容，可以不加
-            InputStream input = p.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(input));
-            StringBuffer stringBuffer = new StringBuffer();
-            String content = "";
-            while ((content = in.readLine()) != null) {
-                stringBuffer.append(content);
-            }
-//            Log.d("------ping-----", "result content : " + stringBuffer.toString());
-            // ping的状态
-            int status = p.waitFor();
-            if (status == 0) {
-                result = "success";
-                return true;
-            } else {
-                result = "failed";
-            }
-        } catch (IOException e) {
-            result = "IOException";
-        } catch (InterruptedException e) {
-            result = "InterruptedException";
-        } finally {
-//            Log.d("----result---", "result = " + result);
-        }
-        return false;
+    public static final boolean ping(String ip,int count){
+        return ping(ip,count,0);
     }
 
     /**
-     * ping IP
+     * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip) {
+    public static final boolean ping(String ip,int count,int w){
+        return ping(ip,count,w,0);
+    }
 
-        String result = null;
+
+    /**
+     * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
+     * 不要在主线程使用，会阻塞线程
+     */
+    public static final boolean ping(String ip, int count, int w,int W) {
         try {
-            // ping网址3次
-            Process p = Runtime.getRuntime().exec("ping -c 2 -w 1 " + ip);
+            StringBuffer cbstr=new StringBuffer("ping");
+            if(count!=0){
+                cbstr.append(" -c "+count);
+            }
+            if(w!=0){
+                cbstr.append(" -w "+w);
+            }
+            if(W!=0){
+                cbstr.append(" -W "+W);
+            }
+            cbstr.append(" "+ip);
+            String cmd=cbstr.toString();
+            Log.d("------ping-----", "ping cmd >> "+cmd);
+            Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
@@ -381,21 +332,15 @@ public class NetUtils {
             while ((content = in.readLine()) != null) {
                 stringBuffer.append(content);
             }
-            //Log.d("------ping-----", "result content : " + stringBuffer.toString());
             // ping的状态
             int status = p.waitFor();
+            Log.d("------ping-----", "result content : " + stringBuffer.toString()+" >> status ="+(status==0?true:false));
             if (status == 0) {
-                result = "success";
                 return true;
-            } else {
-                result = "failed";
             }
-        } catch (IOException e) {
-            result = "IOException";
-        } catch (InterruptedException e) {
-            result = "InterruptedException";
+        }catch (Throwable e) {
+            Log.e("------ping-----", "ping: ", e);
         } finally {
-            //Log.d("----result---", "result = " + result);
         }
         return false;
     }

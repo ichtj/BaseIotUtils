@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.chtj.base_framework.network.FLteTools;
+import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.display.ToastUtils;
@@ -23,11 +25,13 @@ public class NetChangeAty extends BaseActivity {
     private static final String TAG = "NetChangeAty";
     private TextView tvStatus;
     private TextView tvType;
+    private TextView tvDbm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
+        tvDbm = findViewById(R.id.tvDbm);
         tvStatus = findViewById(R.id.tvStatus);
         tvType = findViewById(R.id.tvType);
         if(NetUtils.getNetWorkType()==NetUtils.NETWORK_NO){
@@ -47,6 +51,12 @@ public class NetChangeAty extends BaseActivity {
                 KLog.e(TAG, "network type=" + netTypeName + ",isNormal=" + isNormal);
                 tvType.setText("" + netTypeName);
                 tvStatus.setText("" + isNormal);
+            }
+        });
+        FLteTools.instance().init4GDbm(new NetDbmListener() {
+            @Override
+            public void getDbm(String dbmAsu) {
+                tvDbm.setText("信号值："+dbmAsu);
             }
         });
     }

@@ -10,7 +10,7 @@ import com.face_chtj.base_iotutils.display.activitylifecycle.DefaultAutoAdaptStr
 import com.face_chtj.base_iotutils.display.AdaptScreenUtils;
 
 public final class BaseIotUtils {
-    private static final String TAG = "BaseIotUtils";
+    private static final String TAG = BaseIotUtils.class.getSimpleName();
     //全局上下文
     static Context sApp;
     //宽度

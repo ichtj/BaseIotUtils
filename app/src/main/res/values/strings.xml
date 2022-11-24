@@ -20,7 +20,7 @@
     <string name="ping_ok">ping result is normal！</string>
     <string name="ping_err">ping result is abnormal！</string>
     <string name="service_start_err">Background service failed to start！</string>
-    <string name="ping_addr_result">ping addr result：[%1$s]</string>
+    <string name="ping_addr_result">ping addr result：[%1$s] nowTime：[%2$s]</string>
     <string name="service_start_succ">Restart the service successfully！</string>
     <string name="del_cache_succ">Delete cache log successfully！</string>
     <string name="del_cache_failed">Failed to delete cache log！</string>

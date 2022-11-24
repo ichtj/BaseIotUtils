@@ -177,7 +177,7 @@
             android:theme="@style/AppTheme" />
         <!--网络重置监听工具-->
         <activity
-            android:name=".network.NetResetMonitorAty"
+            android:name=".network.NetMonitorAty"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity android:name=".test.TestAty"
@@ -199,7 +199,7 @@
             android:enabled="true"
             android:exported="true" />
         <!--网络重置监听的服务-->
-        <service android:name=".network.NetResetMonitorService"
+        <service android:name=".network.NetMonitorService"
             android:enabled="true"
             android:exported="true" />
         <!--重启后广播监听-->
