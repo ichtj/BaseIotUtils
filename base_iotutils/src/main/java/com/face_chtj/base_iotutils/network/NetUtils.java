@@ -268,9 +268,9 @@ public class NetUtils {
      * 根据输入的dns列表循环判断网络是否异常
      * dns中只要有一个通过 那么证明网络正常
      */
-    public static boolean checkNetWork(String[] dnsList, int count, int deadline) {
+    public static boolean checkNetWork(String[] dnsList, int count, int w) {
         for (String pingAddr : dnsList) {
-            boolean isPing=NetUtils.ping(pingAddr, count, deadline);
+            boolean isPing=NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
             if (isPing) {
                 //If it is abnormal when entering the program network at the beginning, then only prompt once

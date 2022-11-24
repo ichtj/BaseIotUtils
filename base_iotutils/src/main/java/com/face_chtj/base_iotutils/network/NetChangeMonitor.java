@@ -71,7 +71,7 @@ public class NetChangeMonitor extends BroadcastReceiver {
                 for (int i = 0; i < randomPosition.length; i++) {
                     dns[i] = NetUtils.DNS_LIST[randomPosition[i]];
                 }
-                boolean isPing=NetUtils.checkNetWork(dns,2, 3);
+                boolean isPing=NetUtils.checkNetWork(dns,1, 1);
                 //KLog.d("onReceive() isPing >> "+isPing+",dnsList >> "+ Arrays.toString(dns));
                 mINetChangeCallback.changed(type, isPing);
             }
