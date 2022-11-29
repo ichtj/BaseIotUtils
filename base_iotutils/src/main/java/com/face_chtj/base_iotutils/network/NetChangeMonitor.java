@@ -66,12 +66,8 @@ public class NetChangeMonitor extends BroadcastReceiver {
                 int type = NetUtils.getNetWorkType();
                 //判断网络是否连接正常，是否能够ping通
                 //KLog.e(TAG, "type=" + type);
-                int [] randomPosition= TypeDataUtils.randomNums(0,NetUtils.DNS_LIST.length,3);
-                String[] dns = new String[randomPosition.length];
-                for (int i = 0; i < randomPosition.length; i++) {
-                    dns[i] = NetUtils.DNS_LIST[randomPosition[i]];
-                }
-                boolean isPing=NetUtils.checkNetWork(dns,1, 1);
+                String [] pingList= TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+                boolean isPing=NetUtils.checkNetWork(pingList,1, 1);
                 //KLog.d("onReceive() isPing >> "+isPing+",dnsList >> "+ Arrays.toString(dns));
                 mINetChangeCallback.changed(type, isPing);
             }

@@ -24,6 +24,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.convert.TimeUtils;
 import com.face_chtj.base_iotutils.display.ToastUtils;
+import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
@@ -32,11 +33,10 @@ import com.wave_chtj.example.util.AppManager;
 import java.util.Arrays;
 
 public class NetMonitorAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener, INetMonitor {
-    private static final String TAG = NetMonitorAty.class.getSimpleName() + "F";
     private boolean isBound = false;
     private NetMonitorService nService;
     private TextView tvResetMode, tvNowTime, tvNetResult, tvNetType, tvPingList,
-            tvResetErrCount, tvInputAddrResult, tvTotalCount, tvDbm, tvModeResetTitle;
+            tvResetErrCount, tvInputAddrResult, tvTotalCount, tvDbm, tvModeResetTitle, tvTaskStatus;
     private RadioButton btnHard, btnSoft, rbOne, rbMore, rbRebootYes, rbRebootNo;
     private Button btnAirplaneMode, btnRestartMode;
     private EditText etAddress;
@@ -46,12 +46,11 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_net_reset_monitor);
-        KLog.d(TAG, "onCreate ");
         rbRebootYes = findViewById(R.id.rbRebootYes);
         rbRebootYes.setOnCheckedChangeListener(this);
+        tvTaskStatus = findViewById(R.id.tvTaskStatus);
         rbRebootNo = findViewById(R.id.rbRebootNo);
         rbRebootNo.setOnCheckedChangeListener(this);
-        ;
         tvDbm = findViewById(R.id.tvDbm);
         tvResetMode = findViewById(R.id.tvResetMode);
         tvNowTime = findViewById(R.id.tvNowTime);
@@ -74,35 +73,26 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
         llFifteenView = findViewById(R.id.llFifteenView);
         llResetExeu = findViewById(R.id.llResetExeu);
 
+        startBindService();
+    }
+
+    public void startBindService() {
         Intent intent = new Intent(this, NetMonitorService.class);
         startService(intent);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
         AppManager.getAppManager().finishActivity(StartPageAty.class);
-        IntentFilter intentFilter = new IntentFilter(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-        registerReceiver(mReceiver, intentFilter);
     }
 
-    BroadcastReceiver mReceiver = new AirplaneModeBroadcastReceiver();
-
-
-    private class AirplaneModeBroadcastReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (action.equals(Intent.ACTION_AIRPLANE_MODE_CHANGED)) {
-                KLog.d(TAG, "onReceive ACTION_AIRPLANE_MODE_CHANGED");
-            }
-        }
-    }
 
     private ServiceConnection conn = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
-            KLog.d(TAG, "onServiceConnected ");
+            KLog.d("onServiceConnected ");
             isBound = true;
             NetMonitorService.NetBinder myBinder = (NetMonitorService.NetBinder) binder;
             nService = myBinder.getService();
             if (nService == null) {
+                KLog.d("service_start_err() 1");
                 ToastUtils.error(getString(R.string.service_start_err));
                 return;
             }
@@ -126,7 +116,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
         @Override
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
-            KLog.d(TAG, "onServiceDisconnected ");
+            KLog.d("onServiceDisconnected ");
         }
     };
 
@@ -138,6 +128,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
         tvPingList.setText(String.format(getString(R.string.ping_list), "..."));
         tvNowTime.setText(String.format(getString(R.string.now_time), "..."));
         tvDbm.setText(String.format(getString(R.string.net_dbm), "..."));
+        tvTaskStatus.setText(String.format(getString(R.string.task_status), "..."));
     }
 
     /**
@@ -145,7 +136,6 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
      */
     public void changeResetModeTitle() {
         int resetMode = nService.getResetModeValue();
-        KLog.d(TAG, "changeResetModeTitle resetMode=" + resetMode);
         tvResetMode.setText(String.format(getString(R.string.net_reset_mode), nService.getResetMode()));
         if (resetMode == NetMtools.MODE_HARD || resetMode == NetMtools.MODE_SOFT) {
             if (resetMode == NetMtools.MODE_HARD) {
@@ -199,7 +189,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
             nService.setModeRestartCallBack(NetMtools.MODE_REBOOT);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
-            KLog.d(TAG, "btnAirplaneModeClick ");
+            KLog.d("btnAirplaneModeClick ");
         } else {
             ToastUtils.error(getString(R.string.service_start_err));
         }
@@ -216,7 +206,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
             nService.setModeRestartCallBack(NetMtools.MODE_AIRPLANE);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
-            KLog.d(TAG, "btnAirplaneModeClick ");
+            KLog.d("btnAirplaneModeClick ");
         } else {
             ToastUtils.error(getString(R.string.service_start_err));
         }
@@ -233,7 +223,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
             nService.setModeRestartCallBack(NetMtools.MODE_HARD);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
-            KLog.d(TAG, "btnHardClick ");
+            KLog.d("btnHardClick ");
         } else {
             ToastUtils.error(getString(R.string.service_start_err));
         }
@@ -250,7 +240,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
             nService.setModeRestartCallBack(NetMtools.MODE_SOFT);
             changeResetModeTitle();
             //ToastUtils.success(getString(R.string.service_start_succ));
-            KLog.d(TAG, "btnSoftClick ");
+            KLog.d("btnSoftClick ");
         } else {
             ToastUtils.error(getString(R.string.service_start_err));
         }
@@ -294,53 +284,52 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
             return;
         }
         String[] dnsList = new String[]{address};
-        boolean isPing = NetMtools.checkNetWork(dnsList, 1, 1);
+        boolean isPing = NetUtils.checkNetWork(dnsList, 1, 1);
         tvInputAddrResult.setText(String.format(getString(R.string.ping_addr_result), (isPing ? getString(R.string.ping_ok) : getString(R.string.ping_err)), TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss")));
     }
 
     @Override
     public void getPingList(String[] pingList) {
-        KLog.d(TAG, "getPingList pingList=" + Arrays.toString(pingList));
         tvPingList.setText(String.format(getString(R.string.ping_list), Arrays.toString(pingList)));
     }
 
     @Override
     public void getNowTime(String time) {
-        KLog.d(TAG, "getNowTime time=" + time);
         tvNowTime.setText(String.format(getString(R.string.now_time), time));
     }
 
     @Override
-    public void getNetType(String netType,boolean isPing) {
-        KLog.d(TAG, "getNetType netType=" + netType+"isPing=" + isPing);
+    public void getNetType(String netType, boolean isPing) {
         tvNetType.setText(String.format(getString(R.string.net_type), netType));
         tvNetResult.setText(getString(isPing ? R.string.net_ok : R.string.net_err));
     }
 
     @Override
     public void getResetErrCount(int errCount) {
-        KLog.d(TAG, "getResetErrCount errCount=" + errCount);
         tvResetErrCount.setText(String.format(getString(R.string.net_reset_err_count), errCount + ""));
     }
 
     @Override
     public void getTotalCount(int totalCount) {
-        KLog.d(TAG, "getTotalCount totalCount=" + totalCount);
         tvTotalCount.setText(String.format(getString(R.string.net_reset_total_count), totalCount + ""));
     }
 
     @Override
     public void getDbm(String dBm) {
-        KLog.d(TAG, "getDbm dBm=" + dBm);
         tvDbm.setText(String.format(getString(R.string.net_dbm), dBm + ""));
     }
 
     @Override
+    public void taskStatus(boolean isRunning) {
+        tvTaskStatus.setText(String.format(getString(R.string.task_status), isRunning ? "正在运行" : "已停止"));
+    }
+
+    @Override
     public void onCheckedChanged(CompoundButton bv, boolean isChecked) {
-        if (isChecked) {
+        if (isChecked && bv.isPressed()) {
             switch (bv.getId()) {
                 case R.id.rbOne:
-                    Log.d(TAG, "onCheckedChanged: rbOne");
+                    KLog.d("onCheckedChanged: rbOne");
                     if (nService != null) {
                         nService.setCyclesCount(1);
                     } else {
@@ -348,7 +337,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
                     }
                     break;
                 case R.id.rbMore:
-                    Log.d(TAG, "onCheckedChanged: rbMore");
+                    KLog.d("onCheckedChanged: rbMore");
                     if (nService != null) {
                         nService.setCyclesCount(0);
                     } else {
@@ -356,7 +345,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
                     }
                     break;
                 case R.id.rbRebootYes:
-                    Log.d(TAG, "onCheckedChanged: rbRebootYes");
+                    KLog.d("onCheckedChanged: rbRebootYes");
                     if (nService != null) {
                         nService.setDefaultTimerdAchieve(true);
                     } else {
@@ -364,7 +353,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
                     }
                     break;
                 case R.id.rbRebootNo:
-                    Log.d(TAG, "onCheckedChanged: rbRebootNo");
+                    KLog.d("onCheckedChanged: rbRebootNo");
                     if (nService != null) {
                         nService.setDefaultTimerdAchieve(false);
                     } else {
@@ -378,12 +367,10 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        KLog.d(TAG, "onDestroy ");
-        if (isBound || nService != null) {
-            try {
-                unbindService(conn);
-            } catch (Throwable e) {
-            }
+        KLog.d("onDestroy >> ");
+        try {
+            unbindService(conn);
+        } catch (Throwable e) {
         }
     }
 }

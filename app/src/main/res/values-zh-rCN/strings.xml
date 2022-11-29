@@ -14,6 +14,7 @@
     <string name="net_reset_mode">重置模式：[%1$s]</string>
     <string name="net_reset_err_count">重置异常次数：[%1$s]</string>
     <string name="net_reset_total_count">总记录次数：[%1$s]</string>
+    <string name="task_status">任务状态：[%1$s]</string>
     <string name="net_now_ping">请输入一个地址Ping</string>
     <string name="net_ping">ping</string>
     <string name="input_add_err">请输入正确的地址！</string>
@@ -26,10 +27,10 @@
     <string name="del_cache_failed">删除缓存日志失败！</string>
     <string name="reset_err_count">重置异常次数</string>
     <string name="clear_all_logfile">清除所有缓存日志</string>
-    <string name="err_after_is_continue">模块重置失败后任务执行次数：</string>
+    <string name="err_after_is_continue">无网络是否继续：</string>
     <string name="reset_first_errcount">重置异常次数为0成功！</string>
-    <string name="exeu_one">一次</string>
-    <string name="exeu_more">无限次</string>
+    <string name="exeu_one">false</string>
+    <string name="exeu_more">true</string>
     <string name="net_monitor_remarks">注意：定时器每分钟会执行一次lastCount累加,lastCount为5的倍数时执行模块重置\n--------在模块重置后lastCount-4等于5的倍数时执行网络检测,网络异常次数加1</string>
     <string name="airplane_mode">飞行模式</string>
     <string name="module_reset">模块复位</string>

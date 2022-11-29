@@ -52,33 +52,6 @@ public class NetMtools {
     //AirplaneMode off
     public static final String[] CMD_ARIPLANEMODE_OFF=new String[]{"settings put global airplane_mode_on 0","am broadcast -a android.intent.action.AIRPLANE_MODE --ez state false"};
 
-
-    /**
-     * 判断网络是否异常
-     */
-    public static boolean checkNetWork(String[] dnsList, int count, int w) {
-        for (String pingAddr : dnsList) {
-            if (NetUtils.ping(pingAddr, count, w)) {
-                //If it is abnormal when entering the program network at the beginning, then only prompt once
-                return true;
-            }
-        }
-        return false;
-    }
-    /**
-     * 获取指定数量的dns列表
-     * @param randomSize 数量
-     */
-    public static String[] getPingDns(int randomSize,String [] availableList){
-        //每次随机获取三个dns进行网络判断 其中一个通过 那么跳出循环
-        int[] randomArray = randomCommon(0, availableList.length - 1, randomSize);
-        String[] dns = new String[randomArray.length];
-        for (int i = 0; i < randomArray.length; i++) {
-            dns[i] = availableList[randomArray[i]];
-        }
-        return dns;
-    }
-
     /**
      * 重启系统
      */
@@ -93,35 +66,5 @@ public class NetMtools {
         } catch (Throwable ex) {
             KLog.e(ex);
         }
-    }
-    /**
-     * 最简单最易理解的两重循环去重
-     * 随机指定范围内N个不重复的数
-     *
-     * @param min        指定范围最小值
-     * @param max        指定范围最大值
-     * @param randomSize 随机数个数
-     */
-    public static int[] randomCommon(int min, int max, int randomSize) {
-        if (randomSize > (max - min + 1) || max < min) {
-            return null;
-        }
-        int[] result = new int[randomSize];
-        int count = 0;
-        while (count < randomSize) {
-            int num = (int) (Math.random() * (max - min)) + min;
-            boolean flag = true;
-            for (int j = 0; j < randomSize; j++) {
-                if (num == result[j]) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                result[count] = num;
-                count++;
-            }
-        }
-        return result;
     }
 }

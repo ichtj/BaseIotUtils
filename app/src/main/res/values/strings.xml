@@ -14,6 +14,7 @@
     <string name="net_reset_mode">Reset Mode：[%1$s]</string>
     <string name="net_reset_err_count">Reset Error Count：[%1$s]</string>
     <string name="net_reset_total_count">Total Count：[%1$s]</string>
+    <string name="task_status">task status：[%1$s]</string>
     <string name="net_now_ping">Please enter an address to ping</string>
     <string name="net_ping">ping</string>
     <string name="input_add_err">Please enter correct address！</string>
@@ -26,10 +27,10 @@
     <string name="del_cache_failed">Failed to delete cache log！</string>
     <string name="reset_err_count">Reset Error Count</string>
     <string name="clear_all_logfile">clear all logFile</string>
-    <string name="err_after_is_continue">Number of task executions after module reset failed：</string>
+    <string name="err_after_is_continue">Whether to continue without network：</string>
     <string name="reset_first_errcount">Reset the number of exceptions to 0 successfully！</string>
-    <string name="exeu_one">one</string>
-    <string name="exeu_more">more</string>
+    <string name="exeu_one">false</string>
+    <string name="exeu_more">true</string>
     <string name="net_monitor_remarks">注意：定时器每分钟会执行一次lastCount累加,lastCount为5的倍数时执行模块重置\n--------在模块重置后lastCount-4等于5的倍数时执行网络检测,网络异常次数加1</string>
     <string name="airplane_mode">AirplaneMode</string>
     <string name="module_reset">Module reset</string>

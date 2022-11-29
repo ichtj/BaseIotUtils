@@ -18,6 +18,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.convert.TimeUtils;
+import com.face_chtj.base_iotutils.convert.TypeDataUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 
@@ -35,13 +36,15 @@ public class NetMonitorService extends Service {
     private static final String TAG = NetMonitorService.class.getSimpleName();
     private Disposable iDis;
     private int initialDelay = 1 * 60;//任务每分钟执行一次
+    private static final int RESET_CYCLE = 4;//重置周期为多少分钟
     private INetMonitor nCallback;
     private String nowFilePath;
     private String dbmInfo = 0 + " dBm " + 0 + " asu";
+    private int nowCount=0;
     //默认检测模式
     private static final int DEFAULT_RESET_MODE = NetMtools.MODE_HARD;
     //默认循环
-    private static final int DEFAULT_CYCLES_BREAK = 0;//0为无限次 1为1次
+    private static final int DEFAULT_CYCLES_BREAK = 1;//0为无限次 1为1次
     private static boolean DEFAULT_TIMERD_ACHIEVE = false;//每15分钟到达时是否重启
 
     public void setInetMonitor(INetMonitor nCallback) {
@@ -96,9 +99,9 @@ public class NetMonitorService extends Service {
         if (nCallback == null) {
             return;
         }
-        String[] pingList = NetMtools.getPingDns(2, NetUtils.DNS_LIST);
-        boolean isPing = NetMtools.checkNetWork(pingList, 1, 1);
-        nCallback.getNetType(NetUtils.getNetWorkTypeName(),isPing);
+        String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+        boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
+        nCallback.getNetType(NetUtils.getNetWorkTypeName(), isNetPing);
         nCallback.getPingList(pingList);
         int errCount = getErrCount();
         nCallback.getResetErrCount(errCount);
@@ -106,13 +109,15 @@ public class NetMonitorService extends Service {
         nCallback.getTotalCount(totalClount);
         nCallback.getDbm(dbmInfo);
         nCallback.getNowTime(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
+        nCallback.taskStatus(true);
     }
 
 
     @Override
     public void onCreate() {
         super.onCreate();
-        resetTaskRestart();
+        KLog.d("onCreate() >> ");
+        setModeRestartCallBack(getResetModeValue());
         FLteTools.instance().init4GDbm(new NetDbmListener() {
             @Override
             public void getDbm(String dbmAsu) {
@@ -134,7 +139,7 @@ public class NetMonitorService extends Service {
     public String getResetMode() {
         @IResetModel int resetMode = SPUtils.getInt(NetMtools.KEY_RESET_MOED, DEFAULT_RESET_MODE);
         String resetModeStr = getString(R.string.net_reset_hard);
-        switch (resetMode){
+        switch (resetMode) {
             case NetMtools.MODE_HARD:
                 resetModeStr = getString(R.string.net_reset_hard);
                 break;
@@ -187,6 +192,7 @@ public class NetMonitorService extends Service {
             registerReceiver(mReceiver, filter);
         } catch (Throwable e) {
         }
+        FileUtils.writeFileData(nowFilePath, "now start task >> " + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
         startTask();
     }
 
@@ -204,6 +210,7 @@ public class NetMonitorService extends Service {
      * 开启任务
      */
     public void startTask() {
+        nowCount=0;
         if (iDis == null) {
             iDis = Observable
                     .interval(initialDelay, initialDelay, TimeUnit.SECONDS)
@@ -216,7 +223,8 @@ public class NetMonitorService extends Service {
                                 nowFilePath = NetMtools.LOG_PATH + TimeUtils.getTodayDateHms("yyyyMMddHHmmss") + ".log";
                             }
                             int resetMode = getResetModeValue();
-                            if (aLong != 0 && aLong % 5 == 0) {
+                            if (nowCount % RESET_CYCLE == 0) {
+                                FileUtils.writeFileData(nowFilePath, "--->Arrived at reset time >> "+TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss")+"\n", false);
                                 String recordSetMode = "";
                                 switch (resetMode) {
                                     case NetMtools.MODE_HARD:
@@ -224,26 +232,26 @@ public class NetMonitorService extends Service {
                                         ShellUtils.CommandResult commandResult2 = ShellUtils.execCommand(NetMtools.CMD_STOP_RILL, true);
                                         KLog.d(TAG, "accept commandResult2=" + commandResult2.result + ",errMeg=" + commandResult2.errorMsg);
 
-                                        FileUtils.writeFileData(nowFilePath, "停止Rill服务 stop ril-daemon stopRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
+                                        FileUtils.writeFileData(nowFilePath, "--->停止Rill服务 stop ril-daemon stopRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
                                         Thread.sleep(20000);
 
                                         if (resetMode == NetMtools.MODE_HARD) {
                                             ShellUtils.CommandResult commandResult0 = ShellUtils.execCommand(NetMtools.CMD_HARD_RESET, true);
                                             KLog.d(TAG, "accept commandResult0=" + commandResult0.result + ",errMeg=" + commandResult0.errorMsg);
-                                            recordSetMode = "硬复位指令 写入-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                            recordSetMode = "--->hard write-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         } else {
                                             ShellUtils.CommandResult commandResult1 = ShellUtils.execCommand(NetMtools.CMD_SOFT_RESET, true);
                                             KLog.d(TAG, "accept commandResult1=" + commandResult1.result + ",errMeg=" + commandResult1.errorMsg);
-                                            recordSetMode = "软复位指令 写入-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                            recordSetMode = "--->soft write-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         }
                                         FileUtils.writeFileData(nowFilePath, recordSetMode, false);
 
                                         ShellUtils.CommandResult commandResult3 = ShellUtils.execCommand(NetMtools.CMD_START_RILL, true);
                                         KLog.d(TAG, "accept commandResult3=" + commandResult3.result + ",errMeg=" + commandResult3.errorMsg);
-                                        FileUtils.writeFileData(nowFilePath, "启动Rill服务 start ril-daemon startRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
+                                        FileUtils.writeFileData(nowFilePath, "--->start ril-daemon startRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
                                         break;
                                     case NetMtools.MODE_AIRPLANE:
-                                        recordSetMode = "飞行模式 开启后关闭-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",aLong=" + aLong + "\n";
+                                        recordSetMode = "--->airplane mode turn on and turn off-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         //开启飞行模式
                                         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(NetMtools.CMD_ARIPLANEMODE_ON, true);
                                         KLog.d(TAG, "accept commandResult=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
@@ -259,21 +267,20 @@ public class NetMonitorService extends Service {
 
                                 }
                             }
-                            // 789次都进行ping操作  并且判断结果是否正常
-                            //如果有一次正常 那么
-                            boolean isContinue = (aLong - 2) % 5 == 0 || (aLong - 3) % 5 == 0 || (aLong - 4) % 5 == 0;
-                            if (aLong != 0 && aLong != 1 && aLong != 2 && aLong != 3 && aLong != 4 && isContinue) {
-                                String[] pingList = NetMtools.getPingDns(2, NetUtils.DNS_LIST);
-                                boolean isPing = NetMtools.checkNetWork(pingList, 1, 1);
+                            String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+                            boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
+                            //判断模块重置的下一次执行之前 判断网络是否成功
+                            long converNum = nowCount + 1;
+                            boolean isContinue = nowCount != 0 && converNum != 0 && converNum % RESET_CYCLE == 0;
+                            KLog.d("accept() isContinue >> " + isContinue + " nowCount >> " + nowCount + " convert >> " + converNum);
+                            if (isContinue) {
                                 int errCount = getErrCount();
                                 int totalCount = getTotalCount();
-                                if ((aLong - 3) % 5 == 0) {
-                                    totalCount++;
-                                    setTotalCount(totalCount);
-                                    if (!isPing) {
-                                        errCount++;
-                                        setErrCount(errCount);
-                                    }
+                                totalCount++;
+                                setTotalCount(totalCount);
+                                if (!isNetPing) {
+                                    errCount++;
+                                    setErrCount(errCount);
                                 }
                                 String netType = NetUtils.getNetWorkTypeName();
                                 if (nCallback != null) {
@@ -282,41 +289,40 @@ public class NetMonitorService extends Service {
                                     nCallback.getResetErrCount(errCount);
                                     nCallback.getNowTime(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
                                     nCallback.getDbm(dbmInfo);
-                                    nCallback.getNetType(netType,isPing);
+                                    nCallback.getNetType(netType, isNetPing);
                                 }
                                 int cyclesCount = getCyclesCount();
                                 StringBuilder sbstr = new StringBuilder();
-                                sbstr.append("new Line----------aLong=" + aLong + "---------->");
-                                sbstr.append("nowTime：[" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "]\n");
-                                sbstr.append("pingList：[" + Arrays.toString(pingList) + "]\n");
-                                sbstr.append("isPing：[>>>>>>>>" + isPing + "<<<<<<<<]\n");
-                                sbstr.append("netType：[" + netType + "]\n");
-                                sbstr.append("dBm：[" + dbmInfo + "]\n");
-                                sbstr.append("resetMode：[" + getResetMode() + "]\n");
-                                sbstr.append("errCount：[" + errCount + "]\n");
-                                sbstr.append("totalCount：[" + totalCount + "]\n");
-                                sbstr.append("------" + (cyclesCount == 0 ? "继续执行" : "已结束") + "cyclesCount=[ " + cyclesCount + " ]\n");
+                                sbstr.append("\nrecord----------status nowTime：[" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss")+"]\n");
+                                sbstr.append("<---pingList：[" + Arrays.toString(pingList) + "]\n");
+                                sbstr.append("<---isPing：[>>>>>>>>" + isNetPing + "<<<<<<<<]\n");
+                                sbstr.append("<---netType：[" + netType + "]\n");
+                                sbstr.append("<---dBm：[" + dbmInfo + "]\n");
+                                sbstr.append("<---resetMode：[" + getResetMode() + "]\n");
+                                sbstr.append("<---errCount：[" + errCount + "]\n");
+                                sbstr.append("<---totalCount：[" + totalCount + "]\n");
+                                //sbstr.append("------" + (cyclesCount == 0 ? "继续执行" : "已结束") + "cyclesCount=[ " + cyclesCount + " ]\n");
 
                                 FileUtils.writeFileData(nowFilePath, sbstr.toString(), false);
-                                if (!isPing) {
+                                if (!isNetPing) {
                                     if (cyclesCount == 1) {
                                         KLog.d(TAG, "accept task end cyclesCount==1");
+                                        FileUtils.writeFileData(nowFilePath,"任务将停止执行 >> 请检查网络相关日志情况\n",false);
+                                        nCallback.taskStatus(false);
                                         closeDisposable();
                                     } else {
                                         KLog.d(TAG, "accept task cyclesCount==more");
                                     }
                                 }
                             }
-                            boolean isAdditional = aLong != 0 && aLong % 15 == 0 && getTimerdAchieve();
-                            boolean isToRebootMode = aLong != 0 && aLong % 10 == 0;
+                            boolean isAdditional = nowCount != 0 && nowCount % 15 == 0 && getTimerdAchieve();
+                            boolean isToRebootMode = nowCount != 0 && nowCount % 10 == 0;
                             if (resetMode == NetMtools.MODE_REBOOT) {
                                 if (isToRebootMode) {
                                     KLog.d(TAG, "accept 10分钟到了 执行重启");
-                                    String[] pingList = NetMtools.getPingDns(2, NetUtils.DNS_LIST);
                                     StringBuilder stringBuilder = new StringBuilder();
                                     stringBuilder.append("重启前检查网络------>>>\n");
                                     stringBuilder.append("pingList：[" + Arrays.toString(pingList) + "]\n");
-                                    boolean isNetPing = NetMtools.checkNetWork(pingList, 1, 1);
                                     stringBuilder.append("isNetPing：[>>>>>>>>" + isNetPing + "<<<<<<<<]\n");
                                     stringBuilder.append(".......10分钟到了,执行重启.......");
                                     FileUtils.writeFileData(nowFilePath, stringBuilder.toString(), false);
@@ -330,6 +336,7 @@ public class NetMonitorService extends Service {
                                     NetMtools.rebootSystem();
                                 }
                             }
+                            nowCount++;
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -358,9 +365,10 @@ public class NetMonitorService extends Service {
             if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {//网络变化
                 if (nCallback != null) {
                     String netType = NetUtils.getNetWorkTypeName();
-                    boolean isPing = NetMtools.checkNetWork(NetMtools.getPingDns(2, NetUtils.DNS_LIST), 1, 1);
-                    KLog.d(TAG, "action==> " + action + ", netType==> " + netType + ",isPing==> " + isPing);
-                    nCallback.getNetType(netType,isPing);
+                    String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+                    boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
+                    KLog.d(TAG, "action==> " + action + ", netType==> " + netType + ",isNetPing==> " + isNetPing);
+                    nCallback.getNetType(netType, isNetPing);
                 }
             }
         }

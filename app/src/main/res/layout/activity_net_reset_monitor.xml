@@ -187,15 +187,6 @@
                     android:orientation="horizontal">
 
                     <RadioButton
-                        android:id="@+id/rbOne"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:singleLine="true"
-                        android:text="@string/exeu_one"
-                        android:textColor="@color/black" />
-
-                    <RadioButton
                         android:id="@+id/rbMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -203,6 +194,14 @@
                         android:text="@string/exeu_more"
                         android:textColor="@color/black" />
 
+                    <RadioButton
+                        android:id="@+id/rbOne"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:singleLine="true"
+                        android:text="@string/exeu_one"
+                        android:textColor="@color/black" />
 
                 </RadioGroup>
             </LinearLayout>
@@ -269,6 +268,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15pt"
                 android:text="@string/net_reset_total_count"
+                android:textColor="@color/black" />
+            <TextView
+                android:id="@+id/tvTaskStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/task_status"
                 android:textColor="@color/black" />
 
             <TextView

@@ -7,4 +7,5 @@ public interface INetMonitor {
     void getResetErrCount(int errCount);
     void getTotalCount(int totalCount);
     void getDbm(String dBm);
+    void taskStatus(boolean isRunning);
 }

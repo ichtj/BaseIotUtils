@@ -10,12 +10,19 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.FileUtils;
+import com.face_chtj.base_iotutils.KLog;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 /**
  * @author chtj
@@ -64,11 +71,29 @@ public class NetUtils {
     private static final int NETWORK_TYPE_TD_SCDMA = 17;
     private static final int NETWORK_TYPE_IWLAN = 18;
 
-    /*dns列表*/
+    /**
+     * 建议自己去ping一个自己的服务地址
+     * 这里只是提供一些公共的，可能会被屏蔽，请留意
+     * 也不要长时间的用一个dns地址去ping ,最好每次随机获取一个两个地址去ping
+     */
     public static final String[] DNS_LIST = new String[]{
             "114.114.114.114", "223.5.5.5", "223.6.6.6", "180.76.76.76"/*, "8.8.8.8"*/,
-            "114.114.115.115", "119.29.29.29", "210.2.4.8"/*, "9.9.9.9"*/, "182.254.116.116", "199.91.73.222",
-            "101.226.4.6", "1.2.4.8"};
+            "114.114.115.115", "119.29.29.29", "210.2.4.8", "182.254.116.116"/*, "199.91.73.222"*/,
+            "101.226.4.6", "1.2.4.8", "47.106.129.104"};
+
+    /**
+     * 获取Ping地址列表 防止dns列表被禁用
+     */
+    public static String[] getDnsTable() {
+        List<String> pingList = FileUtils.readLineToList("/data/misc/.pinglist");
+        if (pingList != null && pingList.size() > 0) {
+            return pingList.toArray(new String[pingList.size()]);
+        } else {
+            return DNS_LIST;
+        }
+    }
+
+
     /**
      * 需添加权限
      *
@@ -269,6 +294,7 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     public static boolean checkNetWork(String[] dnsList, int count, int w) {
+        KLog.d("checkNetWork() dnsList >> "+ Arrays.toString(dnsList));
         for (String pingAddr : dnsList) {
             boolean isPing=NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
@@ -277,7 +303,7 @@ public class NetUtils {
                 return true;
             }
         }
-        return false;
+        return NetUtils.ping(DNS_LIST[DNS_LIST.length-1], count, w);
     }
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）

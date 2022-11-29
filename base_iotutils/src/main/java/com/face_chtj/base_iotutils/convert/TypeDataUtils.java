@@ -1,5 +1,9 @@
 package com.face_chtj.base_iotutils.convert;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 /**
  * Create on 2020/3/17
  * author chtj
@@ -35,33 +39,39 @@ public class TypeDataUtils {
     }
 
     /**
-     * 两重循环去重,随机指定范围内N个不重复的数
-     * min ~ max之间的数必须是连续的数
-     * @param min        指定范围最小值
-     * @param max        指定范围最大值
-     * @param randomSize 随机数个数
+     * 获取集合中随机个数不重复的项，返回下标数组
+     *
+     * @param list 数据列表
+     * @param num  随机数量
+     * @return 子集
      */
-    public static int[] randomNums(int min, int max, int randomSize) {
-        if (randomSize > (max - min + 1) || max < min) {
-            return null;
+    public static String[] getRandomList(String[] list, int num) {
+        List flagExist = new ArrayList();
+        List<Integer> indexList = new ArrayList<Integer>();
+        if (num >= list.length) {
+            return list;
         }
-        int[] result = new int[randomSize];
-        int count = 0;
-        while (count < randomSize) {
-            int num = (int) (Math.random() * (max - min)) + min;
-            boolean flag = true;
-            for (int j = 0; j < randomSize; j++) {
-                if (num == result[j]) {
-                    flag = false;
-                    break;
-                }
-            }
-            if (flag) {
-                result[count] = num;
-                count++;
+        // 创建随机数
+        Random random = new Random();
+        // 当set长度不足 指定数量时
+        while (flagExist.size() < num) {
+            // 获取源集合的长度的随机数
+            Integer index = random.nextInt(list.length);
+            // 获取随机数下标对应的元素
+            Object obj = list[index];
+            // 不包含该元素时
+            if (!flagExist.contains(obj)) {
+                // 添加到集合中
+                flagExist.add(obj);
+                // 记录下标
+                indexList.add(index);
             }
         }
-        return result;
+        String[] pingList=new String[indexList.size()];
+        for (int i = 0; i < indexList.size(); i++) {
+            pingList[i]=list[indexList.get(i)];
+        }
+        return pingList;
     }
 
 }
