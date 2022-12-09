@@ -39,6 +39,22 @@ public class NetChangeAty extends BaseActivity {
             tvType.setText("无" );
             tvStatus.setText("false");
         }
+
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                while (true){
+                    boolean isPingDns=NetUtils.reloadDnsPing();
+                    KLog.d("run() isPingDns >> "+isPingDns);
+                    try {
+                        Thread.sleep(5000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }.start();
     }
 
     //开始监听

@@ -47,6 +47,7 @@ import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.PlayAudioAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.face_chtj.base_iotutils.UriPathUtils;
+import com.wave_chtj.example.bluetooth.BlueToothAty;
 import com.wave_chtj.example.crash.CrashTools;
 import com.wave_chtj.example.crash.MyService;
 import com.wave_chtj.example.download.FileDownLoadAty;
@@ -195,6 +196,7 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_KEEPALIVE, new String[]{"ATY/SERVICE保活"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.KEY_BLUETOOTH, new String[]{"蓝牙测试"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_CRASH, new String[]{"死机验证"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
     }
@@ -440,6 +442,9 @@ public class FeaturesOptionAty extends BaseActivity {
                 break;
             case FKey.KEY_INSTALL:
                 startAty(InstallAPkAty.class);
+                break;
+            case FKey.KEY_BLUETOOTH:
+                startAty(BlueToothAty.class);
                 break;
             case FKey.KEY_MORE:
                 ToastUtils.info("敬请期待！");

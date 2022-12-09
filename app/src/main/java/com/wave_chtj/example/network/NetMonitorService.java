@@ -99,7 +99,7 @@ public class NetMonitorService extends Service {
         if (nCallback == null) {
             return;
         }
-        String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+        String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
         boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
         nCallback.getNetType(NetUtils.getNetWorkTypeName(), isNetPing);
         nCallback.getPingList(pingList);
@@ -267,7 +267,7 @@ public class NetMonitorService extends Service {
 
                                 }
                             }
-                            String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+                            String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
                             boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
                             //判断模块重置的下一次执行之前 判断网络是否成功
                             long converNum = nowCount + 1;
@@ -365,7 +365,7 @@ public class NetMonitorService extends Service {
             if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {//网络变化
                 if (nCallback != null) {
                     String netType = NetUtils.getNetWorkTypeName();
-                    String[] pingList = TypeDataUtils.getRandomList(NetUtils.getDnsTable(),3);
+                    String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
                     boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
                     KLog.d(TAG, "action==> " + action + ", netType==> " + netType + ",isNetPing==> " + isNetPing);
                     nCallback.getNetType(netType, isNetPing);

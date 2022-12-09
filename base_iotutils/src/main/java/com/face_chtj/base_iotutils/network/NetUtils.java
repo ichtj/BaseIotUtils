@@ -10,19 +10,17 @@ import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.convert.TypeDataUtils;
+import com.face_chtj.base_iotutils.entity.DnsBean;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author chtj
@@ -72,27 +70,21 @@ public class NetUtils {
     private static final int NETWORK_TYPE_IWLAN = 18;
 
     /**
+     * 预计多少秒后刷新dns列表
+     */
+    private static final int TIMERD_DNS_REFRESH = 120;
+
+    /**
      * 建议自己去ping一个自己的服务地址
      * 这里只是提供一些公共的，可能会被屏蔽，请留意
      * 也不要长时间的用一个dns地址去ping ,最好每次随机获取一个两个地址去ping
      */
     public static final String[] DNS_LIST = new String[]{
-            "114.114.114.114", "223.5.5.5", "223.6.6.6", "180.76.76.76"/*, "8.8.8.8"*/,
-            "114.114.115.115", "119.29.29.29", "210.2.4.8", "182.254.116.116"/*, "199.91.73.222"*/,
-            "101.226.4.6", "1.2.4.8", "47.106.129.104"};
-
-    /**
-     * 获取Ping地址列表 防止dns列表被禁用
-     */
-    public static String[] getDnsTable() {
-        List<String> pingList = FileUtils.readLineToList("/data/misc/.pinglist");
-        if (pingList != null && pingList.size() > 0) {
-            return pingList.toArray(new String[pingList.size()]);
-        } else {
-            return DNS_LIST;
-        }
-    }
-
+            "114.114.114.114", "114.114.115.115", "223.5.5.5",
+            "223.6.6.6", "180.76.76.76", "119.29.29.29",
+            "210.2.4.8", "182.254.116.116", "101.226.4.6",
+            "1.2.4.8", "218.30.118.6", "123.125.81.6",
+            "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4"};
 
     /**
      * 需添加权限
@@ -224,10 +216,11 @@ public class NetUtils {
 
     /**
      * 根据网络内容转换为网络名称字符串
+     *
      * @param netType
      * @return
      */
-    public static String convertNetTypeName(int netType){
+    public static String convertNetTypeName(int netType) {
         switch (netType) {
             case NETWORK_WIFI:
                 return "NETWORK_WIFI";
@@ -289,44 +282,104 @@ public class NetUtils {
         return info != null && info.isConnected();
     }
 
+
+    /**
+     * 尝试重新刷新可用的dns列表
+     * 并非每次都去筛选可用列表,而是按照定时机制,例如多少个小时后
+     */
+    private static boolean tryRefreshDns() {
+        KLog.d("tryRefreshDns() >> ");
+        String[] defList = NetUtils.DNS_LIST;
+        boolean isExistPass = false;
+        CopyOnWriteArrayList<DnsBean> dnsBeanList = new CopyOnWriteArrayList<>();
+        for (int i = 0; i < defList.length; i++) {
+            String nowDns = defList[i];
+            boolean isPing = NetUtils.ping(nowDns, 1, 1);
+            if (!isExistPass && isPing) {
+                isExistPass = true;
+            }
+            dnsBeanList.add(new DnsBean(nowDns, isPing));
+        }
+        BaseIotUtils.instance().dnsBeans = dnsBeanList;
+        return isExistPass;
+    }
+
+    private static String[] getConvertDns() {
+        List<String> dnsList = new ArrayList<>();
+        for (int i = 0; i < BaseIotUtils.instance().dnsBeans.size(); i++) {
+            DnsBean dnsBean = BaseIotUtils.instance().dnsBeans.get(i);
+            if (dnsBean.isPass) {
+                dnsList.add(dnsBean.dns);
+            }
+        }
+        return dnsList.toArray(new String[dnsList.size()]);
+    }
+
+    /**
+     * 调用此方法会自动刷新可用的dns列表并进行ping操作
+     * 请在子线程调用此方法
+     * 2小时刷新一次可用的dns列表
+     */
+    public static boolean reloadDnsPing() {
+        long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
+        if (beforeTime <= 0) {
+            //如果没有记录过时间 那么证明第一次加载DNS列表
+            BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
+            //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
+            return tryRefreshDns();
+        } else {
+            long nowTime = System.currentTimeMillis() / 1000;
+            long diffNum = nowTime - (beforeTime / 1000);
+            if (diffNum > TIMERD_DNS_REFRESH) {//大于两小时刷新一次 7200秒等于2小时
+                KLog.d("reloadDnsList() time >> " + TIMERD_DNS_REFRESH + " diffNum >> " + diffNum);
+                BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
+                //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
+                return tryRefreshDns();
+            }
+        }
+        //即使在上面经过刷新dns列表的情况下都没有ping那么还有这次
+        return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
+    }
+
     /**
      * 根据输入的dns列表循环判断网络是否异常
      * dns中只要有一个通过 那么证明网络正常
      */
     public static boolean checkNetWork(String[] dnsList, int count, int w) {
-        KLog.d("checkNetWork() dnsList >> "+ Arrays.toString(dnsList));
+        KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
         for (String pingAddr : dnsList) {
-            boolean isPing=NetUtils.ping(pingAddr, count, w);
+            boolean isPing = NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
             if (isPing) {
                 //If it is abnormal when entering the program network at the beginning, then only prompt once
                 return true;
             }
         }
-        return NetUtils.ping(DNS_LIST[DNS_LIST.length-1], count, w);
-    }
-    /**
-     * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
-     * 不要在主线程使用，会阻塞线程
-     */
-    public static final boolean ping(String ip){
-        return ping(ip,0);
+        return false;
     }
 
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip,int count){
-        return ping(ip,count,0);
+    public static final boolean ping(String ip) {
+        return ping(ip, 0);
     }
 
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip,int count,int w){
-        return ping(ip,count,w,0);
+    public static final boolean ping(String ip, int count) {
+        return ping(ip, count, 0);
+    }
+
+    /**
+     * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
+     * 不要在主线程使用，会阻塞线程
+     */
+    public static final boolean ping(String ip, int count, int w) {
+        return ping(ip, count, w, 0);
     }
 
 
@@ -334,21 +387,21 @@ public class NetUtils {
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final boolean ping(String ip, int count, int w,int W) {
+    public static final boolean ping(String ip, int count, int w, int W) {
         try {
-            StringBuffer cbstr=new StringBuffer("ping");
-            if(count!=0){
-                cbstr.append(" -c "+count);
+            StringBuffer cbstr = new StringBuffer("ping");
+            if (count != 0) {
+                cbstr.append(" -c " + count);
             }
-            if(w!=0){
-                cbstr.append(" -w "+w);
+            if (w != 0) {
+                cbstr.append(" -w " + w);
             }
-            if(W!=0){
-                cbstr.append(" -W "+W);
+            if (W != 0) {
+                cbstr.append(" -W " + W);
             }
-            cbstr.append(" "+ip);
-            String cmd=cbstr.toString();
-            Log.d("------ping-----", "ping cmd >> "+cmd);
+            cbstr.append(" " + ip);
+            String cmd = cbstr.toString();
+            Log.d("------ping-----", "ping cmd >> " + cmd);
             Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
@@ -360,11 +413,11 @@ public class NetUtils {
             }
             // ping的状态
             int status = p.waitFor();
-            Log.d("------ping-----", "result content : " + stringBuffer.toString()+" >> status ="+(status==0?true:false));
+            Log.d("------ping-----", "result content : " + stringBuffer.toString() + " >> status =" + (status == 0 ? true : false));
             if (status == 0) {
                 return true;
             }
-        }catch (Throwable e) {
+        } catch (Throwable e) {
             Log.e("------ping-----", "ping: ", e);
         } finally {
         }

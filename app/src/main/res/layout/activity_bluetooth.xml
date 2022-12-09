@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+    <com.wave_chtj.example.util.TopTitleView
+        android:id="@+id/ttView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ivback="@mipmap/back"
+        app:name="蓝牙测试" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSuportBle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="supportBleClick"
+            android:text="是否支持ble"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnEnableBlue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="enableBluetoothClick"
+            android:text="开启蓝牙"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnDisable"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="disableBluetoothClick"
+            android:text="关闭蓝牙"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnConfig"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="initConfigurationClick"
+            android:text="初始化配置"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnInitScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="initScanRuleClick"
+            android:text="初始化扫描"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnGetScan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getScanClick"
+            android:text="获取扫描结果"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <!--从小程序开发从设备功能主要关注以下功能-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnAdvertisementSupport"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="multipleAdvertisementSupportedClick"
+            android:text="判断是否支持从设备开发"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnFromDev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="slaveDeviceStartClick"
+            android:text="从设备开启"
+            android:textColor="@color/black" />
+
+        <Button
+            android:id="@+id/btnFromStopDev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="notifyClick"
+            android:text="从设备发送通知"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:padding="10dp" />
+</LinearLayout>

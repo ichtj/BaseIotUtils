@@ -9,9 +9,7 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.wave_chtj.example.R;
-import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.AppManager;
 
 import java.util.concurrent.TimeUnit;
 

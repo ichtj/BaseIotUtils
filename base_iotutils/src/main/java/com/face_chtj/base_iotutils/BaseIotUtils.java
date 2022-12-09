@@ -3,11 +3,16 @@ package com.face_chtj.base_iotutils;
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 
+import com.face_chtj.base_iotutils.entity.DnsBean;
+import com.face_chtj.base_iotutils.network.NetUtils;
 import com.face_chtj.base_iotutils.network.callback.IDefaultUrlCallback;
 import com.face_chtj.base_iotutils.display.activitylifecycle.ActivityLifecycleImp;
 import com.face_chtj.base_iotutils.display.activitylifecycle.DefaultAutoAdaptStrategy;
 import com.face_chtj.base_iotutils.display.AdaptScreenUtils;
+
+import java.util.concurrent.CopyOnWriteArrayList;
 
 public final class BaseIotUtils {
     private static final String TAG = BaseIotUtils.class.getSimpleName();
@@ -19,16 +24,22 @@ public final class BaseIotUtils {
     private int defaultHeight = 1920;
     //是否开启适配
     private boolean mAutoScreenAdaptation = false;
-    /**以高度适配 {@link #setCreenType(int)}*/
-    public static final int SCREEN_HEIGHT=0x1010;
-    /**以宽度适配  {@link #setCreenType(int)}*/
-    public static final int SCREEN_WIDTH=0x1011;
+    /**
+     * 以高度适配 {@link #setCreenType(int)}
+     */
+    public static final int SCREEN_HEIGHT = 0x1010;
+    /**
+     * 以宽度适配  {@link #setCreenType(int)}
+     */
+    public static final int SCREEN_WIDTH = 0x1011;
     //屏幕适配类型 高度|宽度
     private int screen_type = SCREEN_HEIGHT;
     //activity生命周期监控及适配屏幕
     private ActivityLifecycleImp mActivityLifecycleImp;
     private IDefaultUrlCallback iDefaultUrlCallback;
     private static volatile BaseIotUtils sInstance;
+    public CopyOnWriteArrayList<DnsBean> dnsBeans;
+    public long dnsRefreshTime;//
 
     //单例模式
     public static BaseIotUtils instance() {
@@ -51,7 +62,6 @@ public final class BaseIotUtils {
         return instance().iDefaultUrlCallback;
     }
 
-
     /**
      * 设置屏幕宽度 dp
      *
@@ -72,6 +82,7 @@ public final class BaseIotUtils {
      * 设置以宽度或者高度来配置
      * {@link #SCREEN_WIDTH} 按宽度适配
      * {@link #SCREEN_HEIGHT} 按高度适配
+     *
      * @param screen_type {@link #SCREEN_WIDTH}{@link #SCREEN_HEIGHT}
      */
     public BaseIotUtils setCreenType(int screen_type) {

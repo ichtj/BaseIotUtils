@@ -72,8 +72,18 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
         btnRestartMode = findViewById(R.id.btnRestartMode);
         llFifteenView = findViewById(R.id.llFifteenView);
         llResetExeu = findViewById(R.id.llResetExeu);
-
         startBindService();
+    }
+
+    /**
+     * 获取一个随机数
+     *
+     * @param start
+     * @param end
+     * @return
+     */
+    public static int getRandomNum(int start, int end) {
+        return (int) Math.floor(Math.random() * (start - end) + end);
     }
 
     public void startBindService() {
