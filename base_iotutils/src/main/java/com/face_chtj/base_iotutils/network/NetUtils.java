@@ -324,7 +324,7 @@ public class NetUtils {
         //先判断本机是否网络API返回正常
         if (getNetWorkType() != NETWORK_NO) {
             long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
-            if (beforeTime > 1) {
+            if (beforeTime <= 0) {
                 //如果没有记录过时间 那么证明第一次加载DNS列表
                 BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
                 //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
