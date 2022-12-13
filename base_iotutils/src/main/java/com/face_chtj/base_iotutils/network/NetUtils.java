@@ -72,7 +72,7 @@ public class NetUtils {
     /**
      * 预计多少秒后刷新dns列表
      */
-    private static final int TIMERD_DNS_REFRESH = 120;
+    private static final int TIMERD_DNS_REFRESH = 240;
 
     /**
      * 建议自己去ping一个自己的服务地址
@@ -321,24 +321,31 @@ public class NetUtils {
      * 2小时刷新一次可用的dns列表
      */
     public static boolean reloadDnsPing() {
-        long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
-        if (beforeTime <= 0) {
-            //如果没有记录过时间 那么证明第一次加载DNS列表
-            BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
-            //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
-            return tryRefreshDns();
-        } else {
-            long nowTime = System.currentTimeMillis() / 1000;
-            long diffNum = nowTime - (beforeTime / 1000);
-            if (diffNum > TIMERD_DNS_REFRESH) {//大于两小时刷新一次 7200秒等于2小时
-                KLog.d("reloadDnsList() time >> " + TIMERD_DNS_REFRESH + " diffNum >> " + diffNum);
+        //先判断本机是否网络API返回正常
+        if (getNetWorkType() != NETWORK_NO) {
+            long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
+            if (beforeTime > 1) {
+                //如果没有记录过时间 那么证明第一次加载DNS列表
                 BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
                 //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
                 return tryRefreshDns();
+            } else {
+                long nowTime = System.currentTimeMillis() / 1000;
+                long diffNum = nowTime - (beforeTime / 1000);
+                if (diffNum > TIMERD_DNS_REFRESH) {//大于两小时刷新一次 7200秒等于2小时
+                    KLog.d("reloadDnsList() time >> " + TIMERD_DNS_REFRESH + " diffNum >> " + diffNum);
+                    BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
+                    //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
+                    return tryRefreshDns();
+                }
             }
+            //即使在上面经过刷新dns列表的情况下都没有ping那么还有这次
+            return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
+        } else {
+            //由于网络出现问题 重置下一次刷新时间
+            BaseIotUtils.instance().dnsRefreshTime = 0;
+            return false;
         }
-        //即使在上面经过刷新dns列表的情况下都没有ping那么还有这次
-        return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
     }
 
     /**
