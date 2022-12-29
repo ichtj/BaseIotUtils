@@ -46,6 +46,8 @@ public class FKey {
     public static final int              KEY_OTA=42;//ota升级
     public static final int          KEY_INSTALL=43;//静默安装
     public static final int        KEY_BLUETOOTH=44;//蓝牙测试
-    public static final int            KEY_CRASH=45;//死机验证
-    public static final int             KEY_MORE=46;//其他
+    public static final int          VIDEO_CACHE=45;//视频录制
+    public static final int            KEY_CRASH=46;//死机验证
+    public static final int            KEY_NGINX=47;//死机验证
+    public static final int             KEY_MORE=48;//其他
 }

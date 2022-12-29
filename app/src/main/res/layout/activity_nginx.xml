@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.wave_chtj.example.util.TopTitleView
+        android:id="@+id/ttView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:ivback="@mipmap/back"
+        app:name="nginx验证" />
+    <TextView
+        android:id="@+id/tvNowIp"
+        android:layout_width="wrap_content"
+        android:text="当前IP：0.0.0.0"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:onClick="startOnClick"
+            android:text="开始" />
+
+        <Button
+            android:id="@+id/btnStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:onClick="stopOnClick"
+            android:text="停止" />
+
+        <Button
+            android:id="@+id/btnVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:onClick="versionOnClick"
+            android:text="版本" />
+        <Button
+            android:id="@+id/btnHelp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:onClick="helpOnClick"
+            android:text="帮助" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/etNginxCmd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="nginx " />
+
+        <Button
+            android:id="@+id/btnExeu"
+            android:layout_width="wrap_content"
+            android:onClick="exeuOnClick"
+            android:layout_height="wrap_content"
+            android:text="执行" />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/tvResult"
+        android:scrollbars="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="10dp" />
+</LinearLayout>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <SurfaceView
+        android:id="@+id/camera_preview"
+        android:layout_width="400dp"
+        android:layout_height="400dp" />
+
+    <com.wave_chtj.example.video.VideoPlayerView
+        android:id="@+id/videoPlayerView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="10pt"
+        android:layout_marginTop="10pt"
+        android:layout_marginEnd="10pt"
+        android:layout_marginBottom="10pt"
+        android:layout_toRightOf="@+id/camera_preview" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/timestamp_minute_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#7F00FF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/timestamp_minute_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#7F00FF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=":"
+            android:textColor="#7F00FF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/timestamp_second_prefix"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#7F00FF"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/timestamp_second_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0"
+            android:textColor="#7F00FF"
+            android:textSize="30sp" />
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/record_shutter"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/recording_shutter" />
+    <ImageButton
+        android:layout_toRightOf="@+id/record_shutter"
+        android:id="@+id/record_play"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="15dp"
+        android:background="@android:color/transparent"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/recording_shutter" />
+
+</RelativeLayout>

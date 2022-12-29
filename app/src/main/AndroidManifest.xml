@@ -6,7 +6,17 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
+    <!-- 调用摄像头 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <!-- 录制视频/音频 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <!-- sd卡读写 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <!-- 挂载sd卡 -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <!-- 唤醒屏幕 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.DEVICE_POWER"
         tools:ignore="ProtectedPermissions" />
@@ -74,10 +84,11 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS"/>
+    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
     <!--自定义保活广播-->
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
+
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
 
     <!-- 蓝牙相关 -->
@@ -187,11 +198,20 @@
             android:name=".network.NetMonitorAty"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
-        <activity android:name=".test.TestAty"
+        <activity
+            android:name=".test.TestAty"
             android:theme="@style/AppTheme" />
         <!--蓝牙测试-->
-        <activity android:name=".bluetooth.BlueToothAty"
+        <activity
+            android:name=".bluetooth.BlueToothAty"
             android:theme="@style/AppTheme" />
+        <!--视频录制-->
+        <activity
+            android:name=".video.PlayCacheVideoAty"
+            android:theme="@style/AppTheme" />
+        <!--nginx验证-->
+        <activity android:name=".nginx.NginxAty"
+            android:theme="@style/AppTheme"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
@@ -199,9 +219,15 @@
             android:exported="false" />
         <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
-        <service android:name=".crash.MyCrashService1" android:process=":crash1"/>
-        <service android:name=".crash.MyCrashService2" android:process=":crash2"/>
-        <service android:name=".crash.MyCrashService3" android:process=":crash3"/>
+        <service
+            android:name=".crash.MyCrashService1"
+            android:process=":crash1" />
+        <service
+            android:name=".crash.MyCrashService2"
+            android:process=":crash2" />
+        <service
+            android:name=".crash.MyCrashService3"
+            android:process=":crash3" />
 
         <!--测试重启后台服务-->
         <service
@@ -209,7 +235,8 @@
             android:enabled="true"
             android:exported="true" />
         <!--网络重置监听的服务-->
-        <service android:name=".network.NetMonitorService"
+        <service
+            android:name=".network.NetMonitorService"
             android:enabled="true"
             android:exported="true" />
         <!--重启后广播监听-->

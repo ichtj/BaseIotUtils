@@ -72,7 +72,7 @@ public class NetUtils {
     /**
      * 预计多少秒后刷新dns列表
      */
-    private static final int TIMERD_DNS_REFRESH = 240;
+    private static final int TIMERD_DNS_REFRESH = 7200;
 
     /**
      * 建议自己去ping一个自己的服务地址

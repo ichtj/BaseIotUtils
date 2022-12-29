@@ -117,7 +117,7 @@ public class ShellUtils {
             } catch (IOException e) {
                 String errmsg = e.getMessage();
                 if (errmsg != null) {
-                    KLog.e(TAG, errmsg);
+                    Log.e(TAG, errmsg);
                 } else {
                     e.printStackTrace();
                 }

@@ -59,6 +59,7 @@ import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.network.NetMonitorAty;
+import com.wave_chtj.example.nginx.NginxAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.socket.SocketAty;
@@ -71,6 +72,7 @@ import com.wave_chtj.example.util.excel.JXLExcelUtils;
 import com.wave_chtj.example.util.excel.POIExcelUtils;
 import com.wave_chtj.example.util.keyevent.IUsbHubListener;
 import com.wave_chtj.example.util.keyevent.UsbHubTools;
+import com.wave_chtj.example.video.PlayCacheVideoAty;
 import com.wave_chtj.example.video.VideoPlayAty;
 
 import java.io.File;
@@ -197,7 +199,9 @@ public class FeaturesOptionAty extends BaseActivity {
         indexBeanList.add(new IndexBean(FKey.KEY_OTA, new String[]{"ota升级(RK|FC)"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_INSTALL, new String[]{"静默安装"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_BLUETOOTH, new String[]{"蓝牙测试"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.VIDEO_CACHE, new String[]{"视频录制"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_CRASH, new String[]{"死机验证"}, IndexAdapter.LAYOUT_ONE));
+        indexBeanList.add(new IndexBean(FKey.KEY_NGINX, new String[]{"nginx"}, IndexAdapter.LAYOUT_ONE));
         indexBeanList.add(new IndexBean(FKey.KEY_MORE, new String[]{"更多...."}, IndexAdapter.LAYOUT_ONE));
     }
 
@@ -446,11 +450,17 @@ public class FeaturesOptionAty extends BaseActivity {
             case FKey.KEY_BLUETOOTH:
                 startAty(BlueToothAty.class);
                 break;
+            case FKey.VIDEO_CACHE:
+                startAty(PlayCacheVideoAty.class);
+                break;
             case FKey.KEY_MORE:
                 ToastUtils.info("敬请期待！");
                 break;
             case FKey.KEY_CRASH:
                 CrashTools.crashtest();
+                break;
+            case FKey.KEY_NGINX:
+                startAty(NginxAty.class);
                 break;
         }
     }

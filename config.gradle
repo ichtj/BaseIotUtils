@@ -41,6 +41,7 @@ ext {
     ]
     //依赖第三方配置
     dependencies = [
+            "AndroidUSBCamera"        : "com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.2.10",
             "FastBle"                 : "com.github.Jasonchenlijian:FastBle:2.4.0",
             "converter-scalars"       : "com.squareup.retrofit2:converter-scalars:2.0.0",
             "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
@@ -83,8 +84,9 @@ ext {
             "butterknife"             : "com.jakewharton:butterknife:10.2.3",
             "butterknife-compiler"    : "com.jakewharton:butterknife-compiler:10.2.3",
             //recycleView baseAdapter
-            "base_adapter"    : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6",
-
+            "base_adapter"            : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6",
+            //ZIP压缩工具类
+            "android_shell"           : "com.jrummyapps:android-shell:1.0.0",
             //ZIP压缩工具类
             "ziputils"                : "net.lingala.zip4j:zip4j:1.3.2",
             //Excel jxl表格工具
