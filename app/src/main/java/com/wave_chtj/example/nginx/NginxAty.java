@@ -80,7 +80,7 @@ public class NginxAty extends BaseActivity {
     }
 
     public void exeuOnClick(View view) {
-        String cmd="/data/root/android.nginx/sbin/"+etNginxCmd.getText().toString();
+        String cmd="/data/data/xiaoqidun.anmpp/files/root/android.nginx/sbin/"+etNginxCmd.getText().toString();
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, true);
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("---------------"+cmd+"----------------\n");

@@ -35,11 +35,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<IndexBean, BaseViewH
             return LAYOUT_NO_BG;
         } else {
             return LAYOUT_ONE;
-        } /*else if (position <= 15) {
-            return LAYOUT_ONE;
-        } else {
-            return LAYOUT_TWO;
-        }*/
+        }
     }
 
 
