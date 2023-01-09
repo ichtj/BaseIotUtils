@@ -54,11 +54,11 @@ public class AllAppAty extends BaseActivity {
             //7.1.2系统才可以使用此方式获取总流量
             long total = FNetworkTools.getEthTotalUsage(FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
             String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
-            tvTotal.setText("总流量消耗：" + totalPhrase);
+            tvTotal.setText("总流量：" + totalPhrase);
         }catch (Exception e){
             e.printStackTrace();
             KLog.e(TAG,"errMeg:"+e.getMessage());
-            tvTotal.setText("总流量消耗：计算异常");
+            tvTotal.setText("总流量：计算异常");
         }
     }
 

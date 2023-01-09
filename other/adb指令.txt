@@ -1,0 +1,45 @@
+echo mem > /sys/power/state // kernel休眠
+echo on  > /sys/power/state //kernel唤醒
+-------------------------------------------------
+pm list packages -f             // 查看所有应用位置
+adb shell pm list packages      // 查看所有应用
+adb shell pm list packages -s   // 查看系统应用
+adb shell pm list packages -3   // 查看三方应用
+-------------------------------------------------
+busybox ifconfig             //获取以太网信息
+busybox ifconfig eth0 down   //关闭以太网
+busybox ifconfig eth0 up     //开启以太网
+-------------------------------------------------
+svc data enable  //开启移动网络
+svc data disable //关闭移动网络
+-------------------------------------------------
+busybox ifconfig ppp0 down //关闭网络连接4G
+stop  ril-daemon  //关闭网络注册上网服务
+start  ril-daemon //打开网络注册上网服务
+-------------------------------------------------
+adb shell wm size //查看屏幕分辨率
+ps | grep face    //根据关键字过滤
+-------------------------------------------------
+dumpsys window displays //查看屏幕信息
+wm size 1080x1920       //修改屏幕像素
+wm density 480          //修改屏幕dpi
+-------------------------------------------------
+logcat -b radio -v time //查看网络
+logcat -V/D/I/W/E/F/S //查看日志
+logcat -c -b main -b events -b radio -b system //清除所有日志
+-------------------------------------------------
+mount -o rw,remount /system  system //获取权限
+mount -o rw,remount -t ext4 /system //通用
+-------------------------------------------------
+adb shell am start -S -R 10 -W xxpkg/xxx.xxAty //测试Aty启动速度 执行10次 可以查看平均值
+am stopservice xxxpkg/xxx.xxService //停止Service
+adb shell am broadcast -a 广播名 --ei/es/ez 参数名 参数类型
+[ei 对应 integer | 类型es 对应 String | 类型ez 对应 boolean | 类型ef 对应 float | 类型el 对应 long ]
+java: dumpsys window | grep mCurrentFocus // 获取顶层应用
+cmd:adb shell dumpsys window | findstr mCurrentFocus // 获取顶层应用
+-------------------------------------------------
+cd sdcard;busybox find ./ -size +51200k > /sdcard/report.txt;cd / //安卓：19,查找大于50M的文件到指定文件夹
+find sdcard/ -size +50M > /sdcard/report.txt //安卓：25,查找大于50M的文件到指定文件夹
+du -m -d 1 /sdcard/* //列出sdcar文件夹下层级为1 的文件信息
+
+

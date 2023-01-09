@@ -25,15 +25,15 @@ public class BaseIotReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             String pkgName = context.getPackageName();
             KLog.d(TAG, "onReceive pkgName=" + pkgName);
-            if (pkgName.contains(SwitchUtils.FLAG_REBOOT_PKG)) {
+            if (pkgName.contains(SwitchUtils.FLAG_REBOOT)) {
                 context.startService(new Intent(context, RebootCustomService.class));
-            } else if (pkgName.contains(SwitchUtils.FLAG_SERIALPORT_PKG)) {
+            } else if (pkgName.contains(SwitchUtils.FLAG_SERIALPORT)) {
 
-            } else if (pkgName.contains(SwitchUtils.FLAG_NETMONITOR_PKG)) {
+            } else if (pkgName.contains(SwitchUtils.FLAG_NETMONITOR)) {
                 Intent intent1 = new Intent(context, NetMonitorAty.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);
-            } else if (pkgName.contains(SwitchUtils.FLAG_EXAMPLE_PKG)) {
+            } else if (pkgName.contains(SwitchUtils.FLAG_EXAMPLE)) {
                 Intent intent1 = new Intent(context, FeaturesOptionAty.class);
                 intent1.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent1);

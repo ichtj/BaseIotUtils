@@ -24,17 +24,23 @@ public class StartPageAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);            //设为全屏
-        String pkgName = getPackageName();
-        if (pkgName.contains(SwitchUtils.FLAG_SERIALPORT_PKG)) {
-            startAty(SerialPortAty.class);
-        } else if (pkgName.contains(SwitchUtils.FLAG_REBOOT_PKG)) {
-            startAty(RebootAty.class);
-        } else if (pkgName.contains(SwitchUtils.FLAG_NETMONITOR_PKG)) {
-            startAty(NetMonitorAty.class);
-        } else if (pkgName.contains(SwitchUtils.FLAG_EXAMPLE_PKG)) {
-            startAty(FeaturesOptionAty.class);
-        }else if(pkgName.contains("com.zto.ztoexpresscabinet")||pkgName.contains("com.ingenious_eyes.cabinet")){
-            startAty(TestAty.class);
+        switch (BuildConfig.APPLICATION_ID) {
+            case SwitchUtils.FLAG_SERIALPORT:
+                startAty(SerialPortAty.class);
+                break;
+            case SwitchUtils.FLAG_REBOOT:
+                startAty(RebootAty.class);
+                break;
+            case SwitchUtils.FLAG_NETMONITOR:
+                startAty(NetMonitorAty.class);
+                break;
+            case SwitchUtils.FLAG_EXAMPLE:
+                startAty(FeaturesOptionAty.class);
+                break;
+            case SwitchUtils.FLAG_ZTOCABINET:
+            case SwitchUtils.FLAG_CABINET:
+                startAty(TestAty.class);
+                break;
         }
     }
 

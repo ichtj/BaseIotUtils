@@ -143,7 +143,6 @@
         <!--屏幕适配相关-->
         <activity
             android:name=".screen.ScreenActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme" />
         <!--文件读写-->
         <activity

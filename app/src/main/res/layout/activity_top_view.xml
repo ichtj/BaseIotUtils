@@ -25,6 +25,7 @@
         android:layout_height="49pt"
         android:textColor="@color/black"
         android:gravity="center"
+        android:text="xxx"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
         android:textSize="18pt" />
@@ -32,5 +33,5 @@
         android:layout_below="@id/layoutview"
         android:layout_width="match_parent"
         android:background="@color/gray"
-        android:layout_height="1pt"/>
+        android:layout_height="0.2pt"/>
 </RelativeLayout>

@@ -49,30 +49,29 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     @NonNull
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.adapter_allapp, null, false);
-        RecyclerView.ViewHolder holder = null;
-        holder = new MyViewHolder(v);
+        View view = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.adapter_allapp, parent, false);
+        RecyclerView.ViewHolder holder = new MyViewHolder(view);
         return holder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         final int posiNum = position;
-        MyViewHolder myViewHolder=(MyViewHolder) holder;
+        MyViewHolder myViewHolder = (MyViewHolder) holder;
         myViewHolder.tvAppName.setText(list.get(position).getAppName());
         myViewHolder.tvPackName.setText(list.get(position).getPackageName());
         myViewHolder.tvUid.setText("UID:" + list.get(position).getUid() + "");
         myViewHolder.ivAppIcon.setImageDrawable(list.get(position).getIcon());
         KLog.d(TAG, " uid= " + list.get(position).getUid());
         for (int i = 0; i < list.get(position).getmProcessEntity().size(); i++) {
-                Log.d(TAG, "onCreate: process pid="+list.get(position).getmProcessEntity().get(i).getPid()+",pkgName="+list.get(position).getmProcessEntity().get(i).getProcessName());
+            Log.d(TAG, "onCreate: process pid=" + list.get(position).getmProcessEntity().get(i).getPid() + ",pkgName=" + list.get(position).getmProcessEntity().get(i).getProcessName());
 
         }
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
         myViewHolder.tvTraffic.setText("use:" + sumTraffic + "M");
-        myViewHolder.tvVersion.setText("v:" +list.get(position).getVersionName()+"."+list.get(position).getVersionCode());
+        myViewHolder.tvVersion.setText("v:" + list.get(position).getVersionName() + "." + list.get(position).getVersionCode());
         //7.1.2系统获取流量
         //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
@@ -97,10 +96,15 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 //获取剪贴板管理器：
                 ClipboardManager cm = (ClipboardManager) BaseIotUtils.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 // 创建普通字符型ClipData
-                ClipData mClipData = ClipData.newPlainText("Label", list.get(posiNum).getPackageName());
+                StringBuilder sb = new StringBuilder();
+                sb.append("appName：" + list.get(posiNum).getAppName() + "\n");
+                sb.append("packageName：" + list.get(posiNum).getPackageName() + "\n");
+                sb.append("apkVersion：" + list.get(posiNum).getVersionCode() + "\n");
+                sb.append("isSys：" + list.get(posiNum).getIsSys());
+                ClipData mClipData = ClipData.newPlainText("Label", sb.toString());
                 // 将ClipData内容放到系统剪贴板里。
                 cm.setPrimaryClip(mClipData);
-                ToastUtils.success("复制包名成功");
+                ToastUtils.success("复制应用信息成功");
             }
         });
         myViewHolder.tvToAppInfo.setOnClickListener(new View.OnClickListener() {
@@ -122,21 +126,19 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         myViewHolder.tvUnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //ToastUtils.info(Build.VERSION.SDK_INT + "  " + Build.VERSION_CODES.LOLLIPOP);
-                if (AppsUtils.isRoot()) {
-                    //如果已经root过 静默卸载
-                    AppsUtils.uninstall(list.get(posiNum).getPackageName());
+                AppsUtils.uninstall(list.get(posiNum).getPackageName());
+            }
+        });
+        myViewHolder.tvSilence.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean isOk = AppsUtils.uninstallSilent(list.get(posiNum).getAppName(), list.get(posiNum).getPackageName(), list.get(posiNum).getIsSys());
+                if (isOk) {
+                    ToastUtils.success("卸载成功,如果是系统应用请重启查看！");
+                    list.remove(list.get(posiNum));
+                    notifyDataSetChanged();
                 } else {
-                    //提示卸载 带弹窗
-                    KLog.d(TAG, "uninstallSilent");
-                    boolean isOk = AppsUtils.uninstallSilent(list.get(posiNum).getPackageName(), false);
-                    if (isOk) {
-                        ToastUtils.success("卸载成功");
-                        list.remove(list.get(posiNum));
-                        notifyDataSetChanged();
-                    } else {
-                        ToastUtils.error("卸载失败");
-                    }
+                    ToastUtils.error("卸载失败");
                 }
             }
         });
@@ -162,11 +164,6 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 }
             }
         });
-        if (list.get(position).getIsSys()) {
-            myViewHolder.tvUnInstall.setVisibility(View.GONE);
-        } else {
-            myViewHolder.tvUnInstall.setVisibility(View.VISIBLE);
-        }
     }
 
     @Override
@@ -176,7 +173,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAppName, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet,tvVersion;
+        public TextView tvAppName, tvSilence, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet, tvVersion;
         public ImageView ivAppIcon;
 
         public MyViewHolder(View itemView) {
@@ -193,6 +190,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvEnableNet = itemView.findViewById(R.id.tvEnableNet);
             tvDisableNet = itemView.findViewById(R.id.tvDisableNet);
             tvVersion = itemView.findViewById(R.id.tvVersion);
+            tvSilence = itemView.findViewById(R.id.tvSilence);
         }
     }
 }

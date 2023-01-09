@@ -117,7 +117,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
         rbHex.setOnCheckedChangeListener(this);
         String getPkgName = getPackageName();
         KLog.d("onCreate:>getPkgName=" + getPkgName);
-        if (getPkgName.contains(SwitchUtils.FLAG_SERIALPORT_PKG)) {
+        if (getPkgName.contains(SwitchUtils.FLAG_SERIALPORT)) {
             AppManager.getAppManager().finishActivity(StartPageAty.class);
         }
     }

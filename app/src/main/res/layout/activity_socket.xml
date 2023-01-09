@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
@@ -11,15 +11,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:ivback="@mipmap/back"
-        app:name="TCP/Upt通信" />
+        app:name="TCP/UDP通信" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="10pt">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="55pt"
             android:orientation="horizontal">
 
             <Spinner
@@ -34,70 +36,72 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="15pt"
-                android:textSize="13pt"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_stroke"
                 android:hint="请输入ip地址"
                 android:paddingLeft="10pt"
-                android:text="192.168.1.159" />
+                android:text="192.168.1.159"
+                android:textSize="13pt" />
 
             <EditText
                 android:id="@+id/etPort"
                 android:layout_width="100pt"
                 android:layout_height="match_parent"
-                android:textSize="13pt"
                 android:layout_marginLeft="15pt"
                 android:background="@drawable/button_style_stroke"
                 android:hint="端口"
                 android:paddingLeft="10pt"
-                android:text="5555" />
+                android:text="5555"
+                android:textSize="13pt" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_marginTop="10pt"
-            android:layout_height="80pt">
+            android:layout_height="55pt"
+            android:layout_marginTop="10pt">
 
             <Button
                 android:id="@+id/btnConnect"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="13pt"
                 android:layout_weight="1"
-                android:text="连接" />
+                android:text="连接"
+                android:textSize="13pt" />
 
             <Button
                 android:id="@+id/btnDisConnect"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:textSize="13pt"
                 android:layout_weight="1"
-                android:text="断开" />
+                android:text="断开"
+                android:textSize="13pt" />
 
         </LinearLayout>
 
         <EditText
             android:id="@+id/etSendContent"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="match_parent"
             android:layout_marginTop="40pt"
+            android:layout_weight="1"
             android:background="@drawable/button_style_stroke"
+            android:gravity="left|top"
             android:hint="发送的内容"
-            android:textSize="13pt"
             android:paddingLeft="10pt"
-            android:text="AABB" />
+            android:text="AABB"
+            android:textSize="13pt" />
 
         <Button
             android:id="@+id/btnSend"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="55pt"
             android:layout_marginTop="10pt"
-            android:textSize="13pt"
-            android:text="send" />
+            android:text="send"
+            android:textSize="13pt" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="55pt"
             android:layout_marginTop="15pt"
             android:orientation="horizontal">
 
@@ -105,8 +109,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:gravity="center|left"
-                android:textSize="13pt"
-                android:text="结果：" />
+                android:text="结果："
+                android:textSize="13pt" />
 
             <View
                 android:layout_width="wrap_content"
@@ -117,8 +121,8 @@
                 android:id="@+id/btnClear"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:textSize="13pt"
-                android:text="清空" />
+                android:text="清空"
+                android:textSize="13pt" />
 
         </LinearLayout>
 
@@ -127,8 +131,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="5pt"
-            android:textSize="13pt"
+            android:layout_weight="1"
             android:background="@drawable/button_style_stroke"
-            android:scrollbars="vertical" />
+            android:gravity="left|top"
+            android:scrollbars="vertical"
+            android:textSize="13pt" />
     </LinearLayout>
 </LinearLayout>

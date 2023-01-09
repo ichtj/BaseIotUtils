@@ -46,18 +46,18 @@ public class AppsUtils {
     private static final String TAG = "AppsUtils";
 
     /**
-     *获取当前系统使用的android api版本号
+     * 获取当前系统使用的android api版本号
      */
-    public static int getSdkVersion(){
+    public static int getSdkVersion() {
         return android.os.Build.VERSION.SDK_INT;
     }
 
 
     /**
-     *获取当前系统的android版本
+     * 获取当前系统的android版本
      * 例如android4.4 android7.1.2 android11等
      */
-    public static String getAndroidVersion(){
+    public static String getAndroidVersion() {
         return android.os.Build.VERSION.RELEASE;
     }
 
@@ -86,7 +86,7 @@ public class AppsUtils {
                 }
                 String versionCode = pm.getPackageInfo(packageName, 0).versionCode + "";
                 String versionName = pm.getPackageInfo(packageName, 0).versionName;
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, versionCode + "", versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName),getRunService(packageName));
+                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, versionCode + "", versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName), getRunService(packageName));
                 appEntityList.add(entity);
             }
         } catch (Exception e) {
@@ -111,7 +111,7 @@ public class AppsUtils {
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
                 // customs applications
-                String pkgName=pak.applicationInfo.packageName;
+                String pkgName = pak.applicationInfo.packageName;
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pkgName,
@@ -122,7 +122,7 @@ public class AppsUtils {
                         i,
                         pak.applicationInfo.uid,
                         false,
-                        getAllProcess(pkgName),getRunService(pkgName));
+                        getAllProcess(pkgName), getRunService(pkgName));
                 appEntityList.add(entity);
             }
         }
@@ -163,14 +163,14 @@ public class AppsUtils {
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) != 0) {
                 // customs applications
-                String pkgName=pak.applicationInfo.packageName;
+                String pkgName = pak.applicationInfo.packageName;
                 AppEntity entity = new AppEntity(i + "",
                         pManager.getApplicationLabel(pak.applicationInfo).toString(),
                         pkgName,
                         pak.versionCode + "",
                         pak.versionName,
                         pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid, true, getAllProcess(pkgName),getRunService(pkgName));
+                        false, i, pak.applicationInfo.uid, true, getAllProcess(pkgName), getRunService(pkgName));
                 appEntityList.add(entity);
             }
         }
@@ -206,15 +206,16 @@ public class AppsUtils {
 
     /**
      * 根据包名获取正在运行的服务
+     *
      * @param packagename 包名
      * @return 正在运行的Service
      */
     public static List<String> getRunService(String packagename) {
-        List<String> serviceList=new ArrayList<>();
+        List<String> serviceList = new ArrayList<>();
         ActivityManager activityManager = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         for (ActivityManager.RunningServiceInfo serviceInfo : activityManager.getRunningServices(Integer.MAX_VALUE)) {
-            ComponentName service=serviceInfo.service;
-            if(service.getPackageName().equals(packagename)){
+            ComponentName service = serviceInfo.service;
+            if (service.getPackageName().equals(packagename)) {
                 serviceList.add(service.getClassName());
             }
         }
@@ -267,10 +268,10 @@ public class AppsUtils {
      */
     public static int getAppVersionCode() {
         try {
-            Context context=BaseIotUtils.getContext();
+            Context context = BaseIotUtils.getContext();
             PackageInfo pinfo = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-            return  pinfo.versionCode;
+            return pinfo.versionCode;
         } catch (Exception e) {
             return 0;
         }
@@ -283,7 +284,7 @@ public class AppsUtils {
      */
     public static String getAppVersionName() {
         try {
-            Context context=BaseIotUtils.getContext();
+            Context context = BaseIotUtils.getContext();
             PackageInfo pinfo = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), PackageManager.GET_CONFIGURATIONS);
             return pinfo.versionName;
@@ -298,7 +299,7 @@ public class AppsUtils {
      * @return true |false
      */
     public static boolean isAppForeground() {
-        Context context=BaseIotUtils.getContext();
+        Context context = BaseIotUtils.getContext();
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return false;
         List<ActivityManager.RunningAppProcessInfo> info = am.getRunningAppProcesses();
@@ -334,7 +335,6 @@ public class AppsUtils {
     }
 
 
-
     /**
      * 带提示窗口卸载
      *
@@ -351,18 +351,20 @@ public class AppsUtils {
      * 卸载应用成功&失败
      *
      * @param packageName
-     * @param isKeepData
      * @return
      */
-    public static boolean uninstallSilent(String packageName, boolean isKeepData) {
-        boolean isRoot = isRoot();
-        String command = "LD_LIBRARY_PATH=/vendor/lib*:/system/lib* pm uninstall " + (isKeepData ? "-k" : "") + packageName;
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(new String[]{command}, isRoot);
-        if (commandResult.successMsg != null
-                && commandResult.successMsg.toLowerCase().contains("success")) {
-            return true;
+    public static boolean uninstallSilent(String appName, String packageName, boolean isSys) {
+        String command = "mount -o rw,remount -t ext4 /system;rm -rf /system/priv-app/" + appName + "rm -rf /system/app/" + appName + ";pm uninstall " + packageName;
+        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(new String[]{command}, isRoot());
+        if (isSys) {
+            return commandResult.result == 0;
         } else {
-            return false;
+            if (commandResult.successMsg != null
+                    && commandResult.successMsg.toLowerCase().contains("success")) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="1080pt"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
@@ -13,341 +12,367 @@
         app:ivback="@mipmap/back"
         app:name="串口收发" />
 
-    <RadioGroup
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15pt"
-        android:orientation="horizontal">
-
-        <RadioButton
-            android:id="@+id/rbHex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:checked="true"
-            android:text="HEX" />
-
-        <RadioButton
-            android:id="@+id/rbTxt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="TXT" />
-    </RadioGroup>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15pt"
-        android:layout_weight="1"
-        android:background="@drawable/button_style_stroke"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10pt">
+            android:orientation="vertical">
 
-            <LinearLayout
+            <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="15pt"
-                android:orientation="horizontal">
+                android:layout_height="55pt"
+                android:orientation="horizontal"
+                android:paddingLeft="15pt"
+                android:paddingTop="10pt">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="right|center"
-                        android:text="串口地址："
-                        android:textColor="@android:color/black"
-                        android:textSize="18pt" />
-
-                    <Spinner
-                        android:id="@+id/sp_com"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:textSize="18pt" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="right|center"
-                        android:text="波特率："
-                        android:textColor="@android:color/black"
-                        android:textSize="18pt" />
-
-                    <Spinner
-                        android:id="@+id/sp_burate"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:entries="@array/burate"
-                        android:textSize="18pt" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btn_init"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:text="开启串口"
-                    android:textSize="18pt"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/etCommand"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_style_stroke2"
-                    android:hint="请填写命令"
-                    android:paddingLeft="10pt"
-                    android:text="AA55030050002B"
-                    android:textSize="18pt" />
-
-                <EditText
-                    android:id="@+id/etAuto"
-                    android:layout_width="80pt"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:hint="自动发送(毫秒)"
-                    android:inputType="number"
-                    android:paddingLeft="10pt"
-                    android:text="500"
-                    android:textSize="18pt" />
-
-                <CheckBox
-                    android:id="@+id/cbMs"
+                <RadioButton
+                    android:id="@+id/rbHex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="自动" />
-
-                <Button
-                    android:id="@+id/btn_test_send"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:text="写数据"
-                    android:textSize="18pt" />
-            </LinearLayout>
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="80pt"
-                android:layout_marginTop="8pt"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_clear"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:text="清空"
+                    android:checked="true"
+                    android:text="HEX"
+                    android:textColor="@color/black"
                     android:textSize="18pt" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center|left"
-                    android:text="接收数据："
-                    android:textSize="18pt" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvResult"
-                android:layout_width="match_parent"
-                android:layout_height="300pt"
-                android:layout_weight="1"
-                android:background="@drawable/button_style_stroke2"
-                android:gravity="left|top"
-                android:scrollbars="vertical"
-                android:text="" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15pt"
-        android:layout_weight="1"
-        android:background="@drawable/button_style_stroke"
-        android:orientation="vertical">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:padding="10pt">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="15pt"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="right|center"
-                        android:text="串口地址："
-                        android:textColor="@android:color/black"
-                        android:textSize="18pt" />
-
-                    <Spinner
-                        android:id="@+id/sp_com2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:textSize="18pt" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:gravity="right|center"
-                        android:text="波特率："
-                        android:textColor="@android:color/black"
-                        android:textSize="18pt" />
-
-                    <Spinner
-                        android:id="@+id/sp_burate2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_weight="1"
-                        android:entries="@array/burate"
-                        android:textSize="18pt" />
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/btn_init2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:text="开启串口"
-                    android:textSize="18pt"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <EditText
-                    android:id="@+id/etCommand2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:layout_weight="1"
-                    android:background="@drawable/button_style_stroke2"
-                    android:hint="请填写命令"
-                    android:paddingLeft="10pt"
-                    android:text="AA550200511D"
-                    android:textSize="18pt" />
-
-                <EditText
-                    android:id="@+id/etAuto2"
-                    android:layout_width="80pt"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:hint="自动发送(毫秒)"
-                    android:inputType="number"
-                    android:paddingLeft="10pt"
-                    android:text="500"
-                    android:textSize="18pt" />
-
-                <CheckBox
-                    android:id="@+id/cbMs2"
+                <RadioButton
+                    android:id="@+id/rbTxt"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:gravity="center"
-                    android:text="自动" />
-
-                <Button
-                    android:id="@+id/btn_test_send2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="80pt"
-                    android:layout_gravity="center"
-                    android:text="写数据"
+                    android:text="TXT"
+                    android:textColor="@color/black"
                     android:textSize="18pt" />
+            </RadioGroup>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="15pt"
+                android:layout_weight="1"
+                android:background="@drawable/button_style_stroke"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10pt">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55pt"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="right|center"
+                                android:text="串口地址："
+                                android:textColor="@android:color/black"
+                                android:textSize="18pt" />
+
+                            <Spinner
+                                android:id="@+id/sp_com"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:textSize="18pt" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="right|center"
+                                android:text="波特率："
+                                android:textColor="@android:color/black"
+                                android:textSize="18pt" />
+
+                            <Spinner
+                                android:id="@+id/sp_burate"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:entries="@array/burate"
+                                android:textSize="18pt" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btn_init"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="开启串口"
+                            android:textSize="18pt"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="60pt"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etCommand"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginRight="10pt"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_style_stroke2"
+                            android:hint="请填写命令"
+                            android:paddingLeft="10pt"
+                            android:text="AA55030050002B"
+                            android:textSize="18pt" />
+
+                        <EditText
+                            android:id="@+id/etAuto"
+                            android:layout_width="80pt"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:hint="自动发送(毫秒)"
+                            android:inputType="number"
+                            android:paddingLeft="10pt"
+                            android:text="500"
+                            android:textSize="18pt" />
+
+                        <CheckBox
+                            android:id="@+id/cbMs"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10pt"
+                            android:layout_marginRight="10pt"
+                            android:gravity="center"
+                            android:text="自动" />
+
+                        <Button
+                            android:id="@+id/btn_test_send"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:layout_gravity="center"
+                            android:text="写数据"
+                            android:textSize="18pt" />
+                    </LinearLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55pt"
+                        android:layout_marginTop="8pt"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:gravity="left|center"
+                            android:text="接收数据："
+                            android:textSize="18pt" />
+
+                        <Button
+                            android:id="@+id/btn_clear"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="right"
+                            android:text="清空"
+                            android:textSize="18pt" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvResult"
+                        android:layout_width="match_parent"
+                        android:layout_height="300pt"
+                        android:background="@drawable/button_style_stroke2"
+                        android:gravity="left|top"
+                        android:scrollbars="vertical"
+                        android:text="" />
+                </LinearLayout>
             </LinearLayout>
 
-            <RelativeLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="80pt"
-                android:layout_marginTop="8pt"
-                android:orientation="horizontal">
-
-                <Button
-                    android:id="@+id/btn_clear2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentRight="true"
-                    android:text="清空"
-                    android:textSize="18pt" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentLeft="true"
-                    android:layout_centerInParent="true"
-                    android:gravity="center|left"
-                    android:text="接收数据："
-                    android:textSize="18pt" />
-            </RelativeLayout>
-
-            <TextView
-                android:id="@+id/tvResult2"
-                android:layout_width="match_parent"
-                android:layout_height="300pt"
+                android:layout_height="wrap_content"
+                android:layout_margin="15pt"
                 android:layout_weight="1"
-                android:background="@drawable/button_style_stroke2"
-                android:gravity="left|top"
-                android:scrollbars="vertical"
-                android:text="" />
+                android:background="@drawable/button_style_stroke"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="10pt">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55pt"
+                        android:layout_marginTop="15pt"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="right|center"
+                                android:text="串口地址："
+                                android:textColor="@android:color/black"
+                                android:textSize="18pt" />
+
+                            <Spinner
+                                android:id="@+id/sp_com2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:textSize="18pt" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:gravity="right|center"
+                                android:text="波特率："
+                                android:textColor="@android:color/black"
+                                android:textSize="18pt" />
+
+                            <Spinner
+                                android:id="@+id/sp_burate2"
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_gravity="center"
+                                android:layout_weight="1"
+                                android:entries="@array/burate"
+                                android:textSize="18pt" />
+                        </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btn_init2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:text="开启串口"
+                            android:textSize="18pt"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55pt"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etCommand2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_style_stroke2"
+                            android:hint="请填写命令"
+                            android:paddingLeft="10pt"
+                            android:text="AA550200511D"
+                            android:textSize="18pt" />
+
+                        <EditText
+                            android:id="@+id/etAuto2"
+                            android:layout_width="60pt"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:hint="自动发送(毫秒)"
+                            android:inputType="number"
+                            android:paddingLeft="10pt"
+                            android:text="500"
+                            android:textSize="18pt" />
+
+                        <CheckBox
+                            android:id="@+id/cbMs2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="10pt"
+                            android:layout_marginRight="10pt"
+                            android:gravity="center"
+                            android:text="自动" />
+
+                        <Button
+                            android:id="@+id/btn_test_send2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:text="写数据"
+                            android:textSize="18pt" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="55pt"
+                        android:layout_marginTop="8pt"
+                        android:orientation="horizontal">
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentLeft="true"
+                            android:layout_centerInParent="true"
+                            android:layout_weight="1"
+                            android:gravity="left|center"
+                            android:text="接收数据："
+                            android:textSize="18pt" />
+
+                        <Button
+                            android:id="@+id/btn_clear2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:text="清空"
+                            android:textSize="18pt" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/tvResult2"
+                        android:layout_width="match_parent"
+                        android:layout_height="300pt"
+                        android:background="@drawable/button_style_stroke2"
+                        android:gravity="left|top"
+                        android:scrollbars="vertical"
+                        android:text="" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
-    </LinearLayout>
+
+    </ScrollView>
 
 </LinearLayout>
