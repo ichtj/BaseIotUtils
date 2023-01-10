@@ -1,24 +1,39 @@
 package com.face_chtj.base_iotutils.network;
 
+import static android.Manifest.permission.ACCESS_WIFI_STATE;
+import static android.Manifest.permission.CHANGE_WIFI_STATE;
+import static android.Manifest.permission.INTERNET;
+import static android.content.Context.WIFI_SERVICE;
+
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
+import androidx.annotation.RequiresPermission;
+
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.convert.TypeDataUtils;
 import com.face_chtj.base_iotutils.entity.DnsBean;
 
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -36,88 +51,40 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * > NETWORK_ETH     =  9; ETH以太网
  */
 public class NetUtils {
-    /**
-     * no network
-     */
-    public static final int NETWORK_NO = -1;
-    /**
-     * wifi network
-     */
-    public static final int NETWORK_WIFI = 1;
-    /**
-     * "2G" networks
-     */
-    public static final int NETWORK_2G = 2;
-    /**
-     * "3G" networks
-     */
-    public static final int NETWORK_3G = 3;
-    /**
-     * "4G" networks
-     */
-    public static final int NETWORK_4G = 4;
-    /**
-     * unknown network
-     */
-    public static final int NETWORK_UNKNOWN = 5;
-    /**
-     * ETH networks
-     */
-    public static final int NETWORK_ETH = 9;
+    public static final int NETWORK_NO = -1;//no network
+    public static final int NETWORK_WIFI = 1;//wifi network
+    public static final int NETWORK_2G = 2;//"2G" networks
+    public static final int NETWORK_3G = 3;//"3G" networks
+    public static final int NETWORK_4G = 4;//"4G" networks
+    public static final int NETWORK_UNKNOWN = 5;//unknown network
+    public static final int NETWORK_ETH = 9;//ETH networks
+    private static final int NETWORK_TYPE_GSM = 16;//GSM
+    private static final int NETWORK_TYPE_TD_SCDMA = 17;//TDSCDMA
+    private static final int NETWORK_TYPE_IWLAN = 18;//IWLAN
 
-    private static final int NETWORK_TYPE_GSM = 16;
-    private static final int NETWORK_TYPE_TD_SCDMA = 17;
-    private static final int NETWORK_TYPE_IWLAN = 18;
-
-    /**
-     * 预计多少秒后刷新dns列表
-     */
-    private static final int TIMERD_DNS_REFRESH = 7200;
-
-    /**
-     * 建议自己去ping一个自己的服务地址
-     * 这里只是提供一些公共的，可能会被屏蔽，请留意
-     * 也不要长时间的用一个dns地址去ping ,最好每次随机获取一个两个地址去ping
-     */
+    private static final int TIMERD_DNS_REFRESH = 7200;//预计多少秒后刷新dns列表
     public static final String[] DNS_LIST = new String[]{
             "114.114.114.114", "114.114.115.115", "223.5.5.5",
             "223.6.6.6", "180.76.76.76", "119.29.29.29",
             "210.2.4.8", "182.254.116.116", "101.226.4.6",
             "1.2.4.8", "218.30.118.6", "123.125.81.6",
-            "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4","122.112.208.1",
-            "139.9.23.90","114.115.192.11","116.205.5.1","116.205.5.30",
+            "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1",
+            "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30",
             "122.112.208.175"
     };
 
     /**
-     * 需添加权限
-     *
-     * @return 网络类型
-     * @code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-     * <p>
-     * 它主要负责的是
+     * 获取网络类型
      * 1 监视网络连接状态 包括（Wi-Fi, 2G, 3G, 4G，ETH）
      * 2 当网络状态改变时发送广播通知
      * 3 网络连接失败尝试连接其他网络
      * 4 提供API，允许应用程序获取可用的网络状态
-     * <p>
-     * netTyped 的结果
-     * @link #NETWORK_NO      = -1; 当前无网络连接
-     * @link #NETWORK_WIFI    =  1; wifi的情况下
-     * @link #NETWORK_2G      =  2; 切换到2G环境下
-     * @link #NETWORK_3G      =  3; 切换到3G环境下
-     * @link #NETWORK_4G      =  4; 切换到4G环境下
-     * @link #NETWORK_UNKNOWN =  5; 未知网络
-     * @link #NETWORK_ETH     =  9; ETH以太网
      */
     public static int getNetWorkType() {
         // 获取ConnectivityManager
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
         NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
-
         int netType = NETWORK_NO;
-
         if (ni != null && ni.isConnectedOrConnecting()) {
             switch (ni.getType()) {//获取当前网络的状态
                 case ConnectivityManager.TYPE_WIFI:// wifi的情况下
@@ -159,7 +126,6 @@ public class NetUtils {
                             //切换到4G环境下
                             break;
                         default:
-
                             String subtypeName = ni.getSubtypeName();
                             if (subtypeName.equalsIgnoreCase("TD-SCDMA")
                                     || subtypeName.equalsIgnoreCase("WCDMA")
@@ -175,7 +141,6 @@ public class NetUtils {
                     netType = NETWORK_UNKNOWN;
                     //未知网络
             }
-
         } else {
             netType = NETWORK_NO;
             //当前无网络连接
@@ -185,18 +150,6 @@ public class NetUtils {
 
     /**
      * 获取当前的网络类型(WIFI,2G,3G,4G,ETH)
-     * <p>依赖上面的方法</p>
-     *
-     * @return 网络类型名称
-     * <ul>
-     * <li>NETWORK_ETH   </li>
-     * <li>NETWORK_WIFI   </li>
-     * <li>NETWORK_4G     </li>
-     * <li>NETWORK_3G     </li>
-     * <li>NETWORK_2G     </li>
-     * <li>NETWORK_UNKNOWN</li>
-     * <li>NETWORK_NO     </li>
-     * </ul>
      */
     public static String getNetWorkTypeName() {
         switch (getNetWorkType()) {
@@ -219,9 +172,6 @@ public class NetUtils {
 
     /**
      * 根据网络内容转换为网络名称字符串
-     *
-     * @param netType
-     * @return
      */
     public static String convertNetTypeName(int netType) {
         switch (netType) {
@@ -265,9 +215,6 @@ public class NetUtils {
 
     /**
      * 判断网络是否可用
-     * 需添加权限
-     *
-     * @code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
      */
     public static boolean isAvailable() {
         NetworkInfo info = getActiveNetworkInfo();
@@ -276,9 +223,6 @@ public class NetUtils {
 
     /**
      * 判断网络是否连接
-     * 需添加权限
-     *
-     * @code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
      */
     public static boolean isConnected() {
         NetworkInfo info = getActiveNetworkInfo();
@@ -356,7 +300,7 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     public static boolean checkNetWork(String[] dnsList, int count, int w) {
-        KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
+        //KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
         for (String pingAddr : dnsList) {
             boolean isPing = NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
@@ -411,7 +355,7 @@ public class NetUtils {
             }
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
-            Log.d("------ping-----", "ping cmd >> " + cmd);
+            //Log.d("------ping-----", "ping cmd >> " + cmd);
             Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
@@ -423,7 +367,7 @@ public class NetUtils {
             }
             // ping的状态
             int status = p.waitFor();
-            Log.d("------ping-----", "result content : " + stringBuffer.toString() + " >> status =" + (status == 0 ? true : false));
+            //Log.d("------ping-----", "result content : " + stringBuffer.toString() + " >> status =" + (status == 0 ? true : false));
             if (status == 0) {
                 return true;
             }
@@ -463,9 +407,6 @@ public class NetUtils {
 
     /**
      * 判断wifi是否连接状态
-     * <p>需添加权限 {@code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>}</p>
-     *
-     * @return {@code true}: 连接<br>{@code false}: 未连接
      */
     public static boolean isWifiConnected() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext()
@@ -486,9 +427,6 @@ public class NetUtils {
 
     /**
      * 判断网络是否是4G
-     * 需添加权限
-     *
-     * @code <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
      */
     public static boolean is4G() {
         NetworkInfo info = getActiveNetworkInfo();
@@ -497,26 +435,12 @@ public class NetUtils {
 
     /**
      * GPS是否打开
-     *
-     * @return
      */
     public static boolean isGpsEnabled() {
         LocationManager lm = ((LocationManager) BaseIotUtils.getContext().getSystemService(Context.LOCATION_SERVICE));
         List<String> accessibleProviders = lm.getProviders(true);
         return accessibleProviders != null && accessibleProviders.size() > 0;
     }
-
-    /*
-     * 下面列举几个可直接跳到联网设置的意图,供大家学习
-     *
-     *      startActivity(new Intent(android.provider.Settings.ACTION_APN_SETTINGS));
-     *      startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
-     *
-     *  用下面两种方式设置网络
-     *
-     *      startActivity(new Intent(android.provider.Settings.ACTION_WIFI_SETTINGS));
-     *      startActivity(new Intent(android.provider.Settings.ACTION_WIRELESS_SETTINGS));
-     */
 
     /**
      * 打开网络设置界面
@@ -532,8 +456,6 @@ public class NetUtils {
 
     /**
      * 获取活动网络信息
-     *
-     * @return NetworkInfo
      */
     private static NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -553,19 +475,191 @@ public class NetUtils {
     }
 
     /**
-     * 获取移动终端类型
-     *
-     * @return 手机制式
-     * <ul>
-     * <li>{@link TelephonyManager#PHONE_TYPE_NONE } : 0 手机制式未知</li>
-     * <li>{@link TelephonyManager#PHONE_TYPE_GSM  } : 1 手机制式为GSM，移动和联通</li>
-     * <li>{@link TelephonyManager#PHONE_TYPE_CDMA } : 2 手机制式为CDMA，电信</li>
-     * <li>{@link TelephonyManager#PHONE_TYPE_SIP  } : 3</li>
-     * </ul>
+     * 获取移动终端类型|手机制式
+     * {@link TelephonyManager#PHONE_TYPE_NONE } : 0 手机制式未知</li>
+     * {@link TelephonyManager#PHONE_TYPE_GSM  } : 1 手机制式为GSM，移动和联通</li>
+     * {@link TelephonyManager#PHONE_TYPE_CDMA } : 2 手机制式为CDMA，电信</li>
+     * {@link TelephonyManager#PHONE_TYPE_SIP  } : 3</li>
      */
     public static int getPhoneType() {
         TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext()
                 .getSystemService(Context.TELEPHONY_SERVICE);
         return tm != null ? tm.getPhoneType() : -1;
+    }
+
+    /**
+     * Return the MAC address.
+     * 获取设备 MAC 地址
+     * <p>Must hold {@code <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />},
+     * {@code <uses-permission android:name="android.permission.INTERNET" />},
+     * {@code <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />}</p>
+     *
+     * @return the MAC address
+     */
+    @RequiresPermission(allOf = {ACCESS_WIFI_STATE, INTERNET, CHANGE_WIFI_STATE})
+    public static String getMacAddress() {
+        String macAddress = getMacAddress((String[]) null);
+        if (!macAddress.equals("") || getWifiEnabled()) return macAddress;
+        setWifiEnabled(true);
+        setWifiEnabled(false);
+        return getMacAddress((String[]) null);
+    }
+
+    private static boolean getWifiEnabled() {
+        @SuppressLint("WifiManagerLeak")
+        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
+        if (manager == null) return false;
+        return manager.isWifiEnabled();
+    }
+    /**
+     * Enable or disable wifi.
+     * <p>Must hold {@code <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />}</p>
+     *
+     * @param enabled True to enabled, false otherwise.
+     */
+    @RequiresPermission(CHANGE_WIFI_STATE)
+    private static void setWifiEnabled(final boolean enabled) {
+        @SuppressLint("WifiManagerLeak")
+        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
+        if (manager == null) return;
+        if (enabled == manager.isWifiEnabled()) return;
+        manager.setWifiEnabled(enabled);
+    }
+
+    /**
+     * Return the MAC address.
+     * <p>Must hold {@code <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />},
+     * {@code <uses-permission android:name="android.permission.INTERNET" />}</p>
+     *
+     * @return the MAC address
+     */
+    @RequiresPermission(allOf = {ACCESS_WIFI_STATE, INTERNET})
+    public static String getMacAddress(final String... excepts) {
+        String macAddress = getMacAddressByNetworkInterface();
+        if (isAddressNotInExcepts(macAddress, excepts)) {
+            return macAddress;
+        }
+        macAddress = getMacAddressByInetAddress();
+        if (isAddressNotInExcepts(macAddress, excepts)) {
+            return macAddress;
+        }
+        macAddress = getMacAddressByWifiInfo();
+        if (isAddressNotInExcepts(macAddress, excepts)) {
+            return macAddress;
+        }
+        macAddress = getMacAddressByFile();
+        if (isAddressNotInExcepts(macAddress, excepts)) {
+            return macAddress;
+        }
+        return "";
+    }
+
+    private static boolean isAddressNotInExcepts(final String address, final String... excepts) {
+        if (excepts == null || excepts.length == 0) {
+            return !"02:00:00:00:00:00".equals(address);
+        }
+        for (String filter : excepts) {
+            if (address.equals(filter)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    @SuppressLint({"MissingPermission", "HardwareIds"})
+    private static String getMacAddressByWifiInfo() {
+        try {
+            final WifiManager wifi = (WifiManager) BaseIotUtils.getContext()
+                    .getApplicationContext().getSystemService(WIFI_SERVICE);
+            if (wifi != null) {
+                final WifiInfo info = wifi.getConnectionInfo();
+                if (info != null) return info.getMacAddress();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "02:00:00:00:00:00";
+    }
+
+    private static String getMacAddressByNetworkInterface() {
+        try {
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            while (nis.hasMoreElements()) {
+                NetworkInterface ni = nis.nextElement();
+                if (ni == null || !ni.getName().equalsIgnoreCase("wlan0")) continue;
+                byte[] macBytes = ni.getHardwareAddress();
+                if (macBytes != null && macBytes.length > 0) {
+                    StringBuilder sb = new StringBuilder();
+                    for (byte b : macBytes) {
+                        sb.append(String.format("%02x:", b));
+                    }
+                    return sb.substring(0, sb.length() - 1);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "02:00:00:00:00:00";
+    }
+
+    private static String getMacAddressByInetAddress() {
+        try {
+            InetAddress inetAddress = getInetAddress();
+            if (inetAddress != null) {
+                NetworkInterface ni = NetworkInterface.getByInetAddress(inetAddress);
+                if (ni != null) {
+                    byte[] macBytes = ni.getHardwareAddress();
+                    if (macBytes != null && macBytes.length > 0) {
+                        StringBuilder sb = new StringBuilder();
+                        for (byte b : macBytes) {
+                            sb.append(String.format("%02x:", b));
+                        }
+                        return sb.substring(0, sb.length() - 1);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "02:00:00:00:00:00";
+    }
+
+    private static InetAddress getInetAddress() {
+        try {
+            Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            while (nis.hasMoreElements()) {
+                NetworkInterface ni = nis.nextElement();
+                // To prevent phone of xiaomi return "10.0.2.15"
+                if (!ni.isUp()) continue;
+                Enumeration<InetAddress> addresses = ni.getInetAddresses();
+                while (addresses.hasMoreElements()) {
+                    InetAddress inetAddress = addresses.nextElement();
+                    if (!inetAddress.isLoopbackAddress()) {
+                        String hostAddress = inetAddress.getHostAddress();
+                        if (hostAddress.indexOf(':') < 0) return inetAddress;
+                    }
+                }
+            }
+        } catch (SocketException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private static String getMacAddressByFile() {
+        ShellUtils.CommandResult result = ShellUtils.execCommand("getprop wifi.interface", false);
+        if (result.result == 0) {
+            String name = result.successMsg;
+            if (name != null) {
+                result = ShellUtils.execCommand("cat /sys/class/net/" + name + "/address", false);
+                if (result.result == 0) {
+                    String address = result.successMsg;
+                    if (address != null && address.length() > 0) {
+                        return address;
+                    }
+                }
+            }
+        }
+        return "02:00:00:00:00:00";
     }
 }

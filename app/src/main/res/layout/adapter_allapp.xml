@@ -6,29 +6,49 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90pt"
         android:orientation="horizontal"
         android:weightSum="10">
 
         <ImageView
             android:id="@+id/ivAppIcon"
             android:layout_width="0dp"
-            android:layout_height="90pt"
+            android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
             android:src="@drawable/app_img" />
 
-        <TextView
-            android:id="@+id/tvAppName"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
             android:layout_weight="2"
-            android:singleLine="true"
-            android:text="appName"
-            android:textColor="@android:color/black"
-            android:textSize="20pt" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvAppName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10pt"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="appName"
+                android:textColor="@android:color/black"
+                android:textSize="20pt" />
+
+            <TextView
+                android:id="@+id/tvAppPath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10pt"
+                android:layout_marginTop="10pt"
+                android:layout_weight="1"
+                android:singleLine="true"
+                android:text="appPath"
+                android:textColor="@android:color/black"
+                android:textSize="12pt" />
+
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tvTraffic"

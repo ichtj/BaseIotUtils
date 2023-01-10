@@ -15,15 +15,9 @@ import org.json.JSONObject;
  * KLog.i(TAG,"xxx");
  * KLog.w(TAG,"xxx");
  * KLog.a(TAG,"xxx");
+ * KLog.json(TAG,"xxx");
  */
 public class KLog {
-
-    private static boolean IS_SHOW_LOG = false;
-
-    private static final String DEFAULT_MESSAGE = "execute";
-    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    private static final int JSON_INDENT = 4;
-
     private static final int V = 0x1;
     private static final int D = 0x2;
     private static final int I = 0x3;
@@ -31,6 +25,10 @@ public class KLog {
     private static final int E = 0x5;
     private static final int A = 0x6;
     private static final int JSON = 0x7;
+    private static final int JSON_INDENT = 4;
+    private static boolean IS_SHOW_LOG = false;
+    private static final String DEFAULT_MESSAGE = "execute";
+    private static final String LINE_SEPARATOR = System.getProperty("line.separator");
 
     public static void init(boolean isShowLog) {
         IS_SHOW_LOG = isShowLog;
@@ -145,9 +143,7 @@ public class KLog {
         if (msg != null && type != JSON) {
             stringBuilder.append(msg);
         }
-
         String logStr = stringBuilder.toString();
-
         switch (type) {
             case V:
                 Log.v(tag, logStr);
@@ -168,14 +164,11 @@ public class KLog {
                 Log.wtf(tag, logStr);
                 break;
             case JSON: {
-
                 if (TextUtils.isEmpty(msg)) {
                     Log.d(tag, "Empty or Null json content");
                     return;
                 }
-
                 String message = null;
-
                 try {
                     if (msg.startsWith("{")) {
                         JSONObject jsonObject = new JSONObject(msg);
@@ -188,7 +181,6 @@ public class KLog {
                     e(tag, e.getCause().getMessage() + "\n" + msg);
                     return;
                 }
-
                 printLine(tag, true);
                 message = logStr + LINE_SEPARATOR + message;
                 String[] lines = message.split(LINE_SEPARATOR);
@@ -196,34 +188,24 @@ public class KLog {
                 for (String line : lines) {
                     jsonContent.append("║ ").append(line).append(LINE_SEPARATOR);
                 }
-                //Log.i(tag, jsonContent.toString());
-
                 if (jsonContent.toString().length() > 3200) {
                     Log.w(tag, "jsonContent.length = " + jsonContent.toString().length());
                     int chunkCount = jsonContent.toString().length() / 3200;
                     for (int i = 0; i <= chunkCount; i++) {
                         int max = 3200 * (i + 1);
                         if (max >= jsonContent.toString().length()) {
-
                             Log.w(tag, jsonContent.toString().substring(3200 * i));
-
                         } else {
-
                             Log.w(tag, jsonContent.toString().substring(3200 * i, max));
-
                         }
-
                     }
-
                 } else {
                     Log.w(tag, jsonContent.toString());
-
                 }
                 printLine(tag, false);
             }
             break;
         }
-
     }
 
     private static void printLine(String tag, boolean isTop) {
@@ -233,5 +215,4 @@ public class KLog {
             Log.w(tag, "╚═══════════════════════════════════════════════════════════════════════════════════════");
         }
     }
-
 }

@@ -5,58 +5,23 @@ import android.graphics.drawable.Drawable;
 import java.util.List;
 
 public class AppEntity {
-    /**
-     * 编号
-     */
-    private String id;
-    /**
-     * app名称
-     */
-    private String appName;
-    /**
-     * 包名
-     */
-    private String packageName;
-    /**
-     * 版本号
-     */
-    private String versionCode;
-    /**
-     * 版本名称
-     */
-    private String versionName;
-    /**
-     * app图标
-     */
-    private Drawable icon;
-    /**
-     * 是否选中
-     */
-    private boolean isCheck;
-    /**
-     * 当前下标
-     */
-    private int position;
-
-    /**
-     * uid
-     */
-    private int uid;
-    /**
-     * 是否是系统应用
-     */
-    private boolean isSys;
-    /**
-     * 包名下的进程信息
-     */
-    private List<ProcessEntity> mProcessEntity;
-
-    private List<String> mRunServiceList;
+    private String id;//编号
+    private String appName;//app名称
+    private String packageName;//包名
+    private String versionCode;//版本号
+    private String versionName;//版本名称
+    private Drawable icon;//app图标
+    private boolean isCheck;//是否选中
+    private int position;//当前下标
+    private int uid;//uid
+    private boolean isSys;//是否是系统应用
+    private List<ProcessEntity> pkgProcess;//包名下的进程信息
+    private List<String> pkgService;//该应用运行的服务
 
     public AppEntity() {
     }
 
-    public AppEntity(String id, String appName, String packageName, String versionCode, String versionName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> mProcessEntity, List<String> mRunServiceList) {
+    public AppEntity(String id, String appName, String packageName, String versionCode, String versionName, Drawable icon, boolean isCheck, int position, int uid, boolean isSys, List<ProcessEntity> pkgProcess, List<String> pkgService) {
         this.id = id;
         this.appName = appName;
         this.packageName = packageName;
@@ -67,17 +32,32 @@ public class AppEntity {
         this.position = position;
         this.uid = uid;
         this.isSys = isSys;
-        this.mProcessEntity = mProcessEntity;
-        this.mRunServiceList = mRunServiceList;
+        this.pkgProcess = pkgProcess;
+        this.pkgService = pkgService;
     }
 
 
-    public List<String> getmRunServiceList() {
-        return mRunServiceList;
+    public List<ProcessEntity> getPkgProcess() {
+        return pkgProcess;
     }
 
-    public void setmRunServiceList(List<String> mRunServiceList) {
-        this.mRunServiceList = mRunServiceList;
+    public void setPkgProcess(List<ProcessEntity> pkgProcess) {
+        this.pkgProcess = pkgProcess;
+    }
+
+    public List<String> getPkgService() {
+        return pkgService;
+    }
+
+    public void setPkgService(List<String> pkgService) {
+        this.pkgService = pkgService;
+    }
+    public boolean isSys() {
+        return isSys;
+    }
+
+    public void setSys(boolean sys) {
+        isSys = sys;
     }
 
     public String getVersionCode() {
@@ -102,14 +82,6 @@ public class AppEntity {
 
     public boolean getIsSys() {
         return isSys;
-    }
-
-    public List<ProcessEntity> getmProcessEntity() {
-        return mProcessEntity;
-    }
-
-    public void setmProcessEntity(List<ProcessEntity> mProcessEntity) {
-        this.mProcessEntity = mProcessEntity;
     }
 
     public Drawable getIcon() {

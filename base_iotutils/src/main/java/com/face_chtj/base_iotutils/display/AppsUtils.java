@@ -43,15 +43,12 @@ import java.util.List;
  * --根据包名获取APP是否正在运行 {@link #isAppRunning(String)}
  */
 public class AppsUtils {
-    private static final String TAG = "AppsUtils";
-
     /**
      * 获取当前系统使用的android api版本号
      */
     public static int getSdkVersion() {
         return android.os.Build.VERSION.SDK_INT;
     }
-
 
     /**
      * 获取当前系统的android版本
@@ -61,22 +58,25 @@ public class AppsUtils {
         return android.os.Build.VERSION.RELEASE;
     }
 
+    public static String getAppPath(String pkgName) {
+        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("pm path " + pkgName, true);
+        KLog.d("getAppPath() path >> "+commandResult.successMsg);
+        return commandResult.result == 0 ? commandResult.successMsg.replace("package:","") : "null";
+    }
+
     /**
-     * 查询桌面所有应用
-     *
-     * @return 包含包名下app名称，图标的明细信息list
+     * 查询桌面所有应用 包含包名下app名称，图标的明细信息list
      */
     public static List<AppEntity> getDeskTopAppList() {
-        List<AppEntity> appEntityList = new ArrayList<AppEntity>();
         try {
+            List<AppEntity> appEntityList = new ArrayList<AppEntity>();
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
             PackageManager pm = BaseIotUtils.getContext().getPackageManager();
             List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
-            //for循环遍历ResolveInfo对象获取包名和类名
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
-                String packageName = info.activityInfo.packageName;
+                String pkg = info.activityInfo.packageName;
                 Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
@@ -84,16 +84,16 @@ public class AppsUtils {
                 if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
                     isSys = true;
                 }
-                String versionCode = pm.getPackageInfo(packageName, 0).versionCode + "";
-                String versionName = pm.getPackageInfo(packageName, 0).versionName;
-                AppEntity entity = new AppEntity(i + "", name.toString(), packageName, versionCode + "", versionName, icon, false, i, ai.uid, isSys, getAllProcess(packageName), getRunService(packageName));
+                String vCode = pm.getPackageInfo(pkg, 0).versionCode + "";
+                String vName = pm.getPackageInfo(pkg, 0).versionName;
+                AppEntity entity = new AppEntity(i + "", name.toString(), pkg, vCode + "", vName, icon, false, i, ai.uid, isSys, getAllProcess(pkg), getRunService(pkg));
                 appEntityList.add(entity);
             }
+            return appEntityList;
         } catch (Exception e) {
             e.printStackTrace();
-            KLog.d(TAG, "errMeg:" + e.getMessage());
+            return null;
         }
-        return appEntityList;
     }
 
     /**
@@ -107,22 +107,12 @@ public class AppsUtils {
         //获取手机内所有应用
         List<PackageInfo> paklist = pManager.getInstalledPackages(0);
         for (int i = 0; i < paklist.size(); i++) {
-            PackageInfo pak = (PackageInfo) paklist.get(i);
+            PackageInfo pak = paklist.get(i);
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) <= 0) {
                 // customs applications
-                String pkgName = pak.applicationInfo.packageName;
-                AppEntity entity = new AppEntity(i + "",
-                        pManager.getApplicationLabel(pak.applicationInfo).toString(),
-                        pkgName,
-                        pak.versionCode + "",
-                        pak.versionName,
-                        pManager.getApplicationIcon(pak.applicationInfo),
-                        false,
-                        i,
-                        pak.applicationInfo.uid,
-                        false,
-                        getAllProcess(pkgName), getRunService(pkgName));
+                String pkg = pak.applicationInfo.packageName;
+                AppEntity entity = new AppEntity(i + "", pManager.getApplicationLabel(pak.applicationInfo).toString(), pkg, pak.versionCode + "", pak.versionName, pManager.getApplicationIcon(pak.applicationInfo), false, i, pak.applicationInfo.uid, false, getAllProcess(pkg), getRunService(pkg));
                 appEntityList.add(entity);
             }
         }
@@ -162,15 +152,8 @@ public class AppsUtils {
             PackageInfo pak = (PackageInfo) paklist.get(i);
             //判断是否为非系统预装的应用程序
             if ((pak.applicationInfo.flags & pak.applicationInfo.FLAG_SYSTEM) != 0) {
-                // customs applications
-                String pkgName = pak.applicationInfo.packageName;
-                AppEntity entity = new AppEntity(i + "",
-                        pManager.getApplicationLabel(pak.applicationInfo).toString(),
-                        pkgName,
-                        pak.versionCode + "",
-                        pak.versionName,
-                        pManager.getApplicationIcon(pak.applicationInfo),
-                        false, i, pak.applicationInfo.uid, true, getAllProcess(pkgName), getRunService(pkgName));
+                String pkg = pak.applicationInfo.packageName;
+                AppEntity entity = new AppEntity(i + "", pManager.getApplicationLabel(pak.applicationInfo).toString(), pkg, pak.versionCode + "", pak.versionName, pManager.getApplicationIcon(pak.applicationInfo), false, i, pak.applicationInfo.uid, true, getAllProcess(pkg), getRunService(pkg));
                 appEntityList.add(entity);
             }
         }
@@ -190,11 +173,9 @@ public class AppsUtils {
         List<ProcessEntity> processEntityList = new ArrayList<>();
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> mRunningProcess = am.getRunningAppProcesses();
-        int pid = -1;
         for (ActivityManager.RunningAppProcessInfo amProcess : mRunningProcess) {
-            //KLog.d(TAG, "processName: " + amProcess.processName + ",pid=" + amProcess.pid);
             if (amProcess.processName.indexOf(packagename) != -1) {
-                pid = amProcess.pid;
+                int pid = amProcess.pid;
                 ProcessEntity processEntity = new ProcessEntity();
                 processEntity.setPid(pid);
                 processEntity.setProcessName(amProcess.processName);
@@ -233,8 +214,6 @@ public class AppsUtils {
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
             // 应用名称
             String appName = pm.getApplicationLabel(appInfo).toString();
-            //应用图标
-            //Drawable appIcon = pm.getApplicationIcon(appInfo);
             return appName;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -359,8 +338,7 @@ public class AppsUtils {
         if (isSys) {
             return commandResult.result == 0;
         } else {
-            if (commandResult.successMsg != null
-                    && commandResult.successMsg.toLowerCase().contains("success")) {
+            if (commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success")) {
                 return true;
             } else {
                 return false;

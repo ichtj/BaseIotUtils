@@ -24,7 +24,6 @@ public class PermissionsUtils {
     }
 
     public static class Builder {
-
         private Activity mActivity;
         private List<String> permissionList;
 

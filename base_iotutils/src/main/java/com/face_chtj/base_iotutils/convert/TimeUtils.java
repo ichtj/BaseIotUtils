@@ -30,9 +30,8 @@ public class TimeUtils {
      * @return
      */
     public static String tsToMs(int time) {
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
         long time1000 = Long.parseLong(String.valueOf(time)) * 1000;
-        return fm.format(time1000);
+        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(time1000);
     }
 
     /**
@@ -41,28 +40,24 @@ public class TimeUtils {
      * @return
      */
     public static String tsToYMD(int time) {
-        SimpleDateFormat fm = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
         long time1000 = Long.parseLong(String.valueOf(time)) * 1000;
-        return fm.format(time1000);
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(time1000);
     }
     /**
      * 获取今天年月日
      * @return 2017-08-14
      */
     public static String getTodayDate() {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
-        return sdf.format(date);
+        return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
     }
 
     /**
      * 获取今天年月日时分秒
+     * yyyy-MM-dd HH:mm:ss
      * @return 2017-08-14 11:53:52
      */
     public static String getTodayDateHms(String pattern) {
-        Date date = new Date();
-        SimpleDateFormat sdf = new SimpleDateFormat(pattern, Locale.CHINA);
-        return sdf.format(date);
+        return new SimpleDateFormat(pattern, Locale.CHINA).format(new Date());
     }
 
     /**
@@ -87,17 +82,16 @@ public class TimeUtils {
      * @return 日期
      */
     public static String getTodayAddMonthDate(int month) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date now = null;
         try {
-            now = sdf.parse(getTodayDate());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date now =sdf.parse(getTodayDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(now);
+            calendar.add(Calendar.MONTH, month);
+            return sdf.format(calendar.getTime());
         } catch (ParseException e) {
-            e.printStackTrace();
+            return "";
         }
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(now);
-        calendar.add(Calendar.MONTH, month);
-        return sdf.format(calendar.getTime());
     }
 
     /**
@@ -106,7 +100,6 @@ public class TimeUtils {
      * @return
      */
     public static String getUTCTimeStr() {
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss") ;
         StringBuffer UTCTimeBuffer = new StringBuffer();
         // 1、取得本地时间：
         Calendar cal = Calendar.getInstance() ;

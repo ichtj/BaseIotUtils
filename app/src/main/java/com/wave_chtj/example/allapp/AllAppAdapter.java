@@ -56,17 +56,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        final int posiNum = position;
         MyViewHolder myViewHolder = (MyViewHolder) holder;
+        String pkgName=list.get(position).getPackageName();
         myViewHolder.tvAppName.setText(list.get(position).getAppName());
-        myViewHolder.tvPackName.setText(list.get(position).getPackageName());
+        myViewHolder.tvPackName.setText(pkgName);
         myViewHolder.tvUid.setText("UID:" + list.get(position).getUid() + "");
         myViewHolder.ivAppIcon.setImageDrawable(list.get(position).getIcon());
+        myViewHolder.tvAppPath.setText(AppsUtils.getAppPath(pkgName));
         KLog.d(TAG, " uid= " + list.get(position).getUid());
-        for (int i = 0; i < list.get(position).getmProcessEntity().size(); i++) {
-            Log.d(TAG, "onCreate: process pid=" + list.get(position).getmProcessEntity().get(i).getPid() + ",pkgName=" + list.get(position).getmProcessEntity().get(i).getProcessName());
-
-        }
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
@@ -76,6 +73,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
         //((MyViewHolder) holder).tvTraffic.setText("流量消耗:" + totalPhrase);
+        final int posiNum = position;
         myViewHolder.tvStartApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,7 +171,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvAppName, tvSilence, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet, tvVersion;
+        public TextView tvAppName,tvAppPath, tvSilence, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet, tvVersion;
         public ImageView ivAppIcon;
 
         public MyViewHolder(View itemView) {
@@ -191,6 +189,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             tvDisableNet = itemView.findViewById(R.id.tvDisableNet);
             tvVersion = itemView.findViewById(R.id.tvVersion);
             tvSilence = itemView.findViewById(R.id.tvSilence);
+            tvAppPath = itemView.findViewById(R.id.tvAppPath);
         }
     }
 }

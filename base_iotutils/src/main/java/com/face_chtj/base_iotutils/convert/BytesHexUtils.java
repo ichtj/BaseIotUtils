@@ -60,8 +60,7 @@ public class BytesHexUtils {
      * @return
      */
     public static int byteToDec(byte b) {
-        String s = byteToHex(b);
-        return (int) hexToDec(s);
+        return (int) hexToDec(byteToHex(b));
     }
 
     /**
@@ -71,8 +70,7 @@ public class BytesHexUtils {
      * @return
      */
     public static int bytesToDec(byte[] bytes) {
-        String s = encodeHexString(bytes);
-        return (int) hexToDec(s);
+        return (int) hexToDec(encodeHexString(bytes));
     }
 
     /**

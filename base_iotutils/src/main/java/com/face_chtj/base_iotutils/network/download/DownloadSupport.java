@@ -1,7 +1,5 @@
 package com.face_chtj.base_iotutils.network.download;
 
-import android.util.Log;
-
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.entity.DownloadStatus;
@@ -32,7 +30,7 @@ import okhttp3.ResponseBody;
  * 该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
  * 具体使用请参考README.md的描述进行
  * 多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
- *
+ * <p>
  * BufferedInputStream 8192解释
  * 我们调用缓冲流来读取数据，系统会先看一下缓冲区中有没有可用数据，有的话直接从缓冲区中复制数据给用户
  * 如果缓冲区中没有可用数据，则从真正的InputStream中读一次性读取8K的数据保存在缓冲区中，然后再从缓冲区中复制数据给用户
@@ -40,11 +38,10 @@ import okhttp3.ResponseBody;
  * <p>
  * 此工具类可满足多个场景需求
  * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
- * */
+ */
 public class DownloadSupport {
-    private static final String TAG = "DownloadSupport";
     private OkHttpClient client;
-    private int MAX_BUFF_SIZE=2048;
+    private int MAX_BUFF_SIZE = 2048;
     private Call call;
     //当前正在里的任务
     private static Map<String, Integer> currentTaskList = new HashMap<>();
@@ -62,7 +59,7 @@ public class DownloadSupport {
             for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
                 if (currentTaskList.get(entry.getKey()) == DownloadStatus.STATUS_PAUSE) {
                     count++;
-                    if(count == currentTaskList.size()){
+                    if (count == currentTaskList.size()) {
                         return false;
                     }
                 }
@@ -78,6 +75,7 @@ public class DownloadSupport {
     public DownloadSupport() {
         initData(MAX_BUFF_SIZE);
     }
+
     /**
      * 初始化一次即可
      */
@@ -85,8 +83,8 @@ public class DownloadSupport {
         initData(maxBuffSize);
     }
 
-    private void initData(int maxBuffSize){
-        this.MAX_BUFF_SIZE=maxBuffSize;
+    private void initData(int maxBuffSize) {
+        this.MAX_BUFF_SIZE = maxBuffSize;
         //在下载、暂停后的继续下载中可复用同一个client对象
         client = getProgressClient();
     }
@@ -97,7 +95,7 @@ public class DownloadSupport {
      */
     private Call newCall(FileCacheData fileCacheData) {
         long fileLength = new File(fileCacheData.getFilePath()).length();
-        Log.d(TAG, "newCall: fileLength=" + fileLength);
+        KLog.d("newCall: fileLength=" + fileLength);
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
                 .tag(fileCacheData.getRequestTag())
@@ -132,8 +130,8 @@ public class DownloadSupport {
             String requestTag = fileCacheData.getRequestTag();
             //防止任务重复下载
             if (currentTaskList != null && currentTaskList.size() > 0) {
-                Integer status=currentTaskList.get(requestTag);
-                if(status!=null&&status==DownloadStatus.STATUS_RUNNING){
+                Integer status = currentTaskList.get(requestTag);
+                if (status != null && status == DownloadStatus.STATUS_RUNNING) {
                     downloadCallBack.taskExist(fileCacheData);
                     return;
                 }
@@ -146,7 +144,7 @@ public class DownloadSupport {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    KLog.d(TAG,"onFailure:>="+e.getMessage());
+                    KLog.d("onFailure:>=" + e.getMessage());
                     downloadCallBack.error(e);
                 }
 
@@ -197,7 +195,7 @@ public class DownloadSupport {
             long currentFileLenght = randomAccessFile.length();
             long bodyContentLength = body.contentLength();
             fileCacheData.setTotal(bodyContentLength + currentFileLenght);
-            Log.d(TAG, "save: currentFileLength=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
+            KLog.d("save: currentFileLength=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
             //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
             if (currentFileLenght >= fileCacheData.getTotal()) {
                 downloadCallBack.downloadProgress(fileCacheData, 100);
@@ -248,21 +246,21 @@ public class DownloadSupport {
                 try {
                     bis.close();
                 } catch (Throwable e) {
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
+                    KLog.e("errMeg:" + e.getMessage());
                 }
             }
             if (in != null) {
                 try {
                     in.close();
                 } catch (Throwable e) {
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
+                    KLog.e("errMeg:" + e.getMessage());
                 }
             }
             if (randomAccessFile != null) {
                 try {
                     randomAccessFile.close();
                 } catch (Throwable e) {
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
+                    KLog.e("errMeg:" + e.getMessage());
                 }
             }
         }

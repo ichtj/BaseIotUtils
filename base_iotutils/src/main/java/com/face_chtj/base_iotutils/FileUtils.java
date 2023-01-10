@@ -82,7 +82,6 @@ public class FileUtils {
      * @return 读取到的内容
      */
     public static String readFileData(String fileName) {
-        String result = "";
         try {
             File file = new File(fileName);
             if (!file.exists()) {
@@ -97,12 +96,12 @@ public class FileUtils {
                 fis.close();
             }
             //将byte数组转换成指定格式的字符串
-            result = new String(buffer, "UTF-8");
+            return new String(buffer, "UTF-8");
         } catch (Exception e) {
             e.printStackTrace();
             KLog.e(TAG, "readFileData: " + e.getMessage());
         }
-        return result;
+        return "";
     }
 
     /**
@@ -112,7 +111,6 @@ public class FileUtils {
      * @param newPath 目标地址
      */
     public static void copyFile(String oldPath, String newPath) {
-        int byteread = 0;
         File oldfile = new File(oldPath);
         if (oldfile.exists()) { //文件存在时
             InputStream inStream=null;
@@ -121,6 +119,7 @@ public class FileUtils {
                 inStream= new FileInputStream(oldPath); //读入原文件
                 fos_stm= new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
+                int byteread = 0;
                 while ((byteread = inStream.read(buffer)) != -1) {
                     fos_stm.write(buffer, 0, byteread);
                 }
@@ -359,10 +358,9 @@ public class FileUtils {
      */
     public static void writeToLocal(String destDirPath, InputStream input)
             throws IOException {
-
-        int index;
         byte[] bytes = new byte[1024];
         FileOutputStream downloadFile = new FileOutputStream(destDirPath);
+        int index;
         while ((index = input.read(bytes)) != -1) {
             downloadFile.write(bytes, 0, index);
             downloadFile.flush();

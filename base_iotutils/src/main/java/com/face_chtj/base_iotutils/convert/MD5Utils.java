@@ -1,7 +1,5 @@
 package com.face_chtj.base_iotutils.convert;
 
-import com.face_chtj.base_iotutils.KLog;
-
 import java.io.FileInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -13,7 +11,6 @@ public class MD5Utils {
      * @param sourceStr 字符
      */
     public static String MD5_32(String sourceStr) {
-        String result = "";
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
             md.update(sourceStr.getBytes());
@@ -30,11 +27,10 @@ public class MD5Utils {
                 }
                 buf.append(Integer.toHexString(i));
             }
-            result = buf.toString();
+            return buf.toString();
         } catch (NoSuchAlgorithmException e) {
-            KLog.e(e.getMessage());
+            return "";
         }
-        return result;
     }
 
     /**
@@ -61,8 +57,7 @@ public class MD5Utils {
             }
             return sb.toString().toLowerCase();
         } catch (Throwable e) {
-            e.printStackTrace();
+            return "";
         }
-        return "";
     }
 }

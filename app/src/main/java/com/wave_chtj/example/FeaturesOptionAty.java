@@ -10,7 +10,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +31,7 @@ import com.chtj.base_framework.network.NetDbmListener;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.display.DeviceUtils;
-import com.face_chtj.base_iotutils.display.ISysDialog;
+import com.face_chtj.base_iotutils.display.SystemAlertDialog;
 import com.face_chtj.base_iotutils.display.AppsUtils;
 import com.face_chtj.base_iotutils.audio.PlayUtils;
 import com.face_chtj.base_iotutils.network.NetUtils;
@@ -46,7 +45,7 @@ import com.face_chtj.base_iotutils.notify.NotifyUtils;
 import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.PlayAudioAty;
 import com.wave_chtj.example.base.BaseActivity;
-import com.face_chtj.base_iotutils.UriPathUtils;
+import com.face_chtj.base_iotutils.convert.UriPathUtils;
 import com.wave_chtj.example.bluetooth.BlueToothAty;
 import com.wave_chtj.example.crash.CrashTools;
 import com.wave_chtj.example.crash.MyService;
@@ -99,9 +98,7 @@ public class FeaturesOptionAty extends BaseActivity {
         setContentView(R.layout.activity_switch_re);
         AppManager.getAppManager().finishActivity(StartPageAty.class);
         rvinfo = findViewById(R.id.rvinfo);
-        /*获取权限*/
-        RxPermissions rxPermissions = new RxPermissions(this);
-        rxPermissions.request(new String[]{
+        new RxPermissions(this).request(new String[]{
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.READ_PHONE_STATE,
@@ -258,10 +255,10 @@ public class FeaturesOptionAty extends BaseActivity {
                 NotifyUtils.closeNotify();
                 break;
             case FKey.KEY_SYS_DIALOG_SHOW:
-                ISysDialog.getInstance().show("hello world");
+                SystemAlertDialog.getInstance().show("hello world");
                 break;
             case FKey.KEY_SYS_DIALOG_CLOSE:
-                ISysDialog.getInstance().dismiss();
+                SystemAlertDialog.getInstance().dismiss();
                 break;
             case FKey.KEY_TOAST:
                 ToastUtils.showShort("Hello Worold!");
@@ -496,7 +493,7 @@ public class FeaturesOptionAty extends BaseActivity {
     protected void onDestroy() {
         super.onDestroy();
         NotifyUtils.closeNotify();
-        ISysDialog.getInstance().dismiss();
+        SystemAlertDialog.getInstance().dismiss();
         UsbHubTools.getInstance().unRegisterReceiver();
         PlayUtils.getInstance().stopPlaying();
         SingleTPoolUtils.shutdown();

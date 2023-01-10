@@ -1,6 +1,10 @@
 package com.face_chtj.base_iotutils;
 
+import android.os.Build;
+import android.provider.Settings;
 import android.util.Log;
+
+import androidx.annotation.RequiresApi;
 
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -25,16 +29,30 @@ import java.io.InputStreamReader;
  * --检查Root权限 {@link #isCheckRoot()}
  */
 public class ShellUtils {
-    private static final String TAG = "ShellUtils";
-
     public final static String COMMAND_SU = "su";
     public final static String COMMAND_SH = "sh";
     public final static String COMMAND_EXIT = "exit\n";
     public final static String COMMAND_LINE_END = "\n";
 
     /**
+     * Return whether ADB is enabled.
+     * 判断设备 ADB 是否可用
+     *
+     * @return {@code true}: yes<br>{@code false}: no
+     */
+    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
+    public static boolean isAdbEnabled() {
+        return Settings.Secure.getInt(
+                BaseIotUtils.getContext().getContentResolver(),
+                Settings.Global.ADB_ENABLED, 0
+        ) > 0;
+    }
+
+
+    /**
      * 检查是否拥有root权限
      * 执行shell adb 命令很多需要root权限
+     *
      * @return
      */
     public static boolean isCheckRoot() {
@@ -44,7 +62,7 @@ public class ShellUtils {
             for (int i = 0; i < kSuSearchPaths.length; i++) {
                 f = new File(kSuSearchPaths[i] + "su");
                 if (f != null && f.exists()) {
-                    Log.d(TAG, "find su in : " + kSuSearchPaths[i]);
+                    KLog.d("find su in : " + kSuSearchPaths[i]);
                     return true;
                 }
             }
@@ -81,7 +99,8 @@ public class ShellUtils {
         DataOutputStream os = null;
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
-        StringBuilder successMsg  = new StringBuilder();;
+        StringBuilder successMsg = new StringBuilder();
+        ;
         StringBuilder errorMsg = new StringBuilder();
         try {
             process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
@@ -117,7 +136,7 @@ public class ShellUtils {
             } catch (IOException e) {
                 String errmsg = e.getMessage();
                 if (errmsg != null) {
-                    Log.e(TAG, errmsg);
+                    KLog.d(errmsg);
                 } else {
                     e.printStackTrace();
                 }

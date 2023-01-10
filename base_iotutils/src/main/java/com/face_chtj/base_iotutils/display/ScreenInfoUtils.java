@@ -80,10 +80,7 @@ public class ScreenInfoUtils {
         double x = Math.pow(point.x / displayMetrics.xdpi, 2);//dm.xdpi是屏幕x方向的真实密度值，比上面的densityDpi真实。
         double y = Math.pow(point.y / displayMetrics.ydpi, 2);//dm.xdpi是屏幕y方向的真实密度值，比上面的densityDpi真实。
         double screenInches = Math.sqrt(x + y);
-        return "screenSize=" + screenInches
-                + ",densityDpi=" + displayMetrics.densityDpi
-                + ",width=" + displayMetrics.widthPixels
-                + ",height=" + displayMetrics.heightPixels;
+        return "screenSize=" + screenInches + ",densityDpi=" + displayMetrics.densityDpi + ",width=" + displayMetrics.widthPixels + ",height=" + displayMetrics.heightPixels;
     }
 
     /**
@@ -115,9 +112,7 @@ public class ScreenInfoUtils {
      * **/
     public static int getScreenBrightness() {
         ContentResolver contentResolver = BaseIotUtils.getContext().getContentResolver();
-        int defVal = -1;
-        return Settings.System.getInt(contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS, defVal);
+        return Settings.System.getInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, -1);
     }
 
 
@@ -128,8 +123,7 @@ public class ScreenInfoUtils {
         // 首先需要设置为手动调节屏幕亮度模式
         setScreenManualMode();
         ContentResolver contentResolver = BaseIotUtils.getContext().getContentResolver();
-        Settings.System.putInt(contentResolver,
-                Settings.System.SCREEN_BRIGHTNESS, birghtessValue);
+        Settings.System.putInt(contentResolver, Settings.System.SCREEN_BRIGHTNESS, birghtessValue);
     }
 
 

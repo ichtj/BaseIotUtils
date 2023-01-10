@@ -9,7 +9,7 @@ import java.util.Random;
  * author chtj
  *
  * {@link #isEmpty(String)} 判断字符是否为空
- * {@link #randomCommon(int, int, int)}  两重循环去重,随机指定范围内N个不重复的数
+ * {@link #getRandomList(String[], int)}  两重循环去重,随机指定范围内N个不重复的数
  */
 public class TypeDataUtils {
     /**

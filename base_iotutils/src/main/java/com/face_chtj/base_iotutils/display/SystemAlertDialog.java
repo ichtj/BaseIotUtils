@@ -24,19 +24,19 @@ import com.face_chtj.base_iotutils.R;
  * {@link #show(String)} 显示的文字
  *
  */
-public class ISysDialog {
+public class SystemAlertDialog {
     private static final String TAG = "ISysDialog";
     private WindowManager wm;
     private TextView tvRemarks;
     private View scanView;
-    private static ISysDialog mISysDialog;
+    private static SystemAlertDialog mSystemAlertDialog;
     private boolean isInitView = false;
 
-    public static ISysDialog getInstance() {
-        if (mISysDialog == null || !mISysDialog.isInitView) {
-            synchronized (ISysDialog.class) {
-                if (mISysDialog == null || !mISysDialog.isInitView) {
-                    mISysDialog = new ISysDialog();
+    public static SystemAlertDialog getInstance() {
+        if (mSystemAlertDialog == null || !mSystemAlertDialog.isInitView) {
+            synchronized (SystemAlertDialog.class) {
+                if (mSystemAlertDialog == null || !mSystemAlertDialog.isInitView) {
+                    mSystemAlertDialog = new SystemAlertDialog();
                     int nowSdkVersion = Build.VERSION.SDK_INT;
                     KLog.d(TAG, "nowSdkVersion=" + nowSdkVersion);
                     if (nowSdkVersion >= 23) {
@@ -60,15 +60,15 @@ public class ISysDialog {
                 }
             }
         }
-        return mISysDialog;
+        return mSystemAlertDialog;
     }
 
 
     private static void initAddView(int apiType) {
-        mISysDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
+        mSystemAlertDialog.wm = (WindowManager) BaseIotUtils.getContext().getSystemService("window");
         WindowManager.LayoutParams wmParams = new WindowManager.LayoutParams();
-        mISysDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
-        mISysDialog.tvRemarks = mISysDialog.scanView.findViewById(R.id.tvRemarks);
+        mSystemAlertDialog.scanView = LayoutInflater.from(BaseIotUtils.getContext()).inflate(R.layout.activity_progress, null);
+        mSystemAlertDialog.tvRemarks = mSystemAlertDialog.scanView.findViewById(R.id.tvRemarks);
         if (apiType == 1) {
             //6.0~7.0系统以及6.0以下系统使用同一模式
             wmParams.type = WindowManager.LayoutParams.TYPE_SYSTEM_ALERT;
@@ -80,8 +80,8 @@ public class ISysDialog {
         wmParams.flags = 40;
         wmParams.width = WindowManager.LayoutParams.WRAP_CONTENT;
         wmParams.height = WindowManager.LayoutParams.WRAP_CONTENT;
-        mISysDialog.wm.addView(mISysDialog.scanView, wmParams);
-        mISysDialog.isInitView = true;
+        mSystemAlertDialog.wm.addView(mSystemAlertDialog.scanView, wmParams);
+        mSystemAlertDialog.isInitView = true;
     }
 
     // 显示系统级提示框（自定义布局）
@@ -92,10 +92,10 @@ public class ISysDialog {
     }
 
     public void dismiss() {
-        if (mISysDialog.wm != null) {
-            mISysDialog.wm.removeView(mISysDialog.scanView);
-            mISysDialog.wm = null;
-            mISysDialog = null;
+        if (mSystemAlertDialog.wm != null) {
+            mSystemAlertDialog.wm.removeView(mSystemAlertDialog.scanView);
+            mSystemAlertDialog.wm = null;
+            mSystemAlertDialog = null;
         }
     }
 }

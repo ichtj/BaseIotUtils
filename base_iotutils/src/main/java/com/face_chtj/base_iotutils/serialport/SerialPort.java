@@ -39,7 +39,7 @@ public class SerialPort {
 			try {
 				/** Missing read/write permission, trying to chmod the file */
 				Process su= Runtime.getRuntime().exec("/system/bin/su");
-				String cmd = "chmod 666 " + device.getAbsolutePath() + "\n"
+				String cmd = "chmod 777 " + device.getAbsolutePath() + "\n"
 						+ "exit\n";
 				su.getOutputStream().write(cmd.getBytes());
 				if ((su.waitFor() != 0) || !device.canRead()
@@ -48,7 +48,7 @@ public class SerialPort {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new SecurityException("execute command /system/bin/su chmod 666 xx Abnormal,Please check whether the serial port grants permission");
+				throw new SecurityException("execute command /system/bin/su chmod 777 xx Abnormal,Please check whether the serial port grants permission");
 			}
 		}
 
@@ -80,7 +80,7 @@ public class SerialPort {
 				/* Missing read/write permission, trying to chmod the file */
 				Process su;
 				su = Runtime.getRuntime().exec("/system/bin/su");
-				String cmd = "chmod 666 " + device.getAbsolutePath() + "\n"
+				String cmd = "chmod 777 " + device.getAbsolutePath() + "\n"
 						+ "exit\n";
 				su.getOutputStream().write(cmd.getBytes());
 				if ((su.waitFor() != 0) || !device.canRead()
@@ -89,7 +89,7 @@ public class SerialPort {
 				}
 			} catch (Exception e) {
 				e.printStackTrace();
-				throw new SecurityException("execute command /system/bin/su chmod 666 xx Abnormal,Please check whether the serial port grants permission");
+				throw new SecurityException("execute command /system/bin/su chmod 777 xx Abnormal,Please check whether the serial port grants permission");
 			}
 		}
 

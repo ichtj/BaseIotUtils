@@ -1,8 +1,5 @@
 package com.wave_chtj.example.util;
 
-import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ZipUtils;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

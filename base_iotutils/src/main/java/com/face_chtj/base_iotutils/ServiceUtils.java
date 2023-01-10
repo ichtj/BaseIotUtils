@@ -40,13 +40,11 @@ public class ServiceUtils {
      * @param className 完整包名的服务类名 com.xxx.xxx.XXService
      * @return {@code true}: 停止成功<br>{@code false}: 停止失败
      */
-    public static boolean stopService(String className) {
+    public static void stopService(String className) {
         try {
-            Intent intent = new Intent(BaseIotUtils.getContext(), Class.forName(className));
-            return BaseIotUtils.getContext().stopService(intent);
+            BaseIotUtils.getContext().stopService(new Intent(BaseIotUtils.getContext(), Class.forName(className)));
         } catch (Exception e) {
-            e.printStackTrace();
-            return false;
+            KLog.e("stopService() >> "+e.getMessage());
         }
     }
 
