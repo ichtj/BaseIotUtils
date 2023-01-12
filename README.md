@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.4.8'
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.5.5'
 }
 ```
 
@@ -33,11 +33,9 @@ public class App extends Application {
   public void onCreate() {
     super.onCreate();
     //① base_iotutils 物联基础工具类
-    BaseIotUtils
-      .instance()
-      .setBaseScreenParam(1080, 1920, true)
-      .setCreenType(SCREEN_TYPE.WIDTH)
-      .create(getApplication()); //按照宽度适配
+    BaseIotUtils.instance().
+                    setAdaptation(1080, 1920, BaseIotUtils.WIDTH,true).
+                    create(getApplication());
   }
 
   @Override
@@ -156,7 +154,7 @@ public class App extends Application {
 
 ```java
         //①初始化下载工具类
-        DownloadSupport downloadSupport=new DownloadSupport();
+        DownloadUtils downloadSupport=new DownloadUtils();
 
         //---------------------------任务1--------------------------------
         FileCacheData fileCacheData = new FileCacheData();
@@ -182,7 +180,7 @@ public class App extends Application {
 
         //下载进度
         //多个任务使用同一个DownloadCallBack 可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
-        DownloadUtils.DownloadCallBack downloadCallBack = new DownloadUtils.DownloadCallBack() {
+        IDownloadCallback downloadCallBack = new IDownloadCallback() {
             @Override
             public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
                 Message message1 = handler.obtainMessage();
