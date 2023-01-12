@@ -2,13 +2,10 @@ package com.wave_chtj.example.base;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.face_chtj.base_iotutils.display.StatusBarUtil;
-import com.wave_chtj.example.R;
 import com.wave_chtj.example.util.AppManager;
 
 

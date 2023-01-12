@@ -26,7 +26,8 @@
 
             <Spinner
                 android:id="@+id/sp_option"
-                android:layout_width="80pt"
+                android:layout_width="wrap_content"
+                android:theme="@style/life_spinner_style"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:entries="@array/net_opiton" />

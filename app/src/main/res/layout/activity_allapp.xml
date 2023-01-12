@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:ivback="@mipmap/back"
+        app:rightName="旋转"
         app:name="应用列表" />
 
     <LinearLayout
@@ -27,12 +28,13 @@
         <View
             android:layout_width="1pt"
             android:layout_height="match_parent"
-            android:layout_marginRight="10pt"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="5pt"
             android:background="@color/gray" />
 
         <LinearLayout
             android:layout_width="0dp"
+            android:layout_marginRight="5pt"
+            android:layout_marginLeft="5pt"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
@@ -79,6 +81,16 @@
                 android:background="@drawable/button_switch"
                 android:onClick="enableAllAppNetClick"
                 android:text="启用全部网络"
+                android:textSize="16pt" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="55pt"
+                android:layout_gravity="center"
+                android:layout_marginTop="25pt"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:onClick="rebootClick"
+                android:text="重启"
                 android:textSize="16pt" />
 
             <TextView

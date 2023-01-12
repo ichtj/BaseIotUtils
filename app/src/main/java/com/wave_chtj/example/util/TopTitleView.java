@@ -23,7 +23,8 @@ import com.wave_chtj.example.R;
 public class TopTitleView extends RelativeLayout {
     private static final String TAG = "TopTitleView";
     private ImageView mItem_product_icon;
-    private TextView mItem_product_title;
+    private TextView tvTopCenter;
+    private TextView tvTopRight;
     private LinearLayout layoutView;
     private Context mContext;
 
@@ -38,26 +39,25 @@ public class TopTitleView extends RelativeLayout {
     public TopTitleView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.mContext = context;
-        View view = LayoutInflater.from(context).inflate(R.layout.activity_top_view, this);
-        initView(view);
+        initView(LayoutInflater.from(context).inflate(R.layout.top_view, this));
         initAttrs(context, attrs);
     }
 
     private void initAttrs(Context context, AttributeSet attrs) {
-        TypedArray typedArray = context.obtainStyledAttributes(attrs,R.styleable.TopTitleView);
-        Drawable back=typedArray.getDrawable(R.styleable.TopTitleView_ivback);
-        String name=typedArray.getString(R.styleable.TopTitleView_name);
-        Log.d(TAG, "initAttrs: back="+back+",name="+name);
-        //设置图标
+        TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.TopTitleView);
+        Drawable back = typedArray.getDrawable(R.styleable.TopTitleView_ivback);
+        String name = typedArray.getString(R.styleable.TopTitleView_name);
+        String rightName = typedArray.getString(R.styleable.TopTitleView_rightName);
+        Log.d(TAG, "initAttrs: back=" + back + ",name=" + name);
         setProductIcon(back);
-        //设置标题
         setProductTitle(name);
+        setRightName(rightName);
         typedArray.recycle();
     }
 
     private void initView(View view) {
+        tvTopRight = view.findViewById(R.id.tvTopRight);
         layoutView = view.findViewById(R.id.layoutview);
-        //图标
         mItem_product_icon = view.findViewById(R.id.iv_back);
         layoutView.setOnClickListener(new OnClickListener() {
             @Override
@@ -67,14 +67,25 @@ public class TopTitleView extends RelativeLayout {
             }
         });
         //标题
-        mItem_product_title = view.findViewById(R.id.tvTitle);
+        tvTopCenter = view.findViewById(R.id.tvTitle);
     }
 
     public void setProductIcon(Drawable productIcon) {
         mItem_product_icon.setImageDrawable(productIcon);
     }
 
+    public void setRightName(CharSequence productTitle) {
+        tvTopRight.setText(productTitle);
+    }
+
     public void setProductTitle(CharSequence productTitle) {
-        mItem_product_title.setText(productTitle);
+        tvTopCenter.setText(productTitle);
+    }
+
+    public void setCenterClick(OnClickListener onCenter){
+        tvTopCenter.setOnClickListener(onCenter);
+    }
+    public void setRightClick(OnClickListener onRight){
+        tvTopRight.setOnClickListener(onRight);
     }
 }

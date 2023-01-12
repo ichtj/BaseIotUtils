@@ -6,8 +6,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.display.ToastUtils;
-import com.face_chtj.base_iotutils.convert.ZipUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.ZipUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -25,9 +25,7 @@ import cn.jzvd.JzvdStd;
  * desc
  */
 public class VideoPlayAty extends BaseActivity {
-    private static final String TAG = "VideoPlayAty";
     VideoPlayerView jz_video;
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,19 +58,19 @@ public class VideoPlayAty extends BaseActivity {
                 writeToLocal(savePath, input);
                 boolean isUnzip = ZipUtils.unzipFile(savePath, unZipPath);
                 if (isUnzip && new File(savePath).exists()) {
-                    KLog.d(TAG, "Video ready！");
+                    KLog.d("Video ready！");
                     ToastUtils.success("加载成功");
                 } else {
-                    KLog.d(TAG, "Video not ready！");
+                    KLog.d("Video not ready！");
                     ToastUtils.error("加载失败");
                 }
             } else {
-                KLog.d(TAG, "Aging_Test_Video.mp4 exist");
+                KLog.d("Aging_Test_Video.mp4 exist");
                 ToastUtils.success("加载成功");
             }
         } catch (Exception e) {
             e.printStackTrace();
-            KLog.e(TAG, "errMeg:" + e.getMessage());
+            KLog.e("errMeg:" + e.getMessage());
         }
     }
     /**

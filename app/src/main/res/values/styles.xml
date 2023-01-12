@@ -38,4 +38,8 @@
         <item name="android:indeterminateOnly">false</item>
         <item name="android:indeterminateDrawable">@android:drawable/progress_indeterminate_horizontal</item>
     </style>
+
+    <style name="life_spinner_style"  parent="@android:style/Widget.TextView.SpinnerItem">
+        <item name="android:textSize">18pt</item><!--可以按照自己的情况在里面设定-->
+    </style>
 </resources>

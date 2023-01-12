@@ -11,12 +11,12 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.convert.TimeUtils;
-import com.face_chtj.base_iotutils.display.ToastUtils;
-import com.face_chtj.base_iotutils.network.callback.IDownloadCallback;
-import com.face_chtj.base_iotutils.network.download.DownloadSupport;
+import com.face_chtj.base_iotutils.TimeUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.callback.IDownloadCallback;
+import com.face_chtj.base_iotutils.DownloadUtils;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
-import com.face_chtj.base_iotutils.network.NetUtils;
+import com.face_chtj.base_iotutils.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -59,7 +59,7 @@ public class FileDownLoadAty extends BaseActivity {
     public String fileName4 = "lock.BIN";
 
 
-    DownloadSupport downloadSupport;
+    DownloadUtils downloadUtils;
 
 
     @Override
@@ -93,7 +93,7 @@ public class FileDownLoadAty extends BaseActivity {
             }
         }
 
-        downloadSupport = new DownloadSupport();
+        downloadUtils = new DownloadUtils();
     }
 
     /**
@@ -130,7 +130,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void getdown_status(View view) {
-        ToastUtils.info("是否正在执行下载:" + downloadSupport.isRunDownloadTask());
+        ToastUtils.info("是否正在执行下载:" + downloadUtils.isRunDownloadTask());
     }
 
     /**
@@ -140,7 +140,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause1(View view) {
         if (fileCacheData != null) {
-            downloadSupport.pause(fileCacheData.getRequestTag());
+            downloadUtils.pause(fileCacheData.getRequestTag());
         }
     }
 
@@ -151,7 +151,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause2(View view) {
         if (fileCacheData2 != null) {
-            downloadSupport.pause(fileCacheData2.getRequestTag());
+            downloadUtils.pause(fileCacheData2.getRequestTag());
         }
     }
 
@@ -162,7 +162,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause3(View view) {
         if (fileCacheData3 != null) {
-            downloadSupport.pause(fileCacheData3.getRequestTag());
+            downloadUtils.pause(fileCacheData3.getRequestTag());
         }
     }
 
@@ -173,7 +173,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause4(View view) {
         if (fileCacheData4 != null) {
-            downloadSupport.pause(fileCacheData4.getRequestTag());
+            downloadUtils.pause(fileCacheData4.getRequestTag());
         }
     }
 
@@ -183,7 +183,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause(View view) {
-        downloadSupport.pause();
+        downloadUtils.pause();
     }
 
     /**
@@ -192,7 +192,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void downloadStop(View view) {
-        downloadSupport.cancel();
+        downloadUtils.cancel();
     }
 
     FileCacheData fileCacheData = null;
@@ -278,7 +278,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param fileCacheData
      */
     public void addDownloadTask(FileCacheData fileCacheData) {
-        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
+        downloadUtils.addStartTask(fileCacheData, downloadCallBack);
     }
 
     //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
@@ -295,7 +295,7 @@ public class FileDownLoadAty extends BaseActivity {
         @Override
         public void error(Throwable e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
-            downloadSupport.cancel();
+            downloadUtils.cancel();
         }
 
         @Override
@@ -344,6 +344,6 @@ public class FileDownLoadAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        downloadSupport.cancel();
+        downloadUtils.cancel();
     }
 }

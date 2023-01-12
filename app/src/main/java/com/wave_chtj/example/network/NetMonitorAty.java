@@ -1,17 +1,14 @@
 package com.wave_chtj.example.network;
 
-import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -22,9 +19,9 @@ import android.widget.TextView;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.convert.TimeUtils;
-import com.face_chtj.base_iotutils.display.ToastUtils;
-import com.face_chtj.base_iotutils.network.NetUtils;
+import com.face_chtj.base_iotutils.TimeUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
@@ -45,7 +42,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_net_reset_monitor);
+        setContentView(R.layout.activity_net_reset);
         rbRebootYes = findViewById(R.id.rbRebootYes);
         rbRebootYes.setOnCheckedChangeListener(this);
         tvTaskStatus = findViewById(R.id.tvTaskStatus);

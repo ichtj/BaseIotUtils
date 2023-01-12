@@ -42,7 +42,7 @@ public class FileOperatAty extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_file_wirite_read);
+        setContentView(R.layout.activity_file_wr);
         ButterKnife.bind(this);
     }
 

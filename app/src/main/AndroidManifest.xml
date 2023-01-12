@@ -5,7 +5,8 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
+    package="com.wave_chtj.example"
+    android:sharedUserId="android.uid.system"><!--android:sharedUserId="android.uid.system"-->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->
@@ -122,6 +123,7 @@
         <!--启动页-->
         <activity
             android:name=".StartPageAty"
+            android:screenOrientation="user"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -130,87 +132,115 @@
         </activity>
         <!--功能选择-->
         <activity
-            android:name=".FeaturesOptionAty"
+            android:name=".OptionAty"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:launchMode="singleTop"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--后台服务-->
         <!--串口相关-->
         <activity
             android:name=".serialport.SerialPortAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--屏幕适配相关-->
         <activity
             android:name=".screen.ScreenActivity"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--文件读写-->
         <activity
             android:name=".file.FileOperatAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--文件下载-->
         <activity
             android:name=".download.FileDownLoadAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--网络编程 UDP | tcp收发-->
         <activity
             android:name=".socket.SocketAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--全局异常捕获-->
-        <activity android:name=".crash.CrashAty" />
+        <activity
+            android:name=".crash.CrashAty"
+            android:screenOrientation="user" />
         <!--网络监听-->
-        <activity android:name=".network.NetChangeAty" />
+        <activity
+            android:name=".network.NetChangeAty"
+            android:screenOrientation="user" />
         <!--greenDAO数据库操作-->
-        <activity android:name=".greendao.GreenDaoSqliteAty" />
+        <activity
+            android:name=".greendao.GreenDaoSqliteAty"
+            android:screenOrientation="user" />
         <!--查看所有app详情-->
-        <activity android:name=".allapp.AllAppAty" />
+        <activity
+            android:name=".allapp.AllAppAty"
+            android:screenOrientation="user" />
         <!--定时器-->
-        <activity android:name=".timer.TimerAty" />
+        <activity
+            android:name=".timer.TimerAty"
+            android:screenOrientation="user" />
         <!--视频播放-->
         <activity
             android:name=".video.VideoPlayAty"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
-            android:screenOrientation="unspecified" />
+            android:screenOrientation="user" />
         <!--音频播放-->
-        <activity android:name=".audio.PlayAudioAty" />
+        <activity
+            android:name=".audio.AudioAty"
+            android:screenOrientation="user" />
         <!--保活相关-->
         <activity
             android:name=".keeplive.KeepAliveAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--温度相关-->
         <activity
             android:name=".temget.TempGetAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--apk静默安装-->
         <activity
             android:name=".install.InstallAPkAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--重启工具-->
         <activity
             android:name=".reboot.RebootAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--网络重置监听工具-->
         <activity
             android:name=".network.NetMonitorAty"
+            android:screenOrientation="user"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".test.TestAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--蓝牙测试-->
         <activity
             android:name=".bluetooth.BlueToothAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--视频录制-->
         <activity
             android:name=".video.PlayCacheVideoAty"
+            android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--nginx验证-->
-        <activity android:name=".nginx.NginxAty"
-            android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".nginx.NginxAty"
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"

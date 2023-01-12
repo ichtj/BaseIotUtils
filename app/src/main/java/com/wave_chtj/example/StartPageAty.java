@@ -10,7 +10,7 @@ import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.reboot.RebootAty;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.test.TestAty;
-import com.wave_chtj.example.util.SwitchUtils;
+import com.wave_chtj.example.util.PACKAGES;
 
 /**
  * Create on 2019/10/16
@@ -25,20 +25,20 @@ public class StartPageAty extends BaseActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);            //设为全屏
         switch (BuildConfig.APPLICATION_ID) {
-            case SwitchUtils.FLAG_SERIALPORT:
+            case PACKAGES.PKG_SERIALPORT:
                 startAty(SerialPortAty.class);
                 break;
-            case SwitchUtils.FLAG_REBOOT:
+            case PACKAGES.PKG_REBOOT:
                 startAty(RebootAty.class);
                 break;
-            case SwitchUtils.FLAG_NETMONITOR:
+            case PACKAGES.PKG_NETMONITOR:
                 startAty(NetMonitorAty.class);
                 break;
-            case SwitchUtils.FLAG_EXAMPLE:
-                startAty(FeaturesOptionAty.class);
+            case PACKAGES.PKG_EXAMPLE:
+                startAty(OptionAty.class);
                 break;
-            case SwitchUtils.FLAG_ZTOCABINET:
-            case SwitchUtils.FLAG_CABINET:
+            case PACKAGES.PKG_ZTOCABINET:
+            case PACKAGES.PKG_CABINET:
                 startAty(TestAty.class);
                 break;
         }

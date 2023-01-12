@@ -17,7 +17,6 @@ import com.face_chtj.base_iotutils.KLog;
 import com.chtj.socket.BaseTcpSocket;
 import com.chtj.socket.BaseUdpSocket;
 import com.chtj.socket.ISocketListener;
-import com.face_chtj.base_iotutils.network.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

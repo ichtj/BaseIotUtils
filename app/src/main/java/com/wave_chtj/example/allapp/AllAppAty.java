@@ -1,5 +1,7 @@
 package com.wave_chtj.example.allapp;
 
+import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Formatter;
@@ -16,11 +18,13 @@ import com.chtj.base_framework.FIPTablesTools;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.display.AppsUtils;
-import com.face_chtj.base_iotutils.display.ToastUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.AppsUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.util.TopTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +39,25 @@ public class AllAppAty extends BaseActivity {
     private RecyclerView rvList;
     AllAppAdapter newsAdapter = null;
     private TextView tvCount, tvTotal;
+    private TopTitleView ttView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allapp);
+        ttView = findViewById(R.id.ttView);
+        ttView.setRightClick(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int orientation=getRequestedOrientation();
+                if(orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+                    KLog.d("onClick() orientation >> "+orientation);
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                }else{
+                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+                }
+            }
+        });
         tvCount = findViewById(R.id.tvCount);
         rvList = findViewById(R.id.rvList);
         tvTotal = findViewById(R.id.tvTotal);
@@ -101,6 +119,23 @@ public class AllAppAty extends BaseActivity {
             ToastUtils.success("启用成功！");
         } else {
             ToastUtils.error("启用失败！");
+        }
+    }
+
+    /**
+     * 启用全部应用的网络访问
+     */
+    public void rebootClick(View view) {
+        try {
+            Intent intent = new Intent(Intent.ACTION_REBOOT);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            BaseIotUtils.getContext().startActivity(intent);
+        } catch (Throwable e) {
+            KLog.e("errMeg:" + e.getMessage());
+            ShellUtils.CommandResult commandResult = ShellUtils.execCommand("reboot", true);
+            if (commandResult.result != 0) {
+                ToastUtils.error("重启失败,请重试！");
+            }
         }
     }
 

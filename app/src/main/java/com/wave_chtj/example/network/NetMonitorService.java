@@ -17,9 +17,9 @@ import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.convert.TimeUtils;
-import com.face_chtj.base_iotutils.convert.TypeDataUtils;
-import com.face_chtj.base_iotutils.network.NetUtils;
+import com.face_chtj.base_iotutils.TimeUtils;
+import com.face_chtj.base_iotutils.TypeDataUtils;
+import com.face_chtj.base_iotutils.NetUtils;
 import com.wave_chtj.example.R;
 
 import java.io.File;

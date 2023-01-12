@@ -1,0 +1,373 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+        android:orientation="vertical">
+
+        <com.wave_chtj.example.util.TopTitleView
+            android:id="@+id/ttView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ivback="@mipmap/back"
+            app:name="网络复位监听" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10pt">
+
+            <LinearLayout
+                android:layout_width="500pt"
+                android:layout_height="80pt"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15pt"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnRestartMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_left"
+                    android:onClick="btnRestartModeClick"
+                    android:singleLine="true"
+                    android:text="@string/reset_model_reboot"
+                    android:textColor="@color/white"
+                    android:textSize="20pt" />
+
+                <View
+                    android:layout_width="1pt"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <Button
+                    android:id="@+id/btnAirplaneMode"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_left"
+                    android:onClick="btnAirplaneModeClick"
+                    android:singleLine="true"
+                    android:text="@string/airplane_mode"
+                    android:textColor="@color/white"
+                    android:textSize="20pt" />
+
+                <View
+                    android:layout_width="1pt"
+                    android:layout_height="match_parent"
+                    android:background="@color/white" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_right"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/tvModeResetTitle"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:singleLine="true"
+                        android:text="@string/module_reset"
+                        android:textColor="@color/white"
+                        android:textSize="20pt" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1pt"
+                        android:background="@color/white" />
+
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="30pt"
+                        android:orientation="horizontal">
+
+                        <RadioButton
+                            android:id="@+id/btnHard"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:checked="true"
+                            android:gravity="center"
+                            android:onClick="btnHardClick"
+                            android:text="@string/net_reset_hard"
+                            android:textColor="@color/white"
+                            android:textSize="14pt" />
+
+                        <View
+                            android:layout_width="1pt"
+                            android:layout_height="match_parent"
+                            android:background="@color/white" />
+
+                        <RadioButton
+                            android:id="@+id/btnSoft"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:gravity="center"
+                            android:onClick="btnSoftClick"
+                            android:text="@string/net_reset_soft"
+                            android:textColor="@color/white"
+                            android:textSize="14pt" />
+                    </RadioGroup>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llFifteenView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15pt"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:text="15分钟后是否重启："
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_style_stroke"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15pt"
+                    android:paddingRight="15pt">
+
+                    <RadioButton
+                        android:id="@+id/rbRebootYes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:singleLine="true"
+                        android:text="true"
+                        android:textColor="@color/black" />
+
+                    <RadioButton
+                        android:id="@+id/rbRebootNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="false"
+                        android:textColor="@color/black" />
+
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llResetExeu"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="15pt"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:singleLine="true"
+                    android:text="@string/err_after_is_continue"
+                    android:textColor="@color/black" />
+
+                <RadioGroup
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/button_style_stroke"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15pt"
+                    android:paddingRight="15pt">
+
+                    <RadioButton
+                        android:id="@+id/rbMore"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:singleLine="true"
+                        android:text="@string/exeu_more"
+                        android:textColor="@color/black" />
+
+                    <RadioButton
+                        android:id="@+id/rbOne"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true"
+                        android:singleLine="true"
+                        android:text="@string/exeu_one"
+                        android:textColor="@color/black" />
+
+                </RadioGroup>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvResetMode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_reset_mode"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNowTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/now_time"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNetType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_type"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvNetResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_status"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvDbm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_dbm"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvPingList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/ping_list"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvResetErrCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_reset_err_count"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTotalCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_reset_total_count"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvTaskStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/task_status"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvRemarks"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15pt"
+                android:text="@string/net_monitor_remarks"
+                android:textColor="@color/black"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/tvSaveLocal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="*记录的日志存放在/sdcard/Documents/目录下"
+                android:textColor="#FF0000" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="55pt"
+                android:layout_marginTop="20pt"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/etAddress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="15pt"
+                    android:layout_weight="1"
+                    android:background="@drawable/button_style_stroke"
+                    android:hint="@string/net_now_ping"
+                    android:paddingLeft="10pt"
+                    android:singleLine="true"
+                    android:text="114.114.114.114"
+                    android:textColor="@color/black" />
+
+                <Button
+                    android:layout_width="120pt"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/button_style_org"
+                    android:onClick="pingClick"
+                    android:text="@string/net_ping"
+                    android:textColor="@color/white"
+                    android:textSize="20pt" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/tvInputAddrResult"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10pt"
+                android:text="@string/ping_addr_result"
+                android:textColor="@color/black" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10pt"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnClearLog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60pt"
+                    android:layout_marginRight="15pt"
+                    android:background="@drawable/button_style_org"
+                    android:onClick="clearAllLogClick"
+                    android:paddingLeft="20pt"
+                    android:paddingRight="20pt"
+                    android:text="@string/clear_all_logfile"
+                    android:textColor="@color/white" />
+
+                <Button
+                    android:id="@+id/btnResetErrCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="60pt"
+                    android:background="@drawable/button_style_org"
+                    android:onClick="resetErrCountClick"
+                    android:paddingLeft="20pt"
+                    android:paddingRight="20pt"
+                    android:text="@string/reset_err_count"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

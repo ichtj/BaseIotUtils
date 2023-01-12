@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.NotifyUtils;
 import com.face_chtj.base_iotutils.SPUtils;
 
 /**
@@ -12,7 +13,7 @@ import com.face_chtj.base_iotutils.SPUtils;
  * author chtj
  * desc
  */
-class NotifyBroadcastReceiver extends BroadcastReceiver {
+public class NotifyBroadcastReceiver extends BroadcastReceiver {
     private static final String TAG="NotifyBroadcastReceiver";
     @Override
     public void onReceive(Context context, Intent intent) {

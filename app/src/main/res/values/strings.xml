@@ -37,6 +37,7 @@
     <string name="reset_model_reboot">restartMode</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
+        <attr name="rightName" format="string"></attr>
         <attr name="ivback" format="reference"></attr>
     </declare-styleable>
 </resources>

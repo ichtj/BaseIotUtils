@@ -1,11 +1,3 @@
-# 注：项目中存在的多个Module已经进行模块转移,如需调用,请按以下方式调用
-
-### BaseFramework [Framework API调用 点我](https://github.com/wave-chtj/BaseFramework)
-
-### BaseKeepAlive [Activity|Service保活 点我](https://github.com/wave-chtj/BaseKeepAlive)
-
-### BaseSocket    [Socket TCP|UDP 点我](https://github.com/wave-chtj/BaseSocket)
-
 # 接入方式
 ## Android 项目根目录下文件 build.gradle 中添加
 
@@ -70,7 +62,7 @@ public class App extends Application {
 | 2    | UriPathUtils                   | Uri 转真实路径    | android7.0uri 转换            |
 | 3    | ToastUtils                     | 系统的 Toast 封装 | 成功,失败，警告等提示         |
 | 4    | TimeUtils                      | 时间工具类        | Date 时间日期转换             |
-| 5    | ISysDialog                     | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
+| 5    | GlobalDialogUtils              | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
 | 6    | SPUtils                        | 存储工具类        | SharedPreferences 读写        |
 | 7    | ShellUtils                     | adb 相关工具类    | adb 命令执行                  |
 | 8    | ServiceUtils                   | Service 管理工具  | 启动,停止,判断存活等          |
@@ -80,19 +72,19 @@ public class App extends Application {
 | 12   | FileUtils                      | 文件工具类        | 写入/读取文件相关信息         |
 | 13   | DeviceUtils                    | 设备的相关信息    | 设备出厂自带参数              |
 | 14   | BytesHexUtils                  | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
-| 15   | SingleTPoolUtils/TPoolUtils    | 线程池管理        | 线程重用                     |
+| 15   | TPoolSingleUtils/TPoolUtils    | 线程池管理        | 线程重用                     |
 | 16   | SerialPort/SerialPortFinder    | 串口相关工具类    | 打开,通讯,关闭                |
 | 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                  |
 | 18   | NotifyUtils                    | 通知工具类        | 自定义 notification,动态调参  |
 | 19   | NetUtils                       | 网络工具类        | 网络类型/状态等获取           |
-| 20   | NetListenerUtils               | 网络变化广播      | 网络变化回调                  |
-| 22   | DownloadSupport                | 多任务下载管理    | 下载,暂停,状态回调            |
-| 23   | PlayUtils                      | 音频管理          | 播放继续暂停                 |
+| 20   | NetChangeUtils                 | 网络变化广播      | 网络变化回调                  |
+| 22   | DownloadUtils                  | 多任务下载管理    | 下载,暂停,状态回调            |
+| 23   | AudioUtils                     | 音频管理          | 播放继续暂停                 |
 | 24   | AppsUtils                      | App的相关工具     | 查询应用以及 app 的信息       |
 | 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
 | 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                   |
-| 27   | JsonFormatTool                 | JSON格式化工具    | JSON字符串格式化             |
-| 28   | HttpUtils                      | 网络请求工具类     | get,post请求                |
+| 27   | JsonFormatUtils                | JSON格式化工具    | JSON字符串格式化             |
+| 28   | HttpUtils                      | 网络请求工具类    | get,post请求                |
 | 29   | MD5Utils                       | MD5工具类         | 获取字符串,文件MD5           |
 
 ## base_iotutils 工具调用方式,及图片展示
@@ -190,7 +182,7 @@ public class App extends Application {
 
         //下载进度
         //多个任务使用同一个DownloadCallBack 可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
-        DownloadSupport.DownloadCallBack downloadCallBack = new DownloadSupport.DownloadCallBack() {
+        DownloadUtils.DownloadCallBack downloadCallBack = new DownloadUtils.DownloadCallBack() {
             @Override
             public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
                 Message message1 = handler.obtainMessage();
@@ -260,7 +252,7 @@ public class App extends Application {
 
 ```java
       //开始播放
-      PlayUtils.getInstance().
+      AudioUtils.getInstance().
          setPlayStateChangeListener(new PlayUtils.PlayStateChangeListener() {
 
              @Override
@@ -279,22 +271,22 @@ public class App extends Application {
          startPlaying("/sdcard/ding.wav");//文件地址
 
       //暂停播放
-      PlayUtils.getInstance().pausePlay();
+      AudioUtils.getInstance().pausePlay();
 
       //继续播放
-      PlayUtils.getInstance().resumePlay();
+      AudioUtils.getInstance().resumePlay();
 
       //停止播放
-      PlayUtils.getInstance().stopPlaying();
+      AudioUtils.getInstance().stopPlaying();
 ```
 
 #### NetListenerUtils 网络监听者
 
 ```java
      //注册广播
-     NetListenerUtils.getInstance().registerReceiver();
+     NetChangeUtils.getInstance().registerReceiver();
      //设置监听 NetTypeInfo (NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_WIFI,NETWORK_ETH,NETWORK_NO,NETWORK_UNKNOWN)
-     NetListenerUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
+     NetChangeUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
          @Override
          public void changed(NetTypeInfo type, boolean isNormal) {
              //isNormal 网络经过ping后 true为网络正常 false为网络异常
@@ -305,7 +297,7 @@ public class App extends Application {
      });
      .......
      //注销广播
-     NetListenerUtils.getInstance().unRegisterReceiver();
+     NetChangeUtils.getInstance().unRegisterReceiver();
 ```
 
 #### SerialPort|SerialPortFinder 串口封装类

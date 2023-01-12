@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import com.chtj.base_framework.network.FLteTools;
 import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.network.NetUtils;
-import com.face_chtj.base_iotutils.display.ToastUtils;
-import com.face_chtj.base_iotutils.network.NetChangeMonitor;
-import com.face_chtj.base_iotutils.network.callback.INetChangeCallback;
+import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.NetChangeUtils;
+import com.face_chtj.base_iotutils.callback.INetStateCallback;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -59,7 +59,7 @@ public class NetChangeAty extends BaseActivity {
 
     //开始监听
     public void startLinstener(View view) {
-        NetChangeMonitor.instance().registerReceiver(new INetChangeCallback() {
+        NetChangeUtils.instance().registerReceiver(new INetStateCallback() {
             @Override
             public void changed(int netType, boolean isNormal) {
                 //isNormal 网络经过ping后 true为网络正常 false为网络异常
@@ -80,6 +80,6 @@ public class NetChangeAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetChangeMonitor.instance().unRegisterReceiver();
+        NetChangeUtils.instance().unRegisterReceiver();
     }
 }

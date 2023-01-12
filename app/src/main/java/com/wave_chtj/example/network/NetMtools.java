@@ -1,23 +1,10 @@
 package com.wave_chtj.example.network;
 
-import android.content.ContentResolver;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.provider.Settings;
-import android.telephony.PhoneStateListener;
-import android.telephony.SignalStrength;
-import android.telephony.TelephonyManager;
-import android.util.Log;
 
-import com.chtj.base_framework.FBaseTools;
-import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.network.NetUtils;
-
-import java.lang.reflect.Method;
 
 public class NetMtools {
     public static final int MODE_HARD = 0;//------0为硬复位

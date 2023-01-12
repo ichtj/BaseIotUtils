@@ -19,16 +19,16 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.face_chtj.base_iotutils.convert.BytesHexUtils;
+import com.face_chtj.base_iotutils.BytesHexUtils;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.display.ToastUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.serialport.SerialPort;
 import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.util.AppManager;
-import com.wave_chtj.example.util.SwitchUtils;
+import com.wave_chtj.example.util.PACKAGES;
 import com.wave_chtj.example.util.TopTitleView;
 
 import java.io.File;
@@ -97,7 +97,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_serialport_normal);
+        setContentView(R.layout.activity_serialport);
         ButterKnife.bind(this);
         //初始化控件
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
@@ -117,7 +117,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
         rbHex.setOnCheckedChangeListener(this);
         String getPkgName = getPackageName();
         KLog.d("onCreate:>getPkgName=" + getPkgName);
-        if (getPkgName.contains(SwitchUtils.FLAG_SERIALPORT)) {
+        if (getPkgName.contains(PACKAGES.PKG_SERIALPORT)) {
             AppManager.getAppManager().finishActivity(StartPageAty.class);
         }
     }
