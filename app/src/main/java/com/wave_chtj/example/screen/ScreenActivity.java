@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.ScreenInfoUtils;
+import com.face_chtj.base_iotutils.DisplayUtils;
 
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
@@ -83,7 +83,7 @@ public class ScreenActivity extends BaseActivity {
 
     public void initView() {
         ttView = findViewById(R.id.ttView);
-        KLog.d(ScreenInfoUtils.getScreenInfo(this));
+        KLog.d(DisplayUtils.getScreenInfo(this));
         ttView.setCenterClick(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,16 +104,16 @@ public class ScreenActivity extends BaseActivity {
         });
         tvProgress = findViewById(R.id.tvProgress);
         sbProgress = findViewById(R.id.sbProgress);
-        tvProgress.setText("App当前进度(0~255)：" + ScreenInfoUtils.getScreenBrightness());
+        tvProgress.setText("App当前进度(0~255)：" + DisplayUtils.getScreenBrightness());
         sbProgress.setMax(255);
-        sbProgress.setProgress(ScreenInfoUtils.getScreenBrightness());
+        sbProgress.setProgress(DisplayUtils.getScreenBrightness());
         //进度
         sbProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 KLog.d( "progress: " + progress);
                 tvProgress.setText("App当前进度(0~255)：" + progress);
-                ScreenInfoUtils.setAppScreenBrightness(ScreenActivity.this, progress);
+                DisplayUtils.setAppScreenBrightness(ScreenActivity.this, progress);
             }
 
             @Override
@@ -131,17 +131,17 @@ public class ScreenActivity extends BaseActivity {
         tvSysProgress = findViewById(R.id.tvSysProgress);
         sbSysProgress = findViewById(R.id.sbSysProgress);
         sbSysProgress.setMax(255);
-        tvSysProgress.setText("系统当前进度(0~255)：" + ScreenInfoUtils.getScreenBrightness());
-        sbSysProgress.setProgress(ScreenInfoUtils.getScreenBrightness());
+        tvSysProgress.setText("系统当前进度(0~255)：" + DisplayUtils.getScreenBrightness());
+        sbSysProgress.setProgress(DisplayUtils.getScreenBrightness());
 
         //进度
         sbSysProgress.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                ScreenInfoUtils.setScreenMode(0);
+                DisplayUtils.setScreenMode(0);
                 KLog.d("progress: " + progress);
                 tvSysProgress.setText("系统当前进度(0~255)：" + progress);
-                ScreenInfoUtils.setSysScreenBrightness(progress);
+                DisplayUtils.setSysScreenBrightness(progress);
             }
 
             @Override

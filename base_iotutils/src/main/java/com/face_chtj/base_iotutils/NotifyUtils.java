@@ -24,7 +24,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
-import com.face_chtj.base_iotutils.notify.NotifyBroadcastReceiver;
+import com.face_chtj.base_iotutils.notify.NotifyReceiver;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
 
@@ -57,7 +57,7 @@ public class NotifyUtils {
     private boolean mAutoCancel = false;//点击的时候是否消失
     private INotifyStateCallback mINotifyStateCallback;
     private static volatile NotifyUtils notifyUtils;
-    private NotifyBroadcastReceiver mNotifyBroadcastReceiver;
+    private NotifyReceiver mNotifyReceiver;
     //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
     //跳转设置
@@ -110,10 +110,10 @@ public class NotifyUtils {
                     //初始化
                     notifyUtils = new NotifyUtils();
                     //注册广播
-                    notifyUtils.mNotifyBroadcastReceiver = new NotifyBroadcastReceiver();
+                    notifyUtils.mNotifyReceiver = new NotifyReceiver();
                     IntentFilter filter = new IntentFilter();
                     filter.addAction(ACTION_CLOSE_NOTIFY);
-                    BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyBroadcastReceiver, filter);
+                    BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyReceiver, filter);
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
@@ -452,8 +452,8 @@ public class NotifyUtils {
                 notifyUtils.mINotifyStateCallback = null;
             }
             //销毁广播
-            if (notifyUtils.mNotifyBroadcastReceiver != null) {
-                BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyBroadcastReceiver);
+            if (notifyUtils.mNotifyReceiver != null) {
+                BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyReceiver);
             }
             notifyUtils = null;
         }

@@ -16,6 +16,8 @@ import android.bluetooth.le.BluetoothLeAdvertiser;
 import android.content.Context;
 import android.os.ParcelUuid;
 import com.face_chtj.base_iotutils.KLog;
+import com.wave_chtj.example.callback.BlePeripheralCallback;
+
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;

@@ -19,6 +19,7 @@ import com.clj.fastble.data.BleDevice;
 import com.face_chtj.base_iotutils.KLog;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.callback.BlePeripheralCallback;
 
 import java.io.UnsupportedEncodingException;
 import java.util.List;

@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.5.5'
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.5.6'
 }
 ```
 
@@ -54,36 +54,36 @@ public class App extends Application {
 
 ## base_iotutils 物联基础工具类说明
 
-| 编号 | 工具类                         | 工具名称          | 实现功能                      |
-| ---- | ------------------------------ | ----------------- | ----------------------------- |
-| 1    | ZipUtils                       | 压缩相关          | 压缩解压,批量等               |
-| 2    | UriPathUtils                   | Uri 转真实路径    | android7.0uri 转换            |
-| 3    | ToastUtils                     | 系统的 Toast 封装 | 成功,失败，警告等提示         |
-| 4    | TimeUtils                      | 时间工具类        | Date 时间日期转换             |
-| 5    | GlobalDialogUtils              | 应用上层弹窗      | SYSTEM_ALERT_WINDOW           |
-| 6    | SPUtils                        | 存储工具类        | SharedPreferences 读写        |
-| 7    | ShellUtils                     | adb 相关工具类    | adb 命令执行                  |
-| 8    | ServiceUtils                   | Service 管理工具  | 启动,停止,判断存活等          |
-| 9    | PermissionsUtils               | 权限申请工具类    | 多权限申请                    |
-| 10   | KLog                           | 日志打印          | 日志标记打印                  |
-| 11   | KeyBoardUtils                  | 软键盘管理        | 打开,关闭                     |
-| 12   | FileUtils                      | 文件工具类        | 写入/读取文件相关信息         |
-| 13   | DeviceUtils                    | 设备的相关信息    | 设备出厂自带参数              |
-| 14   | BytesHexUtils                  | 进制转换工具类    | 10/16 进制,字节数组等相互转换 |
-| 15   | TPoolSingleUtils/TPoolUtils    | 线程池管理        | 线程重用                     |
-| 16   | SerialPort/SerialPortFinder    | 串口相关工具类    | 打开,通讯,关闭                |
-| 17   | AdaptScreenUtils               | 屏幕适配          | pt 单位适配                  |
-| 18   | NotifyUtils                    | 通知工具类        | 自定义 notification,动态调参  |
-| 19   | NetUtils                       | 网络工具类        | 网络类型/状态等获取           |
-| 20   | NetChangeUtils                 | 网络变化广播      | 网络变化回调                  |
-| 22   | DownloadUtils                  | 多任务下载管理    | 下载,暂停,状态回调            |
-| 23   | AudioUtils                     | 音频管理          | 播放继续暂停                 |
-| 24   | AppsUtils                      | App的相关工具     | 查询应用以及 app 的信息       |
-| 25   | ScreenInfoUtils                | 屏幕相关          | 屏幕信息获取(高宽像素等)      |
-| 26   | StatusBarUtil                  | 沉浸式状态栏      | 状态栏变色                   |
-| 27   | JsonFormatUtils                | JSON格式化工具    | JSON字符串格式化             |
-| 28   | HttpUtils                      | 网络请求工具类    | get,post请求                |
-| 29   | MD5Utils                       | MD5工具类         | 获取字符串,文件MD5           |
+| 编号 | 工具类                         | 工具名称           | 实现功能                     |
+| ---- | ------------------------------ | ------------------ | -----------------------------|
+| 01   | AudioUtils                     | 音频管理           | 播放继续暂停                 |
+| 02   | AppsUtils                      | App的相关工具      | 查询应用以及 app 的信息      |
+| 03   | AdaptationUtils                | 屏幕适配           | pt 单位适配                  |
+| 04   | BytesHexUtils                  | 进制转换工具类     | 10/16 进制,字节数组等相互转换|
+| 05   | DownloadUtils                  | 多任务下载管理     | 下载,暂停,状态回调           |
+| 06   | DisplayUtils                   | 屏幕相关           | 屏幕信息获取(高宽像素等)     |
+| 07   | DeviceUtils                    | 设备的相关信息     | 设备出厂自带参数             |
+| 08   | EncryptUtils                   | 加密工具类         | 获取字符串,文件MD5           |
+| 09   | FileUtils                      | 文件工具类         | 写入/读取文件相关信息        |
+| 10   | GlobalDialogUtils              | 应用上层弹窗       | SYSTEM_ALERT_WINDOW          |
+| 11   | HttpUtils                      | 网络请求工具类     | get,post请求                 |
+| 12   | JsonFormatUtils                | JSON格式化工具     | JSON字符串格式化             |
+| 13   | KLog                           | 日志打印           | 日志标记打印                 |
+| 14   | KeyBoardUtils                  | 软键盘管理         | 打开,关闭                    |
+| 15   | NotifyUtils                    | 通知工具类         | 自定义 notification,动态调参 |
+| 16   | NetUtils                       | 网络工具类         | 网络类型/状态等获取          |
+| 17   | NetChangeUtils                 | 网络变化广播       | 网络变化回调                 |
+| 18   | PermissionsUtils               | 权限申请工具类     | 多权限申请                   |
+| 19   | SerialPort/SerialPortFinder    | 串口相关工具类     | 打开,通讯,关闭               |
+| 20   | SPUtils                        | 存储工具类         | SharedPreferences 读写       |
+| 21   | ShellUtils                     | adb 相关工具类     | adb 命令执行                 |
+| 22   | ServiceUtils                   | Service 管理工具   | 启动,停止,判断存活等         |
+| 23   | StatusBarUtils                 | 沉浸式状态栏       | 状态栏变色                   |
+| 24   | ToastUtils                     | 系统的 Toast 封装  | 成功,失败，警告等提示        |
+| 25   | TimeUtils                      | 时间工具类         | Date 时间日期转换            |
+| 26   | TPoolSingleUtils/TPoolUtils    | 线程池管理         | 线程重用                     |
+| 27   | UriPathUtils                   | Uri 转真实路径     | android7.0uri 转换           |
+| 28   | ZipUtils                       | 压缩相关           | 压缩解压,批量等              |
 
 ## base_iotutils 工具调用方式,及图片展示
 
@@ -122,8 +122,10 @@ public class App extends Application {
         NetUtils.isAvailable();
         //判断网络是否连接
         NetUtils.isConnected();
-        //判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）不要在主线程使用，会阻塞线程
-        NetUtils.ping();  NetUtils.ping(int count,int time); NetUtils.ping(String ip);
+        //ping网络 不要在主线程使用，会阻塞线程
+        NetUtils.ping();
+        //ping 网络 不要在主线程使用，会阻塞线程
+        NetUtils.reloadDnsPing();
         //判断WIFI是否打开
         NetUtils.isWifiEnabled();
         //判断网络连接方式是否为WIFI
@@ -144,8 +146,6 @@ public class App extends Application {
         NetUtils.getActiveNetworkInfo();
         //获取移动网络运营商名称 如中国联通、中国移动、中国电信
         NetUtils.getNetworkOperatorName();
-        //获取移动终端类型 0 手机制式未知 1 手机制式为GSM，移动和联通 2 手机制式为CDMA，电信 3
-        NetUtils.getPhoneType();
 ```
 
 #### DownloadSupport 多任务下载 任务各自独立
@@ -359,6 +359,7 @@ public class App extends Application {
         AppsUtils.getAppVersionCode();//获取APP-VersionCode
         AppsUtils.getAppVersionName();//获取APP-VersionName
         AppsUtils.isAppForeground();//判断 App 是否处于前台
+        AppsUtils.getAppPath();//获取app安装路径
 ```
 
 #### PermissionsUtils 权限申请工具类

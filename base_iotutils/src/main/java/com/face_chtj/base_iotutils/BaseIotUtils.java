@@ -9,7 +9,7 @@ import com.face_chtj.base_iotutils.entity.DnsBean;
 import com.face_chtj.base_iotutils.callback.IDefaultUrlCallback;
 import com.face_chtj.base_iotutils.adaptation.activitylifecycle.ActivityLifecycleImp;
 import com.face_chtj.base_iotutils.adaptation.activitylifecycle.DefaultAutoAdaptStrategy;
-import com.face_chtj.base_iotutils.adaptation.AdaptScreenUtils;
+import com.face_chtj.base_iotutils.adaptation.AdaptationUtils;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -79,10 +79,10 @@ public final class BaseIotUtils {
         if (instance().autoAdaptation) {
             if (instance().adaptation == WIDTH) {
                 //KLog.d(TAG, "Adaptation is open and adapting to width");
-                AdaptScreenUtils.adaptWidth(activity.getResources(), instance().defaultWidth);
+                AdaptationUtils.adaptWidth(activity.getResources(), instance().defaultWidth);
             } else {
                 //KLog.d(TAG, "Adaptation is open and adapting to height");
-                AdaptScreenUtils.adaptHeight(activity.getResources(), instance().defaultHeight);
+                AdaptationUtils.adaptHeight(activity.getResources(), instance().defaultHeight);
             }
         } else {
             KLog.d(TAG, "Adaptation is not open adapting please at application BaseIotUtils.setAutoScreenAdaptation, set value equal true");

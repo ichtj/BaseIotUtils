@@ -20,6 +20,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.face_chtj.base_iotutils.callback.IAdaptationStrategy;
+
 /**
  * ================================================
  * {@link FragmentLifecycleCallbacksImpl} 可用来代替在 BaseFragment 中加入适配代码的传统方式
@@ -34,25 +36,25 @@ public class FragmentLifecycleCallbacksImpl extends FragmentManager.FragmentLife
     /**
      * 屏幕适配逻辑策略类
      */
-    private AutoAdaptStrategy mAutoAdaptStrategy;
+    private IAdaptationStrategy mIAdaptationStrategy;
 
-    public FragmentLifecycleCallbacksImpl(AutoAdaptStrategy autoAdaptStrategy) {
-        mAutoAdaptStrategy = autoAdaptStrategy;
+    public FragmentLifecycleCallbacksImpl(IAdaptationStrategy IAdaptationStrategy) {
+        mIAdaptationStrategy = IAdaptationStrategy;
     }
 
     @Override
     public void onFragmentCreated(FragmentManager fm, Fragment f, Bundle savedInstanceState) {
-        if (mAutoAdaptStrategy != null) {
-            mAutoAdaptStrategy.applyAdapt(f, f.getActivity());
+        if (mIAdaptationStrategy != null) {
+            mIAdaptationStrategy.applyAdapt(f, f.getActivity());
         }
     }
 
     /**
      * 设置屏幕适配逻辑策略类
      *
-     * @param autoAdaptStrategy {@link AutoAdaptStrategy}
+     * @param IAdaptationStrategy {@link IAdaptationStrategy}
      */
-    public void setAutoAdaptStrategy(AutoAdaptStrategy autoAdaptStrategy) {
-        mAutoAdaptStrategy = autoAdaptStrategy;
+    public void setAutoAdaptStrategy(IAdaptationStrategy IAdaptationStrategy) {
+        mIAdaptationStrategy = IAdaptationStrategy;
     }
 }

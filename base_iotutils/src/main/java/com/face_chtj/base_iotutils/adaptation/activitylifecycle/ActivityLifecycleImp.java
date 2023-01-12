@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 
+import com.face_chtj.base_iotutils.callback.IAdaptationStrategy;
+
 /**
  * Created to :Activity启动生命周期的监听.
  */
@@ -20,11 +22,11 @@ public class ActivityLifecycleImp implements Application.ActivityLifecycleCallba
     /**
      * 屏幕适配逻辑策略类
      */
-    private AutoAdaptStrategy mAutoAdaptStrategy;
+    private IAdaptationStrategy mIAdaptationStrategy;
 
-    public ActivityLifecycleImp(AutoAdaptStrategy autoAdaptStrategy) {
-        mFragmentLifecycleCallbacks = new FragmentLifecycleCallbacksImpl(autoAdaptStrategy);
-        this.mAutoAdaptStrategy = autoAdaptStrategy;
+    public ActivityLifecycleImp(IAdaptationStrategy IAdaptationStrategy) {
+        mFragmentLifecycleCallbacks = new FragmentLifecycleCallbacksImpl(IAdaptationStrategy);
+        this.mIAdaptationStrategy = IAdaptationStrategy;
     }
 
     @Override
@@ -33,15 +35,15 @@ public class ActivityLifecycleImp implements Application.ActivityLifecycleCallba
             ((FragmentActivity) activity).getSupportFragmentManager().registerFragmentLifecycleCallbacks(mFragmentLifecycleCallbacks, true);
         }
         //Activity 中的 setContentView(View) 一定要在 super.onCreate(Bundle); 之后执行
-        if (mAutoAdaptStrategy != null) {
-            mAutoAdaptStrategy.applyAdapt(activity, activity);
+        if (mIAdaptationStrategy != null) {
+            mIAdaptationStrategy.applyAdapt(activity, activity);
         }
     }
 
     @Override
     public void onActivityStarted(Activity activity) {
-        if (mAutoAdaptStrategy != null) {
-            mAutoAdaptStrategy.applyAdapt(activity, activity);
+        if (mIAdaptationStrategy != null) {
+            mIAdaptationStrategy.applyAdapt(activity, activity);
         }
     }
 
@@ -72,10 +74,10 @@ public class ActivityLifecycleImp implements Application.ActivityLifecycleCallba
     /**
      * 设置屏幕适配逻辑策略类
      *
-     * @param autoAdaptStrategy {@link AutoAdaptStrategy}
+     * @param IAdaptationStrategy {@link IAdaptationStrategy}
      */
-    public void setAutoAdaptStrategy(AutoAdaptStrategy autoAdaptStrategy) {
-        mAutoAdaptStrategy = autoAdaptStrategy;
-        mFragmentLifecycleCallbacks.setAutoAdaptStrategy(autoAdaptStrategy);
+    public void setAutoAdaptStrategy(IAdaptationStrategy IAdaptationStrategy) {
+        mIAdaptationStrategy = IAdaptationStrategy;
+        mFragmentLifecycleCallbacks.setAutoAdaptStrategy(IAdaptationStrategy);
     }
 }

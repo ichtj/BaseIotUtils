@@ -21,6 +21,8 @@ import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.TypeDataUtils;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.wave_chtj.example.R;
+import com.wave_chtj.example.callback.INetMonitor;
+import com.wave_chtj.example.callback.IResetModel;
 
 import java.io.File;
 import java.util.Arrays;

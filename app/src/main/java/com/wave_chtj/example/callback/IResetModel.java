@@ -1,6 +1,8 @@
-package com.wave_chtj.example.network;
+package com.wave_chtj.example.callback;
 
 import androidx.annotation.IntDef;
+
+import com.wave_chtj.example.network.NetMtools;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

@@ -1,4 +1,4 @@
-package com.wave_chtj.example.network;
+package com.wave_chtj.example.callback;
 
 public interface INetMonitor {
     void getPingList(String []pingList);

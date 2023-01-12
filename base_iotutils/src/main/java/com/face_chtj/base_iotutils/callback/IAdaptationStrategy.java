@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.face_chtj.base_iotutils.adaptation.activitylifecycle;
+package com.face_chtj.base_iotutils.callback;
 
 import android.app.Activity;
 import android.util.DisplayMetrics;
@@ -23,7 +23,7 @@ import androidx.fragment.app.Fragment;
 /**
  * 屏幕适配逻辑策略类
  */
-public interface AutoAdaptStrategy {
+public interface IAdaptationStrategy {
 
     /**
      * 开始执行屏幕适配逻辑

@@ -67,10 +67,10 @@ import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.IndexAdapter;
 import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.TableFileUtils;
-import com.wave_chtj.example.util.excel.JXLExcelUtils;
-import com.wave_chtj.example.util.excel.POIExcelUtils;
-import com.wave_chtj.example.util.keyevent.IUsbHubListener;
-import com.wave_chtj.example.util.keyevent.UsbHubTools;
+import com.wave_chtj.example.util.JXLExcelUtils;
+import com.wave_chtj.example.util.POIExcelUtils;
+import com.wave_chtj.example.callback.IUsbHubListener;
+import com.wave_chtj.example.util.UsbHubTools;
 import com.wave_chtj.example.video.PlayCacheVideoAty;
 import com.wave_chtj.example.video.VideoPlayAty;
 

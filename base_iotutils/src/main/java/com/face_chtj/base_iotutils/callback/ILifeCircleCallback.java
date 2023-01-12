@@ -1,4 +1,4 @@
-package com.face_chtj.base_iotutils.adaptation.activitylifecycle;
+package com.face_chtj.base_iotutils.callback;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -8,7 +8,7 @@ import android.os.Bundle;
  *
  */
 
-public interface ActivityLifeCircleCallback {
+public interface ILifeCircleCallback {
 
 
     /**

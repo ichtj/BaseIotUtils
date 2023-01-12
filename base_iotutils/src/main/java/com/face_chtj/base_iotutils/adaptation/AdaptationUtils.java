@@ -15,12 +15,12 @@ import java.util.List;
  *     desc  : utils about adapt screen 布局以pt为单位
  * </pre>
  */
-public final class AdaptScreenUtils {
+public final class AdaptationUtils {
 
     //反射
     private static List<Field> sMetricsFields;
 
-    private AdaptScreenUtils() {
+    private AdaptationUtils() {
         throw new UnsupportedOperationException("u can't instantiate me...");
     }
 

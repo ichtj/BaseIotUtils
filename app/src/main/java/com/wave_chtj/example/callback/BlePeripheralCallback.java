@@ -1,4 +1,4 @@
-package com.wave_chtj.example.bluetooth;
+package com.wave_chtj.example.callback;
 
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGattCharacteristic;

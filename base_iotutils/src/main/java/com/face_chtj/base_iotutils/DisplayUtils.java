@@ -24,7 +24,7 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
  * --设置app内屏幕亮度 {@link #setAppScreenBrightness(Activity, int)} )}
  * --设置系统屏幕亮度 {@link #setAppScreenBrightness(Activity, int)} )}
  */
-public class ScreenInfoUtils {
+public class DisplayUtils {
     private static final String TAG = "ScreenInfoUtils";
     /**
      * 获取屏幕宽度

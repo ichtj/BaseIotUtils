@@ -18,12 +18,13 @@ package com.face_chtj.base_iotutils.adaptation.activitylifecycle;
 import android.app.Activity;
 
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.callback.IAdaptationStrategy;
 
 /**
  * ================================================
  * 屏幕适配逻辑策略默认实现类,
  */
-public class DefaultAutoAdaptStrategy implements AutoAdaptStrategy {
+public class DefaultAutoAdaptStrategy implements IAdaptationStrategy {
     private static final String TAG = DefaultAutoAdaptStrategy.class.getSimpleName();
 
     @Override

@@ -41,5 +41,8 @@ cmd:adb shell dumpsys window | findstr mCurrentFocus // 获取顶层应用
 cd sdcard;busybox find ./ -size +51200k > /sdcard/report.txt;cd / //安卓：19,查找大于50M的文件到指定文件夹
 find sdcard/ -size +50M > /sdcard/report.txt //安卓：25,查找大于50M的文件到指定文件夹
 du -m -d 1 /sdcard/* //列出sdcar文件夹下层级为1 的文件信息
-
+-------------------------------------------------
+data MMddHHmmyyyy.ss set //设置时间格式
+date 010411482023.58 set //设置时间
+-------------------------------------------------
 
