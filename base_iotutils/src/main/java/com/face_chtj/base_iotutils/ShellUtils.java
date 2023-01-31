@@ -79,6 +79,15 @@ public class ShellUtils {
         public int result = -1;
         public String errorMsg;
         public String successMsg;
+
+        public CommandResult() {
+        }
+
+        public CommandResult(int result, String errorMsg, String successMsg) {
+            this.result = result;
+            this.errorMsg = errorMsg;
+            this.successMsg = successMsg;
+        }
     }
 
     /**
@@ -118,7 +127,7 @@ public class ShellUtils {
             successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
             errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String s;
-            while ((s = successResult.readLine()) != null) successMsg.append(s);
+            while ((s = successResult.readLine()) != null) successMsg.append(s+"\n");
             while ((s = errorResult.readLine()) != null) errorMsg.append(s);
             commandResult.successMsg = successMsg.toString();
             commandResult.errorMsg = errorMsg.toString();

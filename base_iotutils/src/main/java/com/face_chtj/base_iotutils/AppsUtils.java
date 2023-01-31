@@ -11,6 +11,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.face_chtj.base_iotutils.entity.AppEntity;
@@ -18,7 +19,10 @@ import com.face_chtj.base_iotutils.entity.ProcessEntity;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Enumeration;
 import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 /**
  * @author chtj
@@ -56,8 +60,8 @@ public class AppsUtils {
 
     public static String getAppPath(String pkgName) {
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand("pm path " + pkgName, true);
-        KLog.d("getAppPath() path >> "+commandResult.successMsg);
-        return commandResult.result == 0 ? commandResult.successMsg.replace("package:","") : "null";
+        KLog.d("getAppPath() path >> " + commandResult.successMsg);
+        return commandResult.result == 0 ? commandResult.successMsg.replace("package:", "") : "null";
     }
 
     /**
@@ -72,7 +76,7 @@ public class AppsUtils {
             List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
-                KLog.d("getDeskTopAppList() info >> "+info.activityInfo.toString());
+                KLog.d("getDeskTopAppList() info >> " + info.activityInfo.toString());
                 String pkg = info.activityInfo.packageName;
                 Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
@@ -329,19 +333,66 @@ public class AppsUtils {
      * @param packageName
      * @return
      */
-    public static boolean uninstallSilent(String appName, String packageName, boolean isSys) {
-        String command = "mount -o rw,remount -t ext4 /system;rm -rf /system/priv-app/" + appName + "rm -rf /system/app/" + appName + ";pm uninstall " + packageName;
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(new String[]{command}, isRoot());
-        if (isSys) {
-            return commandResult.result == 0;
-        } else {
-            if (commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success")) {
-                return true;
+    public static boolean uninstallSilent(boolean isSys, boolean isReboot, String appName, String packageName) {
+        String[] cmd = new String[]{
+                "mount -o rw,remount -t ext4 /system",
+                "rm -rf /system/priv-app/" + appName,
+                "rm -rf /system/app/" + appName,
+                "pm uninstall " + packageName,
+                isReboot ? "reboot" : ""
+        };
+        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());
+        return isSys ? commandResult.result == 0 : commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success");
+    }
+
+    /**
+     * 静默安装
+     *
+     * @param isSys    是否是系统应用
+     * @param isReboot 安装后是否需要重启
+     * @param appName  app名称 英文
+     * @param appPath  app路径
+     */
+    public static boolean installSilent(boolean isSys, boolean isReboot, String appName, String appPath) {
+        try {
+            if (isSys) {
+                String cpu_abi = "lib/" + Build.CPU_ABI;
+                ZipFile zip = new ZipFile(appPath);
+                Enumeration<ZipEntry> entries = (Enumeration<ZipEntry>) zip.entries();
+                while (entries.hasMoreElements()) {
+                    ZipEntry ze = entries.nextElement();
+                    if (ze.getName().contains(cpu_abi)) {
+                        String soName = ze.getName().replace(cpu_abi + "/", "");
+                        KLog.d("installSilent:>soName=" + soName);
+                        FileUtils.writeToLocal("/data/" + soName, zip.getInputStream(ze));
+                    }
+                }
+                zip.close();
+                //复制lib库到system/lib目录下 并授予权限
+                String[] command = new String[]{
+                        "mount -o rw,remount -t ext4 /system",
+                        "cp -rf /data/*.so /system/lib/",//拷贝lib库
+                        "rm -rf /system/priv-app/" + appName.replace(".apk", "") + "*",//删除原有的APK
+                        "cp -rf " + appPath + " /system/priv-app/",//拷贝已下载好的APK
+                        "chmod 777 /system/lib/*.so",//授权so库
+                        "chmod 777 /system/priv-app/" + appName.replace(".apk", "") + "*",//授权apk
+                        "rm -rf " + appPath,//删除已下载好的APK
+                        "rm -rf /data/*.so",//删除临时目录下的so库
+                        isReboot ? "reboot" : ""//确认重启
+                };
+                ShellUtils.CommandResult cmdResult = ShellUtils.execCommand(command, true);
+                return cmdResult.result == 0 ? new File("/system/priv-app/" + appName).exists() : false;
             } else {
-                return false;
+                String[] command = new String[]{"pm install -r " + appPath + "\n", "rm -rf " + appPath + "\n", isReboot ? "reboot" : ""};
+                ShellUtils.CommandResult cmdResult = ShellUtils.execCommand(command, true);
+                return cmdResult.result == 0;
             }
+        } catch (Throwable e) {
+            KLog.e("installSilent() err >> " + e.getMessage());
+            return false;
         }
     }
+
 
     /**
      * 判断设备是否有root权限

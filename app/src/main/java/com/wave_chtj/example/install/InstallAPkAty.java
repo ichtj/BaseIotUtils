@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
+import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
@@ -24,8 +25,9 @@ import java.io.InputStream;
  */
 public class InstallAPkAty extends BaseActivity {
     private static final String TAG = "InstallAPkAty";
-    private static final String pkgName="com.csdroid.pkg";
-    private static final String apkPath="/sdcard/pkgSearch.apk";
+    private static final String pkgName = "com.csdroid.pkg";
+    private static final String appName = "pkgSearch.apk";
+    private static final String apkPath = "/sdcard/" + appName;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -47,7 +49,7 @@ public class InstallAPkAty extends BaseActivity {
                 InputStream input = getAssets().open(fileName);
                 writeToLocal(savePath, input);
             } else {
-                KLog.d(TAG, apkPath+" exist");
+                KLog.d(TAG, apkPath + " exist");
                 ToastUtils.success("加载成功");
             }
         } catch (Exception e) {
@@ -79,27 +81,29 @@ public class InstallAPkAty extends BaseActivity {
 
     /**
      * PM INSTALL
+     *
      * @param view
      */
     public void pmInstall(View view) {
-        boolean isInstalled= InstallTools.pmInstallBySilent(apkPath);
-        Log.d(TAG, "onCreate: isInstalled="+isInstalled);
-        if(isInstalled){
+        boolean isInstalled = InstallTools.pmInstallBySilent(apkPath);
+        Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
+        if (isInstalled) {
             ToastUtils.success("安装成功！");
-        }else{
+        } else {
             ToastUtils.error("安装失败！");
         }
     }
 
     /**
      * PM UNINSTALL
+     *
      * @param view
      */
     public void pmUnInstall(View view) {
         InstallTools.deletePackage(this, pkgName, new InstallTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiUnInstall getResult: isComplete="+isComplete+",err="+err);
+                Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
             }
         });
     }
@@ -107,30 +111,45 @@ public class InstallAPkAty extends BaseActivity {
 
     /**
      * SYSTEM API INSTALL
+     *
      * @param view
      */
     public void systemApiInstall(View view) {
         InstallTools.installPackageByJavaReflect(this, pkgName, apkPath, new InstallTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiInstall getResult: isComplete="+isComplete+",err="+err);
+                Log.d(TAG, "systemApiInstall getResult: isComplete=" + isComplete + ",err=" + err);
             }
         });
     }
 
     /**
      * SYSTEM API UNINSTALL
+     *
      * @param view
      */
     public void systemApiUnInstall(View view) {
         InstallTools.deletePackage(this, pkgName, new InstallTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiUnInstall getResult: isComplete="+isComplete+",err="+err);
+                Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
             }
         });
     }
 
+    public void silenceInstall(View view) {
+        boolean isInstalled = AppsUtils.installSilent(true, true, "pkgSearch.apk", apkPath);
+        Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
+        if (isInstalled) {
+            ToastUtils.success("安装成功！");
+        } else {
+            ToastUtils.error("安装失败！");
+        }
+    }
+
+    public void silenceUnInstall(View view) {
+        AppsUtils.uninstallSilent(true, true, appName, pkgName);
+    }
 
     @Override
     protected void onPause() {

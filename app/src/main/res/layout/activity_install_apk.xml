@@ -36,5 +36,17 @@
         android:onClick="systemApiUnInstall"
         android:layout_height="wrap_content"/>
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="静默安装"
+        android:onClick="silenceInstall"
+        android:layout_height="wrap_content"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:text="静默卸载"
+        android:onClick="silenceUnInstall"
+        android:layout_height="wrap_content"/>
+
 
 </LinearLayout>

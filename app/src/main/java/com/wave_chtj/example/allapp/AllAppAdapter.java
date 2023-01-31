@@ -77,7 +77,6 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                     AppsUtils.openPackage(list.get(posiNum).getPackageName());
                 } catch (Exception e) {
                     e.printStackTrace();
-                    KLog.e("errMeg:" + e.getMessage());
                     ToastUtils.error("打开错误!");
                 }
             }
@@ -148,7 +147,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 }
                 if(!TextUtils.isEmpty(appName)){
                     KLog.d("onClick() appName >> "+appName);
-                    boolean isOk = AppsUtils.uninstallSilent(appName, list.get(posiNum).getPackageName(), isSys);
+                    boolean isOk = AppsUtils.uninstallSilent(isSys,false,appName, list.get(posiNum).getPackageName());
                     if (isOk) {
                         ToastUtils.success("卸载成功,如果是系统应用请重启查看！");
                         list.remove(list.get(posiNum));
@@ -165,22 +164,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).getUid());
-                if (isClearResult) {
-                    ToastUtils.success("启用成功,该应用可正常上网！");
-                } else {
-                    ToastUtils.error("启用失败,请重试！");
-                }
+                ToastUtils.info(isClearResult?"启用成功,该应用可正常上网！":"启用失败,请重试！");
             }
         });
         holder.tvDisableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).getUid());
-                if (isPutComplete) {
-                    ToastUtils.success("禁用成功,该应用无法上网！");
-                } else {
-                    ToastUtils.error("禁用失败,请重试！");
-                }
+                ToastUtils.info(isPutComplete?"禁用成功,该应用无法上网！":"禁用失败,请重试！");
             }
         });
     }
