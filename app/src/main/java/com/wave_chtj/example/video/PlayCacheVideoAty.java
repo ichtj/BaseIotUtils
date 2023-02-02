@@ -112,31 +112,35 @@ public class PlayCacheVideoAty extends BaseActivity implements View.OnClickListe
             Log.d(TAG, "startPreview will return");
             return;
         }
-
-        mCamera = Camera.open(CAMERA_ID);
-
-        Camera.Parameters parameters = mCamera.getParameters();
-        Camera.Size size = getBestPreviewSize(1080, 1920, parameters);
-        if (size != null) {
-            parameters.setPreviewSize(size.width, size.height);
-        }
-
-        //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
-        //parameters.setPreviewFrameRate(20);
-
-        //设置相机预览方向
-        mCamera.setDisplayOrientation(90);
-
-        mCamera.setParameters(parameters);
-
         try {
-            mCamera.setPreviewDisplay(mSurfaceHolder);
-//          mCamera.setPreviewCallback(mPreviewCallback);
-        } catch (Exception e) {
-            Log.d(TAG, e.getMessage());
-        }
+            mCamera = Camera.open(CAMERA_ID);
 
-        mCamera.startPreview();
+            Camera.Parameters parameters = mCamera.getParameters();
+            Camera.Size size = getBestPreviewSize(1080, 1920, parameters);
+            if (size != null) {
+                parameters.setPreviewSize(size.width, size.height);
+            }
+
+            //parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);
+            //parameters.setPreviewFrameRate(20);
+
+            //设置相机预览方向
+            mCamera.setDisplayOrientation(90);
+
+            mCamera.setParameters(parameters);
+
+            try {
+                mCamera.setPreviewDisplay(mSurfaceHolder);
+//          mCamera.setPreviewCallback(mPreviewCallback);
+            } catch (Exception e) {
+                Log.d(TAG, e.getMessage());
+            }
+
+            mCamera.startPreview();
+        }catch (Throwable e){
+            e.printStackTrace();
+            KLog.e("errMeg:"+e.getMessage());
+        }
     }
 
     private void stopPreview() {
