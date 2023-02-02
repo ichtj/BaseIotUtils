@@ -241,6 +241,11 @@
             android:name=".nginx.NginxAty"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
+        <!--Dialog对话框工具-->
+        <activity
+            android:name=".dialog.DialogAty"
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"

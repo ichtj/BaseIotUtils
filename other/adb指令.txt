@@ -45,4 +45,6 @@ du -m -d 1 /sdcard/* //列出sdcar文件夹下层级为1 的文件信息
 data MMddHHmmyyyy.ss set //设置时间格式
 date 010411482023.58 set //设置时间
 -------------------------------------------------
+adb bugreport ./Desktop/mybug.zip //导出设备所有 bug 日志  anr|crash
+-------------------------------------------------
 

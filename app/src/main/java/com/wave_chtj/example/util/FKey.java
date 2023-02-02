@@ -48,6 +48,7 @@ public class FKey {
     public static final int        KEY_BLUETOOTH=44;//蓝牙测试
     public static final int          VIDEO_CACHE=45;//视频录制
     public static final int            KEY_CRASH=46;//死机验证
-    public static final int            KEY_NGINX=47;//死机验证
-    public static final int             KEY_MORE=48;//其他
+    public static final int            KEY_NGINX=47;//nginx分布
+    public static final int           KEY_DIALOG=48;//dialog
+    public static final int             KEY_MORE=49;//其他
 }

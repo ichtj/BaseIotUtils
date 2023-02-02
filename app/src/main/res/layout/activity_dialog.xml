@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/btnNormal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="普通对话框"
+        android:onClick="normalDialogClick"
+        android:textSize="18pt" />
+
+    <Button
+        android:id="@+id/btnEdite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="带编辑框对话框"
+        android:onClick="editeDialogClick"
+        android:textSize="18pt" />
+
+    <Button
+        android:id="@+id/btnDismiss"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="取消显示"
+        android:onClick="dismissClick"
+        android:textSize="18pt" />
+</LinearLayout>

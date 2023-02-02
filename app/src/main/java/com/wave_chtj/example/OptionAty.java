@@ -35,6 +35,7 @@ import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
@@ -49,6 +50,7 @@ import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.bluetooth.BlueToothAty;
 import com.wave_chtj.example.crash.CrashTools;
 import com.wave_chtj.example.crash.MyService;
+import com.wave_chtj.example.dialog.DialogAty;
 import com.wave_chtj.example.download.FileDownLoadAty;
 import com.wave_chtj.example.entity.ExcelEntity;
 import com.wave_chtj.example.entity.Dbean;
@@ -191,6 +193,7 @@ public class OptionAty extends BaseActivity {
         dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_DIALOG, "对话框", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_MORE, "更多....", IndexAdapter.L_ONE));
     }
 
@@ -442,6 +445,9 @@ public class OptionAty extends BaseActivity {
                 break;
             case FKey.KEY_NGINX:
                 startAty(NginxAty.class);
+                break;
+            case FKey.KEY_DIALOG:
+                startAty(DialogAty.class);
                 break;
             case FKey.KEY_MORE:
                 ToastUtils.info("敬请期待！");
