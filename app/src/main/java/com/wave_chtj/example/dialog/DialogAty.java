@@ -21,7 +21,7 @@ public class DialogAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
 
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 10000);
     }
 
     Runnable runnable = new Runnable() {
@@ -29,7 +29,7 @@ public class DialogAty extends BaseActivity {
         public void run() {
             ToastUtils.info("即将关闭对话框！");
             DialogUtils.dismiss();
-            handler.postDelayed(this, 5000);
+            handler.postDelayed(this, 10000);
         }
     };
 

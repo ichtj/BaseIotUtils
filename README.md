@@ -49,7 +49,11 @@ public class App extends Application {
 
 ## app 界面截图
 
-![image](/pic/apppic.png)
+#### [图一]
+![image](/pic/screenshot_one.png)
+
+#### [图二]
+![image](/pic/screenshot_two.png)
 
 
 ## base_iotutils 物联基础工具类说明
