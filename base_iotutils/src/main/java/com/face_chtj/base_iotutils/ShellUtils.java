@@ -127,9 +127,13 @@ public class ShellUtils {
             successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
             errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String s;
-            while ((s = successResult.readLine()) != null) successMsg.append(s+"\n");
+            int count =0;
+            while ((s = successResult.readLine()) != null) {
+                successMsg.append(s + "\n");
+                count++;
+            }
             while ((s = errorResult.readLine()) != null) errorMsg.append(s);
-            commandResult.successMsg = successMsg.toString();
+            commandResult.successMsg = count==1?successMsg.toString().replace("\n",""):successMsg.toString();
             commandResult.errorMsg = errorMsg.toString();
         } catch (IOException e) {
             errorMsg.append(e.getMessage());

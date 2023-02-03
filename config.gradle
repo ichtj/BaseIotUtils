@@ -1,6 +1,6 @@
 ext {
     //选择对应签名 "cainiao" "rockchip" "imx8" "freescale"
-    BUILD_SIGN="freescale"
+    BUILD_SIGN="cainiao"
     BUILD_SIGN_PWD="android"
     BUILD_SIGN_PATH="../other/facefuture.jks"
 
