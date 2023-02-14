@@ -7,6 +7,7 @@ import androidx.annotation.Nullable;
 
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.network.NetMonitorAty;
+import com.wave_chtj.example.network.NetTimerAty;
 import com.wave_chtj.example.reboot.RebootAty;
 import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.test.TestAty;
@@ -36,6 +37,9 @@ public class StartPageAty extends BaseActivity {
                 break;
             case PACKAGES.PKG_EXAMPLE:
                 startAty(OptionAty.class);
+                break;
+            case PACKAGES.PKG_NETTIMER:
+                startAty(NetTimerAty.class);
                 break;
             case PACKAGES.PKG_ZTOCABINET:
             case PACKAGES.PKG_CABINET:

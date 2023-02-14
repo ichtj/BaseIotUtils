@@ -5,8 +5,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.wave_chtj.example"
-    android:sharedUserId="android.uid.system"><!--android:sharedUserId="android.uid.system"-->
+    package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->
@@ -246,6 +245,9 @@
             android:name=".dialog.DialogAty"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
+        <activity android:name=".network.NetTimerAty"
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
@@ -271,6 +273,10 @@
         <!--网络重置监听的服务-->
         <service
             android:name=".network.NetMonitorService"
+            android:enabled="true"
+            android:exported="true" />
+        <service
+            android:name=".network.NetTimerService"
             android:enabled="true"
             android:exported="true" />
         <!--重启后广播监听-->

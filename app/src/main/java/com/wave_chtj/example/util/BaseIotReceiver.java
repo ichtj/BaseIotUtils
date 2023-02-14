@@ -7,6 +7,7 @@ import android.content.Intent;
 import com.face_chtj.base_iotutils.KLog;
 import com.wave_chtj.example.OptionAty;
 import com.wave_chtj.example.network.NetMonitorAty;
+import com.wave_chtj.example.network.NetTimerAty;
 import com.wave_chtj.example.reboot.RebootCustomService;
 
 /**
@@ -29,6 +30,11 @@ public class BaseIotReceiver extends BroadcastReceiver {
                     break;
                 case PACKAGES.PKG_NETMONITOR:
                     intent = new Intent(context, NetMonitorAty.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    break;
+                case PACKAGES.PKG_NETTIMER:
+                    intent = new Intent(context, NetTimerAty.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     break;

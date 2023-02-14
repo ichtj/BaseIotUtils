@@ -6,7 +6,7 @@ ext {
 
     //以下包名选择其中一个 可对应生成不同的包名 跳转不同界面
     //注意：com.wave_chtj.example包含全部的功能
-    APP_ID='com.wave_chtj.example'//com.test.serialport //com.wave_chtj.example //com.test.reboot //com.test.netmonitor
+    APP_ID='com.net.timer'//com.test.serialport //com.wave_chtj.example //com.test.reboot //com.test.netmonitor //com.net.timer
     //串口工具
     APP_SERIAL_NAME='@string/serial_rs'
     APP_SERIAL_ICON='@mipmap/ic_launcher'

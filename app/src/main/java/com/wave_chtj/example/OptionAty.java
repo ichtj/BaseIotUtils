@@ -60,6 +60,7 @@ import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
 import com.wave_chtj.example.network.NetMonitorAty;
+import com.wave_chtj.example.network.NetTimerAty;
 import com.wave_chtj.example.nginx.NginxAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
@@ -411,7 +412,7 @@ public class OptionAty extends BaseActivity {
                 startAty(NetChangeAty.class);
                 break;
             case FKey.KEY_RESET_MONITOR:
-                startAty(NetMonitorAty.class);
+                startAty(NetTimerAty.class);
                 break;
             case FKey.KEY_FILEDOWN:
                 startAty(FileDownLoadAty.class);

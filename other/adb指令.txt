@@ -1,7 +1,8 @@
 echo mem > /sys/power/state // kernel休眠
 echo on  > /sys/power/state //kernel唤醒
 -------------------------------------------------
-pm list packages -f             // 查看所有应用位置
+adb shell pm list packages -f   // 查看所有应用位置
+adb shell pm path 包名          //列出指定包名的apk位置
 adb shell pm list packages      // 查看所有应用
 adb shell pm list packages -s   // 查看系统应用
 adb shell pm list packages -3   // 查看三方应用
@@ -45,6 +46,13 @@ du -m -d 1 /sdcard/* //列出sdcar文件夹下层级为1 的文件信息
 data MMddHHmmyyyy.ss set //设置时间格式
 date 010411482023.58 set //设置时间
 -------------------------------------------------
-adb bugreport ./Desktop/mybug.zip //导出设备所有 bug 日志  anr|crash
+adb bugreport ./Desktop/devicebug.zip //导出设备所有 bug 日志  anr|crash
 -------------------------------------------------
+adb shell screencap -p /sdcard/screen.png //截屏到指定目录
+adb shell screenrecord sdcard/record.mp4  //屏幕录制
+-------------------------------------------------
+adb shell cat /proc/meminfo //查看内存信息
+adb shell cat /proc/cpuinfo //查看CPU信息
+-------------------------------------------------
+adb shell ime list -s  //获取已经安装的输入法
 
