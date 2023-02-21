@@ -6,6 +6,8 @@ import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.face_chtj.base_iotutils.NetMonitorUtils;
+import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.wave_chtj.example.util.AppManager;
 
 
@@ -14,8 +16,7 @@ import com.wave_chtj.example.util.AppManager;
  * author chtj
  * desc $
  */
-public class BaseActivity extends AppCompatActivity {
-    private static final String TAG="BaseActivity";
+public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -34,8 +34,9 @@ import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
+import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.NetUtils;
-import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
@@ -59,7 +60,6 @@ import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
-import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.network.NetTimerAty;
 import com.wave_chtj.example.nginx.NginxAty;
 import com.wave_chtj.example.screen.ScreenActivity;
@@ -87,7 +87,7 @@ import io.reactivex.functions.Consumer;
 /**
  * 功能选择
  */
-public class OptionAty extends BaseActivity {
+public class OptionAty extends BaseActivity implements INetChangeCallBack {
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
     private static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
@@ -142,6 +142,8 @@ public class OptionAty extends BaseActivity {
         dataList = new ArrayList<>();
         Space ramSpace = FStorageTools.getRamSpace();
         Space sdSpace = FStorageTools.getSdcardSpace();
+        dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(), IndexAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_NET_TYPE, "网络类型：" + NetUtils.getNetWorkTypeName(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_APK_VERSION, "APK版本：v" + AppsUtils.getAppVersionName(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot(), IndexAdapter.L_NO_BG));
@@ -153,10 +155,10 @@ public class OptionAty extends BaseActivity {
         try {
             dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()), IndexAdapter.L_NO_BG));
         } catch (Throwable e) {
-            dataList.add(new Dbean(FKey.KEY_ETH_MODE,"ETH模式：NONE", IndexAdapter.L_NO_BG));
+            dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：NONE", IndexAdapter.L_NO_BG));
         }
         dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + dbm4G, IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_SERIAL_PORT,"串口收发", IndexAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_SERIAL_PORT, "串口收发", IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_TIMERD, "定时器", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_SCREEN, "屏幕相关", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_FILE_RW, "文件读写", IndexAdapter.L_ONE));
@@ -185,9 +187,9 @@ public class OptionAty extends BaseActivity {
         dataList.add(new Dbean(FKey.KEY_ASSETS, "获取Assets文件", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_AUDIO, "播放音频", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_IP_SET_STATIC, "静态IP(ROOT)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_IP_SET_DHCP,"动态IP(ROOT)", IndexAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_IP_SET_DHCP, "动态IP(ROOT)", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_SCREENSHOT, "截屏(ROOT)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_KEEPALIVE,"ATY/SERVICE保活", IndexAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_KEEPALIVE, "ATY/SERVICE保活", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_OTA, "ota升级(RK|FC)", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_INSTALL, "静默安装", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_BLUETOOTH, "蓝牙测试", IndexAdapter.L_ONE));
@@ -253,7 +255,7 @@ public class OptionAty extends BaseActivity {
                         NotifyUtils.getInstance().setTopRight("");
                         NotifyUtils.getInstance().setIvStatus(true, R.drawable.failed);
                     }
-                },5000);
+                }, 5000);
                 break;
             case FKey.KEY_NOTIFY_CLOSE:
                 NotifyUtils.closeNotify();
@@ -450,6 +452,12 @@ public class OptionAty extends BaseActivity {
             case FKey.KEY_DIALOG:
                 startAty(DialogAty.class);
                 break;
+            case FKey.KEY_ICCID:
+
+                break;
+            case FKey.KEY_IMEI:
+
+                break;
             case FKey.KEY_MORE:
                 ToastUtils.info("敬请期待！");
                 break;
@@ -504,5 +512,11 @@ public class OptionAty extends BaseActivity {
         UsbHubTools.getInstance().unRegisterReceiver();
         AudioUtils.getInstance().stopPlaying();
         TPoolSingleUtils.shutdown();
+        NetMonitorUtils.unRegister();
+    }
+
+    @Override
+    public void netChange(int netType, boolean pingResult) {
+        KLog.d("netType >> "+netType+", pingResult>> "+pingResult);
     }
 }

@@ -28,6 +28,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -76,20 +77,14 @@ public class NetUtils {
      * 4 提供API，允许应用程序获取可用的网络状态
      */
     public static int getNetWorkType() {
-        // 获取ConnectivityManager
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
-        int netType = NETWORK_NO;
         if (ni != null && ni.isConnectedOrConnecting()) {
             switch (ni.getType()) {//获取当前网络的状态
                 case ConnectivityManager.TYPE_WIFI:// wifi的情况下
-                    netType = NETWORK_WIFI;
-                    //切换到wifi环境下
-                    break;
+                    return NETWORK_WIFI;//切换到wifi环境下
                 case ConnectivityManager.TYPE_ETHERNET:
-                    //切换到以太网环境下
-                    netType = NETWORK_ETH;
-                    break;
+                    return NETWORK_ETH;//切换到以太网环境下
                 case ConnectivityManager.TYPE_MOBILE:
                     switch (ni.getSubtype()) {
                         case NETWORK_TYPE_GSM:
@@ -98,9 +93,7 @@ public class NetUtils {
                         case TelephonyManager.NETWORK_TYPE_EDGE: // 移动2g
                         case TelephonyManager.NETWORK_TYPE_1xRTT:
                         case TelephonyManager.NETWORK_TYPE_IDEN:
-                            netType = NETWORK_2G;
-                            //RxToast.info("切换到2G环境下");
-                            break;
+                            return NETWORK_2G;//RxToast.info("切换到2G环境下");
                         case TelephonyManager.NETWORK_TYPE_EVDO_A: // 电信3g
                         case TelephonyManager.NETWORK_TYPE_UMTS:
                         case TelephonyManager.NETWORK_TYPE_EVDO_0:
@@ -111,36 +104,26 @@ public class NetUtils {
                         case TelephonyManager.NETWORK_TYPE_EHRPD:
                         case TelephonyManager.NETWORK_TYPE_HSPAP:
                         case NETWORK_TYPE_TD_SCDMA:
-                            netType = NETWORK_3G;
-                            //切换到3G环境下
-                            break;
+                            return NETWORK_3G;//切换到3G环境下
                         case TelephonyManager.NETWORK_TYPE_LTE:
-
                         case NETWORK_TYPE_IWLAN:
-                            netType = NETWORK_4G;
-                            //切换到4G环境下
-                            break;
+                            return NETWORK_4G;//切换到4G环境下
                         default:
                             String subtypeName = ni.getSubtypeName();
                             if (subtypeName.equalsIgnoreCase("TD-SCDMA")
                                     || subtypeName.equalsIgnoreCase("WCDMA")
                                     || subtypeName.equalsIgnoreCase("CDMA2000")) {
-                                netType = NETWORK_3G;
+                                return NETWORK_3G;
                             } else {
-                                netType = NETWORK_UNKNOWN;
+                                return NETWORK_UNKNOWN;//未知网络
                             }
-                            //未知网络
                     }
-                    break;
                 default:
-                    netType = NETWORK_UNKNOWN;
-                    //未知网络
+                    return NETWORK_UNKNOWN;//未知网络
             }
         } else {
-            netType = NETWORK_NO;
-            //当前无网络连接
+            return NETWORK_NO;//当前无网络连接
         }
-        return netType;
     }
 
     /**
@@ -230,7 +213,6 @@ public class NetUtils {
      * 并非每次都去筛选可用列表,而是按照定时机制,例如多少个小时后
      */
     private static boolean tryRefreshDns() {
-        KLog.d("tryRefreshDns() >> ");
         String[] defList = NetUtils.DNS_LIST;
         boolean isExistPass = false;
         CopyOnWriteArrayList<DnsBean> dnsBeanList = new CopyOnWriteArrayList<>();
@@ -243,6 +225,7 @@ public class NetUtils {
             dnsBeanList.add(new DnsBean(nowDns, isPing));
         }
         BaseIotUtils.instance().dnsBeans = dnsBeanList;
+        KLog.d("tryRefreshDns() >> dnsBeans >> " + dnsBeanList.toString());
         return isExistPass;
     }
 
@@ -267,9 +250,9 @@ public class NetUtils {
         if (getNetWorkType() != NETWORK_NO) {
             long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
             if (beforeTime <= 0) {
-                //如果没有记录过时间 那么证明第一次加载DNS列表
-                BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
-                //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
+                //如果没有记录过时间 那么证明第一次加载DNS列表 如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
+                BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();
+                KLog.d("dnsRefreshTime beforeTime <= 0 " + BaseIotUtils.instance().dnsRefreshTime);
                 return tryRefreshDns();
             } else {
                 long nowTime = System.currentTimeMillis() / 1000;
@@ -277,12 +260,14 @@ public class NetUtils {
                 if (diffNum > TIMERD_DNS_REFRESH) {//大于两小时刷新一次 7200秒等于2小时
                     KLog.d("reloadDnsList() time >> " + TIMERD_DNS_REFRESH + " diffNum >> " + diffNum);
                     BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
+                    KLog.d("dnsRefreshTime diffNum > TIMERD_DNS_REFRESH " + BaseIotUtils.instance().dnsRefreshTime);
                     //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
                     return tryRefreshDns();
+                } else {
+                    //未达到指定刷新dns的时间 那么使用前一次获取的列表
+                    return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
                 }
             }
-            //即使在上面经过刷新dns列表的情况下都没有ping那么还有这次
-            return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
         } else {
             //由于网络出现问题 重置下一次刷新时间
             BaseIotUtils.instance().dnsRefreshTime = 0;
@@ -295,7 +280,7 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     public static boolean checkNetWork(String[] dnsList, int count, int w) {
-        //KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
+        KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
         for (String pingAddr : dnsList) {
             boolean isPing = NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
@@ -350,27 +335,26 @@ public class NetUtils {
             }
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
-            //Log.d("------ping-----", "ping cmd >> " + cmd);
+            //KLog.d("ping cmd >> " + cmd);
             Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
-            StringBuffer stringBuffer = new StringBuffer();
-            String content = "";
-            while ((content = in.readLine()) != null) {
-                stringBuffer.append(content);
+            String line = "";
+            int connectedCount = 0;
+            while ((line = in.readLine()) != null) {
+                connectedCount += getCheckResult(line);
             }
-            // ping的状态
-            int status = p.waitFor();
-            //Log.d("------ping-----", "result content : " + stringBuffer.toString() + " >> status =" + (status == 0 ? true : false));
-            if (status == 0) {
-                return true;
-            }
+            return connectedCount >= 1 ? true : false;
         } catch (Throwable e) {
-            Log.e("------ping-----", "ping: ", e);
-        } finally {
+            return false;
         }
-        return false;
+    }
+
+    // 若line含有=18 ms ttl=64字样,说明已经ping通,返回1,否則返回0.
+    private static int getCheckResult(String line) {
+        //KLog.d("getCheckResult : line >> "+line);
+        return line.toUpperCase().contains("TTL=")?1:0;
     }
 
     /**
@@ -506,6 +490,7 @@ public class NetUtils {
         if (manager == null) return false;
         return manager.isWifiEnabled();
     }
+
     /**
      * Enable or disable wifi.
      * <p>Must hold {@code <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />}</p>

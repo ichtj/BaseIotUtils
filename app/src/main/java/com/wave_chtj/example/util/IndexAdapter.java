@@ -21,7 +21,7 @@ public class IndexAdapter extends BaseMultiItemQuickAdapter<Dbean, BaseViewHolde
 
     @Override
     public int getItemViewType(int position) {
-        if (position < 10) {
+        if (position < 12) {
             return L_NO_BG;
         } else {
             return L_ONE;

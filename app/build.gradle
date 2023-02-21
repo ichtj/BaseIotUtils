@@ -110,6 +110,12 @@ def getAppInfo(int type) {
         } else {
             appInfo = "${APP_NETMONITOR_ICON}";
         }
+    } else if ("${APP_ID}".contains("net_timer")) {
+        if (type == 0) {
+            appInfo = "${APP_NETTIMER_NAME}";
+        } else {
+            appInfo = "${APP_NETTIMER_ICON}";
+        }
     } else {
         if (type == 0) {
             appInfo = "${APP_BASE_NAME}";

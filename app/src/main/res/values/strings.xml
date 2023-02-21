@@ -1,4 +1,5 @@
 <resources>
+    <string name="net_timer">NetTimer</string>
     <string name="reboot_app_name">TestReboot</string>
     <string name="app_name">BaseIotUtils</string>
     <string name="serial_rs">SerialPortTools</string>

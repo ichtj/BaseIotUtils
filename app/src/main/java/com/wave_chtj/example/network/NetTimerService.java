@@ -10,6 +10,7 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.callback.INetTimerCallback;
@@ -25,6 +26,9 @@ import io.reactivex.schedulers.Schedulers;
 public class NetTimerService extends Service {
     static Disposable disposable;
     static INetTimerCallback iNetTimerCallback;
+
+    public static final String KEY_ERRCOUNT="errCount";
+    public static final String KEY_SUCCCOUNT="succCount";
 
     public void setiNetTimerCallback(INetTimerCallback iNetTimerCallback) {
         this.iNetTimerCallback = iNetTimerCallback;
@@ -58,12 +62,18 @@ public class NetTimerService extends Service {
                         @Override
                         public void accept(Long aLong) throws Exception {
                             boolean pingResult = NetUtils.reloadDnsPing();
+                            if(pingResult){
+                                SPUtils.putInt(KEY_SUCCCOUNT,SPUtils.getInt(KEY_SUCCCOUNT,0)+1);
+                            }else{
+                                SPUtils.putInt(KEY_ERRCOUNT,SPUtils.getInt(KEY_ERRCOUNT,0)+1);
+                            }
                             String netType=NetUtils.getNetWorkTypeName();
                             String time= TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
-                            KLog.d("accept() netType >> "+netType+", pingResult >> "+pingResult);
-                            FileUtils.writeFileData("/sdcard/DCIM/nettimer.log","\ntime："+time+", netType："+netType+", pingResult："+pingResult,false);
+                            boolean isNet4G=NetUtils.is4G();
+                            KLog.d("accept() netType >> "+netType+",isNet4G >> "+isNet4G+", pingResult >> "+pingResult);
+                            FileUtils.writeFileData("/sdcard/DCIM/nettimer.log","\ntime："+time+", netType："+netType+"isNet4G="+NetUtils.is4G()+", pingResult："+pingResult,false);
                             if(iNetTimerCallback!=null){
-                                iNetTimerCallback.refreshNet(time,netType, pingResult);
+                                iNetTimerCallback.refreshNet(time,netType,isNet4G, pingResult);
                             }
                         }
                     }, new Consumer<Throwable>() {
@@ -77,6 +87,14 @@ public class NetTimerService extends Service {
         }else{
             ToastUtils.success("已开启");
         }
+    }
+
+    public int getErrCount(){
+        return SPUtils.getInt(KEY_ERRCOUNT,0);
+    }
+
+    public int getSuccCount(){
+        return SPUtils.getInt(KEY_SUCCCOUNT,0);
     }
 
     public void cancel() {

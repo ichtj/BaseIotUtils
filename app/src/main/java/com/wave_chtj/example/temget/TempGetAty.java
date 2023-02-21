@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 

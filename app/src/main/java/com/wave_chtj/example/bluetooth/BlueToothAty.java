@@ -17,6 +17,7 @@ import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleScanCallback;
 import com.clj.fastble.data.BleDevice;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.callback.BlePeripheralCallback;
@@ -200,5 +201,4 @@ public class BlueToothAty extends BaseActivity {
             }
         });
     }
-
 }

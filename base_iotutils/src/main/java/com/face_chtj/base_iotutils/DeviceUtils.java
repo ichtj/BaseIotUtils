@@ -1,9 +1,13 @@
 package com.face_chtj.base_iotutils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Build;
 import android.os.SystemClock;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 
 import java.net.Inet4Address;
 import java.net.InetAddress;
@@ -93,5 +97,42 @@ public final class DeviceUtils {
     public static String getImeiOrMeid() {
         TelephonyManager manager = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Activity.TELEPHONY_SERVICE);
         return manager != null ? manager.getDeviceId() : null;
+    }
+
+
+    /**
+     * sim卡ccid
+     *
+     * @return ccid列表
+     */
+    public static List<String> getLteIccid() {
+        List<String> iccid = new ArrayList<>();
+        try {
+            if (Build.VERSION.SDK_INT >= 23) {
+                SubscriptionManager sm = SubscriptionManager.from(BaseIotUtils.getContext());
+                List<SubscriptionInfo> sis = sm.getActiveSubscriptionInfoList();
+                if (sis.size() >= 1) {
+                    SubscriptionInfo si1 = sis.get(0);
+                    iccid.add(si1.getIccId());
+                    //String phoneNum1 = si1.getNumber();
+                }
+                if (sis.size() >= 2) {
+                    SubscriptionInfo si2 = sis.get(1);
+                    iccid.add(si2.getIccId());
+                    //String phoneNum2 = si2.getNumber();
+                }
+                // 获取SIM卡数量相关信息：
+                //int count = sm.getActiveSubscriptionInfoCount();//当前实际插卡数量
+                //int max   = sm.getActiveSubscriptionInfoCountMax();//当前卡槽数量
+                return iccid;
+            } else {
+                TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+                iccid.add(tm.getSimSerialNumber());
+                return iccid;
+            }
+        } catch (Throwable e) {
+            Log.e("getLteIccid",e.getMessage());
+            return iccid;
+        }
     }
 }

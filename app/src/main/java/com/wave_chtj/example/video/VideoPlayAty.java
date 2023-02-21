@@ -118,5 +118,4 @@ public class VideoPlayAty extends BaseActivity {
         super.onDestroy();
         JzvdStd.releaseAllVideos();
     }
-
 }

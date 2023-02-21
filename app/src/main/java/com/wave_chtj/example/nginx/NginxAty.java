@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.jrummyapps.android.shell.CommandResult;
 import com.jrummyapps.android.shell.Shell;
 import com.wave_chtj.example.R;

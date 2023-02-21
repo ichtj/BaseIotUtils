@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import com.chtj.base_framework.network.FLteTools;
 import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.NetChangeUtils;
-import com.face_chtj.base_iotutils.callback.INetStateCallback;
+import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
@@ -21,7 +21,7 @@ import com.wave_chtj.example.base.BaseActivity;
  * author chtj
  * desc 网络监听
  */
-public class NetChangeAty extends BaseActivity {
+public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
     private static final String TAG = "NetChangeAty";
     private TextView tvStatus;
     private TextView tvType;
@@ -31,6 +31,8 @@ public class NetChangeAty extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
+        NetMonitorUtils.register();
+        NetMonitorUtils.addCallBack(this);
         tvDbm = findViewById(R.id.tvDbm);
         tvStatus = findViewById(R.id.tvStatus);
         tvType = findViewById(R.id.tvType);
@@ -39,36 +41,10 @@ public class NetChangeAty extends BaseActivity {
             tvType.setText("无" );
             tvStatus.setText("false");
         }
-
-        new Thread(){
-            @Override
-            public void run() {
-                super.run();
-                while (true){
-                    boolean isPingDns=NetUtils.reloadDnsPing();
-                    KLog.d("run() isPingDns >> "+isPingDns);
-                    try {
-                        Thread.sleep(5000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }.start();
     }
 
     //开始监听
     public void startLinstener(View view) {
-        NetChangeUtils.instance().registerReceiver(new INetStateCallback() {
-            @Override
-            public void changed(int netType, boolean isNormal) {
-                //isNormal 网络经过ping后 true为网络正常 false为网络异常
-                String netTypeName=NetUtils.convertNetTypeName(netType);
-                KLog.e(TAG, "network type=" + netTypeName + ",isNormal=" + isNormal);
-                tvType.setText("" + netTypeName);
-                tvStatus.setText("" + isNormal);
-            }
-        });
         FLteTools.instance().init4GDbm(new NetDbmListener() {
             @Override
             public void getDbm(String dbmAsu) {
@@ -80,6 +56,15 @@ public class NetChangeAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        NetChangeUtils.instance().unRegisterReceiver();
+        NetMonitorUtils.removeCallback(this);
+        NetMonitorUtils.unRegister();
+    }
+
+    @Override
+    public void netChange(int netType, boolean pingResult) {
+        //isNormal 网络经过ping后 true为网络正常 false为网络异常
+        String netTypeName=NetUtils.convertNetTypeName(netType);
+        tvType.setText("" + netTypeName);
+        tvStatus.setText("" + pingResult);
     }
 }

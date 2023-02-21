@@ -28,10 +28,33 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="关闭" />
+
         <TextView
             android:layout_width="wrap_content"
-            android:textColor="@android:color/holo_red_light"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="20dp"
             android:text="*文件保存在/sdcard/DCIM/nettimer.log中"
+            android:textColor="@android:color/holo_red_light" />
+
+        <TextView
+            android:id="@+id/tvErrCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="异常次数："
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvSuccCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="正常次数："
+            android:textColor="@android:color/black" />
+
+        <Button
+            android:id="@+id/btnRefresh"
+            android:layout_width="wrap_content"
+            android:text="刷新次数"
             android:layout_height="wrap_content"/>
     </LinearLayout>
 
@@ -40,8 +63,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="6dp"
-        android:text="检测结果"
         android:scrollbars="vertical"
+        android:text="检测结果"
         android:textColor="@color/black" />
 
 </LinearLayout>

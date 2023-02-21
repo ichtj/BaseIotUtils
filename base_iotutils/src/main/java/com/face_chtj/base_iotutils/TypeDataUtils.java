@@ -1,6 +1,7 @@
 package com.face_chtj.base_iotutils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -46,6 +47,7 @@ public class TypeDataUtils {
      * @return 子集
      */
     public static String[] getRandomList(String[] list, int num) {
+        KLog.d("random before >> "+ Arrays.toString(list));
         List flagExist = new ArrayList();
         List<Integer> indexList = new ArrayList<Integer>();
         if (num >= list.length) {
