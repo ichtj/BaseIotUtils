@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import androidx.multidex.MultiDex;
 
+import com.face_chtj.base_iotutils.NetMonitorUtils;
+
 /**
  * Create on 2019/11/5
  * author chtj

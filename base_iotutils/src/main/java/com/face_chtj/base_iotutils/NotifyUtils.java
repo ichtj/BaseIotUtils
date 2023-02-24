@@ -196,8 +196,8 @@ public class NotifyUtils {
      * @return this
      */
     public NotifyUtils setOnNotifyLinstener(INotifyStateCallback INotifyStateCallback) {
-        notifyUtils.mINotifyStateCallback = INotifyStateCallback;
-        return notifyUtils;
+        getInstance().mINotifyStateCallback = INotifyStateCallback;
+        return getInstance();
     }
 
     /**
@@ -206,9 +206,9 @@ public class NotifyUtils {
      * @param isEnable 是否可见
      * @return this
      */
-    public NotifyUtils setEnableCloseButton(boolean isEnable) {
-        notifyUtils.contentView.setViewVisibility(R.id.ivClose, isEnable ? View.VISIBLE : View.GONE);
-        return notifyUtils;
+    public static NotifyUtils setEnableCloseButton(boolean isEnable) {
+        getInstance().contentView.setViewVisibility(R.id.ivClose, isEnable ? View.VISIBLE : View.GONE);
+        return getInstance();
     }
 
     /**
@@ -217,9 +217,9 @@ public class NotifyUtils {
      * @param notifyId int整型
      * @return this
      */
-    public NotifyUtils setNotifyId(int notifyId){
-        notifyUtils.notifyId=notifyId;
-        return notifyUtils;
+    public static NotifyUtils setNotifyId(int notifyId){
+        getInstance().notifyId=notifyId;
+        return getInstance();
     }
 
     /**
@@ -228,8 +228,8 @@ public class NotifyUtils {
      * @param icon setImageViewResource
      */
     public NotifyUtils setSmallIcon(@DrawableRes int icon) {
-        notifyUtils.builder.setSmallIcon(icon);
-        return notifyUtils;
+        getInstance().builder.setSmallIcon(icon);
+        return getInstance();
     }
 
     /**
@@ -237,16 +237,16 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewResource
      */
-    public NotifyUtils setIvLogo(int ivLogo) {
-        notifyUtils.contentView.setImageViewResource(R.id.iv_logo, ivLogo);
-        return notifyUtils;
+    public static NotifyUtils setIvLogo(int ivLogo) {
+        getInstance().contentView.setImageViewResource(R.id.iv_logo, ivLogo);
+        return getInstance();
     }
 
     /**
      * 设置IvStatus
      *
      */
-    public NotifyUtils setIvStatus(boolean isShow) {
+    public static NotifyUtils setIvStatus(boolean isShow) {
         return setIvStatus(isShow,R.drawable.success);
     }
     /**
@@ -254,17 +254,17 @@ public class NotifyUtils {
      *
      * @param ivDrawable setImageViewResource
      */
-    public NotifyUtils setIvStatus(boolean isShow,int ivDrawable) {
-        notifyUtils.contentView.setViewVisibility(R.id.ivStatus,isShow?View.VISIBLE:View.GONE);
-        notifyUtils.contentView.setImageViewResource(R.id.ivStatus, ivDrawable);
-        return notifyUtils;
+    public static NotifyUtils setIvStatus(boolean isShow,int ivDrawable) {
+        getInstance().contentView.setViewVisibility(R.id.ivStatus,isShow?View.VISIBLE:View.GONE);
+        getInstance().contentView.setImageViewResource(R.id.ivStatus, ivDrawable);
+        return getInstance();
     }
 
     /**
      * setIvNetStatus
      *
      */
-    public NotifyUtils setIvNetStatus(boolean isShow) {
+    public static NotifyUtils setIvNetStatus(boolean isShow) {
         return setIvNetStatus(isShow,R.drawable.success);
     }
 
@@ -273,10 +273,10 @@ public class NotifyUtils {
      *
      * @param ivDrawable setImageViewResource
      */
-    public NotifyUtils setIvNetStatus(boolean isShow,int ivDrawable) {
-        notifyUtils.contentView.setViewVisibility(R.id.ivNetStatus,isShow?View.VISIBLE:View.GONE);
-        notifyUtils.contentView.setImageViewResource(R.id.ivNetStatus, ivDrawable);
-        return notifyUtils;
+    public static NotifyUtils setIvNetStatus(boolean isShow,int ivDrawable) {
+        getInstance().contentView.setViewVisibility(R.id.ivNetStatus,isShow?View.VISIBLE:View.GONE);
+        getInstance().contentView.setImageViewResource(R.id.ivNetStatus, ivDrawable);
+        return getInstance();
     }
 
     /**
@@ -284,11 +284,11 @@ public class NotifyUtils {
      *
      * @param ivLogo setImageViewBitmap
      */
-    public NotifyUtils setIvLogo(Bitmap ivLogo) {
+    public static NotifyUtils setIvLogo(Bitmap ivLogo) {
         if (ivLogo != null) {
-            notifyUtils.contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
+            getInstance().contentView.setImageViewBitmap(R.id.iv_logo, ivLogo);
         }
-        return notifyUtils;
+        return getInstance();
     }
 
     /**
@@ -297,11 +297,11 @@ public class NotifyUtils {
      * @param ivLogo setImageViewUri
      * @return this
      */
-    public NotifyUtils setIvLogo(Uri ivLogo) {
+    public static NotifyUtils setIvLogo(Uri ivLogo) {
         if (ivLogo != null) {
-            notifyUtils.contentView.setImageViewUri(R.id.iv_logo, ivLogo);
+            getInstance().contentView.setImageViewUri(R.id.iv_logo, ivLogo);
         }
-        return notifyUtils;
+        return getInstance();
     }
 
     /**
@@ -311,7 +311,7 @@ public class NotifyUtils {
      * @param progress 进度
      * @return this
      */
-    public NotifyUtils setProgress(String progress) {
+    public static NotifyUtils setProgress(String progress) {
         return setView(R.id.tvProgress,progress);
     }
 
@@ -322,7 +322,7 @@ public class NotifyUtils {
      * @param appName APP名称
      * @return this
      */
-    public NotifyUtils setAppName(String appName) {
+    public static NotifyUtils setAppName(String appName) {
         return setView(R.id.tvAppName,appName);
     }
 
@@ -330,7 +330,7 @@ public class NotifyUtils {
      * 右上角字符串
      * 外部调用此方法时，请先调用{@link #setNotifyId(int)} }
      */
-    public NotifyUtils setTopRight(String topRight) {
+    public static NotifyUtils setTopRight(String topRight) {
         return setView(R.id.tvTopRight,topRight);
     }
 
@@ -341,20 +341,20 @@ public class NotifyUtils {
      * @param appAbout APP about
      * @return this
      */
-    public NotifyUtils setAppAbout(String appAbout) {
-        notifyUtils.contentView.setTextViewText(R.id.tvAppAbout, appAbout);
+    public static NotifyUtils setAppAbout(String appAbout) {
+        getInstance().contentView.setTextViewText(R.id.tvAppAbout, appAbout);
         return setView(R.id.tvAppAbout,appAbout);
     }
 
-    private NotifyUtils setView(int viewId,String content) {
+    private static NotifyUtils setView(int viewId,String content) {
         String appendStr = "";
         if (!TypeDataUtils.isEmpty(content)) {
             appendStr = content;
         } else {
             appendStr = "";
         }
-        notifyUtils.contentView.setTextViewText(viewId, appendStr);
-        return notifyUtils;
+        getInstance().contentView.setTextViewText(viewId, appendStr);
+        return getInstance();
     }
 
     /**
@@ -364,7 +364,7 @@ public class NotifyUtils {
      * @param remarks 需要显示备注信息
      * @return this
      */
-    public NotifyUtils setRemarks(String remarks) {
+    public static NotifyUtils setRemarks(String remarks) {
         return setView(R.id.tvRemarks,remarks);
     }
 
@@ -375,7 +375,7 @@ public class NotifyUtils {
      * @param prompt 需要提示的消息
      * @return this
      */
-    public NotifyUtils setPrompt(String prompt) {
+    public static NotifyUtils setPrompt(String prompt) {
         return setView(R.id.tvPrompt,prompt);
     }
 
@@ -386,7 +386,7 @@ public class NotifyUtils {
      * @param dataTime 时间
      * @return this
      */
-    public NotifyUtils setDataTime(String dataTime) {
+    public static NotifyUtils setDataTime(String dataTime) {
         return setView(R.id.tvDataTime,dataTime);
     }
 
@@ -398,9 +398,9 @@ public class NotifyUtils {
      * @param mSlideOff true|false
      * @return this
      */
-    public NotifyUtils setSlideOff(boolean mSlideOff) {
-        notifyUtils.mSlideOff = !mSlideOff;
-        return notifyUtils;
+    public static NotifyUtils setSlideOff(boolean mSlideOff) {
+        getInstance().mSlideOff = !mSlideOff;
+        return getInstance();
     }
 
     /**
@@ -410,9 +410,9 @@ public class NotifyUtils {
      * @param mAutoCancel true|false
      * @return this
      */
-    public NotifyUtils setmAutoCancel(boolean mAutoCancel) {
-        notifyUtils.mAutoCancel = mAutoCancel;
-        return notifyUtils;
+    public static NotifyUtils setmAutoCancel(boolean mAutoCancel) {
+        getInstance().mAutoCancel = mAutoCancel;
+        return getInstance();
     }
 
     /**
@@ -420,16 +420,16 @@ public class NotifyUtils {
      * 更改参数时执行
      */
     public void exeuNotify() {
-        if (notifyUtils.manager != null) {
-            if (notifyUtils.notifyId != -1) {
-                if (notifyUtils.builder != null) {
-                    notifyUtils.builder.setOngoing(!notifyUtils.mSlideOff);//滑动不能清除
-                    notifyUtils.builder.setAutoCancel(notifyUtils.mAutoCancel);//点击的时候消失
-                    notifyUtils.manager.notify(notifyUtils.notifyId, notifyUtils.builder.build());  //参数一为ID，用来区分不同APP的Notification
+        if (getInstance().manager != null) {
+            if (getInstance().notifyId != -1) {
+                if (getInstance().builder != null) {
+                    getInstance().builder.setOngoing(!getInstance().mSlideOff);//滑动不能清除
+                    getInstance().builder.setAutoCancel(getInstance().mAutoCancel);//点击的时候消失
+                    getInstance().manager.notify(getInstance().notifyId, getInstance().builder.build());  //参数一为ID，用来区分不同APP的Notification
                 }
-                SPUtils.putBoolean("needClose", notifyUtils.mAutoCancel);
-                if (notifyUtils.mINotifyStateCallback != null) {
-                    notifyUtils.mINotifyStateCallback.enableStatus(true);
+                SPUtils.putBoolean("needClose", getInstance().mAutoCancel);
+                if (getInstance().mINotifyStateCallback != null) {
+                    getInstance().mINotifyStateCallback.enableStatus(true);
                 }
             } else {
                 throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
@@ -444,16 +444,16 @@ public class NotifyUtils {
      * 关闭消息通知
      */
     public static void closeNotify() {
-        if (notifyUtils != null && notifyUtils.manager != null && notifyUtils.notifyId != -1) {
-            notifyUtils.manager.cancel(notifyUtils.notifyId);//参数一为ID，用来区分不同APP的Notification
-            if (notifyUtils.mINotifyStateCallback != null) {
+        if (getInstance() != null && getInstance().manager != null && getInstance().notifyId != -1) {
+            getInstance().manager.cancel(getInstance().notifyId);//参数一为ID，用来区分不同APP的Notification
+            if (getInstance().mINotifyStateCallback != null) {
                 //通知监听对象
-                notifyUtils.mINotifyStateCallback.enableStatus(false);
-                notifyUtils.mINotifyStateCallback = null;
+                getInstance().mINotifyStateCallback.enableStatus(false);
+                getInstance().mINotifyStateCallback = null;
             }
             //销毁广播
-            if (notifyUtils.mNotifyReceiver != null) {
-                BaseIotUtils.getContext().unregisterReceiver(notifyUtils.mNotifyReceiver);
+            if (getInstance().mNotifyReceiver != null) {
+                BaseIotUtils.getContext().unregisterReceiver(getInstance().mNotifyReceiver);
             }
             notifyUtils = null;
         }

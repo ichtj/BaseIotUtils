@@ -126,7 +126,8 @@ public class NetMonitorUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_NET_CHANGE)) {
-                getInstance().receiverNetStatus();
+                KLog.d("action >>> "+intent.getAction());
+                receiverNetStatus();
             }
         }
     }
@@ -134,26 +135,30 @@ public class NetMonitorUtils {
     /**
      * Determine network status
      */
-    public void receiverNetStatus() {
+    private static void receiverNetStatus() {
         getInstance().pingResult = NetUtils.reloadDnsPing();
         if (getInstance().pingResult) {
             if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_FAIL) {
                 getInstance().nowType = getInstance().NET_SUCC;
-                singleNet();
+                dispatchCallback();
             }
         } else {
             if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_SUCC) {
                 getInstance().nowType = getInstance().NET_FAIL;
-                singleNet();
+                dispatchCallback();
             }
         }
     }
 
-    public static void singleNet() {
+    /**
+     * all
+     */
+    private static void dispatchCallback() {
         int netType = NetUtils.getNetWorkType();
         String netTypeName = NetUtils.convertNetTypeName(netType);
-        KLog.d("net connStatus=[" + getInstance().pingResult + "] , nowType=[" + netType + "] , netTypeName=[" + netTypeName + "]");
+        KLog.d("net connStatus=[" + getInstance().pingResult + "] , nowType=[" + netType + "] , netTypeName=[" + netTypeName + "] , iNetList.Size() >> "+getInstance().iNetList.size());
         for (int i = 0; i < getInstance().iNetList.size(); i++) {
+            KLog.d("singleNet >> "+getInstance().iNetList.get(i));
             getInstance().iNetList.get(i).netChange(netType, getInstance().pingResult);
         }
     }

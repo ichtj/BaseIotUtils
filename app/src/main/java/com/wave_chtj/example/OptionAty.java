@@ -87,7 +87,7 @@ import io.reactivex.functions.Consumer;
 /**
  * 功能选择
  */
-public class OptionAty extends BaseActivity implements INetChangeCallBack {
+public class OptionAty extends BaseActivity{
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
     private static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
@@ -222,8 +222,7 @@ public class OptionAty extends BaseActivity implements INetChangeCallBack {
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.getInstance()
-                            .setNotifyId(111)
+                    NotifyUtils.setNotifyId(111)
                             .setEnableCloseButton(false)//设置是否显示关闭按钮
                             .setOnNotifyLinstener(new INotifyStateCallback() {
                                 @Override
@@ -512,11 +511,5 @@ public class OptionAty extends BaseActivity implements INetChangeCallBack {
         UsbHubTools.getInstance().unRegisterReceiver();
         AudioUtils.getInstance().stopPlaying();
         TPoolSingleUtils.shutdown();
-        NetMonitorUtils.unRegister();
-    }
-
-    @Override
-    public void netChange(int netType, boolean pingResult) {
-        KLog.d("netType >> "+netType+", pingResult>> "+pingResult);
     }
 }

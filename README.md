@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.5.8'
+         implementation 'com.github.wave-chtj:BaseIotUtils:1.6.2'
 }
 ```
 
@@ -77,7 +77,7 @@ public class App extends Application {
 | 15   | KeyBoardUtils                  | 软键盘管理         | 打开,关闭                    |
 | 16   | NotifyUtils                    | 通知工具类         | 自定义 notification,动态调参 |
 | 17   | NetUtils                       | 网络工具类         | 网络类型/状态等获取          |
-| 18   | NetChangeUtils                 | 网络变化广播       | 网络变化回调                 |
+| 18   | NetMonitorUtils                | 网络变化广播       | 网络变化回调                 |
 | 19   | PermissionsUtils               | 权限申请工具类     | 多权限申请                   |
 | 20   | SerialPort/SerialPortFinder    | 串口相关工具类     | 打开,通讯,关闭               |
 | 21   | SPUtils                        | 存储工具类         | SharedPreferences 读写       |
@@ -220,8 +220,7 @@ public class App extends Application {
 ```java
      //获取系统中是否已经通过 允许通知的权限
      if (NotifyUtils.notifyIsEnable()) {
-         NotifyUtils.getInstance("xxid")
-                 .setEnableCloseButton(false)//设置是否显示关闭按钮
+         NotifyUtils.setNotifyId(111).setEnableCloseButton(false)//设置是否显示关闭按钮
                  .setOnNotifyLinstener(new OnNotifyLinstener() {
                      @Override
                      public void enableStatus(boolean isEnable) {
@@ -242,11 +241,11 @@ public class App extends Application {
          NotifyUtils.toOpenNotify();
      }
      //更改部分内容
-     NotifyUtils.getInstance("xxid").setAppName("");
-     NotifyUtils.getInstance("xxid").setAppAbout("");
-     NotifyUtils.getInstance("xxid").setRemarks("");
-     NotifyUtils.getInstance("xxid").setPrompt("");
-     NotifyUtils.getInstance("xxid").setDataTime("");
+     NotifyUtils.setAppName("");
+     NotifyUtils.setAppAbout("");
+     NotifyUtils.setRemarks("");
+     NotifyUtils.setPrompt("");
+     NotifyUtils.setDataTime("");
      //关闭此notification
      NotifyUtils.closeNotify();
 ```
@@ -283,24 +282,23 @@ public class App extends Application {
       AudioUtils.getInstance().stopPlaying();
 ```
 
-#### NetListenerUtils 网络监听者
+#### NetMonitorUtils 网络监听者
 
 ```java
      //注册广播
-     NetChangeUtils.getInstance().registerReceiver();
+     NetMonitorUtils.register();
      //设置监听 NetTypeInfo (NETWORK_2G,NETWORK_3G,NETWORK_4G,NETWORK_WIFI,NETWORK_ETH,NETWORK_NO,NETWORK_UNKNOWN)
-     NetChangeUtils.getInstance().setOnNetChangeLinstener(new OnNetChangeLinstener() {
+     NetMonitorUtils.addCallBack(new INetChangeCallBack() {
          @Override
-         public void changed(NetTypeInfo type, boolean isNormal) {
-             //isNormal 网络经过ping后 true为网络正常 false为网络异常
-             KLog.e(TAG, "network type=" + type.name() + ",isNormal=" + isNormal);
-             tvType.setText("" + type.name());
-             tvStatus.setText("" + isNormal);
+         public void netChange(int netType, boolean pingResult) {
+             tvType.setText("" + netType);
+             tvStatus.setText("" + pingResult);
          }
      });
      .......
      //注销广播
-     NetChangeUtils.getInstance().unRegisterReceiver();
+     NetMonitorUtils.removeCallback(this);
+     NetMonitorUtils.unRegister();
 ```
 
 #### SerialPort|SerialPortFinder 串口封装类

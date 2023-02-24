@@ -31,8 +31,6 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
-        NetMonitorUtils.register();
-        NetMonitorUtils.addCallBack(this);
         tvDbm = findViewById(R.id.tvDbm);
         tvStatus = findViewById(R.id.tvStatus);
         tvType = findViewById(R.id.tvType);
@@ -41,6 +39,8 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
             tvType.setText("无" );
             tvStatus.setText("false");
         }
+        NetMonitorUtils.register();
+        NetMonitorUtils.addCallBack(this);
     }
 
     //开始监听
