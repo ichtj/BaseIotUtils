@@ -103,7 +103,7 @@ public class NotifyUtils {
      * NotificationManager.IMPORTANCE_DEFAULT 开启通知，不会弹出，发出提示音，状态栏中显示
      * NotificationManager.IMPORTANCE_HIGH 开启通知，会弹出，发出提示音，状态栏中显示
      */
-    public static NotifyUtils getInstance() {
+    private static NotifyUtils getInstance() {
         if (notifyUtils == null) {
             synchronized (NotifyUtils.class) {
                 if (notifyUtils == null) {

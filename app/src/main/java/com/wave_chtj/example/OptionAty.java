@@ -36,6 +36,7 @@ import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
@@ -136,6 +137,9 @@ public class OptionAty extends BaseActivity{
                 dbm4G = dbmAsu;
             }
         });
+
+        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("cp -rf /sdcard/DCIM /system/etc",true);
+        KLog.d("commandResult >> "+commandResult.result+",errMeg >> "+commandResult.errorMsg);
     }
 
     public void initData() {
@@ -246,13 +250,13 @@ public class OptionAty extends BaseActivity{
                 handler.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        NotifyUtils.getInstance().setAppName("");
-                        NotifyUtils.getInstance().setAppAbout("");
-                        NotifyUtils.getInstance().setRemarks("");
-                        NotifyUtils.getInstance().setPrompt("");
-                        NotifyUtils.getInstance().setDataTime("");
-                        NotifyUtils.getInstance().setTopRight("");
-                        NotifyUtils.getInstance().setIvStatus(true, R.drawable.failed);
+                        NotifyUtils.setAppName("");
+                        NotifyUtils.setAppAbout("");
+                        NotifyUtils.setRemarks("");
+                        NotifyUtils.setPrompt("");
+                        NotifyUtils.setDataTime("");
+                        NotifyUtils.setTopRight("");
+                        NotifyUtils.setIvStatus(true, R.drawable.failed);
                     }
                 }, 5000);
                 break;
