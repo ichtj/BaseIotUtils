@@ -15,8 +15,11 @@ extern "C" {
 JNIEXPORT jobject JNICALL Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_open(JNIEnv *env, jclass clazz,
                                                               jstring path, jint baudrate,
                                                               jint flags);
-
-
+/*
+ * Class:     com_serialport_SerialPort
+ * Method:    open
+ * Signature: (Ljava/lang/String;II)Ljava/io/FileDescriptor;
+ */
 JNIEXPORT jobject JNICALL
 Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_open2(JNIEnv *env, jclass clazz,
                                                                jstring path, jint baudrate,

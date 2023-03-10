@@ -511,4 +511,3 @@ JNIEXPORT void JNICALL Java_com_face_1chtj_base_1iotutils_serialport_SerialPort_
     LOGD("close(fd = %d)", descriptor);
     close(descriptor);
 }
-

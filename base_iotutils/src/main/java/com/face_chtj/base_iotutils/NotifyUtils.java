@@ -179,13 +179,13 @@ public class NotifyUtils {
         return intent;
     }
 
-    public NotificationManager getManager() {
-        return manager;
+    public static NotificationManager getManager() {
+        return getInstance().manager;
     }
 
 
-    public Notification.Builder getBuilder() {
-        return builder;
+    public static Notification.Builder getBuilder() {
+        return getInstance().builder;
     }
 
 

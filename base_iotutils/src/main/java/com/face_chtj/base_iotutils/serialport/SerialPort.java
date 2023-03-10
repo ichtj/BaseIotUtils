@@ -148,7 +148,6 @@ public class SerialPort {
 	}
 
 
-
 	// JNI
 	private native static FileDescriptor open(String path, int baudrate, int flags);
 	private native static FileDescriptor open2(String path, int baudrate,int dataBits,int stopBits,char parity);
