@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
@@ -27,14 +28,19 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
     Button btnRefresh;
     Button btnStart;
     Button btnClose;
+    Button btnClearCount;
     TextView tvResult;
     TextView tvSuccCount;
     TextView tvErrCount;
+    TextView tvDbm;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_nettimer);
+        btnClearCount = findViewById(R.id.btnClearCount);
+        btnClearCount.setOnClickListener(this);
+        tvDbm = findViewById(R.id.tvDbm);
         btnRefresh = findViewById(R.id.btnRefresh);
         btnStart = findViewById(R.id.btnStart);
         tvSuccCount = findViewById(R.id.tvSuccCount);
@@ -82,8 +88,9 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
     }
 
     @Override
-    public void refreshNet(String time, String netType,boolean isNet4G, boolean pingResult) {
-        tvResult.append("\ntime："+time+", netType：" + netType +", isNet4G：" + isNet4G + ", pingResult：" + pingResult );
+    public void refreshNet(String time,String dbm,String localIp, String netType,boolean isNet4G, boolean pingResult) {
+        tvResult.append("\ntime："+time+", dbm："+dbm+", localIp："+localIp+", netType：" + netType +", isNet4G：" + isNet4G + ", pingResult：" + pingResult );
+        tvDbm.setText("信号："+dbm);
         //刷新最新行显示
         int offset = tvResult.getLineCount() * tvResult.getLineHeight();
         int tvHeight = tvResult.getHeight();
@@ -110,6 +117,9 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
             case R.id.btnRefresh:
                 tvErrCount.setText("异常次数："+timerService.getErrCount());
                 tvSuccCount.setText("正常次数："+timerService.getSuccCount());
+                break;
+            case R.id.btnClearCount:
+                timerService.clearCount();
                 break;
         }
     }

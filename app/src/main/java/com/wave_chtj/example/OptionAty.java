@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.util.Log;
+import android.util.Xml;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -22,12 +23,13 @@ import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chtj.base_framework.FScreentTools;
 import com.chtj.base_framework.FStorageTools;
 import com.chtj.base_framework.entity.CommonValue;
-import com.chtj.base_framework.entity.InstallStatus;
 import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.entity.Space;
+import com.chtj.base_framework.entity.UpgradeBean;
 import com.chtj.base_framework.network.FEthTools;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.chtj.base_framework.network.NetDbmListener;
+import com.chtj.base_framework.upgrade.FUpgradeInterface;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
@@ -78,8 +80,12 @@ import com.wave_chtj.example.util.UsbHubTools;
 import com.wave_chtj.example.video.PlayCacheVideoAty;
 import com.wave_chtj.example.video.VideoPlayAty;
 
+import org.xmlpull.v1.XmlSerializer;
+
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,11 +143,7 @@ public class OptionAty extends BaseActivity{
                 dbm4G = dbmAsu;
             }
         });
-
-        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("cp -rf /sdcard/DCIM /system/etc",true);
-        KLog.d("commandResult >> "+commandResult.result+",errMeg >> "+commandResult.errorMsg);
     }
-
     public void initData() {
         dataList = new ArrayList<>();
         Space ramSpace = FStorageTools.getRamSpace();
@@ -481,17 +483,22 @@ public class OptionAty extends BaseActivity{
             builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    FUpgradeTools.firmwareUpgrade("/sdcard/update.zip", new FUpgradeTools.UpgradeInterface() {
+                    FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new FUpgradeInterface() {
                         @Override
-                        public void operating(InstallStatus installStatus) {
-                            Log.d(TAG, "operating: " + installStatus.name());
+                        public void installStatus(int installStatus) {
+                            Log.d(TAG, "installStatus: "+installStatus);
                         }
 
                         @Override
-                        public void error(String errInfo) {
-                            Log.d(TAG, "error: ");
+                        public void error(String error) {
+                            Log.d(TAG, "error: "+error);
                         }
-                    });
+
+                        @Override
+                        public void warning(String warning) {
+                            Log.d(TAG, "warning: "+warning);
+                        }
+                    }));
                     dialog.dismiss();
                 }
             });

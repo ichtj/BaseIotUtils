@@ -30,13 +30,6 @@
             android:text="关闭" />
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="*文件保存在/sdcard/DCIM/nettimer.log中"
-            android:textColor="@android:color/holo_red_light" />
-
-        <TextView
             android:id="@+id/tvErrCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -48,15 +41,47 @@
             android:id="@+id/tvSuccCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
             android:text="正常次数："
             android:textColor="@android:color/black" />
 
         <Button
             android:id="@+id/btnRefresh"
             android:layout_width="wrap_content"
-            android:text="刷新次数"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="刷新次数" />
+
+        <Button
+            android:id="@+id/btnClearCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="重置次数" />
+
+        <TextView
+            android:id="@+id/tvDbm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="信号："
+            android:textColor="@android:color/black" />
+
+        <TextView
+            android:id="@+id/tvPingAddr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ping固定地址：223.6.6.6"
+            android:textColor="@android:color/black" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="20dp"
+        android:text="*文件保存在/sdcard/DCIM/nettimer.log中"
+        android:textColor="@android:color/holo_red_light" />
 
     <TextView
         android:id="@+id/tvResult"

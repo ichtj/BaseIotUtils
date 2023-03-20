@@ -39,18 +39,9 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
             tvType.setText("无" );
             tvStatus.setText("false");
         }
+        FLteTools.init();
         NetMonitorUtils.register();
         NetMonitorUtils.addCallBack(this);
-    }
-
-    //开始监听
-    public void startLinstener(View view) {
-        FLteTools.instance().init4GDbm(new NetDbmListener() {
-            @Override
-            public void getDbm(String dbmAsu) {
-                tvDbm.setText("信号值："+dbmAsu);
-            }
-        });
     }
 
     @Override
@@ -60,11 +51,16 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         NetMonitorUtils.unRegister();
     }
 
+    public void getDbmClick(View view){
+        tvDbm.setText("信号值：" +FLteTools.getDbm());
+    }
+
     @Override
     public void netChange(int netType, boolean pingResult) {
         //isNormal 网络经过ping后 true为网络正常 false为网络异常
         String netTypeName=NetUtils.convertNetTypeName(netType);
         tvType.setText("" + netTypeName);
         tvStatus.setText("" + pingResult);
+        tvDbm.setText("信号值：" +FLteTools.getDbm());
     }
 }

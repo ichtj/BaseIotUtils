@@ -120,12 +120,7 @@ public class NetMonitorService extends Service {
         super.onCreate();
         KLog.d("onCreate() >> ");
         setModeRestartCallBack(getResetModeValue());
-        FLteTools.instance().init4GDbm(new NetDbmListener() {
-            @Override
-            public void getDbm(String dbmAsu) {
-                dbmInfo = dbmAsu;
-            }
-        });
+        FLteTools.init();
     }
 
     /**

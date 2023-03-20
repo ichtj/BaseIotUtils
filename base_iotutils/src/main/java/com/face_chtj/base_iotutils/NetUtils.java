@@ -320,13 +320,14 @@ public class NetUtils {
     /**
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
+     * c 设置完成要求回应的次数
+     * w 指定超时，单位为秒
+     * W 等待一个响应的时间，单位为秒
      */
     public static final boolean ping(String ip, int count, int w, int W) {
         try {
             StringBuffer cbstr = new StringBuffer("ping");
-            if (count != 0) {
-                cbstr.append(" -c " + count);
-            }
+            cbstr.append(" -c " + (count==0?1:count));
             if (w != 0) {
                 cbstr.append(" -w " + w);
             }
@@ -335,7 +336,7 @@ public class NetUtils {
             }
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
-            //KLog.d("ping cmd >> " + cmd);
+            KLog.d("ping cmd >> " + cmd);
             Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
             InputStream input = p.getInputStream();
