@@ -42,6 +42,7 @@ public class StartPageAty extends BaseActivity {
                 startAty(OptionAty.class);
                 break;
             case PACKAGES.PKG_NETTIMER:
+            case PACKAGES.PKG_NETTIMER1:
                 startAty(NetTimerAty.class);
                 break;
             case PACKAGES.PKG_ZTOCABINET:

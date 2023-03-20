@@ -8,4 +8,5 @@ public class PACKAGES {
     public final static String PKG_ZTOCABINET="com.zto.ztoexpresscabinet";
     public final static String PKG_CABINET="com.ingenious_eyes.cabinet";
     public final static String PKG_NETTIMER="com.net.net_timer";
+    public final static String PKG_NETTIMER1="com.net.net_timer1";
 }

@@ -36,9 +36,6 @@ public class NetTimerService extends Service {
     static Disposable disposable;
     static INetTimerCallback iNetTimerCallback;
     public NetTimerBinder netTimerBinder = new NetTimerBinder();
-    public PhoneStateListener phoneStateListener;
-    public TelephonyManager tm;
-    public SignalStrength signalStrength;
     public static final String KEY_ERRCOUNT = "errCount";
     public static final String KEY_SUCCCOUNT = "succCount";
 
@@ -61,43 +58,8 @@ public class NetTimerService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-        initListener();
+        FLteTools.init();
         startNetCheck();
-    }
-
-    public void initListener() {
-        tm = (TelephonyManager) FBaseTools.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-        phoneStateListener = new PhoneStateListener() {
-            @Override
-            public void onSignalStrengthsChanged(SignalStrength signalStrength) {
-                super.onSignalStrengthsChanged(signalStrength);
-                netTimerBinder.getService().signalStrength = signalStrength;
-            }
-        };
-        tm.listen(phoneStateListener, PhoneStateListener.LISTEN_DATA_CONNECTION_STATE
-                | PhoneStateListener.LISTEN_SIGNAL_STRENGTHS
-                | PhoneStateListener.LISTEN_SERVICE_STATE);
-    }
-
-    public String getDbm() {
-        String dbmAsu = 0 + " dBm " + 0 + " asu";
-        try {
-            Method method1 = signalStrength.getClass().getMethod("getDbm");
-            int signalDbm = (int) method1.invoke(signalStrength);
-            method1 = signalStrength.getClass().getMethod("getAsuLevel");
-            int signalAsu = (int) method1.invoke(signalStrength);
-            if (-1 == signalDbm) {
-                signalDbm = 0;
-            }
-            if (-1 == signalAsu) {
-                signalAsu = 0;
-            }
-            dbmAsu = signalDbm + " dBm " + signalAsu + " asu";
-        } catch (Exception e) {
-            e.printStackTrace();
-            dbmAsu = 0 + " dBm " + 0 + " asu";
-        }
-        return dbmAsu;
     }
 
     public void startNetCheck() {
@@ -109,12 +71,12 @@ public class NetTimerService extends Service {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            boolean pingResult = NetUtils.ping(NetUtils.DNS_LIST[1],1,2);
+                            boolean pingResult = NetUtils.ping("223.6.6.6",1,2);
                             putCount(pingResult);
                             String netType = NetUtils.getNetWorkTypeName();
                             String time = TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
                             boolean isNet4G = NetUtils.is4G();
-                            String dbm = getDbm();
+                            String dbm = FLteTools.getDbm();
                             String localIp = DeviceUtils.getLocalIp();
                             FileUtils.writeFileData("/sdcard/DCIM/nettimer.log",
                                     "\ntime：" + time + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + pingResult + ", dbm：" + dbm+ ", localIp：" + localIp, false);
@@ -175,5 +137,6 @@ public class NetTimerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        FLteTools.cancel();
     }
 }

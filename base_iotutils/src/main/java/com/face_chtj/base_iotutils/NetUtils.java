@@ -15,7 +15,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 
 import androidx.annotation.RequiresPermission;
 
@@ -77,7 +76,8 @@ public class NetUtils {
      * 4 提供API，允许应用程序获取可用的网络状态
      */
     public static int getNetWorkType() {
-        ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
         if (ni != null && ni.isConnectedOrConnecting()) {
             switch (ni.getType()) {//获取当前网络的状态
@@ -174,7 +174,8 @@ public class NetUtils {
      * 判断网络连接是否可用
      */
     public static boolean isNetworkAvailable() {
-        ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         if (cm == null) {
         } else {
             //如果仅仅是用来判断网络连接
@@ -285,11 +286,27 @@ public class NetUtils {
             boolean isPing = NetUtils.ping(pingAddr, count, w);
             //KLog.d("checkNetWork() isPing >> "+isPing);
             if (isPing) {
-                //If it is abnormal when entering the program network at the beginning, then only prompt once
+                //If it is abnormal when entering the program network at the beginning, then only
+                // prompt once
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * 根据输入的dns列表循环判断网络是否异常
+     * dns中只要有一个通过 那么证明网络正常
+     */
+    public static List<DnsBean> checkNetWork(String... dnsList) {
+        KLog.d("checkNetWork() dnsList >> " + Arrays.toString(dnsList));
+        List<DnsBean> dnsBeans = new ArrayList<>();
+        for (String pingAddr : dnsList) {
+            boolean isPing = NetUtils.ping(pingAddr, 1, 1);
+            //KLog.d("checkNetWork() isPing >> "+isPing);
+            dnsBeans.add(new DnsBean(pingAddr, isPing));
+        }
+        return dnsBeans;
     }
 
     /**
@@ -327,7 +344,7 @@ public class NetUtils {
     public static final boolean ping(String ip, int count, int w, int W) {
         try {
             StringBuffer cbstr = new StringBuffer("ping");
-            cbstr.append(" -c " + (count==0?1:count));
+            cbstr.append(" -c " + (count == 0 ? 1 : count));
             if (w != 0) {
                 cbstr.append(" -w " + w);
             }
@@ -355,15 +372,17 @@ public class NetUtils {
     // 若line含有=18 ms ttl=64字样,说明已经ping通,返回1,否則返回0.
     private static int getCheckResult(String line) {
         //KLog.d("getCheckResult : line >> "+line);
-        return line.toUpperCase().contains("TTL=")?1:0;
+        return line.toUpperCase().contains("TTL=") ? 1 : 0;
     }
 
     /**
      * 判断WIFI是否打开
      */
     public static boolean isWifiEnabled() {
-        ConnectivityManager mgrConn = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        TelephonyManager mgrTel = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+        ConnectivityManager mgrConn =
+                (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        TelephonyManager mgrTel =
+                (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
         return ((mgrConn.getActiveNetworkInfo() != null
                 && mgrConn.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED)
                 || mgrTel.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS);
@@ -399,7 +418,8 @@ public class NetUtils {
      * 判断是否为3G网络
      */
     public static boolean is3rd() {
-        ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo networkINfo = cm.getActiveNetworkInfo();
         return networkINfo != null
                 && networkINfo.getType() == ConnectivityManager.TYPE_MOBILE;
@@ -417,7 +437,8 @@ public class NetUtils {
      * GPS是否打开
      */
     public static boolean isGpsEnabled() {
-        LocationManager lm = ((LocationManager) BaseIotUtils.getContext().getSystemService(Context.LOCATION_SERVICE));
+        LocationManager lm =
+                ((LocationManager) BaseIotUtils.getContext().getSystemService(Context.LOCATION_SERVICE));
         List<String> accessibleProviders = lm.getProviders(true);
         return accessibleProviders != null && accessibleProviders.size() > 0;
     }
@@ -438,7 +459,8 @@ public class NetUtils {
      * 获取活动网络信息
      */
     private static NetworkInfo getActiveNetworkInfo() {
-        ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm =
+                (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         return cm.getActiveNetworkInfo();
     }
 
@@ -487,21 +509,24 @@ public class NetUtils {
 
     private static boolean getWifiEnabled() {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
+        WifiManager manager =
+                (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
         if (manager == null) return false;
         return manager.isWifiEnabled();
     }
 
     /**
      * Enable or disable wifi.
-     * <p>Must hold {@code <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />}</p>
+     * <p>Must hold {@code <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"
+     * />}</p>
      *
      * @param enabled True to enabled, false otherwise.
      */
     @RequiresPermission(CHANGE_WIFI_STATE)
     private static void setWifiEnabled(final boolean enabled) {
         @SuppressLint("WifiManagerLeak")
-        WifiManager manager = (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
+        WifiManager manager =
+                (WifiManager) BaseIotUtils.getContext().getSystemService(WIFI_SERVICE);
         if (manager == null) return;
         if (enabled == manager.isWifiEnabled()) return;
         manager.setWifiEnabled(enabled);

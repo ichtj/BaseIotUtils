@@ -47,6 +47,7 @@ data MMddHHmmyyyy.ss set //设置时间格式
 date 010411482023.58 set //设置时间
 -------------------------------------------------
 adb bugreport ./Desktop/devicebug.zip //导出设备所有 bug 日志  anr|crash
+adb shell tcpdump -i any -p -s 0 -w /data/data/capture.pcap //保存网络包
 -------------------------------------------------
 adb shell screencap -p /sdcard/screen.png //截屏到指定目录
 adb shell screenrecord sdcard/record.mp4  //屏幕录制
