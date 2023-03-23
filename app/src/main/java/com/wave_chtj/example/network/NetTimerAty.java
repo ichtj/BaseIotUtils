@@ -22,6 +22,8 @@ import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.callback.INetTimerCallback;
 import com.wave_chtj.example.util.AppManager;
 
+import java.util.Arrays;
+
 public class NetTimerAty extends BaseActivity implements INetTimerCallback, View.OnClickListener {
     NetTimerService timerService;
     private boolean isBound = false;
@@ -33,11 +35,13 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
     TextView tvSuccCount;
     TextView tvErrCount;
     TextView tvDbm;
+    TextView tvPingAddr;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.actvity_nettimer);
+        tvPingAddr = findViewById(R.id.tvPingAddr);
         btnClearCount = findViewById(R.id.btnClearCount);
         btnClearCount.setOnClickListener(this);
         tvDbm = findViewById(R.id.tvDbm);
@@ -88,9 +92,11 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
     }
 
     @Override
-    public void refreshNet(String time,String dbm,String localIp, String netType,boolean isNet4G, boolean pingResult) {
-        tvResult.append("\ntime："+time+", dbm："+dbm+", localIp："+localIp+", netType：" + netType +", isNet4G：" + isNet4G + ", pingResult：" + pingResult );
-        tvDbm.setText("信号："+dbm);
+    public void refreshNet(String time, String[] dns, String dbm, String localIp, String netType,
+                           boolean isNet4G, boolean pingResult) {
+        tvResult.append("\ntime：" + time + ", dns：" + Arrays.toString(dns) + ", dbm：" + dbm + ", localIp：" + localIp + ", netType：" + netType + ", isNet4G：" + isNet4G + ", pingResult：" + pingResult);
+        tvDbm.setText("信号：" + dbm);
+        tvPingAddr.setText("ping固定地址："+ Arrays.toString(dns));
         //刷新最新行显示
         int offset = tvResult.getLineCount() * tvResult.getLineHeight();
         int tvHeight = tvResult.getHeight();
@@ -115,8 +121,8 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
                 timerService.cancel();
                 break;
             case R.id.btnRefresh:
-                tvErrCount.setText("异常次数："+timerService.getErrCount());
-                tvSuccCount.setText("正常次数："+timerService.getSuccCount());
+                tvErrCount.setText("异常次数：" + timerService.getErrCount());
+                tvSuccCount.setText("正常次数：" + timerService.getSuccCount());
                 break;
             case R.id.btnClearCount:
                 timerService.clearCount();

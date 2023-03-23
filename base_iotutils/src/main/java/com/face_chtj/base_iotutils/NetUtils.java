@@ -16,6 +16,7 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
+import androidx.annotation.IntDef;
 import androidx.annotation.RequiresPermission;
 
 import com.face_chtj.base_iotutils.entity.DnsBean;
@@ -341,16 +342,12 @@ public class NetUtils {
      * w 指定超时，单位为秒
      * W 等待一个响应的时间，单位为秒
      */
-    public static final boolean ping(String ip, int count, int w, int W) {
+    public static final boolean ping(String ip, int c, int w, int W) {
         try {
             StringBuffer cbstr = new StringBuffer("ping");
-            cbstr.append(" -c " + (count == 0 ? 1 : count));
-            if (w != 0) {
-                cbstr.append(" -w " + w);
-            }
-            if (W != 0) {
-                cbstr.append(" -W " + W);
-            }
+            cbstr.append(c > 0 ? (" -c " + c) :(" -c 1"));
+            cbstr.append(w > 0 ? (" -w " + w) :(" -w 1"));
+            cbstr.append(W > 0 ? (" -W " + W) :(" -W 1"));
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
             KLog.d("ping cmd >> " + cmd);
@@ -359,11 +356,14 @@ public class NetUtils {
             InputStream input = p.getInputStream();
             BufferedReader in = new BufferedReader(new InputStreamReader(input));
             String line = "";
-            int connectedCount = 0;
+            int  replyCount= 0;
             while ((line = in.readLine()) != null) {
-                connectedCount += getCheckResult(line);
+                replyCount += getCheckResult(line);
+                if (c<=0&&replyCount>=1) {
+                    break;
+                }
             }
-            return connectedCount >= 1 ? true : false;
+            return replyCount >= 1 ? true : false;
         } catch (Throwable e) {
             return false;
         }
@@ -371,7 +371,7 @@ public class NetUtils {
 
     // 若line含有=18 ms ttl=64字样,说明已经ping通,返回1,否則返回0.
     private static int getCheckResult(String line) {
-        //KLog.d("getCheckResult : line >> "+line);
+        KLog.d("getCheckResult : line >> "+line);
         return line.toUpperCase().contains("TTL=") ? 1 : 0;
     }
 

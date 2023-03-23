@@ -71,7 +71,7 @@
             android:id="@+id/tvPingAddr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ping固定地址：223.6.6.6"
+            android:text="ping固定地址："
             android:textColor="@android:color/black" />
     </LinearLayout>
 

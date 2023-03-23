@@ -21,9 +21,12 @@ import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.entity.DnsBean;
 import com.wave_chtj.example.callback.INetTimerCallback;
 
 import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -38,6 +41,8 @@ public class NetTimerService extends Service {
     public NetTimerBinder netTimerBinder = new NetTimerBinder();
     public static final String KEY_ERRCOUNT = "errCount";
     public static final String KEY_SUCCCOUNT = "succCount";
+    public static final String SAVE_PATH="/sdcard/DCIM/nettimer.log";
+    public String[] pingDns=new String[]{"223.6.6.6"};
 
     public void setiNetTimerCallback(INetTimerCallback iNetTimerCallback) {
         this.iNetTimerCallback = iNetTimerCallback;
@@ -71,18 +76,25 @@ public class NetTimerService extends Service {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            boolean pingResult = NetUtils.ping("223.6.6.6",1,2);
-                            putCount(pingResult);
+                            List<DnsBean> dnsBeanList = NetUtils.checkNetWork(pingDns);
+                            boolean isPingResult=false;
+                            for (int i = 0; i < dnsBeanList.size(); i++) {
+                                if(dnsBeanList.get(i).isPass){
+                                    isPingResult=true;
+                                    break;
+                                }
+                            }
+                            putCount(isPingResult);
                             String netType = NetUtils.getNetWorkTypeName();
                             String time = TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
                             boolean isNet4G = NetUtils.is4G();
                             String dbm = FLteTools.getDbm();
                             String localIp = DeviceUtils.getLocalIp();
-                            FileUtils.writeFileData("/sdcard/DCIM/nettimer.log",
-                                    "\ntime：" + time + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + pingResult + ", dbm：" + dbm+ ", localIp：" + localIp, false);
+                            FileUtils.writeFileData(SAVE_PATH,
+                                    "\ntime：" + time +", dns：" + Arrays.toString(pingDns) + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + isPingResult + ", dbm：" + dbm+ ", localIp：" + localIp, false);
                             if (iNetTimerCallback != null) {
-                                iNetTimerCallback.refreshNet(time, dbm,localIp, netType, isNet4G,
-                                        pingResult);
+                                iNetTimerCallback.refreshNet(time,pingDns, dbm,localIp, netType, isNet4G,
+                                        dnsBeanList.get(0).isPass);
                             }
                         }
                     }, new Consumer<Throwable>() {

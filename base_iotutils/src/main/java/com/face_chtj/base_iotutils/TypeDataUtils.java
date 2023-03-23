@@ -48,14 +48,14 @@ public class TypeDataUtils {
      */
     public static String[] getRandomList(String[] list, int num) {
         KLog.d("random before >> "+ Arrays.toString(list));
-        List flagExist = new ArrayList();
-        List<Integer> indexList = new ArrayList<Integer>();
         if (num >= list.length) {
             return list;
         }
+        List<Integer> indexList = new ArrayList<Integer>();
         // 创建随机数
         Random random = new Random();
         // 当set长度不足 指定数量时
+        List flagExist = new ArrayList();
         while (flagExist.size() < num) {
             // 获取源集合的长度的随机数
             Integer index = random.nextInt(list.length);
