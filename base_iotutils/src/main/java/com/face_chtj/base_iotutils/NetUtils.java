@@ -359,7 +359,8 @@ public class NetUtils {
             int  replyCount= 0;
             while ((line = in.readLine()) != null) {
                 replyCount += getCheckResult(line);
-                if (c<=0&&replyCount>=1) {
+                if(c==replyCount){
+                    //如果指定的次数等于回应的次数,直接退出,避免一直读取下一行数据
                     break;
                 }
             }
