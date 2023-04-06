@@ -4,7 +4,6 @@
     android:id="@+id/rvinfo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginBottom="10pt"
     android:fitsSystemWindows="true"
     android:orientation="horizontal"
     android:padding="10pt"

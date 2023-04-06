@@ -25,6 +25,6 @@ public class TestAty  extends BaseActivity {
             pkgName=pkgName+">>>>B";
         }
         tvNowPkg.setText(pkgName);
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
+        AppManager.finishActivity(StartPageAty.class);
     }
 }

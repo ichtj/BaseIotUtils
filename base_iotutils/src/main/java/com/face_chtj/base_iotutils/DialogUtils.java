@@ -133,7 +133,8 @@ public class DialogUtils {
             if (caseValue == 1) {
                 instance().etContent = instance().mDialog.findViewById(R.id.etContent);
             }
-            instance().mDialog.getWindow().setLayout(WindowManager.LayoutParams.WRAP_CONTENT, WindowManager.LayoutParams.WRAP_CONTENT);
+            int widthSize=DisplayUtils.getScreenWidth(context);
+            instance().mDialog.getWindow().setLayout(widthSize/2, WindowManager.LayoutParams.WRAP_CONTENT);
             if(instance().iCallback!=null){
                 instance().iCallback.show();
             }

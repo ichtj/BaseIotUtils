@@ -88,7 +88,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
         Intent intent = new Intent(this, NetMonitorService.class);
         startService(intent);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
+        AppManager.finishActivity(StartPageAty.class);
     }
 
 

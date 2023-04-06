@@ -26,8 +26,6 @@ public class StartPageAty extends BaseActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);            //设为全屏
         switch (BuildConfig.APPLICATION_ID) {
             case PACKAGES.PKG_SERIALPORT:
                 startAty(SerialPortAty.class);

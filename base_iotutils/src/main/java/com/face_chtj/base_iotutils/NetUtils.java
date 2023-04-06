@@ -343,23 +343,24 @@ public class NetUtils {
      * W 等待一个响应的时间，单位为秒
      */
     public static final boolean ping(String ip, int c, int w, int W) {
+        InputStreamReader isr = null;
         try {
             StringBuffer cbstr = new StringBuffer("ping");
-            cbstr.append(c > 0 ? (" -c " + c) :(" -c 1"));
-            cbstr.append(w > 0 ? (" -w " + w) :(" -w 1"));
-            cbstr.append(W > 0 ? (" -W " + W) :(" -W 1"));
+            cbstr.append(c > 0 ? (" -c " + c) : (" -c 1"));
+            cbstr.append(w > 0 ? (" -w " + w) : (" -w 1"));
+            cbstr.append(W > 0 ? (" -W " + W) : (" -W 1"));
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
             KLog.d("ping cmd >> " + cmd);
             Process p = Runtime.getRuntime().exec(cmd);// ping网址3次
             // 读取ping的内容，可以不加
-            InputStream input = p.getInputStream();
-            BufferedReader in = new BufferedReader(new InputStreamReader(input));
+            isr = new InputStreamReader(p.getInputStream());
+            BufferedReader bReader = new BufferedReader(isr);
             String line = "";
-            int  replyCount= 0;
-            while ((line = in.readLine()) != null) {
+            int replyCount = 0;
+            while ((line = bReader.readLine()) != null) {
                 replyCount += getCheckResult(line);
-                if(c==replyCount){
+                if (c == replyCount) {
                     //如果指定的次数等于回应的次数,直接退出,避免一直读取下一行数据
                     break;
                 }
@@ -367,12 +368,20 @@ public class NetUtils {
             return replyCount >= 1 ? true : false;
         } catch (Throwable e) {
             return false;
+        } finally {
+            if (isr != null) {
+                try {
+                    isr.close();
+                } catch (Throwable e) {
+                    KLog.d(e.getMessage());
+                }
+            }
         }
     }
 
     // 若line含有=18 ms ttl=64字样,说明已经ping通,返回1,否則返回0.
     private static int getCheckResult(String line) {
-        KLog.d("getCheckResult : line >> "+line);
+        KLog.d("getCheckResult : line >> " + line);
         return line.toUpperCase().contains("TTL=") ? 1 : 0;
     }
 

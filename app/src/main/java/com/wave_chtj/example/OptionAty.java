@@ -1,15 +1,15 @@
 package com.wave_chtj.example;
 
-import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
 import android.util.Log;
-import android.util.Xml;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -27,23 +27,19 @@ import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.entity.Space;
 import com.chtj.base_framework.entity.UpgradeBean;
 import com.chtj.base_framework.network.FEthTools;
-import com.chtj.base_framework.network.FNetworkTools;
-import com.chtj.base_framework.network.NetDbmListener;
+import com.chtj.base_framework.network.FLteTools;
 import com.chtj.base_framework.upgrade.FUpgradeInterface;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.DisplayUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
-import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.NetUtils;
-import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NotifyUtils;
@@ -80,90 +76,54 @@ import com.wave_chtj.example.util.UsbHubTools;
 import com.wave_chtj.example.video.PlayCacheVideoAty;
 import com.wave_chtj.example.video.VideoPlayAty;
 
-import org.xmlpull.v1.XmlSerializer;
-
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import io.reactivex.functions.Consumer;
 
 /**
  * 功能选择
  */
-public class OptionAty extends BaseActivity{
+public class OptionAty extends BaseActivity implements OnItemClickListener{
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
     private static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
     private IndexAdapter adapterDome;//声明适配器
-    private String dbm4G = 0 + " dBm " + 0 + " asu";
-    private List<Dbean> dataList = new ArrayList<>();
+    private List<Dbean> dataList = new ArrayList<>();;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
         rvinfo = findViewById(R.id.rvinfo);
-        new RxPermissions(this).request(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
-        }).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-                if (granted) { // Always true pre-M
-                    // I can control the camera now
-                    ToastUtils.success("已通过权限");
-                } else {
-                    // Oups permission denied
-                    ToastUtils.error("未通过权限");
-                }
-            }
-        });
+        FLteTools.init();
         //初始化数据
         initData();
-        adapterDome = new IndexAdapter(dataList);
-        GridLayoutManager manager = new GridLayoutManager(BaseIotUtils.getContext(), 2);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvinfo.setLayoutManager(manager);
-        rvinfo.setAdapter(adapterDome);
-        adapterDome.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(@NonNull BaseQuickAdapter adapter, @NonNull View view, int position) {
-                clickByPosition(position);
-            }
-        });
-        FNetworkTools.lteListener(BaseIotUtils.getContext(), new NetDbmListener() {
-            @Override
-            public void getDbm(String dbmAsu) {
-                dbm4G = dbmAsu;
-            }
-        });
+        //加载数据
+        refreshUI();
+        AppManager.finishActivity(StartPageAty.class);
     }
+
     public void initData() {
-        dataList = new ArrayList<>();
         Space ramSpace = FStorageTools.getRamSpace();
         Space sdSpace = FStorageTools.getSdcardSpace();
         dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(), IndexAdapter.L_NO_BG));
+        String serial= Build.VERSION.SDK_INT>=30?(TextUtils.isEmpty(Build.getSerial())?Build.SERIAL:Build.getSerial()):Build.SERIAL;
+        dataList.add(new Dbean(FKey.KEY_SERIAL, "序列号："+ serial, IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_NET_TYPE, "网络类型：" + NetUtils.getNetWorkTypeName(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_APK_VERSION, "APK版本：v" + AppsUtils.getAppVersionName(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_LOCAL_IP, "本地IP：" + DeviceUtils.getLocalIp(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_RAM, "运存：" + ramSpace.getTotalSize() + "M/" + ramSpace.getUseSize() + "M/" + ramSpace.getAvailableSize() + "M", IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_ROM, "内存：" + 0 + "M/" + 0 + "M/" + 0 + "M", IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_SD_SPACE, "SD：" + sdSpace.getTotalSize() + "M/" + sdSpace.getUseSize() + "M/" + sdSpace.getAvailableSize() + "M", IndexAdapter.L_NO_BG));
         try {
             dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()), IndexAdapter.L_NO_BG));
         } catch (Throwable e) {
             dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：NONE", IndexAdapter.L_NO_BG));
         }
-        dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + dbm4G, IndexAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm(), IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_SERIAL_PORT, "串口收发", IndexAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_TIMERD, "定时器", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_SCREEN, "屏幕相关", IndexAdapter.L_ONE));
@@ -176,6 +136,7 @@ public class OptionAty extends BaseActivity{
         dataList.add(new Dbean(FKey.KEY_NOTIFY_CLOSE, "通知关闭", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_SHOW, "系统弹窗", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_CLOSE, "关闭系统弹窗", IndexAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_DIALOG, "对话框", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_TOAST, "普通吐司", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_TOAST_BG, "图形吐司", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_ERR_ANR, "测试anr", IndexAdapter.L_ONE));
@@ -202,8 +163,16 @@ public class OptionAty extends BaseActivity{
         dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_DIALOG, "对话框", IndexAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_MORE, "更多....", IndexAdapter.L_ONE));
+    }
+
+    public void refreshUI(){
+        adapterDome = new IndexAdapter(dataList);
+        adapterDome.setOnItemClickListener(this);
+        GridLayoutManager manager = new GridLayoutManager(BaseIotUtils.getContext(), 2);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvinfo.setLayoutManager(manager);
+        rvinfo.setAdapter(adapterDome);
     }
 
     @Override
@@ -522,5 +491,11 @@ public class OptionAty extends BaseActivity{
         UsbHubTools.getInstance().unRegisterReceiver();
         AudioUtils.getInstance().stopPlaying();
         TPoolSingleUtils.shutdown();
+        FLteTools.cancel();
+    }
+
+    @Override
+    public void onItemClick(@NonNull BaseQuickAdapter<?, ?> a, @NonNull View v, int p) {
+        clickByPosition(dataList.get(p).getFlag());
     }
 }

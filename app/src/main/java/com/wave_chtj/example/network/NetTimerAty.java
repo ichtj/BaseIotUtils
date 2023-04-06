@@ -56,7 +56,7 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
         tvResult = findViewById(R.id.tvResult);
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         startBindService();
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
+        AppManager.finishActivity(StartPageAty.class);
     }
 
     public void startBindService() {

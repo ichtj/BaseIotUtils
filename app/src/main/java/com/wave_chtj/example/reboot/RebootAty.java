@@ -36,7 +36,7 @@ public class RebootAty extends BaseActivity {
         tvRebootCount.setText("已重启"+rebootCount+"次");
         Intent intent = new Intent(this, RebootCustomService.class);
         bindService(intent, conn, BIND_AUTO_CREATE);
-        AppManager.getAppManager().finishActivity(StartPageAty.class);
+        AppManager.finishActivity(StartPageAty.class);
     }
 
     private ServiceConnection conn = new ServiceConnection() {

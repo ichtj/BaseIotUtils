@@ -82,7 +82,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
                 Log.e(TAG, "error : ", e);
             }
 
-            AppManager.getAppManager().AppExit();
+            AppManager.AppExit();
         }
 
     }

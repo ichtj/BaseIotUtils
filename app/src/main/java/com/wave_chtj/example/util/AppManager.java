@@ -10,7 +10,7 @@ import java.util.Stack;
  * desc Activity管理类：用于管理Activity和退出程序
  */
 public class AppManager {
-    private static Stack<Activity> activityStack;
+    private Stack<Activity> activityStack;
 
     private static AppManager instance;
 
@@ -20,7 +20,7 @@ public class AppManager {
     /**
      * 单一实例
      */
-    public static AppManager getAppManager() {
+    private static AppManager getAppManager() {
         if (instance == null) {
             instance = new AppManager();
         }
@@ -30,19 +30,19 @@ public class AppManager {
     /**
      * 添加Activity到堆栈
      */
-    public void addActivity(Activity activity) {
-        if (activityStack == null) {
-            activityStack = new Stack();
+    public static void addActivity(Activity activity) {
+        if (getAppManager().activityStack == null) {
+            getAppManager().activityStack = new Stack();
         }
-        activityStack.add(activity);
+        getAppManager().activityStack.add(activity);
     }
 
     /**
      * 获取当前Activity（堆栈中最后一个压入的）
      */
     public Activity currentActivity() {
-        if(activityStack!=null&&activityStack.size()>0){
-            Activity activity = activityStack.lastElement();
+        if(getAppManager().activityStack!=null&&getAppManager().activityStack.size()>0){
+            Activity activity = getAppManager().activityStack.lastElement();
             return activity;
         }else{
             return null;
@@ -53,8 +53,8 @@ public class AppManager {
      * 结束当前Activity（堆栈中最后一个压入的）
      */
     public void finishActivity() {
-        if(activityStack!=null&&activityStack.size()>0){
-            Activity activity = activityStack.lastElement();
+        if(getAppManager().activityStack!=null&&getAppManager().activityStack.size()>0){
+            Activity activity = getAppManager().activityStack.lastElement();
             finishActivity(activity);
         }
     }
@@ -62,10 +62,10 @@ public class AppManager {
     /**
      * 结束指定的Activity
      */
-    public void finishActivity(Activity activity) {
+    public static void finishActivity(Activity activity) {
         if (activity != null) {
-            if(activityStack.size()>0){
-                activityStack.remove(activity);
+            if(getAppManager().activityStack.size()>0){
+                getAppManager().activityStack.remove(activity);
             }
             activity.finish();
             activity = null;
@@ -75,9 +75,9 @@ public class AppManager {
     /**
      * 结束指定类名的Activity
      */
-    public void finishActivity(Class cls) {
-        if(activityStack!=null&&activityStack.size()>0){
-            for (Activity activity : activityStack) {
+    public static void finishActivity(Class cls) {
+        if(getAppManager().activityStack!=null&&getAppManager().activityStack.size()>0){
+            for (Activity activity : getAppManager().activityStack) {
                 if (activity.getClass().equals(cls)) {
                     finishActivity(activity);
                     break;
@@ -90,21 +90,21 @@ public class AppManager {
     /**
      * 结束所有Activity
      */
-    public void finishAllActivity() {
-        if(activityStack!=null&&activityStack.size()>0){
-            for (int i = 0; i < activityStack.size(); i++) {
-                if (null != activityStack.get(i)) {
-                    activityStack.get(i).finish();
+    public static void finishAllActivity() {
+        if(getAppManager().activityStack!=null&&getAppManager().activityStack.size()>0){
+            for (int i = 0; i < getAppManager().activityStack.size(); i++) {
+                if (null != getAppManager().activityStack.get(i)) {
+                    getAppManager().activityStack.get(i).finish();
                 }
             }
-            activityStack.clear();
+            getAppManager().activityStack.clear();
         }
     }
 
     /**
      * 退出应用程序
      */
-    public void AppExit() {
+    public static void AppExit() {
         try {
             finishAllActivity();
             /*ActivityManager activityMgr = (ActivityManager) BaseIotUtils.getContext()
