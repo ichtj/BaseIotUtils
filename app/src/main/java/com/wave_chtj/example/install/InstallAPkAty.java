@@ -11,7 +11,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.InstallTools;
+import com.wave_chtj.example.util.OptionTools;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -85,7 +85,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void pmInstall(View view) {
-        boolean isInstalled = InstallTools.pmInstallBySilent(apkPath);
+        boolean isInstalled = OptionTools.pmInstallBySilent(apkPath);
         Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
         if (isInstalled) {
             ToastUtils.success("安装成功！");
@@ -93,14 +93,13 @@ public class InstallAPkAty extends BaseActivity {
             ToastUtils.error("安装失败！");
         }
     }
-
     /**
      * PM UNINSTALL
      *
      * @param view
      */
     public void pmUnInstall(View view) {
-        InstallTools.deletePackage(this, pkgName, new InstallTools.IResult() {
+        OptionTools.deletePackage(this, pkgName, new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
@@ -115,7 +114,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiInstall(View view) {
-        InstallTools.installPackageByJavaReflect(this, pkgName, apkPath, new InstallTools.IResult() {
+        OptionTools.installPackageByJavaReflect(this, pkgName, apkPath, new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiInstall getResult: isComplete=" + isComplete + ",err=" + err);
@@ -129,7 +128,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiUnInstall(View view) {
-        InstallTools.deletePackage(this, pkgName, new InstallTools.IResult() {
+        OptionTools.deletePackage(this, pkgName, new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);

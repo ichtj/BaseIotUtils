@@ -21,7 +21,8 @@ import java.io.InputStreamReader;
  * 使用方式如下:
  * ShellUtils.CommandResult commandResult=ShellUtils.execCommand("reboot",true);//adb执行重启
  * 理论上commandResult.result=0时执行是成功的
- * Log.d(TAG, "commandResult errMeg="+commandResult.errorMsg+",result="+commandResult.result+",successMsg="+commandResult.successMsg);
+ * Log.d(TAG, "commandResult errMeg="+commandResult.errorMsg+",result="+commandResult.result+",
+ * successMsg="+commandResult.successMsg);
  * <p>
  * 这里是常用的方法
  * --执行命令一条 {@link #execCommand(String command, boolean isRoot)}
@@ -57,7 +58,8 @@ public class ShellUtils {
      */
     public static boolean isCheckRoot() {
         File f = null;
-        final String kSuSearchPaths[] = {"/system/bin/", "/system/xbin/", "/system/sbin/", "/sbin/", "/vendor/bin/"};
+        final String kSuSearchPaths[] = {"/system/bin/", "/system/xbin/", "/system/sbin/", "/sbin" +
+                "/", "/vendor/bin/"};
         try {
             for (int i = 0; i < kSuSearchPaths.length; i++) {
                 f = new File(kSuSearchPaths[i] + "su");
@@ -103,13 +105,15 @@ public class ShellUtils {
      */
     public static CommandResult execCommand(String[] commands, boolean isRoot) {
         CommandResult commandResult = new CommandResult();
-        if (commands == null || commands.length == 0) return commandResult;
+        if (commands == null || commands.length == 0) {
+            commandResult.errorMsg="commands is null";
+            return commandResult;
+        }
         Process process = null;
         DataOutputStream os = null;
         BufferedReader successResult = null;
         BufferedReader errorResult = null;
         StringBuilder successMsg = new StringBuilder();
-        ;
         StringBuilder errorMsg = new StringBuilder();
         try {
             process = Runtime.getRuntime().exec(isRoot ? COMMAND_SU : COMMAND_SH);
@@ -127,16 +131,14 @@ public class ShellUtils {
             successResult = new BufferedReader(new InputStreamReader(process.getInputStream()));
             errorResult = new BufferedReader(new InputStreamReader(process.getErrorStream()));
             String s;
-            int count =0;
+            int count = 0;
             while ((s = successResult.readLine()) != null) {
                 successMsg.append(s + "\n");
                 count++;
             }
             while ((s = errorResult.readLine()) != null) errorMsg.append(s);
-            commandResult.successMsg = count==1?successMsg.toString().replace("\n",""):successMsg.toString();
-            commandResult.errorMsg = errorMsg.toString();
-        } catch (IOException e) {
-            errorMsg.append(e.getMessage());
+            commandResult.successMsg = count == 1 ? successMsg.toString().replace("\n", "") :
+                    successMsg.toString();
             commandResult.errorMsg = errorMsg.toString();
         } catch (Exception e) {
             errorMsg.append(e.getMessage());

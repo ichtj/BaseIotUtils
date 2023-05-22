@@ -9,23 +9,29 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.RemoteException;
+import android.text.TextUtils;
 import android.util.Log;
-import android.widget.Toast;
 
+import com.chtj.base_framework.entity.UpgradeBean;
+import com.chtj.base_framework.upgrade.FUpgradeInterface;
+import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.DialogUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.callback.IDialogCallback;
+import com.wave_chtj.example.R;
 
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
  * apk安装工具类
  */
-public class InstallTools {
-    private static final String TAG = InstallTools.class.getSimpleName();
+public class OptionTools {
+    private static final String TAG = OptionTools.class.getSimpleName();
     public static final int INSTALL_FORWARD_LOCK = 0x00000001;
     public static final int INSTALL_REPLACE_EXISTING = 0x00000002;
     public static final int INSTALL_ALLOW_TEST = 0x00000004;
@@ -39,7 +45,53 @@ public class InstallTools {
     public static final int INSTALL_FORCE_PERMISSION_PROMPT = 0x00000400;
     public static final int INSTALL_EPHEMERAL = 0x00000800;
     public static final int INSTALL_DONT_KILL_APP = 0x00001000;
+    /**
+     * ota升级 确保sdcard目录存在update.zip固件
+     */
+    public static void showOtaUpgrade() {
+        File file = new File("/sdcard/update.zip");
+        if (file.exists()) {
+            DialogUtils.setDialogCallback(new IDialogCallback() {
+                @Override
+                public void show() {
 
+                }
+
+                @Override
+                public void onPositiveClick(String content) {
+                    FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new FUpgradeInterface() {
+                        @Override
+                        public void installStatus(int installStatus) {
+                            Log.d(TAG, "installStatus: "+installStatus);
+                        }
+
+                        @Override
+                        public void error(String error) {
+                            Log.d(TAG, "error: "+error);
+                        }
+
+                        @Override
+                        public void warning(String warning) {
+                            Log.d(TAG, "warning: "+warning);
+                        }
+                    }));
+                    DialogUtils.dismiss();
+                }
+
+                @Override
+                public void onNegativeClick() {
+
+                }
+
+                @Override
+                public void dismiss() {
+
+                }
+            }).show(BaseIotUtils.getContext(), R.drawable.logo_splash,"提示:","进行固件升级吗？点击确认后请等待...");
+        } else {
+            ToastUtils.error("/sdcard/目录下未找到update.zip文件！");
+        }
+    }
     /**
      * 普通弹窗安装 签名必须一致
      * @param apkPath apk路径
@@ -64,6 +116,11 @@ public class InstallTools {
         context.startActivity(intent);
     }
 
+    public static String getSerialNo(){
+        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("getprop ro.serialno",true);
+        String serial= Build.VERSION.SDK_INT>=30?(TextUtils.isEmpty(commandResult.successMsg)?Build.SERIAL:commandResult.successMsg):Build.SERIAL;
+        return serial;
+    }
     /**
      * pm 静默安装
      * @param apkPath apk路径

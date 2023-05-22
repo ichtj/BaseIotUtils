@@ -58,10 +58,14 @@ public class RebootCustomService extends Service {
                         SPUtils.putInt("rebootCount", count);
                         ShellUtils.CommandResult result = ShellUtils.execCommand("reboot", true);
                         Log.d(TAG, "accept: result=" + result.result + ",errMeg=" + result.errorMsg + ",successMeg=" + result.successMsg);
-                        //调用系统接口进行重启
-                        Intent intent = new Intent(Intent.ACTION_REBOOT);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        BaseIotUtils.getContext().startActivity(intent);
+                        try {
+                            //调用系统接口进行重启
+                            Intent intent = new Intent(Intent.ACTION_REBOOT);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            BaseIotUtils.getContext().startActivity(intent);
+                        }catch (Throwable e){
+                            Log.d(TAG, "accept: ",e);
+                        }
                     }
                 }, new Consumer<Throwable>() {
                     @Override

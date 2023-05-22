@@ -23,12 +23,14 @@ import io.reactivex.functions.Consumer;
  * desc $
  */
 public abstract class BaseActivity extends AppCompatActivity {
+    protected static final int FILE_SELECT_CODE = 10000;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //将继承BaseActivity的Activity添加到堆栈 统一管理
-        AppManager.addActivity(this);
+        AppManager.addActivity(this);//
         setStatusBar();
+        //requestPermission();
     }
 
     protected void requestPermission(){

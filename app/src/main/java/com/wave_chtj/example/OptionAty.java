@@ -1,15 +1,13 @@
 package com.wave_chtj.example;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
+import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.text.TextUtils;
-import android.util.Log;
+import android.os.storage.StorageManager;
+import android.os.storage.StorageVolume;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -25,24 +23,25 @@ import com.chtj.base_framework.FStorageTools;
 import com.chtj.base_framework.entity.CommonValue;
 import com.chtj.base_framework.entity.IpConfigInfo;
 import com.chtj.base_framework.entity.Space;
-import com.chtj.base_framework.entity.UpgradeBean;
 import com.chtj.base_framework.network.FEthTools;
 import com.chtj.base_framework.network.FLteTools;
-import com.chtj.base_framework.upgrade.FUpgradeInterface;
-import com.chtj.base_framework.upgrade.FUpgradeTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.BytesHexUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
-import com.face_chtj.base_iotutils.DisplayUtils;
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.NetUtils;
+import com.face_chtj.base_iotutils.PermissionsUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NotifyUtils;
+import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.AudioAty;
 import com.wave_chtj.example.base.BaseActivity;
@@ -66,8 +65,10 @@ import com.wave_chtj.example.serialport.SerialPortAty;
 import com.wave_chtj.example.socket.SocketAty;
 import com.wave_chtj.example.timer.TimerAty;
 import com.wave_chtj.example.util.AppManager;
-import com.wave_chtj.example.util.IndexAdapter;
+import com.wave_chtj.example.util.DocumentsUtils;
+import com.wave_chtj.example.util.IndexItemAdapter;
 import com.wave_chtj.example.util.FKey;
+import com.wave_chtj.example.util.OptionTools;
 import com.wave_chtj.example.util.TableFileUtils;
 import com.wave_chtj.example.util.JXLExcelUtils;
 import com.wave_chtj.example.util.POIExcelUtils;
@@ -79,100 +80,142 @@ import com.wave_chtj.example.video.VideoPlayAty;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 功能选择
  */
-public class OptionAty extends BaseActivity implements OnItemClickListener{
+public class OptionAty extends BaseActivity implements OnItemClickListener {
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
-    private static final int FILE_SELECT_CODE = 10000;
     private RecyclerView rvinfo;
-    private IndexAdapter adapterDome;//声明适配器
-    private List<Dbean> dataList = new ArrayList<>();;
+    private IndexItemAdapter itemAdapter;//声明适配器
+    private GridLayoutManager manager;
+    private List<Dbean> dataList = new ArrayList<>();
+    String rootPath = "/storage/3936-121D";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_option);
-        rvinfo = findViewById(R.id.rvinfo);
         FLteTools.init();
+        initView();
+        AppManager.finishActivity(StartPageAty.class);
         //初始化数据
         initData();
-        //加载数据
-        refreshUI();
-        AppManager.finishActivity(StartPageAty.class);
+
+        if (DocumentsUtils.checkWritableRootPath(this, rootPath)) {
+            System.out.println("没有外置SD卡权限");
+            showOpenDocumentTree();
+        } else {
+            System.out.println("有外置SD卡权限");
+        }
+        PermissionsUtils.with(this).addPermission(Manifest.permission.MANAGE_DOCUMENTS).initPermission();
+
+        FileUtils.writeFileData(rootPath+"/tets.log","ddddd",true);
+    }
+
+    private void showOpenDocumentTree() {
+        Intent intent = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            StorageManager sm = getSystemService(StorageManager.class);
+
+            StorageVolume volume = sm.getStorageVolume(new File(rootPath));
+
+            if (volume != null) {
+                intent = volume.createAccessIntent(null);
+            }
+        }
+
+        if (intent == null) {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        }
+        startActivityForResult(intent, DocumentsUtils.OPEN_DOCUMENT_TREE_CODE);
+    }
+
+    public void initView() {
+        rvinfo = findViewById(R.id.rvinfo);
+        itemAdapter = new IndexItemAdapter(dataList);
+        manager = new GridLayoutManager(BaseIotUtils.getContext(), 2);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        itemAdapter.setOnItemClickListener(this);
+        rvinfo.setLayoutManager(manager);
+        rvinfo.setAdapter(itemAdapter);
     }
 
     public void initData() {
         Space ramSpace = FStorageTools.getRamSpace();
         Space sdSpace = FStorageTools.getSdcardSpace();
-        dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(), IndexAdapter.L_NO_BG));
-        String serial= Build.VERSION.SDK_INT>=30?(TextUtils.isEmpty(Build.getSerial())?Build.SERIAL:Build.getSerial()):Build.SERIAL;
-        dataList.add(new Dbean(FKey.KEY_SERIAL, "序列号："+ serial, IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_NET_TYPE, "网络类型：" + NetUtils.getNetWorkTypeName(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_APK_VERSION, "APK版本：v" + AppsUtils.getAppVersionName(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_LOCAL_IP, "本地IP：" + DeviceUtils.getLocalIp(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_RAM, "运存：" + ramSpace.getTotalSize() + "M/" + ramSpace.getUseSize() + "M/" + ramSpace.getAvailableSize() + "M", IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_SD_SPACE, "SD：" + sdSpace.getTotalSize() + "M/" + sdSpace.getUseSize() + "M/" + sdSpace.getAvailableSize() + "M", IndexAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_SERIAL, "序列号：" + OptionTools.getSerialNo(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_NET_TYPE, "网络类型：" + NetUtils.getNetWorkTypeName(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_APK_VERSION, "APK版本：v" + AppsUtils.getAppVersionName(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_LOCAL_IP, "本地IP：" + DeviceUtils.getLocalIp(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion(),
+                IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_RAM,
+                "运存：" + ramSpace.getTotalSize() + "M/" + ramSpace.getUseSize() + "M/" + ramSpace.getAvailableSize() + "M", IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_SD_SPACE,
+                "SD：" + sdSpace.getTotalSize() + "M/" + sdSpace.getUseSize() + "M/" + sdSpace.getAvailableSize() + "M", IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_ETH_MODE,
+                "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()),
+                IndexItemAdapter.L_NO_BG));
         try {
-            dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()), IndexAdapter.L_NO_BG));
-        } catch (Throwable e) {
-            dataList.add(new Dbean(FKey.KEY_ETH_MODE, "ETH模式：NONE", IndexAdapter.L_NO_BG));
+            dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm(),
+                    IndexItemAdapter.L_NO_BG));
+        }catch (Throwable throwable){
+            dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：0 dBm 0 asu" ,
+                    IndexItemAdapter.L_NO_BG));
         }
-        dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm(), IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_SERIAL_PORT, "串口收发", IndexAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_TIMERD, "定时器", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_SCREEN, "屏幕相关", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_FILE_RW, "文件读写", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_NETWORK, "网络监听", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_RESET_MONITOR, "网络重置监听", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_FILEDOWN, "多文件下载", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_TCP_UDP, "TCP|UDP", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_NOTIFY_SHOW, "通知开启", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_NOTIFY_CLOSE, "通知关闭", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_SHOW, "系统弹窗", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_CLOSE, "关闭系统弹窗", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_DIALOG, "对话框", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_TOAST, "普通吐司", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_TOAST_BG, "图形吐司", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_ERR_ANR, "测试anr", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_ERR_OTHER, "测试其他异常", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_USB_HUB, "USB设备监听", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_USB_HUB_UNREGIST, "USB监听解除", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_GREEN_DAO, "数据库封装", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_JXL_OPEN, "JXL打开excel", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_JXL_EXPORT, "JXL导出excel", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_POI_OPEN, "POI打开excel", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_POI_EXPORT, "POI导出excel", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_APP_LIST, "应用列表", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_VIDEO, "视频播放", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_URL_CONVERT, "Uri转路径", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_ASSETS, "获取Assets文件", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_AUDIO, "播放音频", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_IP_SET_STATIC, "静态IP(ROOT)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_IP_SET_DHCP, "动态IP(ROOT)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_SCREENSHOT, "截屏(ROOT)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_KEEPALIVE, "ATY/SERVICE保活", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_OTA, "ota升级(RK|FC)", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_INSTALL, "静默安装", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_BLUETOOTH, "蓝牙测试", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_MORE, "更多....", IndexAdapter.L_ONE));
-    }
-
-    public void refreshUI(){
-        adapterDome = new IndexAdapter(dataList);
-        adapterDome.setOnItemClickListener(this);
-        GridLayoutManager manager = new GridLayoutManager(BaseIotUtils.getContext(), 2);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvinfo.setLayoutManager(manager);
-        rvinfo.setAdapter(adapterDome);
+        dataList.add(new Dbean(FKey.KEY_SERIAL_PORT, "串口收发", IndexItemAdapter.L_NO_BG));
+        dataList.add(new Dbean(FKey.KEY_TIMERD, "定时器", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_SCREEN, "屏幕相关", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_FILE_RW, "文件读写", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_NETWORK, "网络监听", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_RESET_MONITOR, "网络重置监听", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_FILEDOWN, "多文件下载", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_TCP_UDP, "TCP|UDP", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_NOTIFY_SHOW, "通知开启", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_NOTIFY_CLOSE, "通知关闭", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_SHOW, "系统弹窗", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_SYS_DIALOG_CLOSE, "关闭系统弹窗", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_DIALOG, "对话框", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_TOAST, "普通吐司", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_TOAST_BG, "图形吐司", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_ERR_ANR, "测试anr", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_ERR_OTHER, "测试其他异常", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_USB_HUB, "USB设备监听", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_USB_HUB_UNREGIST, "USB监听解除", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_GREEN_DAO, "数据库封装", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_JXL_OPEN, "JXL打开excel", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_JXL_EXPORT, "JXL导出excel", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_POI_OPEN, "POI打开excel", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_POI_EXPORT, "POI导出excel", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_APP_LIST, "应用列表", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_VIDEO, "视频播放", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_URL_CONVERT, "Uri转路径", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_ASSETS, "获取Assets文件", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_AUDIO, "播放音频", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_IP_SET_STATIC, "静态IP(ROOT)", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_IP_SET_DHCP, "动态IP(ROOT)", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_SCREENSHOT, "截屏(ROOT)", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_KEEPALIVE, "ATY/SERVICE保活", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_OTA, "ota升级(RK|FC)", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_INSTALL, "静默安装", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_BLUETOOTH, "蓝牙测试", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_MORE, "更多....", IndexItemAdapter.L_ONE));
     }
 
     @Override
@@ -188,6 +231,12 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
             String filePath = UriPathUtils.getPath(uri);
             KLog.d(TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath());
             ToastUtils.success("文件地址:" + filePath);
+        } else if (requestCode == DocumentsUtils.OPEN_DOCUMENT_TREE_CODE) {
+            if (data != null && data.getData() != null) {
+                Uri uri = data.getData();
+                DocumentsUtils.saveTreeUri(this, rootPath, uri);
+                KLog.d(TAG, "data=" + data.toString()+" ,url >>> "+uri.toString() );
+            }
         }
     }
 
@@ -241,6 +290,9 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                 GlobalDialogUtils.getInstance().dismiss();
                 break;
             case FKey.KEY_TOAST:
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("am force-stop " +
+                        "com.face.regularservice", true);
+                KLog.d("result=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
                 ToastUtils.showShort("Hello Worold!");
                 break;
             case FKey.KEY_TOAST_BG:
@@ -278,7 +330,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                                 TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls", input);
                             }
                             //第一种jxl.jar 只能读取xls
-                            List<ExcelEntity> readExcelDatas = JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
+                            List<ExcelEntity> readExcelDatas =
+                                    JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -303,7 +356,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                                 TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls", input);
                             }
                             //poi.jar 可以读取xls xlsx 两种
-                            List<ExcelEntity> readExcelDatas = POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
+                            List<ExcelEntity> readExcelDatas =
+                                    POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
                             KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -327,7 +381,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("*/*");
                 intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "请选择文件"), OptionAty.FILE_SELECT_CODE);
+                startActivityForResult(Intent.createChooser(intent, "请选择文件"), FILE_SELECT_CODE);
                 break;
             case FKey.KEY_ASSETS:
                 try {
@@ -351,7 +405,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                 }
                 break;
             case FKey.KEY_IP_SET_STATIC:
-                CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155", "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
+                CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155",
+                        "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success("静态IP设置成功！");
                 } else {
@@ -370,7 +425,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
                 CrashTools.crashtest();
                 break;
             case FKey.KEY_OTA:
-                showOtaUpgrade();
+                OptionTools.showOtaUpgrade();
                 break;
             case FKey.KEY_SERIAL_PORT:
                 startAty(SerialPortAty.class);
@@ -438,50 +493,6 @@ public class OptionAty extends BaseActivity implements OnItemClickListener{
         }
     }
 
-    /**
-     * ota升级 确保sdcard目录存在update.zip固件
-     */
-    public static void showOtaUpgrade() {
-        File file = new File("/sdcard/update.zip");
-        if (file.exists()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(BaseIotUtils.getContext());
-            builder.setTitle("提示:");
-            builder.setMessage("进行固件升级吗？点击确认后请等待...");
-            builder.setIcon(R.drawable.logo_splash);
-            builder.setCancelable(true);
-            builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new FUpgradeInterface() {
-                        @Override
-                        public void installStatus(int installStatus) {
-                            Log.d(TAG, "installStatus: "+installStatus);
-                        }
-
-                        @Override
-                        public void error(String error) {
-                            Log.d(TAG, "error: "+error);
-                        }
-
-                        @Override
-                        public void warning(String warning) {
-                            Log.d(TAG, "warning: "+warning);
-                        }
-                    }));
-                    dialog.dismiss();
-                }
-            });
-            builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.dismiss();
-                }
-            });
-            builder.create().show();
-        } else {
-            ToastUtils.error("/sdcard/目录下未找到update.zip文件！");
-        }
-    }
 
     @Override
     protected void onDestroy() {

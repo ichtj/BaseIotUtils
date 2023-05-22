@@ -1,6 +1,6 @@
 ext {
     //选择对应签名 "cainiao" "rockchip" "imx8" "freescale"
-    BUILD_SIGN="cainiao"
+    BUILD_SIGN="freescale"
     BUILD_SIGN_PWD="android"
     BUILD_SIGN_PATH="../other/facefuture.jks"
 
@@ -9,7 +9,7 @@ ext {
     APP_ID='com.wave_chtj.example'//com.test.serialport //com.wave_chtj.example //com.test.reboot //com.test.netmonitor //com.net.net_timer
     //串口工具
     APP_SERIAL_NAME='@string/serial_rs'
-    APP_SERIAL_ICON='@mipmap/ic_launcher'
+    APP_SERIAL_ICON='@drawable/ic_serialport'
     //基础物联工具
     APP_BASE_NAME='@string/app_name'
     APP_BASE_ICON='@drawable/app_img'
@@ -70,7 +70,7 @@ ext {
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
             "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.4.8",
-            "base_framework"          : "com.github.wave-chtj:BaseFramework:1.3.2",
+            "base_framework"          : "com.github.wave-chtj:BaseFramework:1.3.3",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
             //权限管理
             "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",

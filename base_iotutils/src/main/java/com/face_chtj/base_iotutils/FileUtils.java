@@ -61,15 +61,13 @@ public class FileUtils {
             fos.write(bytes);//将byte数组写入文件
             fos.flush();
             return true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            KLog.e(TAG, "writeFileData: " + e.getMessage());
+        } catch (Throwable e) {
+            KLog.e(TAG, "writeFileData1: " + e);
         } finally {
             try {
                 fos.close();//关闭文件输出流
-            } catch (Exception e) {
-                e.printStackTrace();
-                KLog.e(TAG, "errMeg:" + e.getMessage());
+            } catch (Throwable e) {
+                KLog.e(TAG,"writeFileData2: " + e);
             }
         }
         return false;

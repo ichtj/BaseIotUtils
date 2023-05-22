@@ -349,6 +349,7 @@ public class NetUtils {
             cbstr.append(c > 0 ? (" -c " + c) : (" -c 1"));
             cbstr.append(w > 0 ? (" -w " + w) : (" -w 1"));
             cbstr.append(W > 0 ? (" -W " + W) : (" -W 1"));
+            //cbstr.append(s > 0 ? (" -s " + s) : (" -s 64"));
             cbstr.append(" " + ip);
             String cmd = cbstr.toString();
             KLog.d("ping cmd >> " + cmd);

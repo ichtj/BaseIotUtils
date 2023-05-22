@@ -95,8 +95,12 @@ public final class DeviceUtils {
      * @return 手机IMEI
      */
     public static String getImeiOrMeid() {
-        TelephonyManager manager = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Activity.TELEPHONY_SERVICE);
-        return manager != null ? manager.getDeviceId() : null;
+        try {
+            TelephonyManager manager = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Activity.TELEPHONY_SERVICE);
+            return manager != null ? manager.getDeviceId() : null;
+        }catch (Throwable throwable){
+            return "";
+        }
     }
 
 

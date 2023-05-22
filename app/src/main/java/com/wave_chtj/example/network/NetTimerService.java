@@ -76,14 +76,15 @@ public class NetTimerService extends Service {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            List<DnsBean> dnsBeanList = NetUtils.checkNetWork(pingDns);
-                            boolean isPingResult=false;
-                            for (int i = 0; i < dnsBeanList.size(); i++) {
-                                if(dnsBeanList.get(i).isPass){
-                                    isPingResult=true;
-                                    break;
-                                }
-                            }
+                            //List<DnsBean> dnsBeanList = NetUtils.checkNetWork(pingDns);
+                            //boolean isPingResult=false;
+                            //for (int i = 0; i < dnsBeanList.size(); i++) {
+                            //    if(dnsBeanList.get(i).isPass){
+                            //        isPingResult=true;
+                            //        break;
+                            //    }
+                            //}
+                            boolean isPingResult=NetUtils.ping(pingDns[0],3,5,0,1024);
                             putCount(isPingResult);
                             String netType = NetUtils.getNetWorkTypeName();
                             String time = TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
@@ -94,7 +95,7 @@ public class NetTimerService extends Service {
                                     "\ntime：" + time +", dns：" + Arrays.toString(pingDns) + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + isPingResult + ", dbm：" + dbm+ ", localIp：" + localIp, false);
                             if (iNetTimerCallback != null) {
                                 iNetTimerCallback.refreshNet(time,pingDns, dbm,localIp, netType, isNet4G,
-                                        dnsBeanList.get(0).isPass);
+                                        /*dnsBeanList.get(0).isPass*/isPingResult);
                             }
                         }
                     }, new Consumer<Throwable>() {

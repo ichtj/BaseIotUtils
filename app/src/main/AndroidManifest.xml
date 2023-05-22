@@ -5,8 +5,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
-    package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
+    package="com.wave_chtj.example"><!---->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->
@@ -67,6 +66,7 @@
     <uses-permission
         android:name="android.permission.DELETE_PACKAGES"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
     <!--后台保活重要权限-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--开启启动完成-->
@@ -91,6 +91,8 @@
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"
+        tools:ignore="ProtectedPermissions"/>
 
     <!-- 蓝牙相关 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -182,6 +184,7 @@
         <!--查看所有app详情-->
         <activity
             android:name=".allapp.AllAppAty"
+            android:configChanges="orientation"
             android:screenOrientation="user" />
         <!--定时器-->
         <activity
