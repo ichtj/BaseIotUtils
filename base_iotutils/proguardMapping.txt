@@ -60,43 +60,43 @@ com.face_chtj.base_iotutils.app.StatusBarUtil$1 -> com.face_chtj.base_iotutils.a
     android.support.design.widget.CoordinatorLayout val$coordinatorLayout -> a
     1:1:void <init>(android.support.design.widget.CoordinatorLayout):106:106 -> <init>
     1:1:void run():109:109 -> run
-com.face_chtj.base_iotutils.audio.PlayStateChangeListener -> a.a.a.c.a:
+com.face_chtj.base_iotutils.callback.PlayStateChangeListener -> a.a.a.c.a:
     void getProgress(int,int) -> a
     void onPlayStateChange(com.face_chtj.base_iotutils.enums.PLAY_STATUS) -> a
-com.face_chtj.base_iotutils.audio.PlayUtils -> com.face_chtj.base_iotutils.audio.PlayUtils:
+com.face_chtj.base_iotutils.PlayUtils -> com.face_chtj.base_iotutils.PlayUtils:
     1:10:void <init>():19:28 -> <init>
-    1:1:com.face_chtj.base_iotutils.audio.PlayUtils access$000():19:19 -> access$000
-    1:1:android.media.MediaPlayer access$100(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$100
-    1:1:com.face_chtj.base_iotutils.audio.PlayStateChangeListener access$200(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$200
-    1:1:com.face_chtj.base_iotutils.enums.PLAY_STATUS access$300(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$300
-    1:1:com.face_chtj.base_iotutils.enums.PLAY_STATUS access$302(com.face_chtj.base_iotutils.audio.PlayUtils,com.face_chtj.base_iotutils.enums.PLAY_STATUS):19:19 -> access$302
-    1:1:int access$400(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$400
-    1:1:int access$402(com.face_chtj.base_iotutils.audio.PlayUtils,int):19:19 -> access$402
-    1:1:int access$500(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$500
-    1:1:int access$502(com.face_chtj.base_iotutils.audio.PlayUtils,int):19:19 -> access$502
-    1:1:boolean access$600(com.face_chtj.base_iotutils.audio.PlayUtils):19:19 -> access$600
-    1:1:boolean access$602(com.face_chtj.base_iotutils.audio.PlayUtils,boolean):19:19 -> access$602
-    1:8:com.face_chtj.base_iotutils.audio.PlayUtils getInstance():32:39 -> getInstance
+    1:1:com.face_chtj.base_iotutils.PlayUtils access$000():19:19 -> access$000
+    1:1:android.media.MediaPlayer access$100(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$100
+    1:1:com.face_chtj.base_iotutils.callback.PlayStateChangeListener access$200(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$200
+    1:1:com.face_chtj.base_iotutils.enums.PLAY_STATUS access$300(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$300
+    1:1:com.face_chtj.base_iotutils.enums.PLAY_STATUS access$302(com.face_chtj.base_iotutils.PlayUtils,com.face_chtj.base_iotutils.enums.PLAY_STATUS):19:19 -> access$302
+    1:1:int access$400(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$400
+    1:1:int access$402(com.face_chtj.base_iotutils.PlayUtils,int):19:19 -> access$402
+    1:1:int access$500(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$500
+    1:1:int access$502(com.face_chtj.base_iotutils.PlayUtils,int):19:19 -> access$502
+    1:1:boolean access$600(com.face_chtj.base_iotutils.PlayUtils):19:19 -> access$600
+    1:1:boolean access$602(com.face_chtj.base_iotutils.PlayUtils,boolean):19:19 -> access$602
+    1:8:com.face_chtj.base_iotutils.PlayUtils getInstance():32:39 -> getInstance
     1:1:boolean isPlaying():243:243 -> isPlaying
     1:11:void pausePlay():129:139 -> pausePlay
     1:13:void resumePlay():147:159 -> resumePlay
     1:7:void setVolumeType(com.face_chtj.base_iotutils.enums.VOLUME_TYPE):113:119 -> setVolumeType
     1:45:void startCalculationProgress():169:213 -> startCalculationProgress
-    1:1:com.face_chtj.base_iotutils.audio.PlayUtils startPlaying(java.lang.String):54:54 -> startPlaying
-    2:43:com.face_chtj.base_iotutils.audio.PlayUtils startPlaying(java.lang.String,com.face_chtj.base_iotutils.enums.VOLUME_TYPE):65:106 -> startPlaying
+    1:1:com.face_chtj.base_iotutils.PlayUtils startPlaying(java.lang.String):54:54 -> startPlaying
+    2:43:com.face_chtj.base_iotutils.PlayUtils startPlaying(java.lang.String,com.face_chtj.base_iotutils.enums.VOLUME_TYPE):65:106 -> startPlaying
     1:11:void stopPlaying():222:232 -> stopPlaying
-com.face_chtj.base_iotutils.audio.PlayUtils$1 -> com.face_chtj.base_iotutils.audio.PlayUtils$a:
+com.face_chtj.base_iotutils.PlayUtils$1 -> com.face_chtj.base_iotutils.PlayUtils$a:
     com.face_chtj.base_iotutils.enums.VOLUME_TYPE val$volume_type -> a
-    com.face_chtj.base_iotutils.audio.PlayUtils this$0 -> b
-    1:1:void <init>(com.face_chtj.base_iotutils.audio.PlayUtils,com.face_chtj.base_iotutils.enums.VOLUME_TYPE):74:74 -> <init>
+    com.face_chtj.base_iotutils.PlayUtils this$0 -> b
+    1:1:void <init>(com.face_chtj.base_iotutils.PlayUtils,com.face_chtj.base_iotutils.enums.VOLUME_TYPE):74:74 -> <init>
     1:13:void onPrepared(android.media.MediaPlayer):77:89 -> onPrepared
-com.face_chtj.base_iotutils.audio.PlayUtils$2 -> com.face_chtj.base_iotutils.audio.PlayUtils$b:
-    com.face_chtj.base_iotutils.audio.PlayUtils this$0 -> a
-    1:1:void <init>(com.face_chtj.base_iotutils.audio.PlayUtils):96:96 -> <init>
+com.face_chtj.base_iotutils.PlayUtils$2 -> com.face_chtj.base_iotutils.PlayUtils$b:
+    com.face_chtj.base_iotutils.PlayUtils this$0 -> a
+    1:1:void <init>(com.face_chtj.base_iotutils.PlayUtils):96:96 -> <init>
     1:1:void onCompletion(android.media.MediaPlayer):99:99 -> onCompletion
-com.face_chtj.base_iotutils.audio.PlayUtils$3 -> com.face_chtj.base_iotutils.audio.PlayUtils$c:
-    com.face_chtj.base_iotutils.audio.PlayUtils this$0 -> a
-    1:1:void <init>(com.face_chtj.base_iotutils.audio.PlayUtils):169:169 -> <init>
+com.face_chtj.base_iotutils.PlayUtils$3 -> com.face_chtj.base_iotutils.PlayUtils$c:
+    com.face_chtj.base_iotutils.PlayUtils this$0 -> a
+    1:1:void <init>(com.face_chtj.base_iotutils.PlayUtils):169:169 -> <init>
     1:33:void run():172:204 -> run
     34:60:void run():184:210 -> run
 com.face_chtj.base_iotutils.entity.AppEntity -> com.face_chtj.base_iotutils.entity.AppEntity:
@@ -188,12 +188,12 @@ com.face_chtj.base_iotutils.entity.ProcessEntity -> com.face_chtj.base_iotutils.
     1:1:java.lang.String getProcessName():29:29 -> getProcessName
     1:1:void setPid(int):25:25 -> setPid
     1:1:void setProcessName(java.lang.String):33:33 -> setProcessName
-com.face_chtj.base_iotutils.enums.DownloadStatus -> com.face_chtj.base_iotutils.enums.DownloadStatus:
+com.face_chtj.base_iotutils.entity.DownloadStatus -> com.face_chtj.base_iotutils.entity.DownloadStatus:
     1:1:void <clinit>():7:7 -> <clinit>
     2:2:void <clinit>():6:6 -> <clinit>
     1:1:void <init>(java.lang.String,int):6:6 -> <init>
-    1:1:com.face_chtj.base_iotutils.enums.DownloadStatus valueOf(java.lang.String):6:6 -> valueOf
-    1:1:com.face_chtj.base_iotutils.enums.DownloadStatus[] values():6:6 -> values
+    1:1:com.face_chtj.base_iotutils.entity.DownloadStatus valueOf(java.lang.String):6:6 -> valueOf
+    1:1:com.face_chtj.base_iotutils.entity.DownloadStatus[] values():6:6 -> values
 com.face_chtj.base_iotutils.enums.PLAY_STATUS -> com.face_chtj.base_iotutils.enums.PLAY_STATUS:
     1:1:void <clinit>():7:7 -> <clinit>
     2:2:void <clinit>():6:6 -> <clinit>

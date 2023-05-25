@@ -53,12 +53,17 @@
 ### BaseIotUts
 -keep class com.face_chtj.base_iotutils.entity.** { *; }
 -keep class com.face_chtj.base_iotutils.enums.** { *; }
--keep class com.face_chtj.base_iotutils.audio.PlayUtils { *; }
--keep class com.face_chtj.base_iotutils.app.StatusBarUtil { *; }
+-keep class com.face_chtj.base_iotutils.callback.** { *; }
+-keep class com.face_chtj.base_iotutils.serialport.** { *; }
+-keep class com.face_chtj.base_iotutils.AudioUtils { *; }
+-keep class com.face_chtj.base_iotutils.StatusBarUtils { *; }
 ### Retrofit
 -dontwarn retrofit2.**
 -keep class retrofit2.** { *; }
 -keepattributes Signature-keepattributes
+#ZXing
+-dontwarn com.google.zxing.**
+-keep class com.google.zxing.**{ *;}
 ### RxJava RxAndroid
 -dontwarn sun.misc.**
 -keepclassmembers class rx.internal.util.unsafe.*ArrayQueue*Field* {

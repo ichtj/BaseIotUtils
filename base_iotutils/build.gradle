@@ -73,6 +73,7 @@ dependencies {
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
     api rootProject.ext.dependencies["ziputils"]
+    api rootProject.ext.dependencies["zxing"]
     api rootProject.ext.dependencies["converter-scalars"]
 }
 //apply from: '../bintray.gradle'
