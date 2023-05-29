@@ -54,6 +54,14 @@ public class NetMonitorUtils {
     }
 
     /**
+     * 非实时性的 因为网络检测断开或者重连的存在检测间隔
+     */
+    public static boolean isPingResult() {
+        return getInstance().pingResult;
+    }
+
+
+    /**
      * Open the scheduled task detection network
      */
     private void startTask() {
