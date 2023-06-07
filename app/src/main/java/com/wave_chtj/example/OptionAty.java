@@ -103,35 +103,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
         AppManager.finishActivity(StartPageAty.class);
         //初始化数据
         initData();
-
-        if (DocumentsUtils.checkWritableRootPath(this, rootPath)) {
-            System.out.println("没有外置SD卡权限");
-            showOpenDocumentTree();
-        } else {
-            System.out.println("有外置SD卡权限");
-        }
-        PermissionsUtils.with(this).addPermission(Manifest.permission.MANAGE_DOCUMENTS).initPermission();
-
-        FileUtils.writeFileData(rootPath+"/tets.log","ddddd",true);
     }
 
-    private void showOpenDocumentTree() {
-        Intent intent = null;
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            StorageManager sm = getSystemService(StorageManager.class);
-
-            StorageVolume volume = sm.getStorageVolume(new File(rootPath));
-
-            if (volume != null) {
-                intent = volume.createAccessIntent(null);
-            }
-        }
-
-        if (intent == null) {
-            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
-        }
-        startActivityForResult(intent, DocumentsUtils.OPEN_DOCUMENT_TREE_CODE);
-    }
 
     public void initView() {
         rvinfo = findViewById(R.id.rvinfo);

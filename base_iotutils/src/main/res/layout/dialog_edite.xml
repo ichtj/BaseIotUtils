@@ -3,5 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="40pt"
     android:id="@+id/etContent"
+    android:textColorHint="@color/gray"
     android:hint="请输入内容"
     android:orientation="vertical"/>
