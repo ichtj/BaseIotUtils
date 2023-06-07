@@ -8,15 +8,24 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
     <!-- Base application theme. -->
-    <style name="dialog_bg" >
-        <!--<item name="android:windowFrame">@null</item>-->
-        <!--<item name="android:windowIsFloating">true</item>-->
+    <style name="dialog_bg" parent="AppTheme">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <!-- Customize your theme here. -->
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@drawable/ic_dialogalert_bg</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="dialog_bg2" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowNoTitle">true</item>
+        <item name="android:textColorPrimary">@color/black</item>
         <!--设置dialog的背景，（#00000000）-->
         <item name="android:background">@android:color/white</item>
         <!--显示区域背景是否透明，（#00000000）-->
-        <item name="android:windowBackground">#00000000</item>
+        <item name="android:windowBackground">@color/white</item>
         <!--<item name="android:backgroundDimAmount">0.5</item>-->
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:colorBackground">@color/white</item>

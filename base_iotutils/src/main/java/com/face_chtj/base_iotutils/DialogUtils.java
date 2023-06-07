@@ -66,7 +66,8 @@ public class DialogUtils {
     }
 
 
-    public static void showEdite(Context context, @DrawableRes int icon, String title, String etContent) {
+    public static void showEdite(Context context, @DrawableRes int icon, String title,
+                                 String etContent) {
         createDialog(context, icon, title, etContent, 1);
     }
 
@@ -86,43 +87,41 @@ public class DialogUtils {
         instance().mDialog = null;
     }
 
-    private static void createDialog(Context context, @DrawableRes int icon, String title, String content, int caseValue) {
-        if(instance().mDialog==null){
-            AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.dialog_bg);
-            builder.setTitle(title);
-            if (caseValue == 0) {
-                builder.setMessage(content);
-            }
-            if (icon != -1) {
-                builder.setIcon(icon);
-            } else {
-                builder.setIcon(R.drawable.ic_dialog_tool);
-            }
+    private static void createDialog(Context context, @DrawableRes int icon, String title,
+                                     String content, int caseValue) {
+        if (instance().mDialog == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, caseValue==0?R.style.dialog_bg:R.style.dialog_bg2);
             builder.setCancelable(true);
-            builder.setPositiveButton(context.getString(R.string.iot_ok), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (instance().iCallback != null) {
-                        String etContent = instance().etContent != null ? instance().etContent.getText().toString() : "";
-                        instance().iCallback.onPositiveClick(etContent);
+            if(caseValue!=1){
+                builder.setIcon(icon);
+                builder.setTitle(title);
+                builder.setMessage(content);
+                builder.setPositiveButton(context.getString(R.string.iot_ok), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (instance().iCallback != null) {
+                            String etContent = instance().etContent != null ? instance().etContent.getText().toString() : "";
+                            instance().iCallback.onPositiveClick(etContent);
+                        }
+                        dismiss();
                     }
-                    dismiss();
-                }
-            });
-            builder.setNegativeButton(context.getString(R.string.iot_cancel), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    if (instance().iCallback != null) {
-                        instance().iCallback.onNegativeClick();
+                });
+                builder.setNegativeButton(context.getString(R.string.iot_cancel), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (instance().iCallback != null) {
+                            instance().iCallback.onNegativeClick();
+                        }
+                        dismiss();
                     }
-                    dismiss();
-                }
-            });
-            instance().mDialog = builder.create();
-            if (caseValue == 1) {
-                View view = LayoutInflater.from(context).inflate(R.layout.dialog_edite, null);
-                instance().mDialog.setView(view);
+                });
             }
+            View view = LayoutInflater.from(context).inflate(R.layout.dialog_edite, null,
+                    false);
+            if (caseValue == 1) {
+                builder.setView(view);
+            }
+            instance().mDialog = builder.create();
             instance().mDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
                 @Override
                 public void onDismiss(DialogInterface dialog) {
@@ -130,12 +129,30 @@ public class DialogUtils {
                 }
             });
             instance().mDialog.show();
-            if (caseValue == 1) {
-                instance().etContent = instance().mDialog.findViewById(R.id.etContent);
-            }
-            int widthSize=DisplayUtils.getScreenWidth(context);
-            instance().mDialog.getWindow().setLayout(widthSize/2, WindowManager.LayoutParams.WRAP_CONTENT);
-            if(instance().iCallback!=null){
+            instance().etContent = view.findViewById(R.id.etContent);
+            view.findViewById(R.id.btnOk).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (instance().iCallback != null) {
+                        String etContent = instance().etContent != null ? instance().etContent.getText().toString() : "";
+                        instance().iCallback.onPositiveClick(etContent);
+                    }
+                    dismiss();
+                }
+            });
+            view.findViewById(R.id.btnCancel).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (instance().iCallback != null) {
+                        instance().iCallback.onNegativeClick();
+                    }
+                    dismiss();
+                }
+            });
+            int widthSize = DisplayUtils.getScreenWidth(context);
+            instance().mDialog.getWindow().setLayout(widthSize / 2,
+                    WindowManager.LayoutParams.WRAP_CONTENT);
+            if (instance().iCallback != null) {
                 instance().iCallback.show();
             }
         }
