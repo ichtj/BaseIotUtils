@@ -2,4 +2,5 @@
 <resources>
     <string name="iot_ok">OK</string>
     <string name="iot_cancel">Cancel</string>
+    <string name="base_input_content">Please enter content</string>
 </resources>

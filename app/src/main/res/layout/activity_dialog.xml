@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_gravity="center"
-    android:background="@color/white"
+    android:background="@color/gray_deep"
     android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView

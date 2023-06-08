@@ -20,18 +20,7 @@ public class DialogAty extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dialog);
-
-        handler.postDelayed(runnable, 10000);
     }
-
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            ToastUtils.info("即将关闭对话框！");
-            DialogUtils.dismiss();
-            handler.postDelayed(this, 10000);
-        }
-    };
 
     public void normalDialogClick(View view) {
         DialogUtils.setDialogCallback(new IDialogCallback() {
@@ -88,6 +77,5 @@ public class DialogAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        handler.removeCallbacks(runnable);
     }
 }

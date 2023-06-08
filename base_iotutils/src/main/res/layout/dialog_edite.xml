@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="10dp">
+    android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvTitle"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="8dp"
+        android:drawableLeft="@drawable/ic_dialog_tool"
         android:gravity="left|center"
         android:text="xxxTitle"
         android:textColor="@color/black"
@@ -21,10 +26,14 @@
     <EditText
         android:id="@+id/etContent"
         android:layout_width="match_parent"
-        android:layout_height="40pt"
-        android:layout_marginTop="10dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:paddingLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:hint="请输入内容"
+        android:hint="@string/base_input_content"
+        android:gravity="center_vertical"
         android:orientation="vertical"
         android:textColor="@color/black"
         android:textColorHint="@color/gray"
@@ -33,6 +42,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:padding="10dp"
         android:orientation="horizontal">
 
         <Button
@@ -41,7 +51,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_weight="1"
-            android:text="取消"
+            android:background="@drawable/ic_btnutil_bg"
+            android:text="@string/iot_cancel"
             android:textColor="@color/black"
             android:textSize="20sp" />
 
@@ -51,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
-            android:text="确定"
+            android:background="@drawable/ic_btnutil_bg"
+            android:text="@string/iot_ok"
             android:textColor="@color/black"
             android:textSize="20sp" />
     </LinearLayout>

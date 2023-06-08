@@ -7,6 +7,11 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+    <!--DialogView Theme Style-->
+    <style name="Theme_Dialog" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="windowNoTitle">true</item>
+    </style>
     <!-- Base application theme. -->
     <style name="dialog_bg" parent="AppTheme">
         <item name="android:windowFrame">@null</item>

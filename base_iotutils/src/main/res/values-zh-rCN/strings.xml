@@ -2,4 +2,5 @@
 <resources>
     <string name="iot_ok">确定</string>
     <string name="iot_cancel">取消</string>
+    <string name="base_input_content">请输入内容</string>
 </resources>

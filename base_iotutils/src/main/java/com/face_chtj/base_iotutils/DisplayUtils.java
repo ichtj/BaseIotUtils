@@ -7,6 +7,7 @@ import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
+import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
@@ -41,6 +42,24 @@ public class DisplayUtils {
             wm.getDefaultDisplay().getSize(point);
         }
         return point.x;
+    }
+    /**
+     * 获取当前的屏幕尺寸
+     *
+     * @param context {@link Context}
+     * @return 屏幕尺寸
+     */
+    public static int[] getScreenSize(Context context) {
+        int[] size = new int[2];
+
+        WindowManager w = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Display d = w.getDefaultDisplay();
+        DisplayMetrics metrics = new DisplayMetrics();
+        d.getMetrics(metrics);
+
+        size[0] = metrics.widthPixels;
+        size[1] = metrics.heightPixels;
+        return size;
     }
 
     /**
