@@ -14,8 +14,6 @@ import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
 
 public class DialogAty extends BaseActivity {
-    Handler handler = new Handler();
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

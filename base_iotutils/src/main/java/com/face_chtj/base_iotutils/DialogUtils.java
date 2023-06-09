@@ -89,6 +89,7 @@ public class DialogUtils {
         if (instance().iCallback != null) {
             instance().iCallback.dismiss();
         }
+        KeyBoardUtils.closeKeybord(instance().etContent);
         reset();
     }
 
