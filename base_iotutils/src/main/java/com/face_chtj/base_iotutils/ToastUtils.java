@@ -122,6 +122,14 @@ public class ToastUtils {
         return custom(BaseIotUtils.getContext(), message, getDrawable(BaseIotUtils.getContext(), R.drawable.ic_check_white_48dp), DEFAULT_TEXT_COLOR, SUCCESS_COLOR, duration, withIcon, true);
     }
 
+    public static void successOrError(boolean isSuccess,@NonNull String message){
+        if(isSuccess){
+           success(BaseIotUtils.getContext(), message, Toast.LENGTH_SHORT, true).show();
+        }else{
+           error(BaseIotUtils.getContext(), message, Toast.LENGTH_SHORT, true).show();
+        }
+    }
+
     public static void error(@NonNull String message) {
         error(BaseIotUtils.getContext(), message, Toast.LENGTH_SHORT, true).show();
     }
