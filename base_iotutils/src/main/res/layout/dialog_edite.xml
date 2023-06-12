@@ -38,6 +38,7 @@
         android:gravity="center_vertical"
         android:orientation="vertical"
         android:textColor="@color/black"
+        android:singleLine="true"
         android:textColorHint="@color/gray"
         android:textSize="20sp" />
 

@@ -16,13 +16,11 @@ import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
 
-import androidx.annotation.IntDef;
 import androidx.annotation.RequiresPermission;
 
 import com.face_chtj.base_iotutils.entity.DnsBean;
 
 import java.io.BufferedReader;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -267,7 +265,7 @@ public class NetUtils {
                     return tryRefreshDns();
                 } else {
                     //未达到指定刷新dns的时间 那么使用前一次获取的列表
-                    return checkNetWork(TypeDataUtils.getRandomList(getConvertDns(), 3), 1, 1);
+                    return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
                 }
             }
         } else {

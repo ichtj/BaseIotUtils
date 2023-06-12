@@ -12,7 +12,7 @@ import java.util.Random;
  * {@link #isEmpty(String)} 判断字符是否为空
  * {@link #getRandomList(String[], int)}  两重循环去重,随机指定范围内N个不重复的数
  */
-public class TypeDataUtils {
+public class ObjectUtils {
     /**
      * 是否为空
      * @param str 字符串
@@ -20,6 +20,16 @@ public class TypeDataUtils {
      */
     public static Boolean isEmpty(String str) {
         if(str == null || str.length() == 0 || "null".equals(str)) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 判断obj是否为空
+     */
+    public static boolean isEmpty(Object obj) {
+        if (obj == null || obj.toString().length() == 0|| "null".equals(obj.toString())) {
             return true;
         }
         return false;

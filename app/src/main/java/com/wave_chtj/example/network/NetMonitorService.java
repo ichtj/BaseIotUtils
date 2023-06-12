@@ -12,13 +12,12 @@ import android.text.TextUtils;
 import androidx.annotation.Nullable;
 
 import com.chtj.base_framework.network.FLteTools;
-import com.chtj.base_framework.network.NetDbmListener;
 import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
-import com.face_chtj.base_iotutils.TypeDataUtils;
+import com.face_chtj.base_iotutils.ObjectUtils;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.callback.INetMonitor;
@@ -101,7 +100,7 @@ public class NetMonitorService extends Service {
         if (nCallback == null) {
             return;
         }
-        String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
+        String[] pingList = ObjectUtils.getRandomList(NetUtils.DNS_LIST,3);
         boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
         nCallback.getNetType(NetUtils.getNetWorkTypeName(), isNetPing);
         nCallback.getPingList(pingList);
@@ -264,7 +263,7 @@ public class NetMonitorService extends Service {
 
                                 }
                             }
-                            String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
+                            String[] pingList = ObjectUtils.getRandomList(NetUtils.DNS_LIST,3);
                             boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
                             //判断模块重置的下一次执行之前 判断网络是否成功
                             long converNum = nowCount + 1;
@@ -362,7 +361,7 @@ public class NetMonitorService extends Service {
             if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {//网络变化
                 if (nCallback != null) {
                     String netType = NetUtils.getNetWorkTypeName();
-                    String[] pingList = TypeDataUtils.getRandomList(NetUtils.DNS_LIST,3);
+                    String[] pingList = ObjectUtils.getRandomList(NetUtils.DNS_LIST,3);
                     boolean isNetPing = NetUtils.checkNetWork(pingList, 1, 1);
                     KLog.d(TAG, "action==> " + action + ", netType==> " + netType + ",isNetPing==> " + isNetPing);
                     nCallback.getNetType(netType, isNetPing);

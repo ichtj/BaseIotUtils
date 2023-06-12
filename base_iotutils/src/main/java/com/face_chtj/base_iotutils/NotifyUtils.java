@@ -348,7 +348,7 @@ public class NotifyUtils {
 
     private static NotifyUtils setView(int viewId,String content) {
         String appendStr = "";
-        if (!TypeDataUtils.isEmpty(content)) {
+        if (!ObjectUtils.isEmpty(content)) {
             appendStr = content;
         } else {
             appendStr = "";

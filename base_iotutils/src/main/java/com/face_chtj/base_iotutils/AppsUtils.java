@@ -127,7 +127,7 @@ public class AppsUtils {
      * @return 是否存在
      */
     public static boolean existLocal(String packageName) {
-        if (TypeDataUtils.isEmpty(packageName)) {
+        if (ObjectUtils.isEmpty(packageName)) {
             return false;
         }
         try {

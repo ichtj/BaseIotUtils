@@ -25,7 +25,6 @@ public class DialogUtils {
     private AlertDialog mDialog;
     private TextView tvTitle;
     private EditText etContent;
-    private boolean isShowlBottomView;
     private boolean isShowBoard;
     private IDialogCallback iCallback;
     private boolean isClickBtn;
@@ -44,11 +43,6 @@ public class DialogUtils {
 
     public static DialogUtils setDialogCallback(IDialogCallback iCallback) {
         instance().iCallback = iCallback;
-        return instance();
-    }
-
-    public static DialogUtils setBottomVisible(boolean isShow) {
-        instance().isShowlBottomView=isShow;
         return instance();
     }
 
@@ -118,7 +112,6 @@ public class DialogUtils {
             instance().etContent = view.findViewById(R.id.etContent);
             instance().etContent.setBackground(needEnter?ContextCompat.getDrawable(context,R.drawable.ic_dialogalert_bg):null);
             instance().tvTitle = view.findViewById(R.id.tvTitle);
-            view.findViewById(R.id.lBottomView).setVisibility(instance().isShowlBottomView?View.VISIBLE:View.GONE);
             if(!needEnter){
                 instance().tvTitle.setFocusable(true);
                 instance().etContent.setLongClickable(false);
