@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
         android:id="@+id/ttView"
@@ -14,39 +14,88 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:text="安装(PM INSTALL)"
+        android:layout_height="wrap_content"
         android:onClick="pmInstall"
-        android:layout_height="wrap_content"/>
+        android:visibility="gone"
+        android:text="安装(PM INSTALL)" />
 
     <Button
         android:layout_width="wrap_content"
-        android:text="卸载(PM UNINSTALL)"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:onClick="pmUnInstall"
-        android:layout_height="wrap_content"/>
+        android:text="卸载(PM UNINSTALL)" />
 
     <Button
         android:layout_width="wrap_content"
-        android:text="安装(SYTEM API)"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:onClick="systemApiInstall"
-        android:layout_height="wrap_content"/>
+        android:text="安装(SYTEM API)" />
 
     <Button
         android:layout_width="wrap_content"
-        android:text="卸载(SYTEM API)"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
         android:onClick="systemApiUnInstall"
-        android:layout_height="wrap_content"/>
+        android:text="卸载(SYTEM API)" />
 
     <Button
         android:layout_width="wrap_content"
-        android:text="静默安装"
+        android:layout_height="wrap_content"
         android:onClick="silenceInstall"
-        android:layout_height="wrap_content"/>
+        android:visibility="gone"
+        android:text="静默安装" />
 
     <Button
         android:layout_width="wrap_content"
-        android:text="静默卸载"
+        android:layout_height="wrap_content"
         android:onClick="silenceUnInstall"
+        android:visibility="gone"
+        android:text="静默卸载" />
+    <TextView
+        android:id="@+id/tvNowVersion"
+        android:layout_width="wrap_content"
+        android:text="当前apk版本："
         android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:orientation="horizontal"
+            android:visibility="gone"
+            android:layout_gravity="center"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/rbNew"
+                android:checked="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新" />
+            <RadioButton
+                android:id="@+id/rbOld"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="旧" />
+        </RadioGroup>
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="intentInstallApkClick"
+            android:text="安装版本1.1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="otherInstallApkClick"
+            android:text="pkgInstall" />
+
+    </LinearLayout>
 
 </LinearLayout>

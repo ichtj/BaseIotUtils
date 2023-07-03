@@ -237,6 +237,7 @@ public class NetUtils {
                 dnsList.add(dnsBean.dns);
             }
         }
+        KLog.d("NetUtils>getConvertDns >> "+dnsList.toString());
         return dnsList.toArray(new String[dnsList.size()]);
     }
 
@@ -264,8 +265,12 @@ public class NetUtils {
                     //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
                     return tryRefreshDns();
                 } else {
+                    String[] cacheDnsList=getConvertDns();
+                    if(cacheDnsList==null||cacheDnsList.length<=0){
+                        cacheDnsList = NetUtils.DNS_LIST;
+                    }
                     //未达到指定刷新dns的时间 那么使用前一次获取的列表
-                    return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
+                    return checkNetWork(ObjectUtils.getRandomList(cacheDnsList, 3), 1, 1);
                 }
             }
         } else {

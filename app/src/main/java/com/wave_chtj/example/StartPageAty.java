@@ -9,6 +9,7 @@ import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.network.NetMonitorAty;
 import com.wave_chtj.example.network.NetTimerAty;
 import com.wave_chtj.example.reboot.RebootAty;
@@ -36,9 +37,6 @@ public class StartPageAty extends BaseActivity {
             case PACKAGES.PKG_NETMONITOR:
                 startAty(NetMonitorAty.class);
                 break;
-            case PACKAGES.PKG_EXAMPLE:
-                startAty(OptionAty.class);
-                break;
             case PACKAGES.PKG_NETTIMER:
             case PACKAGES.PKG_NETTIMER1:
                 startAty(NetTimerAty.class);
@@ -47,6 +45,14 @@ public class StartPageAty extends BaseActivity {
             case PACKAGES.PKG_CABINET:
                 startAty(TestAty.class);
                 break;
+            case PACKAGES.PKG_INTENT_INSTALL:
+                startAty(InstallAPkAty.class);
+                break;
+            case PACKAGES.PKG_EXAMPLE:
+            default:
+                startAty(OptionAty.class);
+                break;
+
         }
     }
 
