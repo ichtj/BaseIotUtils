@@ -30,6 +30,7 @@ public class NetMonitorUtils {
     private int nowType = NET_INIT;//当前网络状态值
     private int PING_TIMER = 1 * 60;
     private Disposable disposable;
+    private boolean isRunning=false;
     private static volatile NetMonitorUtils sInstance;
     private List<INetChangeCallBack> iNetList = new ArrayList<>();
 
@@ -73,7 +74,7 @@ public class NetMonitorUtils {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            receiverNetStatus();
+                            receiverNetStatus(0);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -134,8 +135,7 @@ public class NetMonitorUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_NET_CHANGE)) {
-                KLog.d("action >>> "+intent.getAction());
-                receiverNetStatus();
+                receiverNetStatus(1);
             }
         }
     }
@@ -143,18 +143,23 @@ public class NetMonitorUtils {
     /**
      * Determine network status
      */
-    private static void receiverNetStatus() {
-        getInstance().pingResult = NetUtils.reloadDnsPing();
-        if (getInstance().pingResult) {
-            if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_FAIL) {
-                getInstance().nowType = getInstance().NET_SUCC;
-                dispatchCallback();
+    private static void receiverNetStatus(int caseInfo) {
+        KLog.d("receiverNetStatus>caseInfo >> "+caseInfo+",isRnning >> "+getInstance().isRunning);
+        if(!getInstance().isRunning){
+            getInstance().isRunning=true;
+            getInstance().pingResult = NetUtils.reloadDnsPing();
+            if (getInstance().pingResult) {
+                if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_FAIL) {
+                    getInstance().nowType = getInstance().NET_SUCC;
+                    dispatchCallback();
+                }
+            } else {
+                if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_SUCC) {
+                    getInstance().nowType = getInstance().NET_FAIL;
+                    dispatchCallback();
+                }
             }
-        } else {
-            if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_SUCC) {
-                getInstance().nowType = getInstance().NET_FAIL;
-                dispatchCallback();
-            }
+            getInstance().isRunning=false;
         }
     }
 
