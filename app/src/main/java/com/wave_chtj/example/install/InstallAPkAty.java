@@ -29,6 +29,7 @@ import androidx.core.content.FileProvider;
 
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.wave_chtj.example.R;
@@ -55,11 +56,11 @@ import java.util.TreeMap;
  */
 public class InstallAPkAty extends BaseActivity {
     private static final String TAG = "InstallAPkAty";
-    private static final String pkgName = "com.csdroid.pkg";
-    private static final String appName = "pkgSearch.apk";
-    private static final String apkPath = "/sdcard/" + appName;
+
     TextView tvNowVersion;
     private RadioButton rbOld,rbNew;
+    private static final int SILENT_INSTALLATION=1000;
+    private static final int SILENT_UNINSTALLATION=1001;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,29 +70,7 @@ public class InstallAPkAty extends BaseActivity {
         rbNew=findViewById(R.id.rbNew);
         tvNowVersion=findViewById(R.id.tvNowVersion);
         tvNowVersion.setText("当前apk版本："+AppsUtils.getAppVersionName());
-        initFile();
         AppManager.finishActivity(StartPageAty.class);
-    }
-
-    //zip保存的路径
-    private static final String savePath = "/sdcard/pkgSearch.apk";
-    // 文件名
-    private static final String fileName = "pkgSearch.apk";
-
-    public void initFile() {
-        try {
-            //视频文件不存在时将文件保存到本地
-            if (!new File(savePath).exists()) {
-                InputStream input = getAssets().open(fileName);
-                writeToLocal(savePath, input);
-            } else {
-                KLog.d(TAG, apkPath + " exist");
-                ToastUtils.success("加载成功");
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            KLog.e(TAG, "errMeg:" + e.getMessage());
-        }
     }
 
     /**
@@ -121,7 +100,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void pmInstall(View view) {
-        boolean isInstalled = OptionTools.pmInstallBySilent(apkPath);
+        boolean isInstalled = OptionTools.pmInstallBySilent("apkPath");
         Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
         if (isInstalled) {
             ToastUtils.success("安装成功！");
@@ -135,7 +114,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void pmUnInstall(View view) {
-        OptionTools.deletePackage(this, pkgName, new OptionTools.IResult() {
+        OptionTools.deletePackage(this, "pkgName", new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
@@ -150,7 +129,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiInstall(View view) {
-        OptionTools.installPackageByJavaReflect(this, pkgName, apkPath, new OptionTools.IResult() {
+        OptionTools.installPackageByJavaReflect(this, "pkgName", "apkPath", new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiInstall getResult: isComplete=" + isComplete + ",err=" + err);
@@ -164,7 +143,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiUnInstall(View view) {
-        OptionTools.deletePackage(this, pkgName, new OptionTools.IResult() {
+        OptionTools.deletePackage(this, "pkgName", new OptionTools.IResult() {
             @Override
             public void getResult(boolean isComplete, String err) {
                 Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
@@ -173,17 +152,16 @@ public class InstallAPkAty extends BaseActivity {
     }
 
     public void silenceInstall(View view) {
-        boolean isInstalled = AppsUtils.installSilent(true, true, "pkgSearch.apk", apkPath);
-        Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
-        if (isInstalled) {
-            ToastUtils.success("安装成功！");
-        } else {
-            ToastUtils.error("安装失败！");
-        }
+        // 启动文件选择器
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("application/vnd.android.package-archive"); // 选择apk文件类型
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        startActivityForResult(intent, SILENT_INSTALLATION);
     }
 
+
     public void silenceUnInstall(View view) {
-        AppsUtils.uninstallSilent(true, true, appName, pkgName);
+        AppsUtils.uninstallSilent(true, true, "appName", "pkgName");
     }
 
 
@@ -199,29 +177,6 @@ public class InstallAPkAty extends BaseActivity {
         startActivity(intent);
     }
 
-    /**
-     * 通过apk文件获取包名
-     *
-     * @param filePath apk文件路径
-     * @return
-     */
-    private String getPackageName(String filePath) {
-        if (filePath == null) {
-            Log.e(TAG, "call method getPackageName, filePath is null, return null.");
-            return null;
-        }
-        PackageManager pm = this.getPackageManager();
-        PackageInfo info = pm.getPackageArchiveInfo(filePath, PackageManager.GET_ACTIVITIES);
-        ApplicationInfo appInfo = null;
-        if (info != null) {
-            appInfo = info.applicationInfo;
-            String packageName = appInfo.packageName;
-            Log.d(TAG, "call method getPackageName, packageName = " + packageName);
-            return packageName;
-        }
-        return null;
-    }
-
     public void otherInstallApkClick(View view) {
         Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
@@ -231,6 +186,32 @@ public class InstallAPkAty extends BaseActivity {
         intent.setDataAndType(photoURI, "application/vnd.android.package-archive");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if(resultCode==RESULT_OK){
+            if (data != null) {
+                Uri uri = data.getData();
+                String filePath = uri.getPath(); // 获取文件路径
+                String fileName= TimeUtils.getTodayDateHms("yyyyMMddHHmmss");
+                if (filePath != null) {
+                    File file = new File(filePath);
+                    fileName = file.getName();
+                }
+                ToastUtils.success("File selected: " + filePath);
+                if(requestCode==SILENT_INSTALLATION){
+                    boolean isInstalled = AppsUtils.installSilent(true, true, fileName, filePath);
+                    Log.d(TAG, "onCreate: isInstalled=" + isInstalled);
+                    if (isInstalled) {
+                        ToastUtils.success("安装成功！");
+                    } else {
+                        ToastUtils.error("安装失败！");
+                    }
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

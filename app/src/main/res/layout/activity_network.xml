@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <com.wave_chtj.example.util.TopTitleView
         android:id="@+id/ttView"
@@ -29,80 +29,68 @@
         app:layout_constraintEnd_toEndOf="@+id/tvType"
         app:layout_constraintTop_toBottomOf="@+id/ttView" />
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24pt"
-        android:layout_marginRight="24pt"
-        android:text="网络状态："
-        android:textColor="@color/black"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvStatus"
-        app:layout_constraintEnd_toStartOf="@+id/tvStatus"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvStatus"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网络状态："
+            android:textColor="@color/black"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tvStatus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="null"
+            android:textSize="20sp"
+            tools:text="null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32pt"
-        android:layout_marginEnd="15pt"
-        android:layout_marginRight="15pt"
-        android:text="null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView2"
-        app:layout_constraintTop_toBottomOf="@+id/tvType"
-        tools:text="null" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="网络类型："
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="网络类型：" />
+
+        <TextView
+            android:id="@+id/tvType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="null"
+            android:textSize="20sp"
+            tools:text="null" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24pt"
-        android:layout_marginRight="24pt"
-        android:text="网络类型："
-        android:textColor="@color/black"
-        app:layout_constraintBaseline_toBaselineOf="@+id/tvType"
-        app:layout_constraintEnd_toStartOf="@+id/tvType"
-        app:layout_constraintHorizontal_chainStyle="packed"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:text="网络类型：" />
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/tvType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52pt"
-        android:layout_marginEnd="15pt"
-        android:layout_marginRight="15pt"
-        android:text="null"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/textView"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:text="null" />
+        <TextView
+            android:id="@+id/tvDbm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="信号值:xx"
+            android:textSize="20sp" />
 
-
-    <TextView
-        android:id="@+id/tvDbm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="信号值"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.483"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.091" />
-    <Button
-        android:id="@+id/btnGetDbm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="179pt"
-        android:onClick="getDbmClick"
-        android:text="获取dbm"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
+        <Button
+            android:id="@+id/btnGetDbm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getDbmClick"
+            android:text="获取dbm" />
+    </LinearLayout>
 </LinearLayout>

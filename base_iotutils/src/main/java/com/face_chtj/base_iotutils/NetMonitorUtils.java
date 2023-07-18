@@ -18,7 +18,9 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * net monitor
+ * 网络监听工具类
+ * 广播监听网络变化
+ * 定时监听网络变化
  */
 public class NetMonitorUtils {
     public static final String ACTION_NET_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
@@ -28,7 +30,7 @@ public class NetMonitorUtils {
     private int NET_SUCC = 1;//1表示为网络正常
     private int NET_FAIL = 2;//2表示为网络错误
     private int nowType = NET_INIT;//当前网络状态值
-    private int PING_TIMER = 1 * 60;
+    private final int PING_TIMER = 1 * 60;
     private Disposable disposable;
     private boolean isRunning=false;
     private static volatile NetMonitorUtils sInstance;
@@ -74,7 +76,7 @@ public class NetMonitorUtils {
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            receiverNetStatus(0);
+                            receiverNetStatus();
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -117,6 +119,7 @@ public class NetMonitorUtils {
             BaseIotUtils.getContext().unregisterReceiver(getInstance().netReceiver);
         }
         getInstance().stopTask();
+        sInstance=null;
     }
 
     //单例模式
@@ -135,7 +138,7 @@ public class NetMonitorUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_NET_CHANGE)) {
-                receiverNetStatus(1);
+                receiverNetStatus();
             }
         }
     }
@@ -143,8 +146,7 @@ public class NetMonitorUtils {
     /**
      * Determine network status
      */
-    private static void receiverNetStatus(int caseInfo) {
-        KLog.d("receiverNetStatus>caseInfo >> "+caseInfo+",isRnning >> "+getInstance().isRunning);
+    private static void receiverNetStatus() {
         if(!getInstance().isRunning){
             getInstance().isRunning=true;
             getInstance().pingResult = NetUtils.reloadDnsPing();
@@ -171,7 +173,6 @@ public class NetMonitorUtils {
         String netTypeName = NetUtils.convertNetTypeName(netType);
         KLog.d("net connStatus=[" + getInstance().pingResult + "] , nowType=[" + netType + "] , netTypeName=[" + netTypeName + "] , iNetList.Size() >> "+getInstance().iNetList.size());
         for (int i = 0; i < getInstance().iNetList.size(); i++) {
-            KLog.d("singleNet >> "+getInstance().iNetList.get(i));
             getInstance().iNetList.get(i).netChange(netType, getInstance().pingResult);
         }
     }
