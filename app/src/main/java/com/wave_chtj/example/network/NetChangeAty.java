@@ -1,6 +1,7 @@
 package com.wave_chtj.example.network;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -42,6 +43,14 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         FLteTools.init();
         NetMonitorUtils.register();
         NetMonitorUtils.addCallBack(this);
+        Handler handler=new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                refreshNet();
+                handler.postDelayed(this,3500);
+            }
+        },0);
     }
 
     @Override
@@ -53,6 +62,18 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
 
     public void getDbmClick(View view){
         tvDbm.setText("信号值：" +FLteTools.getDbm());
+    }
+
+    public void refreshNetClick(View view){
+        refreshNet();
+    }
+
+    private void refreshNet() {
+        boolean pingResult=NetUtils.reloadDnsPing();
+        String netWorkTypeName=NetUtils.getNetWorkTypeName();
+        KLog.d("refreshNetClick>>pingResult >> "+pingResult+",netWorkTypeName >> "+netWorkTypeName);
+        tvStatus.setText(""+pingResult);
+        tvType.setText(netWorkTypeName);
     }
 
     @Override

@@ -48,7 +48,14 @@
             android:layout_height="wrap_content"
             android:text="null"
             android:textSize="20sp"
+            android:layout_marginRight="15dp"
             tools:text="null" />
+        <Button
+            android:layout_width="wrap_content"
+            android:text="刷新"
+            android:id="@+id/btnRefresh"
+            android:onClick="refreshNetClick"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <LinearLayout

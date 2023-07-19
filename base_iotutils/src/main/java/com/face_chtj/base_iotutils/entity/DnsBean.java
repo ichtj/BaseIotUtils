@@ -25,6 +25,7 @@ public class DnsBean {
 
     @Override
     public String toString() {
-        return "DnsBean{" + "dns='" + dns + '\'' + ", isPass=" + isPass + ", ttl='" + ttl + '\'' + ", delay='" + delay + '\'' + '}';
+        //return "DnsBean{" + "dns='" + dns + '\'' + ", isPass=" + isPass + ", from='" + from + '\'' + ", ttl=" + ttl + ", delay=" + delay + '}';
+        return "{" + "dns='" + dns +'}';
     }
 }

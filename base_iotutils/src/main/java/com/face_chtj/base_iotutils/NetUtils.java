@@ -28,6 +28,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -58,7 +59,7 @@ public class NetUtils {
     private static final int NETWORK_TYPE_TD_SCDMA = 17;//TDSCDMA
     private static final int NETWORK_TYPE_IWLAN = 18;//IWLAN
 
-    private static final int TIMERD_DNS_REFRESH = 7200;//预计多少秒后刷新dns列表
+    private static final int TIMERD_DNS_REFRESH = 15;//预计多少秒后刷新dns列表
     public static final String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
 
     /**
@@ -171,8 +172,8 @@ public class NetUtils {
             //则可以使用 cm.getActiveNetworkInfo().isAvailable();
             NetworkInfo[] info = cm.getAllNetworkInfo();
             if (info != null) {
-                for (int i = 0; i < info.length; i++) {
-                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                for (NetworkInfo networkInfo : info) {
+                    if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
                         return true;
                     }
                 }
@@ -199,34 +200,83 @@ public class NetUtils {
 
 
     /**
-     * 尝试获取可用的DNS列表
-     * 1.DNS_LIST集合中DNS检索结果不存在dnsBeans中,那么向里面添加
-     * 2.执行多次,直到DNS_LIST中的列表中的可用DNS被完全添加到集合dnsBeans中
+     * 筛选出合格或者不合格的dns
+     * 合格如何筛选：判断集合不同 找出不同的dns去检查结果即可,找出的结果只要有一个ping通直接返回,防止延时
+     * 不合格如何筛选：
      */
     private static boolean tryRefreshDns() {
-        String[] defList = NetUtils.DNS_LIST;
-        boolean isExistPass = false;
-        CopyOnWriteArrayList<DnsBean> dnsBeanList = new CopyOnWriteArrayList<>();
-        for (int i = 0; i < defList.length; i++) {
-            String nowDns = defList[i];
-            DnsBean dnsBean = NetUtils.ping(nowDns, 1, 1);
-            if (!isExistPass && dnsBean.isPass) {
-                isExistPass = true;
+        String[] uniquedns = getUniqueDns(DNS_LIST,getConvertDns());
+        int cacheSize = BaseIotUtils.instance().dnsBeans.size();
+        //KLog.d("uniquedns>> " + Arrays.toString(uniquedns));
+        if (uniquedns.length<=0) {
+            //表明两个集合中dns都相等 且正常
+            return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
+        } else {
+            if (DNS_LIST.length == cacheSize) {
+                //表明两个集合中dns都相等 且正常
+                return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
+            } else {
+                return checkAddCache(uniquedns);
             }
-            dnsBeanList.add(dnsBean);
         }
-        BaseIotUtils.instance().dnsBeans = dnsBeanList;
-        return isExistPass;
+    }
+
+    private static boolean checkAddCache(String[] uniquedns) {
+        String[] newDns = ObjectUtils.getRandomList(uniquedns, 3);
+        for (String newDn : newDns) {
+            DnsBean dnsBean = NetUtils.ping(newDn, 1, 1);
+            if (dnsBean.isPass) {
+                BaseIotUtils.instance().dnsBeans.add(dnsBean);
+                //KLog.d("dnsBeans>>["+BaseIotUtils.instance().dnsBeans.size()+"]>>"+BaseIotUtils.instance().dnsBeans.toString());
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 获取两个数组中不重复的DNS列表
+     */
+    public static String[] getUniqueDns(String[] array1, String[] array2) {
+        if(array1.length>0||array2.length>0){
+            List<String> differentStrings = new ArrayList<>();
+            for (String str1 : array1) {
+                boolean found = false;
+                for (String str2 : array2) {
+                    if (str1.equals(str2)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str1);
+                }
+            }
+            for (String str2 : array2) {
+                boolean found = false;
+                for (String str1 : array1) {
+                    if (str2.equals(str1)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str2);
+                }
+            }
+            // 将结果存储在新的 String[] 数组中
+            return  differentStrings.toArray(new String[0]);
+        }
+        return new String[0];
     }
 
     private static String[] getConvertDns() {
         List<String> dnsList = new ArrayList<>();
         for (int i = 0; i < BaseIotUtils.instance().dnsBeans.size(); i++) {
             DnsBean dnsBean = BaseIotUtils.instance().dnsBeans.get(i);
-            if (dnsBean.isPass) {
-                dnsList.add(dnsBean.dns);
-            }
+            dnsList.add(dnsBean.dns);
         }
+        //KLog.d("getConvertDns>>["+dnsList.size()+"]>> "+dnsList.toString());
         return dnsList.toArray(new String[dnsList.size()]);
     }
 
@@ -236,34 +286,22 @@ public class NetUtils {
      * 2小时刷新一次可用的dns列表
      */
     public static boolean reloadDnsPing() {
-        //先判断本机是否网络API返回正常
         if (getNetWorkType() != NETWORK_NO) {
             long beforeTime = BaseIotUtils.instance().dnsRefreshTime;
-            if (beforeTime <= 0) {
-                //第一次加载DNS列表 并返回结果
+            long nowTime = System.currentTimeMillis() / 1000;
+            long diffNum = nowTime - (beforeTime / 1000);
+            if (beforeTime <= 0 || diffNum > TIMERD_DNS_REFRESH || BaseIotUtils.instance().dnsBeans.size() <= 0) {
+                //1.第一次加载 或者 2.达到指定时间 3.缓存中没有可用dns 需要去刷新DNS列表
                 BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();
-                KLog.d("reloadDnsPing beforeTime <= 0 " + BaseIotUtils.instance().dnsRefreshTime);
+                //KLog.d("reloadDnsPing beforeTime <= 0 " + BaseIotUtils.instance().dnsRefreshTime);
                 return tryRefreshDns();
             } else {
-                long nowTime = System.currentTimeMillis() / 1000;
-                long diffNum = nowTime - (beforeTime / 1000);
-                if (diffNum > TIMERD_DNS_REFRESH) {//大于两小时刷新一次 7200秒等于2小时
-                    BaseIotUtils.instance().dnsRefreshTime = System.currentTimeMillis();//记录这一次操作的时间
-                    KLog.d("reloadDnsPing>time >> " + TIMERD_DNS_REFRESH + ",diffNum >> " + diffNum+",dnsRefreshTime >> "+BaseIotUtils.instance().dnsRefreshTime);
-                    //如果在通过的列表中 有网络正常通过的那么直接返回true ,因为的重新加载的列表中会对所有的列表做检测
-                    return tryRefreshDns();
-                } else {
-                    String[] cacheDnsList = getConvertDns();
-                    if (cacheDnsList == null || cacheDnsList.length <= 0) {
-                        cacheDnsList = NetUtils.DNS_LIST;
-                    }
-                    //未达到指定刷新dns的时间 那么使用前一次获取的列表
-                    return checkNetWork(ObjectUtils.getRandomList(cacheDnsList, 3), 1, 1);
-                }
+                //KLog.d("reloadDnsPing cacheList <= 0 " + BaseIotUtils.instance().dnsBeans.toString());
+                return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
             }
         } else {
-            //由于网络出现问题 重置下一次刷新时间
             BaseIotUtils.instance().dnsRefreshTime = 0;
+            BaseIotUtils.instance().dnsBeans.clear();
             return false;
         }
     }
@@ -300,7 +338,7 @@ public class NetUtils {
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final DnsBean ping(String ip) {
+    public static DnsBean ping(String ip) {
         return ping(ip, 0);
     }
 
@@ -308,7 +346,7 @@ public class NetUtils {
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final DnsBean ping(String ip, int count) {
+    public static DnsBean ping(String ip, int count) {
         return ping(ip, count, 0);
     }
 
@@ -316,7 +354,7 @@ public class NetUtils {
      * 判断是否有外网连接（普通方法不能判断外网的网络是否连接，比如连接上局域网）
      * 不要在主线程使用，会阻塞线程
      */
-    public static final DnsBean ping(String ip, int count, int w) {
+    public static DnsBean ping(String ip, int count, int w) {
         return ping(ip, count, w, 0);
     }
 
@@ -331,7 +369,7 @@ public class NetUtils {
      * w 指定总共持续发送 ICMP 回显请求的时间（以秒为单位）。ping 命令将在达到指定时间后停止发送请求。
      * W 等待一个响应的时间，单位为秒
      */
-    public static final DnsBean ping(String ip, int c, int w, int W) {
+    public static DnsBean ping(String ip, int c, int w, int W) {
         InputStreamReader isr = null;
         try {
             StringBuffer cbstr = new StringBuffer("ping");
@@ -347,13 +385,14 @@ public class NetUtils {
             BufferedReader bReader = new BufferedReader(isr);
             String line = "";
             while ((line = bReader.readLine()) != null) {
-                String from = extractIcmpSeq(RegularTools.REGULAR_IP, line,true).replaceAll("-1","");
-                int ttl = Integer.parseInt(extractIcmpSeq("ttl=(\\d+)", line,false));
-                int delay = Integer.parseInt(extractIcmpSeq("time=(\\d+)", line,false));
+                String from = extractIcmpSeq(RegularTools.REGULAR_IP, line, true).replaceAll("-1", "");
+                int ttl = Integer.parseInt(extractIcmpSeq("ttl=(\\d+)", line, false));
+                int delay = Integer.parseInt(extractIcmpSeq("time=(\\d+)", line, false));
                 if (ttl != -1 && delay != -1) {
                     return new DnsBean(ip, true, from, ttl, delay);
                 }
-            } return new DnsBean(ip, false);
+            }
+            return new DnsBean(ip, false);
         } catch (Throwable e) {
             return new DnsBean(ip, false);
         } finally {
@@ -370,11 +409,11 @@ public class NetUtils {
     /**
      * 使用正则表达式获取ttl time
      */
-    public static String extractIcmpSeq(String pattern, String input,boolean isPatternAll) {
+    public static String extractIcmpSeq(String pattern, String input, boolean isPatternAll) {
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(input);
         if (matcher.find()) {
-            return isPatternAll?matcher.group():matcher.group(1);
+            return isPatternAll ? matcher.group() : matcher.group(1);
         }
         return "-1"; // 如果未找到icmp_seq，则返回-1或其他适当的默认值
     }

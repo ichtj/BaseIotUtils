@@ -31,7 +31,7 @@ public final class BaseIotUtils {
     private ActivityLifecycleImp mAtyLifecycle;
     private IDefaultUrlCallback iDefaultUrlCallback;
     private static volatile BaseIotUtils sInstance;
-    public CopyOnWriteArrayList<DnsBean> dnsBeans;
+    public CopyOnWriteArrayList<DnsBean> dnsBeans=new CopyOnWriteArrayList<>();
     //用于定时刷新DNS列表的时间→每隔一定的周期进行DNS刷新,筛选正常的列表用于网络校验
     public long dnsRefreshTime;
 
