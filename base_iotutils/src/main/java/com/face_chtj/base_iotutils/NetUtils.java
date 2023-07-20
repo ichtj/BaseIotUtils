@@ -226,7 +226,7 @@ public class NetUtils {
             DnsBean dnsBean = instance().dnsBeans.get(i);
             if (dnsBean.dns.equals(iDnsBean.dns)) {
                 instance().dnsBeans.remove(i);
-                KLog.d("removeDns>>" + iDnsBean.toString());
+                //KLog.d("removeDns>>" + iDnsBean.toString());
                 break;
             }
         }
@@ -250,7 +250,7 @@ public class NetUtils {
         }
         if (!isFound) {
             instance().dnsBeans.add(iDnsBean);
-            KLog.d("addRefreshDns>>" + iDnsBean.toString());
+            //KLog.d("addRefreshDns>>" + iDnsBean.toString());
         }
     }
 
@@ -281,7 +281,7 @@ public class NetUtils {
      */
     private static boolean checkAddCache(String[] uniquedns, String[] cacheDns) {
         String[] newDns = ObjectUtils.getRandomList(uniquedns, 1);
-        KLog.d("checkAddCache>newDns>>"+Arrays.toString(newDns)+",cacheDns>>" + Arrays.toString(cacheDns));
+        //KLog.d("checkAddCache>newDns>>"+Arrays.toString(newDns)+",cacheDns>>" + Arrays.toString(cacheDns));
         DnsBean dnsBean = NetUtils.ping(newDns[0], 1, 1);
         //这里主要是为了防止一次无法选中一个可用的dns 影响返回结果的问题
         return dnsBean.isPass?true:checkNetWork(ObjectUtils.getRandomList(cacheDns,1),1,1);
