@@ -161,7 +161,7 @@ public class InstallAPkAty extends BaseActivity {
 
 
     public void silenceUnInstall(View view) {
-        AppsUtils.uninstallSilent(true, true, "appName", "pkgName");
+        AppsUtils.uninstallSilent(true, true, "IotCloud", "com.face.baseiotcloud");
     }
 
 

@@ -57,33 +57,53 @@ public class ObjectUtils {
      * @return 子集
      */
     public static String[] getRandomList(String[] list, int num) {
-        KLog.d("random before >> "+ Arrays.toString(list));
         if (num >= list.length) {
-            return list;
-        }
-        List<Integer> indexList = new ArrayList<Integer>();
-        // 创建随机数
-        Random random = new Random();
-        // 当set长度不足 指定数量时
-        List flagExist = new ArrayList();
-        while (flagExist.size() < num) {
-            // 获取源集合的长度的随机数
-            Integer index = random.nextInt(list.length);
-            // 获取随机数下标对应的元素
-            Object obj = list[index];
-            // 不包含该元素时
-            if (!flagExist.contains(obj)) {
-                // 添加到集合中
-                flagExist.add(obj);
-                // 记录下标
-                indexList.add(index);
+            //如果集合的长度小于等于需要产生的长度
+            return shuffleStringArray(list);
+        }else{
+            List<Integer> indexList = new ArrayList<Integer>();
+            // 创建随机数
+            Random random = new Random();
+            // 当set长度不足 指定数量时
+            List flagExist = new ArrayList();
+            while (flagExist.size() < num) {
+                // 获取源集合的长度的随机数
+                Integer index = random.nextInt(list.length);
+                // 获取随机数下标对应的元素
+                Object obj = list[index];
+                // 不包含该元素时
+                if (!flagExist.contains(obj)) {
+                    // 添加到集合中
+                    flagExist.add(obj);
+                    // 记录下标
+                    indexList.add(index);
+                }
             }
+            String[] pingList=new String[indexList.size()];
+            for (int i = 0; i < indexList.size(); i++) {
+                pingList[i]=list[indexList.get(i)];
+            }
+            return pingList;
         }
-        String[] pingList=new String[indexList.size()];
-        for (int i = 0; i < indexList.size(); i++) {
-            pingList[i]=list[indexList.get(i)];
-        }
-        return pingList;
     }
 
+    /**
+     * 将一组String字符串随机排序后放到新的String[]中
+     */
+    public static String[] shuffleStringArray(String[] array) {
+        if(array==null||array.length<=0){
+            return new String[0];
+        }
+        // 复制原始数组，避免修改原始数组
+        String[] shuffledArray = Arrays.copyOf(array, array.length);
+        Random random = new Random();
+        // 从数组的最后一个元素开始，依次与随机位置的元素交换位置
+        for (int i = shuffledArray.length - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            String temp = shuffledArray[i];
+            shuffledArray[i] = shuffledArray[j];
+            shuffledArray[j] = temp;
+        }
+        return shuffledArray;
+    }
 }
