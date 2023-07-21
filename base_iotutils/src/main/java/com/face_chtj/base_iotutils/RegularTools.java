@@ -17,11 +17,12 @@ public class RegularTools {
      * 通用的正则校验并返回数据
      * @param input 字符串内容
      * @param regexPattern 正则表达式
+     * @param isCaseSensitive 区分大小写 true | 不区分大小写false
      * @return 结果
      */
-    public static List<String> matchRegex(String input, String regexPattern) {
+    public static List<String> matchRegex(String input, String regexPattern, boolean isCaseSensitive) {
         List<String> matches = new ArrayList<>();
-        Pattern pattern = Pattern.compile(regexPattern);
+        Pattern pattern = Pattern.compile(regexPattern,isCaseSensitive ? 0 : Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(input);
         while (matcher.find()) {
             String match = matcher.group();

@@ -15,63 +15,69 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80pt"
-        android:layout_marginLeft="10pt"
-        android:layout_marginTop="15pt"
-        android:layout_marginRight="10pt"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
+        android:weightSum="1"
         android:orientation="horizontal">
 
         <EditText
             android:id="@+id/et_content"
-            android:layout_width="match_parent"
-            android:layout_height="70pt"
-            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_gravity="center"
+            android:layout_height="70dp"
+            android:layout_weight="0.8"
+            android:hint="请输入内容"
+            android:textSize="@dimen/small_text_size"
             android:background="@drawable/button_style_stroke" />
 
         <CheckBox
             android:id="@+id/cbCover"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5pt"
-            android:layout_marginRight="5pt"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:checked="true"
+            android:layout_weight="0.1"
             android:text="覆盖"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_write"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="写数据"
-            android:textSize="13pt" />
+            android:layout_weight="0.1"
+            android:textSize="@dimen/small_text_size" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80pt"
-        android:layout_marginLeft="10pt"
-        android:layout_marginTop="15pt"
-        android:layout_marginRight="10pt"
+        android:layout_height="80dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="10dp"
         android:orientation="horizontal">
 
         <Button
             android:id="@+id/btn_del"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginRight="5pt"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:text="删除文件"
-            android:textSize="13pt" />
+            android:textSize="13dp" />
 
         <Button
             android:id="@+id/btn_read"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5pt"
+            android:layout_marginLeft="5dp"
             android:layout_weight="1"
             android:text="读数据"
-            android:textSize="13pt" />
+            android:textSize="13dp" />
 
     </LinearLayout>
 
@@ -79,7 +85,7 @@
         android:id="@+id/tv_result"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="10pt"
+        android:layout_marginTop="10dp"
         android:layout_weight="1"
-        android:padding="10pt" />
+        android:padding="10dp" />
 </LinearLayout>

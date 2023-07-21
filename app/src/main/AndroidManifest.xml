@@ -120,6 +120,7 @@
         android:largeHeap="true"
         android:persistent="true"
         android:roundIcon="${APP_ICON}"
+        android:screenOrientation="portrait"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:replace="label">
@@ -303,5 +304,11 @@
                 android:resource="@xml/provider_paths" />
         </provider>
 
+        <meta-data
+            android:name="design_width_in_dp"
+            android:value="1080" />
+        <meta-data
+            android:name="design_height_in_dp"
+            android:value="1920" />
     </application>
 </manifest>

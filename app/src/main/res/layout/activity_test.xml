@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="50sp"
+        android:textSize="@dimen/small_text_size"
         android:text="xxxxx"
         android:textStyle="bold"/>
     <Button
@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
-        android:textSize="50sp"
+        android:textSize="@dimen/small_text_size"
         android:text="xxxxx"
         android:textStyle="bold" />
 </LinearLayout>

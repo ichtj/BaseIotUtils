@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="90pt"
+        android:layout_height="90dp"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -29,24 +29,24 @@
                 android:id="@+id/tvAppName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10pt"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:text="appName"
                 android:textColor="@android:color/black"
-                android:textSize="20pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvAppPath"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10pt"
-                android:layout_marginTop="10pt"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
                 android:text="点击显示安装路径"
                 android:textColor="@android:color/holo_red_light"
-                android:textSize="12pt" />
+                android:textSize="@dimen/small_text_size" />
 
         </LinearLayout>
 
@@ -55,57 +55,57 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1.5"
             android:singleLine="true"
             android:text="流量消耗："
             android:textColor="@android:color/black"
-            android:textSize="20pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvVersion"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="2.5"
             android:singleLine="true"
             android:gravity="center|left"
             android:text="版本：0.0.0"
             android:textColor="@android:color/black"
-            android:textSize="16pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvEnableNet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tvVersion"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
             android:singleLine="true"
-            android:padding="5pt"
+            android:padding="5dp"
             android:text="开启网络"
             android:textColor="@android:color/holo_blue_bright"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvDisableNet"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/tvEnableNet"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:singleLine="true"
             android:text="禁用网络"
             android:textColor="@android:color/holo_blue_bright"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvCopy"
@@ -113,19 +113,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:text="复制"
             android:textColor="@color/black"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="40pt"
+        android:layout_height="40dp"
         android:orientation="horizontal"
         android:weightSum="10">
 
@@ -139,79 +139,79 @@
             android:singleLine="true"
             android:text="packName"
             android:textColor="@android:color/black"
-            android:textSize="16pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvUid"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="2"
             android:gravity="left|center"
             android:singleLine="true"
             android:text="UID:"
             android:textColor="@android:color/black"
-            android:textSize="20pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvToAppInfo"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:text=" 详情 "
             android:textColor="@android:color/holo_blue_bright"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvStartApp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:text="打开"
             android:textColor="@android:color/holo_blue_bright"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvSilence"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:singleLine="true"
             android:text="静默卸载"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvUnInstall"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:layout_marginLeft="10pt"
+            android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:layout_weight="1"
             android:background="@drawable/button_switch"
             android:gravity="center"
-            android:padding="5pt"
+            android:padding="5dp"
             android:text="手动卸载"
             android:textColor="@android:color/holo_red_dark"
-            android:textSize="15pt" />
+            android:textSize="@dimen/small_text_size" />
 
     </LinearLayout>
 </LinearLayout>

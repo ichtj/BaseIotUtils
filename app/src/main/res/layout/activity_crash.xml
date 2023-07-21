@@ -15,14 +15,14 @@
         android:id="@+id/tvSn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15pt"
+        android:layout_marginTop="15dp"
         android:gravity="center"
         android:text="程序出现异常了噢" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15pt"
+        android:layout_marginTop="15dp"
         android:onClick="reStartApp"
         android:text="重新启动" />
 </LinearLayout>

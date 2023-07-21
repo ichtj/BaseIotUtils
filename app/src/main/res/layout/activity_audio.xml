@@ -26,12 +26,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="playMediaClick"
+            android:textSize="@dimen/small_text_size"
             android:text="播放" />
 
         <Button
             android:id="@+id/btn_pause_resume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
             android:onClick="pauseMediaClick"
             android:text="暂停" />
 
@@ -39,20 +41,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="stopMediaClick"
+            android:textSize="@dimen/small_text_size"
             android:text="停止" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="switchChannelLeftClick"
+            android:textSize="@dimen/small_text_size"
             android:text="切换左声道" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="switchChannelRightClick"
+            android:textSize="@dimen/small_text_size"
             android:text="切换右声道" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textSize="@dimen/small_text_size"
             android:onClick="switchChannelAllClick"
             android:text="切换左右声道" />
     </LinearLayout>

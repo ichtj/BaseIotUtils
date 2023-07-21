@@ -20,98 +20,98 @@
         <Button
             android:id="@+id/btn_start_down1"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downloadFile1"
             android:text="文件下载update1.zip"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_start_down2"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downloadFile2"
             android:text="文件下载update2.zip"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_start_down3"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downloadFile3"
             android:text="文件下载Settings.apk"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_start_down4"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downloadFile4"
             android:text="文件下载Lock.BIN"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_pause1"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downTaskPause1"
             android:text="暂停任务update1.zip"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_pause2"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downTaskPause2"
             android:text="暂停任务update2.zip"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_pause3"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downTaskPause3"
             android:text="暂停任务Settings.apk"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_pause4"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downTaskPause4"
             android:text="暂停任务lock.BIN"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_pause"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downTaskPause"
             android:text="暂停所有任务"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_stop"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="downloadStop"
             android:text="关闭所有任务"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_clearfile"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="clearFile"
             android:text="清理文件(先关闭所有任务⬆)"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btn_getdown_status"
             android:layout_width="match_parent"
-            android:layout_height="80pt"
+            android:layout_height="80dp"
             android:onClick="getdown_status"
             android:text="是否有任务正在执行下载"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -123,25 +123,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="update1.zip"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvTime1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15pt" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/pbProgressbar1"
             style="@style/mProgressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="30pt"
-            android:layout_marginLeft="5pt"
-            android:layout_marginRight="5pt"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:max="100"
             android:progress="0"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,25 +153,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="update2.zip"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvTime2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15pt" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/pbProgressbar2"
             style="@style/mProgressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="30pt"
-            android:layout_marginLeft="5pt"
-            android:layout_marginRight="5pt"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:max="100"
             android:progress="0"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -183,25 +183,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Settings.apk"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvTime3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15pt" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/pbProgressbar3"
             style="@style/mProgressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="30pt"
-            android:layout_marginLeft="5pt"
-            android:layout_marginRight="5pt"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:max="100"
             android:progress="0"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -213,32 +213,32 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Settings.apk"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvTime4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15pt" />
+                android:layout_marginLeft="15dp" />
         </LinearLayout>
 
         <ProgressBar
             android:id="@+id/pbProgressbar4"
             style="@style/mProgressBarStyle"
             android:layout_width="match_parent"
-            android:layout_height="30pt"
-            android:layout_marginLeft="5pt"
-            android:layout_marginRight="5pt"
+            android:layout_height="30dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:max="100"
             android:progress="0"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25pt"
+            android:layout_marginTop="25dp"
             android:text="下载进度受系统读写性能影响,以及网络状况"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
     </LinearLayout>
 </ScrollView>

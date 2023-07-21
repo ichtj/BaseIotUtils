@@ -17,6 +17,7 @@
         android:layout_height="wrap_content"
         android:onClick="pmInstall"
         android:text="安装(PM INSTALL)"
+        android:textSize="@dimen/small_text_size"
         android:visibility="gone" />
 
     <Button
@@ -24,6 +25,7 @@
         android:layout_height="wrap_content"
         android:onClick="pmUnInstall"
         android:text="卸载(PM UNINSTALL)"
+        android:textSize="@dimen/small_text_size"
         android:visibility="gone" />
 
     <Button
@@ -31,6 +33,7 @@
         android:layout_height="wrap_content"
         android:onClick="systemApiInstall"
         android:text="安装(SYTEM API)"
+        android:textSize="@dimen/small_text_size"
         android:visibility="gone" />
 
     <Button
@@ -38,31 +41,36 @@
         android:layout_height="wrap_content"
         android:onClick="systemApiUnInstall"
         android:text="卸载(SYTEM API)"
+        android:textSize="@dimen/small_text_size"
         android:visibility="gone" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="silenceInstall"
-        android:text="静默安装" />
+        android:text="静默安装"
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:onClick="silenceUnInstall"
-        android:text="静默卸载" />
+        android:text="静默卸载"
+        android:textSize="@dimen/small_text_size" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
-        android:text="以下为美团测试静默升级的相关安装：" />
+        android:text="以下为美团测试静默升级的相关安装："
+        android:textSize="@dimen/small_text_size" />
 
     <TextView
         android:id="@+id/tvNowVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="当前apk版本：" />
+        android:text="当前apk版本："
+        android:textSize="@dimen/small_text_size" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -80,13 +88,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="新" />
+                android:text="新"
+                android:textSize="@dimen/small_text_size" />
 
             <RadioButton
                 android:id="@+id/rbOld"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="旧" />
+                android:text="旧"
+                android:textSize="@dimen/small_text_size" />
         </RadioGroup>
 
         <Button
@@ -94,14 +104,16 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="intentInstallApkClick"
-            android:text="安装版本1.1" />
+            android:text="安装版本1.1"
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="otherInstallApkClick"
-            android:text="pkgInstall" />
+            android:text="pkgInstall"
+            android:textSize="@dimen/small_text_size" />
     </LinearLayout>
 
 </LinearLayout>

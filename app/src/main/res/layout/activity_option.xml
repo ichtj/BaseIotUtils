@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="horizontal"
-    android:padding="10pt"
+    android:padding="10dp"
     app:spanCount="2" />
 
 

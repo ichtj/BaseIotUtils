@@ -44,9 +44,7 @@ public class InitializeService extends IntentService {
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         //1080,1920是为了适配而去设置相关的值
         //设置宽度|高度布局尺寸 layout 布局文件以pt为单位 setBaseScreenParam(1080,1920,true)
-        BaseIotUtils.instance().
-                setAdaptation(1080, 1920, BaseIotUtils.WIDTH,true).
-                create(getApplication());
+        BaseIotUtils.instance().create(getApplication());
 
         FBaseTools.instance()
                 .create(getApplication());

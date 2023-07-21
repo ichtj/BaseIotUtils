@@ -21,20 +21,22 @@
         android:id="@+id/tvDnsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="5pt"
-        android:layout_marginTop="15pt"
-        android:layout_marginRight="5pt"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
         android:text="可用DNS列表："
         android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
         app:layout_constraintEnd_toEndOf="@+id/tvType"
         app:layout_constraintTop_toBottomOf="@+id/ttView" />
     <TextView
         android:id="@+id/textView5"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15pt"
-        android:layout_marginEnd="5pt"
-        android:layout_marginRight="5pt"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="5dp"
+        android:textSize="@dimen/small_text_size"
+        android:layout_marginRight="5dp"
         android:text="*WIFI,ETH,MOBILE"
         android:textColor="@color/gray_deep"
         app:layout_constraintEnd_toEndOf="@+id/tvType"
@@ -51,14 +53,14 @@
             android:layout_height="wrap_content"
             android:text="网络状态："
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvStatus"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textSize="20sp"
+            android:textSize="@dimen/small_text_size"
             android:layout_marginRight="15dp"
             tools:text="null" />
         <Button
@@ -79,14 +81,14 @@
             android:layout_height="wrap_content"
             android:text="当前DNS："
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvDns"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textSize="20sp"
+            android:textSize="@dimen/small_text_size"
             tools:text="null" />
     </LinearLayout>
     <LinearLayout
@@ -99,14 +101,14 @@
             android:layout_height="wrap_content"
             android:text="当前指令："
             android:textColor="@color/black"
-            android:textSize="20sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/tvCmd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textSize="20sp" />
+            android:textSize="@dimen/small_text_size" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
@@ -119,7 +121,7 @@
             android:layout_height="wrap_content"
             android:text="网络类型："
             android:textColor="@color/black"
-            android:textSize="20sp"
+            android:textSize="@dimen/small_text_size"
             tools:text="网络类型：" />
 
         <TextView
@@ -127,7 +129,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="null"
-            android:textSize="20sp"
+            android:textSize="@dimen/small_text_size"
             tools:text="null" />
     </LinearLayout>
 
@@ -142,7 +144,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="信号值:xx"
-            android:textSize="20sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btnGetDbm"
@@ -171,6 +173,6 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:scrollbars="vertical"
-        android:textSize="21sp" />
+        android:textSize="@dimen/small_text_size" />
 
 </LinearLayout>

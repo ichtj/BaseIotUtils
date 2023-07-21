@@ -25,10 +25,10 @@
 
             <RadioGroup
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:orientation="horizontal"
-                android:paddingLeft="15pt"
-                android:paddingTop="10pt">
+                android:paddingLeft="15dp"
+                android:paddingTop="10dp">
 
                 <RadioButton
                     android:id="@+id/rbHex"
@@ -38,7 +38,7 @@
                     android:checked="true"
                     android:text="HEX"
                     android:textColor="@color/black"
-                    android:textSize="18pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <RadioButton
                     android:id="@+id/rbTxt"
@@ -47,13 +47,13 @@
                     android:layout_gravity="center"
                     android:text="TXT"
                     android:textColor="@color/black"
-                    android:textSize="18pt" />
+                    android:textSize="@dimen/small_text_size" />
             </RadioGroup>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="15pt"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_stroke"
                 android:orientation="vertical">
@@ -62,11 +62,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="vertical"
-                    android:padding="10pt">
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55pt"
+                        android:layout_height="55dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -81,7 +81,7 @@
                                 android:gravity="right|center"
                                 android:text="串口地址："
                                 android:textColor="@android:color/black"
-                                android:textSize="18pt" />
+                                android:textSize="@dimen/small_text_size" />
 
                             <Spinner
                                 android:id="@+id/sp_com"
@@ -89,7 +89,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:textSize="18pt" />
+                                android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -105,7 +105,7 @@
                                 android:gravity="right|center"
                                 android:text="波特率："
                                 android:textColor="@android:color/black"
-                                android:textSize="18pt" />
+                                android:textSize="@dimen/small_text_size" />
 
                             <Spinner
                                 android:id="@+id/sp_burate"
@@ -114,7 +114,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:entries="@array/burate"
-                                android:textSize="18pt" />
+                                android:textSize="@dimen/small_text_size" />
                         </LinearLayout>
 
                         <Button
@@ -122,13 +122,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="开启串口"
-                            android:textSize="18pt"
+                            android:textSize="@dimen/small_text_size"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="60pt"
+                        android:layout_height="60dp"
                         android:orientation="horizontal">
 
                         <EditText
@@ -136,33 +136,34 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginRight="10pt"
+                            android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_style_stroke2"
                             android:hint="请填写命令"
-                            android:paddingLeft="10pt"
+                            android:paddingLeft="10dp"
                             android:text="AA55030050002B"
-                            android:textSize="18pt" />
+                            android:textSize="@dimen/small_text_size" />
 
                         <EditText
                             android:id="@+id/etAuto"
-                            android:layout_width="80pt"
+                            android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:hint="自动发送(毫秒)"
                             android:inputType="number"
-                            android:paddingLeft="10pt"
+                            android:paddingLeft="10dp"
                             android:text="500"
-                            android:textSize="18pt" />
+                            android:textSize="@dimen/small_text_size" />
 
                         <CheckBox
                             android:id="@+id/cbMs"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10pt"
-                            android:layout_marginRight="10pt"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:gravity="center"
+                            android:textSize="@dimen/small_text_size"
                             android:text="自动" />
 
                         <Button
@@ -172,14 +173,14 @@
                             android:gravity="center"
                             android:layout_gravity="center"
                             android:text="写数据"
-                            android:textSize="18pt" />
+                            android:textSize="@dimen/small_text_size" />
                     </LinearLayout>
 
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55pt"
-                        android:layout_marginTop="8pt"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
                         <TextView
@@ -189,7 +190,7 @@
                             android:layout_weight="1"
                             android:gravity="left|center"
                             android:text="接收数据："
-                            android:textSize="18pt" />
+                            android:textSize="@dimen/small_text_size" />
 
                         <Button
                             android:id="@+id/btn_clear"
@@ -197,18 +198,19 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
                             android:text="清空"
-                            android:textSize="18pt" />
+                            android:textSize="@dimen/small_text_size" />
 
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvResult"
                         android:layout_width="match_parent"
-                        android:layout_height="300pt"
+                        android:layout_height="300dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_style_stroke2"
                         android:gravity="left|top"
                         android:scrollbars="vertical"
+                        android:textSize="@dimen/small_text_size"
                         android:text="" />
                 </LinearLayout>
             </LinearLayout>
@@ -216,7 +218,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="15pt"
+                android:layout_margin="15dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_stroke"
                 android:orientation="vertical">
@@ -226,12 +228,12 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical"
                     android:layout_weight="1"
-                    android:padding="10pt">
+                    android:padding="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55pt"
-                        android:layout_marginTop="15pt"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="15dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -246,7 +248,7 @@
                                 android:gravity="right|center"
                                 android:text="串口地址："
                                 android:textColor="@android:color/black"
-                                android:textSize="18pt" />
+                                android:textSize="18dp" />
 
                             <Spinner
                                 android:id="@+id/sp_com2"
@@ -254,7 +256,7 @@
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
-                                android:textSize="18pt" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -269,7 +271,7 @@
                                 android:gravity="right|center"
                                 android:text="波特率："
                                 android:textColor="@android:color/black"
-                                android:textSize="18pt" />
+                                android:textSize="18dp" />
 
                             <Spinner
                                 android:id="@+id/sp_burate2"
@@ -278,7 +280,7 @@
                                 android:layout_gravity="center"
                                 android:layout_weight="1"
                                 android:entries="@array/burate"
-                                android:textSize="18pt" />
+                                android:textSize="18dp" />
                         </LinearLayout>
 
                         <Button
@@ -286,13 +288,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="开启串口"
-                            android:textSize="18pt"
+                            android:textSize="18dp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55pt"
+                        android:layout_height="55dp"
                         android:orientation="horizontal">
 
                         <EditText
@@ -303,28 +305,28 @@
                             android:layout_weight="1"
                             android:background="@drawable/button_style_stroke2"
                             android:hint="请填写命令"
-                            android:paddingLeft="10pt"
+                            android:paddingLeft="10dp"
                             android:text="AA550200511D"
-                            android:textSize="18pt" />
+                            android:textSize="18dp" />
 
                         <EditText
                             android:id="@+id/etAuto2"
-                            android:layout_width="60pt"
+                            android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:hint="自动发送(毫秒)"
                             android:inputType="number"
-                            android:paddingLeft="10pt"
+                            android:paddingLeft="10dp"
                             android:text="500"
-                            android:textSize="18pt" />
+                            android:textSize="18dp" />
 
                         <CheckBox
                             android:id="@+id/cbMs2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:layout_marginLeft="10pt"
-                            android:layout_marginRight="10pt"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:text="自动" />
 
@@ -334,13 +336,13 @@
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:text="写数据"
-                            android:textSize="18pt" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55pt"
-                        android:layout_marginTop="8pt"
+                        android:layout_height="55dp"
+                        android:layout_marginTop="8dp"
                         android:orientation="horizontal">
 
 
@@ -352,7 +354,7 @@
                             android:layout_weight="1"
                             android:gravity="left|center"
                             android:text="接收数据："
-                            android:textSize="18pt" />
+                            android:textSize="18dp" />
 
                         <Button
                             android:id="@+id/btn_clear2"
@@ -360,13 +362,13 @@
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
                             android:text="清空"
-                            android:textSize="18pt" />
+                            android:textSize="18dp" />
                     </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvResult2"
                         android:layout_width="match_parent"
-                        android:layout_height="300pt"
+                        android:layout_height="300dp"
                         android:layout_weight="1"
                         android:background="@drawable/button_style_stroke2"
                         android:gravity="left|top"

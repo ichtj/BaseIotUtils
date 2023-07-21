@@ -2,11 +2,11 @@
 <Button xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/tvOneStr"
     android:layout_width="match_parent"
-    android:layout_height="85pt"
+    android:layout_height="85dp"
     android:background="@drawable/button_switch"
     android:gravity="center"
     android:onClick="onClick"
     android:text="@string/serial_rs"
-    android:layout_margin="5pt"
+    android:layout_margin="5dp"
     android:textColor="@color/black"
-    android:textSize="12pt" />
+    android:textSize="@dimen/small_text_size" />

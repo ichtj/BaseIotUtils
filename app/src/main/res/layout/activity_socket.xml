@@ -17,11 +17,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="10pt">
+        android:padding="10dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55pt"
+            android:layout_height="55dp"
             android:orientation="horizontal">
 
             <Spinner
@@ -36,30 +36,30 @@
                 android:id="@+id/etIp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15pt"
+                android:layout_marginLeft="15dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_style_stroke"
                 android:hint="请输入ip地址"
-                android:paddingLeft="10pt"
+                android:paddingLeft="10dp"
                 android:text="192.168.1.159"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <EditText
                 android:id="@+id/etPort"
-                android:layout_width="100pt"
+                android:layout_width="100dp"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15pt"
+                android:layout_marginLeft="15dp"
                 android:background="@drawable/button_style_stroke"
                 android:hint="端口"
-                android:paddingLeft="10pt"
+                android:paddingLeft="10dp"
                 android:text="5555"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55pt"
-            android:layout_marginTop="10pt">
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp">
 
             <Button
                 android:id="@+id/btnConnect"
@@ -67,7 +67,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="连接"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <Button
                 android:id="@+id/btnDisConnect"
@@ -75,7 +75,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:text="断开"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
         </LinearLayout>
 
@@ -83,27 +83,27 @@
             android:id="@+id/etSendContent"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="40pt"
+            android:layout_marginTop="40dp"
             android:layout_weight="1"
             android:background="@drawable/button_style_stroke"
             android:gravity="left|top"
             android:hint="发送的内容"
-            android:paddingLeft="10pt"
+            android:paddingLeft="10dp"
             android:text="AABB"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <Button
             android:id="@+id/btnSend"
             android:layout_width="match_parent"
-            android:layout_height="55pt"
-            android:layout_marginTop="10pt"
+            android:layout_height="55dp"
+            android:layout_marginTop="10dp"
             android:text="send"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="55pt"
-            android:layout_marginTop="15pt"
+            android:layout_height="55dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <TextView
@@ -111,7 +111,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center|left"
                 android:text="结果："
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <View
                 android:layout_width="wrap_content"
@@ -123,7 +123,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="清空"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
         </LinearLayout>
 
@@ -131,11 +131,11 @@
             android:id="@+id/tvResult"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="5pt"
+            android:layout_marginTop="5dp"
             android:layout_weight="1"
             android:background="@drawable/button_style_stroke"
             android:gravity="left|top"
             android:scrollbars="vertical"
-            android:textSize="13pt" />
+            android:textSize="@dimen/small_text_size" />
     </LinearLayout>
 </LinearLayout>

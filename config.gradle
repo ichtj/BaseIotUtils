@@ -44,6 +44,7 @@ ext {
     ]
     //依赖第三方配置
     dependencies = [
+            "AndroidAutoSize"         : "com.github.JessYanCoding:AndroidAutoSize:v1.2.1",
             "AndroidUSBCamera"        : "com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.2.10",
             "FastBle"                 : "com.github.Jasonchenlijian:FastBle:2.4.0",
             "zxing"                   : "com.google.zxing:core:3.5.1",

@@ -14,21 +14,21 @@
     <TextView
         android:id="@+id/tvTemp1"
         android:text="环境温度"
-        android:textSize="25sp"
+        android:textSize="@dimen/small_text_size"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tvTemp2"
         android:text="环境湿度"
-        android:textSize="25sp"
+        android:textSize="@dimen/small_text_size"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <TextView
         android:id="@+id/tvTemp3"
         android:text="CPU温度"
-        android:textSize="25sp"
+        android:textSize="@dimen/small_text_size"
         android:textStyle="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>

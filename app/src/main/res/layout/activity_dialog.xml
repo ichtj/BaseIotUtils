@@ -24,7 +24,7 @@
         android:layout_marginTop="20dp"
         android:onClick="normalDialogClick"
         android:text="普通对话框"
-        android:textSize="18pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:id="@+id/btnEdite"
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:onClick="editeDialogClick"
         android:text="带编辑框对话框"
-        android:textSize="18pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:id="@+id/btnDismiss"
@@ -40,5 +40,5 @@
         android:layout_height="wrap_content"
         android:onClick="dismissClick"
         android:text="取消显示"
-        android:textSize="18pt" />
+        android:textSize="@dimen/small_text_size" />
 </LinearLayout>

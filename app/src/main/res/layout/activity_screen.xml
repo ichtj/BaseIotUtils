@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="1080pt"
+    android:layout_width="1080dp"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
@@ -10,7 +10,7 @@
     <com.wave_chtj.example.util.TopTitleView
         android:id="@+id/ttView"
         android:layout_width="match_parent"
-        android:layout_height="50pt"
+        android:layout_height="50dp"
         app:ivback="@mipmap/back"
         app:rightName="旋转"
         app:name="屏幕适配" />
@@ -23,215 +23,215 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="1080pt"
-                android:layout_height="200pt"
+                android:layout_width="1080dp"
+                android:layout_height="200dp"
                 android:orientation="vertical"
-                android:padding="5pt">
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="这里为app内背光显示,并非改变系统亮度(60pt)"
-                    android:textSize="13pt" />
+                    android:text="这里为app内背光显示,并非改变系统亮度(60dp)"
+                    android:textSize="@dimen/small_text_size" />
 
                 <TextView
                     android:id="@+id/tvProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="当前进度："
-                    android:textSize="13pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <SeekBar
                     android:id="@+id/sbProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15pt"
-                    android:layout_marginRight="15pt" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" />
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="1080pt"
-                android:layout_height="200pt"
+                android:layout_width="1080dp"
+                android:layout_height="200dp"
                 android:orientation="vertical"
-                android:padding="5pt">
+                android:padding="5dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:singleLine="true"
-                    android:text="这里会改为手动调整背光模式,调整这里后将会改变系统亮度并且保持(60pt)"
-                    android:textSize="13pt" />
+                    android:text="这里会改为手动调整背光模式,调整这里后将会改变系统亮度并且保持(60dp)"
+                    android:textSize="@dimen/small_text_size" />
 
                 <TextView
                     android:id="@+id/tvSysProgress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="系统当前进度："
-                    android:textSize="13pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <SeekBar
                     android:id="@+id/sbSysProgress"
                     style="?android:attr/progressBarStyleHorizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="15pt"
-                    android:layout_marginRight="15pt" />
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1080pt"
-                android:layout_height="200pt"
+                android:layout_width="1080dp"
+                android:layout_height="200dp"
                 android:background="#0E0909"
                 android:gravity="center"
-                android:text="width=1080pt height=200pt"
+                android:text="width=1080dp height=200dp"
                 android:textColor="@color/white"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="200pt"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="540pt"
+                    android:layout_width="540dp"
                     android:layout_height="match_parent"
                     android:background="@color/colorAccent"
                     android:gravity="center"
-                    android:text="width=540pt height=200pt"
+                    android:text="width=540dp height=200dp"
                     android:textColor="#fff"
-                    android:textSize="13pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <TextView
-                    android:layout_width="540pt"
+                    android:layout_width="540dp"
                     android:layout_height="match_parent"
                     android:background="#0d0"
                     android:gravity="center"
-                    android:text="width=540pt height=200pt"
+                    android:text="width=540dp height=200dp"
                     android:textColor="#fff"
-                    android:textSize="13pt" />
+                    android:textSize="@dimen/small_text_size" />
             </LinearLayout>
 
             <TextView
-                android:layout_width="1080pt"
-                android:layout_height="200pt"
+                android:layout_width="1080dp"
+                android:layout_height="200dp"
                 android:background="#fd0"
                 android:gravity="center"
-                android:text="width=1080pt height=200pt"
+                android:text="width=1080dp height=200dp"
                 android:textColor="#fff"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
-                android:layout_width="1080pt"
-                android:layout_height="200pt"
+                android:layout_width="1080dp"
+                android:layout_height="200dp"
                 android:background="#d00"
                 android:gravity="center"
-                android:text="width=1080pt height=200pt"
+                android:text="width=1080dp height=200dp"
                 android:textColor="#fff"
-                android:textSize="13pt" />
+                android:textSize="@dimen/small_text_size" />
 
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="200pt"
+                android:layout_height="200dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="270pt"
+                    android:layout_width="270dp"
                     android:layout_height="match_parent"
                     android:background="@color/colorPrimary"
                     android:gravity="center"
-                    android:text="width=270pt height=200pt"
+                    android:text="width=270dp height=200dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
 
                 <TextView
-                    android:layout_width="270pt"
+                    android:layout_width="270dp"
                     android:layout_height="match_parent"
                     android:background="#131113"
                     android:gravity="center"
-                    android:text="width=270pt height=270pt"
+                    android:text="width=270dp height=270dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="270pt"
+                    android:layout_width="270dp"
                     android:layout_height="match_parent"
                     android:background="#d0a"
                     android:gravity="center"
-                    android:text="width=270pt height=270pt"
+                    android:text="width=270dp height=270dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="270pt"
+                    android:layout_width="270dp"
                     android:layout_height="match_parent"
                     android:background="#532F4A"
                     android:gravity="center"
-                    android:text="width=270pt height=270pt"
+                    android:text="width=270dp height=270dp"
                     android:textColor="#B2C0B2"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="470pt"
+                android:layout_height="470dp"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#aef"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#acf"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#BE2DBE"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#fcf"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#C1083B"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
 
                 <TextView
-                    android:layout_width="180pt"
+                    android:layout_width="180dp"
                     android:layout_height="match_parent"
                     android:background="#DC2ADC"
                     android:gravity="center"
-                    android:text="width=180pt height=470pt"
+                    android:text="width=180dp height=470dp"
                     android:textColor="#0d0"
-                    android:textSize="13pt" />
+                    android:textSize="13dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

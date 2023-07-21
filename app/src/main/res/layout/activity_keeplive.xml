@@ -16,8 +16,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="80pt"
-        android:layout_marginTop="15pt"
+        android:layout_height="80dp"
+        android:layout_marginTop="15dp"
         android:orientation="horizontal">
 
         <Button
@@ -26,7 +26,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="13pt"
+            android:textSize="@dimen/small_text_size"
             android:onClick="onClick"
             android:singleLine="true"
             android:text="添加Activity" />
@@ -38,14 +38,14 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:onClick="onClick"
-            android:textSize="13pt"
+            android:textSize="@dimen/small_text_size"
             android:singleLine="true"
             android:text="添加SERVICE" />
 
         <Button
             android:id="@+id/btn_getall"
             android:layout_width="wrap_content"
-            android:textSize="13pt"
+            android:textSize="@dimen/small_text_size"
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
@@ -59,7 +59,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:textSize="13pt"
+            android:textSize="@dimen/small_text_size"
             android:onClick="onClick"
             android:singleLine="true"
             android:text="清除保活内容" />
@@ -74,13 +74,13 @@
         android:gravity="left|top"
         android:scrollbars="vertical"
         android:text=""
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="5pt"
+        android:padding="5dp"
         android:text="请确保系统中存在keepsample.apk，它是通过一个中间件keepsample.apk运行起来之后(keepsample.apk引用入了base_keepalive library并进行管理),本app Module通过跨进程通讯向keepsample添加保活"
-        android:textSize="13pt" />
+        android:textSize="13dp" />
 
 </LinearLayout>

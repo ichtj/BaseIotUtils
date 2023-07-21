@@ -23,13 +23,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:padding="10pt">
+            android:padding="10dp">
 
             <LinearLayout
-                android:layout_width="500pt"
-                android:layout_height="80pt"
+                android:layout_width="500dp"
+                android:layout_height="80dp"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <Button
@@ -42,10 +42,10 @@
                     android:singleLine="true"
                     android:text="@string/reset_model_reboot"
                     android:textColor="@color/white"
-                    android:textSize="20pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <View
-                    android:layout_width="1pt"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/white" />
 
@@ -59,10 +59,10 @@
                     android:singleLine="true"
                     android:text="@string/airplane_mode"
                     android:textColor="@color/white"
-                    android:textSize="20pt" />
+                    android:textSize="@dimen/small_text_size" />
 
                 <View
-                    android:layout_width="1pt"
+                    android:layout_width="1dp"
                     android:layout_height="match_parent"
                     android:background="@color/white" />
 
@@ -82,16 +82,16 @@
                         android:singleLine="true"
                         android:text="@string/module_reset"
                         android:textColor="@color/white"
-                        android:textSize="20pt" />
+                        android:textSize="@dimen/small_text_size" />
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="1pt"
+                        android:layout_height="1dp"
                         android:background="@color/white" />
 
                     <RadioGroup
                         android:layout_width="match_parent"
-                        android:layout_height="30pt"
+                        android:layout_height="30dp"
                         android:orientation="horizontal">
 
                         <RadioButton
@@ -104,10 +104,10 @@
                             android:onClick="btnHardClick"
                             android:text="@string/net_reset_hard"
                             android:textColor="@color/white"
-                            android:textSize="14pt" />
+                            android:textSize="@dimen/small_text_size" />
 
                         <View
-                            android:layout_width="1pt"
+                            android:layout_width="1dp"
                             android:layout_height="match_parent"
                             android:background="@color/white" />
 
@@ -120,7 +120,7 @@
                             android:onClick="btnSoftClick"
                             android:text="@string/net_reset_soft"
                             android:textColor="@color/white"
-                            android:textSize="14pt" />
+                            android:textSize="@dimen/small_text_size" />
                     </RadioGroup>
                 </LinearLayout>
 
@@ -131,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -139,6 +139,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:singleLine="true"
+                    android:textSize="@dimen/small_text_size"
                     android:text="15分钟后是否重启："
                     android:textColor="@color/black" />
 
@@ -147,8 +148,8 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_style_stroke"
                     android:orientation="horizontal"
-                    android:paddingLeft="15pt"
-                    android:paddingRight="15pt">
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
 
                     <RadioButton
                         android:id="@+id/rbRebootYes"
@@ -156,6 +157,7 @@
                         android:layout_height="wrap_content"
                         android:checked="true"
                         android:singleLine="true"
+                        android:textSize="@dimen/small_text_size"
                         android:text="true"
                         android:textColor="@color/black" />
 
@@ -164,6 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:textSize="@dimen/small_text_size"
                         android:text="false"
                         android:textColor="@color/black" />
 
@@ -176,7 +179,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -184,6 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:singleLine="true"
+                    android:textSize="@dimen/small_text_size"
                     android:text="@string/err_after_is_continue"
                     android:textColor="@color/black" />
 
@@ -192,14 +196,15 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/button_style_stroke"
                     android:orientation="horizontal"
-                    android:paddingLeft="15pt"
-                    android:paddingRight="15pt">
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp">
 
                     <RadioButton
                         android:id="@+id/rbMore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:singleLine="true"
+                        android:textSize="@dimen/small_text_size"
                         android:text="@string/exeu_more"
                         android:textColor="@color/black" />
 
@@ -208,6 +213,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:checked="true"
+                        android:textSize="@dimen/small_text_size"
                         android:singleLine="true"
                         android:text="@string/exeu_one"
                         android:textColor="@color/black" />
@@ -219,7 +225,8 @@
                 android:id="@+id/tvResetMode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/small_text_size"
                 android:text="@string/net_reset_mode"
                 android:textColor="@color/black" />
 
@@ -227,15 +234,17 @@
                 android:id="@+id/tvNowTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:text="@string/now_time"
+                android:textSize="@dimen/small_text_size"
                 android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tvNetType"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/small_text_size"
                 android:text="@string/net_type"
                 android:textColor="@color/black" />
 
@@ -243,7 +252,8 @@
                 android:id="@+id/tvNetResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/small_text_size"
                 android:text="@string/net_status"
                 android:textColor="@color/black" />
 
@@ -251,15 +261,17 @@
                 android:id="@+id/tvDbm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:text="@string/net_dbm"
+                android:textSize="@dimen/small_text_size"
                 android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tvPingList"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
+                android:textSize="@dimen/small_text_size"
                 android:text="@string/ping_list"
                 android:textColor="@color/black" />
 
@@ -267,7 +279,8 @@
                 android:id="@+id/tvResetErrCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:textSize="@dimen/small_text_size"
+                android:layout_marginBottom="15dp"
                 android:text="@string/net_reset_err_count"
                 android:textColor="@color/black" />
 
@@ -275,7 +288,8 @@
                 android:id="@+id/tvTotalCount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:textSize="@dimen/small_text_size"
+                android:layout_marginBottom="15dp"
                 android:text="@string/net_reset_total_count"
                 android:textColor="@color/black" />
 
@@ -284,87 +298,91 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/task_status"
+                android:textSize="@dimen/small_text_size"
                 android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/tvRemarks"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="15pt"
+                android:layout_marginBottom="15dp"
                 android:text="@string/net_monitor_remarks"
                 android:textColor="@color/black"
+                android:textSize="@dimen/small_text_size"
                 android:visibility="invisible" />
 
             <TextView
                 android:id="@+id/tvSaveLocal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/small_text_size"
                 android:text="*记录的日志存放在/sdcard/Documents/目录下"
                 android:textColor="#FF0000" />
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
-                android:layout_marginTop="20pt"
+                android:layout_height="55dp"
+                android:layout_marginTop="20dp"
                 android:orientation="horizontal">
 
                 <EditText
                     android:id="@+id/etAddress"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginRight="15pt"
+                    android:layout_marginRight="15dp"
                     android:layout_weight="1"
+                    android:textSize="@dimen/small_text_size"
                     android:background="@drawable/button_style_stroke"
                     android:hint="@string/net_now_ping"
-                    android:paddingLeft="10pt"
+                    android:paddingLeft="10dp"
                     android:singleLine="true"
                     android:text="114.114.114.114"
                     android:textColor="@color/black" />
 
                 <Button
-                    android:layout_width="120pt"
+                    android:layout_width="120dp"
                     android:layout_height="match_parent"
                     android:background="@drawable/button_style_org"
                     android:onClick="pingClick"
                     android:text="@string/net_ping"
                     android:textColor="@color/white"
-                    android:textSize="20pt" />
+                    android:textSize="@dimen/small_text_size" />
             </LinearLayout>
 
             <TextView
                 android:id="@+id/tvInputAddrResult"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10pt"
+                android:layout_marginTop="10dp"
                 android:text="@string/ping_addr_result"
                 android:textColor="@color/black" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10pt"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/btnClearLog"
                     android:layout_width="wrap_content"
-                    android:layout_height="60pt"
-                    android:layout_marginRight="15pt"
+                    android:layout_height="60dp"
+                    android:layout_marginRight="15dp"
                     android:background="@drawable/button_style_org"
                     android:onClick="clearAllLogClick"
-                    android:paddingLeft="20pt"
-                    android:paddingRight="20pt"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:text="@string/clear_all_logfile"
                     android:textColor="@color/white" />
 
                 <Button
                     android:id="@+id/btnResetErrCount"
                     android:layout_width="wrap_content"
-                    android:layout_height="60pt"
+                    android:layout_height="60dp"
                     android:background="@drawable/button_style_org"
                     android:onClick="resetErrCountClick"
-                    android:paddingLeft="20pt"
-                    android:paddingRight="20pt"
+                    android:paddingLeft="20dp"
+                    android:paddingRight="20dp"
                     android:text="@string/reset_err_count"
                     android:textColor="@color/white" />
             </LinearLayout>

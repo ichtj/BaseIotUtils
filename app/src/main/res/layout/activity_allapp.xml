@@ -26,94 +26,94 @@
             android:layout_weight="9" />
 
         <View
-            android:layout_width="1pt"
+            android:layout_width="1dp"
             android:layout_height="match_parent"
-            android:layout_marginLeft="5pt"
+            android:layout_marginLeft="5dp"
             android:background="@color/gray" />
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_marginRight="5pt"
-            android:layout_marginLeft="5pt"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="5dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical">
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:onClick="getDeskTopApp"
                 android:text="桌面应用"
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:onClick="getNormalApp"
                 android:text="可卸载"
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:onClick="getSystemApp"
                 android:text="系统应用"
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:onClick="enableAllAppNetClick"
                 android:text="启用全部网络"
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
             <Button
                 android:layout_width="match_parent"
-                android:layout_height="55pt"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
                 android:onClick="rebootClick"
                 android:text="重启"
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvCount"
                 android:layout_width="match_parent"
-                android:layout_height="90pt"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="总数："
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
 
             <TextView
                 android:id="@+id/tvTotal"
                 android:layout_width="match_parent"
-                android:layout_height="90pt"
+                android:layout_height="90dp"
                 android:layout_gravity="center"
-                android:layout_marginTop="25pt"
+                android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="总流量："
-                android:textSize="16pt" />
+                android:textSize="@dimen/small_text_size" />
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

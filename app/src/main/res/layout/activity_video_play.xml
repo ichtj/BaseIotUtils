@@ -16,7 +16,7 @@
     <com.wave_chtj.example.video.VideoPlayerView
         android:id="@+id/jz_video"
         android:layout_width="match_parent"
-        android:layout_height="640pt"
-        android:layout_margin="10pt" />
+        android:layout_height="640dp"
+        android:layout_margin="10dp" />
 
 </LinearLayout>

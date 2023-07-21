@@ -14,10 +14,10 @@
         android:layout_width="400dp"
         android:layout_height="400dp"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="10pt"
-        android:layout_marginTop="10pt"
-        android:layout_marginEnd="10pt"
-        android:layout_marginBottom="10pt"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:layout_toRightOf="@+id/camera_preview" />
 
     <LinearLayout
@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#7F00FF"
-            android:textSize="30sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/timestamp_minute_text"
@@ -41,14 +41,14 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#7F00FF"
-            android:textSize="30sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text=":"
             android:textColor="#7F00FF"
-            android:textSize="30sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/timestamp_second_prefix"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#7F00FF"
-            android:textSize="30sp" />
+            android:textSize="@dimen/small_text_size" />
 
         <TextView
             android:id="@+id/timestamp_second_text"
@@ -64,7 +64,7 @@
             android:layout_height="wrap_content"
             android:text="0"
             android:textColor="#7F00FF"
-            android:textSize="30sp" />
+            android:textSize="@dimen/small_text_size" />
     </LinearLayout>
 
     <ImageButton

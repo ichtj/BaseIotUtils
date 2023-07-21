@@ -10,77 +10,77 @@
         android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15pt"
+        android:layout_marginBottom="15dp"
         app:ivback="@mipmap/back"
         app:name="定时器" />
 
     <Button
         android:id="@+id/btn_start"
-        android:layout_width="230pt"
-        android:layout_height="70pt"
+        android:layout_width="230dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/ttView"
-        android:layout_marginBottom="10pt"
+        android:layout_marginBottom="10dp"
         android:text="开始"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:id="@+id/btn_finish"
-        android:layout_width="230pt"
-        android:layout_height="70pt"
+        android:layout_width="230dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/ttView"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/btn_start"
         android:text="结束"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="wrap_content"
-        android:layout_height="70pt"
+        android:layout_height="70dp"
         android:layout_below="@+id/ttView"
         android:layout_toRightOf="@+id/btn_finish"
         android:gravity="center"
         android:text="00:00"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <Button
 
         android:id="@+id/btn_countdown"
-        android:layout_width="230pt"
-        android:layout_height="70pt"
+        android:layout_width="230dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/btn_start"
         android:text="倒计时开始"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:id="@+id/btn_countdown_finish"
-        android:layout_width="230pt"
-        android:layout_height="70pt"
+        android:layout_width="230dp"
+        android:layout_height="70dp"
         android:layout_below="@+id/btn_start"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/btn_start"
         android:text="结束"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <EditText
         android:id="@+id/et_CountDownTime"
         android:layout_width="wrap_content"
-        android:layout_height="70pt"
+        android:layout_height="70dp"
         android:layout_below="@+id/btn_start"
         android:layout_toRightOf="@+id/btn_finish"
         android:gravity="center"
         android:hint="填写秒"
         android:inputType="number"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 
     <TextView
         android:id="@+id/tvCountdownResult"
         android:layout_width="wrap_content"
-        android:layout_height="70pt"
+        android:layout_height="70dp"
         android:layout_below="@+id/btn_start"
-        android:layout_marginLeft="15pt"
+        android:layout_marginLeft="15dp"
         android:layout_toRightOf="@+id/et_CountDownTime"
         android:gravity="center"
         android:text="00:00"
-        android:textSize="13pt" />
+        android:textSize="@dimen/small_text_size" />
 </RelativeLayout>

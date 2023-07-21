@@ -37,7 +37,7 @@ import java.util.Locale;
  * --读取文件中的每一行内容到集合中去 {@link #readLineToList(String)}
  */
 public class FileUtils {
-    private static final String TAG = "FileUtils";
+    private static final String TAG = FileUtils.class.getSimpleName();
 
     /**
      * 写入数据
@@ -67,7 +67,7 @@ public class FileUtils {
             try {
                 fos.close();//关闭文件输出流
             } catch (Throwable e) {
-                KLog.e(TAG,"writeFileData2: " + e);
+                KLog.e(TAG, "writeFileData2: " + e);
             }
         }
         return false;
@@ -111,31 +111,31 @@ public class FileUtils {
     public static void copyFile(String oldPath, String newPath) {
         File oldfile = new File(oldPath);
         if (oldfile.exists()) { //文件存在时
-            InputStream inStream=null;
-            FileOutputStream fos_stm=null;
+            InputStream inStream = null;
+            FileOutputStream fos_stm = null;
             try {
-                inStream= new FileInputStream(oldPath); //读入原文件
-                fos_stm= new FileOutputStream(newPath);
+                inStream = new FileInputStream(oldPath); //读入原文件
+                fos_stm = new FileOutputStream(newPath);
                 byte[] buffer = new byte[1444];
                 int byteread = 0;
                 while ((byteread = inStream.read(buffer)) != -1) {
                     fos_stm.write(buffer, 0, byteread);
                 }
-            }catch (Throwable throwable){
+            } catch (Throwable throwable) {
                 Log.e(TAG, "copyFile1: ", throwable);
-            }finally {
+            } finally {
                 try {
-                    if(inStream!=null){
+                    if (inStream != null) {
                         inStream.close();
                     }
-                }catch (Throwable throwable){
+                } catch (Throwable throwable) {
                     Log.e(TAG, "copyFile2: ", throwable);
                 }
                 try {
-                    if(fos_stm!=null){
+                    if (fos_stm != null) {
                         fos_stm.close();
                     }
-                }catch (Throwable throwable){
+                } catch (Throwable throwable) {
                     Log.e(TAG, "copyFile3: ", throwable);
                 }
             }
@@ -209,6 +209,7 @@ public class FileUtils {
 
     /**
      * 读取文件中的每一行内容到集合中去
+     *
      * @return 返回读取到的所有包名list集合
      */
     public static List<String> readLineToList(String filePath) {
@@ -249,13 +250,8 @@ public class FileUtils {
             File flist[] = file.listFiles();//文件夹目录下的所有文件
             if (flist != null) {
                 for (int i = 0; i < flist.length; i++) {
-                    long size;
-                    if (flist[i].isDirectory()) {//判断是否父目录下还有子目录
-                        size = getFileSizes(flist[i].getAbsolutePath());///
-                    } else {
-                        //*getFileSize(flist[i].getAbsolutePath())*/
-                        size = flist[i].length();
-                    }
+                    //判断是否父目录下还有子目录
+                    long size=flist[i].isDirectory()?getFileSizes(flist[i].getAbsolutePath()):flist[i].length();
                     //获取上次修改的时间
                     String lastModified = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.CHINA).format(new Date(flist[i].lastModified()));
                     FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath() + "/", lastModified, flist[i].isDirectory());
@@ -274,24 +270,22 @@ public class FileUtils {
      * @return 按照单位BYTE, KB, MB, GB返回
      */
     public static String getDirectoryFormatSize(String directoryPath) {
-        // 转换文件大小
-        String fileSizeString = "";
         long lengthSum = getFileSizes(directoryPath);
-        DecimalFormat df = new DecimalFormat("#.00");
-        if (lengthSum < 1024) {
-            if (lengthSum == 0) {
-                fileSizeString = "0B";
-            } else {
-                fileSizeString = df.format((double) lengthSum) + "B";
-            }
-        } else if (lengthSum < 1048576) {
-            fileSizeString = df.format((double) lengthSum / 1024) + "K";
-        } else if (lengthSum < 1073741824) {
-            fileSizeString = df.format((double) lengthSum / 1048576) + "M";
-        } else {
-            fileSizeString = df.format((double) lengthSum / 1073741824) + "G";
+        return formatSize(lengthSum);
+    }
+
+    /**
+     * 格式化文件大小
+     */
+    public static String formatSize(long size) {
+        String[] units = {"B", "KB", "MB", "GB", "TB"};
+        int unitIndex = 0;
+        double fileSize = size;
+        while (fileSize > 1024 && unitIndex < units.length - 1) {
+            fileSize /= 1024;
+            unitIndex++;
         }
-        return fileSizeString;
+        return String.format("%.2f %s", fileSize, units[unitIndex]);
     }
 
     /**
@@ -302,22 +296,11 @@ public class FileUtils {
      */
     public static String getFileFormatSize(String filePath) {
         File file = new File(filePath);
-        // 转换文件大小
-        String fileSizeString = "";
+        long lengthSum = 0;
         if (file.exists() && file.isFile()) {
-            long lengthSum = file.length();
-            DecimalFormat df = new DecimalFormat("#.00");
-            if (lengthSum < 1024) {
-                fileSizeString = df.format((double) lengthSum) + "B";
-            } else if (lengthSum < 1048576) {
-                fileSizeString = df.format((double) lengthSum / 1024) + "K";
-            } else if (lengthSum < 1073741824) {
-                fileSizeString = df.format((double) lengthSum / 1048576) + "M";
-            } else {
-                fileSizeString = df.format((double) lengthSum / 1073741824) + "G";
-            }
+            lengthSum = file.length();
         }
-        return fileSizeString;
+        return formatSize(lengthSum);
     }
 
     /**
@@ -354,8 +337,7 @@ public class FileUtils {
      * @param destDirPath 写入本地目录
      * @param input       输入流
      */
-    public static void writeToLocal(String destDirPath, InputStream input)
-            throws IOException {
+    public static void writeToLocal(String destDirPath, InputStream input) throws IOException {
         byte[] bytes = new byte[1024];
         FileOutputStream downloadFile = new FileOutputStream(destDirPath);
         int index;
