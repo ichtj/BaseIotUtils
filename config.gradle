@@ -1,6 +1,6 @@
 ext {
     //选择对应签名 "cainiao" "rockchip" "imx8" "freescale"
-    BUILD_SIGN="freescale"
+    BUILD_SIGN="rockchip"
     BUILD_SIGN_PWD="android"
     BUILD_SIGN_PATH="../other/facefuture.jks"
 
@@ -47,6 +47,7 @@ ext {
             "AndroidAutoSize"         : "com.github.JessYanCoding:AndroidAutoSize:v1.2.1",
             "AndroidUSBCamera"        : "com.github.jiangdongguo.AndroidUSBCamera:libausbc:3.2.10",
             "FastBle"                 : "com.github.Jasonchenlijian:FastBle:2.4.0",
+            "BluetoothHelper"         : "com.github.a-voyager:BluetoothHelper:f71d40a98b",
             "zxing"                   : "com.google.zxing:core:3.5.1",
             "converter-scalars"       : "com.squareup.retrofit2:converter-scalars:2.0.0",
             "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",

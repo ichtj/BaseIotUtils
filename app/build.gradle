@@ -156,6 +156,7 @@ dependencies {
     implementation rootProject.ext.dependencies["base_socket"]
     //第三方数据操作
     implementation rootProject.ext.dependencies["FastBle"]
+    implementation rootProject.ext.dependencies["BluetoothHelper"]
     implementation rootProject.ext.dependencies["greendao"]
     //视频播放
     implementation rootProject.ext.dependencies["videoplay"]

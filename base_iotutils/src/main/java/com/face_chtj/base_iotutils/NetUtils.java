@@ -60,7 +60,7 @@ public class NetUtils {
     private static final int NETWORK_TYPE_IWLAN = 18;//IWLAN
 
     private static final int TIMERD_DNS_REFRESH = 15;//预计多少秒后刷新dns列表
-        public static final String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
+    public static final String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
 //    public static final String[] DNS_LIST = new String[]{"192.168.11.0", "192.168.11.1", "192.168.11.2", "192.168.11.3", "192.168.11.4", "192.168.11.5", "192.168.11.6", "192.168.11.7", "192.168.11.8", "192.168.11.9", "47.106.129.104",};
 
     public CopyOnWriteArrayList<DnsBean> dnsBeans = new CopyOnWriteArrayList<>();
@@ -255,22 +255,17 @@ public class NetUtils {
     }
 
     /**
-     * 尝试刷新dns列表
+     * 比较出来一个DNS进行ping操作
      */
-    private static boolean tryRefreshDns() {
-        String[] cacheDns = getConvertDns();
+    private static boolean compareDns() {
+        String[] cacheDns = convertCacheDns();
         String[] uniquedns = getUniqueDns(DNS_LIST, cacheDns);
-        if (uniquedns.length <= 0) {
+        if (uniquedns.length <= 0 || DNS_LIST.length == instance().dnsBeans.size()) {
             //表明两个集合中dns都相等 且正常
             return checkNetWork(ObjectUtils.getRandomList(cacheDns, 3), 1, 1);
         } else {
-            if (DNS_LIST.length == instance().dnsBeans.size()) {
-                //表明两个集合中dns都相等 且正常
-                return checkNetWork(ObjectUtils.getRandomList(cacheDns, 3), 1, 1);
-            } else {
-                //表明需要去缓存列表中添加一些dns 可能存在多数dns列表不可用的情况 ,那么该怎么办呢？
-                return checkAddCache(uniquedns, cacheDns);
-            }
+            //表明需要去缓存列表中添加一些dns 可能存在多数dns列表不可用的情况 ,那么该怎么办呢？
+            return checkAddCache(uniquedns, cacheDns);
         }
     }
 
@@ -284,7 +279,7 @@ public class NetUtils {
         //KLog.d("checkAddCache>newDns>>"+Arrays.toString(newDns)+",cacheDns>>" + Arrays.toString(cacheDns));
         DnsBean dnsBean = NetUtils.ping(newDns[0], 1, 1);
         //这里主要是为了防止一次无法选中一个可用的dns 影响返回结果的问题
-        return dnsBean.isPass?true:checkNetWork(ObjectUtils.getRandomList(cacheDns,1),1,1);
+        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.getRandomList(cacheDns, 1), 1, 1);
     }
 
     /**
@@ -323,7 +318,7 @@ public class NetUtils {
         return new String[0];
     }
 
-    public static String[] getConvertDns() {
+    public static String[] convertCacheDns() {
         List<String> dnsList = new ArrayList<>();
         for (DnsBean dnsBean : instance().dnsBeans) {
             dnsList.add(dnsBean.dns);
@@ -339,15 +334,17 @@ public class NetUtils {
      */
     public static boolean reloadDnsPing() {
         if (getNetWorkType() != NETWORK_NO) {
-            long beforeTime = instance().dnsRefreshTime;
-            long nowTime = System.currentTimeMillis() / 1000;
-            long diffNum = nowTime - (beforeTime / 1000);
-            if (beforeTime <= 0 || diffNum >= TIMERD_DNS_REFRESH || instance().dnsBeans.size() <= 0) {
-                //1.第一次加载 或者 2.达到指定时间TIMERD_DNS_REFRESH 3.缓存中没有可用dns 需要去刷新DNS列表
+            if (instance().dnsBeans.size() <= 0) {
                 instance().dnsRefreshTime = System.currentTimeMillis();
-                return tryRefreshDns();
+                return checkNetWork(ObjectUtils.getRandomList(DNS_LIST, 3), 1, 1);
             } else {
-                return checkNetWork(ObjectUtils.getRandomList(getConvertDns(), 3), 1, 1);
+                long diff = System.currentTimeMillis() / 1000 - (instance().dnsRefreshTime / 1000);
+                if (instance().dnsRefreshTime == 0 || diff >= TIMERD_DNS_REFRESH) {
+                    instance().dnsRefreshTime = System.currentTimeMillis();
+                    return compareDns();
+                } else {
+                    return checkNetWork(ObjectUtils.getRandomList(convertCacheDns(), 3), 1, 1);
+                }
             }
         } else {
             instance().dnsRefreshTime = 0;
@@ -389,7 +386,7 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     public static DnsBean checkNetWork() {
-        String[] availableDns = getConvertDns();
+        String[] availableDns = convertCacheDns();
         String[] dns = ObjectUtils.getRandomList(availableDns.length > 0 ? availableDns : DNS_LIST, 3);
         List<DnsBean> dnsBeanList = new ArrayList<>();
         for (String dn : dns) {
@@ -488,7 +485,7 @@ public class NetUtils {
     /**
      * 使用正则表达式获取ttl time
      */
-    public static String extractIcmpSeq(String pattern, String input, boolean isPatternAll) {
+    private static String extractIcmpSeq(String pattern, String input, boolean isPatternAll) {
         Pattern regex = Pattern.compile(pattern);
         Matcher matcher = regex.matcher(input);
         if (matcher.find()) {

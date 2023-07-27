@@ -148,6 +148,7 @@ public class NetMonitorUtils {
      */
     private static void receiverNetStatus() {
         if(!getInstance().isRunning){
+            KLog.d("receiverNetStatus >> ");
             getInstance().isRunning=true;
             getInstance().pingResult = NetUtils.reloadDnsPing();
             if (getInstance().pingResult) {

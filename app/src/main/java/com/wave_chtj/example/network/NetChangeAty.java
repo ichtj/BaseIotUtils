@@ -98,7 +98,7 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         tvStatus.setText(dnsBean.isPass + " ttl=" + dnsBean.ttl + " time=" + dnsBean.delay + " ms");
         tvDns.setText(dnsBean.dns);
         tvType.setText(netWorkTypeName);
-        tvDnsList.setText("可用DNS列表：" + Arrays.toString(NetUtils.getConvertDns()));
+        tvDnsList.setText("可用DNS列表：" + Arrays.toString(NetUtils.convertCacheDns()));
         tvCmd.setText(dnsBean.cmd);
         showData(dnsBean.toString());
     }

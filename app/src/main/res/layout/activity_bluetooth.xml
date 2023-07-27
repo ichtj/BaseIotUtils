@@ -14,19 +14,17 @@
         app:ivback="@mipmap/back"
         app:name="蓝牙测试" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="经典蓝牙" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnSuportBle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="supportBleClick"
-            android:text="是否支持ble"
-            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnEnableBlue"
@@ -43,13 +41,39 @@
             android:onClick="disableBluetoothClick"
             android:text="关闭蓝牙"
             android:textColor="@color/black" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="btDeviceScanClick"
+            android:text="扫描蓝牙"
+            android:textColor="@color/black" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="getBatteryValueClick"
+            android:text="获取电量"
+            android:textColor="@color/black" />
     </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="BLE" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnSuportBle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="supportBleClick"
+            android:text="是否支持ble"
+            android:textColor="@color/black" />
 
         <Button
             android:id="@+id/btnConfig"
@@ -105,7 +129,14 @@
             android:layout_height="wrap_content"
             android:onClick="notifyClick"
             android:text="从设备发送通知"
+            android:layout_marginRight="25dp"
             android:textColor="@color/black" />
+        <Button
+            android:layout_width="wrap_content"
+            android:text="清空"
+            android:layout_gravity="right"
+            android:onClick="clearResultClick"
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
     <TextView
@@ -113,5 +144,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_weight="1"
-        android:padding="10dp" />
+        android:padding="10dp"
+        android:scrollbars="vertical" />
 </LinearLayout>
