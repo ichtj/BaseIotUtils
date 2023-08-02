@@ -87,6 +87,18 @@ public class ObjectUtils {
         }
     }
 
+    public static String[] getSequenceList(String[] list,int num){
+        if (num >= list.length) {
+            return list;
+        }else{
+            String [] result=new String[num];
+            for (int i = 0; i < num-1; i++) {
+                result[i]=list[i];
+            }
+            return result;
+        }
+    }
+
     /**
      * 将一组String字符串随机排序后放到新的String[]中
      */

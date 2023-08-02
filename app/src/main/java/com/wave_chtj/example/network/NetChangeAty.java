@@ -12,6 +12,7 @@ import androidx.annotation.Nullable;
 
 import com.chtj.base_framework.network.FLteTools;
 import com.chtj.base_framework.network.NetDbmListener;
+import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.NetUtils;
@@ -50,7 +51,7 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         btnClear = findViewById(R.id.btnClear);
         tvCmd = findViewById(R.id.tvCmd);
         tvResult = findViewById(R.id.tvResult);
-        tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
+        FormatViewUtils.setMovementMethod(tvResult);
         tvDnsList = findViewById(R.id.tvDnsList);
         tvDns = findViewById(R.id.tvDns);
         tvDbm = findViewById(R.id.tvDbm);
@@ -93,14 +94,13 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
 
     private void refreshNet() {
         DnsBean dnsBean = NetUtils.checkNetWork();
-        //KLog.d("refreshNet>> " + dnsBean.toString());
         String netWorkTypeName = NetUtils.getNetWorkTypeName();
         tvStatus.setText(dnsBean.isPass + " ttl=" + dnsBean.ttl + " time=" + dnsBean.delay + " ms");
         tvDns.setText(dnsBean.dns);
         tvType.setText(netWorkTypeName);
         tvDnsList.setText("可用DNS列表：" + Arrays.toString(NetUtils.convertCacheDns()));
         tvCmd.setText(dnsBean.cmd);
-        showData(dnsBean.toString());
+        FormatViewUtils.formatData(tvResult,dnsBean.toString());
     }
 
     @Override
@@ -116,27 +116,5 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         tvResult.setText("");
     }
 
-
-    /**
-     * 显示数据到UI
-     *
-     * @param htmlStr
-     */
-    public void showData(String htmlStr) {
-        tvResult.append(Html.fromHtml(TimeUtils.getTodayDateHms("yy-MM-dd HH:mm:ss") + "：" + htmlStr));
-        tvResult.append("\n");
-        //刷新最新行显示
-        int offset = tvResult.getLineCount() * tvResult.getLineHeight();
-        int tvHeight = tvResult.getHeight();
-        if (offset > 6000) {
-            tvResult.setText("");
-            tvResult.scrollTo(0, 0);
-        } else {
-            if (offset > tvHeight) {
-                //Log.d(TAG, "showData: offset >> " + offset + " ,tvHeight >> " + tvHeight);
-                tvResult.scrollTo(0, offset - tvHeight);
-            }
-        }
-    }
 
 }

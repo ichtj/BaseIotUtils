@@ -24,6 +24,11 @@ import java.util.Locale;
  *
  */
 public class TimeUtils {
+    public static final String TIME_YMD="yyyy-MM-dd";
+    public static final String TIME_YMDHM="yyyy-MM-dd HH:mm";
+    public static final String TIME_YMDHMS="yyyy-MM-dd HH:mm:ss";
+    public static final String TIME_YMDHMS_CN="yyyy年MM月dd日 HH时mm分ss秒";
+    public static final String TIME_YMDHMS_UNSIGNED="yyyyMMddHHmmss";
     /**
      * 时间戳 转 String类型的精确到时分秒
      * @param time
@@ -31,7 +36,7 @@ public class TimeUtils {
      */
     public static String tsToMs(int time) {
         long time1000 = Long.parseLong(String.valueOf(time)) * 1000;
-        return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA).format(time1000);
+        return new SimpleDateFormat(TIME_YMDHMS, Locale.CHINA).format(time1000);
     }
 
     /**
@@ -41,19 +46,18 @@ public class TimeUtils {
      */
     public static String tsToYMD(int time) {
         long time1000 = Long.parseLong(String.valueOf(time)) * 1000;
-        return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(time1000);
+        return new SimpleDateFormat(TIME_YMD, Locale.CHINA).format(time1000);
     }
     /**
      * 获取今天年月日
      * @return 2017-08-14
      */
     public static String getTodayDate() {
-        return new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA).format(new Date());
+        return new SimpleDateFormat(TIME_YMD, Locale.CHINA).format(new Date());
     }
 
     /**
      * 获取今天年月日时分秒
-     * yyyy-MM-dd HH:mm:ss
      * @return 2017-08-14 11:53:52
      */
     public static String getTodayDateHms(String pattern) {
@@ -83,7 +87,7 @@ public class TimeUtils {
      */
     public static String getTodayAddMonthDate(int month) {
         try {
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat sdf = new SimpleDateFormat(TIME_YMD);
             Date now =sdf.parse(getTodayDate());
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(now);
