@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,7 +39,8 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
     private TextView tvType;
     private TextView tvDbm;
     private TextView tvDns;
-    private TextView tvDnsList;
+    private TextView tvAvailableDnsList;
+    private TextView tvExcludeDnsList;
     private TextView tvCmd;
     private TextView tvResult;
     private Button btnClear;
@@ -48,11 +50,12 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_network);
+        tvExcludeDnsList = findViewById(R.id.tvExcludeDnsList);
         btnClear = findViewById(R.id.btnClear);
         tvCmd = findViewById(R.id.tvCmd);
         tvResult = findViewById(R.id.tvResult);
         FormatViewUtils.setMovementMethod(tvResult);
-        tvDnsList = findViewById(R.id.tvDnsList);
+        tvAvailableDnsList = findViewById(R.id.tvAvailableDnsList);
         tvDns = findViewById(R.id.tvDns);
         tvDbm = findViewById(R.id.tvDbm);
         tvStatus = findViewById(R.id.tvStatus);
@@ -98,9 +101,12 @@ public class NetChangeAty extends BaseActivity implements INetChangeCallBack {
         tvStatus.setText(dnsBean.isPass + " ttl=" + dnsBean.ttl + " time=" + dnsBean.delay + " ms");
         tvDns.setText(dnsBean.dns);
         tvType.setText(netWorkTypeName);
-        tvDnsList.setText("可用DNS列表：" + Arrays.toString(NetUtils.convertCacheDns()));
+        String[] availableDnsList = NetUtils.availableDnsList();
+        tvAvailableDnsList.setText("可用DNS列表[" + availableDnsList.length + "]：" + Arrays.toString(availableDnsList));
+        String[] excludeDnsList = NetUtils.excludeDnsList();
+        tvExcludeDnsList.setText("不可用DNS列表[" + excludeDnsList.length + "]：" + Arrays.toString(excludeDnsList));
         tvCmd.setText(dnsBean.cmd);
-        FormatViewUtils.formatData(tvResult,dnsBean.toString());
+        FormatViewUtils.formatData(tvResult, dnsBean.toColorString());
     }
 
     @Override

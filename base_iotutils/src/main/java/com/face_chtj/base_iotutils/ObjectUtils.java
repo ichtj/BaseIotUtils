@@ -87,6 +87,9 @@ public class ObjectUtils {
         }
     }
 
+    /**
+     * 获取list中num数量的有序列表
+     */
     public static String[] getSequenceList(String[] list,int num){
         if (num >= list.length) {
             return list;
@@ -100,11 +103,86 @@ public class ObjectUtils {
     }
 
     /**
+     * 获取两个数组中不重复的DNS列表
+     */
+    public static String[] getUniqueList(String[] array1, String[] array2) {
+        if (array1.length > 0 || array2.length > 0) {
+            List<String> differentStrings = new ArrayList<>();
+            for (String str1 : array1) {
+                boolean found = false;
+                for (String str2 : array2) {
+                    if (str1.equals(str2)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str1);
+                }
+            }
+            for (String str2 : array2) {
+                boolean found = false;
+                for (String str1 : array1) {
+                    if (str2.equals(str1)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str2);
+                }
+            }
+            // 将结果存储在新的 String[] 数组中
+            return differentStrings.toArray(new String[0]);
+        }
+        return new String[0];
+    }
+
+    /**
+     * 获取两个数组中不重复的DNS列表 并且排除指定的String字符串
+     */
+    public static String[] getUniqueList(String[] array1, String[] array2,String[] array3) {
+        if (array1.length > 0 || array2.length > 0) {
+            List<String> differentStrings = new ArrayList<>();
+            for (String str1 : array1) {
+                boolean found = false;
+                for (String str2 : array2) {
+                    if (str1.equals(str2)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str1);
+                }
+            }
+            for (String str2 : array2) {
+                boolean found = false;
+                for (String str1 : array1) {
+                    if (str2.equals(str1)) {
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    differentStrings.add(str2);
+                }
+            }
+            for (int i = 0; i < array3.length; i++) {
+                differentStrings.remove(array3[i]);
+            }
+            // 将结果存储在新的 String[] 数组中
+            return differentStrings.toArray(new String[0]);
+        }
+        return new String[0];
+    }
+
+    /**
      * 将一组String字符串随机排序后放到新的String[]中
      */
     public static String[] shuffleStringArray(String[] array) {
         if(array==null||array.length<=0){
-            return new String[0];
+            return array;
         }
         // 复制原始数组，避免修改原始数组
         String[] shuffledArray = Arrays.copyOf(array, array.length);

@@ -18,13 +18,25 @@
         tools:ignore="MissingConstraints" />
 
     <TextView
-        android:id="@+id/tvDnsList"
+        android:id="@+id/tvAvailableDnsList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="5dp"
         android:layout_marginTop="15dp"
         android:layout_marginRight="5dp"
         android:text="可用DNS列表："
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/tvType"
+        app:layout_constraintTop_toBottomOf="@+id/ttView" />
+    <TextView
+        android:id="@+id/tvExcludeDnsList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginRight="5dp"
+        android:text="不可用DNS列表："
         android:textColor="@color/black"
         android:textSize="@dimen/small_text_size"
         app:layout_constraintEnd_toEndOf="@+id/tvType"

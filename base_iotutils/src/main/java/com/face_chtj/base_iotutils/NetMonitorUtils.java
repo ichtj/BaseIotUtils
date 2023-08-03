@@ -42,7 +42,7 @@ public class NetMonitorUtils {
     public static void addCallBack(INetChangeCallBack iCallback) {
         if (!getInstance().iNetList.contains(iCallback)) {
             getInstance().iNetList.add(iCallback);
-            KLog.d("don't contains size >> " + getInstance().iNetList.size() + ", object >> " + iCallback);
+            //KLog.d("don't contains size >> " + getInstance().iNetList.size() + ", object >> " + iCallback);
         }
     }
 
@@ -52,7 +52,7 @@ public class NetMonitorUtils {
     public static void removeCallback(INetChangeCallBack iCallback) {
         if (getInstance().iNetList.contains(iCallback)) {
             getInstance().iNetList.remove(iCallback);
-            KLog.d("contains size >> " + getInstance().iNetList.size() + ", object >> " + iCallback);
+            //KLog.d("contains size >> " + getInstance().iNetList.size() + ", object >> " + iCallback);
         }
     }
 
@@ -81,7 +81,6 @@ public class NetMonitorUtils {
                     }, new Consumer<Throwable>() {
                         @Override
                         public void accept(Throwable throwable) throws Exception {
-                            KLog.e(throwable);
                             stopTask();
                             startTask();
                         }
@@ -148,7 +147,6 @@ public class NetMonitorUtils {
      */
     private static void receiverNetStatus() {
         if(!getInstance().isRunning){
-            KLog.d("receiverNetStatus >> ");
             getInstance().isRunning=true;
             getInstance().pingResult = NetUtils.reloadDnsPing();
             if (getInstance().pingResult) {
@@ -171,10 +169,10 @@ public class NetMonitorUtils {
      */
     private static void dispatchCallback() {
         int netType = NetUtils.getNetWorkType();
-        String netTypeName = NetUtils.convertNetTypeName(netType);
-        KLog.d("net connStatus=[" + getInstance().pingResult + "] , nowType=[" + netType + "] , netTypeName=[" + netTypeName + "] , iNetList.Size() >> "+getInstance().iNetList.size());
-        for (int i = 0; i < getInstance().iNetList.size(); i++) {
-            getInstance().iNetList.get(i).netChange(netType, getInstance().pingResult);
+        if(getInstance().iNetList.size()>0){
+            for (int i = 0; i < getInstance().iNetList.size(); i++) {
+                getInstance().iNetList.get(i).netChange(netType, getInstance().pingResult);
+            }
         }
     }
 }

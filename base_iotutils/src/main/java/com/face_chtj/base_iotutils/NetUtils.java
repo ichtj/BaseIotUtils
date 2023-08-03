@@ -15,7 +15,6 @@ import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.telephony.TelephonyManager;
-
 import androidx.annotation.RequiresPermission;
 
 import com.face_chtj.base_iotutils.entity.DnsBean;
@@ -26,9 +25,7 @@ import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.regex.Matcher;
@@ -63,7 +60,7 @@ public class NetUtils {
     public static final String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
 //    public static final String[] DNS_LIST = new String[]{"192.168.11.0", "192.168.11.1", "192.168.11.2", "192.168.11.3", "192.168.11.4", "192.168.11.5", "192.168.11.6", "192.168.11.7", "192.168.11.8", "192.168.11.9", "47.106.129.104",};
 
-    public CopyOnWriteArrayList<DnsBean> dnsBeans = new CopyOnWriteArrayList<>();
+    public CopyOnWriteArrayList<DnsBean> cacheDnsList = new CopyOnWriteArrayList<>();
     //用于定时刷新DNS列表的时间→每隔一定的周期进行DNS刷新,筛选正常的列表用于网络校验
     public long dnsRefreshTime;
 
@@ -217,55 +214,38 @@ public class NetUtils {
         return info != null && info.isConnected();
     }
 
-
     /**
-     * delete and refresh dns list
+     * refresh dns list
      */
-    private static void removeRefreshDns(DnsBean iDnsBean) {
-        for (int i = 0; i < instance().dnsBeans.size(); i++) {
-            DnsBean dnsBean = instance().dnsBeans.get(i);
-            if (dnsBean.dns.equals(iDnsBean.dns)) {
-                instance().dnsBeans.remove(i);
-                //KLog.d("removeDns>>" + iDnsBean.toString());
-                break;
-            }
-        }
-    }
-
-    /**
-     * Add and refresh dns list
-     */
-    private static void addRefreshDns(DnsBean iDnsBean) {
+    private static void refreshDns(DnsBean iDnsBean) {
         boolean isFound = false;
-        for (int i = 0; i < instance().dnsBeans.size(); i++) {
-            DnsBean dnsBean = instance().dnsBeans.get(i);
+        for (int i = 0; i < instance().cacheDnsList.size(); i++) {
+            DnsBean dnsBean = instance().cacheDnsList.get(i);
             if (dnsBean.dns.equals(iDnsBean.dns)) {
                 dnsBean.delay = iDnsBean.delay;
                 dnsBean.ttl = iDnsBean.ttl;
                 dnsBean.from = iDnsBean.from;
                 dnsBean.isPass = iDnsBean.isPass;
+                dnsBean.srcIndex = iDnsBean.srcIndex;
                 isFound = true;
                 break;
             }
         }
         if (!isFound) {
-            instance().dnsBeans.add(iDnsBean);
-            //KLog.d("addRefreshDns>>" + iDnsBean.toString());
+            instance().cacheDnsList.add(iDnsBean);
         }
     }
 
     /**
      * 比较出来一个DNS进行ping操作
      */
-    private static boolean compareDns() {
-        String[] cacheDns = convertCacheDns();
-        String[] uniquedns = getUniqueDns(DNS_LIST, cacheDns);
-        if (uniquedns.length <= 0 || DNS_LIST.length == instance().dnsBeans.size()) {
-            //表明两个集合中dns都相等 且正常
-            return checkNetWork(ObjectUtils.getRandomList(cacheDns, 3), 1, 1);
+    private static boolean comparePignDns() {
+        String[] excludeDns = excludeDnsList();
+        String[] uniquedns = ObjectUtils.getUniqueList(DNS_LIST, convertAllCache(), excludeDns);
+        if (uniquedns.length <= 0 || DNS_LIST.length == instance().cacheDnsList.size()) {
+            return cacheOrAllPing();
         } else {
-            //表明需要去缓存列表中添加一些dns 可能存在多数dns列表不可用的情况 ,那么该怎么办呢？
-            return checkAddCache(uniquedns, cacheDns);
+            return checkAddCache(uniquedns);
         }
     }
 
@@ -274,57 +254,45 @@ public class NetUtils {
      * 如果不正常不用添加到缓存
      * 随后检查缓存中是否有可用的dns列表 去随机选择一个ping并返回
      */
-    private static boolean checkAddCache(String[] uniquedns, String[] cacheDns) {
+    private static boolean checkAddCache(String[] uniquedns) {
         String[] newDns = ObjectUtils.getRandomList(uniquedns, 1);
-        //KLog.d("checkAddCache>newDns>>"+Arrays.toString(newDns)+",cacheDns>>" + Arrays.toString(cacheDns));
         DnsBean dnsBean = NetUtils.ping(newDns[0], 1, 1);
-        //这里主要是为了防止一次无法选中一个可用的dns 影响返回结果的问题
-        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.getRandomList(cacheDns, 1), 1, 1);
+        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
+    }
+
+    public static String[] convertAllCache() {
+        List<String> dnsList = new ArrayList<>();
+        for (DnsBean dnsBean : instance().cacheDnsList) {
+            dnsList.add(dnsBean.dns);
+        }
+        return dnsList.toArray(new String[dnsList.size()]);
     }
 
     /**
-     * 获取两个数组中不重复的DNS列表
+     * 获取可用DNS列表
      */
-    private static String[] getUniqueDns(String[] array1, String[] array2) {
-        if (array1.length > 0 || array2.length > 0) {
-            List<String> differentStrings = new ArrayList<>();
-            for (String str1 : array1) {
-                boolean found = false;
-                for (String str2 : array2) {
-                    if (str1.equals(str2)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    differentStrings.add(str1);
-                }
+    public static String[] availableDnsList() {
+        List<String> dnsList = new ArrayList<>();
+        for (DnsBean dnsBean : instance().cacheDnsList) {
+            if (dnsBean.isPass) {
+                dnsList.add(dnsBean.dns);
             }
-            for (String str2 : array2) {
-                boolean found = false;
-                for (String str1 : array1) {
-                    if (str2.equals(str1)) {
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-                    differentStrings.add(str2);
-                }
-            }
-            // 将结果存储在新的 String[] 数组中
-            return differentStrings.toArray(new String[0]);
         }
-        return new String[0];
+        return dnsList.toArray(new String[dnsList.size()]);
     }
 
-    public static String[] convertCacheDns() {
-        List<String> dnsList = new ArrayList<>();
-        for (DnsBean dnsBean : instance().dnsBeans) {
-            dnsList.add(dnsBean.dns);
+    /**
+     * 获取需要已经排除的DNS列表
+     */
+    public static String[] excludeDnsList() {
+        List<String> excludeDnsList = new ArrayList<>();
+        for (int i = 0; i < instance().cacheDnsList.size(); i++) {
+            DnsBean dnsBean = instance().cacheDnsList.get(i);
+            if (!dnsBean.isPass) {
+                excludeDnsList.add(dnsBean.dns);
+            }
         }
-        //KLog.d("getConvertDns>>["+dnsList.size()+"]>> "+dnsList.toString());
-        return dnsList.toArray(new String[dnsList.size()]);
+        return excludeDnsList.toArray(new String[0]);
     }
 
     /**
@@ -334,23 +302,30 @@ public class NetUtils {
      */
     public static boolean reloadDnsPing() {
         if (getNetWorkType() != NETWORK_NO) {
-            if (instance().dnsBeans.size() <= 0) {
+            if (instance().cacheDnsList.size() <= 0) {
                 instance().dnsRefreshTime = System.currentTimeMillis();
-                return checkNetWork(ObjectUtils.getRandomList(DNS_LIST, 3), 1, 1);
+                return checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
             } else {
                 long diff = System.currentTimeMillis() / 1000 - (instance().dnsRefreshTime / 1000);
                 if (instance().dnsRefreshTime == 0 || diff >= TIMERD_DNS_REFRESH) {
                     instance().dnsRefreshTime = System.currentTimeMillis();
-                    return compareDns();
+                    return comparePignDns();
                 } else {
-                    return checkNetWork(ObjectUtils.getRandomList(convertCacheDns(), 3), 1, 1);
+                    return cacheOrAllPing();
                 }
             }
         } else {
             instance().dnsRefreshTime = 0;
-            instance().dnsBeans.clear();
             return false;
         }
+    }
+
+    /**
+     * 缓存的一个DNS无法通过尝试 使用DNS_LIST逐一验证
+     */
+    private static boolean cacheOrAllPing() {
+        boolean pingResult = checkNetWork(ObjectUtils.getRandomList(convertAllCache(), 1), 1, 1);
+        return pingResult ? true : checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
     }
 
     /**
@@ -375,7 +350,6 @@ public class NetUtils {
         List<DnsBean> dnsBeans = new ArrayList<>();
         for (String pingAddr : dnsList) {
             DnsBean dnsBean = NetUtils.ping(pingAddr, 1, 1);
-            //KLog.d("checkNetWork() isPing >> "+isPing);
             dnsBeans.add(dnsBean);
         }
         return dnsBeans;
@@ -385,24 +359,35 @@ public class NetUtils {
      * 根据输入的dns列表循环判断网络是否异常
      * dns中只要有一个通过 那么证明网络正常
      */
-    public static DnsBean checkNetWork() {
-        String[] availableDns = convertCacheDns();
-        String[] dns = ObjectUtils.getRandomList(availableDns.length > 0 ? availableDns : DNS_LIST, 3);
-        List<DnsBean> dnsBeanList = new ArrayList<>();
-        for (String dn : dns) {
-            DnsBean dnsBean = NetUtils.ping(dn, 1, 1);
+    private static DnsBean checkNetWorkCallback() {
+        for (String pingAddr : DNS_LIST) {
+            DnsBean dnsBean = NetUtils.ping(pingAddr, 1, 1);
             if (dnsBean.isPass) {
                 return dnsBean;
-            } else {
-                dnsBeanList.add(dnsBean);
             }
         }
-        for (int i = 0; i < dnsBeanList.size(); i++) {
-            if (dnsBeanList.get(i).isPass) {
-                return dnsBeanList.get(i);
+        String lastDns = DNS_LIST[DNS_LIST.length - 1];
+        return new DnsBean("ping -c 1 -w 1 -W " + lastDns, lastDns, false, findStringIndex(lastDns));
+    }
+
+    /**
+     * 根据输入的dns列表循环判断网络是否异常
+     * dns中只要有一个通过 那么证明网络正常
+     */
+    public static DnsBean checkNetWork() {
+        String[] availableDns = availableDnsList();
+        boolean isCacheAvailable = availableDns != null && availableDns.length > 0;
+        if (isCacheAvailable) {
+            String[] dns = ObjectUtils.getRandomList(availableDns, 1);
+            DnsBean dnsBean = NetUtils.ping(dns[0], 1, 1);
+            if (dnsBean.isPass) {
+                return dnsBean;
+            }else{
+                return checkNetWorkCallback();
             }
+        } else {
+            return checkNetWorkCallback();
         }
-        return dnsBeanList.get(dnsBeanList.size() - 1);
     }
 
     /**
@@ -459,27 +444,40 @@ public class NetUtils {
                 int ttl = Integer.parseInt(extractIcmpSeq("ttl=(\\d+)", line, false));
                 int delay = Integer.parseInt(extractIcmpSeq("time=(\\d+)", line, false));
                 if (ttl != -1 && delay != -1) {
-                    DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, true, from, ttl, delay);
-                    addRefreshDns(dnsBean);
+                    DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, true, findStringIndex(ip), from, ttl, delay);
+                    refreshDns(dnsBean);
                     return dnsBean;
                 }
             }
-            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false);
-            removeRefreshDns(dnsBean);
+            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false, findStringIndex(ip));
+            refreshDns(dnsBean);
             return dnsBean;
         } catch (Throwable e) {
-            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false);
-            removeRefreshDns(dnsBean);
+            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false, findStringIndex(ip));
+            refreshDns(dnsBean);
             return dnsBean;
         } finally {
             if (isr != null) {
                 try {
                     isr.close();
                 } catch (Throwable e) {
-                    KLog.d(e.getMessage());
                 }
             }
         }
+    }
+
+    /**
+     * 查找原DNS_LIST中对应dns的下标
+     *
+     * @param dns
+     */
+    private static int findStringIndex(String dns) {
+        for (int i = 0; i < DNS_LIST.length; i++) {
+            if (DNS_LIST[i].equals(dns)) {
+                return i; // 返回找到的字符串的下标
+            }
+        }
+        return -1; // 字符串未找到，返回 -1
     }
 
     /**
