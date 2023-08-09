@@ -5,20 +5,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+/**
+ * regular tools
+ */
 public class RegularTools {
-    //ip地址校验
+    //ip address verification
     public final static String REGULAR_IP="\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}";
-    //网址校验
+    //URL verification
     public final static String REGULAR_URL="(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^(\\s()<>]+|\\(([^(\\s()<>]+\\))*\\)))*\\))+(?:\\(([^(\\s()<>]+|\\(([^(\\s()<>]+\\))*\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
-    //邮箱校验
+    //email verification
     public final static String REGULAR_EMAIL = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
 
     /**
-     * 通用的正则校验并返回数据
-     * @param input 字符串内容
-     * @param regexPattern 正则表达式
-     * @param isCaseSensitive 区分大小写 true | 不区分大小写false
-     * @return 结果
+     * general regular method
+     * @param input string content
+     * @param regexPattern expression
+     * @param isCaseSensitive is it case sensitive [true | false]
+     * @return result list
      */
     public static List<String> matchRegex(String input, String regexPattern, boolean isCaseSensitive) {
         List<String> matches = new ArrayList<>();

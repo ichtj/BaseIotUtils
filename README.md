@@ -58,37 +58,40 @@ public class App extends Application {
 
 ## base_iotutils 物联基础工具类说明
 
-| 编号 | 工具类                          | 工具名称           | 实现功能                     |
-| ---- | ------------------------------ | ------------------ | -----------------------------|
-| 01   | AudioUtils                     | 音频管理           | 播放继续暂停                 |
-| 02   | AppsUtils                      | App的相关工具      | 查询应用以及 app 的信息      |
-| 03   | AdaptationUtils                | 屏幕适配           | pt 单位适配                  |
-| 04   | BytesHexUtils                  | 进制转换工具类     | 10/16 进制,字节数组等相互转换|
-| 05   | DownloadUtils                  | 多任务下载管理     | 下载,暂停,状态回调           |
-| 06   | DisplayUtils                   | 屏幕相关           | 屏幕信息获取(高宽像素等)     |
-| 07   | DialogUtils                    | 对话框相关         | 普通对话框、带输入框对话框    |
-| 08   | DeviceUtils                    | 设备的相关信息     | 设备出厂自带参数             |
-| 09   | EncryptUtils                   | 加密工具类         | 获取字符串,文件MD5           |
-| 10   | FileUtils                      | 文件工具类         | 写入/读取文件相关信息        |
-| 11   | GlobalDialogUtils              | 应用上层弹窗       | SYSTEM_ALERT_WINDOW          |
-| 12   | HttpUtils                      | 网络请求工具类     | get,post请求                 |
-| 13   | JsonFormatUtils                | JSON格式化工具     | JSON字符串格式化             |
-| 14   | KLog                           | 日志打印           | 日志标记打印                 |
-| 15   | KeyBoardUtils                  | 软键盘管理         | 打开,关闭                    |
-| 16   | NotifyUtils                    | 通知工具类         | 自定义 notification,动态调参 |
-| 17   | NetUtils                       | 网络工具类         | 网络类型/状态等获取          |
-| 18   | NetMonitorUtils                | 网络变化广播       | 网络变化回调                 |
-| 19   | PermissionsUtils               | 权限申请工具类     | 多权限申请                   |
-| 20   | SerialPort/SerialPortFinder    | 串口相关工具类     | 打开,通讯,关闭               |
-| 21   | SPUtils                        | 存储工具类         | SharedPreferences 读写       |
-| 22   | ShellUtils                     | adb 相关工具类     | adb 命令执行                 |
-| 23   | ServiceUtils                   | Service 管理工具   | 启动,停止,判断存活等         |
-| 24   | StatusBarUtils                 | 沉浸式状态栏       | 状态栏变色                   |
-| 25   | ToastUtils                     | 系统的 Toast 封装  | 成功,失败，警告等提示        |
-| 26   | TimeUtils                      | 时间工具类         | Date 时间日期转换            |
-| 27   | TPoolSingleUtils/TPoolUtils    | 线程池管理         | 线程重用                     |
-| 28   | UriPathUtils                   | Uri 转真实路径     | android7.0uri 转换           |
-| 29   | ZipUtils                       | 压缩相关           | 压缩解压,批量等              |
+| 编号  | 工具类                         | 工具名称         | 实现功能                  |
+|-----|-----------------------------|--------------|-----------------------|
+| 01  | AudioUtils                  | 音频管理         | 播放继续暂停                |
+| 02  | AppsUtils                   | App的相关工具     | 查询应用以及 app 的信息        |
+| 03  | AdaptationUtils             | 屏幕适配         | pt 单位适配               |
+| 04  | BytesHexUtils               | 进制转换工具类      | 10/16 进制,字节数组等相互转换    |
+| 05  | DownloadUtils               | 多任务下载管理      | 下载,暂停,状态回调            |
+| 06  | DisplayUtils                | 屏幕相关         | 屏幕信息获取(高宽像素等)         |
+| 07  | DialogUtils                 | 对话框相关        | 普通对话框、带输入框对话框         |
+| 08  | DeviceUtils                 | 设备的相关信息      | 设备出厂自带参数              |
+| 09  | EncryptUtils                | 加密工具类        | 获取字符串,文件MD5           |
+| 10  | FileUtils                   | 文件工具类        | 写入/读取文件相关信息           |
+| 11  | FormatViewsUtils            | 文本滚动工具       | TextView滚动最新一行        |
+| 12  | GlobalDialogUtils           | 应用上层弹窗       | SYSTEM_ALERT_WINDOW   |
+| 13  | HttpUtils                   | 网络请求工具类      | get,post请求            |
+| 14  | JsonFormatUtils             | JSON格式化工具    | JSON字符串格式化            |
+| 15  | KLog                        | 日志打印         | 日志标记打印                |
+| 16  | KeyBoardUtils               | 软键盘管理        | 打开,关闭                 |
+| 17  | NotifyUtils                 | 通知工具类        | 自定义 notification,动态调参 |
+| 18  | NetUtils                    | 网络工具类        | 网络类型/状态等获取            |
+| 19  | NetMonitorUtils             | 网络变化广播       | 网络变化回调                |
+| 20  | ObjectUtils                 | 通用对象管理工具     | 判空,比较,随机              |
+| 21  | PermissionsUtils            | 权限申请工具类      | 多权限申请                 |
+| 22  | RegularTools                | 正则工具类        | 通用正则结果获取              |
+| 23  | SerialPort/SerialPortFinder | 串口相关工具类      | 打开,通讯,关闭              |
+| 24  | SPUtils                     | 存储工具类        | SharedPreferences 读写  |
+| 25  | ShellUtils                  | adb 相关工具类    | adb 命令执行              |
+| 26  | ServiceUtils                | Service 管理工具 | 启动,停止,判断存活等           |
+| 27  | StatusBarUtils              | 沉浸式状态栏       | 状态栏变色                 |
+| 28  | ToastUtils                  | 系统的 Toast 封装 | 成功,失败，警告等提示           |
+| 29  | TimeUtils                   | 时间工具类        | Date 时间日期转换           |
+| 30  | TPoolSingleUtils/TPoolUtils | 线程池管理        | 线程重用                  |
+| 31  | UriPathUtils                | Uri 转真实路径    | android7.0uri 转换      |
+| 32  | ZipUtils                    | 压缩相关         | 压缩解压,批量等              |
 
 ## base_iotutils 工具调用方式,及图片展示
 
