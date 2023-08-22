@@ -46,7 +46,7 @@ public class FormatViewUtils {
         //刷新最新行显示
         int offset = textView.getLineCount() * textView.getLineHeight();
         int tvHeight = textView.getHeight();
-        if (offset > 6000) {
+        if (offset > 12000) {
             textView.setText("");
             textView.scrollTo(0, 0);
         } else {

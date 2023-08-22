@@ -141,7 +141,7 @@
                             android:background="@drawable/button_style_stroke2"
                             android:hint="请填写命令"
                             android:paddingLeft="10dp"
-                            android:text="AA55030050002B"
+                            android:text="010300000002C40B"
                             android:textSize="@dimen/small_text_size" />
 
                         <EditText
