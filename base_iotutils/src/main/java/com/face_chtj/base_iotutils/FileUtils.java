@@ -51,6 +51,12 @@ public class FileUtils {
         FileOutputStream fos = null;
         try {
             File file = new File(filename);
+            //获取父目录
+            File parent=new File(file.getParent());
+            if (!parent.exists()){
+                //如果目录不存在则创建相应的目录
+                parent.mkdirs();
+            }
             //如果文件不存在
             if (!file.exists()) {
                 //重新创建文件

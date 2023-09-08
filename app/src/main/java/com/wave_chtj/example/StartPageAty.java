@@ -1,13 +1,8 @@
 package com.wave_chtj.example;
 
 import android.os.Bundle;
-import android.view.WindowManager;
-
 import androidx.annotation.Nullable;
 
-import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.NetMonitorUtils;
-import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.network.NetMonitorAty;
