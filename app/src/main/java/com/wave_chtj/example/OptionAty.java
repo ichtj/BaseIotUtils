@@ -1,14 +1,10 @@
 package com.wave_chtj.example;
 
-import android.Manifest;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.os.storage.StorageManager;
-import android.os.storage.StorageVolume;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -27,23 +23,18 @@ import com.chtj.base_framework.entity.Space;
 import com.chtj.base_framework.network.FEthTools;
 import com.chtj.base_framework.network.FLteTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
-import com.face_chtj.base_iotutils.BytesHexUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
-import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.NetUtils;
-import com.face_chtj.base_iotutils.PermissionsUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
-import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NotifyUtils;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.allapp.AllAppAty;
 import com.wave_chtj.example.audio.AudioAty;
 import com.wave_chtj.example.base.BaseActivity;
@@ -71,7 +62,6 @@ import com.wave_chtj.example.util.DocumentsUtils;
 import com.wave_chtj.example.util.IndexItemAdapter;
 import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.OptionTools;
-import com.wave_chtj.example.util.ScreenshotUtil;
 import com.wave_chtj.example.util.TableFileUtils;
 import com.wave_chtj.example.util.JXLExcelUtils;
 import com.wave_chtj.example.util.POIExcelUtils;
@@ -80,10 +70,8 @@ import com.wave_chtj.example.util.UsbHubTools;
 import com.wave_chtj.example.video.PlayCacheVideoAty;
 import com.wave_chtj.example.video.VideoPlayAty;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**

@@ -4,11 +4,20 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Observable;
@@ -23,6 +32,7 @@ import io.reactivex.schedulers.Schedulers;
  * 定时监听网络变化
  */
 public class NetMonitorUtils {
+    private static final String TAG=NetMonitorUtils.class.getSimpleName();
     public static final String ACTION_NET_CHANGE = "android.net.conn.CONNECTIVITY_CHANGE";
     private boolean pingResult = false;
     private NetChangeReceiver netReceiver;
@@ -32,9 +42,10 @@ public class NetMonitorUtils {
     private int nowType = NET_INIT;//当前网络状态值
     private final int PING_TIMER = 1 * 60;
     private Disposable disposable;
-    private boolean isRunning=false;
+    private volatile boolean isRunning = false;
     private static volatile NetMonitorUtils sInstance;
     private List<INetChangeCallBack> iNetList = new ArrayList<>();
+    private Executor executors=Executors.newSingleThreadExecutor();
 
     /**
      * add callback
@@ -72,11 +83,11 @@ public class NetMonitorUtils {
             getInstance().disposable = Observable
                     .interval(0, getInstance().PING_TIMER, TimeUnit.SECONDS)
                     .subscribeOn(Schedulers.io())//调用切换之前的线程。
-                    .observeOn(AndroidSchedulers.mainThread())//调用切换之后的线程。observeOn之后，不可再调用subscribeOn 切换线程
+                    .observeOn(Schedulers.io())//调用切换之后的线程。observeOn之后，不可再调用subscribeOn 切换线程
                     .subscribe(new Consumer<Long>() {
                         @Override
                         public void accept(Long aLong) throws Exception {
-                            receiverNetStatus();
+                            receiverNetStatus(0);
                         }
                     }, new Consumer<Throwable>() {
                         @Override
@@ -118,7 +129,7 @@ public class NetMonitorUtils {
             BaseIotUtils.getContext().unregisterReceiver(getInstance().netReceiver);
         }
         getInstance().stopTask();
-        sInstance=null;
+        sInstance = null;
     }
 
     //单例模式
@@ -137,7 +148,12 @@ public class NetMonitorUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             if (intent.getAction().equals(ACTION_NET_CHANGE)) {
-                receiverNetStatus();
+                getInstance().executors.execute(new Runnable() {
+                    @Override
+                    public void run() {
+                        receiverNetStatus(1);
+                    }
+                });
             }
         }
     }
@@ -145,31 +161,40 @@ public class NetMonitorUtils {
     /**
      * Determine network status
      */
-    private static void receiverNetStatus() {
-        if(!getInstance().isRunning){
-            getInstance().isRunning=true;
+    private static void receiverNetStatus(int type) {
+        if (!getInstance().isRunning) {
+            //KLog.d(TAG, "receiverNetStatus: type>>"+type);
+            getInstance().isRunning = true;
             getInstance().pingResult = NetUtils.reloadDnsPing();
             if (getInstance().pingResult) {
                 if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_FAIL) {
                     getInstance().nowType = getInstance().NET_SUCC;
-                    dispatchCallback();
+                    getInstance().handler.sendEmptyMessage(0x10);
                 }
             } else {
                 if (getInstance().nowType == getInstance().NET_INIT || getInstance().nowType == getInstance().NET_SUCC) {
                     getInstance().nowType = getInstance().NET_FAIL;
-                    dispatchCallback();
+                    getInstance().handler.sendEmptyMessage(0x10);
                 }
             }
-            getInstance().isRunning=false;
+            getInstance().isRunning = false;
         }
     }
+
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            dispatchCallback();
+        }
+    };
 
     /**
      * all
      */
     private static void dispatchCallback() {
         int netType = NetUtils.getNetWorkType();
-        if(getInstance().iNetList.size()>0){
+        if (getInstance().iNetList.size() > 0) {
             for (int i = 0; i < getInstance().iNetList.size(); i++) {
                 getInstance().iNetList.get(i).netChange(netType, getInstance().pingResult);
             }

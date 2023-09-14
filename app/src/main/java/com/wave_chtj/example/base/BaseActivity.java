@@ -8,9 +8,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.face_chtj.base_iotutils.NetMonitorUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
-import com.face_chtj.base_iotutils.callback.INetChangeCallBack;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.wave_chtj.example.util.AppManager;
 
