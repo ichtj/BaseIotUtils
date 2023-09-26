@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.BytesHexUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -39,7 +40,7 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-
+@Route(path = PACKAGES.BASE+"serialport")
 public class SerialPortAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "SerialPortAty";
     @BindView(R.id.sp_com)

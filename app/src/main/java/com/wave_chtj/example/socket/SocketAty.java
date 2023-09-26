@@ -6,6 +6,7 @@ import android.os.Message;
 import android.text.method.ScrollingMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -13,13 +14,17 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.chtj.socket.BaseTcpSocket;
 import com.chtj.socket.BaseUdpSocket;
 import com.chtj.socket.ISocketListener;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
+import com.wave_chtj.example.util.PACKAGES;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -34,6 +39,7 @@ import butterknife.OnClick;
  * desc 选择一种连接方式：tcp或者udp 进行收发数据
  * 目前还未做长连接
  */
+@Route(path = PACKAGES.BASE+"socket")
 public class SocketAty extends BaseActivity {
     private static final String TAG = "SocketAty";
     @BindView(R.id.etIp)
@@ -68,7 +74,7 @@ public class SocketAty extends BaseActivity {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            tvResult.append(msg.obj.toString());
+            FormatViewUtils.formatData(tvResult,msg.obj.toString());
         }
     };
 
@@ -77,6 +83,11 @@ public class SocketAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket);
         ButterKnife.bind(this);
+        ShellUtils.execCommand("setprop persist.sys.fwfit.eth.auto 1",true);
+        String []socketList = getResources().getStringArray(R.array.net_opiton);
+        ArrayAdapter socketListAdapter = new ArrayAdapter<String>(this, R.layout.custom_spinner_item, socketList);
+        spOption.setAdapter(socketListAdapter);
+
         //设置TextView可滑动查看
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         //选择连接的方式
@@ -219,6 +230,7 @@ public class SocketAty extends BaseActivity {
                 break;
             case R.id.btnClear:
                 tvResult.setText("");
+                tvResult.scrollTo(0, 0);
                 break;
         }
     }

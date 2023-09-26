@@ -5,16 +5,12 @@ buildscript {
         jcenter()
     }
     dependencies {
-        //加上这两行
-        //classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
-        //classpath 'com.jfrog.bintray.gradle:gradle-bintray-plugin:1.7.3'
+        classpath 'com.alibaba:arouter-register:1.0.2'
         //butterknife
         classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         //Sqlite数据库
         classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
-
         classpath 'com.android.tools.build:gradle:3.5.3'
-
         classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
     }
 }

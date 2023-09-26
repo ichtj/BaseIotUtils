@@ -11,14 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.util.AppManager;
+import com.wave_chtj.example.util.PACKAGES;
 
-
+@Route(path = PACKAGES.BASE+"reboot")
 public class RebootAty extends BaseActivity {
     EditText etCycle;
     TextView tvRebootCount;

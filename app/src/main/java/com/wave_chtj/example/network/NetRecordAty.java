@@ -13,18 +13,19 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.SPUtils;
-import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.callback.INetTimerCallback;
 import com.wave_chtj.example.util.AppManager;
+import com.wave_chtj.example.util.PACKAGES;
 
 import java.util.Arrays;
 
-public class NetTimerAty extends BaseActivity implements INetTimerCallback, View.OnClickListener {
+@Route(path = PACKAGES.BASE+"netrecord")
+public class NetRecordAty extends BaseActivity implements INetTimerCallback, View.OnClickListener {
     NetTimerService timerService;
     private boolean isBound = false;
     Button btnRefresh;
@@ -40,7 +41,7 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.actvity_nettimer);
+        setContentView(R.layout.activity_netrecord);
         tvPingAddr = findViewById(R.id.tvPingAddr);
         btnClearCount = findViewById(R.id.btnClearCount);
         btnClearCount.setOnClickListener(this);
@@ -61,7 +62,7 @@ public class NetTimerAty extends BaseActivity implements INetTimerCallback, View
 
     public void startBindService() {
         timerService = new NetTimerService();
-        timerService.setiNetTimerCallback(NetTimerAty.this);
+        timerService.setiNetTimerCallback(NetRecordAty.this);
         Intent intent = new Intent(this, timerService.getClass());
         startService(intent);
         bindService(intent, conn, Context.BIND_AUTO_CREATE);

@@ -3,14 +3,18 @@ package com.wave_chtj.example.reboot;
 import android.app.Service;
 import android.content.Intent;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
 
+import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+import com.face_chtj.base_iotutils.NotifyUtils;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
+import com.wave_chtj.example.R;
 
 import java.util.concurrent.TimeUnit;
 
@@ -27,8 +31,30 @@ public class RebootCustomService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+        startForeground(98, NotifyUtils.getBuilder().build());
+        NotifyUtils.setNotifyId(98)
+                .setEnableCloseButton(false)//设置是否显示关闭按钮
+                .setSmallIcon(R.mipmap.reboot)
+                .setIvLogo(R.mipmap.reboot)
+                .setIvStatus(false)
+                .setIvNetStatus(false)
+                .setRemarks("服务运行中...")
+                .setDataTime(getSn())
+                .setAppName(getString(R.string.app_name) + " " + AppsUtils.getAppVersionName())
+                .exeuNotify();
         Log.d(TAG, "onCreate: ");
         startCycle();
+    }
+
+    /**
+     * 获取设备SN号 请使用此唯一入口
+     */
+    public static String getSn() {
+        try {
+            return Build.VERSION.SDK_INT >= 30 ? Build.getSerial() : Build.SERIAL;
+        } catch (Throwable throwable) {
+            return "";
+        }
     }
 
     @Override

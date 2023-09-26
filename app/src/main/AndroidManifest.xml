@@ -5,7 +5,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-
+    android:sharedUserId="android.uid.system"
     package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -251,7 +251,7 @@
             android:name=".dialog.DialogAty"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
-        <activity android:name=".network.NetTimerAty"
+        <activity android:name=".network.NetRecordAty"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
@@ -306,9 +306,9 @@
 
         <meta-data
             android:name="design_width_in_dp"
-            android:value="1080" />
+            android:value="1920" />
         <meta-data
             android:name="design_height_in_dp"
-            android:value="1920" />
+            android:value="1080" />
     </application>
 </manifest>

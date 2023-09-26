@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.listener.OnItemClickListener;
 import com.chtj.base_framework.FScreentTools;
@@ -51,7 +52,7 @@ import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
-import com.wave_chtj.example.network.NetTimerAty;
+import com.wave_chtj.example.network.NetRecordAty;
 import com.wave_chtj.example.nginx.NginxAty;
 import com.wave_chtj.example.screen.ScreenActivity;
 import com.wave_chtj.example.serialport.SerialPortAty;
@@ -62,6 +63,7 @@ import com.wave_chtj.example.util.DocumentsUtils;
 import com.wave_chtj.example.util.IndexItemAdapter;
 import com.wave_chtj.example.util.FKey;
 import com.wave_chtj.example.util.OptionTools;
+import com.wave_chtj.example.util.PACKAGES;
 import com.wave_chtj.example.util.TableFileUtils;
 import com.wave_chtj.example.util.JXLExcelUtils;
 import com.wave_chtj.example.util.POIExcelUtils;
@@ -77,6 +79,7 @@ import java.util.List;
 /**
  * 功能选择
  */
+@Route(path = PACKAGES.BASE+"baseiotutils")
 public class OptionAty extends BaseActivity implements OnItemClickListener {
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
     private RecyclerView rvinfo;
@@ -407,7 +410,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
                 startAty(NetChangeAty.class);
                 break;
             case FKey.KEY_RESET_MONITOR:
-                startAty(NetTimerAty.class);
+                startAty(NetRecordAty.class);
                 break;
             case FKey.KEY_FILEDOWN:
                 startAty(FileDownLoadAty.class);

@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao' // apply plugin
+
 android {
     signingConfigs {
         debug {
@@ -17,7 +18,7 @@ android {
     }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
-        applicationId rootProject.ext.APP_ID
+        applicationId rootProject.ext.MY_PKG[rootProject.ext.APP_CHOOSE]
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -26,10 +27,17 @@ android {
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         ndk {
             //设置支持的SO库架构
-            abiFilters /*'armeabi' , 'x86', */'armeabi-v7a',/* 'x86_64', */'arm64-v8a'
+            abiFilters /*'armeabi' , 'x86', */ 'armeabi-v7a',/* 'x86_64', */ 'arm64-v8a'
         }
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [AROUTER_MODULE_NAME: project.getName()]
+            }
+        }
+        buildConfigField 'java.util.Map<String, String>', 'MY_PKG', convertMap()
+        buildConfigField 'String', 'APP_CHOOSE', "\"${APP_CHOOSE}\""
         signingConfig signingConfigs.debug
-        manifestPlaceholders = [APP_NAME: getAppInfo(0), APP_ICON: getAppInfo(1)]
+        manifestPlaceholders = [APP_NAME: "${APP_CHOOSE}", APP_ICON: getIcon()]
     }
     externalNativeBuild {
         cmake {
@@ -69,61 +77,28 @@ android {
     //配置自定义打包名称
     applicationVariants.all { variant ->
         variant.outputs.all {
-            def fileName;
-            if (variant.buildType.name.equals('release')) {
-                fileName = getAppInfo(0) + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_release.apk"
-            } else if (variant.buildType.name.equals('debug')) {
-                fileName = getAppInfo(0) + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_debug.apk"
-            }
+            def fileName = rootProject.ext.APP_CHOOSE + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_" + variant.buildType.name + ".apk"
             outputFileName = fileName;
         }
     }
 }
-
-/**
- * @param type 0 获取APP名称
- * @param type1  获取APP图标
- */
-def getAppInfo(int type) {
-    def appInfo;
-    if ("${APP_ID}".contains("serialport")) {
-        if (type == 0) {
-            appInfo = "${APP_SERIAL_NAME}";
-        } else {
-            appInfo = "${APP_SERIAL_ICON}";
-        }
-    } else if ("${APP_ID}".contains("example")) {
-        if (type == 0) {
-            appInfo = "${APP_BASE_NAME}";
-        } else {
-            appInfo = "${APP_BASE_ICON}";
-        }
-    } else if ("${APP_ID}".contains("reboot")) {
-        if (type == 0) {
-            appInfo = "${APP_REBOOT_NAME}";
-        } else {
-            appInfo = "${APP_REBOOT_ICON}";
-        }
-    } else if ("${APP_ID}".contains("netmonitor")) {
-        if (type == 0) {
-            appInfo = "${APP_NETMONITOR_NAME}";
-        } else {
-            appInfo = "${APP_NETMONITOR_ICON}";
-        }
-    } else if ("${APP_ID}".contains("net_timer")) {
-        if (type == 0) {
-            appInfo = "${APP_NETTIMER_NAME}";
-        } else {
-            appInfo = "${APP_NETTIMER_ICON}";
-        }
-    } else {
-        if (type == 0) {
-            appInfo = "${APP_BASE_NAME}";
-        } else {
-            appInfo = "${APP_BASE_ICON}";
-        }
+// 定义一个方法来根据传入的键打印键和值
+def convertMap() {
+    def builder = new StringBuilder()
+    builder.append("new java.util.HashMap<String,String>() {{")
+    rootProject.ext.MY_PKG.each { key, value ->
+        builder.append("put(\"$key\",\"$value\");")
     }
-    return appInfo;
+    builder.append("}}")
+    return builder.toString();
+}
+
+def getIcon() {
+    if (rootProject.ext.MY_ICON.containsKey(rootProject.ext.APP_CHOOSE)) {
+        return rootProject.ext.MY_ICON[rootProject.ext.APP_CHOOSE]
+    } else {
+        return null
+    }
 }
 
 dependencies {
@@ -170,6 +145,10 @@ dependencies {
     //implementation project(path: ':base_socket')
     //framework jarutils
     //implementation project(path: ':base_framework')
+    // 替换成最新版本, 需要注意的是api
+    // 要与compiler匹配使用，均使用最新版可以保证兼容
+    api rootProject.ext.dependencies["arouter-api"]
+    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
 }
 
 greendao {
