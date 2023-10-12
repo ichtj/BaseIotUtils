@@ -53,17 +53,18 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
-        String pkgName=list.get(position).getPackageName();
-        holder.tvAppName.setText(list.get(position).getAppName());
+        String pkgName=list.get(position).packageName;
+        holder.tvAppName.setText(list.get(position).appName);
         holder.tvPackName.setText(pkgName);
-        holder.tvUid.setText("UID:" + list.get(position).getUid() + "");
-        holder.ivAppIcon.setImageDrawable(list.get(position).getIcon());
-        KLog.d(" uid= " + list.get(position).getUid());
+        holder.tvUid.setText("UID:" + list.get(position).uid + "");
+        holder.ivAppIcon.setImageDrawable(list.get(position).icon);
+        KLog.d(" uid= " + list.get(position).uid+ ",sourceDir= "+list.get(position).sourceDir+",pkg= "+list.get(position).packageName);
+        holder.tvAppPath.setText(list.get(position).sourceDir);
         //4.4系统获取流量
-        double traffic = TrafficStatistics.getUidFlow(list.get(position).getUid());
+        double traffic = TrafficStatistics.getUidFlow(list.get(position).uid);
         double sumTraffic = TrafficStatistics.getDouble(traffic / 1024 / 1024);
         holder.tvTraffic.setText("use:" + sumTraffic + "M");
-        holder.tvVersion.setText("v:" + list.get(position).getVersionName() + "." + list.get(position).getVersionCode());
+        holder.tvVersion.setText("v:" + list.get(position).versionName + "." + list.get(position).versionCode);
         //7.1.2系统获取流量
         //long total= FNetworkTools.getEthAppUsageByUid(list.get(position).getUid(),FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
         //String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
@@ -72,21 +73,13 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvStartApp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                KLog.d("PackageName: " + list.get(posiNum).getPackageName());
+                KLog.d("PackageName: " + list.get(posiNum).packageName);
                 try {
-                    AppsUtils.openPackage(list.get(posiNum).getPackageName());
+                    AppsUtils.openPackage(list.get(posiNum).packageName);
                 } catch (Exception e) {
                     e.printStackTrace();
                     ToastUtils.error("打开错误!");
                 }
-            }
-        });
-        holder.tvAppPath.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String appPath=AppsUtils.getAppPath(pkgName);
-                KLog.d("onClick() appPath >> "+appPath);
-                holder.tvAppPath.setText(appPath);
             }
         });
         //复制到剪切板
@@ -98,11 +91,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 // 创建普通字符型ClipData
                 StringBuilder sb = new StringBuilder();
                 String appPath=AppsUtils.getAppPath(pkgName);
-                sb.append("appName：" + list.get(posiNum).getAppName() + "\n");
-                sb.append("packageName：" + list.get(posiNum).getPackageName() + "\n");
+                sb.append("appName：" + list.get(posiNum).appName + "\n");
+                sb.append("packageName：" + list.get(posiNum).packageName + "\n");
                 sb.append("appPath：" + appPath+ "\n");
-                sb.append("apkVersion：" + list.get(posiNum).getVersionCode() + "\n");
-                sb.append("isSys：" + list.get(posiNum).getIsSys());
+                sb.append("apkVersion：" + list.get(posiNum).versionCode + "\n");
+                sb.append("isSys：" + list.get(posiNum).isSystemApp);
                 // 将ClipData内容放到系统剪贴板里。
                 ClipData mClipData = ClipData.newPlainText("Label", sb.toString());
                 cm.setPrimaryClip(mClipData);
@@ -116,11 +109,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 if (Build.VERSION.SDK_INT >= 9) {
                     localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                    localIntent.setData(Uri.fromParts("package", list.get(posiNum).getPackageName(), null));
+                    localIntent.setData(Uri.fromParts("package", list.get(posiNum).packageName, null));
                 } else if (Build.VERSION.SDK_INT <= 8) {
                     localIntent.setAction(Intent.ACTION_VIEW);
                     localIntent.setClassName("com.android.settings", "com.android.settings.InstalledAppDetails");
-                    localIntent.putExtra("com.android.settings.ApplicationPkgName", list.get(posiNum).getPackageName());
+                    localIntent.putExtra("com.android.settings.ApplicationPkgName", list.get(posiNum).packageName);
                 }
                 BaseIotUtils.getContext().startActivity(localIntent);
             }
@@ -128,10 +121,10 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvUnInstall.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(list.get(posiNum).isSys()){
+                if(list.get(posiNum).isSystemApp){
                     ToastUtils.info("系统系统请使用静默卸载！");
                 }else{
-                    AppsUtils.uninstall(list.get(posiNum).getPackageName());
+                    AppsUtils.uninstall(list.get(posiNum).packageName);
                 }
             }
         });
@@ -139,15 +132,15 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 String appPath=AppsUtils.getAppPath(pkgName);
-                boolean isSys=list.get(posiNum).isSys();
-                String appName=list.get(posiNum).getAppName();
+                boolean isSys=list.get(posiNum).isSystemApp;
+                String appName=list.get(posiNum).appName;
                 if(isSys){
                     String []appInstallInfo=appPath.split("/");
                     appName=appInstallInfo[appInstallInfo.length-1].replace(".apk","");
                 }
                 if(!TextUtils.isEmpty(appName)){
                     KLog.d("onClick() appName >> "+appName);
-                    boolean isOk = AppsUtils.uninstallSilent(isSys,false,appName, list.get(posiNum).getPackageName());
+                    boolean isOk = AppsUtils.uninstallSilent(isSys,false,appName, list.get(posiNum).packageName);
                     if (isOk) {
                         ToastUtils.success("卸载成功,如果是系统应用请重启查看！");
                         list.remove(list.get(posiNum));
@@ -163,14 +156,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvEnableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).getUid());
+                boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).uid);
                 ToastUtils.info(isClearResult?"启用成功,该应用可正常上网！":"启用失败,请重试！");
             }
         });
         holder.tvDisableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).getUid());
+                boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).uid);
                 ToastUtils.info(isPutComplete?"禁用成功,该应用无法上网！":"禁用失败,请重试！");
             }
         });

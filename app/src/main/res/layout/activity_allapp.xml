@@ -46,8 +46,8 @@
                 android:layout_marginTop="25dp"
                 android:layout_weight="1"
                 android:background="@drawable/button_switch"
-                android:onClick="getDeskTopApp"
-                android:text="桌面应用"
+                android:onClick="getAllAppClick"
+                android:text="全部应用"
                 android:textSize="@dimen/small_text_size" />
 
             <Button

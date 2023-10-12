@@ -44,7 +44,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
-                android:text="点击显示安装路径"
+                android:text="xxx"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="@dimen/small_text_size" />
 

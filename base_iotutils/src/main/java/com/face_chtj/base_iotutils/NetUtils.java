@@ -20,10 +20,13 @@ import androidx.annotation.RequiresPermission;
 import com.face_chtj.base_iotutils.entity.DnsBean;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -77,7 +80,6 @@ public class NetUtils {
         }
         return sInstance;
     }
-
 
     /**
      * 获取网络类型
@@ -388,6 +390,36 @@ public class NetUtils {
         } else {
             return checkNetWorkCallback();
         }
+    }
+
+    // 检查外部互联网连接是否正常
+    public static boolean isInetAddressAvailable(int timeoutMillis) {
+        try {
+            InetAddress address = InetAddress.getByName("www.google.com");
+            if (address != null) {
+                // 使用指定的超时时间进行 Ping 测试
+                if (address.isReachable(timeoutMillis)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    // 检查外部互联网连接是否正常
+    public static boolean isHttpConnectAvailable() {
+        try {
+            URL url = new URL("https://www.google.com");
+            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setRequestMethod("HEAD");
+            int responseCode = urlConnection.getResponseCode();
+            return responseCode == HttpURLConnection.HTTP_OK;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     /**

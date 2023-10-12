@@ -93,7 +93,7 @@ public class AllAppAty extends BaseActivity {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                     tvTotal.setText("总流量：计算异常");
                 }
-                newsAdapter.setList(AppsUtils.getDeskTopAppList());
+                newsAdapter.setList(AppsUtils.getAllApp());
             }
         });
 
@@ -104,8 +104,8 @@ public class AllAppAty extends BaseActivity {
      *
      * @param view
      */
-    public void getDeskTopApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
+    public void getAllAppClick(View view) {
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }
@@ -145,9 +145,15 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getNormalApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getNormalAppList();
-        tvCount.setText("总数：" + appEntityList.size());
-        newsAdapter.setList(appEntityList);
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
+        List<AppEntity> normalAppList=new ArrayList<>();
+        for (int i = 0; i < appEntityList.size(); i++) {
+            if (!appEntityList.get(i).isSystemApp){
+                normalAppList.add(appEntityList.get(i));
+            }
+        }
+        tvCount.setText("总数：" + normalAppList.size());
+        newsAdapter.setList(normalAppList);
     }
 
     /**
@@ -156,13 +162,14 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getSystemApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getSystemAppList();
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
+        List<AppEntity> systemAppList=new ArrayList<>();
         for (int i = 0; i < appEntityList.size(); i++) {
-            for (int j = 0; j < appEntityList.get(i).getPkgProcess().size(); j++) {
-                Log.d(TAG, "onCreate: process pid=" + appEntityList.get(i).getPkgProcess().get(j).getPid() + ",pkgName=" + appEntityList.get(i).getPkgProcess().get(j).getProcessName());
+            if (appEntityList.get(i).isSystemApp){
+                systemAppList.add(appEntityList.get(i));
             }
         }
-        tvCount.setText("总数：" + appEntityList.size());
-        newsAdapter.setList(appEntityList);
+        tvCount.setText("总数：" + systemAppList.size());
+        newsAdapter.setList(systemAppList);
     }
 }
