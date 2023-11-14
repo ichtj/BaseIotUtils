@@ -1,5 +1,7 @@
 package com.wave_chtj.example.callback;
 
+import com.wave_chtj.example.entity.NetBean;
+
 public interface INetTimerCallback {
-    void refreshNet(String time,String [] dns,String dbm,String localIp,String netType,boolean isNet4G,boolean pingResult);
+    void refreshNet(NetBean netBean);
 }

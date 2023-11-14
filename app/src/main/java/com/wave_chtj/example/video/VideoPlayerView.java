@@ -23,6 +23,7 @@ public class VideoPlayerView extends JzvdStd {
     @Override
     public void onStateAutoComplete() {
         super.onStateAutoComplete();
+        startButton.setVisibility(View.GONE);
         posterImageView.setVisibility(View.GONE);
         fullscreenButton.setVisibility(View.GONE);
         startVideo();

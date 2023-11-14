@@ -1,6 +1,8 @@
 package com.face_chtj.base_iotutils;
 
 import android.text.Html;
+import android.text.Layout;
+import android.text.TextUtils;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
@@ -11,17 +13,19 @@ import java.lang.annotation.RetentionPolicy;
 
 public class FormatViewUtils {
     /*红色*/
-    public static final int COLOR_RED = 0x10;
+    public static final int C_RED = 0x10;
     /*绿色*/
-    public static final int COLOR_GREEN = 0x11;
+    public static final int C_GREEN = 0x11;
     /*黑色*/
-    public static final int COLOR_BLACK = 0x12;
+    public static final int C_BLACK = 0x12;
     /*灰色*/
-    public static final int COLOR_GREY = 0x13;
+    public static final int C_GREY = 0x13;
     /*橙色*/
-    public static final int COLOR_ORANGE = 0x14;
+    public static final int C_ORANGE = 0x14;
+    /*蓝色*/
+    public static final int C_BLUE = 0x15;
 
-    @IntDef({COLOR_RED, COLOR_GREEN, COLOR_BLACK, COLOR_GREY, COLOR_ORANGE})
+    @IntDef({C_RED, C_GREEN, C_BLACK, C_GREY, C_ORANGE, C_BLUE})
     @Retention(RetentionPolicy.SOURCE)
     public @interface IColor {
     }
@@ -41,27 +45,30 @@ public class FormatViewUtils {
      * @param htmlStr Support html tags
      */
     public static void formatData(TextView textView, String htmlStr) {
-        textView.append(Html.fromHtml(TimeUtils.getTodayDateHms("yy-MM-dd HH:mm:ss") + "：" + htmlStr));
-        textView.append("\n");
-        //刷新最新行显示
-        int offset = textView.getLineCount() * textView.getLineHeight();
-        int tvHeight = textView.getHeight();
-        if (offset > 12000) {
-            textView.setText("");
-            textView.scrollTo(0, 0);
-        } else {
-            if (offset > tvHeight) {
-                //Log.d(TAG, "showData: offset >> " + offset + " ,tvHeight >> " + tvHeight);
-                textView.scrollTo(0, offset - tvHeight);
+        if (textView != null && !ObjectUtils.isEmpty(htmlStr)) {
+            textView.append(Html.fromHtml(TimeUtils.getTodayDateHms("yyyy-MM-dd-HHmmss-SS") + "：" + htmlStr));
+            textView.append("\n");
+            Layout layout=textView.getLayout();
+            if (layout!=null){
+                int scrollAmount = layout.getLineTop(textView.getLineCount()) - textView.getHeight();
+                if (scrollAmount > 0) {
+                    textView.scrollTo(0, scrollAmount);
+                } else {
+                    textView.scrollTo(0, 0);
+                }
             }
         }
+    }
+
+    public static String formatUnderlin(@IColor int color, String content) {
+        return "<u><font color='" + getColor(color) + "'>" + content + "</font></u>";
     }
 
     public static String formatColor(String content, @IColor int color) {
         if (ObjectUtils.isEmpty(content)) {
             return content;
         } else {
-            return "<font color=\""+getColor(color)+"\">" + content + "</font>";
+            return "<font color=\"" + getColor(color) + "\">" + content + "</font>";
         }
     }
 
@@ -69,21 +76,23 @@ public class FormatViewUtils {
         if (ObjectUtils.isEmpty(content)) {
             return content;
         } else {
-            return "<font color=\""+color+"\">" + content + "</font>";
+            return "<font color=\"" + color + "\">" + content + "</font>";
         }
     }
 
     private static String getColor(@IColor int color) {
-        if (color == COLOR_RED) {
+        if (color == C_RED) {
             return "#FF0000";
-        } else if (color == COLOR_GREEN) {
+        } else if (color == C_GREEN) {
             return "#00FF37";
-        } else if (color == COLOR_BLACK) {
+        } else if (color == C_BLACK) {
             return "#111010";
-        } else if (color == COLOR_GREY) {
+        } else if (color == C_GREY) {
             return "#767876";
-        } else if (color == COLOR_ORANGE) {
+        } else if (color == C_ORANGE) {
             return "#e17808";
+        } else if (color == C_BLUE) {
+            return "#0000FB";
         }
         return "#111010";
     }

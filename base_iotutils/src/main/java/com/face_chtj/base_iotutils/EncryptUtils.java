@@ -28,7 +28,7 @@ public class EncryptUtils {
                 buf.append(Integer.toHexString(i));
             }
             return buf.toString();
-        } catch (NoSuchAlgorithmException e) {
+        } catch (Throwable e) {
             return "";
         }
     }

@@ -31,8 +31,15 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author chtj
@@ -59,18 +66,27 @@ public class NetUtils {
     private static final int NETWORK_TYPE_TD_SCDMA = 17;//TDSCDMA
     private static final int NETWORK_TYPE_IWLAN = 18;//IWLAN
 
-    private static final int TIMERD_DNS_REFRESH = 15;//预计多少秒后刷新dns列表
-    public static final String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
-//    public static final String[] DNS_LIST = new String[]{"192.168.11.0", "192.168.11.1", "192.168.11.2", "192.168.11.3", "192.168.11.4", "192.168.11.5", "192.168.11.6", "192.168.11.7", "192.168.11.8", "192.168.11.9", "47.106.129.104",};
-
+    private final int TIMERD_DNS_REFRESH = 15;//预计多少秒后刷新dns列表
+    private String[] DNS_LIST = new String[]{"223.5.5.5", "223.6.6.6", "180.76.76.76", "119.29.29.29", "210.2.4.8", "182.254.116.116", "101.226.4.6", "1.2.4.8", "218.30.118.6", "123.125.81.6", "140.207.198.6", "47.106.129.104", "8.8.8.8", "8.8.4.4", "122.112.208.1", "139.9.23.90", "114.115.192.11", "116.205.5.1", "116.205.5.30", "122.112.208.175"};
     public CopyOnWriteArrayList<DnsBean> cacheDnsList = new CopyOnWriteArrayList<>();
     //用于定时刷新DNS列表的时间→每隔一定的周期进行DNS刷新,筛选正常的列表用于网络校验
     public long dnsRefreshTime;
-
     private static volatile NetUtils sInstance;
 
+    /**
+     * 设置dns列表
+     * @param dnsList xx.xx.xx.xx,xx.n.n.n.....
+     */
+    public static void setDnsList(String[] dnsList) {
+        instance().DNS_LIST = dnsList;
+    }
+
+    public static String[] getDnsList() {
+        return instance().DNS_LIST;
+    }
+
     //singleton pattern
-    public static NetUtils instance() {
+    private static NetUtils instance() {
         if (sInstance == null) {
             synchronized (NetUtils.class) {
                 if (sInstance == null) {
@@ -243,8 +259,8 @@ public class NetUtils {
      */
     private static boolean comparePignDns() {
         String[] excludeDns = excludeDnsList();
-        String[] uniquedns = ObjectUtils.getUniqueList(DNS_LIST, convertAllCache(), excludeDns);
-        if (uniquedns.length <= 0 || DNS_LIST.length == instance().cacheDnsList.size()) {
+        String[] uniquedns = ObjectUtils.getUniqueList(getDnsList(), convertAllCache(), excludeDns);
+        if (uniquedns.length <= 0 || getDnsList().length == instance().cacheDnsList.size()) {
             return cacheOrAllPing();
         } else {
             return checkAddCache(uniquedns);
@@ -259,7 +275,7 @@ public class NetUtils {
     private static boolean checkAddCache(String[] uniquedns) {
         String[] newDns = ObjectUtils.getRandomList(uniquedns, 1);
         DnsBean dnsBean = NetUtils.ping(newDns[0], 1, 1);
-        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
+        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
     }
 
     public static String[] convertAllCache() {
@@ -306,10 +322,10 @@ public class NetUtils {
         if (getNetWorkType() != NETWORK_NO) {
             if (instance().cacheDnsList.size() <= 0) {
                 instance().dnsRefreshTime = System.currentTimeMillis();
-                return checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
+                return checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
             } else {
                 long diff = System.currentTimeMillis() / 1000 - (instance().dnsRefreshTime / 1000);
-                if (instance().dnsRefreshTime == 0 || diff >= TIMERD_DNS_REFRESH) {
+                if (instance().dnsRefreshTime == 0 || diff >= instance().TIMERD_DNS_REFRESH) {
                     instance().dnsRefreshTime = System.currentTimeMillis();
                     return comparePignDns();
                 } else {
@@ -327,7 +343,7 @@ public class NetUtils {
      */
     private static boolean cacheOrAllPing() {
         boolean pingResult = checkNetWork(ObjectUtils.getRandomList(convertAllCache(), 1), 1, 1);
-        return pingResult ? true : checkNetWork(ObjectUtils.shuffleStringArray(DNS_LIST), 1, 1);
+        return pingResult ? true : checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
     }
 
     /**
@@ -362,13 +378,13 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     private static DnsBean checkNetWorkCallback() {
-        for (String pingAddr : DNS_LIST) {
+        for (String pingAddr : getDnsList()) {
             DnsBean dnsBean = NetUtils.ping(pingAddr, 1, 1);
             if (dnsBean.isPass) {
                 return dnsBean;
             }
         }
-        String lastDns = DNS_LIST[DNS_LIST.length - 1];
+        String lastDns = getDnsList()[getDnsList().length - 1];
         return new DnsBean("ping -c 1 -w 1 -W " + lastDns, lastDns, false, findStringIndex(lastDns));
     }
 
@@ -393,31 +409,40 @@ public class NetUtils {
     }
 
     // 检查外部互联网连接是否正常
-    public static boolean isInetAddressAvailable(int timeoutMillis) {
+    public static boolean isInetAddressAvailable(int timeoutMillis,String host) {
         try {
-            InetAddress address = InetAddress.getByName("www.google.com");
+            InetAddress address = InetAddress.getByName(host);
             if (address != null) {
                 // 使用指定的超时时间进行 Ping 测试
                 if (address.isReachable(timeoutMillis)) {
                     return true;
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (Throwable e) {
         }
         return false;
     }
 
-    // 检查外部互联网连接是否正常
-    public static boolean isHttpConnectAvailable() {
-        try {
-            URL url = new URL("https://www.google.com");
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setRequestMethod("HEAD");
-            int responseCode = urlConnection.getResponseCode();
-            return responseCode == HttpURLConnection.HTTP_OK;
-        } catch (Throwable e) {
-            e.printStackTrace();
+    // 检查设备是否连接到外网
+    public static boolean isInternetAvailable(int timeout,String host) {
+        if (NetUtils.getNetWorkType()!=NETWORK_NO) {
+            try {
+                OkHttpClient client = new OkHttpClient.Builder()
+                        .followRedirects(true)
+                        .followSslRedirects(true)
+                        .connectTimeout(timeout, TimeUnit.MILLISECONDS)
+                        .readTimeout(timeout,TimeUnit.MILLISECONDS)
+                        .callTimeout(timeout, TimeUnit.MILLISECONDS)
+                        .writeTimeout(timeout, TimeUnit.MILLISECONDS)
+                        .build();
+                Request request = new Request.Builder()
+                        .url(host) // 你要测试的目标网址
+                        .method("HEAD", null)  // 使用 HEAD 请求方法
+                        .build();
+                return client.newCall(request).execute().isSuccessful();
+            } catch (Exception e) {
+                KLog.d("无法连接到外部服务器：" + e.getMessage());
+            }
         }
         return false;
     }
@@ -460,6 +485,8 @@ public class NetUtils {
         InputStreamReader isr = null;
         StringBuffer cbstr = new StringBuffer();
         try {
+            //过滤http:// 或 https://
+            ip=ip.replaceFirst("https?://","");
             cbstr.append("ping");
             cbstr.append(c > 0 ? (" -c " + c) : (" -c 1"));
             cbstr.append(w > 0 ? (" -w " + w) : (" -w 1"));
@@ -470,6 +497,7 @@ public class NetUtils {
             // 读取ping的内容，可以不加
             isr = new InputStreamReader(p.getInputStream());
             BufferedReader bReader = new BufferedReader(isr);
+            //KLog.d("cmd >> "+cbstr);
             String line = "";
             while ((line = bReader.readLine()) != null) {
                 String from = extractIcmpSeq(RegularTools.REGULAR_IP, line, true).replaceAll("-1", "");
@@ -482,6 +510,7 @@ public class NetUtils {
                 }
             }
             DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false, findStringIndex(ip));
+            //KLog.d(dnsBean.toString());
             refreshDns(dnsBean);
             return dnsBean;
         } catch (Throwable e) {
@@ -504,8 +533,8 @@ public class NetUtils {
      * @param dns
      */
     private static int findStringIndex(String dns) {
-        for (int i = 0; i < DNS_LIST.length; i++) {
-            if (DNS_LIST[i].equals(dns)) {
+        for (int i = 0; i < getDnsList().length; i++) {
+            if (getDnsList()[i].equals(dns)) {
                 return i; // 返回找到的字符串的下标
             }
         }

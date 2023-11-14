@@ -7,13 +7,15 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.util.TopTitleView
-        android:id="@+id/ttView"
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:ivback="@mipmap/back"
-        app:rightName="旋转"
-        app:name="屏幕适配" />
+        app:centerText="屏幕适配"
+        app:leftText="&lt;&lt;"
+        app:rightText="旋转"
+        app:leftBack="true"
+        app:textSize="24sp" />
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">

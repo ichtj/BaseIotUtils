@@ -27,15 +27,15 @@ import retrofit2.converter.scalars.ScalarsConverterFactory;
 /**
  * 描述：构建Retrofit实例，采用单例模式，全局共享同一个Retrofit
  */
-public class RequestClientTools {
+public class RequestClientUtils {
     private static final int CONNECTTIMEOUT = 25;
     private static final int READTIMEOUT    = 25;
     private static final int WRITETIMEOUT   = 25;
-    private static RequestClientTools INSTANCE = null;
+    private static RequestClientUtils INSTANCE = null;
     private final Retrofit mRetrofit;
     private String BASEURL = "http://www.baidu.com";
 
-    private RequestClientTools() {
+    private RequestClientUtils() {
         mRetrofit = create();
     }
 
@@ -45,11 +45,11 @@ public class RequestClientTools {
      * @return RequestClientManager
      */
     @NonNull
-    private static RequestClientTools getInstance() {
+    private static RequestClientUtils getInstance() {
         if (INSTANCE == null) {
-            synchronized (RequestClientTools.class) {
+            synchronized (RequestClientUtils.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = new RequestClientTools();
+                    INSTANCE = new RequestClientUtils();
                 }
             }
         }

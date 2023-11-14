@@ -26,6 +26,7 @@ import cn.jzvd.JzvdStd;
  */
 public class VideoPlayAty extends BaseActivity {
     VideoPlayerView jz_video;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,26 +54,16 @@ public class VideoPlayAty extends BaseActivity {
     public void initFile() {
         try {
             //视频文件不存在时将文件保存到本地
-            if (!new File(savePath).exists()) {
-                InputStream input = getAssets().open(fileName);
-                writeToLocal(savePath, input);
-                boolean isUnzip = ZipUtils.unzipFile(savePath, unZipPath);
-                if (isUnzip && new File(savePath).exists()) {
-                    KLog.d("Video ready！");
-                    ToastUtils.success("加载成功");
-                } else {
-                    KLog.d("Video not ready！");
-                    ToastUtils.error("加载失败");
-                }
-            } else {
-                KLog.d("Aging_Test_Video.mp4 exist");
-                ToastUtils.success("加载成功");
-            }
+            new File(savePath).delete();
+            InputStream input = getAssets().open(fileName);
+            writeToLocal(savePath, input);
+            ZipUtils.unzipToDirectory(savePath, unZipPath);
         } catch (Exception e) {
             e.printStackTrace();
             KLog.e("errMeg:" + e.getMessage());
         }
     }
+
     /**
      * 将InputStream写入本地文件
      *

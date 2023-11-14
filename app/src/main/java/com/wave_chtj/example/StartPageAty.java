@@ -5,13 +5,6 @@ import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.install.InstallAPkAty;
-import com.wave_chtj.example.network.NetMonitorAty;
-import com.wave_chtj.example.network.NetRecordAty;
-import com.wave_chtj.example.reboot.RebootAty;
-import com.wave_chtj.example.serialport.SerialPortAty;
-import com.wave_chtj.example.socket.SocketAty;
-import com.wave_chtj.example.test.TestAty;
 import com.wave_chtj.example.util.PACKAGES;
 
 /**

@@ -35,7 +35,7 @@
         tools:ignore="ProtectedPermissions" />
     <uses-feature android:name="android.hardware.usb.host" />
 
-    <application>
+    <application android:usesCleartextTraffic="true">
         <!--关闭notification的广播-->
         <receiver
             android:name=".notify.NotifyReceiver"

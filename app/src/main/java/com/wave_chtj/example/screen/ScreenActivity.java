@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.util.DisplayMetrics;
 import android.view.Display;
-import android.view.View;
 import android.view.WindowManager;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -19,10 +18,9 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.DisplayUtils;
 
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.view.TopTitleBar;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.TopTitleView;
 
 /**
  * 直接去查看 activity_screen.xml
@@ -32,7 +30,7 @@ public class ScreenActivity extends BaseActivity {
     private TextView tvSysProgress;
     private SeekBar sbProgress;
     private SeekBar sbSysProgress;
-    private TopTitleView ttView;
+    private TopTitleBar ctTopView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -82,17 +80,19 @@ public class ScreenActivity extends BaseActivity {
     }
 
     public void initView() {
-        ttView = findViewById(R.id.ttView);
+        ctTopView = findViewById(R.id.ctTopView);
         KLog.d(DisplayUtils.getScreenInfo(this));
-        ttView.setCenterClick(new View.OnClickListener() {
+        ctTopView.setOnTextViewClickListener(new TopTitleBar.OnTextViewClickListener() {
             @Override
-            public void onClick(View v) {
-                ToastUtils.info("centerClick");
+            public void onTextLeftClick() {
             }
-        });
-        ttView.setRightClick(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
+            public void onTextCenterClick() {
+            }
+
+            @Override
+            public void onTextRightClick() {
                 int orientation=getRequestedOrientation();
                 if(orientation==ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
                     KLog.d("onClick() orientation >> "+orientation);

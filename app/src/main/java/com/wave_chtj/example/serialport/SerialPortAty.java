@@ -30,7 +30,6 @@ import com.wave_chtj.example.StartPageAty;
 import com.wave_chtj.example.base.BaseActivity;
 import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.PACKAGES;
-import com.wave_chtj.example.util.TopTitleView;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
@@ -57,8 +56,6 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
     Button btnClear;
     @BindView(R.id.tvResult)
     TextView tvResult;
-    @BindView(R.id.ttView)
-    TopTitleView ttView;
     @BindView(R.id.sp_com2)
     Spinner spCom2;
     @BindView(R.id.sp_burate2)

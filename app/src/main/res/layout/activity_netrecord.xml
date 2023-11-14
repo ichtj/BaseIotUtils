@@ -5,29 +5,65 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.util.TopTitleView
-        android:id="@+id/ttView"
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:ivback="@mipmap/back"
-        app:name="网络定时检测" />
+        android:layout_height="50dp"
+        app:centerText="网络定时检测"
+        app:leftText="返回"
+        app:rightText="提交"
+        app:leftBack="true"
+        app:textSize="24sp" />
 
     <LinearLayout
+        android:layout_marginRight="15dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="毫秒："
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text_size" />
+
+        <EditText
+            android:id="@+id/etTimerd"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:gravity="center"
+            android:hint="毫秒"
+            android:inputType="number" />
 
         <Button
             android:id="@+id/btnStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="开启" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="开启"
+            android:textSize="@dimen/large_text_size" />
 
         <Button
             android:id="@+id/btnClose"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="关闭" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="关闭"
+            android:textSize="@dimen/large_text_size" />
+
+        <Button
+            android:id="@+id/btnClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:text="清空"
+            android:textSize="@dimen/large_text_size" />
 
         <TextView
             android:id="@+id/tvErrCount"
@@ -35,7 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:text="异常次数："
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text_size" />
 
         <TextView
             android:id="@+id/tvSuccCount"
@@ -43,21 +80,24 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:text="正常次数："
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text_size" />
 
         <Button
             android:id="@+id/btnRefresh"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="刷新次数" />
+            android:text="刷新次数"
+            android:textSize="@dimen/large_text_size" />
 
         <Button
             android:id="@+id/btnClearCount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
-            android:text="重置次数" />
+            android:text="重置次数"
+            android:textSize="@dimen/large_text_size" />
 
         <TextView
             android:id="@+id/tvDbm"
@@ -65,31 +105,37 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="15dp"
             android:text="信号："
-            android:textColor="@android:color/black" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/large_text_size" />
 
         <TextView
-            android:id="@+id/tvPingAddr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ping地址："
-            android:textColor="@android:color/black" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="20dp"
+            android:text="*文件保存在/sdcard/DCIM/nettimer.log中"
+            android:textColor="@android:color/holo_red_light"
+            android:textSize="@dimen/large_text_size" />
     </LinearLayout>
 
     <TextView
+        android:id="@+id/tvPingAddr"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="20dp"
-        android:text="*文件保存在/sdcard/DCIM/nettimer.log中"
-        android:textColor="@android:color/holo_red_light" />
+        android:text="DNS地址："
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/large_text_size" />
+
 
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@drawable/ic_result_bg"
         android:padding="6dp"
         android:scrollbars="vertical"
         android:text="检测结果"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="@dimen/large_text_size" />
 
 </LinearLayout>

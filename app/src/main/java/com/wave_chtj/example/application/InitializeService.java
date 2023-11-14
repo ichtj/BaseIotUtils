@@ -15,7 +15,7 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
  * desc 启动app时的优化
  */
 public class InitializeService extends IntentService {
-    private static final String TAG = "InitializeService";
+    private static final String TAG=InitializeService.class.getSimpleName();
     private static final String ACTION_INIT_WHEN_APP_CREATE = "com.anly.githubapp.service.action.INIT";
 
     public InitializeService() {

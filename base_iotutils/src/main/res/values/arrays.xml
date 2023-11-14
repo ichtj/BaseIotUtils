@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CustomTitleBar">
+        <attr name="centerText" format="string" />
+        <attr name="leftText" format="string" />
+        <attr name="rightText" format="string" />
+        <attr name="leftBack" format="boolean" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+</resources>

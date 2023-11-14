@@ -112,8 +112,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
     }
 
     public void initData() {
-        Space ramSpace = FStorageTools.getRamSpace();
-        Space sdSpace = FStorageTools.getSdcardSpace();
+        Space ramSpace = FStorageTools.getRamSpace(FStorageTools.TYPE_MB);
+        Space sdSpace = FStorageTools.getSdcardSpace(FStorageTools.TYPE_MB);
         dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(),
                 IndexItemAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(),

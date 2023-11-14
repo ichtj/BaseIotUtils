@@ -5,7 +5,6 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.format.Formatter;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,9 +21,9 @@ import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.entity.AppEntity;
+import com.face_chtj.base_iotutils.view.TopTitleBar;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.TopTitleView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,16 +38,26 @@ public class AllAppAty extends BaseActivity {
     private RecyclerView rvList;
     AllAppAdapter newsAdapter = null;
     private TextView tvCount, tvTotal;
-    private TopTitleView ttView;
+    private TopTitleBar ctTopView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allapp);
-        ttView = findViewById(R.id.ttView);
-        ttView.setRightClick(new View.OnClickListener() {
+        ctTopView = findViewById(R.id.ctTopView);
+        ctTopView.setOnTextViewClickListener(new TopTitleBar.OnTextViewClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onTextLeftClick() {
+
+            }
+
+            @Override
+            public void onTextCenterClick() {
+
+            }
+
+            @Override
+            public void onTextRightClick() {
                 int orientation=getRequestedOrientation();
                 if(orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
                     KLog.d("onClick() orientation >> "+orientation);
@@ -114,12 +123,12 @@ public class AllAppAty extends BaseActivity {
      * 启用全部应用的网络访问
      */
     public void enableAllAppNetClick(View view) {
-        boolean isPass = FIPTablesTools.clearAllRule();
-        if (isPass) {
-            ToastUtils.success("启用成功！");
-        } else {
-            ToastUtils.error("启用失败！");
-        }
+//        boolean isPass = FIPTablesTools.clearAllRule();
+//        if (isPass) {
+//            ToastUtils.success("启用成功！");
+//        } else {
+//            ToastUtils.error("启用失败！");
+//        }
     }
 
     /**

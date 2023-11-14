@@ -15,7 +15,6 @@ import androidx.annotation.Nullable;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.wave_chtj.example.R;
 import com.wave_chtj.example.base.BaseActivity;
-import com.wave_chtj.example.util.TopTitleView;
 
 import java.text.DecimalFormat;
 
@@ -24,8 +23,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class TimerAty extends BaseActivity {
-    @BindView(R.id.ttView)
-    TopTitleView ttView;
     @BindView(R.id.btn_start)
     Button btnStart;
     @BindView(R.id.btn_finish)

@@ -234,6 +234,20 @@ public class AppsUtils {
     }
 
     /**
+     * 获取应用uid
+     */
+    public static int getUidByPackageName(String packageName) {
+        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
+        try {
+            ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
+            return applicationInfo.uid;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+    /**
      * 判断 App 是否处于前台
      *
      * @return true |false

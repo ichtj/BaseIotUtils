@@ -5,13 +5,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.util.TopTitleView
-        android:id="@+id/ttView"
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:ivback="@mipmap/back"
-        app:rightName="旋转"
-        app:name="应用列表" />
+        android:layout_height="50dp"
+        app:centerText="应用列表"
+        app:leftText="&lt;&lt;"
+        app:rightText="旋转"
+        app:leftBack="true"
+        app:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"

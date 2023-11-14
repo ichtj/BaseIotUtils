@@ -156,14 +156,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvEnableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isClearResult = FIPTablesTools.clearRule(list.get(posiNum).uid);
+                boolean isClearResult = FIPTablesTools.allowAppInternet(list.get(posiNum).packageName);
                 ToastUtils.info(isClearResult?"启用成功,该应用可正常上网！":"启用失败,请重试！");
             }
         });
         holder.tvDisableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                boolean isPutComplete = FIPTablesTools.putDisableRule(list.get(posiNum).uid);
+                boolean isPutComplete = FIPTablesTools.blockAppInternet(list.get(posiNum).packageName);
                 ToastUtils.info(isPutComplete?"禁用成功,该应用无法上网！":"禁用失败,请重试！");
             }
         });

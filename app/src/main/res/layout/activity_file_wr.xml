@@ -6,12 +6,15 @@
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.util.TopTitleView
-        android:id="@+id/ttView"
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:ivback="@mipmap/back"
-        app:name="文件读写" />
+        android:layout_height="50dp"
+        app:centerText="文件读写"
+        app:leftText="&lt;&lt;"
+        app:rightText=""
+        app:leftBack="true"
+        app:textSize="24sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
