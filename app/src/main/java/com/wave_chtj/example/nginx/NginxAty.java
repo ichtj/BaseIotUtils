@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
+import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
@@ -32,7 +33,7 @@ public class NginxAty extends BaseActivity {
         tvResult = findViewById(R.id.tvResult);
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 
-        tvNowIp.setText("本机IP："+DeviceUtils.getLocalIp());
+        tvNowIp.setText("本机IP："+ NetUtils.getLocalIp());
     }
 
     public void startOnClick(View view) {

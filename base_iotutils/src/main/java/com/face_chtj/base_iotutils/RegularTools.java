@@ -15,6 +15,8 @@ public class RegularTools {
     public final static String REGULAR_URL="(?i)\\b((?:https?://|www\\d{0,3}[.]|[a-z0-9.\\-]+[.][a-z]{2,4}/)(?:[^\\s()<>]+|\\(([^(\\s()<>]+|\\(([^(\\s()<>]+\\))*\\)))*\\))+(?:\\(([^(\\s()<>]+|\\(([^(\\s()<>]+\\))*\\)))*\\)|[^\\s`!()\\[\\]{};:'\".,<>?«»“”‘’]))";
     //email verification
     public final static String REGULAR_EMAIL = "\\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}\\b";
+    //time HH:mm
+    private static final String TIME_PATTERN = "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$";
 
     /**
      * general regular method

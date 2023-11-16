@@ -116,7 +116,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
         Space sdSpace = FStorageTools.getSdcardSpace(FStorageTools.TYPE_MB);
         dataList.add(new Dbean(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid(),
                 IndexItemAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + DeviceUtils.getLteIccid(),
+        dataList.add(new Dbean(FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid(),
                 IndexItemAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_SERIAL, "序列号：" + OptionTools.getSerialNo(),
                 IndexItemAdapter.L_NO_BG));
@@ -126,7 +126,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
                 IndexItemAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot(),
                 IndexItemAdapter.L_NO_BG));
-        dataList.add(new Dbean(FKey.KEY_LOCAL_IP, "本地IP：" + DeviceUtils.getLocalIp(),
+        dataList.add(new Dbean(FKey.KEY_LOCAL_IP, "本地IP：" + NetUtils.getLocalIp(),
                 IndexItemAdapter.L_NO_BG));
         dataList.add(new Dbean(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion(),
                 IndexItemAdapter.L_NO_BG));

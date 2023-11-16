@@ -10,11 +10,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
+import android.net.LinkAddress;
+import android.net.LinkProperties;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Build;
+import android.telephony.SubscriptionInfo;
+import android.telephony.SubscriptionManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
+
 import androidx.annotation.RequiresPermission;
 
 import com.face_chtj.base_iotutils.entity.DnsBean;
@@ -23,6 +31,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -45,14 +54,11 @@ import okhttp3.Response;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:网络工具类
- * 网络类型如下：
- * > NETWORK_NO      = -1; 当前无网络连接
- * > NETWORK_WIFI    =  1; wifi的情况下
- * > NETWORK_2G      =  2; 切换到2G环境下
- * > NETWORK_3G      =  3; 切换到3G环境下
- * > NETWORK_4G      =  4; 切换到4G环境下
- * > NETWORK_UNKNOWN =  5; 未知网络
- * > NETWORK_ETH     =  9; ETH以太网
+ * --获取网络类型 {@link #getNetWorkType()}
+ * --获取网络类型 {@link #getNetWorkTypeName()}
+ * --获取运营商名称 {@link #getNetworkOperatorName()}
+ * --获取以太网ipv4地址 {@link #getEthIPv4Address()}
+ * --获取sim卡的iccid列表 {@link #getLteIccid()}
  */
 public class NetUtils {
     public static final int NETWORK_NO = -1;//no network
@@ -828,5 +834,102 @@ public class NetUtils {
             }
         }
         return "02:00:00:00:00:00";
+    }
+
+    /**
+     * 获取本机IP：未区分当前连接的网络
+     */
+    public static String getLocalIp() {
+        List<String> ipList = new ArrayList<>();
+        try {
+            Enumeration enNetI = NetworkInterface.getNetworkInterfaces();
+            while (enNetI.hasMoreElements()) {
+                NetworkInterface netI = (NetworkInterface) enNetI.nextElement();
+                Enumeration enumIpAddr = netI.getInetAddresses();
+
+                while (enumIpAddr.hasMoreElements()) {
+                    InetAddress inetAddress = (InetAddress) enumIpAddr.nextElement();
+                    if (inetAddress instanceof Inet4Address && !inetAddress.isLoopbackAddress()) {
+                        ipList.add(inetAddress.getHostAddress());
+                    }
+                }
+            }
+        } catch (SocketException var4) {
+            var4.printStackTrace();
+            return "0.0.0.0";
+        }
+        if (ipList.size() > 0) {
+            return ipList.get(ipList.size() - 1);
+        } else {
+            return "0.0.0.0";
+        }
+    }
+
+    /**
+     * 获取以太网的ip地址
+     */
+    public static String getEthIPv4Address() {
+        ConnectivityManager connManager = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network[] networks = connManager.getAllNetworks();
+            for (Network network : networks) {
+                NetworkCapabilities caps = connManager.getNetworkCapabilities(network);
+                if (caps != null && caps.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET)) {
+                    LinkProperties linkProperties = connManager.getLinkProperties(network);
+                    if (linkProperties != null) {
+                        for (LinkAddress linkAddress : linkProperties.getLinkAddresses()) {
+                            if (linkAddress.getAddress().getHostAddress() != null &&
+                                    linkAddress.getAddress().getHostAddress().contains(":")) {
+                                // Skip IPv6 addresses
+                                continue;
+                            }
+                            String ipv4Address = linkAddress.getAddress().getHostAddress();
+                            return ipv4Address;
+                        }
+                    }
+                }
+            }
+        } else {
+            // For versions before Android M, there is no direct API to get Ethernet information.
+            // You may need to use reflection or other methods to check Ethernet connectivity.
+            //Log.w(TAG, "Android version is too low to directly get Ethernet information.");
+        }
+        return null;
+    }
+
+    /**
+     * sim卡ccid
+     *
+     * @return ccid列表
+     */
+    public static List<String> getLteIccid() {
+        List<String> iccid = new ArrayList<>();
+        try {
+            if (Build.VERSION.SDK_INT >= 23) {
+                SubscriptionManager sm = SubscriptionManager.from(BaseIotUtils.getContext());
+                List<SubscriptionInfo> sis = sm.getActiveSubscriptionInfoList();
+                if (sis.size() >= 1) {
+                    SubscriptionInfo si1 = sis.get(0);
+                    iccid.add(si1.getIccId());
+                    //String phoneNum1 = si1.getNumber();
+                }
+                if (sis.size() >= 2) {
+                    SubscriptionInfo si2 = sis.get(1);
+                    iccid.add(si2.getIccId());
+                    //String phoneNum2 = si2.getNumber();
+                }
+                // 获取SIM卡数量相关信息：
+                //int count = sm.getActiveSubscriptionInfoCount();//当前实际插卡数量
+                //int max   = sm.getActiveSubscriptionInfoCountMax();//当前卡槽数量
+                return iccid;
+            } else {
+                TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+                iccid.add(tm.getSimSerialNumber());
+                return iccid;
+            }
+        } catch (Throwable e) {
+            Log.e("getLteIccid", e.getMessage());
+            return iccid;
+        }
     }
 }

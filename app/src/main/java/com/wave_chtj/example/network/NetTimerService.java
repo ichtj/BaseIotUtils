@@ -131,7 +131,7 @@ public class NetTimerService extends Service {
                             String time = TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
                             boolean isNet4G = NetUtils.is4G();
                             String dbm = FLteTools.getDbm();
-                            String localIp = DeviceUtils.getLocalIp();
+                            String localIp = NetUtils.getLocalIp();
                             NetBean netBean = new NetBean(pingDns, dbm, localIp, netType, isNet4G, pingResult, netConnect);
                             handler.sendMessage(handler.obtainMessage(0x10, netBean));
                             FileUtils.writeFileData(SAVE_PATH, "\ntime：" + time + ", dns：" + Arrays.toString(pingDns) + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + Arrays.toString(pingResult) + ", dbm：" + dbm + ", localIp：" + localIp + ",netConnect：" + netConnect, false);
