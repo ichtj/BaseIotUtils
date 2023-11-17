@@ -81,6 +81,7 @@ public class NetUtils {
 
     /**
      * 设置dns列表
+     *
      * @param dnsList xx.xx.xx.xx,xx.n.n.n.....
      */
     public static void setDnsList(String[] dnsList) {
@@ -406,7 +407,7 @@ public class NetUtils {
             DnsBean dnsBean = NetUtils.ping(dns[0], 1, 1);
             if (dnsBean.isPass) {
                 return dnsBean;
-            }else{
+            } else {
                 return checkNetWorkCallback();
             }
         } else {
@@ -415,7 +416,7 @@ public class NetUtils {
     }
 
     // 检查外部互联网连接是否正常
-    public static boolean isInetAddressAvailable(int timeoutMillis,String host) {
+    public static boolean isInetAddressAvailable(int timeoutMillis, String host) {
         try {
             InetAddress address = InetAddress.getByName(host);
             if (address != null) {
@@ -430,14 +431,14 @@ public class NetUtils {
     }
 
     // 检查设备是否连接到外网
-    public static boolean isInternetAvailable(int timeout,String host) {
-        if (NetUtils.getNetWorkType()!=NETWORK_NO) {
+    public static boolean isInternetAvailable(int timeout, String host) {
+        if (NetUtils.getNetWorkType() != NETWORK_NO) {
             try {
                 OkHttpClient client = new OkHttpClient.Builder()
                         .followRedirects(true)
                         .followSslRedirects(true)
                         .connectTimeout(timeout, TimeUnit.MILLISECONDS)
-                        .readTimeout(timeout,TimeUnit.MILLISECONDS)
+                        .readTimeout(timeout, TimeUnit.MILLISECONDS)
                         .callTimeout(timeout, TimeUnit.MILLISECONDS)
                         .writeTimeout(timeout, TimeUnit.MILLISECONDS)
                         .build();
@@ -492,7 +493,7 @@ public class NetUtils {
         StringBuffer cbstr = new StringBuffer();
         try {
             //过滤http:// 或 https://
-            ip=ip.replaceFirst("https?://","");
+            ip = ip.replaceFirst("https?://", "");
             cbstr.append("ping");
             cbstr.append(c > 0 ? (" -c " + c) : (" -c 1"));
             cbstr.append(w > 0 ? (" -w " + w) : (" -w 1"));
@@ -902,32 +903,55 @@ public class NetUtils {
      */
     public static String getLteIpAddress() {
         ConnectivityManager connectivityManager = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-
         if (connectivityManager != null) {
             NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+            if (activeNetwork != null && activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                try {
+                    Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+                    while (interfaces.hasMoreElements()) {
+                        NetworkInterface iface = interfaces.nextElement();
+                        Enumeration<InetAddress> addresses = iface.getInetAddresses();
 
-            if (activeNetwork != null) {
-                if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
-                    try {
-                        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
-                        while (interfaces.hasMoreElements()) {
-                            NetworkInterface iface = interfaces.nextElement();
-                            Enumeration<InetAddress> addresses = iface.getInetAddresses();
-
-                            while (addresses.hasMoreElements()) {
-                                InetAddress addr = addresses.nextElement();
-                                if (!addr.isLoopbackAddress() && addr.getAddress().length == 4) {
-                                    return addr.getHostAddress();
-                                }
+                        while (addresses.hasMoreElements()) {
+                            InetAddress addr = addresses.nextElement();
+                            if (!addr.isLoopbackAddress() && addr.getAddress().length == 4) {
+                                return addr.getHostAddress();
                             }
                         }
-                    } catch (Exception e) {
-                        Log.e("NetworkUtils", "Error getting IP address: " + e.getMessage());
                     }
+                } catch (Exception e) {
+                    Log.e("NetworkUtils", "Error getting IP address: " + e.getMessage());
                 }
             }
         }
         return null;
+    }
+
+    /**
+     * 获取wifi的ipv4地址
+     */
+    public static String getWifiIpAddress() {
+        WifiManager wifiManager = (WifiManager) BaseIotUtils.getContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+
+        if (wifiManager != null && wifiManager.isWifiEnabled()) {
+            WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            int ipAddress = wifiInfo.getIpAddress();
+
+            // Convert the IP address to a human-readable format
+            String ipAddressString = formatIpAddress(ipAddress);
+
+            Log.d("WifiUtils", "WiFi IP Address: " + ipAddressString);
+            return ipAddressString;
+        }
+
+        return null;
+    }
+
+    private static String formatIpAddress(int ipAddress) {
+        return (ipAddress & 0xFF) + "." +
+                ((ipAddress >> 8) & 0xFF) + "." +
+                ((ipAddress >> 16) & 0xFF) + "." +
+                (ipAddress >> 24 & 0xFF);
     }
 
     /**
