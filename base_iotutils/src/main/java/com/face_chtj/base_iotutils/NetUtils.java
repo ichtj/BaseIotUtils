@@ -898,6 +898,39 @@ public class NetUtils {
     }
 
     /**
+     * 获取4g的IP地址
+     */
+    public static String getLteIpAddress() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+
+        if (connectivityManager != null) {
+            NetworkInfo activeNetwork = connectivityManager.getActiveNetworkInfo();
+
+            if (activeNetwork != null) {
+                if (activeNetwork.getType() == ConnectivityManager.TYPE_WIFI || activeNetwork.getType() == ConnectivityManager.TYPE_MOBILE) {
+                    try {
+                        Enumeration<NetworkInterface> interfaces = NetworkInterface.getNetworkInterfaces();
+                        while (interfaces.hasMoreElements()) {
+                            NetworkInterface iface = interfaces.nextElement();
+                            Enumeration<InetAddress> addresses = iface.getInetAddresses();
+
+                            while (addresses.hasMoreElements()) {
+                                InetAddress addr = addresses.nextElement();
+                                if (!addr.isLoopbackAddress() && addr.getAddress().length == 4) {
+                                    return addr.getHostAddress();
+                                }
+                            }
+                        }
+                    } catch (Exception e) {
+                        Log.e("NetworkUtils", "Error getting IP address: " + e.getMessage());
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
      * sim卡ccid
      *
      * @return ccid列表
