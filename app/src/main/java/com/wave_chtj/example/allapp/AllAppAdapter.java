@@ -77,7 +77,6 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 try {
                     AppsUtils.openPackage(list.get(posiNum).packageName);
                 } catch (Exception e) {
-                    e.printStackTrace();
                     ToastUtils.error("打开错误!");
                 }
             }
@@ -90,11 +89,10 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 ClipboardManager cm = (ClipboardManager) BaseIotUtils.getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 // 创建普通字符型ClipData
                 StringBuilder sb = new StringBuilder();
-                String appPath=AppsUtils.getAppPath(pkgName);
                 sb.append("appName：" + list.get(posiNum).appName + "\n");
-                sb.append("packageName：" + list.get(posiNum).packageName + "\n");
-                sb.append("appPath：" + appPath+ "\n");
-                sb.append("apkVersion：" + list.get(posiNum).versionCode + "\n");
+                sb.append("pkgName：" + list.get(posiNum).packageName + "\n");
+                sb.append("appPath：" + list.get(posiNum).sourceDir+ "\n");
+                sb.append("version：" + list.get(posiNum).versionCode + "\n");
                 sb.append("isSys：" + list.get(posiNum).isSystemApp);
                 // 将ClipData内容放到系统剪贴板里。
                 ClipData mClipData = ClipData.newPlainText("Label", sb.toString());

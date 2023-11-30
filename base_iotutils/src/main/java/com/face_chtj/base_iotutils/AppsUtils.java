@@ -28,7 +28,7 @@ import java.util.zip.ZipFile;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:AppsUtils相关工具类
- * --查询桌面所有应用 {@link #getAllApp()} ()}
+ * --查询桌面所有应用 {@link #getAllApp(boolean)} ()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}
@@ -65,7 +65,7 @@ public class AppsUtils {
     /**
      * 查询所有应用 包含包名下app名称，图标的明细信息list
      */
-    public static List<AppEntity> getAllApp() {
+    public static List<AppEntity> getAllApp(boolean needSysApp) {
         PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
         ActivityManager activityManager = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<AppEntity> appList = new ArrayList<>();
@@ -73,18 +73,21 @@ public class AppsUtils {
         for (ApplicationInfo appInfo : installedApps) {
             try {
                 PackageInfo packageInfo = packageManager.getPackageInfo(appInfo.packageName, 0);
+                boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+                if (!needSysApp&&isSystemApp){
+                    continue;
+                }
                 String appName = packageManager.getApplicationLabel(appInfo).toString();
                 String packageName = appInfo.packageName;
                 int versionCode = packageInfo.versionCode;
                 String versionName = packageInfo.versionName;
                 Drawable icon = packageManager.getApplicationIcon(appInfo);
-                String topApp=getTopApp();
-                boolean isTopApp = appInfo.packageName.contains(topApp);
-                boolean isRunning = isAppRunning(appInfo.packageName);
-                boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
                 int uid = appInfo.uid;
                 int pid = getPid(appInfo.packageName,activityManager);
                 String sourceDir = appInfo.sourceDir;
+                String topApp=getTopApp();
+                boolean isRunning = isAppRunning(appInfo.packageName);
+                boolean isTopApp = appInfo.packageName.contains(topApp);
                 AppEntity app = new AppEntity(appName, packageName, versionCode, versionName, icon, isTopApp, isRunning, isSystemApp,false, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
                 appList.add(app);
             } catch (Throwable e) {

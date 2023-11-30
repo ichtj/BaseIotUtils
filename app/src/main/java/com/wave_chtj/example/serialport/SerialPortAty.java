@@ -17,6 +17,7 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
@@ -32,14 +33,18 @@ import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.PACKAGES;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-@Route(path = PACKAGES.BASE+"serialport")
+
+@Route(path = PACKAGES.BASE + "serialport")
 public class SerialPortAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
     private static final String TAG = "SerialPortAty";
     @BindView(R.id.sp_com)
