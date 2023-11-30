@@ -63,9 +63,45 @@ public class AppsUtils {
     }
 
     /**
+     * 查询桌面所有应用 包含包名下app名称，图标的明细信息list
+     */
+    public static List<AppEntity> getDeskTopAppList() {
+        try {
+            List<AppEntity> appEntityList = new ArrayList<AppEntity>();
+            Intent intent = new Intent(Intent.ACTION_MAIN, null);
+            intent.addCategory(Intent.CATEGORY_LAUNCHER);
+            PackageManager pm = BaseIotUtils.getContext().getPackageManager();
+            List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
+            for (int i = 0; i < apps.size(); i++) {
+                ResolveInfo info = apps.get(i);
+                KLog.d("getDeskTopAppList() info >> " + info.activityInfo.toString());
+                String pkg = info.activityInfo.packageName;
+                Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
+                ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
+                CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
+                boolean isSys = false;
+                if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
+                    isSys = true;
+                }
+                String topApp=getTopApp();
+                boolean isTopApp = ai.packageName.contains(topApp);
+                int vCode = pm.getPackageInfo(pkg, 0).versionCode;
+                String vName = pm.getPackageInfo(pkg, 0).versionName;
+                String sourceDir = ai.sourceDir;
+                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,icon,isTopApp,isAppRunning(pkg),isSys,false,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
+                appEntityList.add(entity);
+            }
+            return appEntityList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    /**
      * 查询所有应用 包含包名下app名称，图标的明细信息list
      */
-    public static List<AppEntity> getAllApp(boolean needSysApp) {
+    public static List<AppEntity> getAllApp() {
         PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
         ActivityManager activityManager = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<AppEntity> appList = new ArrayList<>();
@@ -74,9 +110,6 @@ public class AppsUtils {
             try {
                 PackageInfo packageInfo = packageManager.getPackageInfo(appInfo.packageName, 0);
                 boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
-                if (!needSysApp&&isSystemApp){
-                    continue;
-                }
                 String appName = packageManager.getApplicationLabel(appInfo).toString();
                 String packageName = appInfo.packageName;
                 int versionCode = packageInfo.versionCode;
@@ -86,8 +119,8 @@ public class AppsUtils {
                 int pid = getPid(appInfo.packageName,activityManager);
                 String sourceDir = appInfo.sourceDir;
                 String topApp=getTopApp();
-                boolean isRunning = isAppRunning(appInfo.packageName);
                 boolean isTopApp = appInfo.packageName.contains(topApp);
+                boolean isRunning = isAppRunning(appInfo.packageName);
                 AppEntity app = new AppEntity(appName, packageName, versionCode, versionName, icon, isTopApp, isRunning, isSystemApp,false, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
                 appList.add(app);
             } catch (Throwable e) {

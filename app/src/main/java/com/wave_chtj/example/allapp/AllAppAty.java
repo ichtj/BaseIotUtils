@@ -102,19 +102,31 @@ public class AllAppAty extends BaseActivity {
                     KLog.e(TAG, "errMeg:" + e.getMessage());
                     tvTotal.setText("总流量：计算异常");
                 }
-                newsAdapter.setList(AppsUtils.getAllApp(true));
+                newsAdapter.setList(AppsUtils.getAllApp());
             }
         });
 
     }
 
     /**
-     * 查询桌面应用
+     * 查询全部应用
      *
      * @param view
      */
     public void getAllAppClick(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp(true);
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
+        tvCount.setText("总数：" + appEntityList.size());
+        newsAdapter.setList(appEntityList);
+    }
+
+
+    /**
+     * 查询桌面应用
+     *
+     * @param view
+     */
+    public void getDeskAppClick(View view) {
+        List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
         tvCount.setText("总数：" + appEntityList.size());
         newsAdapter.setList(appEntityList);
     }
@@ -154,7 +166,7 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getNormalApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp(true);
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
         List<AppEntity> normalAppList=new ArrayList<>();
         for (int i = 0; i < appEntityList.size(); i++) {
             if (!appEntityList.get(i).isSystemApp){
@@ -171,7 +183,7 @@ public class AllAppAty extends BaseActivity {
      * @param view
      */
     public void getSystemApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp(true);
+        List<AppEntity> appEntityList = AppsUtils.getAllApp();
         List<AppEntity> systemAppList=new ArrayList<>();
         for (int i = 0; i < appEntityList.size(); i++) {
             if (appEntityList.get(i).isSystemApp){

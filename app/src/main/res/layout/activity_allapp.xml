@@ -10,9 +10,9 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         app:centerText="应用列表"
+        app:leftBack="true"
         app:leftText="&lt;&lt;"
         app:rightText="旋转"
-        app:leftBack="true"
         app:textSize="24sp" />
 
     <LinearLayout
@@ -35,9 +35,9 @@
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginLeft="5dp"
             android:layout_height="match_parent"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:orientation="vertical">
 
@@ -50,6 +50,17 @@
                 android:background="@drawable/button_switch"
                 android:onClick="getAllAppClick"
                 android:text="全部应用"
+                android:textSize="@dimen/small_text_size" />
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:onClick="getDeskAppClick"
+                android:text="桌面应用"
                 android:textSize="@dimen/small_text_size" />
 
             <Button
@@ -84,6 +95,7 @@
                 android:onClick="enableAllAppNetClick"
                 android:text="启用全部网络"
                 android:textSize="@dimen/small_text_size" />
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
