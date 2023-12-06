@@ -57,9 +57,15 @@ public class AppsUtils {
     }
 
     public static String getAppPath(String pkgName) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("pm path " + pkgName, true);
-        KLog.d("getAppPath() path >> " + commandResult.successMsg);
-        return commandResult.result == 0 ? commandResult.successMsg.replace("package:", "") : "null";
+        try {
+            PackageManager pm = BaseIotUtils.getContext().getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(pkgName, 0);
+            // appInfo.sourceDir 就是APK文件的路径
+            return appInfo.sourceDir;
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**
@@ -74,7 +80,7 @@ public class AppsUtils {
             List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
-                KLog.d("getDeskTopAppList() info >> " + info.activityInfo.toString());
+                //KLog.d("getDeskTopAppList() info >> " + info.activityInfo.toString());
                 String pkg = info.activityInfo.packageName;
                 Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
@@ -430,11 +436,7 @@ public class AppsUtils {
     public static String getTopApp() {
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
-        if (list != null) {
-            return (list.get(0).topActivity.getPackageName());
-        } else {
-            return null;
-        }
+        return list != null?list.get(0).topActivity.getPackageName():null;
     }
 
     /**

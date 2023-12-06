@@ -13,6 +13,3 @@ git clone git仓库地址 --depth=1 只下载到最新版本，而不是带有�
 
 //将某次commit打包到update_201800001.tar中
 git diff-tree -r --no-commit-id --name-only f4710c4a32975904b00609f3145c709f31392140 | xargs tar -rf update_201800001.tar
-
-
-

@@ -38,45 +38,6 @@ public class ScreenActivity extends BaseActivity {
         setContentView(R.layout.activity_screen);
         //这里只是查看屏幕相关信息 与屏幕适配无关
         initView();
-        screenInfo();
-    }
-
-    public void screenInfo() {
-        WindowManager windowManager = getWindowManager();
-
-        Display display = windowManager.getDefaultDisplay();
-
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-
-        display.getMetrics(displayMetrics);
-
-        int mWidthPixels = displayMetrics.widthPixels;
-        int mHeightPixels = displayMetrics.heightPixels;
-        if (Build.VERSION.SDK_INT >= 14 && Build.VERSION.SDK_INT < 17) {
-            try {
-                mWidthPixels = (Integer) Display.class.getMethod("getRawWidth").invoke(display);
-
-                mHeightPixels = (Integer) Display.class.getMethod("getRawHeight").invoke(display);
-
-            } catch (Exception ignored) {
-            }
-        }
-
-        if (Build.VERSION.SDK_INT >= 17) {
-            try {
-                Point realSize = new Point();
-                Display.class.getMethod("getRealSize", Point.class).invoke(display, realSize);
-                mWidthPixels = realSize.x;
-                mHeightPixels = realSize.y;
-            } catch (Exception ignored) {
-            }
-            DisplayMetrics dm = new DisplayMetrics();
-            getWindowManager().getDefaultDisplay().getMetrics(dm);
-            double x = Math.pow(mWidthPixels / dm.xdpi, 2);
-            double y = Math.pow(mHeightPixels / dm.ydpi, 2);
-            double screenInches = Math.sqrt(x + y);
-            KLog.d("Screen inches : " + screenInches);
-        }
     }
 
     public void initView() {
