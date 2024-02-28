@@ -1,0 +1,13 @@
+# ninja log v5
+0	84	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+85	185	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1
+2	230	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+230	307	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1
+2	112	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+112	186	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1
+12	422	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+423	517	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1
+2	80	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+80	442	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1
+2	108	0	CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o	4a896379e9f2e7b2
+108	189	0	../../../../build/intermediates/cmake/release/obj/armeabi-v7a/libcrashtest.so	2a2fa303fb9b87a1

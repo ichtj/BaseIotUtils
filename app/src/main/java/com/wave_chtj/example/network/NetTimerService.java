@@ -127,12 +127,22 @@ public class NetTimerService extends Service {
                                 pingResult[i] = listItemResult;
                             }
                             putCount(netConnect);
-                            String netType = NetUtils.getNetWorkTypeName();
+                            String netTypeName = NetUtils.getNetWorkTypeName();
+                            int netType = NetUtils.getNetWorkType();
                             String time = TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss");
                             boolean isNet4G = NetUtils.is4G();
-                            String dbm = FLteTools.getDbm();
-                            String localIp = NetUtils.getLocalIp();
-                            NetBean netBean = new NetBean(pingDns, dbm, localIp, netType, isNet4G, pingResult, netConnect);
+                            String dbm = "0 dbm 0 asu";
+                            String localIp="0.0.0.0";
+                            if (netType==NetUtils.NETWORK_4G){
+                                localIp=NetUtils.getLteIpAddress();
+                                dbm = FLteTools.getDbm();
+                                KLog.d("dbm>>"+dbm);
+                            }else if(netType==NetUtils.NETWORK_WIFI){
+                                localIp=NetUtils.getWifiIpAddress();
+                            }else if(netType==NetUtils.NETWORK_ETH){
+                                localIp=NetUtils.getEthIPv4Address();
+                            }
+                            NetBean netBean = new NetBean(pingDns, dbm, localIp, netTypeName, isNet4G, pingResult, netConnect);
                             handler.sendMessage(handler.obtainMessage(0x10, netBean));
                             FileUtils.writeFileData(SAVE_PATH, "\ntime：" + time + ", dns：" + Arrays.toString(pingDns) + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + Arrays.toString(pingResult) + ", dbm：" + dbm + ", localIp：" + localIp + ",netConnect：" + netConnect, false);
                         }

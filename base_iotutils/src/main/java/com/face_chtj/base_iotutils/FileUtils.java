@@ -354,4 +354,35 @@ public class FileUtils {
         downloadFile.close();
         input.close();
     }
+
+    /**
+     * 查找特定的文件
+     * @param directory 文件目录
+     * @param threshold 文件大小MB
+     * @return 文件列表
+     */
+    public static List<File> findFileByLength(File directory,long threshold) {
+        List<File> largeFiles = new ArrayList<>();
+        scanDirectory(directory, largeFiles,threshold);
+        return largeFiles;
+    }
+
+    private static void scanDirectory(File directory, List<File> largeFiles,long threshold) {
+        if (!directory.exists() || !directory.isDirectory()) {
+            return;
+        }
+        // 扫描目录中的文件
+        File[] files = directory.listFiles();
+        if (files != null) {
+            for (File file : files) {
+                if (file.isFile() && file.length() > threshold) {
+                    // 文件大小超过阈值，将其添加到大文件集合中
+                    largeFiles.add(file);
+                } else if (file.isDirectory()) {
+                    // 递归扫描子目录
+                    scanDirectory(file, largeFiles,threshold);
+                }
+            }
+        }
+    }
 }

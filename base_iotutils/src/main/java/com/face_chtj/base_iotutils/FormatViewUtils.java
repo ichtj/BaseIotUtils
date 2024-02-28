@@ -40,6 +40,16 @@ public class FormatViewUtils {
     }
 
     /**
+     * scroll back to top
+     *
+     * @param textView
+     */
+    public static void scrollBackToTop(TextView textView) {
+        textView.scrollTo(0, 0);
+        textView.setText("");
+    }
+
+    /**
      * show data to Activity
      *
      * @param htmlStr Support html tags
@@ -48,8 +58,8 @@ public class FormatViewUtils {
         if (textView != null && !ObjectUtils.isEmpty(htmlStr)) {
             textView.append(Html.fromHtml(TimeUtils.getTodayDateHms("yyyy-MM-dd-HHmmss-SS") + "：" + htmlStr));
             textView.append("\n");
-            Layout layout=textView.getLayout();
-            if (layout!=null){
+            Layout layout = textView.getLayout();
+            if (layout != null) {
                 int scrollAmount = layout.getLineTop(textView.getLineCount()) - textView.getHeight();
                 if (scrollAmount > 0) {
                     textView.scrollTo(0, scrollAmount);

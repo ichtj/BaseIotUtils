@@ -4,6 +4,7 @@ public class CrashTools {
     static {
         System.loadLibrary("crashtest");
     }
+
     // JNI
     public native static void crashtest();
 }

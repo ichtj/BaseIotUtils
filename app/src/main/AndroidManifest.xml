@@ -5,6 +5,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="android.uid.system"
     package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -77,10 +78,9 @@
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature android:name="android.hardware.usb.host" />
-    <uses-feature android:name="android.hardware.usb.host" />
-
+    <uses-feature android:name="android.hardware.usb.accessory" android:required="true" />
     <uses-permission android:name="android.permission.USB_PERMISSION" />
-    <uses-permission android:name="android.hardware.usb.accessory" />
+    <uses-permission android:name="android.permission.ACCESSORY_PERMISSION" />
     <!--读取或写入系统设置-->
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
@@ -104,6 +104,9 @@
     <uses-permission
         android:name="android.permission.PACKAGE_USAGE_STATS"
         tools:ignore="ProtectedPermissions" />
+
+    <!-- 声明USB权限 -->
+    <uses-permission android:name="android.permission.USB_PERMISSION" />
 
     <!--启动模式
          standard：      标准模式     不管实例是否已经存在 都会创建一个实例
@@ -253,6 +256,22 @@
         <activity android:name=".network.NetRecordAty"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
+
+        <!-- 设置USB功能 -->
+        <activity android:name=".hid.HidAty"
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" >
+            <intent-filter>
+                <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
+            </intent-filter>
+
+            <meta-data android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+                android:resource="@xml/accessory_filter" />
+        </activity>
+
+        <meta-data
+            android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+            android:resource="@xml/usb_accessory_filter" />
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"

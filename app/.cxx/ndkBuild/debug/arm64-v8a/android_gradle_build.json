@@ -1,0 +1,49 @@
+{
+  "buildFiles": [
+    "D:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\Android.mk"
+  ],
+  "cleanCommands": [
+    "C:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\Android.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dD:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\lib clean"
+  ],
+  "buildTargetsCommand": "C:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\Android.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dD:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\lib {LIST_OF_TARGETS_TO_BUILD}",
+  "libraries": {
+    "hidtest-debug-arm64-v8a": {
+      "buildCommand": "C:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\Android.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dD:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\lib D:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libhidtest.so",
+      "toolchain": "toolchain-arm64-v8a",
+      "abi": "arm64-v8a",
+      "artifactName": "hidtest",
+      "files": [
+        {
+          "src": "D:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\hid_gadget_test.c",
+          "flags": "-target aarch64-none-linux-android21 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/sdk/ndk-bundle/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE\u003d2 -fpic -O0 -UNDEBUG -fno-limit-debug-info -ID:/asProject/utils/BaseIotUtils/app/src/main/cpp -DANDROID -Wformat -Werror\u003dformat-security"
+        }
+      ],
+      "output": "D:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\obj\\local\\arm64-v8a\\libhidtest.so"
+    },
+    "crashtest-debug-arm64-v8a": {
+      "buildCommand": "C:\\sdk\\ndk-bundle\\ndk-build.cmd NDK_PROJECT_PATH\u003dnull APP_BUILD_SCRIPT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\Android.mk APP_ABI\u003darm64-v8a NDK_ALL_ABIS\u003darm64-v8a NDK_DEBUG\u003d1 APP_PLATFORM\u003dandroid-19 NDK_OUT\u003dD:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj NDK_LIBS_OUT\u003dD:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\lib D:/asProject/utils/BaseIotUtils/app/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/libcrashtest.so",
+      "toolchain": "toolchain-arm64-v8a",
+      "abi": "arm64-v8a",
+      "artifactName": "crashtest",
+      "files": [
+        {
+          "src": "D:\\asProject\\utils\\BaseIotUtils\\app\\src\\main\\cpp\\crashtest.cpp",
+          "flags": "-target aarch64-none-linux-android21 -fdata-sections -ffunction-sections -fstack-protector-strong -funwind-tables -no-canonical-prefixes --sysroot C:/sdk/ndk-bundle/build//../toolchains/llvm/prebuilt/windows-x86_64/sysroot -g -Wno-invalid-command-line-argument -Wno-unused-command-line-argument -D_FORTIFY_SOURCE\u003d2 -fno-exceptions -fno-rtti -fpic -O0 -UNDEBUG -fno-limit-debug-info -ID:/asProject/utils/BaseIotUtils/app/src/main/cpp -DANDROID -Wformat -Werror\u003dformat-security -std\u003dc++14"
+        }
+      ],
+      "output": "D:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\ndkBuild\\debug\\obj\\local\\arm64-v8a\\libcrashtest.so"
+    }
+  },
+  "toolchains": {
+    "toolchain-arm64-v8a": {
+      "cCompilerExecutable": "C:\\sdk\\ndk-bundle\\build\\..\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang.exe",
+      "cppCompilerExecutable": "C:\\sdk\\ndk-bundle\\build\\..\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe"
+    }
+  },
+  "cFileExtensions": [
+    "c"
+  ],
+  "cppFileExtensions": [
+    "cpp"
+  ]
+}

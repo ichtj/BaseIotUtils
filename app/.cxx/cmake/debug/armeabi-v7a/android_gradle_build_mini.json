@@ -1,0 +1,16 @@
+{
+  "buildFiles": [
+    "D:\\asProject\\utils\\BaseIotUtils\\app\\CMakeLists.txt"
+  ],
+  "cleanCommands": [
+    "C:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\asProject\\utils\\BaseIotUtils\\app\\.cxx\\cmake\\debug\\armeabi-v7a --target clean"
+  ],
+  "libraries": {
+    "crashtest-Debug-armeabi-v7a": {
+      "artifactName": "crashtest",
+      "buildCommand": "C:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\asProject\\utils\\BaseIotUtils\\app\\.cxx\\cmake\\debug\\armeabi-v7a --target crashtest",
+      "abi": "armeabi-v7a",
+      "output": "D:\\asProject\\utils\\BaseIotUtils\\app\\build\\intermediates\\cmake\\debug\\obj\\armeabi-v7a\\libcrashtest.so"
+    }
+  }
+}

@@ -11,7 +11,7 @@
         android:layout_height="50dp"
         app:centerText="网络定时检测"
         app:leftText="返回"
-        app:rightText="提交"
+        app:rightText=""
         app:leftBack="true"
         app:textSize="24sp" />
 

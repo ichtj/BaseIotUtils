@@ -1,16 +1,11 @@
 package com.wave_chtj.example;
 
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
-import android.view.Display;
-import android.view.Surface;
 import android.view.View;
-import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -54,6 +49,7 @@ import com.wave_chtj.example.entity.ExcelEntity;
 import com.wave_chtj.example.entity.Dbean;
 import com.wave_chtj.example.file.FileOperatAty;
 import com.wave_chtj.example.greendao.GreenDaoSqliteAty;
+import com.wave_chtj.example.hid.HidAty;
 import com.wave_chtj.example.install.InstallAPkAty;
 import com.wave_chtj.example.keeplive.KeepAliveAty;
 import com.wave_chtj.example.network.NetChangeAty;
@@ -186,7 +182,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
         dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexItemAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexItemAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexItemAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_MORE, "更多....", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_HID, "HID开发", IndexItemAdapter.L_ONE));
     }
 
     @Override
@@ -458,8 +454,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
             case FKey.KEY_IMEI:
 
                 break;
-            case FKey.KEY_MORE:
-                ToastUtils.info("敬请期待！");
+            case FKey.KEY_HID:
+                startAty(HidAty.class);
                 break;
         }
     }

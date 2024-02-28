@@ -17,11 +17,10 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.face_chtj.base_iotutils.BytesHexUtils;
+import com.face_chtj.base_iotutils.TranscodingUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.serialport.SerialPort;
@@ -33,12 +32,9 @@ import com.wave_chtj.example.util.AppManager;
 import com.wave_chtj.example.util.PACKAGES;
 
 import java.io.File;
-import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -203,7 +199,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                         serialOne.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
                         if (isHexCmd) {
-                            message.obj = BytesHexUtils.encodeHexString(bytes);
+                            message.obj = TranscodingUtils.encodeHexString(bytes);
                         } else {
                             message.obj = new String(bytes, StandardCharsets.UTF_8);
                         }
@@ -241,7 +237,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                         serialTwo.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
                         if (isHexCmd) {
-                            message.obj = BytesHexUtils.encodeHexString(bytes);
+                            message.obj = TranscodingUtils.encodeHexString(bytes);
                         } else {
                             message.obj = new String(bytes, StandardCharsets.UTF_8);
                         }
@@ -293,7 +289,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                                 hexComm = "0" + hexComm;
                             }
                             KLog.d(TAG, "onViewClicked:>hexComm=" + hexComm);
-                            serialOne.write(isHexCmd ? BytesHexUtils.decodeHexString(hexComm) : hexComm.getBytes());
+                            serialOne.write(isHexCmd ? TranscodingUtils.decodeHexString(hexComm) : hexComm.getBytes());
                             if (!TextUtils.isEmpty(autoMs)) {
                                 if (cbMs.isChecked()) {
                                     handler.postDelayed(this, Integer.parseInt(autoMs));
@@ -325,7 +321,7 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                                 hexComm2 = "0" + hexComm2;
                             }
                             KLog.d(TAG, "onViewClicked:>hexComm2=" + hexComm2);
-                            serialTwo.write(isHexCmd ? BytesHexUtils.decodeHexString(hexComm2) : hexComm2.getBytes());
+                            serialTwo.write(isHexCmd ? TranscodingUtils.decodeHexString(hexComm2) : hexComm2.getBytes());
                             if (!TextUtils.isEmpty(autoMs2)) {
                                 if (cbMs2.isChecked()) {
                                     handler.postDelayed(this, Integer.parseInt(autoMs2));

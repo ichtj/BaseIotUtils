@@ -1,0 +1,2 @@
+[arm64-v8a] Compile++      : fiottools <= fiottools.cpp
+[arm64-v8a] SharedLibrary  : libfiottools.so

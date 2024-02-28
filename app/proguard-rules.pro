@@ -29,11 +29,19 @@
 #-------------------------------------------------------------------------
 
 #---------------------------------2.第三方包-------------------------------
+### Arouter
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep public class com.alibaba.android.arouter.facade.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
+# 如果使用了 byType 的方式获取 Service，需添加下面规则，保护接口
+-keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
 #base_iotutils
 -keep public class com.face_chtj.base_iotutils.entity.** { *; }
 -keep public class com.face_chtj.base_iotutils.enums.** { *; }
--keep public class com.face_chtj.base_iotutils.audio.PlayStateChangeListener {*; }
--keep public class com.face_chtj.base_iotutils.audio.PlayUtils {*; }
+-keep public class com.face_chtj.base_iotutils.callback.** { *; }
+-keep public class com.face_chtj.base_iotutils.serialport.** { *; }
+-keep public class com.chtj.base_framework.** { *; }
 
 #base_socket
 -keep class com.chtj.socket.SocketData { *; }

@@ -1,0 +1,19 @@
+[1/2] Building C object CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o
+FAILED: C:\sdk\ndk-bundle\toolchains\llvm\prebuilt\windows-x86_64\bin\clang.exe  --target=aarch64-none-linux-android21 --gcc-toolchain=C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dcrashtest_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC -MD -MT CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o -MF CMakeFiles\crashtest.dir\src\main\cpp\crashtest.c.o.d -o CMakeFiles/crashtest.dir/src/main/cpp/crashtest.c.o   -c D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c
+D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c:22:24: error: member reference base type 'JNIEnv' (aka 'const struct JNINativeInterface *') is not a structure or union
+    jbyte *buffer = env->GetByteArrayElements(data, NULL);
+                    ~~~^ ~~~~~~~~~~~~~~~~~~~~
+D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c:23:23: error: member reference base type 'JNIEnv' (aka 'const struct JNINativeInterface *') is not a structure or union
+    jsize length = env->GetArrayLength(data);
+                   ~~~^ ~~~~~~~~~~~~~~
+D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c:52:8: error: member reference base type 'JNIEnv' (aka 'const struct JNINativeInterface *') is not a structure or union
+    env->ReleaseByteArrayElements(data, buffer, JNI_ABORT);
+    ~~~^ ~~~~~~~~~~~~~~~~~~~~~~~~
+D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c:75:28: error: member reference base type 'JNIEnv' (aka 'const struct JNINativeInterface *') is not a structure or union
+    jbyteArray result = env->NewByteArray(ret);
+                        ~~~^ ~~~~~~~~~~~~
+D:\asProject\utils\BaseIotUtils\app\src\main\cpp\crashtest.c:76:8: error: member reference base type 'JNIEnv' (aka 'const struct JNINativeInterface *') is not a structure or union
+    env->SetByteArrayRegion(result, 0, ret, (jbyte *)receive_buffer);
+    ~~~^ ~~~~~~~~~~~~~~~~~~
+5 errors generated.
+ninja: build stopped: subcommand failed.

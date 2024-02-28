@@ -1,5 +1,7 @@
 package com.face_chtj.base_iotutils;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Base64;
 
@@ -38,5 +40,15 @@ public class ImageUtils {
 
         }
         return "";
+    }
+
+    /**
+     * base64字符串转bitmap
+     * @param base64String 字符串
+     * @return bitmap
+     */
+    public static Bitmap base64ToBitmap(String base64String) {
+        byte[] decodedBytes = Base64.decode(base64String, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.length);
     }
 }

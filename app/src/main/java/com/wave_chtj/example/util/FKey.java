@@ -52,5 +52,5 @@ public class FKey {
     public static final int          VIDEO_CACHE=48;//视频录制
     public static final int            KEY_CRASH=49;//死机验证
     public static final int            KEY_NGINX=50;//nginx分布
-    public static final int             KEY_MORE=51;//其他
+    public static final int              KEY_HID=51;//HID开发
 }

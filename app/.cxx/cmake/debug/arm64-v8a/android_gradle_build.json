@@ -1,0 +1,38 @@
+
+{
+	"buildFiles" : [ "D:/asProject/utils/BaseIotUtils/app/CMakeLists.txt" ],
+	"cFileExtensions" : [ "c" ],
+	"cleanCommands" : 
+	[
+		"C:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\asProject\\utils\\BaseIotUtils\\app\\.cxx\\cmake\\debug\\arm64-v8a --target clean"
+	],
+	"libraries" : 
+	{
+		"crashtest-Debug-arm64-v8a" : 
+		{
+			"abi" : "arm64-v8a",
+			"artifactName" : "crashtest",
+			"buildCommand" : "C:\\sdk\\cmake\\3.6.4111459\\bin\\cmake.exe --build D:\\asProject\\utils\\BaseIotUtils\\app\\.cxx\\cmake\\debug\\arm64-v8a --target crashtest",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  --target=aarch64-none-linux-android21 --gcc-toolchain=C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64 --sysroot=C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Dcrashtest_EXPORTS  -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security  -O0 -fno-limit-debug-info  -fPIC      -c ",
+					"src" : "D:/asProject/utils/BaseIotUtils/app/src/main/cpp/crashtest.c",
+					"workingDirectory" : "D:/asProject/utils/BaseIotUtils/app/.cxx/cmake/debug/arm64-v8a"
+				}
+			],
+			"output" : "D:/asProject/utils/BaseIotUtils/app/build/intermediates/cmake/debug/obj/arm64-v8a/libcrashtest.so",
+			"toolchain" : "3107658221"
+		}
+	},
+	"toolchains" : 
+	{
+		"3107658221" : 
+		{
+			"cCompilerExecutable" : "C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "C:/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}
