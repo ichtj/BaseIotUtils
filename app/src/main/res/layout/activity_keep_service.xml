@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.wave_chtj.example.util.TopTitleView
+    <com.face_chtj.base_iotutils.util.TopTitleView
         android:id="@+id/ttView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

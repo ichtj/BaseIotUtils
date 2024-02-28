@@ -21,9 +21,9 @@
 #-renamesourcefileattribute SourceFile
 #-------------------------------------------定制化区域----------------------------------------------
 #---------------------------------1.实体类---------------------------------
--keep class com.wave_chtj.example.entity.PersonInfor {*; }
--keep class com.wave_chtj.example.entity.ExcelEntity {*; }
--keep class com.wave_chtj.example.playmedia.PlayMediaAty {*; }
+-keep class com.ichtj.basetools.entity.PersonInfor {*; }
+-keep class com.ichtj.basetools.entity.ExcelEntity {*; }
+-keep class com.face_chtj.base_iotutils.playmedia.PlayMediaAty {*; }
 
 
 #-------------------------------------------------------------------------

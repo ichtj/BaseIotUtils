@@ -6,7 +6,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:sharedUserId="android.uid.system"
-    package="com.wave_chtj.example"><!--android:sharedUserId="android.uid.system"-->
+    package="com.ichtj.basetools"><!--android:sharedUserId="android.uid.system"-->
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->

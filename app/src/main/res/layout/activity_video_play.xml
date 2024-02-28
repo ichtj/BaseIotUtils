@@ -16,7 +16,7 @@
         app:leftBack="true"
         app:textSize="24sp" />
 
-    <com.wave_chtj.example.video.VideoPlayerView
+    <com.ichtj.basetools.video.VideoPlayerView
         android:id="@+id/jz_video"
         android:layout_width="match_parent"
         android:layout_height="640dp"

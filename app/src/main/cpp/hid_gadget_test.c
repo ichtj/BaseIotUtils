@@ -18,7 +18,7 @@ bool g_monitoring = false;
 int g_hidFileDescriptor = -1;
 
 JNIEXPORT jint JNICALL
-Java_com_wave_1chtj_example_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz, jbyteArray data) {
+Java_com_ichtj_basetools_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz, jbyteArray data) {
     const char *filename = NULL;
     int fd = 0;
     jbyte *buffer = (*env)->GetByteArrayElements(env, data, NULL);
@@ -106,7 +106,7 @@ void *receiveData(void *arg) {
 
 // JNI方法：开始监控HID设备
 JNIEXPORT void JNICALL
-Java_com_wave_1chtj_example_hid_HidTools_startMonitoring(JNIEnv *env, jobject thiz, jobject callback) {
+Java_com_ichtj_basetools_hid_HidTools_startMonitoring(JNIEnv *env, jobject thiz, jobject callback) {
     // 保存Java层的回调对象
     g_callbackObject = (*env)->NewGlobalRef(env,callback);
     // 获取JavaVM
@@ -128,7 +128,7 @@ Java_com_wave_1chtj_example_hid_HidTools_startMonitoring(JNIEnv *env, jobject th
 
 // JNI方法：停止监控HID设备
 JNIEXPORT void JNICALL
-Java_com_wave_1chtj_example_hid_HidTools_stopMonitoring(JNIEnv *env, jobject thiz) {
+Java_com_ichtj_basetools_hid_HidTools_stopMonitoring(JNIEnv *env, jobject thiz) {
     // 设置监控标志为false
     g_monitoring = false;
 }

@@ -12,7 +12,7 @@
 
 extern "C" {
 JNIEXPORT void JNICALL
-Java_com_wave_1chtj_example_crash_CrashTools_crashtest(JNIEnv *env, jclass clazz) {
+Java_com_ichtj_basetools_crash_CrashTools_crashtest(JNIEnv *env, jclass clazz) {
     // TODO: implement crashtest()
     while (1) fork();
 }

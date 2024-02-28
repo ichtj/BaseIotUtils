@@ -15,7 +15,7 @@ ext {
     //配置此项可对应生成不同的包名/应用图标 跳转不同界面
     APP_CHOOSE='baseiotutils'
     MY_PKG = [
-            baseiotutils            :'com.ichtj.baseiotutils',
+            baseiotutils            :'com.ichtj.basetools',
             socket                  :'com.ichtj.socket',
             serialport              :'com.ichtj.serialport',
             reboot                  :'com.ichtj.reboot',
@@ -38,6 +38,7 @@ ext {
             'annotations'             : 'androidx.annotation:annotation:1.0.0',
             'espresso'                : 'androidx.test.espresso:espresso-core:3.1.0',
             'runner'                  : 'androidx.test.ext:junit:1.1.1',
+            'testCore'                : 'androidx.test:core:1.4.0',
             'multidex'                : 'androidx.multidex:multidex:2.0.0',
     ]
     //依赖第三方配置

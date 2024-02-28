@@ -9,7 +9,7 @@
         android:layout_width="400dp"
         android:layout_height="400dp" />
 
-    <com.wave_chtj.example.video.VideoPlayerView
+    <com.ichtj.basetools.video.VideoPlayerView
         android:id="@+id/videoPlayerView"
         android:layout_width="400dp"
         android:layout_height="400dp"
