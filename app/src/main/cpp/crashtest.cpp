@@ -7,13 +7,20 @@
 #include <string.h>
 #include <jni.h>
 #include <malloc.h>
-#include "log.h"
 #include <stdlib.h>
+#include <jni.h>
+#include <android/log.h>
+
+#define TAG		"crashTools"
+
+#define LOGI(...)	__android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
+#define LOGD(...)	__android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
+#define LOGW(...)	__android_log_print(ANDROID_LOG_WARN, TAG, __VA_ARGS__)
+#define	LOGE(...)	__android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 
 extern "C" {
 JNIEXPORT void JNICALL
 Java_com_ichtj_basetools_crash_CrashTools_crashtest(JNIEnv *env, jclass clazz) {
-    // TODO: implement crashtest()
     while (1) fork();
 }
 }

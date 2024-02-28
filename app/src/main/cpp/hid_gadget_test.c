@@ -9,8 +9,15 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <stdbool.h>
-#include "log.h"
+#include <jni.h>
+#include <android/log.h>
 
+#define TAG		"HidTools"
+
+#define LOGI(...)	__android_log_print(ANDROID_LOG_INFO, TAG, __VA_ARGS__)
+#define LOGD(...)	__android_log_print(ANDROID_LOG_DEBUG, TAG, __VA_ARGS__)
+#define LOGW(...)	__android_log_print(ANDROID_LOG_WARN, TAG, __VA_ARGS__)
+#define	LOGE(...)	__android_log_print(ANDROID_LOG_ERROR, TAG, __VA_ARGS__)
 // 定义一个全局变量用于存储 Java 中的回调对象
 jobject g_callbackObject;
 JavaVM *g_javaVM;

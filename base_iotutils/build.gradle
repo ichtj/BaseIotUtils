@@ -55,7 +55,7 @@ dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api rootProject.ext.support["appcompat-v7"]
     api rootProject.ext.support["annotations"]
-    androidTestImplementation rootProject.ext.support["runner"]
+    implementation rootProject.ext.support["runner"]
     androidTestImplementation rootProject.ext.support["espresso"]
     //rxjava
     api rootProject.ext.dependencies.rxjava
