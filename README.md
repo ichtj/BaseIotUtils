@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:1.6.2'
+         implementation 'com.github.wave-chtj:BaseIotUtils:2.4.3'
 }
 ```
 
