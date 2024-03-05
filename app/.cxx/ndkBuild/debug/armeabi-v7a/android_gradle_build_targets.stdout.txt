@@ -1,3 +1,0 @@
-[armeabi-v7a] Compile++ thumb: crashtest <= crashtest.cpp
-[armeabi-v7a] SharedLibrary  : libcrashtest.so
-make: Nothing to be done for 'hidtest'.

@@ -8,6 +8,9 @@
 /.idea/workspace.xml
 /.idea/navEditor.xml
 /.idea/encodings.xml
+/app/.cxx
+/app/debug
+/app/release
 /base_iotutils/.cxx
 /.idea/gradle.xml
 /.idea/jarRepositories.xml

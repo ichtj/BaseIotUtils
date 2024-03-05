@@ -1,2 +1,0 @@
-[armeabi-v7a] Compile++ thumb: fiottools <= fiottools.cpp
-[armeabi-v7a] SharedLibrary  : libfiottools.so
