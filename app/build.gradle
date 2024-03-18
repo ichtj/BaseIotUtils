@@ -106,7 +106,7 @@ dependencies {
     //support
     androidTestImplementation rootProject.ext.support["runner"]
     androidTestImplementation rootProject.ext.support["espresso"]
-    api rootProject.ext.support["appcompat-v7"]
+    api rootProject.ext.support["appcompat"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
     //权限获取

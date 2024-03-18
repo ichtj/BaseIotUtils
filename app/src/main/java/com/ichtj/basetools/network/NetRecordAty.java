@@ -160,8 +160,8 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
 
     @Override
     public void refreshNet(NetBean netBean) {
-        String netConnectResult = FormatViewUtils.formatColor(netBean.netConnect + "", netBean.netConnect ? FormatViewUtils.C_GREEN : FormatViewUtils.C_RED);
-        String dnsResult = FormatViewUtils.formatUnderlin(FormatViewUtils.C_BLUE, Arrays.toString(netBean.pingDns));
+        String netConnectResult = FormatViewUtils.formatColor(netBean.netConnect + "", netBean.netConnect ? R.color.green : R.color.red);
+        String dnsResult = FormatViewUtils.formatUnderlin(R.color.blue, Arrays.toString(netBean.pingDns));
         FormatViewUtils.formatData(tvResult, "dns：" + dnsResult + ", pingResult：" + Arrays.toString(netBean.pingResult) + ", dbm：" + netBean.dbm + ", localIp：" + netBean.localIp + ", netType：" + netBean.netType + ", isNet4G：" + netBean.isNet4G + ", netConnect：" + netConnectResult);
         tvDbm.setText("信号：" + netBean.dbm);
         tvPingAddr.setText("DNS地址：" + Arrays.toString(netBean.pingDns));

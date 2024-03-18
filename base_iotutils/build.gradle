@@ -53,12 +53,10 @@ android {
 }
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    api rootProject.ext.support["appcompat-v7"]
+    api rootProject.ext.support["appcompat"]
     api rootProject.ext.support["annotations"]
     implementation rootProject.ext.support["runner"]
     androidTestImplementation rootProject.ext.support["espresso"]
-    //rxjava
-    api rootProject.ext.dependencies.rxjava
     //rx管理View的生命周期
     api(rootProject.ext.dependencies.rxlifecycle) {
         exclude group: 'com.android.support'
@@ -66,7 +64,7 @@ dependencies {
     api(rootProject.ext.dependencies["rxlifecycle-components"]) {
         exclude group: 'com.android.support'
     }
-    //network
+    api rootProject.ext.dependencies["rxjava"]
     api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["retrofit"]
     api rootProject.ext.dependencies["converter-gson"]
@@ -74,7 +72,5 @@ dependencies {
     api rootProject.ext.dependencies["zxing"]
     api rootProject.ext.dependencies["converter-scalars"]
 }
-//apply from: '../bintray.gradle'
-/*apply from: '../maven.gradle'*/
 
 

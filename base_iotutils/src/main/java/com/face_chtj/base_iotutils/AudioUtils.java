@@ -16,7 +16,7 @@ import com.face_chtj.base_iotutils.callback.IVolumeType;
  * {@link #stopPlaying()} 继续播放
  */
 public class AudioUtils {
-    private static final String TAG = "PlayUtils";
+    private static final String TAG = "AudioUtils";
     private IPlayStateCallback IPlayStateCallback;
     private MediaPlayer player;
     private int mDuration = 0;//总时长

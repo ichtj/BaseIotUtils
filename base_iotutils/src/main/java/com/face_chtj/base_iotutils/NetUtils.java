@@ -28,14 +28,11 @@ import androidx.annotation.RequiresPermission;
 import com.face_chtj.base_iotutils.entity.DnsBean;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -44,11 +41,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import okhttp3.Call;
-import okhttp3.Callback;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 /**
  * @author chtj
@@ -282,7 +276,7 @@ public class NetUtils {
     private static boolean checkAddCache(String[] uniquedns) {
         String[] newDns = ObjectUtils.getRandomList(uniquedns, 1);
         DnsBean dnsBean = NetUtils.ping(newDns[0], 1, 1);
-        return dnsBean.isPass ? true : checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
+        return dnsBean.isPass || checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
     }
 
     public static String[] convertAllCache() {
@@ -327,7 +321,7 @@ public class NetUtils {
      */
     public static boolean reloadDnsPing() {
         if (getNetWorkType() != NETWORK_NO) {
-            if (instance().cacheDnsList.size() <= 0) {
+            if (instance().cacheDnsList.size() == 0) {
                 instance().dnsRefreshTime = System.currentTimeMillis();
                 return checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
             } else {
@@ -350,7 +344,7 @@ public class NetUtils {
      */
     private static boolean cacheOrAllPing() {
         boolean pingResult = checkNetWork(ObjectUtils.getRandomList(convertAllCache(), 1), 1, 1);
-        return pingResult ? true : checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
+        return pingResult || checkNetWork(ObjectUtils.shuffleStringArray(getDnsList()), 1, 1);
     }
 
     /**
