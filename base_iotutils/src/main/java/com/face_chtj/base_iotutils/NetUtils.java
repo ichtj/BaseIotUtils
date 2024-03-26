@@ -885,9 +885,23 @@ public class NetUtils {
                 }
             }
         } else {
-            // For versions before Android M, there is no direct API to get Ethernet information.
-            // You may need to use reflection or other methods to check Ethernet connectivity.
-            //Log.w(TAG, "Android version is too low to directly get Ethernet information.");
+            try{
+                Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
+                while (networkInterfaces.hasMoreElements()) {
+                    NetworkInterface networkInterface = networkInterfaces.nextElement();
+                    if (networkInterface.getName().equals("eth0") || networkInterface.getName().equals("wlan0")) { // 可能是eth0或wlan0
+                        Enumeration<InetAddress> inetAddresses = networkInterface.getInetAddresses();
+                        while (inetAddresses.hasMoreElements()) {
+                            InetAddress inetAddress = inetAddresses.nextElement();
+                            if (!inetAddress.isLoopbackAddress() && inetAddress.getAddress().length == 4) {
+                                return inetAddress.getHostAddress();
+                            }
+                        }
+                    }
+                }
+            }catch(Throwable throwable){
+                throwable.printStackTrace();
+            }
         }
         return null;
     }
