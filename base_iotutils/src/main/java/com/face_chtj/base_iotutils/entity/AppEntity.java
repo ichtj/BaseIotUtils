@@ -16,13 +16,14 @@ public class AppEntity {
     public boolean isRunning;
     public boolean isSystemApp;
     public boolean isCheck;//是否选中
+    public boolean isLauncherApp;//是否为桌面应用
     public int uid;
     public int pid;
     public String sourceDir;
     public List<ProcessEntity> pkgProcess;//包名下的进程信息
     public List<String> pkgService;//该应用运行的服务
 
-    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService) {
+    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService) {
         this.appName = appName;
         this.packageName = packageName;
         this.versionCode = versionCode;
@@ -34,6 +35,7 @@ public class AppEntity {
         this.isRunning = isRunning;
         this.isSystemApp = isSystemApp;
         this.isCheck = isCheck;
+        this.isLauncherApp = isLauncherApp;
         this.uid = uid;
         this.pid = pid;
         this.sourceDir = sourceDir;

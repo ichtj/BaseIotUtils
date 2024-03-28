@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
@@ -41,6 +42,7 @@ import java.util.zip.ZipFile;
  * --根据包名获取APP是否正在运行 {@link #isAppRunning(String)}
  */
 public class AppsUtils {
+    private static final String TAG=AppsUtils.class.getSimpleName();
     /**
      * 获取当前系统使用的android api版本号
      */
@@ -94,7 +96,7 @@ public class AppsUtils {
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
-                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,firstInstallTime,lastUpdateTime,icon,isTopApp,isAppRunning(pkg),isSys,false,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
+                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,firstInstallTime,lastUpdateTime,icon,isTopApp,isAppRunning(pkg),isSys,false,true,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
                 appEntityList.add(entity);
             }
             return appEntityList;
@@ -102,6 +104,17 @@ public class AppsUtils {
             e.printStackTrace();
             return null;
         }
+    }
+
+    // 判断应用是否为桌面应用
+    public static boolean isLauncherApp(String packageName) {
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        launcherIntent.setPackage(packageName);
+
+        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
+        ResolveInfo resolveInfo = packageManager.resolveActivity(launcherIntent, PackageManager.MATCH_DEFAULT_ONLY);
+        return resolveInfo != null;
     }
 
     /**
@@ -130,7 +143,8 @@ public class AppsUtils {
                 String topApp=getTopApp();
                 boolean isTopApp = appInfo.packageName.contains(topApp);
                 boolean isRunning = isAppRunning(appInfo.packageName);
-                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName,firstInstallTime,lastUpdateTime, icon, isTopApp, isRunning, isSystemApp,false, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
+                boolean isLauncherApp=isLauncherApp(packageName);
+                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName,firstInstallTime,lastUpdateTime, icon, isTopApp, isRunning, isSystemApp,false,isLauncherApp, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
                 appList.add(app);
             } catch (Throwable e) {
             }
