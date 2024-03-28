@@ -28,7 +28,7 @@ import java.util.zip.ZipFile;
  * @author chtj
  * create by chtj on 2019-8-6
  * desc:AppsUtils相关工具类
- * --查询桌面所有应用 {@link #getAllApp(boolean)} ()}
+ * --查询桌面所有应用 {@link #getDeskTopAppList()}
  * --获取当前应用名称 {@link #getAppName(String packageName)}
  * --根据包名获取进程PID {@link #getPidByPackageName(String packagename)}
  * --获取APP-VersionCode {@link #getAppVersionCode()}
@@ -73,28 +73,28 @@ public class AppsUtils {
      */
     public static List<AppEntity> getDeskTopAppList() {
         try {
+            Context context=BaseIotUtils.getContext();
             List<AppEntity> appEntityList = new ArrayList<AppEntity>();
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
-            PackageManager pm = BaseIotUtils.getContext().getPackageManager();
+            PackageManager pm = context.getPackageManager();
             List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
-                //KLog.d("getDeskTopAppList() info >> " + info.activityInfo.toString());
                 String pkg = info.activityInfo.packageName;
-                Drawable icon = info.loadIcon(BaseIotUtils.getContext().getPackageManager());
+                PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
+                long firstInstallTime=packageInfo.firstInstallTime;
+                long lastUpdateTime=packageInfo.lastUpdateTime;
+                Drawable icon = info.loadIcon(context.getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
-                CharSequence name = info.activityInfo.loadLabel(BaseIotUtils.getContext().getPackageManager());
-                boolean isSys = false;
-                if ((ai.flags & ai.FLAG_SYSTEM) != 0) {
-                    isSys = true;
-                }
+                CharSequence name = info.activityInfo.loadLabel(context.getPackageManager());
+                boolean isSys = (ai.flags & ai.FLAG_SYSTEM) != 0;
                 String topApp=getTopApp();
                 boolean isTopApp = ai.packageName.contains(topApp);
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
-                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,icon,isTopApp,isAppRunning(pkg),isSys,false,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
+                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,firstInstallTime,lastUpdateTime,icon,isTopApp,isAppRunning(pkg),isSys,false,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
                 appEntityList.add(entity);
             }
             return appEntityList;
@@ -108,8 +108,9 @@ public class AppsUtils {
      * 查询所有应用 包含包名下app名称，图标的明细信息list
      */
     public static List<AppEntity> getAllApp() {
-        PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
-        ActivityManager activityManager = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        Context context=BaseIotUtils.getContext();
+        PackageManager packageManager = context.getPackageManager();
+        ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<AppEntity> appList = new ArrayList<>();
         List<ApplicationInfo> installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo appInfo : installedApps) {
@@ -120,6 +121,8 @@ public class AppsUtils {
                 String packageName = appInfo.packageName;
                 int versionCode = packageInfo.versionCode;
                 String versionName = packageInfo.versionName;
+                long firstInstallTime=packageInfo.firstInstallTime;
+                long lastUpdateTime=packageInfo.lastUpdateTime;
                 Drawable icon = packageManager.getApplicationIcon(appInfo);
                 int uid = appInfo.uid;
                 int pid = getPid(appInfo.packageName,activityManager);
@@ -127,7 +130,7 @@ public class AppsUtils {
                 String topApp=getTopApp();
                 boolean isTopApp = appInfo.packageName.contains(topApp);
                 boolean isRunning = isAppRunning(appInfo.packageName);
-                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName, icon, isTopApp, isRunning, isSystemApp,false, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
+                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName,firstInstallTime,lastUpdateTime, icon, isTopApp, isRunning, isSystemApp,false, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
                 appList.add(app);
             } catch (Throwable e) {
             }

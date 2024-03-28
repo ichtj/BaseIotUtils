@@ -9,6 +9,8 @@ public class AppEntity {
     public String packageName;
     public int versionCode;
     public String versionName;
+    public long firstInstallTime;
+    public long lastUpdateTime;
     public Drawable icon;
     public boolean isTopApp;
     public boolean isRunning;
@@ -19,11 +21,14 @@ public class AppEntity {
     public String sourceDir;
     public List<ProcessEntity> pkgProcess;//包名下的进程信息
     public List<String> pkgService;//该应用运行的服务
-    public AppEntity(String appName, String packageName, int versionCode, String versionName, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService) {
+
+    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService) {
         this.appName = appName;
         this.packageName = packageName;
         this.versionCode = versionCode;
         this.versionName = versionName;
+        this.firstInstallTime = firstInstallTime;
+        this.lastUpdateTime = lastUpdateTime;
         this.icon = icon;
         this.isTopApp = isTopApp;
         this.isRunning = isRunning;
