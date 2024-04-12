@@ -17,7 +17,7 @@ import com.ichtj.basetools.callback.IUsbHubListener;
  * desc 监听Usb设备
  */
 public class UsbHubTools extends BroadcastReceiver  {
-    private static final String TAG = "UsbHubDeviceTools";
+    private static final String TAG = UsbHubTools.class.getSimpleName();
 
     private static final String ACTION_USB_STATE = "android.hardware.usb.action.USB_STATE";
 

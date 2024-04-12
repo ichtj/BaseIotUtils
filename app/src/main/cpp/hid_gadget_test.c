@@ -31,7 +31,7 @@ Java_com_ichtj_basetools_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz, jbyteA
     jbyte *buffer = (*env)->GetByteArrayElements(env, data, NULL);
     jsize length = (*env)->GetArrayLength(env, data);
 
-    filename = "/dev/hidg0";
+    filename = "/dev/input/event5";
     if ((fd = open(filename, O_RDWR, 0666)) == -1) {
         LOGE("filename open err");
         return -1;
@@ -119,7 +119,7 @@ Java_com_ichtj_basetools_hid_HidTools_startMonitoring(JNIEnv *env, jobject thiz,
     // 获取JavaVM
     (*env)->GetJavaVM(env,&g_javaVM);
     // 打开HID设备文件
-    g_hidFileDescriptor = open("/dev/hidg0", O_RDWR);
+    g_hidFileDescriptor = open("/dev/input/event5", O_RDWR);
     if (g_hidFileDescriptor < 0) {
         LOGE("g_hidFileDescriptor err");
         // 失败处理

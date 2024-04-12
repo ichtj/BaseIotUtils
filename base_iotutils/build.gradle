@@ -68,7 +68,9 @@ dependencies {
     api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["retrofit"]
     api rootProject.ext.dependencies["converter-gson"]
-    api rootProject.ext.dependencies["adapter-rxjava"]
+    api (rootProject.ext.dependencies["adapter-rxjava"]){
+        exclude group: 'io.reactivex.rxjava2'
+    }
     api rootProject.ext.dependencies["zxing"]
     api rootProject.ext.dependencies["converter-scalars"]
 }

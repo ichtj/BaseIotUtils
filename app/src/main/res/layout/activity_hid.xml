@@ -25,7 +25,7 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:hint="请输入数据"
-            android:text="68656C6C6F00" />
+            android:text="020503" />
 
         <RadioGroup
             android:layout_width="wrap_content"

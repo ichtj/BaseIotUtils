@@ -1,6 +1,6 @@
 package com.face_chtj.base_iotutils.network;
 
-import io.reactivex.annotations.NonNull;
+import androidx.annotation.NonNull;
 
 /**
  * 描述：检查BaseUrl是否以"/"结尾

@@ -51,42 +51,37 @@ ext {
             "BluetoothHelper"         : "com.github.a-voyager:BluetoothHelper:f71d40a98b",
             "zxing"                   : "com.google.zxing:core:3.5.1",
             "converter-scalars"       : "com.squareup.retrofit2:converter-scalars:2.0.0",
-            "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
-            "rxandroid"               : "io.reactivex.rxjava2:rxandroid:2.1.1",
+            "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.1.5",
+            "rxandroid"               : "io.reactivex.rxjava3:rxandroid:3.0.2",
             //network
             "mqttv3"                  : "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0",
             "mqttv-service"           : "org.eclipse.paho:org.eclipse.paho.android.service:1.1.1",
             //okhttp
-            "okhttp12"                : "com.squareup.okhttp3:okhttp:3.12.1",
-            "okhttp"                  : "com.squareup.okhttp3:okhttp:3.10.0",
+            "okhttp"                  : "com.squareup.okhttp3:okhttp:3.14.9",
             //rxjava
-            "retrofit"                : "com.squareup.retrofit2:retrofit:2.6.2",
-            "converter-gson"          : "com.squareup.retrofit2:converter-gson:2.6.2",
-            "adapter-rxjava"          : "com.squareup.retrofit2:adapter-rxjava2:2.6.2",
+            "retrofit"                : "com.squareup.retrofit2:retrofit:2.9.0",
+            "converter-gson"          : "com.squareup.retrofit2:converter-gson:2.9.0",
+            "adapter-rxjava"          : "com.squareup.retrofit2:adapter-rxjava2:2.9.0",
             //logging
             "logging"                 : "de.mindpipe.android:android-logging-log4j:1.0.3",
             "log4j"                   : "log4j:log4j:1.2.17",
             "logger"                  : "com.orhanobut:logger:2.2.0",
-            //eventbus
-            "eventbus"                : "org.greenrobot:eventbus:3.1.1",
             //Arouter
             "arouter-compiler"        : "com.alibaba:arouter-compiler:1.5.2",
             "arouter-api"             : "com.alibaba:arouter-api:1.5.2",
             //json解析
-            "gson"                    : "com.google.code.gson:gson:2.8.6",
+            "gson"                    : "com.google.code.gson:gson:2.8.5",
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
             "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.4.8",
             "base_framework"          : "com.github.wave-chtj:BaseFramework:1.3.7",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
-            //权限管理
-            "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",
             //bugly的仓库
             "crashreport_upgrade"     : "com.tencent.bugly:crashreport_upgrade:latest.release",
             "hotrefresh"              : "com.tencent.tinker:tinker-android-lib:1.9.9",
             //rx系列与View生命周期同步
-            "rxlifecycle"             : "com.trello.rxlifecycle2:rxlifecycle:2.2.2",
-            "rxlifecycle-components"  : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
+            "rxlifecycle"             : "com.trello.rxlifecycle4:rxlifecycle:4.0.2",
+            "rxlifecycle-components"  : "com.trello.rxlifecycle4:rxlifecycle-android:4.0.2",
             "butterknife"             : "com.jakewharton:butterknife:10.2.0",
             "butterknife-compiler"    : "com.jakewharton:butterknife-compiler:10.2.0",
             "socket-client"           : "com.tonystark.android:socket:latest.release",

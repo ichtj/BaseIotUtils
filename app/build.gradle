@@ -109,8 +109,6 @@ dependencies {
     api rootProject.ext.support["appcompat"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
-    //权限获取
-    api rootProject.ext.dependencies["rxpermissions"]
     //分包
     api rootProject.ext.support["multidex"]
     //jxl Excel表格操作
@@ -126,6 +124,8 @@ dependencies {
     //    transitive = true
     //}
     implementation(rootProject.ext.dependencies["base_framework"]) {
+        exclude group: 'io.reactivex.rxjava2'
+        exclude group: 'com.squareup.retrofit2'
         transitive = true
     }
     implementation rootProject.ext.dependencies["base_socket"]

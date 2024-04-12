@@ -197,7 +197,7 @@
         <!--视频播放-->
         <activity
             android:name=".video.VideoPlayAty"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:screenOrientation="user" />
         <!--音频播放-->
         <activity

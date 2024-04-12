@@ -8,11 +8,8 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.PermissionsUtils;
 import com.ichtj.basetools.util.AppManager;
-import com.tbruyelle.rxpermissions2.RxPermissions;
-
-import io.reactivex.functions.Consumer;
 
 
 /**
@@ -22,6 +19,7 @@ import io.reactivex.functions.Consumer;
  */
 public abstract class BaseActivity extends AppCompatActivity {
     protected static final int FILE_SELECT_CODE = 10000;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,23 +29,12 @@ public abstract class BaseActivity extends AppCompatActivity {
         //requestPermission();
     }
 
-    protected void requestPermission(){
-        new RxPermissions(this).request(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
-        }).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-                if (granted) { // Always true pre-M
-                    // I can control the camera now
-                    ToastUtils.success("已通过权限");
-                } else {
-                    // Oups permission denied
-                    ToastUtils.error("未通过权限");
-                }
-            }
-        });
+    protected void requestPermission() {
+        PermissionsUtils.with(this).
+                addPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE).
+                addPermission(Manifest.permission.READ_EXTERNAL_STORAGE).
+                addPermission(Manifest.permission.READ_PHONE_STATE).
+                initPermission();
     }
 
     protected void setStatusBar() {
@@ -64,7 +51,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //KLog.d(TAG,"onDestroy");
     }
 
-    protected void startAty(Class classes){
-        startActivity(new Intent(this,classes));
+    protected void startAty(Class classes) {
+        startActivity(new Intent(this, classes));
     }
 }

@@ -428,16 +428,8 @@ public class NetUtils {
     public static boolean isInternetAvailable(int timeout, String host) {
         if (NetUtils.getNetWorkType() != NETWORK_NO) {
             try {
-                OkHttpClient client = new OkHttpClient.Builder()
-                        .followRedirects(true)
-                        .followSslRedirects(true)
-                        .connectTimeout(timeout, TimeUnit.MILLISECONDS)
-                        .readTimeout(timeout, TimeUnit.MILLISECONDS)
-                        .callTimeout(timeout, TimeUnit.MILLISECONDS)
-                        .writeTimeout(timeout, TimeUnit.MILLISECONDS)
-                        .build();
-                Request request = new Request.Builder()
-                        .url(host) // 你要测试的目标网址
+                OkHttpClient client = new OkHttpClient.Builder().followRedirects(true).followSslRedirects(true).connectTimeout(timeout, TimeUnit.MILLISECONDS).readTimeout(timeout, TimeUnit.MILLISECONDS).callTimeout(timeout, TimeUnit.MILLISECONDS).writeTimeout(timeout, TimeUnit.MILLISECONDS).build();
+                Request request = new Request.Builder().url(host) // 你要测试的目标网址
                         .method("HEAD", null)  // 使用 HEAD 请求方法
                         .build();
                 return client.newCall(request).execute().isSuccessful();
@@ -873,8 +865,7 @@ public class NetUtils {
                     LinkProperties linkProperties = connManager.getLinkProperties(network);
                     if (linkProperties != null) {
                         for (LinkAddress linkAddress : linkProperties.getLinkAddresses()) {
-                            if (linkAddress.getAddress().getHostAddress() != null &&
-                                    linkAddress.getAddress().getHostAddress().contains(":")) {
+                            if (linkAddress.getAddress().getHostAddress() != null && linkAddress.getAddress().getHostAddress().contains(":")) {
                                 // Skip IPv6 addresses
                                 continue;
                             }
@@ -885,7 +876,7 @@ public class NetUtils {
                 }
             }
         } else {
-            try{
+            try {
                 Enumeration<NetworkInterface> networkInterfaces = NetworkInterface.getNetworkInterfaces();
                 while (networkInterfaces.hasMoreElements()) {
                     NetworkInterface networkInterface = networkInterfaces.nextElement();
@@ -899,7 +890,7 @@ public class NetUtils {
                         }
                     }
                 }
-            }catch(Throwable throwable){
+            } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
         }
@@ -956,10 +947,7 @@ public class NetUtils {
     }
 
     private static String formatIpAddress(int ipAddress) {
-        return (ipAddress & 0xFF) + "." +
-                ((ipAddress >> 8) & 0xFF) + "." +
-                ((ipAddress >> 16) & 0xFF) + "." +
-                (ipAddress >> 24 & 0xFF);
+        return (ipAddress & 0xFF) + "." + ((ipAddress >> 8) & 0xFF) + "." + ((ipAddress >> 16) & 0xFF) + "." + (ipAddress >> 24 & 0xFF);
     }
 
     /**
@@ -986,12 +974,11 @@ public class NetUtils {
                 // 获取SIM卡数量相关信息：
                 //int count = sm.getActiveSubscriptionInfoCount();//当前实际插卡数量
                 //int max   = sm.getActiveSubscriptionInfoCountMax();//当前卡槽数量
-                return iccid;
             } else {
                 TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
                 iccid.add(tm.getSimSerialNumber());
-                return iccid;
             }
+            return iccid;
         } catch (Throwable e) {
             Log.e("getLteIccid", e.getMessage());
             return iccid;

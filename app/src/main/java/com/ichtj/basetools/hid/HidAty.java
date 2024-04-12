@@ -1,6 +1,5 @@
 package com.ichtj.basetools.hid;
 
-import android.app.PendingIntent;
 import android.content.Context;
 import android.hardware.usb.UsbDevice;
 import android.hardware.usb.UsbManager;
@@ -45,10 +44,9 @@ public class HidAty extends BaseActivity implements CompoundButton.OnCheckedChan
                 FormatViewUtils.formatData(tvResult, "HidRead>>" + TranscodingUtils.encodeHexString(data));
             }
         });
-        UsbManager manager= (UsbManager) getSystemService(Context.USB_SERVICE);
-        HashMap<String, UsbDevice> usbDeviceHashMap=manager.getDeviceList();
-        Log.d(TAG, "onCreate: usbDeviceHashMap>>"+usbDeviceHashMap);
-        tvResult.setText(usbDeviceHashMap.toString());
+        UsbManager usbManager= (UsbManager) getSystemService(Context.USB_SERVICE);
+        HashMap<String,UsbDevice> usbDeviceHashMap=usbManager.getDeviceList();
+        Log.d(TAG, "onCreate:usbDeviceHashMap>> "+usbDeviceHashMap.toString());
     }
 
     /*new byte[]{0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x00}*/

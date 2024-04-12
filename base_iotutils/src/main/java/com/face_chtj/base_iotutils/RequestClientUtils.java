@@ -2,6 +2,9 @@ package com.face_chtj.base_iotutils;
 
 import android.text.TextUtils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
 import com.face_chtj.base_iotutils.entity.BaseUrlBean;
 import com.face_chtj.base_iotutils.network.BaseUrlUtils;
 import com.google.gson.Gson;
@@ -12,8 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-import io.reactivex.annotations.NonNull;
-import io.reactivex.annotations.Nullable;
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
