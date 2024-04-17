@@ -15,7 +15,11 @@
         app:rightText=""
         app:leftBack="true"
         app:textSize="24sp" />
-
+    <Button
+        android:text="选择文件"
+        android:onClick="selectFileClick"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <com.ichtj.basetools.video.VideoPlayerView
         android:id="@+id/jz_video"
         android:layout_width="match_parent"

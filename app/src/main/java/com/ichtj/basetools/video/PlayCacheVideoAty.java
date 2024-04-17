@@ -18,6 +18,8 @@ import com.ichtj.basetools.base.BaseActivity;
 
 import java.io.File;
 
+import cn.jzvd.JzvdStd;
+
 public class PlayCacheVideoAty extends BaseActivity implements View.OnClickListener {
     private static final String TAG = PlayCacheVideoAty.class.getSimpleName();
     private SurfaceView mCameraPreview;
@@ -29,7 +31,7 @@ public class PlayCacheVideoAty extends BaseActivity implements View.OnClickListe
     private TextView mSecondText;
 
     ImageButton record_play;
-    VideoPlayerView videoPlayerView;
+    JzvdStd videoPlayerView;
     private String lastFileName;
     private Camera mCamera;
     private MediaRecorder mRecorder;

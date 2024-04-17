@@ -1,11 +1,15 @@
 package com.ichtj.basetools.video;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.ZipUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
@@ -24,64 +28,43 @@ import cn.jzvd.JzvdStd;
  * desc
  */
 public class VideoPlayAty extends BaseActivity {
+    private static final int FILE_PICKER_REQUEST_CODE = 1;
     VideoPlayerView jz_video;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_play);
-        initFile();
         jz_video = findViewById(R.id.jz_video);
+    }
+
+    private void playVideo(String url) {
         //设置地址
-        jz_video.setUp("/sdcard/aging.mp4"
-                , "VPU");
-        //设置缩略图
-        //jz_video.posterImageView.setImageDrawable(ContextCompat.getDrawable(VideoPlayAty.this,R.drawable.jz_loading_bg));
-        //全屏按钮
-        jz_video.fullscreenButton.setVisibility(View.VISIBLE);
-        jz_video.startButton.performClick();
+        jz_video.setUp(url, "VPU");
+        jz_video.startVideo();
     }
 
-
-    //zip保存的路径
-    private static final String savePath = "/sdcard/aging.zip";
-    // 文件名
-    private static final String fileName = "aging.zip";
-    //解压缩后的路径
-    private static final String unZipPath = "/sdcard/";
-
-    public void initFile() {
-        try {
-            //视频文件不存在时将文件保存到本地
-            new File(savePath).delete();
-            InputStream input = getAssets().open(fileName);
-            writeToLocal(savePath, input);
-            ZipUtils.unzipToDirectory(savePath, unZipPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-            KLog.e("errMeg:" + e.getMessage());
-        }
+    public void selectFileClick(View view){
+        // 启动文件选择器Intent
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("video/*"); // 只显示视频文件
+        startActivityForResult(intent, FILE_PICKER_REQUEST_CODE);
     }
 
-    /**
-     * 将InputStream写入本地文件
-     *
-     * @param destDirPath 写入本地目录
-     * @param input       输入流
-     * @throws IOException
-     */
-    public static void writeToLocal(String destDirPath, InputStream input)
-            throws IOException {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        int index;
-        byte[] bytes = new byte[1024];
-        FileOutputStream downloadFile = new FileOutputStream(destDirPath);
-        while ((index = input.read(bytes)) != -1) {
-            downloadFile.write(bytes, 0, index);
-            downloadFile.flush();
+        if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
+            if (data != null) {
+                Uri selectedFileUri = data.getData();
+                String selectedFilePath= UriPathUtils.getPath(selectedFileUri);
+                playVideo(selectedFilePath);
+                Toast.makeText(this, "选定的文件路径：" + selectedFilePath, Toast.LENGTH_LONG).show();
+            } else {
+                Toast.makeText(this, "未选择任何文件", Toast.LENGTH_SHORT).show();
+            }
         }
-        downloadFile.close();
-        input.close();
     }
 
 
