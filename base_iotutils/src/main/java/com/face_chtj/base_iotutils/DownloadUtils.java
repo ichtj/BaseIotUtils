@@ -1,6 +1,5 @@
 package com.face_chtj.base_iotutils;
 
-import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.entity.FileCacheData;
 import com.face_chtj.base_iotutils.entity.DownloadStatus;
 import com.face_chtj.base_iotutils.callback.IDownloadCallback;
@@ -43,8 +42,7 @@ public class DownloadUtils {
     private OkHttpClient client;
     private int MAX_BUFF_SIZE = 2048;
     private Call call;
-    //当前正在里的任务
-    private static Map<String, Integer> currentTaskList = new HashMap<>();
+    private Map<String, Integer> currentTaskList = new HashMap<>();
     private List<FileCacheData> fileCacheDataList = new ArrayList<>();
 
     /**
@@ -95,7 +93,6 @@ public class DownloadUtils {
      */
     private Call newCall(FileCacheData fileCacheData) {
         long fileLength = new File(fileCacheData.getFilePath()).length();
-        KLog.d("newCall: fileLength=" + fileLength);
         Request request = new Request.Builder()
                 .url(fileCacheData.getUrl())
                 .tag(fileCacheData.getRequestTag())
@@ -144,7 +141,6 @@ public class DownloadUtils {
             call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    KLog.d("onFailure:>=" + e.getMessage());
                     downloadCallBack.error(e);
                 }
 
@@ -167,8 +163,6 @@ public class DownloadUtils {
 
     /**
      * 按tag暂停任务
-     *
-     * @param requestTag
      */
     public void pause(String requestTag) {
         if (currentTaskList != null && currentTaskList.size() > 0 && currentTaskList.containsKey(requestTag)) {
@@ -179,10 +173,6 @@ public class DownloadUtils {
 
     /**
      * 将文件写入到本地
-     *
-     * @param response
-     * @param fileCacheData
-     * @param downloadCallBack
      */
     private void save(Response response, FileCacheData fileCacheData, IDownloadCallback downloadCallBack) {
         ResponseBody body = response.body();
@@ -195,8 +185,6 @@ public class DownloadUtils {
             long currentFileLenght = randomAccessFile.length();
             long bodyContentLength = body.contentLength();
             fileCacheData.setTotal(bodyContentLength + currentFileLenght);
-            KLog.d("save: currentFileLength=" + currentFileLenght + ",bodyContentLength=" + bodyContentLength + ",totalLength=" + fileCacheData.getTotal());
-            //body.contentLength()存放了这次下载的文件的总长度 current得到之前下载过的文件长度
             if (currentFileLenght >= fileCacheData.getTotal()) {
                 downloadCallBack.downloadProgress(fileCacheData, 100);
                 currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
@@ -233,7 +221,7 @@ public class DownloadUtils {
             fileCacheDataList.add(fileCacheData);
             //删除当前的这个执行任务
             currentTaskList.remove(fileCacheData.getRequestTag());
-            if (currentTaskList.size() <= 0) {
+            if (currentTaskList.size() == 0) {
                 //将完成的所有任务回调回去
                 downloadCallBack.allDownloadComplete(fileCacheDataList);
                 //回调之后进行清除操作
@@ -242,25 +230,18 @@ public class DownloadUtils {
         } catch (Throwable e) {
             downloadCallBack.error(e);
         } finally {
-            if (bis != null) {
-                try {
-                    bis.close();
-                } catch (Throwable e) {
-                    KLog.e("errMeg:" + e.getMessage());
-                }
+            try {
+                bis.close();
+            } catch (Throwable e) {
             }
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Throwable e) {
-                    KLog.e("errMeg:" + e.getMessage());
-                }
+            try {
+                in.close();
+            } catch (Throwable e) {
             }
             if (randomAccessFile != null) {
                 try {
                     randomAccessFile.close();
                 } catch (Throwable e) {
-                    KLog.e("errMeg:" + e.getMessage());
                 }
             }
         }
@@ -276,11 +257,7 @@ public class DownloadUtils {
         if (call != null) {
             call.cancel();
         }
-        if (currentTaskList != null) {
-            currentTaskList.clear();
-        }
-        if (fileCacheDataList != null) {
-            currentTaskList.clear();
-        }
+        currentTaskList.clear();
+        currentTaskList.clear();
     }
 }
