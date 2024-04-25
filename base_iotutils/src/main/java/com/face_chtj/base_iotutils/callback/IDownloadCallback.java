@@ -1,6 +1,6 @@
 package com.face_chtj.base_iotutils.callback;
 
-import com.face_chtj.base_iotutils.entity.FileCacheData;
+import com.face_chtj.base_iotutils.entity.FileData;
 
 import java.util.List;
 /**
@@ -8,17 +8,17 @@ import java.util.List;
  */
 public interface IDownloadCallback {
     //下载过程
-    void downloadProgress(FileCacheData fileCacheData, int percent);
+    void downloadProgress(FileData fileData, int percent);
 
     //下载状态
-    void downloadStatus(FileCacheData fileCacheData, int downloadStatus);
+    void downloadStatus(FileData fileData, int downloadStatus);
 
     //全部下载完毕
-    void allDownloadComplete(List<FileCacheData> fileCacheDataList);
+    void allDownloadComplete(List<FileData> fileDataList);
 
     //异常状态
     void error(Throwable e);
 
     //任务存在
-    void taskExist(FileCacheData fileCacheData);
+    void taskExist(FileData fileData);
 }

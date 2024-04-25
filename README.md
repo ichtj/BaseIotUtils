@@ -165,11 +165,11 @@ public class App extends Application {
         DownloadUtils downloadSupport=new DownloadUtils();
 
         //---------------------------任务1--------------------------------
-        FileCacheData fileCacheData = new FileCacheData();
-        fileCacheData.setUrl(downloadUrl);
-        fileCacheData.setFileName(fileName1);
-        fileCacheData.setRequestTag(downloadUrl);
-        fileCacheData.setFilePath("/sdcard/" + fileName1);
+        FileCacheData fileData = new FileCacheData();
+        fileData.setUrl(downloadUrl);
+        fileData.setFileName(fileName1);
+        fileData.setRequestTag(downloadUrl);
+        fileData.setFilePath("/sdcard/" + fileName1);
 
         //---------------------------任务2--------------------------------
         FileCacheData fileCacheData2 = new FileCacheData();
@@ -181,18 +181,18 @@ public class App extends Application {
 
 
         //开启任务下载 下载文件信息1
-        downloadSupport.addStartTask(fileCacheData, downloadCallBack);
+        downloadSupport.addStartTask(fileData, downloadCallBack);
          //开启任务下载 下载文件信息2
         downloadSupport.addStartTask(fileCacheData2, downloadCallBack);
         //-----------------------------------------------------------
 
         //下载进度
-        //多个任务使用同一个DownloadCallBack 可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
+        //多个任务使用同一个DownloadCallBack 可根据设置的requestTag来区分属于哪个下载进度 fileData.getRequestTag()
         IDownloadCallback downloadCallBack = new IDownloadCallback() {
             @Override
-            public void download(FileCacheData fileCacheData, int percent, boolean isComplete) {
+            public void download(FileCacheData fileData, int percent, boolean isComplete) {
                 Message message1 = handler.obtainMessage();
-                message1.obj = fileCacheData;
+                message1.obj = fileData;
                 message1.arg1 = percent;
                 handler.sendMessage(message1);
             }

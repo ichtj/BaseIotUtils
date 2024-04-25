@@ -132,7 +132,7 @@ com.face_chtj.base_iotutils.entity.ComEntity -> com.face_chtj.base_iotutils.enti
     1:1:void setHeartBeatEntity(com.face_chtj.base_iotutils.entity.HeartBeatEntity):50:50 -> setHeartBeatEntity
     1:1:void setRetriesCount(int):60:60 -> setRetriesCount
     1:1:void setTimeOut(int):42:42 -> setTimeOut
-com.face_chtj.base_iotutils.entity.FileCacheData -> com.face_chtj.base_iotutils.entity.FileCacheData:
+com.face_chtj.base_iotutils.entity.FileData -> com.face_chtj.base_iotutils.entity.FileData:
     1:1:void <init>():3:3 -> <init>
     1:1:long getCurrent():80:80 -> getCurrent
     1:1:java.lang.String getFileName():48:48 -> getFileName

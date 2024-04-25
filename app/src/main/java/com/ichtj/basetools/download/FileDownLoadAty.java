@@ -15,7 +15,7 @@ import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.callback.IDownloadCallback;
 import com.face_chtj.base_iotutils.DownloadUtils;
-import com.face_chtj.base_iotutils.entity.FileCacheData;
+import com.face_chtj.base_iotutils.entity.FileData;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
@@ -132,8 +132,8 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void downTaskPause1(View view) {
-        if (fileCacheData != null) {
-            DownloadUtils.pause(fileCacheData.getRequestTag());
+        if (fileData != null) {
+            DownloadUtils.pause(fileData.getRequestTag());
         }
     }
 
@@ -143,8 +143,8 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void downTaskPause2(View view) {
-        if (fileCacheData2 != null) {
-            DownloadUtils.pause(fileCacheData2.getRequestTag());
+        if (fileData2 != null) {
+            DownloadUtils.pause(fileData2.getRequestTag());
         }
     }
 
@@ -154,8 +154,8 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void downTaskPause3(View view) {
-        if (fileCacheData3 != null) {
-            DownloadUtils.pause(fileCacheData3.getRequestTag());
+        if (fileData3 != null) {
+            DownloadUtils.pause(fileData3.getRequestTag());
         }
     }
 
@@ -165,8 +165,8 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void downTaskPause4(View view) {
-        if (fileCacheData4 != null) {
-            DownloadUtils.pause(fileCacheData4.getRequestTag());
+        if (fileData4 != null) {
+            DownloadUtils.pause(fileData4.getRequestTag());
         }
     }
 
@@ -188,7 +188,7 @@ public class FileDownLoadAty extends BaseActivity{
         DownloadUtils.cancelAll();
     }
 
-    FileCacheData fileCacheData = null;
+    FileData fileData = null;
 
     //文件下载
     public void downloadFile1(View view) {
@@ -197,18 +197,18 @@ public class FileDownLoadAty extends BaseActivity{
             return;
         }
         //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
-        fileCacheData = new FileCacheData();
-        fileCacheData.setUrl(downloadUrl1);
-        fileCacheData.setFileName(fileName1);
-        fileCacheData.setRequestTag(downloadUrl1);
-        fileCacheData.setFilePath(saveRootPath + fileName1);
-        addDownloadTask(fileCacheData);
+        fileData = new FileData();
+        fileData.setUrl(downloadUrl1);
+        fileData.setFileName(fileName1);
+        fileData.setRequestTag(downloadUrl1);
+        fileData.setFilePath(saveRootPath + fileName1);
+        addDownloadTask(fileData);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName1, false);
         tvTime1.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
-    FileCacheData fileCacheData2 = null;
+    FileData fileData2 = null;
 
     //文件下载
     public void downloadFile2(View view) {
@@ -216,18 +216,18 @@ public class FileDownLoadAty extends BaseActivity{
             ToastUtils.error("当前无网络连接！");
             return;
         }
-        fileCacheData2 = new FileCacheData();
-        fileCacheData2.setUrl(downloadUrl2);
-        fileCacheData2.setFileName(fileName2);
-        fileCacheData2.setRequestTag(downloadUrl2);
-        fileCacheData2.setFilePath(saveRootPath + fileName2);
-        addDownloadTask(fileCacheData2);
+        fileData2 = new FileData();
+        fileData2.setUrl(downloadUrl2);
+        fileData2.setFileName(fileName2);
+        fileData2.setRequestTag(downloadUrl2);
+        fileData2.setFilePath(saveRootPath + fileName2);
+        addDownloadTask(fileData2);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName2, false);
         tvTime2.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
-    FileCacheData fileCacheData3 = null;
+    FileData fileData3 = null;
 
     //文件下载
     public void downloadFile3(View view) {
@@ -235,18 +235,18 @@ public class FileDownLoadAty extends BaseActivity{
             ToastUtils.error("当前无网络连接！");
             return;
         }
-        fileCacheData3 = new FileCacheData();
-        fileCacheData3.setUrl(downloadUrl3);
-        fileCacheData3.setFileName(fileName3);
-        fileCacheData3.setRequestTag(downloadUrl3);
-        fileCacheData3.setFilePath(saveRootPath + fileName3);
-        addDownloadTask(fileCacheData3);
+        fileData3 = new FileData();
+        fileData3.setUrl(downloadUrl3);
+        fileData3.setFileName(fileName3);
+        fileData3.setRequestTag(downloadUrl3);
+        fileData3.setFilePath(saveRootPath + fileName3);
+        addDownloadTask(fileData3);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName3, false);
         tvTime3.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
     }
 
-    FileCacheData fileCacheData4 = null;
+    FileData fileData4 = null;
 
     //文件下载
     public void downloadFile4(View view) {
@@ -254,12 +254,12 @@ public class FileDownLoadAty extends BaseActivity{
             ToastUtils.error("当前无网络连接！");
             return;
         }
-        fileCacheData4 = new FileCacheData();
-        fileCacheData4.setUrl(downloadUrl4);
-        fileCacheData4.setFileName(fileName4);
-        fileCacheData4.setRequestTag(downloadUrl4);
-        fileCacheData4.setFilePath(saveRootPath + fileName4);
-        addDownloadTask(fileCacheData4);
+        fileData4 = new FileData();
+        fileData4.setUrl(downloadUrl4);
+        fileData4.setFileName(fileName4);
+        fileData4.setRequestTag(downloadUrl4);
+        fileData4.setFilePath(saveRootPath + fileName4);
+        addDownloadTask(fileData4);
         FileUtils.writeFileData(saveCachePath, "_" + saveRootPath + fileName4, false);
         tvTime4.setText(TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss"));
         //-----------------------------------------------------------
@@ -268,19 +268,19 @@ public class FileDownLoadAty extends BaseActivity{
     /**
      * 添加下载任务
      *
-     * @param fileCacheData
+     * @param fileData
      */
-    public void addDownloadTask(FileCacheData fileCacheData) {
-        DownloadUtils.addStartTask(fileCacheData);
+    public void addDownloadTask(FileData fileData) {
+        DownloadUtils.addStartTask(fileData);
     }
 
     //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
     IDownloadCallback downloadCallBack = new IDownloadCallback() {
         @Override
-        public void downloadProgress(FileCacheData fileCacheData, int percent) {
-            KLog.d(TAG, "download:>filename=" + fileCacheData.getFileName() + ",percent=" + percent + ",current=" + fileCacheData.getCurrent());
+        public void downloadProgress(FileData fileData, int percent) {
+            KLog.d(TAG, "download:>filename=" + fileData.getFileName() + ",percent=" + percent + ",current=" + fileData.getCurrent());
             Message message1 = handler.obtainMessage();
-            message1.obj = fileCacheData;
+            message1.obj = fileData;
             message1.arg1 = percent;
             handler.sendMessage(message1);
         }
@@ -292,28 +292,28 @@ public class FileDownLoadAty extends BaseActivity{
         }
 
         @Override
-        public void taskExist(FileCacheData fileCacheData) {
+        public void taskExist(FileData fileData) {
             ToastUtils.warning("任务存在");
         }
 
         @Override
-        public void allDownloadComplete(List<FileCacheData> fileCacheDataList) {
-            for (int i = 0; i < fileCacheDataList.size(); i++) {
-                KLog.d(TAG, "allDownloadComplete:>requestTag=" + fileCacheDataList.get(i).getRequestTag() + "" + fileCacheDataList.get(i).getFileName() + "," + fileCacheDataList.get(i).getCurrent() + "," + fileCacheDataList.get(i).getTotal());
+        public void allDownloadComplete(List<FileData> fileDataList) {
+            for (int i = 0; i < fileDataList.size(); i++) {
+                KLog.d(TAG, "allDownloadComplete:>requestTag=" + fileDataList.get(i).getRequestTag() + "" + fileDataList.get(i).getFileName() + "," + fileDataList.get(i).getCurrent() + "," + fileDataList.get(i).getTotal());
             }
         }
 
         @Override
-        public void downloadStatus(FileCacheData fileCacheData, int downloadStatus) {
-            KLog.d(TAG, "downloadStatus:>requestTag =" + fileCacheData.getRequestTag() + ",status=" + downloadStatus);
+        public void downloadStatus(FileData fileData, int downloadStatus) {
+            KLog.d(TAG, "downloadStatus:>requestTag =" + fileData.getRequestTag() + ",status=" + downloadStatus);
         }
     };
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            FileCacheData fileCacheData = (FileCacheData) msg.obj;
-            switch (fileCacheData.getRequestTag()) {
+            FileData fileData = (FileData) msg.obj;
+            switch (fileData.getRequestTag()) {
                 case downloadUrl1:
                     pbProgressbar1.setProgress(msg.arg1);
                     tvResult1.setText("update1.zip >>> " + msg.arg1 + "%");
