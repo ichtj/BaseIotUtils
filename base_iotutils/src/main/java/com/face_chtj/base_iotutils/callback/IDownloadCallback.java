@@ -17,7 +17,7 @@ public interface IDownloadCallback {
     void allDownloadComplete(List<FileData> fileDataList);
 
     //异常状态
-    void error(Throwable e);
+    void error(FileData fileData,Throwable e);
 
     //任务存在
     void taskExist(FileData fileData);

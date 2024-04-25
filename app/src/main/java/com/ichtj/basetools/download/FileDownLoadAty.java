@@ -30,16 +30,16 @@ import java.util.List;
  * desc 文件下载
  */
 public class FileDownLoadAty extends BaseActivity{
-    private static final String TAG = "DownLoadAty";
+    private static final String TAG = FileDownLoadAty.class.getSimpleName();
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3, pbProgressbar4;
     TextView tvResult1, tvResult2, tvResult3, tvResult4;
     TextView tvTime1, tvTime2, tvTime3, tvTime4;
     private String saveRootPath = "/sdcard/test/download/";
     private String saveCachePath = "/sdcard/fileDownload.txt";
     //文件下载地址
-    public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";
+    public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/BM54_FIPC5550_V0.02_20200615105759/update.zip";
     //替换的文件名称
-    public String fileName1 = "update1.zip";
+    public String fileName1 = "test22.zip";
 
     //文件下载地址
     public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
@@ -286,13 +286,14 @@ public class FileDownLoadAty extends BaseActivity{
         }
 
         @Override
-        public void error(Throwable e) {
-            KLog.d(TAG, "error:>errMeg=" + e.getMessage());
+        public void error(FileData fileData, Throwable e) {
+            KLog.d(TAG, "error:>fileName="+fileData.getFileName()+",err>>" + e.getMessage());
             DownloadUtils.cancelAll();
         }
 
         @Override
         public void taskExist(FileData fileData) {
+            KLog.d(TAG, "taskExist:>fileName=" +fileData.getFileName());
             ToastUtils.warning("任务存在");
         }
 

@@ -151,7 +151,7 @@ public class DownloadUtils {
                     @Override
                     public void onFailure(Call call, IOException e) {
                         for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                            instance().iDownloadCallback.get(i).error(e);
+                            instance().iDownloadCallback.get(i).error(fileData,e);
                         }
                     }
 
@@ -264,7 +264,7 @@ public class DownloadUtils {
             }
         } catch (Throwable throwable) {
             for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                instance().iDownloadCallback.get(i).error(throwable);
+                instance().iDownloadCallback.get(i).error(fileData,throwable);
             }
         } finally {
             try {
