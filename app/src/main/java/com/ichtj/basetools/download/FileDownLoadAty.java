@@ -34,7 +34,7 @@ public class FileDownLoadAty extends BaseActivity{
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3, pbProgressbar4;
     TextView tvResult1, tvResult2, tvResult3, tvResult4;
     TextView tvTime1, tvTime2, tvTime3, tvTime4;
-    private String saveRootPath = "/sdcard/";
+    private String saveRootPath = "/sdcard/test/download/";
     private String saveCachePath = "/sdcard/fileDownload.txt";
     //文件下载地址
     public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/v0.99/update.zip";

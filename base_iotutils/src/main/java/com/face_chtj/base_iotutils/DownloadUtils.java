@@ -192,7 +192,14 @@ public class DownloadUtils {
         // 随机访问文件，可以指定断点续传的起始位置
         RandomAccessFile randomAccessFile = null;
         try {
-            randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
+            File file=new File(fileCacheData.getFilePath());
+            //获取父目录
+            File parent=new File(file.getParent());
+            if (!parent.exists()){
+                //如果目录不存在则创建相应的目录
+                parent.mkdirs();
+            }
+            randomAccessFile = new RandomAccessFile(file, "rwd");
             long currentFileLenght = randomAccessFile.length();
             long bodyContentLength = body != null ? body.contentLength() : 0;
             fileCacheData.setTotal(bodyContentLength + currentFileLenght);
