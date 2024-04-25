@@ -7,9 +7,9 @@ public class FileCacheData {
     private String fileName;
     private String filePath;
     private String requestTag;
-    private Map<String,String> spareList;//备用字段请存储在这里
     private long current;
     private long total;
+    private Map<String,String> spareList;//备用字段请存储在这里
 
     public Map<String, String> getSpareList() {
         return spareList;

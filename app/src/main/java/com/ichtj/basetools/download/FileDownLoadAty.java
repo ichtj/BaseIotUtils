@@ -29,7 +29,7 @@ import java.util.List;
  * author chtj
  * desc 文件下载
  */
-public class FileDownLoadAty extends BaseActivity {
+public class FileDownLoadAty extends BaseActivity{
     private static final String TAG = "DownLoadAty";
     ProgressBar pbProgressbar1, pbProgressbar2, pbProgressbar3, pbProgressbar4;
     TextView tvResult1, tvResult2, tvResult3, tvResult4;
@@ -41,12 +41,10 @@ public class FileDownLoadAty extends BaseActivity {
     //替换的文件名称
     public String fileName1 = "update1.zip";
 
-
     //文件下载地址
     public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
     //替换的文件名称
     public String fileName2 = "update2.zip";
-
 
     //文件下载地址
     public static final String downloadUrl3 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/20200108-APK/Settings.apk";
@@ -57,10 +55,6 @@ public class FileDownLoadAty extends BaseActivity {
     public static final String downloadUrl4 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/lock.BIN";
     //替换的文件名称
     public String fileName4 = "lock.BIN";
-
-
-    DownloadUtils downloadUtils;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,8 +86,7 @@ public class FileDownLoadAty extends BaseActivity {
                 e.printStackTrace();
             }
         }
-
-        downloadUtils = new DownloadUtils();
+        DownloadUtils.registerCallback(downloadCallBack);
     }
 
     /**
@@ -130,7 +123,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void getdown_status(View view) {
-        ToastUtils.info("是否正在执行下载:" + downloadUtils.isRunDownloadTask());
+        ToastUtils.info("是否正在执行下载:" + DownloadUtils.isRunDownloadTask());
     }
 
     /**
@@ -140,7 +133,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause1(View view) {
         if (fileCacheData != null) {
-            downloadUtils.pause(fileCacheData.getRequestTag());
+            DownloadUtils.pause(fileCacheData.getRequestTag());
         }
     }
 
@@ -151,7 +144,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause2(View view) {
         if (fileCacheData2 != null) {
-            downloadUtils.pause(fileCacheData2.getRequestTag());
+            DownloadUtils.pause(fileCacheData2.getRequestTag());
         }
     }
 
@@ -162,7 +155,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause3(View view) {
         if (fileCacheData3 != null) {
-            downloadUtils.pause(fileCacheData3.getRequestTag());
+            DownloadUtils.pause(fileCacheData3.getRequestTag());
         }
     }
 
@@ -173,7 +166,7 @@ public class FileDownLoadAty extends BaseActivity {
      */
     public void downTaskPause4(View view) {
         if (fileCacheData4 != null) {
-            downloadUtils.pause(fileCacheData4.getRequestTag());
+            DownloadUtils.pause(fileCacheData4.getRequestTag());
         }
     }
 
@@ -183,7 +176,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void downTaskPause(View view) {
-        downloadUtils.pause();
+        DownloadUtils.pause();
     }
 
     /**
@@ -192,7 +185,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param view
      */
     public void downloadStop(View view) {
-        downloadUtils.cancel();
+        DownloadUtils.cancelAll();
     }
 
     FileCacheData fileCacheData = null;
@@ -278,7 +271,7 @@ public class FileDownLoadAty extends BaseActivity {
      * @param fileCacheData
      */
     public void addDownloadTask(FileCacheData fileCacheData) {
-        downloadUtils.addStartTask(fileCacheData, downloadCallBack);
+        DownloadUtils.addStartTask(fileCacheData);
     }
 
     //下载进度  可根据设置的requestTag来区分属于哪个下载进度 fileCacheData.getRequestTag()
@@ -295,7 +288,7 @@ public class FileDownLoadAty extends BaseActivity {
         @Override
         public void error(Throwable e) {
             KLog.d(TAG, "error:>errMeg=" + e.getMessage());
-            downloadUtils.cancel();
+            DownloadUtils.cancelAll();
         }
 
         @Override
@@ -344,6 +337,7 @@ public class FileDownLoadAty extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        downloadUtils.cancel();
+        DownloadUtils.cancelAll();
+        DownloadUtils.unRegisterCallback(downloadCallBack);
     }
 }

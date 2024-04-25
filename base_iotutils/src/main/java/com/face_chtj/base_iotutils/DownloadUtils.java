@@ -39,25 +39,52 @@ import okhttp3.ResponseBody;
  * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
  */
 public class DownloadUtils {
-    private OkHttpClient client;
-    private int MAX_BUFF_SIZE = 2048;
     private Call call;
-    private Map<String, Integer> currentTaskList = new HashMap<>();
-    private List<FileCacheData> fileCacheDataList = new ArrayList<>();
+    private final OkHttpClient client;
+    private int MAX_BUFF_SIZE = 2048;
+    private Map<String, Integer> currentTaskList=new HashMap<>();
+    private List<FileCacheData> fileCacheDataList=new ArrayList<>();
+    private List<IDownloadCallback> iDownloadCallback=new ArrayList<>();
+    private static volatile DownloadUtils sInstance;
+
+    private static DownloadUtils instance() {
+        if (sInstance == null) {
+            synchronized (DownloadUtils.class) {
+                if (sInstance == null) {
+                    sInstance = new DownloadUtils();
+                }
+            }
+        }
+        return sInstance;
+    }
+
+    public static void registerCallback(IDownloadCallback downloadCallBack) {
+        if (downloadCallBack!=null){
+            if (!instance().iDownloadCallback.contains(downloadCallBack)) {
+                instance().iDownloadCallback.add(downloadCallBack);
+            }
+        }
+    }
+
+    public static void unRegisterCallback(IDownloadCallback downloadCallBack) {
+        if (downloadCallBack!=null){
+            instance().iDownloadCallback.remove(downloadCallBack);
+        }
+    }
 
     /**
      * 是否正在执行任务下载
      *
      * @return true| false
      */
-    public boolean isRunDownloadTask() {
-        if (currentTaskList.size() > 0) {
+    public static boolean isRunDownloadTask() {
+        if (instance().currentTaskList.size() > 0) {
             //判断是否有暂停的任务 暂停的任务也相当于没有在执行任务下载
             int count = 0;
-            for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
-                if (currentTaskList.get(entry.getKey()) == DownloadStatus.STATUS_PAUSE) {
+            for (Map.Entry<String, Integer> entry : instance().currentTaskList.entrySet()) {
+                if (instance().currentTaskList.get(entry.getKey()) == DownloadStatus.STATUS_PAUSE) {
                     count++;
-                    if (count == currentTaskList.size()) {
+                    if (count == instance().currentTaskList.size()) {
                         return false;
                     }
                 }
@@ -70,39 +97,7 @@ public class DownloadUtils {
     /**
      * 初始化一次即可
      */
-    public DownloadUtils() {
-        initData(MAX_BUFF_SIZE);
-    }
-
-    /**
-     * 初始化一次即可
-     */
-    public DownloadUtils(int maxBuffSize) {
-        initData(maxBuffSize);
-    }
-
-    private void initData(int maxBuffSize) {
-        this.MAX_BUFF_SIZE = maxBuffSize;
-        //在下载、暂停后的继续下载中可复用同一个client对象
-        client = getProgressClient();
-    }
-
-    /**
-     * 每次下载需要新建新的Call对象
-     * new File(fileCacheData.getFilePath()).length() 获取文件断点位置 并以此为起点去下载，请留意是否支持断点下载
-     */
-    private Call newCall(FileCacheData fileCacheData) {
-        long fileLength = new File(fileCacheData.getFilePath()).length();
-        Request request = new Request.Builder()
-                .url(fileCacheData.getUrl())
-                .tag(fileCacheData.getRequestTag())
-                .header("RANGE", "bytes=" + fileLength + "-")//断点续传要用到的，指示下载的区间
-                .build();
-        return client.newCall(request);
-    }
-
-    public OkHttpClient getProgressClient() {
-        // 拦截器，用上ProgressResponseBody
+    private DownloadUtils() {
         Interceptor interceptor = new Interceptor() {
             @Override
             public Response intercept(Chain chain) throws IOException {
@@ -112,41 +107,57 @@ public class DownloadUtils {
                         .build();
             }
         };
-
-        return new OkHttpClient.Builder()
+        client= new OkHttpClient.Builder()
                 .addNetworkInterceptor(interceptor)
                 .build();
     }
 
+    public static void setBuffSize(int maxBuffSize) {
+        instance().MAX_BUFF_SIZE = maxBuffSize;
+    }
+
     /**
      * 相同的地址的requestTag的任务不会重复下载，会提示任务存在
-     * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancel()}关闭任务
+     * 使用download会自动判断文件是否有下载过，如果已经下载完成，再次重新下载，会直接提示完成，如果需要重新下载，请调用{@link #cancelAll()}关闭任务
      */
-    public void addStartTask(final FileCacheData fileCacheData, final IDownloadCallback downloadCallBack) {
+    public static void addStartTask(final FileCacheData fileCacheData) {
         if (fileCacheData != null) {
             String requestTag = fileCacheData.getRequestTag();
             //防止任务重复下载
-            if (currentTaskList != null && currentTaskList.size() > 0) {
-                Integer status = currentTaskList.get(requestTag);
+            if (instance().currentTaskList.size() > 0) {
+                Integer status = instance().currentTaskList.get(requestTag);
                 if (status != null && status == DownloadStatus.STATUS_RUNNING) {
-                    downloadCallBack.taskExist(fileCacheData);
+                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                        instance().iDownloadCallback.get(i).taskExist(fileCacheData);
+                    }
                     return;
                 }
             }
             //该集合中没有任务正在处理
-            currentTaskList.put(requestTag, DownloadStatus.STATUS_RUNNING);
-            downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(requestTag));
-            //获取url对应的key
-            call = newCall(fileCacheData);
-            call.enqueue(new Callback() {
+            instance().currentTaskList.put(requestTag, DownloadStatus.STATUS_RUNNING);
+            for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                instance().iDownloadCallback.get(i).downloadStatus(fileCacheData, instance().currentTaskList.get(requestTag));
+            }
+
+            long fileLength = new File(fileCacheData.getFilePath()).length();
+            Request request = new Request.Builder()
+                    .url(fileCacheData.getUrl())
+                    .tag(fileCacheData.getRequestTag())
+                    .header("RANGE", "bytes=" + fileLength + "-")//断点续传要用到的，指示下载的区间
+                    .build();
+            instance().call= instance().client.newCall(request);
+
+            instance().call.enqueue(new Callback() {
                 @Override
                 public void onFailure(Call call, IOException e) {
-                    downloadCallBack.error(e);
+                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                        instance().iDownloadCallback.get(i).error(e);
+                    }
                 }
 
                 @Override
                 public void onResponse(Call call, Response response) throws IOException {
-                    save(response, fileCacheData, downloadCallBack);
+                    save(response, fileCacheData);
                 }
             });
         }
@@ -155,18 +166,18 @@ public class DownloadUtils {
     /**
      * 暂停所有任务
      */
-    public void pause() {
-        for (Map.Entry<String, Integer> entry : currentTaskList.entrySet()) {
-            currentTaskList.put(entry.getKey(), DownloadStatus.STATUS_PAUSE);
+    public static void pause() {
+        for (Map.Entry<String, Integer> entry : instance().currentTaskList.entrySet()) {
+            instance().currentTaskList.put(entry.getKey(), DownloadStatus.STATUS_PAUSE);
         }
     }
 
     /**
      * 按tag暂停任务
      */
-    public void pause(String requestTag) {
-        if (currentTaskList != null && currentTaskList.size() > 0 && currentTaskList.containsKey(requestTag)) {
-            currentTaskList.put(requestTag, DownloadStatus.STATUS_PAUSE);
+    public static void pause(String requestTag) {
+        if (instance().currentTaskList.size() > 0 && instance().currentTaskList.containsKey(requestTag)) {
+            instance().currentTaskList.put(requestTag, DownloadStatus.STATUS_PAUSE);
         }
     }
 
@@ -174,33 +185,37 @@ public class DownloadUtils {
     /**
      * 将文件写入到本地
      */
-    private void save(Response response, FileCacheData fileCacheData, IDownloadCallback downloadCallBack) {
+    private static void save(Response response, FileCacheData fileCacheData) {
         ResponseBody body = response.body();
-        InputStream in = body.byteStream();
+        InputStream in = body != null ? body.byteStream() : null;
         BufferedInputStream bis = new BufferedInputStream(in);
         // 随机访问文件，可以指定断点续传的起始位置
         RandomAccessFile randomAccessFile = null;
         try {
             randomAccessFile = new RandomAccessFile(new File(fileCacheData.getFilePath()), "rwd");
             long currentFileLenght = randomAccessFile.length();
-            long bodyContentLength = body.contentLength();
+            long bodyContentLength = body != null ? body.contentLength() : 0;
             fileCacheData.setTotal(bodyContentLength + currentFileLenght);
             if (currentFileLenght >= fileCacheData.getTotal()) {
-                downloadCallBack.downloadProgress(fileCacheData, 100);
-                currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
-                downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+                instance().currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
+                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                    instance().iDownloadCallback.get(i).downloadProgress(fileCacheData, 100);
+                    instance().iDownloadCallback.get(i).downloadStatus(fileCacheData, instance().currentTaskList.get(fileCacheData.getRequestTag()));
+                }
                 return;
             }
             //从文件的断点开始下载
             randomAccessFile.seek(currentFileLenght);
-            byte[] buffer = new byte[MAX_BUFF_SIZE];
+            byte[] buffer = new byte[instance().MAX_BUFF_SIZE];
             int len;
             //每次读取最多不超过2*1024个字节
             while ((len = bis.read(buffer)) != -1) {
                 //先写入到文件中
                 randomAccessFile.write(buffer, 0, len);
-                if (currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.STATUS_PAUSE) {
-                    downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+                if (instance().currentTaskList.get(fileCacheData.getRequestTag()) == DownloadStatus.STATUS_PAUSE) {
+                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                        instance().iDownloadCallback.get(i).downloadStatus(fileCacheData, instance().currentTaskList.get(fileCacheData.getRequestTag()));
+                    }
                     return;
                 }
                 //记录当前进度
@@ -209,26 +224,34 @@ public class DownloadUtils {
                 //计算已经下载的百分比
                 int percent = (int) (fileCacheData.getCurrent() * 100 / fileCacheData.getTotal());
                 boolean isComplete = currentFileLenght >= fileCacheData.getTotal();
-                downloadCallBack.downloadProgress(fileCacheData, percent);
+                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                    instance().iDownloadCallback.get(i).downloadProgress(fileCacheData, percent);
+                }
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
-                    currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
-                    downloadCallBack.downloadStatus(fileCacheData, currentTaskList.get(fileCacheData.getRequestTag()));
+                    instance().currentTaskList.put(fileCacheData.getRequestTag(), DownloadStatus.STATUS_COMPLETE);
+                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                        instance().iDownloadCallback.get(i).downloadStatus(fileCacheData, instance().currentTaskList.get(fileCacheData.getRequestTag()));
+                    }
                     break;
                 }
             }
             //把已完成的任务添加到集合中去
-            fileCacheDataList.add(fileCacheData);
+            instance().fileCacheDataList.add(fileCacheData);
             //删除当前的这个执行任务
-            currentTaskList.remove(fileCacheData.getRequestTag());
-            if (currentTaskList.size() == 0) {
+            instance().currentTaskList.remove(fileCacheData.getRequestTag());
+            if (instance().currentTaskList.size() == 0) {
                 //将完成的所有任务回调回去
-                downloadCallBack.allDownloadComplete(fileCacheDataList);
+                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                    instance().iDownloadCallback.get(i).allDownloadComplete(instance().fileCacheDataList);
+                }
                 //回调之后进行清除操作
-                fileCacheDataList.clear();
+                instance().fileCacheDataList.clear();
             }
-        } catch (Throwable e) {
-            downloadCallBack.error(e);
+        } catch (Throwable throwable) {
+            for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                instance().iDownloadCallback.get(i).error(throwable);
+            }
         } finally {
             try {
                 bis.close();
@@ -250,14 +273,14 @@ public class DownloadUtils {
     /**
      * 关闭任务
      */
-    public void cancel() {
-        if (client != null) {
-            client.dispatcher().cancelAll();
+    public static void cancelAll() {
+        if (instance().client != null) {
+            instance().client.dispatcher().cancelAll();
         }
-        if (call != null) {
-            call.cancel();
+        if (instance().call != null) {
+            instance().call.cancel();
         }
-        currentTaskList.clear();
-        currentTaskList.clear();
+        instance().currentTaskList.clear();
+        instance().currentTaskList.clear();
     }
 }

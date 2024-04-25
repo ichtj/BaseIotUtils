@@ -20,5 +20,5 @@ public interface IDownloadCallback {
     void error(Throwable e);
 
     //任务存在
-    void taskExist(FileCacheData fileCacheData );
+    void taskExist(FileCacheData fileCacheData);
 }
