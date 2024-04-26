@@ -9,13 +9,13 @@ public class FileData {
     private String requestTag;
     private long current;
     private long total;
-    private Map<String,String> spareList;//备用字段请存储在这里
+    private Map<String,Object> spareList;//备用字段请存储在这里
 
-    public Map<String, String> getSpareList() {
+    public Map<String, Object> getSpareList() {
         return spareList;
     }
 
-    public void setSpareList(Map<String, String> spareList) {
+    public void setSpareList(Map<String, Object> spareList) {
         this.spareList = spareList;
     }
 
