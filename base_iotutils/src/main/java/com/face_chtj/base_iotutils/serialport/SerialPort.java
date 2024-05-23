@@ -27,9 +27,9 @@ import java.io.OutputStream;
 public class SerialPort {
 	private static final String TAG = "SerialPort";
 	/*
-	 * Do not remove or rename the field descriptor: it is used by native method close();
+	 * Do not remove or rename the field mFd: it is used by native method close();
 	 */
-	private FileDescriptor descriptor;
+	private FileDescriptor mFd;
 	private FileInputStream mFileInputStream;
 	private FileOutputStream mFileOutputStream;
 
@@ -52,14 +52,14 @@ public class SerialPort {
 			}
 		}
 
-		descriptor = open(device.getAbsolutePath(), baudrate, flags);
+		mFd = open(device.getAbsolutePath(), baudrate, flags);
 		KLog.d(TAG, "SerialPort:open success ");
-		if (descriptor == null) {
+		if (mFd == null) {
 			KLog.e(TAG, "native open returns null");
 			throw new IOException();
 		}
-		mFileInputStream = new FileInputStream(descriptor);
-		mFileOutputStream = new FileOutputStream(descriptor);
+		mFileInputStream = new FileInputStream(mFd);
+		mFileOutputStream = new FileOutputStream(mFd);
 	}
 
 	/**
@@ -93,18 +93,16 @@ public class SerialPort {
 			}
 		}
 
-		descriptor = open2(device.getAbsolutePath(), baudrate, dataBits,stopBits,parity);
-		if (descriptor == null) {
+		mFd = open2(device.getAbsolutePath(), baudrate, dataBits,stopBits,parity);
+		if (mFd == null) {
 			KLog.e(TAG, "native open returns null");
 			throw new IOException();
 		}else {
 			KLog.d(TAG, "native open != null");
 		}
-		mFileInputStream = new FileInputStream(descriptor);
-		mFileOutputStream = new FileOutputStream(descriptor);
+		mFileInputStream = new FileInputStream(mFd);
+		mFileOutputStream = new FileOutputStream(mFd);
 	}
-
-
 
 	// Getters and setters
 	public InputStream getInputStream() {
@@ -115,8 +113,8 @@ public class SerialPort {
 		return mFileOutputStream;
 	}
 
-	public FileDescriptor getDescriptor() {
-		return descriptor;
+	public FileDescriptor getmFd() {
+		return mFd;
 	}
 
 	/**
