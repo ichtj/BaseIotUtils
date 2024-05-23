@@ -1,7 +1,7 @@
 # compiler: R8
 # compiler_version: 1.5.69
 # min_api: 19
-# pg_map_id: aad85ed
+# pg_map_id: 3937f97
 aavax.xml.namespace.QName -> a.a.a.a:
     java.lang.String localPart -> f
     java.lang.String namespaceURI -> e
@@ -4708,9 +4708,7 @@ androidx.appcompat.app.ResourcesFlusher -> c.a.a.u:
     72:73:boolean androidx.media.MediaBrowserCompatUtils.areSameOptions(android.os.Bundle,android.os.Bundle):38:39 -> a
     74:77:boolean androidx.media.MediaBrowserCompatUtils.areSameOptions(android.os.Bundle,android.os.Bundle):41:44 -> a
     78:83:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String,java.lang.String):35:40 -> a
-    78:83:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54 -> a
     84:85:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String,java.lang.String):42:43 -> a
-    84:85:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54 -> a
     86:86:boolean com.alibaba.android.arouter.utils.MapUtils.isEmpty(java.util.Map):36:36 -> a
     86:86:boolean com.alibaba.android.arouter.utils.MapUtils.isNotEmpty(java.util.Map):23 -> a
     87:88:void androidx.appcompat.widget.TooltipCompat.setTooltipText(android.view.View,java.lang.CharSequence):41:42 -> a
@@ -5937,63 +5935,64 @@ androidx.appcompat.app.ResourcesFlusher -> c.a.a.u:
     1325:1326:android.animation.ValueAnimator androidx.vectordrawable.graphics.drawable.AnimatorInflaterCompat.loadAnimator(android.content.Context,android.content.res.Resources,android.content.res.Resources$Theme,android.util.AttributeSet,android.animation.ValueAnimator,float,org.xmlpull.v1.XmlPullParser):905:906 -> a
     1327:1327:android.animation.ValueAnimator androidx.vectordrawable.graphics.drawable.AnimatorInflaterCompat.loadAnimator(android.content.Context,android.content.res.Resources,android.content.res.Resources$Theme,android.util.AttributeSet,android.animation.ValueAnimator,float,org.xmlpull.v1.XmlPullParser):909:909 -> a
     1328:1328:android.animation.ValueAnimator androidx.vectordrawable.graphics.drawable.AnimatorInflaterCompat.loadAnimator(android.content.Context,android.content.res.Resources,android.content.res.Resources$Theme,android.util.AttributeSet,android.animation.ValueAnimator,float,org.xmlpull.v1.XmlPullParser):911:911 -> a
-    1:1:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):40:40 -> b
-    2:2:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):43:43 -> b
-    3:3:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):46:46 -> b
-    4:5:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):49:50 -> b
-    6:6:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):52:52 -> b
-    7:7:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):57:57 -> b
-    8:10:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):59:61 -> b
-    11:11:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):66:66 -> b
-    12:12:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):68:68 -> b
-    13:14:boolean androidx.core.util.ObjectsCompat.equals(java.lang.Object,java.lang.Object):50:51 -> b
-    15:15:android.content.pm.PackageInfo com.alibaba.android.arouter.utils.PackageUtils.getPackageInfo(android.content.Context):55:55 -> b
-    15:15:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):25 -> b
-    16:16:android.content.pm.PackageInfo com.alibaba.android.arouter.utils.PackageUtils.getPackageInfo(android.content.Context):57:57 -> b
+    1:1:void com.face_chtj.base_iotutils.FormatViewUtils.setMovementMethod(android.widget.TextView):16:16 -> b
+    2:2:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):40:40 -> b
+    3:3:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):43:43 -> b
+    4:4:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):46:46 -> b
+    5:6:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):49:50 -> b
+    7:7:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):52:52 -> b
+    8:8:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):57:57 -> b
+    9:11:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):59:61 -> b
+    12:12:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):66:66 -> b
+    13:13:java.util.Map com.alibaba.android.arouter.utils.TextUtils.splitQueryParameters(android.net.Uri):68:68 -> b
+    14:15:boolean androidx.core.util.ObjectsCompat.equals(java.lang.Object,java.lang.Object):50:51 -> b
+    16:16:android.content.pm.PackageInfo com.alibaba.android.arouter.utils.PackageUtils.getPackageInfo(android.content.Context):55:55 -> b
     16:16:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):25 -> b
-    17:18:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):27:28 -> b
-    19:20:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):30:31 -> b
-    21:22:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):33:34 -> b
-    23:24:void com.face_chtj.base_iotutils.SPUtils.putInt(java.lang.String,int):58:59 -> b
-    25:25:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):72:72 -> b
-    26:26:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):74:74 -> b
-    27:27:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):76:76 -> b
-    28:28:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):82:82 -> b
-    29:29:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):87:87 -> b
-    30:33:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):90:93 -> b
-    34:34:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):92:92 -> b
-    35:35:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):96:96 -> b
-    36:36:int androidx.core.content.res.TypedArrayUtils.getNamedInt(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int,int):104:104 -> b
-    37:37:int androidx.core.content.res.TypedArrayUtils.getNamedInt(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int,int):108:108 -> b
-    38:39:void com.face_chtj.base_iotutils.SPUtils.putBoolean(java.lang.String,boolean):106:107 -> b
-    40:43:void androidx.core.graphics.drawable.DrawableCompat.setTint(android.graphics.drawable.Drawable,int):135:138 -> b
-    44:44:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):140:140 -> b
-    45:47:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):142:144 -> b
-    48:48:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):147:147 -> b
-    49:49:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):150:150 -> b
-    50:50:com.alibaba.android.arouter.facade.Postcard com.alibaba.android.arouter.core.LogisticsCenter.buildProvider(java.lang.String):207:207 -> b
-    51:51:com.alibaba.android.arouter.facade.Postcard com.alibaba.android.arouter.core.LogisticsCenter.buildProvider(java.lang.String):212:212 -> b
-    52:52:android.util.TypedValue androidx.core.content.res.TypedArrayUtils.peekNamedValue(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int):237:237 -> b
-    53:53:android.util.TypedValue androidx.core.content.res.TypedArrayUtils.peekNamedValue(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int):241:241 -> b
-    54:54:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):240:240 -> b
-    55:55:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):244:244 -> b
-    56:56:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):252:252 -> b
-    57:59:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):261:263 -> b
-    60:60:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):268:268 -> b
-    61:61:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):271:271 -> b
-    62:63:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):275:276 -> b
-    64:66:java.util.List androidx.core.content.res.FontResourcesParserCompat.toByteArrayList(java.lang.String[]):276:278 -> b
-    67:67:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):307:307 -> b
-    68:69:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):310:311 -> b
-    70:71:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):315:316 -> b
-    72:72:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):738:738 -> b
-    73:73:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):740:740 -> b
-    74:74:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):742:742 -> b
-    75:76:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):745:746 -> b
-    77:77:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):748:748 -> b
-    78:78:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):754:754 -> b
-    79:80:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):756:757 -> b
-    81:81:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):756:756 -> b
+    17:17:android.content.pm.PackageInfo com.alibaba.android.arouter.utils.PackageUtils.getPackageInfo(android.content.Context):57:57 -> b
+    17:17:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):25 -> b
+    18:19:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):27:28 -> b
+    20:21:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):30:31 -> b
+    22:23:boolean com.alibaba.android.arouter.utils.PackageUtils.isNewVersion(android.content.Context):33:34 -> b
+    24:25:void com.face_chtj.base_iotutils.SPUtils.putInt(java.lang.String,int):58:59 -> b
+    26:26:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):72:72 -> b
+    27:27:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):74:74 -> b
+    28:28:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.getHexColor(int):76:76 -> b
+    29:29:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):82:82 -> b
+    30:30:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):87:87 -> b
+    31:34:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):90:93 -> b
+    35:35:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):92:92 -> b
+    36:36:int androidx.recyclerview.widget.ScrollbarHelper.computeScrollRange(androidx.recyclerview.widget.RecyclerView$State,androidx.recyclerview.widget.OrientationHelper,android.view.View,android.view.View,androidx.recyclerview.widget.RecyclerView$LayoutManager,boolean):96:96 -> b
+    37:37:int androidx.core.content.res.TypedArrayUtils.getNamedInt(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int,int):104:104 -> b
+    38:38:int androidx.core.content.res.TypedArrayUtils.getNamedInt(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int,int):108:108 -> b
+    39:40:void com.face_chtj.base_iotutils.SPUtils.putBoolean(java.lang.String,boolean):106:107 -> b
+    41:44:void androidx.core.graphics.drawable.DrawableCompat.setTint(android.graphics.drawable.Drawable,int):135:138 -> b
+    45:45:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):140:140 -> b
+    46:48:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):142:144 -> b
+    49:49:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):147:147 -> b
+    50:50:void androidx.core.view.LayoutInflaterCompat.setFactory2(android.view.LayoutInflater,android.view.LayoutInflater$Factory2):150:150 -> b
+    51:51:com.alibaba.android.arouter.facade.Postcard com.alibaba.android.arouter.core.LogisticsCenter.buildProvider(java.lang.String):207:207 -> b
+    52:52:com.alibaba.android.arouter.facade.Postcard com.alibaba.android.arouter.core.LogisticsCenter.buildProvider(java.lang.String):212:212 -> b
+    53:53:android.util.TypedValue androidx.core.content.res.TypedArrayUtils.peekNamedValue(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int):237:237 -> b
+    54:54:android.util.TypedValue androidx.core.content.res.TypedArrayUtils.peekNamedValue(android.content.res.TypedArray,org.xmlpull.v1.XmlPullParser,java.lang.String,int):241:241 -> b
+    55:55:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):240:240 -> b
+    56:56:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):244:244 -> b
+    57:57:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):252:252 -> b
+    58:60:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):261:263 -> b
+    61:61:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):268:268 -> b
+    62:62:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):271:271 -> b
+    63:64:java.lang.String androidx.core.app.NavUtils.getParentActivityName(android.content.Context,android.content.ComponentName):275:276 -> b
+    65:67:java.util.List androidx.core.content.res.FontResourcesParserCompat.toByteArrayList(java.lang.String[]):276:278 -> b
+    68:68:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):307:307 -> b
+    69:70:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):310:311 -> b
+    71:72:android.graphics.drawable.Drawable androidx.core.graphics.drawable.DrawableCompat.wrap(android.graphics.drawable.Drawable):315:316 -> b
+    73:73:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):738:738 -> b
+    74:74:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):740:740 -> b
+    75:75:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):742:742 -> b
+    76:77:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):745:746 -> b
+    78:78:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):748:748 -> b
+    79:79:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):754:754 -> b
+    80:81:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):756:757 -> b
+    82:82:void androidx.core.widget.TextViewCompat.setLastBaselineToBottomHeight(android.widget.TextView,int):756:756 -> b
     int androidx.core.content.res.GrowingArrayUtils.growSize(int) -> c
     1:3:void com.alibaba.android.arouter.utils.PackageUtils.updateVersion(android.content.Context):46:48 -> c
     4:5:androidx.core.graphics.PathParser$PathDataNode[] androidx.core.graphics.PathParser.createNodesFromPathData(java.lang.String):97:98 -> c
@@ -40774,8 +40773,8 @@ com.alibaba.android.arouter.routes.ARouter$$Group$$arouter -> com.alibaba.androi
     1:1:void <init>():14:14 -> <init>
     1:2:void loadInto(java.util.Map):17:18 -> loadInto
 com.alibaba.android.arouter.routes.ARouter$$Group$$ichtj -> com.alibaba.android.arouter.routes.ARouter$$Group$$ichtj:
-    1:1:void <init>():19:19 -> <init>
-    1:7:void loadInto(java.util.Map):22:28 -> loadInto
+    1:1:void <init>():20:20 -> <init>
+    1:8:void loadInto(java.util.Map):23:30 -> loadInto
 com.alibaba.android.arouter.routes.ARouter$$Providers$$app -> com.alibaba.android.arouter.routes.ARouter$$Providers$$app:
     1:1:void <init>():11:11 -> <init>
 com.alibaba.android.arouter.routes.ARouter$$Providers$$arouterapi -> com.alibaba.android.arouter.routes.ARouter$$Providers$$arouterapi:
@@ -41555,13 +41554,15 @@ com.chad.library.adapter.base.viewholder.BaseViewHolder -> com.chad.library.adap
 com.chtj.base_framework.BuildConfig -> com.chtj.base_framework.BuildConfig:
     1:1:void <init>():6:6 -> <init>
 com.chtj.base_framework.FBaseTools -> com.chtj.base_framework.FBaseTools:
-    1:1:void <init>():6:6 -> <init>
-    1:1:void create(android.app.Application):47:47 -> create
-    1:1:android.content.Context getContext():86:86 -> getContext
-    2:2:android.content.Context getContext():89:89 -> getContext
-    1:4:com.chtj.base_framework.FBaseTools instance():21:24 -> instance
-    5:5:com.chtj.base_framework.FBaseTools instance():26:26 -> instance
-    6:6:com.chtj.base_framework.FBaseTools instance():28:28 -> instance
+    1:1:void <init>():7:7 -> <init>
+    1:1:void create(android.app.Application):35:35 -> create
+    1:2:void enableUpgrade(boolean):44:45 -> enableUpgrade
+    1:1:android.content.Context getContext():65:65 -> getContext
+    2:2:android.content.Context getContext():68:68 -> getContext
+    1:2:boolean getUpgradeStatus(java.lang.Boolean):55:56 -> getUpgradeStatus
+    1:4:com.chtj.base_framework.FBaseTools instance():20:23 -> instance
+    5:5:com.chtj.base_framework.FBaseTools instance():25:25 -> instance
+    6:6:com.chtj.base_framework.FBaseTools instance():27:27 -> instance
 com.chtj.base_framework.FCmdTools -> com.chtj.base_framework.FCmdTools:
     1:1:void <init>():26:26 -> <init>
     1:1:com.chtj.base_framework.FCmdTools$CommandResult execCommand(java.lang.String,boolean):66:66 -> execCommand
@@ -41601,85 +41602,39 @@ com.chtj.base_framework.FCmdTools$CommandResult -> com.chtj.base_framework.FCmdT
     1:2:void <init>():37:38 -> <init>
 com.chtj.base_framework.FCommonTools -> com.chtj.base_framework.FCommonTools:
     1:1:void <init>():37:37 -> <init>
-    1:4:boolean existPackageName(java.lang.String):430:433 -> existPackageName
-    1:4:android.content.Intent getAppOpenIntentByPackageName(java.lang.String):482:485 -> getAppOpenIntentByPackageName
-    5:5:android.content.Intent getAppOpenIntentByPackageName(java.lang.String):487:487 -> getAppOpenIntentByPackageName
-    6:9:android.content.Intent getAppOpenIntentByPackageName(java.lang.String):489:492 -> getAppOpenIntentByPackageName
-    10:10:android.content.Intent getAppOpenIntentByPackageName(java.lang.String):496:496 -> getAppOpenIntentByPackageName
-    11:11:android.content.Intent getAppOpenIntentByPackageName(java.lang.String):499:499 -> getAppOpenIntentByPackageName
-    1:1:int getAppVersionCode():509:509 -> getAppVersionCode
-    2:2:int getAppVersionCode():513:513 -> getAppVersionCode
-    3:3:int getAppVersionCode():515:515 -> getAppVersionCode
-    4:4:int getAppVersionCode():517:517 -> getAppVersionCode
-    1:1:java.lang.String getAppVersionName():545:545 -> getAppVersionName
-    2:2:java.lang.String getAppVersionName():549:549 -> getAppVersionName
-    3:3:java.lang.String getAppVersionName():551:551 -> getAppVersionName
-    4:4:java.lang.String getAppVersionName():553:553 -> getAppVersionName
-    1:1:java.lang.String getBasebandVersion():155:155 -> getBasebandVersion
-    1:1:java.lang.String getGateWay():276:276 -> getGateWay
-    2:4:java.lang.String getGateWay():278:280 -> getGateWay
-    5:6:java.lang.String getGateWay():282:283 -> getGateWay
-    7:7:java.lang.String getGateWay():285:285 -> getGateWay
-    1:2:java.lang.String getLocalIp():407:408 -> getLocalIp
-    3:6:java.lang.String getLocalIp():410:413 -> getLocalIp
-    7:7:java.lang.String getLocalIp():418:418 -> getLocalIp
-    1:1:int getNetWorkType():162:162 -> getNetWorkType
-    2:2:int getNetWorkType():164:164 -> getNetWorkType
-    3:4:int getNetWorkType():168:169 -> getNetWorkType
-    5:5:int getNetWorkType():179:179 -> getNetWorkType
-    6:9:int getNetWorkType():210:213 -> getNetWorkType
-    1:1:java.lang.String getNetWorkTypeName():131:131 -> getNetWorkTypeName
-    1:1:boolean isRoot():530:530 -> isRoot
-    2:3:boolean isRoot():532:533 -> isRoot
-    1:1:boolean isWorked(java.lang.String):298:298 -> isWorked
-    2:5:boolean isWorked(java.lang.String):301:304 -> isWorked
-    1:1:boolean matchesIp(java.lang.String):381:381 -> matchesIp
-    2:2:boolean matchesIp(java.lang.String):388:388 -> matchesIp
-    1:4:void openApk(java.lang.String):446:449 -> openApk
-    5:5:void openApk(java.lang.String):451:451 -> openApk
-    1:4:void openService(android.content.Context,java.lang.String,java.lang.String):464:467 -> openService
-    5:6:void openService(android.content.Context,java.lang.String,java.lang.String):469:470 -> openService
-    1:1:boolean ping(java.lang.String,int,int):240:240 -> ping
-    2:4:boolean ping(java.lang.String,int,int):242:244 -> ping
-    5:6:boolean ping(java.lang.String,int,int):246:247 -> ping
-    7:7:boolean ping(java.lang.String,int,int):251:251 -> ping
-    8:8:boolean ping(java.lang.String,int,int):264:264 -> ping
-    1:2:java.lang.String readFileData(java.lang.String):354:355 -> readFileData
-    3:3:java.lang.String readFileData(java.lang.String):358:358 -> readFileData
-    4:6:java.lang.String readFileData(java.lang.String):360:362 -> readFileData
-    7:7:java.lang.String readFileData(java.lang.String):364:364 -> readFileData
-    8:8:java.lang.String readFileData(java.lang.String):367:367 -> readFileData
-    9:10:java.lang.String readFileData(java.lang.String):369:370 -> readFileData
-    1:1:java.util.List readLineToList(java.lang.String):320:320 -> readLineToList
-    2:5:java.util.List readLineToList(java.lang.String):322:325 -> readLineToList
-    6:9:java.util.List readLineToList(java.lang.String):327:330 -> readLineToList
-    10:11:java.util.List readLineToList(java.lang.String):333:334 -> readLineToList
-    12:13:java.util.List readLineToList(java.lang.String):339:340 -> readLineToList
-    1:1:boolean writeFileData(java.lang.String,java.lang.String,boolean):57:57 -> writeFileData
-    2:2:boolean writeFileData(java.lang.String,java.lang.String,boolean):59:59 -> writeFileData
-    3:3:boolean writeFileData(java.lang.String,java.lang.String,boolean):61:61 -> writeFileData
-    4:7:boolean writeFileData(java.lang.String,java.lang.String,boolean):63:66 -> writeFileData
-    8:8:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:73 -> writeFileData
-    9:10:boolean writeFileData(java.lang.String,java.lang.String,boolean):75:76 -> writeFileData
-    11:12:boolean writeFileData(java.lang.String,java.lang.String,boolean):69:70 -> writeFileData
-    13:13:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:73 -> writeFileData
-    14:15:boolean writeFileData(java.lang.String,java.lang.String,boolean):75:76 -> writeFileData
-    16:16:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:73 -> writeFileData
-    17:18:boolean writeFileData(java.lang.String,java.lang.String,boolean):75:76 -> writeFileData
-    19:19:boolean writeFileData(java.lang.String,java.lang.String,boolean):78:78 -> writeFileData
+    1:1:boolean matchesIp(java.lang.String):149:149 -> matchesIp
+    2:2:boolean matchesIp(java.lang.String):156:156 -> matchesIp
+    1:2:java.lang.String readFileData(java.lang.String):122:123 -> readFileData
+    3:3:java.lang.String readFileData(java.lang.String):126:126 -> readFileData
+    4:6:java.lang.String readFileData(java.lang.String):128:130 -> readFileData
+    7:7:java.lang.String readFileData(java.lang.String):132:132 -> readFileData
+    8:8:java.lang.String readFileData(java.lang.String):135:135 -> readFileData
+    9:10:java.lang.String readFileData(java.lang.String):137:138 -> readFileData
+    1:1:java.util.List readLineToList(java.lang.String):88:88 -> readLineToList
+    2:5:java.util.List readLineToList(java.lang.String):90:93 -> readLineToList
+    6:9:java.util.List readLineToList(java.lang.String):95:98 -> readLineToList
+    10:11:java.util.List readLineToList(java.lang.String):101:102 -> readLineToList
+    12:13:java.util.List readLineToList(java.lang.String):107:108 -> readLineToList
+    1:1:boolean writeFileData(java.lang.String,java.lang.String,boolean):55:55 -> writeFileData
+    2:2:boolean writeFileData(java.lang.String,java.lang.String,boolean):57:57 -> writeFileData
+    3:3:boolean writeFileData(java.lang.String,java.lang.String,boolean):59:59 -> writeFileData
+    4:7:boolean writeFileData(java.lang.String,java.lang.String,boolean):61:64 -> writeFileData
+    8:8:boolean writeFileData(java.lang.String,java.lang.String,boolean):71:71 -> writeFileData
+    9:10:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:74 -> writeFileData
+    11:12:boolean writeFileData(java.lang.String,java.lang.String,boolean):67:68 -> writeFileData
+    13:13:boolean writeFileData(java.lang.String,java.lang.String,boolean):71:71 -> writeFileData
+    14:15:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:74 -> writeFileData
+    16:16:boolean writeFileData(java.lang.String,java.lang.String,boolean):71:71 -> writeFileData
+    17:18:boolean writeFileData(java.lang.String,java.lang.String,boolean):73:74 -> writeFileData
+    19:19:boolean writeFileData(java.lang.String,java.lang.String,boolean):76:76 -> writeFileData
 com.chtj.base_framework.FIPTablesTools -> com.chtj.base_framework.FIPTablesTools:
-    1:1:void <init>():19:19 -> <init>
-    1:1:boolean allowAppInternet(java.lang.String):54:54 -> allowAppInternet
-    1:1:boolean blockAppInternet(java.lang.String):49:49 -> blockAppInternet
-    1:3:boolean executeIptablesCommand(java.lang.String):25:27 -> executeIptablesCommand
-    4:4:boolean executeIptablesCommand(java.lang.String):29:29 -> executeIptablesCommand
-    5:6:boolean executeIptablesCommand(java.lang.String):32:33 -> executeIptablesCommand
-    7:8:boolean executeIptablesCommand(java.lang.String):35:36 -> executeIptablesCommand
-    9:9:boolean executeIptablesCommand(java.lang.String):39:39 -> executeIptablesCommand
-    10:10:boolean executeIptablesCommand(java.lang.String):42:42 -> executeIptablesCommand
-    1:1:int getUidByPackageName(java.lang.String):61:61 -> getUidByPackageName
-    2:3:int getUidByPackageName(java.lang.String):63:64 -> getUidByPackageName
-    4:4:int getUidByPackageName(java.lang.String):66:66 -> getUidByPackageName
+    1:1:void <init>():14:14 -> <init>
+    1:1:boolean allowAppInternet(java.lang.String):35:35 -> allowAppInternet
+    1:1:boolean blockAppInternet(java.lang.String):30:30 -> blockAppInternet
+    1:3:boolean executeIptablesCommand(java.lang.String):20:22 -> executeIptablesCommand
+    1:1:int getUidByPackageName(java.lang.String):42:42 -> getUidByPackageName
+    2:3:int getUidByPackageName(java.lang.String):44:45 -> getUidByPackageName
+    4:4:int getUidByPackageName(java.lang.String):47:47 -> getUidByPackageName
 com.chtj.base_framework.FScreentTools -> com.chtj.base_framework.FScreentTools:
     1:1:void <init>():28:28 -> <init>
     1:3:void saveBitmap2file(android.graphics.Bitmap,java.lang.String):130:132 -> saveBitmap2file
@@ -41722,18 +41677,44 @@ com.chtj.base_framework.FScreentTools -> com.chtj.base_framework.FScreentTools:
     5:5:java.lang.String takeScreenshot(java.lang.String):69:69 -> takeScreenshot
     6:9:java.lang.String takeScreenshot(java.lang.String):59:62 -> takeScreenshot
     10:10:java.lang.String takeScreenshot(java.lang.String):65:65 -> takeScreenshot
-com.chtj.base_framework.FSettingsSecureTools -> com.chtj.base_framework.FSettingsSecureTools:
+com.chtj.base_framework.FSettingsTools -> com.chtj.base_framework.FSettingsTools:
     1:1:void <init>():7:7 -> <init>
-    1:1:float getFloatValue(android.content.Context,java.lang.String,float):33:33 -> getFloatValue
-    1:1:int getIntValue(android.content.Context,java.lang.String,int):25:25 -> getIntValue
-    1:1:long getLongValue(android.content.Context,java.lang.String,long):29:29 -> getLongValue
-    1:1:java.lang.String getStringValue(android.content.Context,java.lang.String):37:37 -> getStringValue
-    1:1:android.net.Uri getUriValue(android.net.Uri,java.lang.String):41:41 -> getUriValue
-    2:2:android.net.Uri getUriValue(java.lang.String):45:45 -> getUriValue
-    1:1:void setFloatValue(android.content.Context,java.lang.String,float):17:17 -> setFloatValue
-    1:1:void setIntValue(android.content.Context,java.lang.String,int):9:9 -> setIntValue
-    1:1:void setLongValue(android.content.Context,java.lang.String,long):13:13 -> setLongValue
-    1:1:void setStringValue(android.content.Context,java.lang.String,java.lang.String):21:21 -> setStringValue
+com.chtj.base_framework.FSettingsTools$Global -> com.chtj.base_framework.FSettingsTools$Global:
+    1:1:void <init>():50:50 -> <init>
+    1:1:float getFloatValue(android.content.Context,java.lang.String,float):76:76 -> getFloatValue
+    1:1:int getIntValue(android.content.Context,java.lang.String,int):68:68 -> getIntValue
+    1:1:long getLongValue(android.content.Context,java.lang.String,long):72:72 -> getLongValue
+    1:1:java.lang.String getStringValue(android.content.Context,java.lang.String):80:80 -> getStringValue
+    1:1:android.net.Uri getUriValue(android.net.Uri,java.lang.String):84:84 -> getUriValue
+    2:2:android.net.Uri getUriValue(java.lang.String):88:88 -> getUriValue
+    1:1:void setFloatValue(android.content.Context,java.lang.String,float):60:60 -> setFloatValue
+    1:1:void setIntValue(android.content.Context,java.lang.String,int):52:52 -> setIntValue
+    1:1:void setLongValue(android.content.Context,java.lang.String,long):56:56 -> setLongValue
+    1:1:void setStringValue(android.content.Context,java.lang.String,java.lang.String):64:64 -> setStringValue
+com.chtj.base_framework.FSettingsTools$Secure -> com.chtj.base_framework.FSettingsTools$Secure:
+    1:1:void <init>():8:8 -> <init>
+    1:1:float getFloatValue(android.content.Context,java.lang.String,float):34:34 -> getFloatValue
+    1:1:int getIntValue(android.content.Context,java.lang.String,int):26:26 -> getIntValue
+    1:1:long getLongValue(android.content.Context,java.lang.String,long):30:30 -> getLongValue
+    1:1:java.lang.String getStringValue(android.content.Context,java.lang.String):38:38 -> getStringValue
+    1:1:android.net.Uri getUriValue(android.net.Uri,java.lang.String):42:42 -> getUriValue
+    2:2:android.net.Uri getUriValue(java.lang.String):46:46 -> getUriValue
+    1:1:void setFloatValue(android.content.Context,java.lang.String,float):18:18 -> setFloatValue
+    1:1:void setIntValue(android.content.Context,java.lang.String,int):10:10 -> setIntValue
+    1:1:void setLongValue(android.content.Context,java.lang.String,long):14:14 -> setLongValue
+    1:1:void setStringValue(android.content.Context,java.lang.String,java.lang.String):22:22 -> setStringValue
+com.chtj.base_framework.FSettingsTools$System -> com.chtj.base_framework.FSettingsTools$System:
+    1:1:void <init>():92:92 -> <init>
+    1:1:float getFloatValue(android.content.Context,java.lang.String,float):118:118 -> getFloatValue
+    1:1:int getIntValue(android.content.Context,java.lang.String,int):110:110 -> getIntValue
+    1:1:long getLongValue(android.content.Context,java.lang.String,long):114:114 -> getLongValue
+    1:1:java.lang.String getStringValue(android.content.Context,java.lang.String):122:122 -> getStringValue
+    1:1:android.net.Uri getUriValue(android.net.Uri,java.lang.String):126:126 -> getUriValue
+    2:2:android.net.Uri getUriValue(java.lang.String):130:130 -> getUriValue
+    1:1:void setFloatValue(android.content.Context,java.lang.String,float):102:102 -> setFloatValue
+    1:1:void setIntValue(android.content.Context,java.lang.String,int):94:94 -> setIntValue
+    1:1:void setLongValue(android.content.Context,java.lang.String,long):98:98 -> setLongValue
+    1:1:void setStringValue(android.content.Context,java.lang.String,java.lang.String):106:106 -> setStringValue
 com.chtj.base_framework.FStorageTools -> com.chtj.base_framework.FStorageTools:
     1:1:void <init>():24:24 -> <init>
     1:1:double calculateCpuUsage(long,long):240:240 -> calculateCpuUsage
@@ -41806,22 +41787,22 @@ com.chtj.base_framework.R$dimen -> com.chtj.base_framework.R$dimen:
 com.chtj.base_framework.R$drawable -> com.chtj.base_framework.R$drawable:
     1:1:void <init>():63:63 -> <init>
 com.chtj.base_framework.R$id -> com.chtj.base_framework.R$id:
-    1:1:void <init>():79:79 -> <init>
+    1:1:void <init>():80:80 -> <init>
 com.chtj.base_framework.R$integer -> com.chtj.base_framework.R$integer:
-    1:1:void <init>():152:152 -> <init>
+    1:1:void <init>():153:153 -> <init>
 com.chtj.base_framework.R$layout -> com.chtj.base_framework.R$layout:
-    1:1:void <init>():157:157 -> <init>
+    1:1:void <init>():158:158 -> <init>
 com.chtj.base_framework.R$string -> com.chtj.base_framework.R$string:
-    1:1:void <init>():169:169 -> <init>
+    1:1:void <init>():170:170 -> <init>
 com.chtj.base_framework.R$style -> com.chtj.base_framework.R$style:
-    1:1:void <init>():174:174 -> <init>
+    1:1:void <init>():196:196 -> <init>
 com.chtj.base_framework.R$styleable -> com.chtj.base_framework.R$styleable:
-    1:1:void <clinit>():187:187 -> <clinit>
-    2:2:void <clinit>():191:191 -> <clinit>
-    3:3:void <clinit>():198:198 -> <clinit>
-    4:4:void <clinit>():209:209 -> <clinit>
-    5:5:void <clinit>():222:222 -> <clinit>
-    1:1:void <init>():185:185 -> <init>
+    1:1:void <clinit>():209:209 -> <clinit>
+    2:2:void <clinit>():213:213 -> <clinit>
+    3:3:void <clinit>():220:220 -> <clinit>
+    4:4:void <clinit>():231:231 -> <clinit>
+    5:5:void <clinit>():244:244 -> <clinit>
+    1:1:void <init>():207:207 -> <init>
 com.chtj.base_framework.entity.CmdResult -> com.chtj.base_framework.entity.CmdResult:
     1:1:void <init>():8:8 -> <init>
     2:5:void <init>(int,java.lang.String,java.lang.String):11:14 -> <init>
@@ -41877,11 +41858,11 @@ com.chtj.base_framework.entity.Space -> com.chtj.base_framework.entity.Space:
     1:1:void setUseSize(double):27:27 -> setUseSize
     1:1:java.lang.String toString():40:40 -> toString
 com.chtj.base_framework.entity.UpgradeBean -> com.chtj.base_framework.entity.UpgradeBean:
-    1:3:void <init>(java.lang.String,com.chtj.base_framework.upgrade.FUpgradeInterface):9:11 -> <init>
+    1:3:void <init>(java.lang.String,com.chtj.base_framework.upgrade.IUpgrade):9:11 -> <init>
     1:1:java.lang.String getFilePath():15:15 -> getFilePath
-    1:1:com.chtj.base_framework.upgrade.FUpgradeInterface getUpInterface():23:23 -> getUpInterface
+    1:1:com.chtj.base_framework.upgrade.IUpgrade getiUpgrade():23:23 -> getiUpgrade
     1:1:void setFilePath(java.lang.String):19:19 -> setFilePath
-    1:1:void setUpInterface(com.chtj.base_framework.upgrade.FUpgradeInterface):27:27 -> setUpInterface
+    1:1:void setiUpgrade(com.chtj.base_framework.upgrade.IUpgrade):27:27 -> setiUpgrade
 com.chtj.base_framework.entity.UsbDeviceInfo -> com.chtj.base_framework.entity.UsbDeviceInfo:
     1:4:void <init>(java.lang.String,java.lang.String,java.lang.String):8:11 -> <init>
     1:1:java.lang.String getManufacturerName():31:31 -> getManufacturerName
@@ -41999,210 +41980,221 @@ com.chtj.base_framework.network.FWifiTools -> com.chtj.base_framework.network.FW
     1:2:void openWifi():18:19 -> openWifi
     3:3:void openWifi():21:21 -> openWifi
     4:4:void openWifi():23:23 -> openWifi
+com.chtj.base_framework.upgrade.FExtras -> com.chtj.base_framework.upgrade.FExtras:
+    1:1:void <init>():3:3 -> <init>
 com.chtj.base_framework.upgrade.FRecoverySystemTools -> com.chtj.base_framework.upgrade.FRecoverySystemTools:
-    1:3:void <clinit>():33:35 -> <clinit>
-    4:4:void <clinit>():37:37 -> <clinit>
-    1:1:void <init>():30:30 -> <init>
-    1:7:java.lang.String getCurrentFwVersion():204:210 -> getCurrentFwVersion
-    1:3:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):71:73 -> getFwVersionByOta
-    4:5:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):76:77 -> getFwVersionByOta
-    6:10:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):79:83 -> getFwVersionByOta
-    11:11:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):85:85 -> getFwVersionByOta
-    12:14:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):88:90 -> getFwVersionByOta
-    15:16:java.lang.String getFwVersionByOta(java.lang.String,java.lang.String):92:93 -> getFwVersionByOta
-    1:5:void installPackage(android.content.Context,java.io.File):40:44 -> installPackage
-    6:15:void installPackage(android.content.Context,java.io.File):46:55 -> installPackage
-    16:16:void installPackage(android.content.Context,java.io.File):57:57 -> installPackage
-    17:17:void installPackage(android.content.Context,java.io.File):59:59 -> installPackage
-    18:18:void installPackage(android.content.Context,java.io.File):62:62 -> installPackage
-    19:19:void installPackage(android.content.Context,java.io.File):65:65 -> installPackage
-    1:2:java.lang.String readLastInstallCommand():157:158 -> readLastInstallCommand
-    3:4:java.lang.String readLastInstallCommand():163:164 -> readLastInstallCommand
-    5:5:java.lang.String readLastInstallCommand():167:167 -> readLastInstallCommand
-    6:6:java.lang.String readLastInstallCommand():169:169 -> readLastInstallCommand
-    7:7:java.lang.String readLastInstallCommand():171:171 -> readLastInstallCommand
-    8:8:java.lang.String readLastInstallCommand():174:174 -> readLastInstallCommand
-    9:9:java.lang.String readLastInstallCommand():176:176 -> readLastInstallCommand
-    10:10:java.lang.String readLastInstallCommand():178:178 -> readLastInstallCommand
-    1:2:java.lang.String readLastUpdateCommand():126:127 -> readLastUpdateCommand
-    3:4:java.lang.String readLastUpdateCommand():132:133 -> readLastUpdateCommand
-    5:5:java.lang.String readLastUpdateCommand():138:138 -> readLastUpdateCommand
-    6:6:java.lang.String readLastUpdateCommand():136:136 -> readLastUpdateCommand
-    7:7:java.lang.String readLastUpdateCommand():138:138 -> readLastUpdateCommand
-    8:8:java.lang.String readLastUpdateCommand():141:141 -> readLastUpdateCommand
-    9:9:java.lang.String readLastUpdateCommand():143:143 -> readLastUpdateCommand
-    10:10:java.lang.String readLastUpdateCommand():146:146 -> readLastUpdateCommand
-    11:11:java.lang.String readLastUpdateCommand():148:148 -> readLastUpdateCommand
-    12:13:java.lang.String readLastUpdateCommand():138:139 -> readLastUpdateCommand
-    14:14:java.lang.String readLastUpdateCommand():150:150 -> readLastUpdateCommand
-    1:4:java.lang.String readZipFileContent(java.lang.String,java.lang.String):108:111 -> readZipFileContent
-    5:7:java.lang.String readZipFileContent(java.lang.String,java.lang.String):113:115 -> readZipFileContent
-    8:8:java.lang.String readZipFileContent(java.lang.String,java.lang.String):117:117 -> readZipFileContent
-    9:10:java.lang.String readZipFileContent(java.lang.String,java.lang.String):119:120 -> readZipFileContent
-    1:3:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):184:186 -> writeFlagCommand
-    4:6:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):188:190 -> writeFlagCommand
-    7:7:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):192:192 -> writeFlagCommand
-    8:9:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):194:195 -> writeFlagCommand
+    1:1:void <init>():24:24 -> <init>
+    1:9:void installPackage(android.content.Context,java.io.File):27:35 -> installPackage
+    10:10:void installPackage(android.content.Context,java.io.File):37:37 -> installPackage
+    11:11:void installPackage(android.content.Context,java.io.File):39:39 -> installPackage
+    12:12:void installPackage(android.content.Context,java.io.File):42:42 -> installPackage
+    1:1:java.lang.String readLastUpdateCommand():72:72 -> readLastUpdateCommand
+    1:4:java.lang.String readZipContent(java.lang.String,java.lang.String):56:59 -> readZipContent
+    5:7:java.lang.String readZipContent(java.lang.String,java.lang.String):61:63 -> readZipContent
+    8:8:java.lang.String readZipContent(java.lang.String,java.lang.String):65:65 -> readZipContent
+    1:3:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):76:78 -> writeFlagCommand
+    4:5:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):80:81 -> writeFlagCommand
+    6:7:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):84:85 -> writeFlagCommand
+    8:8:void writeFlagCommand(java.lang.String,java.lang.String,java.lang.String):84:84 -> writeFlagCommand
 com.chtj.base_framework.upgrade.FUpgradeDialog -> com.chtj.base_framework.upgrade.FUpgradeDialog:
-    1:1:void <init>():22:22 -> <init>
-    2:2:void <init>():25:25 -> <init>
-    3:3:void <init>():32:32 -> <init>
-    1:1:android.widget.TextView access$000(com.chtj.base_framework.upgrade.FUpgradeDialog):22:22 -> access$000
-    1:1:android.widget.ProgressBar access$100(com.chtj.base_framework.upgrade.FUpgradeDialog):22:22 -> access$100
-    1:2:void dismissDialog():142:143 -> dismissDialog
-    1:4:com.chtj.base_framework.upgrade.FUpgradeDialog instance():64:67 -> instance
-    5:5:com.chtj.base_framework.upgrade.FUpgradeDialog instance():69:69 -> instance
-    6:6:com.chtj.base_framework.upgrade.FUpgradeDialog instance():71:71 -> instance
-    1:5:void showUpdateDialog(java.lang.String,android.content.Context):78:82 -> showUpdateDialog
-    6:9:void showUpdateDialog(java.lang.String,android.content.Context):88:91 -> showUpdateDialog
-    10:11:void showUpdateDialog(java.lang.String,android.content.Context):96:97 -> showUpdateDialog
-    12:14:void showUpdateDialog(java.lang.String,android.content.Context):99:101 -> showUpdateDialog
-    15:15:void showUpdateDialog(java.lang.String,android.content.Context):103:103 -> showUpdateDialog
+    1:1:void <init>():25:25 -> <init>
+    2:3:void <init>():28:29 -> <init>
+    4:4:void <init>():37:37 -> <init>
+    1:1:android.widget.TextView access$000(com.chtj.base_framework.upgrade.FUpgradeDialog):25:25 -> access$000
+    1:1:android.widget.ProgressBar access$100(com.chtj.base_framework.upgrade.FUpgradeDialog):25:25 -> access$100
+    1:1:com.chtj.base_framework.upgrade.FUpgradeDialog access$200():25:25 -> access$200
+    1:1:boolean access$302(com.chtj.base_framework.upgrade.FUpgradeDialog,boolean):25:25 -> access$302
+    1:1:java.lang.String access$400():25:25 -> access$400
+    1:1:java.lang.String access$500(com.chtj.base_framework.upgrade.FUpgradeDialog):25:25 -> access$500
+    1:2:void dismissDialog():145:146 -> dismissDialog
+    3:4:void dismissDialog(java.lang.String):151:152 -> dismissDialog
+    5:5:void dismissDialog(java.lang.String):154:154 -> dismissDialog
+    6:7:void dismissDialog(java.lang.String):156:157 -> dismissDialog
+    1:4:com.chtj.base_framework.upgrade.FUpgradeDialog instance():73:76 -> instance
+    5:5:com.chtj.base_framework.upgrade.FUpgradeDialog instance():78:78 -> instance
+    6:6:com.chtj.base_framework.upgrade.FUpgradeDialog instance():80:80 -> instance
+    1:1:boolean isShow():162:162 -> isShow
+    1:7:void showUpdateDialog(java.lang.String,android.content.Context):87:93 -> showUpdateDialog
+    8:11:void showUpdateDialog(java.lang.String,android.content.Context):99:102 -> showUpdateDialog
+    12:17:void showUpdateDialog(java.lang.String,android.content.Context):108:113 -> showUpdateDialog
+    18:18:void showUpdateDialog(java.lang.String,android.content.Context):140:140 -> showUpdateDialog
 com.chtj.base_framework.upgrade.FUpgradeDialog$1 -> com.chtj.base_framework.upgrade.FUpgradeDialog$a:
     com.chtj.base_framework.upgrade.FUpgradeDialog this$0 -> a
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog):32:32 -> <init>
-    1:2:void handleMessage(android.os.Message):35:36 -> handleMessage
-    3:4:void handleMessage(android.os.Message):38:39 -> handleMessage
-    5:5:void handleMessage(android.os.Message):41:41 -> handleMessage
-    6:6:void handleMessage(android.os.Message):43:43 -> handleMessage
-    7:8:void handleMessage(android.os.Message):45:46 -> handleMessage
-    9:10:void handleMessage(android.os.Message):53:54 -> handleMessage
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog):37:37 -> <init>
+    1:2:void handleMessage(android.os.Message):41:42 -> handleMessage
+    3:4:void handleMessage(android.os.Message):44:45 -> handleMessage
+    5:6:void handleMessage(android.os.Message):47:48 -> handleMessage
+    7:8:void handleMessage(android.os.Message):50:51 -> handleMessage
+    9:11:void handleMessage(android.os.Message):53:55 -> handleMessage
+    12:13:void handleMessage(android.os.Message):62:63 -> handleMessage
 com.chtj.base_framework.upgrade.FUpgradeDialog$2 -> com.chtj.base_framework.upgrade.FUpgradeDialog$b:
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog):82:82 -> <init>
-    1:1:void onClick(android.content.DialogInterface,int):85:85 -> onClick
+    1:1:void <init>():93:93 -> <init>
+    1:1:void onClick(android.content.DialogInterface,int):96:96 -> onClick
 com.chtj.base_framework.upgrade.FUpgradeDialog$3 -> com.chtj.base_framework.upgrade.FUpgradeDialog$c:
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog):91:91 -> <init>
+    1:1:void <init>():102:102 -> <init>
+    1:1:void onDismiss(android.content.DialogInterface):105:105 -> onDismiss
 com.chtj.base_framework.upgrade.FUpgradeDialog$4 -> com.chtj.base_framework.upgrade.FUpgradeDialog$d:
-    com.chtj.base_framework.upgrade.FUpgradeDialog this$0 -> f
-    java.lang.String val$otaPath -> e
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog,java.lang.String):103:103 -> <init>
-    1:4:void onClick(android.view.View):106:109 -> onClick
+    1:1:void <init>():113:113 -> <init>
+    1:4:void onClick(android.view.View):116:119 -> onClick
 com.chtj.base_framework.upgrade.FUpgradeDialog$4$1 -> com.chtj.base_framework.upgrade.FUpgradeDialog$d$a:
-    com.chtj.base_framework.upgrade.FUpgradeDialog$4 this$1 -> a
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog$4):109:109 -> <init>
-    1:5:void error(java.lang.String):121:125 -> error
-    1:5:void installStatus(int):112:116 -> installStatus
-    1:5:void warning(java.lang.String):130:134 -> warning
-com.chtj.base_framework.upgrade.FUpgradePool -> com.chtj.base_framework.upgrade.FUpgradePool:
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeDialog$4):119:119 -> <init>
+    1:2:void error(java.lang.String):128:129 -> error
+    1:2:void installStatus(int):122:123 -> installStatus
+    1:2:void warning(java.lang.String):134:135 -> warning
+com.chtj.base_framework.upgrade.FUpgradePool -> f.d.a.a.a:
+    java.lang.Runnable mAccessBufferThread -> c
+    java.util.concurrent.RejectedExecutionHandler mHandler -> b
+    java.util.Queue mTaskQueue -> a
+    com.chtj.base_framework.upgrade.FUpgradePool sFUpgradePool -> f
+    java.util.concurrent.ScheduledExecutorService scheduler -> d
+    java.util.concurrent.ThreadPoolExecutor mThreadPool -> e
     1:1:void <clinit>():18:18 -> <clinit>
-    1:1:void <init>():89:89 -> <init>
-    2:2:void <init>():45:45 -> <init>
-    3:3:void <init>():50:50 -> <init>
-    4:4:void <init>():60:60 -> <init>
-    5:5:void <init>():72:72 -> <init>
-    6:6:void <init>():77:77 -> <init>
-    7:7:void <init>():83:83 -> <init>
-    1:1:java.util.Queue access$000(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> access$000
-    1:1:boolean access$100(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> access$100
-    1:1:java.util.concurrent.ThreadPoolExecutor access$200(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> access$200
-    1:1:void addExecuteTask(java.lang.Runnable):111:111 -> addExecuteTask
-    1:1:boolean hasMoreAcquire():103:103 -> hasMoreAcquire
-    1:1:boolean isTaskEnd():120:120 -> isTaskEnd
-    1:1:com.chtj.base_framework.upgrade.FUpgradePool newInstance():39:39 -> newInstance
-    1:1:void perpare():93:93 -> perpare
-    2:2:void perpare():95:95 -> perpare
-    1:2:void shutdown():133:134 -> shutdown
-    1:2:void shutdownNow():143:144 -> shutdownNow
-com.chtj.base_framework.upgrade.FUpgradePool$1 -> com.chtj.base_framework.upgrade.FUpgradePool$a:
+    1:1:void <init>():83:83 -> <init>
+    2:2:void <init>():39:39 -> <init>
+    3:3:void <init>():44:44 -> <init>
+    4:4:void <init>():54:54 -> <init>
+    5:5:void <init>():66:66 -> <init>
+    6:6:void <init>():71:71 -> <init>
+    7:7:void <init>():77:77 -> <init>
+com.chtj.base_framework.upgrade.FUpgradePool$1 -> f.d.a.a.a$a:
     com.chtj.base_framework.upgrade.FUpgradePool this$0 -> a
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradePool):50:50 -> <init>
-    1:1:void rejectedExecution(java.lang.Runnable,java.util.concurrent.ThreadPoolExecutor):53:53 -> rejectedExecution
-com.chtj.base_framework.upgrade.FUpgradePool$2 -> com.chtj.base_framework.upgrade.FUpgradePool$b:
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradePool):44:44 -> <init>
+    1:1:void rejectedExecution(java.lang.Runnable,java.util.concurrent.ThreadPoolExecutor):47:47 -> rejectedExecution
+    2:2:java.util.Queue com.chtj.base_framework.upgrade.FUpgradePool.access$000(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> rejectedExecution
+    2:2:void rejectedExecution(java.lang.Runnable,java.util.concurrent.ThreadPoolExecutor):47 -> rejectedExecution
+    3:3:void rejectedExecution(java.lang.Runnable,java.util.concurrent.ThreadPoolExecutor):47:47 -> rejectedExecution
+com.chtj.base_framework.upgrade.FUpgradePool$2 -> f.d.a.a.a$b:
     com.chtj.base_framework.upgrade.FUpgradePool this$0 -> e
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradePool):60:60 -> <init>
-    1:2:void run():63:64 -> run
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradePool):54:54 -> <init>
+    1:1:void run():57:57 -> run
+    2:2:boolean com.chtj.base_framework.upgrade.FUpgradePool.hasMoreAcquire():97:97 -> run
+    2:2:boolean com.chtj.base_framework.upgrade.FUpgradePool.access$100(com.chtj.base_framework.upgrade.FUpgradePool):17 -> run
+    2:2:void run():57 -> run
+    3:3:void run():58:58 -> run
+    4:4:java.util.concurrent.ThreadPoolExecutor com.chtj.base_framework.upgrade.FUpgradePool.access$200(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> run
+    4:4:void run():58 -> run
+    5:5:java.util.Queue com.chtj.base_framework.upgrade.FUpgradePool.access$000(com.chtj.base_framework.upgrade.FUpgradePool):17:17 -> run
+    5:5:void run():58 -> run
+    6:6:void run():58:58 -> run
 com.chtj.base_framework.upgrade.FUpgradeReceiver -> com.chtj.base_framework.upgrade.FUpgradeReceiver:
-    1:1:void <init>():11:11 -> <init>
-    1:2:void onReceive(android.content.Context,android.content.Intent):23:24 -> onReceive
-    3:4:void onReceive(android.content.Context,android.content.Intent):73:74 -> onReceive
-    5:6:void onReceive(android.content.Context,android.content.Intent):59:60 -> onReceive
-    7:9:void onReceive(android.content.Context,android.content.Intent):66:68 -> onReceive
-    10:11:void onReceive(android.content.Context,android.content.Intent):62:63 -> onReceive
-    12:12:void onReceive(android.content.Context,android.content.Intent):44:44 -> onReceive
-    13:15:void onReceive(android.content.Context,android.content.Intent):39:41 -> onReceive
-    16:19:void onReceive(android.content.Context,android.content.Intent):32:35 -> onReceive
-    20:23:void onReceive(android.content.Context,android.content.Intent):26:29 -> onReceive
-    1:1:void setfUpgradeInterface(com.chtj.base_framework.upgrade.FUpgradeInterface):18:18 -> setfUpgradeInterface
+    1:1:void <clinit>():9:9 -> <clinit>
+    1:1:void <init>():8:8 -> <init>
+    1:4:void onReceive(android.content.Context,android.content.Intent):18:21 -> onReceive
+    5:6:void onReceive(android.content.Context,android.content.Intent):50:51 -> onReceive
+    7:7:void onReceive(android.content.Context,android.content.Intent):37:37 -> onReceive
+    8:10:void onReceive(android.content.Context,android.content.Intent):43:45 -> onReceive
+    11:12:void onReceive(android.content.Context,android.content.Intent):39:40 -> onReceive
+    13:14:void onReceive(android.content.Context,android.content.Intent):33:34 -> onReceive
+    15:18:void onReceive(android.content.Context,android.content.Intent):26:29 -> onReceive
+    19:19:void onReceive(android.content.Context,android.content.Intent):23:23 -> onReceive
+    1:1:void setfUpgradeInterface(com.chtj.base_framework.upgrade.IUpgrade):13:13 -> setfUpgradeInterface
 com.chtj.base_framework.upgrade.FUpgradeService -> com.chtj.base_framework.upgrade.FUpgradeService:
-    1:1:void <init>():18:18 -> <init>
-    2:2:void <init>():32:32 -> <init>
-    1:1:void deleteUpdateReocrd():61:61 -> deleteUpdateReocrd
-    2:2:void deleteUpdateReocrd():63:63 -> deleteUpdateReocrd
-    3:3:void deleteUpdateReocrd():66:66 -> deleteUpdateReocrd
-    4:4:void deleteUpdateReocrd():68:68 -> deleteUpdateReocrd
-    1:2:void onCreate():166:167 -> onCreate
-    1:3:void onDestroy():172:174 -> onDestroy
-    1:3:int onStartCommand(android.content.Intent,int,int):82:84 -> onStartCommand
-    4:7:int onStartCommand(android.content.Intent,int,int):105:108 -> onStartCommand
-    8:8:int onStartCommand(android.content.Intent,int,int):110:110 -> onStartCommand
-    9:9:int onStartCommand(android.content.Intent,int,int):112:112 -> onStartCommand
-    10:10:int onStartCommand(android.content.Intent,int,int):114:114 -> onStartCommand
-    11:11:int onStartCommand(android.content.Intent,int,int):119:119 -> onStartCommand
-    12:13:int onStartCommand(android.content.Intent,int,int):121:122 -> onStartCommand
-    14:19:int onStartCommand(android.content.Intent,int,int):124:129 -> onStartCommand
-    20:20:int onStartCommand(android.content.Intent,int,int):131:131 -> onStartCommand
-    21:21:int onStartCommand(android.content.Intent,int,int):134:134 -> onStartCommand
-    22:22:int onStartCommand(android.content.Intent,int,int):102:102 -> onStartCommand
-    23:27:int onStartCommand(android.content.Intent,int,int):86:90 -> onStartCommand
-    28:29:int onStartCommand(android.content.Intent,int,int):92:93 -> onStartCommand
-    30:30:int onStartCommand(android.content.Intent,int,int):95:95 -> onStartCommand
-    31:31:int onStartCommand(android.content.Intent,int,int):98:98 -> onStartCommand
-    1:3:void sendCompleteReceiver():159:161 -> sendCompleteReceiver
-    1:4:void sendErrReceiver(java.lang.String):149:152 -> sendErrReceiver
-    1:4:void startServiceUgrade(android.content.Context,java.lang.String,java.lang.String):26:29 -> startServiceUgrade
+    1:1:void <clinit>():23:23 -> <clinit>
+    1:1:void <init>():22:22 -> <init>
+    2:2:void <init>():45:45 -> <init>
+    1:1:java.lang.String access$000():22:22 -> access$000
+    1:1:void access$100(com.chtj.base_framework.upgrade.FUpgradeService,java.lang.String):22:22 -> access$100
+    1:1:void deleteUpdateReocrd():66:66 -> deleteUpdateReocrd
+    2:2:void deleteUpdateReocrd():70:70 -> deleteUpdateReocrd
+    3:3:void deleteUpdateReocrd():74:74 -> deleteUpdateReocrd
+    1:2:void onDestroy():187:188 -> onDestroy
+    1:4:int onStartCommand(android.content.Intent,int,int):87:90 -> onStartCommand
+    5:10:int onStartCommand(android.content.Intent,int,int):113:118 -> onStartCommand
+    11:11:int onStartCommand(android.content.Intent,int,int):120:120 -> onStartCommand
+    12:12:int onStartCommand(android.content.Intent,int,int):122:122 -> onStartCommand
+    13:13:int onStartCommand(android.content.Intent,int,int):124:124 -> onStartCommand
+    14:21:int onStartCommand(android.content.Intent,int,int):128:135 -> onStartCommand
+    22:22:int onStartCommand(android.content.Intent,int,int):137:137 -> onStartCommand
+    23:23:int onStartCommand(android.content.Intent,int,int):139:139 -> onStartCommand
+    24:24:int onStartCommand(android.content.Intent,int,int):110:110 -> onStartCommand
+    25:28:int onStartCommand(android.content.Intent,int,int):92:95 -> onStartCommand
+    29:32:int onStartCommand(android.content.Intent,int,int):97:100 -> onStartCommand
+    33:33:int onStartCommand(android.content.Intent,int,int):102:102 -> onStartCommand
+    34:34:int onStartCommand(android.content.Intent,int,int):106:106 -> onStartCommand
+    1:1:void sendCompleteReceiver():182:182 -> sendCompleteReceiver
+    1:1:void sendErrReceiver(java.lang.String):175:175 -> sendErrReceiver
+    1:1:void startServiceUgrade(android.content.Context,java.lang.String,java.lang.String,java.lang.String):35:35 -> startServiceUgrade
+    2:6:void startServiceUgrade(android.content.Context,java.lang.String,java.lang.String,java.lang.String):37:41 -> startServiceUgrade
+    1:1:void startServie(android.content.Context):26:26 -> startServie
+    2:4:void startServie(android.content.Context):28:30 -> startServie
+    1:1:void upgradeSilence(java.lang.String):150:150 -> upgradeSilence
 com.chtj.base_framework.upgrade.FUpgradeService$1 -> com.chtj.base_framework.upgrade.FUpgradeService$a:
     com.chtj.base_framework.upgrade.FUpgradeService this$0 -> a
-    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeService):32:32 -> <init>
-    1:3:void handleMessage(android.os.Message):35:37 -> handleMessage
-    4:6:void handleMessage(android.os.Message):44:46 -> handleMessage
-    7:9:void handleMessage(android.os.Message):39:41 -> handleMessage
-    10:13:void handleMessage(android.os.Message):49:52 -> handleMessage
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeService):45:45 -> <init>
+    1:10:void handleMessage(android.os.Message):48:57 -> handleMessage
+com.chtj.base_framework.upgrade.FUpgradeService$2 -> com.chtj.base_framework.upgrade.FUpgradeService$b:
+    com.chtj.base_framework.upgrade.FUpgradeService this$0 -> a
+    1:1:void <init>(com.chtj.base_framework.upgrade.FUpgradeService):150:150 -> <init>
+    1:1:void error(java.lang.String):158:158 -> error
+    1:1:void installStatus(int):153:153 -> installStatus
+    1:1:void warning(java.lang.String):163:163 -> warning
 com.chtj.base_framework.upgrade.FUpgradeTools -> com.chtj.base_framework.upgrade.FUpgradeTools:
-    1:1:void <init>():28:28 -> <init>
-    1:1:void access$000(java.lang.String,java.lang.String):28:28 -> access$000
-    1:1:int compareVersion(java.lang.String,java.lang.String):227:227 -> compareVersion
-    2:3:int compareVersion(java.lang.String,java.lang.String):230:231 -> compareVersion
-    4:4:int compareVersion(java.lang.String,java.lang.String):233:233 -> compareVersion
-    5:7:int compareVersion(java.lang.String,java.lang.String):236:238 -> compareVersion
-    8:9:int compareVersion(java.lang.String,java.lang.String):242:243 -> compareVersion
-    10:11:int compareVersion(java.lang.String,java.lang.String):248:249 -> compareVersion
-    1:4:void copyFile(java.lang.String,java.lang.String):105:108 -> copyFile
-    5:5:void copyFile(java.lang.String,java.lang.String):110:110 -> copyFile
-    6:6:void copyFile(java.lang.String,java.lang.String):112:112 -> copyFile
-    7:8:void copyFile(java.lang.String,java.lang.String):114:115 -> copyFile
-    9:11:void copyFile(java.lang.String,java.lang.String):117:119 -> copyFile
-    12:12:void copyFile(java.lang.String,java.lang.String):121:121 -> copyFile
-    1:7:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):49:55 -> firmwareUpgrade
-    8:8:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):58:58 -> firmwareUpgrade
-    9:9:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):60:60 -> firmwareUpgrade
-    10:10:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):92:92 -> firmwareUpgrade
-    1:2:java.util.List getDeviceUpdatePathList():295:296 -> getDeviceUpdatePathList
-    3:10:java.util.List getDeviceUpdatePathList():301:308 -> getDeviceUpdatePathList
-    11:11:java.util.List getDeviceUpdatePathList():310:310 -> getDeviceUpdatePathList
-    12:19:java.util.List getDeviceUpdatePathList():319:326 -> getDeviceUpdatePathList
-    20:20:java.util.List getDeviceUpdatePathList():328:328 -> getDeviceUpdatePathList
-    1:1:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean):180:180 -> installApk
-    2:4:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):194:196 -> installApk
-    5:5:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):203:203 -> installApk
-    6:8:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):208:210 -> installApk
-    9:10:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):212:213 -> installApk
-    11:11:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):215:215 -> installApk
-    1:2:java.lang.String readFileData(java.lang.String):268:269 -> readFileData
-    3:3:java.lang.String readFileData(java.lang.String):272:272 -> readFileData
-    4:6:java.lang.String readFileData(java.lang.String):274:276 -> readFileData
-    7:7:java.lang.String readFileData(java.lang.String):278:278 -> readFileData
-    8:8:java.lang.String readFileData(java.lang.String):281:281 -> readFileData
-    9:10:java.lang.String readFileData(java.lang.String):283:284 -> readFileData
-    1:1:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):134:134 -> uninstallNormalApp
-    2:4:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):138:140 -> uninstallNormalApp
-    5:5:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):142:142 -> uninstallNormalApp
-    1:2:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):154:155 -> uninstallSystemApp
-    3:5:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):159:161 -> uninstallSystemApp
-    6:7:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):163:164 -> uninstallSystemApp
-    8:8:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):166:166 -> uninstallSystemApp
+    1:1:void <init>():34:34 -> <init>
+    1:1:void access$000(java.lang.String,java.lang.String):34:34 -> access$000
+    1:1:int compareVersion(java.lang.String,java.lang.String):308:308 -> compareVersion
+    2:3:int compareVersion(java.lang.String,java.lang.String):311:312 -> compareVersion
+    4:4:int compareVersion(java.lang.String,java.lang.String):314:314 -> compareVersion
+    5:7:int compareVersion(java.lang.String,java.lang.String):317:319 -> compareVersion
+    8:9:int compareVersion(java.lang.String,java.lang.String):323:324 -> compareVersion
+    10:11:int compareVersion(java.lang.String,java.lang.String):329:330 -> compareVersion
+    1:4:void copyFile(java.lang.String,java.lang.String):164:167 -> copyFile
+    5:5:void copyFile(java.lang.String,java.lang.String):169:169 -> copyFile
+    6:6:void copyFile(java.lang.String,java.lang.String):171:171 -> copyFile
+    7:8:void copyFile(java.lang.String,java.lang.String):173:174 -> copyFile
+    9:11:void copyFile(java.lang.String,java.lang.String):176:178 -> copyFile
+    12:12:void copyFile(java.lang.String,java.lang.String):180:180 -> copyFile
+    1:8:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):49:56 -> firmwareUpgrade
+    9:9:boolean com.chtj.base_framework.upgrade.FUpgradePool.isTaskEnd():114:114 -> firmwareUpgrade
+    9:9:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):58 -> firmwareUpgrade
+    10:10:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):60:60 -> firmwareUpgrade
+    11:11:void com.chtj.base_framework.upgrade.FUpgradePool.addExecuteTask(java.lang.Runnable):105:105 -> firmwareUpgrade
+    11:11:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):60 -> firmwareUpgrade
+    12:12:void firmwareUpgrade(com.chtj.base_framework.entity.UpgradeBean):92:92 -> firmwareUpgrade
+    1:2:java.util.List getDeviceUpdatePathList():376:377 -> getDeviceUpdatePathList
+    3:10:java.util.List getDeviceUpdatePathList():382:389 -> getDeviceUpdatePathList
+    11:11:java.util.List getDeviceUpdatePathList():391:391 -> getDeviceUpdatePathList
+    12:19:java.util.List getDeviceUpdatePathList():400:407 -> getDeviceUpdatePathList
+    20:20:java.util.List getDeviceUpdatePathList():409:409 -> getDeviceUpdatePathList
+    1:1:java.util.List getMatches(java.lang.String,java.lang.String):105:105 -> getMatches
+    2:2:java.util.List getMatches(java.lang.String,java.lang.String):107:107 -> getMatches
+    3:3:java.util.List getMatches(java.lang.String,java.lang.String):109:109 -> getMatches
+    4:4:java.util.List getMatches(java.lang.String,java.lang.String):111:111 -> getMatches
+    5:5:java.util.List getMatches(java.lang.String,java.lang.String):113:113 -> getMatches
+    1:1:java.lang.String getOtaZipVersion(java.lang.String):125:125 -> getOtaZipVersion
+    2:4:java.lang.String getOtaZipVersion(java.lang.String):127:129 -> getOtaZipVersion
+    5:5:java.lang.String getOtaZipVersion(java.lang.String):132:132 -> getOtaZipVersion
+    6:6:java.lang.String getOtaZipVersion(java.lang.String):125:125 -> getOtaZipVersion
+    7:7:java.lang.String getOtaZipVersion(java.lang.String):132:132 -> getOtaZipVersion
+    1:2:java.lang.String getPlatform():39:40 -> getPlatform
+    1:1:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean):261:261 -> installApk
+    2:4:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):275:277 -> installApk
+    5:5:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):284:284 -> installApk
+    6:8:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):289:291 -> installApk
+    9:10:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):293:294 -> installApk
+    11:11:com.chtj.base_framework.entity.CommonValue installApk(java.lang.String,boolean,boolean):296:296 -> installApk
+    1:1:java.lang.Boolean isEmpty(java.lang.String):237:237 -> isEmpty
+    2:2:java.lang.Boolean isEmpty(java.lang.String):240:240 -> isEmpty
+    3:3:java.lang.Boolean isEmpty(java.lang.String):238:238 -> isEmpty
+    4:4:boolean isEmpty(java.lang.Object):247:247 -> isEmpty
+    1:3:boolean isMx8():151:153 -> isMx8
+    1:2:java.lang.String readFileData(java.lang.String):349:350 -> readFileData
+    3:3:java.lang.String readFileData(java.lang.String):353:353 -> readFileData
+    4:6:java.lang.String readFileData(java.lang.String):355:357 -> readFileData
+    7:7:java.lang.String readFileData(java.lang.String):359:359 -> readFileData
+    8:8:java.lang.String readFileData(java.lang.String):362:362 -> readFileData
+    9:10:java.lang.String readFileData(java.lang.String):364:365 -> readFileData
+    1:2:java.lang.String sysFwVersion():142:143 -> sysFwVersion
+    1:1:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):193:193 -> uninstallNormalApp
+    2:4:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):197:199 -> uninstallNormalApp
+    5:5:com.chtj.base_framework.entity.CommonValue uninstallNormalApp(java.lang.String,boolean):201:201 -> uninstallNormalApp
+    1:2:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):213:214 -> uninstallSystemApp
+    3:5:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):218:220 -> uninstallSystemApp
+    6:7:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):222:223 -> uninstallSystemApp
+    8:8:com.chtj.base_framework.entity.CommonValue uninstallSystemApp(java.lang.String,boolean):225:225 -> uninstallSystemApp
 com.chtj.base_framework.upgrade.FUpgradeTools$1 -> com.chtj.base_framework.upgrade.FUpgradeTools$a:
     com.chtj.base_framework.entity.UpgradeBean val$upBean -> e
-    1:1:void <init>(com.chtj.base_framework.entity.UpgradeBean):60:60 -> <init>
+    android.content.Context val$context -> f
+    1:1:void <init>(com.chtj.base_framework.entity.UpgradeBean,android.content.Context):60:60 -> <init>
     1:4:void run():64:67 -> run
     5:5:void run():84:84 -> run
     6:6:void run():87:87 -> run
@@ -42212,8 +42204,8 @@ com.chtj.base_framework.upgrade.FUpgradeTools$1$1 -> com.chtj.base_framework.upg
     1:1:void onProgress(int):72:72 -> onProgress
     2:4:void onProgress(int):74:76 -> onProgress
     5:5:void onProgress(int):78:78 -> onProgress
-com.chtj.keepalive.IKeepAliveListener -> f.d.a.a:
-com.chtj.keepalive.IKeepAliveListener$Stub -> f.d.a.a$a:
+com.chtj.keepalive.IKeepAliveListener -> f.d.b.a:
+com.chtj.keepalive.IKeepAliveListener$Stub -> f.d.b.a$a:
     1:2:void <init>():13:14 -> <init>
     1:1:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int):63:63 -> onTransact
     2:2:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int):42:42 -> onTransact
@@ -42226,11 +42218,11 @@ com.chtj.keepalive.IKeepAliveListener$Stub -> f.d.a.a$a:
     10:10:void com.ichtj.basetools.keeplive.KeepAliveAty$2.onError(java.lang.String):149:149 -> onTransact
     10:10:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int):50 -> onTransact
     11:11:boolean onTransact(int,android.os.Parcel,android.os.Parcel,int):51:51 -> onTransact
-com.chtj.keepalive.IKeepAliveService -> f.d.a.b:
-com.chtj.keepalive.IKeepAliveService$Stub -> f.d.a.b$a:
+com.chtj.keepalive.IKeepAliveService -> f.d.b.b:
+com.chtj.keepalive.IKeepAliveService$Stub -> f.d.b.b$a:
     1:3:com.chtj.keepalive.IKeepAliveService asInterface(android.os.IBinder):25:27 -> a
     4:4:com.chtj.keepalive.IKeepAliveService asInterface(android.os.IBinder):29:29 -> a
-com.chtj.keepalive.IKeepAliveService$Stub$Proxy -> f.d.a.b$a$a:
+com.chtj.keepalive.IKeepAliveService$Stub$Proxy -> f.d.b.b$a$a:
     android.os.IBinder mRemote -> e
     1:2:void <init>(android.os.IBinder):88:89 -> <init>
     1:2:boolean addKeepLiveInfo(com.chtj.keepalive.entity.KeepAliveData,com.chtj.keepalive.IKeepAliveListener):101:102 -> a
@@ -42267,7 +42259,7 @@ com.chtj.keepalive.entity.KeepAliveData$1 -> com.chtj.keepalive.entity.KeepAlive
     1:1:java.lang.Object createFromParcel(android.os.Parcel):39 -> createFromParcel
     1:1:com.chtj.keepalive.entity.KeepAliveData[] newArray(int):47:47 -> newArray
     1:1:java.lang.Object[] newArray(int):39 -> newArray
-com.chtj.socket.BaseTcpSocket -> f.d.b.c:
+com.chtj.socket.BaseTcpSocket -> f.d.c.c:
     java.util.concurrent.LinkedBlockingQueue queueBuffer -> i
     int timeout -> l
     com.chtj.socket.ISocketListener mSocketListener -> g
@@ -42307,7 +42299,7 @@ com.chtj.socket.BaseTcpSocket -> f.d.b.c:
     5:6:void startReceive():89 -> c
     7:9:void startReceive():93:95 -> c
     10:14:void startReceive():99:103 -> c
-com.chtj.socket.BaseTcpSocket$1 -> f.d.b.a:
+com.chtj.socket.BaseTcpSocket$1 -> f.d.c.a:
     com.chtj.socket.BaseTcpSocket this$0 -> f
     android.content.Context val$ctx -> e
     1:1:void <init>(com.chtj.socket.BaseTcpSocket,android.content.Context):57:57 -> <init>
@@ -42315,7 +42307,7 @@ com.chtj.socket.BaseTcpSocket$1 -> f.d.b.a:
     3:3:void com.chtj.socket.BaseTcpSocket.access$000(com.chtj.socket.BaseTcpSocket):19:19 -> run
     3:3:void run():62 -> run
     4:7:void run():64:67 -> run
-com.chtj.socket.BaseTcpSocket$2 -> f.d.b.b:
+com.chtj.socket.BaseTcpSocket$2 -> f.d.c.b:
     com.chtj.socket.BaseTcpSocket this$0 -> e
     1:1:void <init>(com.chtj.socket.BaseTcpSocket):113:113 -> <init>
     1:1:void run():118:118 -> run
@@ -42328,7 +42320,7 @@ com.chtj.socket.BaseTcpSocket$2 -> f.d.b.b:
     8:8:java.util.concurrent.LinkedBlockingQueue com.chtj.socket.BaseTcpSocket.access$100(com.chtj.socket.BaseTcpSocket):19:19 -> run
     8:8:void run():129 -> run
     9:9:void run():129:129 -> run
-com.chtj.socket.BaseTcpSocket$3 -> f.d.b.c$a:
+com.chtj.socket.BaseTcpSocket$3 -> f.d.c.c$a:
     com.chtj.socket.BaseTcpSocket this$0 -> e
     1:1:void <init>(com.chtj.socket.BaseTcpSocket):164:164 -> <init>
     1:2:void run():169:170 -> run
@@ -42337,7 +42329,7 @@ com.chtj.socket.BaseTcpSocket$3 -> f.d.b.c$a:
     6:6:void run():180:180 -> run
     7:8:void run():183:184 -> run
     9:9:void run():187:187 -> run
-com.chtj.socket.BaseUdpSocket -> f.d.b.d:
+com.chtj.socket.BaseUdpSocket -> f.d.c.d:
     java.util.concurrent.LinkedBlockingQueue queueBuffer -> i
     int packetSize -> l
     java.lang.String mHost -> j
@@ -42382,14 +42374,14 @@ com.chtj.socket.BaseUdpSocket -> f.d.b.d:
     7:8:void close():89:90 -> a
     9:12:void startSendRunnable():156:159 -> a
     9:12:void access$300(com.chtj.socket.BaseUdpSocket):19 -> a
-com.chtj.socket.BaseUdpSocket$1 -> f.d.b.d$a:
+com.chtj.socket.BaseUdpSocket$1 -> f.d.c.d$a:
     com.chtj.socket.BaseUdpSocket this$0 -> e
     1:1:void <init>(com.chtj.socket.BaseUdpSocket):78:78 -> <init>
     1:1:void run():81:81 -> run
     2:2:java.net.DatagramSocket com.chtj.socket.BaseUdpSocket.access$000(com.chtj.socket.BaseUdpSocket):19:19 -> run
     2:2:void run():81 -> run
     3:3:void run():82:82 -> run
-com.chtj.socket.BaseUdpSocket$2 -> f.d.b.d$b:
+com.chtj.socket.BaseUdpSocket$2 -> f.d.c.d$b:
     com.chtj.socket.BaseUdpSocket this$0 -> e
     1:1:void <init>(com.chtj.socket.BaseUdpSocket):108:108 -> <init>
     1:1:void run():112:112 -> run
@@ -42437,7 +42429,7 @@ com.chtj.socket.BaseUdpSocket$2 -> f.d.b.d$b:
     46:46:void run():151 -> run
     47:47:void run():151:151 -> run
     48:49:void run():146:147 -> run
-com.chtj.socket.BaseUdpSocket$3 -> f.d.b.d$c:
+com.chtj.socket.BaseUdpSocket$3 -> f.d.c.d$c:
     com.chtj.socket.BaseUdpSocket this$0 -> e
     1:1:void <init>(com.chtj.socket.BaseUdpSocket):163:163 -> <init>
     1:1:void run():168:168 -> run
@@ -42459,8 +42451,8 @@ com.chtj.socket.BaseUdpSocket$3 -> f.d.b.d$c:
     19:19:java.util.concurrent.LinkedBlockingQueue com.chtj.socket.BaseUdpSocket.access$600(com.chtj.socket.BaseUdpSocket) -> run
     19:19:void run():182 -> run
     20:20:void run():182:182 -> run
-com.chtj.socket.ISocket -> f.d.b.e:
-com.chtj.socket.ISocketListener -> f.d.b.f:
+com.chtj.socket.ISocket -> f.d.c.e:
+com.chtj.socket.ISocketListener -> f.d.c.f:
     void connClose() -> a
     void connFaild(java.lang.Throwable) -> a
     void recv(byte[],int,int) -> a
@@ -44448,529 +44440,530 @@ com.ichtj.basetools.OptionAty -> com.ichtj.basetools.OptionAty:
     androidx.recyclerview.widget.GridLayoutManager manager -> v
     java.util.List dataList -> w
     com.ichtj.basetools.util.IndexItemAdapter itemAdapter -> u
-    1:1:void <clinit>():85:85 -> <clinit>
-    1:1:void <init>():84:84 -> <init>
-    2:3:void <init>():89:90 -> <init>
-    1:1:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):477:477 -> a
+    1:1:void <clinit>():86:86 -> <clinit>
+    1:1:void <init>():85:85 -> <init>
+    2:3:void <init>():90:91 -> <init>
+    1:1:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):482:482 -> a
     2:2:int com.ichtj.basetools.entity.Dbean.getFlag():17:17 -> a
-    2:2:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):477 -> a
-    3:3:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):477:477 -> a
-    1:1:void clickByPosition(int):458:458 -> d
-    2:2:void clickByPosition(int):446:446 -> d
-    3:3:void clickByPosition(int):392:392 -> d
-    4:4:void clickByPosition(int):443:443 -> d
-    5:5:void clickByPosition(int):440:440 -> d
-    6:6:void clickByPosition(int):437:437 -> d
-    7:7:void clickByPosition(int):395:395 -> d
-    8:8:void clickByPosition(int):434:434 -> d
-    9:11:void clickByPosition(int):384:386 -> d
-    12:12:void clickByPosition(int):388:388 -> d
-    13:15:void clickByPosition(int):367:369 -> d
-    16:16:void clickByPosition(int):371:371 -> d
-    17:17:void clickByPosition(int):375:375 -> d
-    18:19:void clickByPosition(int):377:378 -> d
-    20:20:void clickByPosition(int):380:380 -> d
-    21:21:void clickByPosition(int):431:431 -> d
-    22:22:void clickByPosition(int):355:355 -> d
+    2:2:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):482 -> a
+    3:3:void onItemClick(com.chad.library.adapter.base.BaseQuickAdapter,android.view.View,int):482:482 -> a
+    1:1:void clickByPosition(int):463:463 -> d
+    2:2:void clickByPosition(int):460:460 -> d
+    3:3:void clickByPosition(int):448:448 -> d
+    4:4:void clickByPosition(int):394:394 -> d
+    5:5:void clickByPosition(int):445:445 -> d
+    6:6:void clickByPosition(int):442:442 -> d
+    7:7:void clickByPosition(int):439:439 -> d
+    8:8:void clickByPosition(int):397:397 -> d
+    9:9:void clickByPosition(int):436:436 -> d
+    10:12:void clickByPosition(int):386:388 -> d
+    13:13:void clickByPosition(int):390:390 -> d
+    14:16:void clickByPosition(int):369:371 -> d
+    17:17:void clickByPosition(int):373:373 -> d
+    18:18:void clickByPosition(int):377:377 -> d
+    19:20:void clickByPosition(int):379:380 -> d
+    21:21:void clickByPosition(int):382:382 -> d
+    22:22:void clickByPosition(int):433:433 -> d
     23:23:void clickByPosition(int):357:357 -> d
     24:24:void clickByPosition(int):359:359 -> d
-    25:26:void clickByPosition(int):362:363 -> d
-    27:27:void com.face_chtj.base_iotutils.KLog.e(java.lang.String,java.lang.Object):94:94 -> d
-    27:27:void clickByPosition(int):363 -> d
-    28:31:void clickByPosition(int):348:351 -> d
-    32:32:void clickByPosition(int):428:428 -> d
-    33:33:void clickByPosition(int):425:425 -> d
-    34:34:void clickByPosition(int):337:337 -> d
-    35:35:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance():39:39 -> d
-    35:35:void clickByPosition(int):338 -> d
-    36:36:void clickByPosition(int):338:338 -> d
-    37:37:void clickByPosition(int):316:316 -> d
-    38:38:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance():39:39 -> d
-    38:38:void clickByPosition(int):317 -> d
-    39:39:void clickByPosition(int):317:317 -> d
-    40:40:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():53:53 -> d
-    40:40:void clickByPosition(int):312 -> d
-    41:42:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():55:56 -> d
-    41:42:void clickByPosition(int):312 -> d
-    43:43:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58:58 -> d
-    43:43:void clickByPosition(int):312 -> d
-    44:44:void com.ichtj.basetools.util.JXLExcelUtils.format():138:138 -> d
-    44:44:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    44:44:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    44:44:void clickByPosition(int):312 -> d
-    45:45:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int,jxl.write.WritableFont$BoldStyle):164:164 -> d
-    45:45:void com.ichtj.basetools.util.JXLExcelUtils.format():138 -> d
+    25:25:void clickByPosition(int):361:361 -> d
+    26:27:void clickByPosition(int):364:365 -> d
+    28:28:void com.face_chtj.base_iotutils.KLog.e(java.lang.String,java.lang.Object):94:94 -> d
+    28:28:void clickByPosition(int):365 -> d
+    29:32:void clickByPosition(int):350:353 -> d
+    33:33:void clickByPosition(int):430:430 -> d
+    34:34:void clickByPosition(int):427:427 -> d
+    35:35:void clickByPosition(int):339:339 -> d
+    36:36:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance():39:39 -> d
+    36:36:void clickByPosition(int):340 -> d
+    37:37:void clickByPosition(int):340:340 -> d
+    38:38:void clickByPosition(int):318:318 -> d
+    39:39:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance() -> d
+    39:39:void clickByPosition(int):319 -> d
+    40:40:void clickByPosition(int):319:319 -> d
+    41:41:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():53:53 -> d
+    41:41:void clickByPosition(int):314 -> d
+    42:43:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():55:56 -> d
+    42:43:void clickByPosition(int):314 -> d
+    44:44:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58:58 -> d
+    44:44:void clickByPosition(int):314 -> d
+    45:45:void com.ichtj.basetools.util.JXLExcelUtils.format():138:138 -> d
     45:45:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
     45:45:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    45:45:void clickByPosition(int):312 -> d
-    46:51:void com.ichtj.basetools.util.JXLExcelUtils.format():138:143 -> d
-    46:51:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    46:51:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    46:51:void clickByPosition(int):312 -> d
-    52:52:void com.ichtj.basetools.util.JXLExcelUtils.format():145:145 -> d
-    52:52:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    52:52:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    52:52:void clickByPosition(int):312 -> d
-    53:53:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int,jxl.write.WritableFont$BoldStyle):164:164 -> d
-    53:53:void com.ichtj.basetools.util.JXLExcelUtils.format():145 -> d
+    45:45:void clickByPosition(int):314 -> d
+    46:46:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int,jxl.write.WritableFont$BoldStyle):164:164 -> d
+    46:46:void com.ichtj.basetools.util.JXLExcelUtils.format():138 -> d
+    46:46:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    46:46:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    46:46:void clickByPosition(int):314 -> d
+    47:52:void com.ichtj.basetools.util.JXLExcelUtils.format():138:143 -> d
+    47:52:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    47:52:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    47:52:void clickByPosition(int):314 -> d
+    53:53:void com.ichtj.basetools.util.JXLExcelUtils.format():145:145 -> d
     53:53:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
     53:53:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    53:53:void clickByPosition(int):312 -> d
-    54:58:void com.ichtj.basetools.util.JXLExcelUtils.format():145:149 -> d
-    54:58:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    54:58:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    54:58:void clickByPosition(int):312 -> d
-    59:59:void com.ichtj.basetools.util.JXLExcelUtils.format():151:151 -> d
-    59:59:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    59:59:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    59:59:void clickByPosition(int):312 -> d
-    60:60:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int):149:149 -> d
-    60:60:void com.ichtj.basetools.util.JXLExcelUtils.format():151 -> d
+    53:53:void clickByPosition(int):314 -> d
+    54:54:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int,jxl.write.WritableFont$BoldStyle):164:164 -> d
+    54:54:void com.ichtj.basetools.util.JXLExcelUtils.format():145 -> d
+    54:54:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    54:54:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    54:54:void clickByPosition(int):314 -> d
+    55:59:void com.ichtj.basetools.util.JXLExcelUtils.format():145:149 -> d
+    55:59:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    55:59:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    55:59:void clickByPosition(int):314 -> d
+    60:60:void com.ichtj.basetools.util.JXLExcelUtils.format():151:151 -> d
     60:60:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
     60:60:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    60:60:void clickByPosition(int):312 -> d
-    61:64:void com.ichtj.basetools.util.JXLExcelUtils.format():151:154 -> d
-    61:64:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    61:64:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    61:64:void clickByPosition(int):312 -> d
-    65:65:void com.ichtj.basetools.util.JXLExcelUtils.format():157:157 -> d
-    65:65:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
-    65:65:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    65:65:void clickByPosition(int):312 -> d
-    66:68:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):172:174 -> d
-    66:68:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    66:68:void clickByPosition(int):312 -> d
-    69:69:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File):286:286 -> d
-    69:69:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):176 -> d
-    69:69:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    69:69:void clickByPosition(int):312 -> d
-    70:71:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.WorkbookSettings):301:302 -> d
-    70:71:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File):286 -> d
-    70:71:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):176 -> d
-    70:71:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    70:71:void clickByPosition(int):312 -> d
-    72:72:jxl.write.WritableSheet jxl.write.biff.WritableWorkbookImpl.createSheet(java.lang.String,int):538:538 -> d
-    72:72:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):177 -> d
-    72:72:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    72:72:void clickByPosition(int):312 -> d
-    73:75:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):179:181 -> d
-    73:75:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    73:75:void clickByPosition(int):312 -> d
-    76:76:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):183:183 -> d
-    76:76:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    76:76:void clickByPosition(int):312 -> d
-    77:77:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):185:185 -> d
+    60:60:void clickByPosition(int):314 -> d
+    61:61:void jxl.write.WritableFont.<init>(jxl.write.WritableFont$FontName,int):149:149 -> d
+    61:61:void com.ichtj.basetools.util.JXLExcelUtils.format():151 -> d
+    61:61:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    61:61:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    61:61:void clickByPosition(int):314 -> d
+    62:65:void com.ichtj.basetools.util.JXLExcelUtils.format():151:154 -> d
+    62:65:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    62:65:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    62:65:void clickByPosition(int):314 -> d
+    66:66:void com.ichtj.basetools.util.JXLExcelUtils.format():157:157 -> d
+    66:66:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):169 -> d
+    66:66:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    66:66:void clickByPosition(int):314 -> d
+    67:69:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):172:174 -> d
+    67:69:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    67:69:void clickByPosition(int):314 -> d
+    70:70:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File):286:286 -> d
+    70:70:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):176 -> d
+    70:70:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    70:70:void clickByPosition(int):314 -> d
+    71:72:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.WorkbookSettings):301:302 -> d
+    71:72:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File):286 -> d
+    71:72:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):176 -> d
+    71:72:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    71:72:void clickByPosition(int):314 -> d
+    73:73:jxl.write.WritableSheet jxl.write.biff.WritableWorkbookImpl.createSheet(java.lang.String,int):538:538 -> d
+    73:73:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):177 -> d
+    73:73:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    73:73:void clickByPosition(int):314 -> d
+    74:76:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):179:181 -> d
+    74:76:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    74:76:void clickByPosition(int):314 -> d
+    77:77:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):183:183 -> d
     77:77:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    77:77:void clickByPosition(int):312 -> d
-    78:78:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):187:187 -> d
+    77:77:void clickByPosition(int):314 -> d
+    78:78:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):185:185 -> d
     78:78:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    78:78:void clickByPosition(int):312 -> d
-    79:79:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):191:191 -> d
+    78:78:void clickByPosition(int):314 -> d
+    79:79:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):187:187 -> d
     79:79:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    79:79:void clickByPosition(int):312 -> d
-    80:80:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):193:193 -> d
+    79:79:void clickByPosition(int):314 -> d
+    80:80:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):191:191 -> d
     80:80:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    80:80:void clickByPosition(int):312 -> d
-    81:81:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():59:59 -> d
-    81:81:void clickByPosition(int):312 -> d
-    82:82:java.util.ArrayList com.ichtj.basetools.util.JXLExcelUtils.getRecordData():71:71 -> d
-    82:82:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    82:82:void clickByPosition(int):312 -> d
-    83:88:java.util.ArrayList com.ichtj.basetools.util.JXLExcelUtils.getRecordData():73:78 -> d
-    83:88:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    83:88:void clickByPosition(int):312 -> d
-    89:89:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):201:201 -> d
-    89:89:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    89:89:void clickByPosition(int):312 -> d
-    90:90:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):205:205 -> d
+    80:80:void clickByPosition(int):314 -> d
+    81:81:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):193:193 -> d
+    81:81:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    81:81:void clickByPosition(int):314 -> d
+    82:82:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():59:59 -> d
+    82:82:void clickByPosition(int):314 -> d
+    83:83:java.util.ArrayList com.ichtj.basetools.util.JXLExcelUtils.getRecordData():71:71 -> d
+    83:83:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    83:83:void clickByPosition(int):314 -> d
+    84:89:java.util.ArrayList com.ichtj.basetools.util.JXLExcelUtils.getRecordData():73:78 -> d
+    84:89:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    84:89:void clickByPosition(int):314 -> d
+    90:90:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):201:201 -> d
     90:90:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    90:90:void clickByPosition(int):312 -> d
-    91:91:void jxl.WorkbookSettings.setEncoding(java.lang.String):559:559 -> d
-    91:91:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):206 -> d
+    90:90:void clickByPosition(int):314 -> d
+    91:91:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):205:205 -> d
     91:91:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    91:91:void clickByPosition(int):312 -> d
-    92:92:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):207:207 -> d
+    91:91:void clickByPosition(int):314 -> d
+    92:92:void jxl.WorkbookSettings.setEncoding(java.lang.String):559:559 -> d
+    92:92:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):206 -> d
     92:92:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    92:92:void clickByPosition(int):312 -> d
-    93:93:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253:253 -> d
-    93:93:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):208 -> d
+    92:92:void clickByPosition(int):314 -> d
+    93:93:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):207:207 -> d
     93:93:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    93:93:void clickByPosition(int):312 -> d
-    94:94:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream,jxl.WorkbookSettings):268:268 -> d
-    94:94:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253 -> d
+    93:93:void clickByPosition(int):314 -> d
+    94:94:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253:253 -> d
     94:94:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):208 -> d
     94:94:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    94:94:void clickByPosition(int):312 -> d
-    95:96:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream,jxl.WorkbookSettings):270:271 -> d
-    95:96:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253 -> d
-    95:96:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):208 -> d
-    95:96:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    95:96:void clickByPosition(int):312 -> d
-    97:97:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209:209 -> d
-    97:97:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    97:97:void clickByPosition(int):312 -> d
-    98:98:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook):320:320 -> d
-    98:98:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209 -> d
+    94:94:void clickByPosition(int):314 -> d
+    95:95:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream,jxl.WorkbookSettings):268:268 -> d
+    95:95:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253 -> d
+    95:95:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):208 -> d
+    95:95:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    95:95:void clickByPosition(int):314 -> d
+    96:97:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream,jxl.WorkbookSettings):270:271 -> d
+    96:97:jxl.Workbook jxl.Workbook.getWorkbook(java.io.InputStream):253 -> d
+    96:97:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):208 -> d
+    96:97:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    96:97:void clickByPosition(int):314 -> d
+    98:98:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209:209 -> d
     98:98:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    98:98:void clickByPosition(int):312 -> d
-    99:100:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook,jxl.WorkbookSettings):338:339 -> d
-    99:100:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook):320 -> d
-    99:100:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209 -> d
-    99:100:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    99:100:void clickByPosition(int):312 -> d
-    101:101:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):210:210 -> d
-    101:101:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    101:101:void clickByPosition(int):312 -> d
-    102:107:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):215:220 -> d
-    102:107:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    102:107:void clickByPosition(int):312 -> d
-    108:108:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):222:222 -> d
-    108:108:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    108:108:void clickByPosition(int):312 -> d
-    109:109:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):225:225 -> d
+    98:98:void clickByPosition(int):314 -> d
+    99:99:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook):320:320 -> d
+    99:99:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209 -> d
+    99:99:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    99:99:void clickByPosition(int):314 -> d
+    100:101:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook,jxl.WorkbookSettings):338:339 -> d
+    100:101:jxl.write.WritableWorkbook jxl.Workbook.createWorkbook(java.io.File,jxl.Workbook):320 -> d
+    100:101:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):209 -> d
+    100:101:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    100:101:void clickByPosition(int):314 -> d
+    102:102:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):210:210 -> d
+    102:102:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    102:102:void clickByPosition(int):314 -> d
+    103:108:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):215:220 -> d
+    103:108:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    103:108:void clickByPosition(int):314 -> d
+    109:109:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):222:222 -> d
     109:109:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    109:109:void clickByPosition(int):312 -> d
-    110:110:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):228:228 -> d
+    109:109:void clickByPosition(int):314 -> d
+    110:110:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):225:225 -> d
     110:110:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    110:110:void clickByPosition(int):312 -> d
-    111:111:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> d
-    111:111:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):229 -> d
+    110:110:void clickByPosition(int):314 -> d
+    111:111:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):228:228 -> d
     111:111:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    111:111:void clickByPosition(int):312 -> d
-    112:112:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
+    111:111:void clickByPosition(int):314 -> d
+    112:112:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> d
+    112:112:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):229 -> d
     112:112:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    112:112:void clickByPosition(int):312 -> d
-    113:113:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
+    112:112:void clickByPosition(int):314 -> d
+    113:113:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
     113:113:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    113:113:void clickByPosition(int):312 -> d
-    114:114:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):231:231 -> d
+    113:113:void clickByPosition(int):314 -> d
+    114:114:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
     114:114:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    114:114:void clickByPosition(int):312 -> d
-    115:115:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
+    114:114:void clickByPosition(int):314 -> d
+    115:115:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):231:231 -> d
     115:115:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    115:115:void clickByPosition(int):312 -> d
-    116:116:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
+    115:115:void clickByPosition(int):314 -> d
+    116:116:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
     116:116:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    116:116:void clickByPosition(int):312 -> d
-    117:117:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):243:243 -> d
+    116:116:void clickByPosition(int):314 -> d
+    117:117:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
     117:117:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    117:117:void clickByPosition(int):312 -> d
-    118:118:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):245:245 -> d
+    117:117:void clickByPosition(int):314 -> d
+    118:118:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):243:243 -> d
     118:118:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    118:118:void clickByPosition(int):312 -> d
-    119:119:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
+    118:118:void clickByPosition(int):314 -> d
+    119:119:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):245:245 -> d
     119:119:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    119:119:void clickByPosition(int):312 -> d
-    120:120:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
+    119:119:void clickByPosition(int):314 -> d
+    120:120:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):235:235 -> d
     120:120:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    120:120:void clickByPosition(int):312 -> d
-    121:121:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):243:243 -> d
+    120:120:void clickByPosition(int):314 -> d
+    121:121:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):237:237 -> d
     121:121:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    121:121:void clickByPosition(int):312 -> d
-    122:122:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):245:245 -> d
+    121:121:void clickByPosition(int):314 -> d
+    122:122:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):243:243 -> d
     122:122:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    122:122:void clickByPosition(int):312 -> d
-    123:123:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):248:248 -> d
+    122:122:void clickByPosition(int):314 -> d
+    123:123:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):245:245 -> d
     123:123:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
-    123:123:void clickByPosition(int):312 -> d
-    124:124:void clickByPosition(int):313:313 -> d
-    125:125:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):191:191 -> d
-    125:125:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    125:125:void clickByPosition(int):312 -> d
-    126:126:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):193:193 -> d
+    123:123:void clickByPosition(int):314 -> d
+    124:124:void com.ichtj.basetools.util.JXLExcelUtils.writeObjListToExcel(java.util.List,java.lang.String):248:248 -> d
+    124:124:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():60 -> d
+    124:124:void clickByPosition(int):314 -> d
+    125:125:void clickByPosition(int):315:315 -> d
+    126:126:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):191:191 -> d
     126:126:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    126:126:void clickByPosition(int):312 -> d
-    127:127:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):196:196 -> d
+    126:126:void clickByPosition(int):314 -> d
+    127:127:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):193:193 -> d
     127:127:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
-    127:127:void clickByPosition(int):312 -> d
-    128:128:void clickByPosition(int):290:290 -> d
-    129:129:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance():39:39 -> d
-    129:129:void clickByPosition(int):291 -> d
-    130:130:void clickByPosition(int):291:291 -> d
-    131:131:void clickByPosition(int):422:422 -> d
-    132:133:void clickByPosition(int):286:287 -> d
-    134:136:void clickByPosition(int):276:278 -> d
-    137:137:void clickByPosition(int):273:273 -> d
-    138:139:void clickByPosition(int):269:270 -> d
-    140:140:void clickByPosition(int):266:266 -> d
-    141:141:void clickByPosition(int):260:260 -> d
+    127:127:void clickByPosition(int):314 -> d
+    128:128:void com.ichtj.basetools.util.JXLExcelUtils.initExcel(java.lang.String,java.lang.String[]):196:196 -> d
+    128:128:void com.ichtj.basetools.util.JXLExcelUtils.exportExcel():58 -> d
+    128:128:void clickByPosition(int):314 -> d
+    129:129:void clickByPosition(int):292:292 -> d
+    130:130:com.face_chtj.base_iotutils.TPoolUtils com.face_chtj.base_iotutils.TPoolUtils.newInstance():39:39 -> d
+    130:130:void clickByPosition(int):293 -> d
+    131:131:void clickByPosition(int):293:293 -> d
+    132:132:void clickByPosition(int):424:424 -> d
+    133:134:void clickByPosition(int):288:289 -> d
+    135:137:void clickByPosition(int):278:280 -> d
+    138:138:void clickByPosition(int):275:275 -> d
+    139:140:void clickByPosition(int):271:272 -> d
+    141:141:void clickByPosition(int):268:268 -> d
     142:142:void clickByPosition(int):262:262 -> d
-    143:145:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):393:395 -> d
-    143:145:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
-    143:145:void clickByPosition(int):263 -> d
-    146:146:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):397:397 -> d
-    146:146:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
-    146:146:void clickByPosition(int):263 -> d
-    147:148:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):399:400 -> d
-    147:148:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
-    147:148:void clickByPosition(int):263 -> d
-    149:149:void clickByPosition(int):449:449 -> d
-    150:150:void clickByPosition(int):257:257 -> d
-    151:151:void clickByPosition(int):254:254 -> d
-    152:153:void com.face_chtj.base_iotutils.GlobalDialogUtils.show(java.lang.String):85:86 -> d
-    152:153:void clickByPosition(int):254 -> d
-    154:154:void clickByPosition(int):251:251 -> d
-    155:155:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():72:72 -> d
-    155:155:void clickByPosition(int):215 -> d
-    156:156:androidx.core.app.NotificationManagerCompat androidx.core.app.NotificationManagerCompat.from(android.content.Context) -> d
-    156:156:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():72 -> d
-    156:156:void clickByPosition(int):215 -> d
-    157:158:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():223:224 -> d
-    157:158:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
-    157:158:void clickByPosition(int):215 -> d
-    159:163:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():226:230 -> d
-    159:163:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
-    159:163:void clickByPosition(int):215 -> d
-    164:165:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():232:233 -> d
-    164:165:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
-    164:165:void clickByPosition(int):215 -> d
-    166:168:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():235:237 -> d
-    166:168:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
-    166:168:void clickByPosition(int):215 -> d
-    169:170:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setNotifyId(int):221:222 -> d
-    169:170:void clickByPosition(int):216 -> d
-    171:172:void clickByPosition(int):217:218 -> d
-    173:174:void clickByPosition(int):224:225 -> d
-    175:176:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setAppAbout(java.lang.String):345:346 -> d
-    175:176:void clickByPosition(int):225 -> d
-    177:177:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setPrompt(java.lang.String):379:379 -> d
-    177:177:void clickByPosition(int):226 -> d
-    178:178:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setProgress(java.lang.String):315:315 -> d
-    178:178:void clickByPosition(int):227 -> d
-    179:179:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setTopRight(java.lang.String):334:334 -> d
-    179:179:void clickByPosition(int):228 -> d
-    180:182:void clickByPosition(int):229:231 -> d
-    183:185:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():80:82 -> d
-    183:185:void clickByPosition(int):234 -> d
-    186:186:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():84:84 -> d
-    186:186:void clickByPosition(int):234 -> d
-    187:187:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():83:83 -> d
-    187:187:void clickByPosition(int):234 -> d
-    188:188:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():85:85 -> d
-    188:188:void clickByPosition(int):234 -> d
-    189:190:void clickByPosition(int):236:237 -> d
-    191:191:void clickByPosition(int):419:419 -> d
-    192:192:void clickByPosition(int):416:416 -> d
-    193:193:void clickByPosition(int):413:413 -> d
-    194:194:void clickByPosition(int):410:410 -> d
-    195:195:void clickByPosition(int):407:407 -> d
-    196:196:void clickByPosition(int):404:404 -> d
-    197:197:void clickByPosition(int):401:401 -> d
-    198:198:void clickByPosition(int):398:398 -> d
-    1:3:void initData():114:116 -> o
+    143:143:void clickByPosition(int):264:264 -> d
+    144:146:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):393:395 -> d
+    144:146:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
+    144:146:void clickByPosition(int):265 -> d
+    147:147:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):397:397 -> d
+    147:147:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
+    147:147:void clickByPosition(int):265 -> d
+    148:149:void com.face_chtj.base_iotutils.ToastUtils.showToast(java.lang.CharSequence,int):399:400 -> d
+    148:149:void com.face_chtj.base_iotutils.ToastUtils.showShort(java.lang.CharSequence):411 -> d
+    148:149:void clickByPosition(int):265 -> d
+    150:150:void clickByPosition(int):451:451 -> d
+    151:151:void clickByPosition(int):259:259 -> d
+    152:152:void clickByPosition(int):256:256 -> d
+    153:154:void com.face_chtj.base_iotutils.GlobalDialogUtils.show(java.lang.String):85:86 -> d
+    153:154:void clickByPosition(int):256 -> d
+    155:155:void clickByPosition(int):253:253 -> d
+    156:156:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():72:72 -> d
+    156:156:void clickByPosition(int):217 -> d
+    157:157:androidx.core.app.NotificationManagerCompat androidx.core.app.NotificationManagerCompat.from(android.content.Context):156:156 -> d
+    157:157:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():72 -> d
+    157:157:void clickByPosition(int):217 -> d
+    158:159:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():223:224 -> d
+    158:159:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
+    158:159:void clickByPosition(int):217 -> d
+    160:164:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():226:230 -> d
+    160:164:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
+    160:164:void clickByPosition(int):217 -> d
+    165:166:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():232:233 -> d
+    165:166:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
+    165:166:void clickByPosition(int):217 -> d
+    167:169:boolean androidx.core.app.NotificationManagerCompat.areNotificationsEnabled():235:237 -> d
+    167:169:boolean com.face_chtj.base_iotutils.NotifyUtils.notifyIsEnable():73 -> d
+    167:169:void clickByPosition(int):217 -> d
+    170:171:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setNotifyId(int):221:222 -> d
+    170:171:void clickByPosition(int):218 -> d
+    172:173:void clickByPosition(int):219:220 -> d
+    174:175:void clickByPosition(int):226:227 -> d
+    176:177:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setAppAbout(java.lang.String):345:346 -> d
+    176:177:void clickByPosition(int):227 -> d
+    178:178:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setPrompt(java.lang.String):379:379 -> d
+    178:178:void clickByPosition(int):228 -> d
+    179:179:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setProgress(java.lang.String):315:315 -> d
+    179:179:void clickByPosition(int):229 -> d
+    180:180:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setTopRight(java.lang.String):334:334 -> d
+    180:180:void clickByPosition(int):230 -> d
+    181:183:void clickByPosition(int):231:233 -> d
+    184:186:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():80:82 -> d
+    184:186:void clickByPosition(int):236 -> d
+    187:187:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():84:84 -> d
+    187:187:void clickByPosition(int):236 -> d
+    188:188:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():83:83 -> d
+    188:188:void clickByPosition(int):236 -> d
+    189:189:void com.face_chtj.base_iotutils.NotifyUtils.toOpenNotify():85:85 -> d
+    189:189:void clickByPosition(int):236 -> d
+    190:191:void clickByPosition(int):238:239 -> d
+    192:192:void clickByPosition(int):421:421 -> d
+    193:193:void clickByPosition(int):418:418 -> d
+    194:194:void clickByPosition(int):415:415 -> d
+    195:195:void clickByPosition(int):412:412 -> d
+    196:196:void clickByPosition(int):409:409 -> d
+    197:197:void clickByPosition(int):406:406 -> d
+    198:198:void clickByPosition(int):403:403 -> d
+    199:199:void clickByPosition(int):400:400 -> d
+    1:3:void initData():115:117 -> o
     4:5:java.lang.String com.face_chtj.base_iotutils.DeviceUtils.getImeiOrMeid():81:82 -> o
-    4:5:void initData():116 -> o
-    6:6:void initData():116:116 -> o
-    7:7:void initData():118:118 -> o
+    4:5:void initData():117 -> o
+    6:6:void initData():117:117 -> o
+    7:7:void initData():119:119 -> o
     8:8:java.util.List com.face_chtj.base_iotutils.NetUtils.getLteIccid():971:971 -> o
-    8:8:void initData():118 -> o
+    8:8:void initData():119 -> o
     9:14:java.util.List com.face_chtj.base_iotutils.NetUtils.getLteIccid():973:978 -> o
-    9:14:void initData():118 -> o
+    9:14:void initData():119 -> o
     15:17:java.util.List com.face_chtj.base_iotutils.NetUtils.getLteIccid():981:983 -> o
-    15:17:void initData():118 -> o
+    15:17:void initData():119 -> o
     18:19:java.util.List com.face_chtj.base_iotutils.NetUtils.getLteIccid():991:992 -> o
-    18:19:void initData():118 -> o
+    18:19:void initData():119 -> o
     20:20:java.util.List com.face_chtj.base_iotutils.NetUtils.getLteIccid():996:996 -> o
-    20:20:void initData():118 -> o
-    21:21:void initData():118:118 -> o
-    22:22:void initData():120:120 -> o
-    23:23:void initData():122:122 -> o
-    24:24:void initData():124:124 -> o
-    25:25:void initData():126:126 -> o
-    26:26:void initData():128:128 -> o
-    27:27:void initData():130:130 -> o
+    20:20:void initData():119 -> o
+    21:21:void initData():119:119 -> o
+    22:22:void initData():121:121 -> o
+    23:23:void initData():123:123 -> o
+    24:24:void initData():125:125 -> o
+    25:25:void initData():127:127 -> o
+    26:26:void initData():129:129 -> o
+    27:27:void initData():131:131 -> o
     28:28:java.lang.String com.face_chtj.base_iotutils.DeviceUtils.getFwVersion():47:47 -> o
-    28:28:void initData():130 -> o
-    29:29:void initData():130:130 -> o
-    30:31:void initData():132:133 -> o
-    32:32:void initData():132:132 -> o
-    33:34:void initData():134:135 -> o
-    35:35:void initData():134:134 -> o
-    36:37:void initData():136:137 -> o
-    38:38:void initData():136:136 -> o
-    39:39:void initData():140:140 -> o
-    40:40:void initData():143:143 -> o
-    41:80:void initData():146:185 -> o
-    1:1:void onActivityResult(int,int,android.content.Intent):190:190 -> onActivityResult
-    2:2:void onActivityResult(int,int,android.content.Intent):193:193 -> onActivityResult
-    3:5:void onActivityResult(int,int,android.content.Intent):197:199 -> onActivityResult
+    28:28:void initData():131 -> o
+    29:29:void initData():131:131 -> o
+    30:31:void initData():133:134 -> o
+    32:32:void initData():133:133 -> o
+    33:34:void initData():135:136 -> o
+    35:35:void initData():135:135 -> o
+    36:37:void initData():137:138 -> o
+    38:38:void initData():137:137 -> o
+    39:39:void initData():141:141 -> o
+    40:40:void initData():144:144 -> o
+    41:81:void initData():147:187 -> o
+    1:1:void onActivityResult(int,int,android.content.Intent):192:192 -> onActivityResult
+    2:2:void onActivityResult(int,int,android.content.Intent):195:195 -> onActivityResult
+    3:5:void onActivityResult(int,int,android.content.Intent):199:201 -> onActivityResult
     6:6:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> onActivityResult
-    6:6:void onActivityResult(int,int,android.content.Intent):199 -> onActivityResult
-    7:7:void onActivityResult(int,int,android.content.Intent):200:200 -> onActivityResult
-    8:11:void onActivityResult(int,int,android.content.Intent):202:205 -> onActivityResult
+    6:6:void onActivityResult(int,int,android.content.Intent):201 -> onActivityResult
+    7:7:void onActivityResult(int,int,android.content.Intent):202:202 -> onActivityResult
+    8:11:void onActivityResult(int,int,android.content.Intent):204:207 -> onActivityResult
     12:12:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> onActivityResult
-    12:12:void onActivityResult(int,int,android.content.Intent):205 -> onActivityResult
-    1:5:void onCreate(android.os.Bundle):94:98 -> onCreate
-    6:6:void onCreate(android.os.Bundle):100:100 -> onCreate
-    1:5:void onDestroy():466:470 -> onDestroy
+    12:12:void onActivityResult(int,int,android.content.Intent):207 -> onActivityResult
+    1:5:void onCreate(android.os.Bundle):95:99 -> onCreate
+    6:6:void onCreate(android.os.Bundle):101:101 -> onCreate
+    1:5:void onDestroy():471:475 -> onDestroy
     6:7:void com.face_chtj.base_iotutils.TPoolSingleUtils.shutdown():131:132 -> onDestroy
-    6:7:void onDestroy():471 -> onDestroy
-    8:8:void onDestroy():472:472 -> onDestroy
-    1:5:void initView():104:108 -> p
+    6:7:void onDestroy():476 -> onDestroy
+    8:8:void onDestroy():477:477 -> onDestroy
+    1:5:void initView():105:109 -> p
     6:6:void com.chad.library.adapter.base.BaseQuickAdapter.setOnItemClickListener(com.chad.library.adapter.base.listener.OnItemClickListener):1378:1378 -> p
-    6:6:void initView():108 -> p
-    7:8:void initView():109:110 -> p
+    6:6:void initView():109 -> p
+    7:8:void initView():110:111 -> p
 com.ichtj.basetools.OptionAty$1 -> com.ichtj.basetools.OptionAty$a:
-    1:1:void <init>(com.ichtj.basetools.OptionAty):218:218 -> <init>
-    1:1:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> enableStatus
-    1:1:void enableStatus(boolean):221 -> enableStatus
-    2:2:void enableStatus(boolean):221:221 -> enableStatus
+    1:1:void <init>(com.ichtj.basetools.OptionAty):220:220 -> <init>
+    1:1:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> enableStatus
+    1:1:void enableStatus(boolean):223 -> enableStatus
+    2:2:void enableStatus(boolean):223:223 -> enableStatus
     3:3:void com.face_chtj.base_iotutils.KLog.e(java.lang.String,java.lang.Object):94:94 -> enableStatus
-    3:3:void enableStatus(boolean):221 -> enableStatus
+    3:3:void enableStatus(boolean):223 -> enableStatus
 com.ichtj.basetools.OptionAty$2 -> com.ichtj.basetools.OptionAty$b:
-    1:1:void <init>(com.ichtj.basetools.OptionAty):237:237 -> <init>
-    1:1:void run():240:240 -> run
+    1:1:void <init>(com.ichtj.basetools.OptionAty):239:239 -> <init>
+    1:1:void run():242:242 -> run
     2:3:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setAppAbout(java.lang.String):345:346 -> run
-    2:3:void run():241 -> run
-    4:4:void run():242:242 -> run
+    2:3:void run():243 -> run
+    4:4:void run():244:244 -> run
     5:5:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setPrompt(java.lang.String):379:379 -> run
-    5:5:void run():243 -> run
-    6:6:void run():244:244 -> run
+    5:5:void run():245 -> run
+    6:6:void run():246:246 -> run
     7:7:com.face_chtj.base_iotutils.NotifyUtils com.face_chtj.base_iotutils.NotifyUtils.setTopRight(java.lang.String):334:334 -> run
-    7:7:void run():245 -> run
-    8:8:void run():246:246 -> run
+    7:7:void run():247 -> run
+    8:8:void run():248:248 -> run
 com.ichtj.basetools.OptionAty$3 -> com.ichtj.basetools.OptionAty$c:
-    1:1:void <init>(com.ichtj.basetools.OptionAty):278:278 -> <init>
-    1:1:void deviceInfo(java.lang.String,java.lang.String,boolean):281:281 -> a
+    1:1:void <init>(com.ichtj.basetools.OptionAty):280:280 -> <init>
+    1:1:void deviceInfo(java.lang.String,java.lang.String,boolean):283:283 -> a
 com.ichtj.basetools.OptionAty$4 -> com.ichtj.basetools.OptionAty$d:
     com.ichtj.basetools.OptionAty this$0 -> e
-    1:1:void <init>(com.ichtj.basetools.OptionAty):291:291 -> <init>
-    1:1:void run():295:295 -> run
-    2:2:void run():297:297 -> run
-    3:4:void run():300:301 -> run
-    5:5:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> run
-    5:5:void run():302 -> run
-    6:6:void run():302:302 -> run
+    1:1:void <init>(com.ichtj.basetools.OptionAty):293:293 -> <init>
+    1:1:void run():297:297 -> run
+    2:2:void run():299:299 -> run
+    3:4:void run():302:303 -> run
+    5:5:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> run
+    5:5:void run():304 -> run
+    6:6:void run():304:304 -> run
     7:7:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> run
-    7:7:void run():302 -> run
-    8:8:void run():304:304 -> run
-    9:9:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> run
-    9:9:void run():305 -> run
-    10:10:void run():305:305 -> run
+    7:7:void run():304 -> run
+    8:8:void run():306:306 -> run
+    9:9:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> run
+    9:9:void run():307 -> run
+    10:10:void run():307:307 -> run
     11:11:void com.face_chtj.base_iotutils.KLog.e(java.lang.String,java.lang.Object):94:94 -> run
-    11:11:void run():305 -> run
+    11:11:void run():307 -> run
 com.ichtj.basetools.OptionAty$5 -> com.ichtj.basetools.OptionAty$e:
     com.ichtj.basetools.OptionAty this$0 -> e
-    1:1:void <init>(com.ichtj.basetools.OptionAty):317:317 -> <init>
-    1:1:void run():321:321 -> run
-    2:2:void run():323:323 -> run
-    3:4:void run():326:327 -> run
-    5:5:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> run
-    5:5:void run():328 -> run
-    6:6:void run():328:328 -> run
+    1:1:void <init>(com.ichtj.basetools.OptionAty):319:319 -> <init>
+    1:1:void run():323:323 -> run
+    2:2:void run():325:325 -> run
+    3:4:void run():328:329 -> run
+    5:5:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> run
+    5:5:void run():330 -> run
+    6:6:void run():330:330 -> run
     7:7:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> run
-    7:7:void run():328 -> run
-    8:8:void run():330:330 -> run
-    9:9:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> run
-    9:9:void run():331 -> run
-    10:10:void run():331:331 -> run
+    7:7:void run():330 -> run
+    8:8:void run():332:332 -> run
+    9:9:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> run
+    9:9:void run():333 -> run
+    10:10:void run():333:333 -> run
     11:11:void com.face_chtj.base_iotutils.KLog.e(java.lang.String,java.lang.Object):94:94 -> run
-    11:11:void run():331 -> run
+    11:11:void run():333 -> run
 com.ichtj.basetools.OptionAty$6 -> com.ichtj.basetools.OptionAty$f:
-    1:1:void <init>(com.ichtj.basetools.OptionAty):338:338 -> <init>
+    1:1:void <init>(com.ichtj.basetools.OptionAty):340:340 -> <init>
     1:3:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():157:159 -> run
-    1:3:void run():342 -> run
+    1:3:void run():344 -> run
     4:4:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():165:165 -> run
-    4:4:void run():342 -> run
+    4:4:void run():344 -> run
     5:5:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> run
     5:5:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():167 -> run
-    5:5:void run():342 -> run
+    5:5:void run():344 -> run
     6:6:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():168:168 -> run
-    6:6:void run():342 -> run
+    6:6:void run():344 -> run
     7:7:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):867:867 -> run
     7:7:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     7:7:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    7:7:void run():342 -> run
+    7:7:void run():344 -> run
     8:8:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):870:870 -> run
     8:8:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     8:8:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    8:8:void run():342 -> run
+    8:8:void run():344 -> run
     9:9:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):872:872 -> run
     9:9:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     9:9:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    9:9:void run():342 -> run
+    9:9:void run():344 -> run
     10:10:void org.apache.poi.hssf.model.InternalWorkbook.setSheetName(int,java.lang.String):579:579 -> run
     10:10:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):872 -> run
     10:10:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     10:10:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    10:10:void run():342 -> run
+    10:10:void run():344 -> run
     11:12:void org.apache.poi.hssf.model.InternalWorkbook.setSheetName(int,java.lang.String):584:585 -> run
     11:12:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):872 -> run
     11:12:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     11:12:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    11:12:void run():342 -> run
+    11:12:void run():344 -> run
     13:14:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):873:874 -> run
     13:14:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     13:14:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    13:14:void run():342 -> run
+    13:14:void run():344 -> run
     15:15:org.apache.poi.hssf.model.InternalSheet org.apache.poi.hssf.usermodel.HSSFSheet.getSheet():897:897 -> run
     15:15:void org.apache.poi.hssf.usermodel.HSSFSheet.setSelected(boolean):1156 -> run
     15:15:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):875 -> run
     15:15:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     15:15:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    15:15:void run():342 -> run
+    15:15:void run():344 -> run
     16:16:void org.apache.poi.hssf.usermodel.HSSFSheet.setSelected(boolean):1156:1156 -> run
     16:16:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):875 -> run
     16:16:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     16:16:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    16:16:void run():342 -> run
+    16:16:void run():344 -> run
     17:17:void org.apache.poi.hssf.record.WindowTwoRecord.setSelected(boolean):191:191 -> run
     17:17:void org.apache.poi.hssf.usermodel.HSSFSheet.setSelected(boolean):1156 -> run
     17:17:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):875 -> run
     17:17:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     17:17:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    17:17:void run():342 -> run
+    17:17:void run():344 -> run
     18:18:org.apache.poi.hssf.model.InternalSheet org.apache.poi.hssf.usermodel.HSSFSheet.getSheet():897:897 -> run
     18:18:void org.apache.poi.hssf.usermodel.HSSFSheet.setActive(boolean):1172 -> run
     18:18:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):876 -> run
     18:18:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     18:18:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    18:18:void run():342 -> run
+    18:18:void run():344 -> run
     19:19:void org.apache.poi.hssf.usermodel.HSSFSheet.setActive(boolean):1172:1172 -> run
     19:19:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):876 -> run
     19:19:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     19:19:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    19:19:void run():342 -> run
+    19:19:void run():344 -> run
     20:20:void org.apache.poi.hssf.record.WindowTwoRecord.setActive(boolean):199:199 -> run
     20:20:void org.apache.poi.hssf.usermodel.HSSFSheet.setActive(boolean):1172 -> run
     20:20:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):876 -> run
     20:20:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     20:20:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    20:20:void run():342 -> run
+    20:20:void run():344 -> run
     21:21:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():172:172 -> run
-    21:21:void run():342 -> run
+    21:21:void run():344 -> run
     22:22:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():174:174 -> run
-    22:22:void run():342 -> run
+    22:22:void run():344 -> run
     23:25:org.apache.poi.ss.usermodel.CellStyle com.ichtj.basetools.util.POIExcelUtils.getStyle(org.apache.poi.ss.usermodel.Workbook):203:205 -> run
     23:25:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():175 -> run
-    23:25:void run():342 -> run
+    23:25:void run():344 -> run
     26:31:org.apache.poi.ss.usermodel.CellStyle com.ichtj.basetools.util.POIExcelUtils.getStyle(org.apache.poi.ss.usermodel.Workbook):207:212 -> run
     26:31:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():175 -> run
-    26:31:void run():342 -> run
+    26:31:void run():344 -> run
     32:36:org.apache.poi.ss.usermodel.CellStyle com.ichtj.basetools.util.POIExcelUtils.getStyle(org.apache.poi.ss.usermodel.Workbook):215:219 -> run
     32:36:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():175 -> run
-    32:36:void run():342 -> run
+    32:36:void run():344 -> run
     37:38:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():176:177 -> run
-    37:38:void run():342 -> run
+    37:38:void run():344 -> run
     39:39:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():181:181 -> run
-    39:39:void run():342 -> run
+    39:39:void run():344 -> run
     40:41:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():183:184 -> run
-    40:41:void run():342 -> run
+    40:41:void run():344 -> run
     42:45:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():188:191 -> run
-    42:45:void run():342 -> run
+    42:45:void run():344 -> run
     46:47:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():194:195 -> run
-    46:47:void run():342 -> run
+    46:47:void run():344 -> run
     48:48:org.apache.poi.hssf.usermodel.HSSFSheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):868:868 -> run
     48:48:org.apache.poi.ss.usermodel.Sheet org.apache.poi.hssf.usermodel.HSSFWorkbook.createSheet(java.lang.String):101 -> run
     48:48:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():171 -> run
-    48:48:void run():342 -> run
+    48:48:void run():344 -> run
     49:50:boolean com.ichtj.basetools.util.POIExcelUtils.createExcelFile():198:199 -> run
-    49:50:void run():342 -> run
-    51:51:java.lang.String com.ichtj.basetools.OptionAty.access$000():84:84 -> run
-    51:51:void run():343 -> run
-    52:52:void run():343:343 -> run
+    49:50:void run():344 -> run
+    51:51:java.lang.String com.ichtj.basetools.OptionAty.access$000():85:85 -> run
+    51:51:void run():345 -> run
+    52:52:void run():345:345 -> run
     53:53:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> run
-    53:53:void run():343 -> run
+    53:53:void run():345 -> run
 com.ichtj.basetools.R$anim -> com.ichtj.basetools.R$anim:
     1:1:void <init>():11:11 -> <init>
 com.ichtj.basetools.R$array -> com.ichtj.basetools.R$array:
@@ -44986,72 +44979,72 @@ com.ichtj.basetools.R$dimen -> com.ichtj.basetools.R$dimen:
 com.ichtj.basetools.R$drawable -> com.ichtj.basetools.R$drawable:
     1:1:void <init>():3451:3451 -> <init>
 com.ichtj.basetools.R$id -> com.ichtj.basetools.R$id:
-    1:1:void <init>():3633:3633 -> <init>
+    1:1:void <init>():3634:3634 -> <init>
 com.ichtj.basetools.R$integer -> com.ichtj.basetools.R$integer:
-    1:1:void <init>():4085:4085 -> <init>
+    1:1:void <init>():4087:4087 -> <init>
 com.ichtj.basetools.R$layout -> com.ichtj.basetools.R$layout:
-    1:1:void <init>():4092:4092 -> <init>
+    1:1:void <init>():4094:4094 -> <init>
 com.ichtj.basetools.R$mipmap -> com.ichtj.basetools.R$mipmap:
-    1:1:void <init>():4187:4187 -> <init>
+    1:1:void <init>():4190:4190 -> <init>
 com.ichtj.basetools.R$string -> com.ichtj.basetools.R$string:
-    1:1:void <init>():4197:4197 -> <init>
+    1:1:void <init>():4200:4200 -> <init>
 com.ichtj.basetools.R$style -> com.ichtj.basetools.R$style:
-    1:1:void <init>():4291:4291 -> <init>
+    1:1:void <init>():4315:4315 -> <init>
 com.ichtj.basetools.R$styleable -> com.ichtj.basetools.R$styleable:
-    1:1:void <clinit>():4728:4728 -> <clinit>
-    2:2:void <clinit>():5160:5160 -> <clinit>
-    3:3:void <clinit>():5203:5203 -> <clinit>
-    4:4:void <clinit>():5219:5219 -> <clinit>
-    5:5:void <clinit>():5242:5242 -> <clinit>
-    6:6:void <clinit>():5341:5341 -> <clinit>
-    7:7:void <clinit>():5397:5397 -> <clinit>
-    8:8:void <clinit>():5517:5517 -> <clinit>
-    9:9:void <clinit>():5608:5608 -> <clinit>
-    10:10:void <clinit>():5655:5655 -> <clinit>
-    11:11:void <clinit>():5726:5726 -> <clinit>
-    12:12:void <clinit>():5814:5814 -> <clinit>
-    13:13:void <clinit>():5904:5904 -> <clinit>
-    14:14:void <clinit>():6043:6043 -> <clinit>
-    15:15:void <clinit>():6478:6478 -> <clinit>
-    16:16:void <clinit>():8164:8164 -> <clinit>
-    17:17:void <clinit>():8194:8194 -> <clinit>
-    18:18:void <clinit>():8243:8243 -> <clinit>
-    19:19:void <clinit>():8426:8426 -> <clinit>
-    20:20:void <clinit>():9328:9328 -> <clinit>
-    21:21:void <clinit>():9529:9529 -> <clinit>
-    22:22:void <clinit>():10689:10689 -> <clinit>
-    23:23:void <clinit>():10751:10751 -> <clinit>
-    24:24:void <clinit>():10925:10925 -> <clinit>
-    25:25:void <clinit>():11007:11007 -> <clinit>
-    26:26:void <clinit>():11139:11139 -> <clinit>
-    27:27:void <clinit>():11275:11275 -> <clinit>
-    28:28:void <clinit>():11444:11444 -> <clinit>
-    29:29:void <clinit>():11628:11628 -> <clinit>
-    30:30:void <clinit>():11665:11665 -> <clinit>
-    31:31:void <clinit>():11713:11713 -> <clinit>
-    32:32:void <clinit>():11883:11883 -> <clinit>
-    33:33:void <clinit>():11983:11983 -> <clinit>
-    34:34:void <clinit>():12035:12035 -> <clinit>
-    35:35:void <clinit>():12182:12182 -> <clinit>
-    36:36:void <clinit>():12559:12559 -> <clinit>
-    37:37:void <clinit>():12697:12697 -> <clinit>
-    38:38:void <clinit>():12749:12749 -> <clinit>
-    39:39:void <clinit>():12776:12776 -> <clinit>
-    40:40:void <clinit>():12838:12838 -> <clinit>
-    41:41:void <clinit>():13028:13028 -> <clinit>
-    42:42:void <clinit>():13333:13333 -> <clinit>
-    43:43:void <clinit>():13437:13437 -> <clinit>
-    44:44:void <clinit>():13526:13526 -> <clinit>
-    45:45:void <clinit>():13580:13580 -> <clinit>
-    46:46:void <clinit>():13824:13824 -> <clinit>
-    47:47:void <clinit>():14074:14074 -> <clinit>
-    48:48:void <clinit>():14514:14514 -> <clinit>
-    49:49:void <clinit>():14568:14568 -> <clinit>
-    50:50:void <clinit>():14667:14667 -> <clinit>
-    51:51:void <clinit>():14739:14739 -> <clinit>
-    1:1:void <init>():4656:4656 -> <init>
+    1:1:void <clinit>():4752:4752 -> <clinit>
+    2:2:void <clinit>():5184:5184 -> <clinit>
+    3:3:void <clinit>():5227:5227 -> <clinit>
+    4:4:void <clinit>():5243:5243 -> <clinit>
+    5:5:void <clinit>():5266:5266 -> <clinit>
+    6:6:void <clinit>():5365:5365 -> <clinit>
+    7:7:void <clinit>():5421:5421 -> <clinit>
+    8:8:void <clinit>():5541:5541 -> <clinit>
+    9:9:void <clinit>():5632:5632 -> <clinit>
+    10:10:void <clinit>():5679:5679 -> <clinit>
+    11:11:void <clinit>():5750:5750 -> <clinit>
+    12:12:void <clinit>():5838:5838 -> <clinit>
+    13:13:void <clinit>():5928:5928 -> <clinit>
+    14:14:void <clinit>():6067:6067 -> <clinit>
+    15:15:void <clinit>():6502:6502 -> <clinit>
+    16:16:void <clinit>():8188:8188 -> <clinit>
+    17:17:void <clinit>():8218:8218 -> <clinit>
+    18:18:void <clinit>():8267:8267 -> <clinit>
+    19:19:void <clinit>():8450:8450 -> <clinit>
+    20:20:void <clinit>():9352:9352 -> <clinit>
+    21:21:void <clinit>():9553:9553 -> <clinit>
+    22:22:void <clinit>():10713:10713 -> <clinit>
+    23:23:void <clinit>():10775:10775 -> <clinit>
+    24:24:void <clinit>():10949:10949 -> <clinit>
+    25:25:void <clinit>():11031:11031 -> <clinit>
+    26:26:void <clinit>():11163:11163 -> <clinit>
+    27:27:void <clinit>():11299:11299 -> <clinit>
+    28:28:void <clinit>():11468:11468 -> <clinit>
+    29:29:void <clinit>():11652:11652 -> <clinit>
+    30:30:void <clinit>():11689:11689 -> <clinit>
+    31:31:void <clinit>():11737:11737 -> <clinit>
+    32:32:void <clinit>():11907:11907 -> <clinit>
+    33:33:void <clinit>():12007:12007 -> <clinit>
+    34:34:void <clinit>():12059:12059 -> <clinit>
+    35:35:void <clinit>():12206:12206 -> <clinit>
+    36:36:void <clinit>():12583:12583 -> <clinit>
+    37:37:void <clinit>():12721:12721 -> <clinit>
+    38:38:void <clinit>():12773:12773 -> <clinit>
+    39:39:void <clinit>():12800:12800 -> <clinit>
+    40:40:void <clinit>():12862:12862 -> <clinit>
+    41:41:void <clinit>():13052:13052 -> <clinit>
+    42:42:void <clinit>():13357:13357 -> <clinit>
+    43:43:void <clinit>():13461:13461 -> <clinit>
+    44:44:void <clinit>():13550:13550 -> <clinit>
+    45:45:void <clinit>():13604:13604 -> <clinit>
+    46:46:void <clinit>():13848:13848 -> <clinit>
+    47:47:void <clinit>():14098:14098 -> <clinit>
+    48:48:void <clinit>():14538:14538 -> <clinit>
+    49:49:void <clinit>():14592:14592 -> <clinit>
+    50:50:void <clinit>():14691:14691 -> <clinit>
+    51:51:void <clinit>():14763:14763 -> <clinit>
+    1:1:void <init>():4680:4680 -> <init>
 com.ichtj.basetools.R$xml -> com.ichtj.basetools.R$xml:
-    1:1:void <init>():14783:14783 -> <init>
+    1:1:void <init>():14807:14807 -> <init>
 com.ichtj.basetools.StartPageAty -> com.ichtj.basetools.StartPageAty:
     1:1:void <init>():15:15 -> <init>
     1:3:void onCreate(android.os.Bundle):19:21 -> onCreate
@@ -45287,8 +45280,8 @@ com.ichtj.basetools.application.InitializeService -> com.ichtj.basetools.applica
     3:3:void onHandleIntent(android.content.Intent):36 -> onHandleIntent
     4:4:void performInit():47:47 -> onHandleIntent
     4:4:void onHandleIntent(android.content.Intent):36 -> onHandleIntent
-    5:6:void performInit():49:50 -> onHandleIntent
-    5:6:void onHandleIntent(android.content.Intent):36 -> onHandleIntent
+    5:7:void performInit():49:51 -> onHandleIntent
+    5:7:void onHandleIntent(android.content.Intent):36 -> onHandleIntent
 com.ichtj.basetools.audio.AudioAty -> com.ichtj.basetools.audio.AudioAty:
     boolean isPause -> u
     android.widget.Button btn_pause_resume -> t
@@ -46267,26 +46260,108 @@ com.ichtj.basetools.greendao.GreenDaoSqliteAty -> com.ichtj.basetools.greendao.G
     1:2:void onCreate(android.os.Bundle):34:35 -> onCreate
     3:3:void onCreate(android.os.Bundle):37:37 -> onCreate
     4:4:void onCreate(android.os.Bundle):39:39 -> onCreate
-com.ichtj.basetools.hid.HidAty -> com.ichtj.basetools.hid.HidAty:
-    java.lang.String TAG -> w
+com.ichtj.basetools.hid.HidAdapter -> f.g.a.f.a:
+    1:1:void <init>(android.content.Context,java.util.List):15:15 -> <init>
+    1:1:android.view.View getDropDownView(int,android.view.View,android.view.ViewGroup):40:40 -> getDropDownView
+    1:1:android.view.View getView(int,android.view.View,android.view.ViewGroup):21:21 -> getView
+    2:2:android.view.View getView(int,android.view.View,android.view.ViewGroup):25:25 -> getView
+    3:3:android.view.View getView(int,android.view.View,android.view.ViewGroup):29:29 -> getView
+    4:4:android.view.View getView(int,android.view.View,android.view.ViewGroup):32:32 -> getView
+com.ichtj.basetools.hid.HidMainDevAty -> com.ichtj.basetools.hid.HidMainDevAty:
+    java.io.FileInputStream inputStream -> y
+    android.content.BroadcastReceiver usbReceiver -> z
+    java.util.List subDevList -> v
+    android.hardware.usb.UsbManager usbManager -> w
+    android.widget.TextView tvResult -> u
+    java.lang.String TAG -> A
+    android.widget.Spinner spSubDev -> t
+    android.os.ParcelFileDescriptor fileDescriptor -> x
+    1:1:void <clinit>():42:42 -> <clinit>
+    1:1:void <init>():41:41 -> <init>
+    2:2:void <init>():49:49 -> <init>
+    3:3:void <init>():59:59 -> <init>
+    1:5:void openAccessory(android.hardware.usb.UsbAccessory):150:154 -> a
+    1:5:void access$100(com.ichtj.basetools.hid.HidMainDevAty,android.hardware.usb.UsbAccessory):41 -> a
+    6:6:void openAccessory(android.hardware.usb.UsbAccessory):157:157 -> a
+    6:6:void access$100(com.ichtj.basetools.hid.HidMainDevAty,android.hardware.usb.UsbAccessory):41 -> a
+    7:7:void openAccessory(android.hardware.usb.UsbAccessory):175:175 -> a
+    7:7:void access$100(com.ichtj.basetools.hid.HidMainDevAty,android.hardware.usb.UsbAccessory):41 -> a
+    1:1:void connectDevClick(android.view.View):118:118 -> connectDevClick
+    2:4:void connectDevClick(android.view.View):120:122 -> connectDevClick
+    5:6:void connectDevClick(android.view.View):124:125 -> connectDevClick
+    1:8:void onCreate(android.os.Bundle):78:85 -> onCreate
+    9:15:void initSubDev():99:105 -> onCreate
+    9:15:void onCreate(android.os.Bundle):86 -> onCreate
+    16:19:void initSubDev():107:110 -> onCreate
+    16:19:void onCreate(android.os.Bundle):86 -> onCreate
+    20:20:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54:54 -> onCreate
+    20:20:void initSubDev():110 -> onCreate
+    20:20:void onCreate(android.os.Bundle):86 -> onCreate
+    21:21:void initSubDev():112:112 -> onCreate
+    21:21:void onCreate(android.os.Bundle):86 -> onCreate
+    22:22:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54:54 -> onCreate
+    22:22:void initSubDev():112 -> onCreate
+    22:22:void onCreate(android.os.Bundle):86 -> onCreate
+    23:26:void onCreate(android.os.Bundle):88:91 -> onCreate
+    27:28:void onCreate(android.os.Bundle):94:95 -> onCreate
+    1:2:void onDestroy():181:182 -> onDestroy
+com.ichtj.basetools.hid.HidMainDevAty$1 -> com.ichtj.basetools.hid.HidMainDevAty$a:
+    com.ichtj.basetools.hid.HidMainDevAty this$0 -> a
+    1:1:void <init>(com.ichtj.basetools.hid.HidMainDevAty):59:59 -> <init>
+    1:1:void onReceive(android.content.Context,android.content.Intent):62:62 -> onReceive
+    2:2:java.lang.String com.ichtj.basetools.hid.HidMainDevAty.access$000():41:41 -> onReceive
+    2:2:void onReceive(android.content.Context,android.content.Intent):63 -> onReceive
+    3:8:void onReceive(android.content.Context,android.content.Intent):63:68 -> onReceive
+    9:9:java.lang.String com.ichtj.basetools.hid.HidMainDevAty.access$000():41:41 -> onReceive
+    9:9:void onReceive(android.content.Context,android.content.Intent):70 -> onReceive
+    10:10:void onReceive(android.content.Context,android.content.Intent):70:70 -> onReceive
+    11:11:void onReceive(android.content.Context,android.content.Intent):72:72 -> onReceive
+com.ichtj.basetools.hid.HidMainDevAty$2 -> f.g.a.f.b:
+    com.ichtj.basetools.hid.HidMainDevAty this$0 -> e
+    1:1:void <init>(com.ichtj.basetools.hid.HidMainDevAty):157:157 -> <init>
+    1:1:void run():163:163 -> run
+    2:2:java.io.FileInputStream com.ichtj.basetools.hid.HidMainDevAty.access$200(com.ichtj.basetools.hid.HidMainDevAty):41:41 -> run
+    2:2:void run():163 -> run
+    3:3:void run():163:163 -> run
+    4:4:void run():166:166 -> run
+    5:5:java.lang.String com.ichtj.basetools.hid.HidMainDevAty.access$000():41:41 -> run
+    5:5:void run():167 -> run
+    6:6:void run():167:167 -> run
+    7:7:java.lang.String com.ichtj.basetools.hid.HidMainDevAty.access$000():41:41 -> run
+    7:7:void run():171 -> run
+    8:8:void run():171:171 -> run
+com.ichtj.basetools.hid.HidSubDevAty -> com.ichtj.basetools.hid.HidSubDevAty:
+    java.lang.String dev -> w
     android.widget.EditText etData -> u
+    java.lang.String TAG -> y
+    java.lang.String pattern -> x
     android.widget.RadioButton rbHex -> v
     android.widget.TextView tvResult -> t
-    1:1:void <clinit>():27:27 -> <clinit>
-    1:1:void <init>():26:26 -> <init>
-    1:2:void clearClick(android.view.View):65:66 -> clearClick
-    1:2:void onCheckedChanged(android.widget.CompoundButton,boolean):72:73 -> onCheckedChanged
-    1:7:void onCreate(android.os.Bundle):35:41 -> onCreate
-    8:8:void com.face_chtj.base_iotutils.FormatViewUtils.setMovementMethod(android.widget.TextView):16:16 -> onCreate
-    8:8:void onCreate(android.os.Bundle):41 -> onCreate
-    9:9:void onCreate(android.os.Bundle):42:42 -> onCreate
-    10:13:void onCreate(android.os.Bundle):48:51 -> onCreate
-    1:6:void sendCmds(android.view.View):56:61 -> sendCmds
-com.ichtj.basetools.hid.HidAty$1 -> com.ichtj.basetools.hid.HidAty$a:
-    1:1:void <init>(com.ichtj.basetools.hid.HidAty):42:42 -> <init>
+    1:1:void <clinit>():37:37 -> <clinit>
+    1:1:void <init>():36:36 -> <init>
+    2:2:void <init>():42:42 -> <init>
+    3:4:void <init>():44:45 -> <init>
+    5:5:void <init>():93:93 -> <init>
+    1:2:void clearClick(android.view.View):173:174 -> clearClick
+    1:1:void connectClick(android.view.View):62:62 -> connectClick
+    1:1:void disConnectClick(android.view.View):90:90 -> disConnectClick
+    1:2:void onCheckedChanged(android.widget.CompoundButton,boolean):180:181 -> onCheckedChanged
+    1:7:void onCreate(android.os.Bundle):49:55 -> onCreate
+    1:2:void onDestroy():187:188 -> onDestroy
+    1:6:void sendCmds(android.view.View):164:169 -> sendCmds
+com.ichtj.basetools.hid.HidSubDevAty$1 -> com.ichtj.basetools.hid.HidSubDevAty$a:
+    1:1:void <init>(com.ichtj.basetools.hid.HidSubDevAty):62:62 -> <init>
+com.ichtj.basetools.hid.HidSubDevAty$2 -> com.ichtj.basetools.hid.HidSubDevAty$b:
+    com.ichtj.basetools.hid.HidSubDevAty this$0 -> a
+    1:1:void <init>(com.ichtj.basetools.hid.HidSubDevAty):93:93 -> <init>
+    1:2:void handleMessage(android.os.Message):96:97 -> handleMessage
+    3:3:boolean com.face_chtj.base_iotutils.ObjectUtils.isEmpty(java.lang.Object):32:32 -> handleMessage
+    3:3:void handleMessage(android.os.Message):97 -> handleMessage
+    4:5:void handleMessage(android.os.Message):98:99 -> handleMessage
+    6:7:void handleMessage(android.os.Message):101:102 -> handleMessage
 com.ichtj.basetools.hid.HidTools -> com.ichtj.basetools.hid.HidTools:
     1:1:void <clinit>():5:5 -> <clinit>
-com.ichtj.basetools.hid.IHidCallback -> f.g.a.f.a:
+com.ichtj.basetools.hid.IHidCallback -> f.g.a.f.c:
 com.ichtj.basetools.install.InstallAPkAty -> com.ichtj.basetools.install.InstallAPkAty:
     android.widget.TextView tvNowVersion -> t
     android.widget.RadioButton rbNew -> u
@@ -46408,16 +46483,15 @@ com.ichtj.basetools.network.NetChangeAty -> com.ichtj.basetools.network.NetChang
     7:7:com.face_chtj.base_iotutils.entity.DnsBean com.face_chtj.base_iotutils.NetUtils.checkNetWork():408:408 -> o
     7:7:void refreshNet():91 -> o
     8:17:void refreshNet():92:101 -> o
-    1:7:void onCreate(android.os.Bundle):43:49 -> onCreate
-    8:8:void com.face_chtj.base_iotutils.FormatViewUtils.setMovementMethod(android.widget.TextView):16:16 -> onCreate
-    8:8:void onCreate(android.os.Bundle):49 -> onCreate
-    9:17:void onCreate(android.os.Bundle):50:58 -> onCreate
-    18:18:void onCreate(android.os.Bundle):60:60 -> onCreate
-    19:23:void com.face_chtj.base_iotutils.NetMonitorUtils.register():117:121 -> onCreate
-    19:23:void onCreate(android.os.Bundle):61 -> onCreate
-    24:25:void com.face_chtj.base_iotutils.NetMonitorUtils.addCallBack(com.face_chtj.base_iotutils.callback.INetChangeCallBack):54:55 -> onCreate
-    24:25:void onCreate(android.os.Bundle):62 -> onCreate
-    26:26:void onCreate(android.os.Bundle):63:63 -> onCreate
+    18:18:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54:54 -> o
+    18:18:void refreshNet():101 -> o
+    1:16:void onCreate(android.os.Bundle):43:58 -> onCreate
+    17:17:void onCreate(android.os.Bundle):60:60 -> onCreate
+    18:22:void com.face_chtj.base_iotutils.NetMonitorUtils.register():117:121 -> onCreate
+    18:22:void onCreate(android.os.Bundle):61 -> onCreate
+    23:24:void com.face_chtj.base_iotutils.NetMonitorUtils.addCallBack(com.face_chtj.base_iotutils.callback.INetChangeCallBack):54:55 -> onCreate
+    23:24:void onCreate(android.os.Bundle):62 -> onCreate
+    25:25:void onCreate(android.os.Bundle):63:63 -> onCreate
     1:1:void onDestroy():76:76 -> onDestroy
     2:3:void com.face_chtj.base_iotutils.NetMonitorUtils.removeCallback(com.face_chtj.base_iotutils.callback.INetChangeCallBack):64:65 -> onDestroy
     2:3:void onDestroy():77 -> onDestroy
@@ -46946,7 +47020,10 @@ com.ichtj.basetools.network.NetRecordAty -> com.ichtj.basetools.network.NetRecor
     4:4:void refreshNet(com.ichtj.basetools.entity.NetBean):164:164 -> a
     5:5:java.lang.String com.face_chtj.base_iotutils.FormatViewUtils.formatUnderlin(int,java.lang.String):58:58 -> a
     5:5:void refreshNet(com.ichtj.basetools.entity.NetBean):164 -> a
-    6:8:void refreshNet(com.ichtj.basetools.entity.NetBean):165:167 -> a
+    6:6:void refreshNet(com.ichtj.basetools.entity.NetBean):165:165 -> a
+    7:7:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54:54 -> a
+    7:7:void refreshNet(com.ichtj.basetools.entity.NetBean):165 -> a
+    8:9:void refreshNet(com.ichtj.basetools.entity.NetBean):166:167 -> a
     1:5:void startBindService():130:134 -> o
     1:1:void onClick(android.view.View):172:172 -> onClick
     2:8:void showItemSelectionDialog():87:93 -> onClick
@@ -47485,75 +47562,77 @@ com.ichtj.basetools.socket.SocketAty -> com.ichtj.basetools.socket.SocketAty:
     3:3:void <init>():67:67 -> <init>
     4:4:void <init>():69:69 -> <init>
     5:5:void <init>():72:72 -> <init>
-    1:7:void onCreate(android.os.Bundle):82:88 -> onCreate
-    8:8:void onCreate(android.os.Bundle):91:91 -> onCreate
-    9:9:void onCreate(android.os.Bundle):93:93 -> onCreate
-    1:1:void onViewClicked(android.view.View):112:112 -> onViewClicked
-    2:4:void onViewClicked(android.view.View):220:222 -> onViewClicked
-    5:6:void onViewClicked(android.view.View):225:226 -> onViewClicked
-    7:8:void onViewClicked(android.view.View):209:210 -> onViewClicked
+    1:6:void onCreate(android.os.Bundle):82:87 -> onCreate
+    7:7:void onCreate(android.os.Bundle):90:90 -> onCreate
+    8:8:void onCreate(android.os.Bundle):92:92 -> onCreate
+    1:1:void onViewClicked(android.view.View):111:111 -> onViewClicked
+    2:4:void onViewClicked(android.view.View):219:221 -> onViewClicked
+    5:6:void onViewClicked(android.view.View):224:225 -> onViewClicked
+    7:8:void onViewClicked(android.view.View):208:209 -> onViewClicked
     9:12:void com.chtj.socket.BaseTcpSocket.close():153:156 -> onViewClicked
-    9:12:void onViewClicked(android.view.View):211 -> onViewClicked
-    13:14:void onViewClicked(android.view.View):214:215 -> onViewClicked
-    15:15:void onViewClicked(android.view.View):114:114 -> onViewClicked
-    16:16:void onViewClicked(android.view.View):116:116 -> onViewClicked
-    17:17:void onViewClicked(android.view.View):118:118 -> onViewClicked
+    9:12:void onViewClicked(android.view.View):210 -> onViewClicked
+    13:14:void onViewClicked(android.view.View):213:214 -> onViewClicked
+    15:15:void onViewClicked(android.view.View):113:113 -> onViewClicked
+    16:16:void onViewClicked(android.view.View):115:115 -> onViewClicked
+    17:17:void onViewClicked(android.view.View):117:117 -> onViewClicked
     18:18:void com.chtj.socket.BaseTcpSocket.setSocketListener(com.chtj.socket.ISocketListener):206:206 -> onViewClicked
-    18:18:void onViewClicked(android.view.View):118 -> onViewClicked
-    19:19:void onViewClicked(android.view.View):161:161 -> onViewClicked
+    18:18:void onViewClicked(android.view.View):117 -> onViewClicked
+    19:19:void onViewClicked(android.view.View):160:160 -> onViewClicked
     20:20:void com.chtj.socket.BaseTcpSocket.connect(android.content.Context):57:57 -> onViewClicked
-    20:20:void onViewClicked(android.view.View):161 -> onViewClicked
-    21:21:void onViewClicked(android.view.View):164:164 -> onViewClicked
-    22:22:void onViewClicked(android.view.View):166:166 -> onViewClicked
+    20:20:void onViewClicked(android.view.View):160 -> onViewClicked
+    21:21:void onViewClicked(android.view.View):163:163 -> onViewClicked
+    22:22:void onViewClicked(android.view.View):165:165 -> onViewClicked
     23:23:void com.chtj.socket.BaseUdpSocket.setSocketListener(com.chtj.socket.ISocketListener):101:101 -> onViewClicked
-    23:23:void onViewClicked(android.view.View):166 -> onViewClicked
-    24:24:void onViewClicked(android.view.View):205:205 -> onViewClicked
+    23:23:void onViewClicked(android.view.View):165 -> onViewClicked
+    24:24:void onViewClicked(android.view.View):204:204 -> onViewClicked
     25:26:void com.chtj.socket.BaseUdpSocket.connect(android.content.Context):56:57 -> onViewClicked
-    25:26:void onViewClicked(android.view.View):205 -> onViewClicked
-    27:28:void onViewClicked(android.view.View):231:232 -> onViewClicked
+    25:26:void onViewClicked(android.view.View):204 -> onViewClicked
+    27:28:void onViewClicked(android.view.View):230:231 -> onViewClicked
 com.ichtj.basetools.socket.SocketAty$1 -> com.ichtj.basetools.socket.SocketAty$a:
     com.ichtj.basetools.socket.SocketAty this$0 -> a
     1:1:void <init>(com.ichtj.basetools.socket.SocketAty):72:72 -> <init>
     1:2:void handleMessage(android.os.Message):75:76 -> handleMessage
+    3:3:void com.face_chtj.base_iotutils.FormatViewUtils.formatData(android.widget.TextView,java.lang.String):54:54 -> handleMessage
+    3:3:void handleMessage(android.os.Message):76 -> handleMessage
 com.ichtj.basetools.socket.SocketAty$2 -> com.ichtj.basetools.socket.SocketAty$b:
     com.ichtj.basetools.socket.SocketAty this$0 -> e
-    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):93:93 -> <init>
-    1:1:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):96:96 -> onItemSelected
+    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):92:92 -> <init>
+    1:1:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):95:95 -> onItemSelected
     2:2:int com.ichtj.basetools.socket.SocketAty.access$002(com.ichtj.basetools.socket.SocketAty,int):42:42 -> onItemSelected
-    2:2:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):96 -> onItemSelected
-    3:4:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):97:98 -> onItemSelected
+    2:2:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):95 -> onItemSelected
+    3:4:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):96:97 -> onItemSelected
     5:5:int com.ichtj.basetools.socket.SocketAty.access$000(com.ichtj.basetools.socket.SocketAty):42:42 -> onItemSelected
-    5:5:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):98 -> onItemSelected
-    6:7:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):98:99 -> onItemSelected
+    5:5:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):97 -> onItemSelected
+    6:7:void onItemSelected(android.widget.AdapterView,android.view.View,int,long):97:98 -> onItemSelected
 com.ichtj.basetools.socket.SocketAty$3 -> com.ichtj.basetools.socket.SocketAty$c:
     com.ichtj.basetools.socket.SocketAty this$0 -> a
-    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):118:118 -> <init>
+    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):117:117 -> <init>
     1:1:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> a
-    1:1:void connClose():154 -> a
-    2:4:void connClose():155:157 -> a
-    5:5:void recv(byte[],int,int):121:121 -> a
+    1:1:void connClose():153 -> a
+    2:4:void connClose():154:156 -> a
+    5:5:void recv(byte[],int,int):120:120 -> a
     6:6:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> a
-    6:6:void recv(byte[],int,int):121 -> a
-    7:7:void recv(byte[],int,int):122:122 -> a
-    8:8:void recv(byte[],int,int):124:124 -> a
-    9:9:void recv(byte[],int,int):126:126 -> a
-    10:10:void recv(byte[],int,int):128:128 -> a
-    11:13:void writeSuccess(byte[]):133:135 -> a
-    14:16:void connFaild(java.lang.Throwable):147:149 -> a
-    1:3:void connSuccess():140:142 -> b
+    6:6:void recv(byte[],int,int):120 -> a
+    7:7:void recv(byte[],int,int):121:121 -> a
+    8:8:void recv(byte[],int,int):123:123 -> a
+    9:9:void recv(byte[],int,int):125:125 -> a
+    10:10:void recv(byte[],int,int):127:127 -> a
+    11:13:void writeSuccess(byte[]):132:134 -> a
+    14:16:void connFaild(java.lang.Throwable):146:148 -> a
+    1:3:void connSuccess():139:141 -> b
 com.ichtj.basetools.socket.SocketAty$4 -> com.ichtj.basetools.socket.SocketAty$d:
     com.ichtj.basetools.socket.SocketAty this$0 -> a
-    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):166:166 -> <init>
+    1:1:void <init>(com.ichtj.basetools.socket.SocketAty):165:165 -> <init>
     1:1:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> a
-    1:1:void connClose():198 -> a
-    2:4:void connClose():199:201 -> a
-    5:7:void recv(byte[],int,int):169:171 -> a
-    8:10:void writeSuccess(byte[]):176:178 -> a
-    11:11:void connFaild(java.lang.Throwable):190:190 -> a
+    1:1:void connClose():197 -> a
+    2:4:void connClose():198:200 -> a
+    5:7:void recv(byte[],int,int):168:170 -> a
+    8:10:void writeSuccess(byte[]):175:177 -> a
+    11:11:void connFaild(java.lang.Throwable):189:189 -> a
     12:12:void com.face_chtj.base_iotutils.KLog.d(java.lang.String,java.lang.Object):58:58 -> a
-    12:12:void connFaild(java.lang.Throwable):190 -> a
-    13:15:void connFaild(java.lang.Throwable):191:193 -> a
-    1:3:void connSuccess():183:185 -> b
+    12:12:void connFaild(java.lang.Throwable):189 -> a
+    13:15:void connFaild(java.lang.Throwable):190:192 -> a
+    1:3:void connSuccess():182:184 -> b
 com.ichtj.basetools.socket.SocketAty_ViewBinding -> com.ichtj.basetools.socket.SocketAty_ViewBinding:
     1:1:void <init>(com.ichtj.basetools.socket.SocketAty,android.view.View):35:35 -> <init>
     2:5:void <init>(com.ichtj.basetools.socket.SocketAty,android.view.View):39:42 -> <init>

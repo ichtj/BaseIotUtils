@@ -9,7 +9,7 @@
         android:id="@+id/ctTopView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:centerText="HID测试"
+        app:centerText="作为HID主设备通讯"
         app:leftBack="true"
         app:leftText="&lt;&lt;"
         app:rightText=""
@@ -19,7 +19,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-
+        <Spinner
+            android:id="@+id/spSubDev"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="连接"
+            android:onClick="connectDevClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:text="断开"
+            android:onClick="disconnectClick"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
         <EditText
             android:id="@+id/etData"
             android:layout_width="350dp"
@@ -48,7 +61,7 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="sendCmds"
+            android:onClick="sendCmdClick"
             android:text="发送"
             android:textSize="26sp" />
 

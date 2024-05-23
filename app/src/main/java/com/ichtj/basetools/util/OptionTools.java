@@ -13,8 +13,8 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.chtj.base_framework.entity.UpgradeBean;
-import com.chtj.base_framework.upgrade.FUpgradeInterface;
 import com.chtj.base_framework.upgrade.FUpgradeTools;
+import com.chtj.base_framework.upgrade.IUpgrade;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DialogUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
@@ -59,7 +59,7 @@ public class OptionTools {
 
                 @Override
                 public void onPositiveClick(String content) {
-                    FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new FUpgradeInterface() {
+                    FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new IUpgrade() {
                         @Override
                         public void installStatus(int installStatus) {
                             Log.d(TAG, "installStatus: "+installStatus);

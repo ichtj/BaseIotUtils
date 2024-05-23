@@ -82,7 +82,6 @@ public class SocketAty extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_socket);
         ButterKnife.bind(this);
-        ShellUtils.execCommand("setprop persist.sys.fwfit.eth.auto 1",true);
         String []socketList = getResources().getStringArray(R.array.net_opiton);
         ArrayAdapter socketListAdapter = new ArrayAdapter<String>(this, R.layout.custom_spinner_item, socketList);
         spOption.setAdapter(socketListAdapter);

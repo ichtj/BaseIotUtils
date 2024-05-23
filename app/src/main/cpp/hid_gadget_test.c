@@ -24,14 +24,23 @@ JavaVM *g_javaVM;
 bool g_monitoring = false;
 int g_hidFileDescriptor = -1;
 
+// JNI方法：开始监控HID设备
+JNIEXPORT void callbackConn(JNIEnv const *env,bool connect) {// 获取Java回调方法ID
+    jclass cls = (*env)->GetObjectClass(env,g_callbackObject);
+    jmethodID methodID = (*env)->GetMethodID(env,cls, "connect", "(Z)V");
+    if (methodID == NULL) {
+        return;
+    }
+    // 调用Java回调方法
+    (*env)->CallVoidMethod(env,g_callbackObject, methodID, connect);
+}
+
 JNIEXPORT jint JNICALL
-Java_com_ichtj_basetools_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz, jbyteArray data) {
-    const char *filename = NULL;
+Java_com_ichtj_basetools_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz,jstring dev, jbyteArray data) {
+    const char *filename = (*env)->GetStringUTFChars(env, dev, NULL);
     int fd = 0;
     jbyte *buffer = (*env)->GetByteArrayElements(env, data, NULL);
     jsize length = (*env)->GetArrayLength(env, data);
-
-    filename = "/dev/hidg0";
     if ((fd = open(filename, O_RDWR, 0666)) == -1) {
         LOGE("filename open err");
         return -1;
@@ -44,12 +53,13 @@ Java_com_ichtj_basetools_hid_HidTools_sendCmds(JNIEnv *env, jclass clazz, jbyteA
         return -2;
     }
     memcpy(send_buffer, buffer, length);
-    LOGD("writeData>>%s",send_buffer);
+    // 打印发送的数据为十六进制
+    for (int i = 0; i < length; i++) {
+        LOGD("writeData[%d] = 0x%02x", i, (unsigned char)send_buffer[i]);
+    }
     // 写入数据到USB设备
     int ret = write(fd, send_buffer, length);
-    if (ret < 0) {
-        LOGE("write err");
-    }
+    LOGD("ret>>%d",ret);
     // 关闭USB设备
     close(fd);
     free(send_buffer);
@@ -65,14 +75,14 @@ void printJByteArray(JNIEnv *env, jbyteArray byteArray) {
         return;
     }
     for (int i = 0; i < length; ++i) {
-        LOGD("ichtj>%c", (char)elements[i]);
+//        LOGD("ichtj>%c", (char)elements[i]);
     }
     (*env)->ReleaseByteArrayElements(env,byteArray, elements, JNI_ABORT);
 }
 
 
 // JNI回调函数，用于回调数据到Java层
-void sendDataToJava(JNIEnv *env, jbyteArray data) {
+void callbackData(JNIEnv *env, jbyteArray data) {
     printJByteArray(env,data);
     // 获取Java回调方法ID
     jclass cls = (*env)->GetObjectClass(env,g_callbackObject);
@@ -82,6 +92,7 @@ void sendDataToJava(JNIEnv *env, jbyteArray data) {
     }
     // 调用Java回调方法
     (*env)->CallVoidMethod(env,g_callbackObject, methodID, data);
+    LOGD("callback data complete");
 }
 
 // 监控HID设备的线程函数
@@ -90,19 +101,18 @@ void *receiveData(void *arg) {
     // 通过全局变量获取JavaVM
     (*g_javaVM)->AttachCurrentThread(g_javaVM,&env, NULL);
     while (g_monitoring) {
-        // 读取数据
-        char receive_buffer[200];  // 假设接收数据的缓冲区大小为1024字节
+        char receive_buffer[1024];  // 假设接收数据的缓冲区大小为1024字节
         int ret = read(g_hidFileDescriptor, receive_buffer, sizeof(receive_buffer));
         if (ret < 0) {
-            perror("read");
+            LOGE("read err");
             close(g_hidFileDescriptor);
             return NULL;
         }
-
+        LOGD("read>> data.length>>%d",receive_buffer);
         // 将接收到的数据转换为Java字节数组
         jbyteArray result = (*env)->NewByteArray(env,ret);
         (*env)->SetByteArrayRegion(env,result, 0, ret, (jbyte *)receive_buffer);
-        sendDataToJava(env,result);
+        callbackData(env,result);
     }
     // 关闭USB设备
     close(g_hidFileDescriptor);
@@ -111,18 +121,20 @@ void *receiveData(void *arg) {
     return NULL;
 }
 
-// JNI方法：开始监控HID设备
-JNIEXPORT void JNICALL
-Java_com_ichtj_basetools_hid_HidTools_startMonitoring(JNIEnv *env, jobject thiz, jobject callback) {
+
+void JNICALL
+Java_com_ichtj_basetools_hid_HidTools_init(JNIEnv *env, jobject thiz,jstring dev, jobject callback) {
+    const char *filename = (*env)->GetStringUTFChars(env, dev, NULL);
     // 保存Java层的回调对象
     g_callbackObject = (*env)->NewGlobalRef(env,callback);
     // 获取JavaVM
     (*env)->GetJavaVM(env,&g_javaVM);
     // 打开HID设备文件
-    g_hidFileDescriptor = open("/dev/hidg0", O_RDWR);
+    g_hidFileDescriptor = open(filename, O_RDWR, 0666);
     if (g_hidFileDescriptor < 0) {
         LOGE("g_hidFileDescriptor err");
         // 失败处理
+        callbackConn(env,false);
         return;
     }
     // 设置监控标志为true
@@ -131,6 +143,7 @@ Java_com_ichtj_basetools_hid_HidTools_startMonitoring(JNIEnv *env, jobject thiz,
     pthread_t thread;
     pthread_create(&thread, NULL, receiveData, NULL);
     pthread_detach(thread);
+    callbackConn(env,true);
 }
 
 // JNI方法：停止监控HID设备
@@ -138,6 +151,11 @@ JNIEXPORT void JNICALL
 Java_com_ichtj_basetools_hid_HidTools_stopMonitoring(JNIEnv *env, jobject thiz) {
     // 设置监控标志为false
     g_monitoring = false;
+    callbackConn(env,false);
+    if (g_callbackObject != NULL) {
+        (*env)->DeleteGlobalRef(env,g_callbackObject);
+        g_callbackObject = NULL;
+    }
 }
 
 

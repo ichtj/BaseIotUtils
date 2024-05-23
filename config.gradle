@@ -9,8 +9,8 @@ ext {
             buildToolsVersion         : "29.0.2",
             minSdkVersion             : 19,
             targetSdkVersion          : 29,
-            versionCode               : 17,
-            versionName               : "1.3.1",
+            versionCode               : 18,
+            versionName               : "1.3.2",
     ]
     //配置此项可对应生成不同的包名/应用图标 跳转不同界面
     APP_CHOOSE='baseiotutils'
@@ -21,7 +21,8 @@ ext {
             reboot                  :'com.ichtj.reboot',
             netrecord               :'com.ichtj.netrecord',
             netmonitor              :'com.ichtj.netmonitor',
-            hidTest                 :'com.ichtj.hid'
+            hidSubDev               :'com.ichtj.hidsubdev',
+            hidMainDev              :'com.ichtj.hidmaindev'
     ]
     MY_ICON = [
             baseiotutils            :'@drawable/app_img',
@@ -30,7 +31,8 @@ ext {
             reboot                  :'@mipmap/reboot',
             netrecord               :'@drawable/ic_net_record',
             netmonitor              :'@mipmap/netmonitor',
-            hidTest                 :'@mipmap/ic_hid'
+            hidSubDev               :'@mipmap/ic_hid',
+            hidMainDev              :'@mipmap/ic_hid'
     ]
     //support配置
     support = [
@@ -77,7 +79,7 @@ ext {
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
             "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.4.8",
-            "base_framework"          : "com.github.wave-chtj:BaseFramework:1.3.7",
+            "base_framework"          : "com.github.wave-chtj:BaseFramework:1.4.5",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
             //权限管理
             "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",

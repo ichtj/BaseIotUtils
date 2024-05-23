@@ -48,6 +48,7 @@ public class InitializeService extends IntentService {
 
         FBaseTools.instance()
                 .create(getApplication());
+        FBaseTools.enableUpgrade(true);
     }
 
 }

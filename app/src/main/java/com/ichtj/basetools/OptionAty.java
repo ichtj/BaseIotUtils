@@ -49,7 +49,8 @@ import com.ichtj.basetools.entity.ExcelEntity;
 import com.ichtj.basetools.entity.Dbean;
 import com.ichtj.basetools.file.FileOperatAty;
 import com.ichtj.basetools.greendao.GreenDaoSqliteAty;
-import com.ichtj.basetools.hid.HidAty;
+import com.ichtj.basetools.hid.HidMainDevAty;
+import com.ichtj.basetools.hid.HidSubDevAty;
 import com.ichtj.basetools.install.InstallAPkAty;
 import com.ichtj.basetools.keeplive.KeepAliveAty;
 import com.ichtj.basetools.network.NetChangeAty;
@@ -80,7 +81,7 @@ import java.util.List;
 /**
  * 功能选择
  */
-@Route(path = PACKAGES.BASE+"baseiotutils")
+@Route(path = PACKAGES.BASE + "baseiotutils")
 public class OptionAty extends BaseActivity implements OnItemClickListener {
     private static final String TAG = OptionAty.class.getSimpleName() + "M";
     private RecyclerView rvinfo;
@@ -139,8 +140,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
         try {
             dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm(),
                     IndexItemAdapter.L_NO_BG));
-        }catch (Throwable throwable){
-            dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：0 dBm 0 asu" ,
+        } catch (Throwable throwable) {
+            dataList.add(new Dbean(FKey.KEY_DBM, "4G信号值：0 dBm 0 asu",
                     IndexItemAdapter.L_NO_BG));
         }
         dataList.add(new Dbean(FKey.KEY_SERIAL_PORT, "串口收发", IndexItemAdapter.L_NO_BG));
@@ -182,7 +183,8 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
         dataList.add(new Dbean(FKey.VIDEO_CACHE, "视频录制", IndexItemAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_CRASH, "死机验证", IndexItemAdapter.L_ONE));
         dataList.add(new Dbean(FKey.KEY_NGINX, "nginx", IndexItemAdapter.L_ONE));
-        dataList.add(new Dbean(FKey.KEY_HID, "HID开发", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_SUB_DEV_HID, "HID(作为从)", IndexItemAdapter.L_ONE));
+        dataList.add(new Dbean(FKey.KEY_MAIN_DEV_HID, "HID(作为主)", IndexItemAdapter.L_ONE));
     }
 
     @Override
@@ -202,7 +204,7 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
             if (data != null && data.getData() != null) {
                 Uri uri = data.getData();
                 DocumentsUtils.saveTreeUri(this, rootPath, uri);
-                KLog.d(TAG, "data=" + data.toString()+" ,url >>> "+uri.toString() );
+                KLog.d(TAG, "data=" + data.toString() + " ,url >>> " + uri.toString());
             }
         }
     }
@@ -454,8 +456,11 @@ public class OptionAty extends BaseActivity implements OnItemClickListener {
             case FKey.KEY_IMEI:
 
                 break;
-            case FKey.KEY_HID:
-                startAty(HidAty.class);
+            case FKey.KEY_SUB_DEV_HID:
+                startAty(HidSubDevAty.class);
+                break;
+            case FKey.KEY_MAIN_DEV_HID:
+                startAty(HidMainDevAty.class);
                 break;
         }
     }

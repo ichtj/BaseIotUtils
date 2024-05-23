@@ -6,9 +6,9 @@ public class HidTools {
     }
 
     // JNI
-    public native static int sendCmds(byte[] data);
+    public native static int sendCmds(String dev,byte[] data);
 
-    public native static void startMonitoring(IHidCallback iHidCallback);
+    public native static void init(String dev,IHidCallback iHidCallback);
 
     public native static void stopMonitoring();
 }
