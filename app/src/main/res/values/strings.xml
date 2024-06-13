@@ -36,6 +36,10 @@
     <string name="airplane_mode">AirplaneMode</string>
     <string name="module_reset">Module reset</string>
     <string name="reset_model_reboot">restartMode</string>
+    <string name="apk_position_title">APK位置：/sdcard/</string>
+    <string name="print_sign">Print signature</string>
+    <string name="save_result_sign">保存结果为文件</string>
+    <string name="sdcard_not_exist_apklist">/sdcard/根目录不存在apk文件！</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
         <attr name="rightName" format="string"></attr>

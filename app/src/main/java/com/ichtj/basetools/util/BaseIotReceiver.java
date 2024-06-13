@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 
 import com.face_chtj.base_iotutils.KLog;
-import com.ichtj.basetools.OptionAty;
+import com.ichtj.basetools.MainActivity;
 import com.ichtj.basetools.network.NetMonitorAty;
 import com.ichtj.basetools.network.NetRecordAty;
 import com.ichtj.basetools.reboot.RebootCustomService;
@@ -39,7 +39,7 @@ public class BaseIotReceiver extends BroadcastReceiver {
                     context.startActivity(intent);
                     break;
                 case PACKAGES.PKG_EXAMPLE:
-                    intent = new Intent(context, OptionAty.class);
+                    intent = new Intent(context, MainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     break;

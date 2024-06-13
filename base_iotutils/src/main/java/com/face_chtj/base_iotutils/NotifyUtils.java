@@ -83,14 +83,12 @@ public class NotifyUtils {
                     .setData(Uri.fromParts("package",
                             BaseIotUtils.getContext().getPackageName(), null));
             BaseIotUtils.getContext().startActivity(intent);
-            return;
         } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Intent intent = new Intent()
                     .setAction(SETTINGS_ACTION)
                     .setData(Uri.fromParts("package",
                             BaseIotUtils.getContext().getPackageName(), null));
             BaseIotUtils.getContext().startActivity(intent);
-            return;
         }
     }
 
@@ -107,41 +105,30 @@ public class NotifyUtils {
         if (notifyUtils == null) {
             synchronized (NotifyUtils.class) {
                 if (notifyUtils == null) {
-                    //初始化
                     notifyUtils = new NotifyUtils();
-                    //注册广播
                     notifyUtils.mNotifyReceiver = new NotifyReceiver();
                     IntentFilter filter = new IntentFilter();
                     filter.addAction(ACTION_CLOSE_NOTIFY);
                     BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyReceiver, filter);
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
-                    //自定义视图
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
-                    //点击通知栏跳转应用
                     Intent toAtyintent=getAppOpenIntentByPackageName(BaseIotUtils.getContext(),BaseIotUtils.getContext().getPackageName());
-                    //点击关闭按钮时效果
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(BaseIotUtils.getContext(),
                             1, new Intent(ACTION_CLOSE_NOTIFY), PendingIntent.FLAG_UPDATE_CURRENT);//点击关闭按钮时效果
                     PendingIntent pendingToIntent = PendingIntent.getActivity(BaseIotUtils.getContext(),
                             0, toAtyintent, PendingIntent.FLAG_UPDATE_CURRENT);
-                    //设置点击关闭按钮"X"时的操作
                     notifyUtils.contentView.setOnClickPendingIntent(R.id.ivClose, pendingIntent);
                     notifyUtils.contentView.setOnClickPendingIntent(R.id.rlBg, pendingToIntent);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                        //这里是android8.0以上
                         NotificationChannel channel = new NotificationChannel("channel_1", "channel_name_1", NotificationManager.IMPORTANCE_HIGH);
                         channel.setImportance(NotificationManager.IMPORTANCE_NONE);
                         notifyUtils.manager.createNotificationChannel(channel);
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext(), "channel_1");
                         notifyUtils.builder.setCustomContentView(notifyUtils.contentView);
                     } else {
-                        //8.0以下
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext());
-                        //设置自定义View
                         notifyUtils.builder.setContent(notifyUtils.contentView);
-                        //设置点击通知时的操作
                         //notifyUtils.builder.setContentIntent(pendingIntent);
-                        //app通知栏图标
                         notifyUtils.builder.setSmallIcon(R.drawable.app_img);  //小图标，在大图标右下角
                         notifyUtils.builder.setLargeIcon(BitmapFactory.decodeResource(BaseIotUtils.getContext().getResources(), R.drawable.app_img)); //大图标，没有设置时小图标就是大图标
                     }

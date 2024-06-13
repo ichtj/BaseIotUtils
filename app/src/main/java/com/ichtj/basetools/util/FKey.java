@@ -54,4 +54,6 @@ public class FKey {
     public static final int            KEY_NGINX=50;//nginx分布
     public static final int      KEY_SUB_DEV_HID=51;//HID从
     public static final int     KEY_MAIN_DEV_HID=52;//HID主
+    public static final int         KEY_APK_SIGN=53;//APK签名
+    public static final int     KEY_TOUCH_DETECT=54;//触摸检查
 }

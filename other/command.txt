@@ -1,3 +1,4 @@
+----------------------------------cmd指令[Android]----------------------------------
 echo mem > /sys/power/state // kernel休眠
 echo on  > /sys/power/state //kernel唤醒
 -------------------------------------------------
@@ -56,4 +57,7 @@ adb shell cat /proc/meminfo //查看内存信息
 adb shell cat /proc/cpuinfo //查看CPU信息
 -------------------------------------------------
 adb shell ime list -s  //获取已经安装的输入法
+
+----------------------------------cmd指令[PC]----------------------------------
+keytool -printcert -jarfile your_app.apk
 

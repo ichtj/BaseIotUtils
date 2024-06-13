@@ -9,6 +9,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
@@ -19,6 +20,8 @@ import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
 
 import java.io.File;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
@@ -489,9 +492,8 @@ public class AppsUtils {
      * 打开设置里的应用详情
      *
      * @param packageName
-     * @throws Exception
      */
-    public static void openPackage(String packageName) throws Exception {
+    public static void openPackage(String packageName){
         PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(packageName);
         BaseIotUtils.getContext().startActivity(intent);
@@ -509,5 +511,36 @@ public class AppsUtils {
         BaseIotUtils.getContext().startActivity(intent);
     }
 
+    /**
+     * 获取sha256签名
+     * @param apkPath apk路径
+     * @return 签名
+     */
+    public static String getSHA256FromAPK(String apkPath) {
+        try {
+            PackageManager pm =BaseIotUtils.getContext(). getPackageManager();
+            PackageInfo packageInfo = pm.getPackageArchiveInfo(apkPath, PackageManager.GET_SIGNATURES);
+            if (packageInfo != null && packageInfo.signatures != null && packageInfo.signatures.length > 0) {
+                for (Signature signature : packageInfo.signatures) {
+                    MessageDigest md = MessageDigest.getInstance("SHA-256");
+                    md.update(signature.toByteArray());
+                    return bytesToHex(md.digest());
+                }
+            }
+        } catch (Throwable e) {
+            Log.e(TAG, "SHA-256 get fail", e);
+        }
+        return "";
+    }
+
+    private static String bytesToHex(byte[] bytes) {
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : bytes) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) hexString.append('0');
+            hexString.append(hex);
+        }
+        return hexString.toString().toUpperCase();
+    }
 
 }

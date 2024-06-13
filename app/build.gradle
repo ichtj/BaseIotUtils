@@ -18,7 +18,7 @@ android {
     }
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
-        applicationId rootProject.ext.MY_PKG[rootProject.ext.APP_CHOOSE]
+        applicationId rootProject.ext.APP_PKG_PREFIX+rootProject.ext.APP_CHOOSE
         minSdkVersion rootProject.ext.android.minSdkVersion
         targetSdkVersion rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
@@ -34,7 +34,7 @@ android {
                 arguments = [AROUTER_MODULE_NAME: project.getName()]
             }
         }
-        buildConfigField 'java.util.Map<String, String>', 'MY_PKG', convertMap()
+//        buildConfigField 'java.util.Map<String, String>', 'MY_PKG', convertMap()
         buildConfigField 'String', 'APP_CHOOSE', "\"${APP_CHOOSE}\""
         signingConfig signingConfigs.debug
         manifestPlaceholders = [APP_NAME: "${APP_CHOOSE}", APP_ICON: getIcon()]
@@ -81,16 +81,6 @@ android {
             outputFileName = fileName;
         }
     }
-}
-// 定义一个方法来根据传入的键打印键和值
-def convertMap() {
-    def builder = new StringBuilder()
-    builder.append("new java.util.HashMap<String,String>() {{")
-    rootProject.ext.MY_PKG.each { key, value ->
-        builder.append("put(\"$key\",\"$value\");")
-    }
-    builder.append("}}")
-    return builder.toString();
 }
 
 def getIcon() {

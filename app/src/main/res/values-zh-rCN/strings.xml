@@ -36,4 +36,6 @@
     <string name="airplane_mode">飞行模式</string>
     <string name="module_reset">模块复位</string>
     <string name="reset_model_reboot">重启模式</string>
+    <string name="print_sign">打印签名</string>
+    <string name="sdcard_not_exist_apklist">/sdcard/根目录不存在apk文件！</string>
 </resources>

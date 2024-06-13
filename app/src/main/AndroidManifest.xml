@@ -13,7 +13,9 @@
     <!-- sd卡读写 -->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <!-- 挂载sd卡 -->
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission
+        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
+        tools:ignore="ProtectedPermissions" />
     <!-- 唤醒屏幕 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
@@ -66,7 +68,9 @@
     <uses-permission
         android:name="android.permission.DELETE_PACKAGES"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.FORCE_STOP_PACKAGES" />
+    <uses-permission
+        android:name="android.permission.FORCE_STOP_PACKAGES"
+        tools:ignore="ProtectedPermissions" />
     <!--后台保活重要权限-->
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--开启启动完成-->
@@ -77,21 +81,30 @@
         tools:ignore="ProtectedPermissions" />
 
     <uses-feature android:name="android.hardware.usb.host" />
-    <uses-feature android:name="android.hardware.usb.accessory" android:required="true" />
+    <uses-feature
+        android:name="android.hardware.usb.accessory"
+        android:required="true" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.permission.ACCESSORY_PERMISSION" />
     <!--读取或写入系统设置-->
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.WRITE_SECURE_SETTINGS" />
+    <uses-permission
+        android:name="android.permission.WRITE_SECURE_SETTINGS"
+        tools:ignore="ProtectedPermissions" />
     <!--自定义保活广播-->
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
 
     <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS"
-        tools:ignore="ProtectedPermissions"/>
+    <uses-permission
+        android:name="android.permission.MANAGE_DOCUMENTS"
+        tools:ignore="ProtectedPermissions" />
 
     <!-- 蓝牙相关 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
@@ -131,157 +144,254 @@
             android:screenOrientation="user"
             android:theme="@style/SplashTheme">
             <intent-filter>
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
+                <!--<action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />-->
             </intent-filter>
         </activity>
         <!--功能选择-->
         <activity
-            android:name=".OptionAty"
+            android:name=".MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
+            android:enabled="true"
+            android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+        </activity>
         <!--后台服务-->
         <!--串口相关-->
         <activity
             android:name=".serialport.SerialPortAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan" >
+        </activity>
         <!--屏幕适配相关-->
         <activity
             android:name=".screen.ScreenActivity"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--文件读写-->
         <activity
             android:name=".file.FileOperatAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--文件下载-->
         <activity
             android:name=".download.FileDownLoadAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--网络编程 UDP | tcp收发-->
         <activity
             android:name=".socket.SocketAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan" />
         <!--全局异常捕获-->
         <activity
             android:name=".crash.CrashAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--网络监听-->
         <activity
             android:name=".network.NetChangeAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--greenDAO数据库操作-->
         <activity
             android:name=".greendao.GreenDaoSqliteAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--查看所有app详情-->
         <activity
             android:name=".allapp.AllAppAty"
             android:configChanges="orientation"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--定时器-->
         <activity
             android:name=".timer.TimerAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--视频播放-->
         <activity
             android:name=".video.VideoPlayAty"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|screenLayout|smallestScreenSize|uiMode"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--音频播放-->
         <activity
             android:name=".audio.AudioAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--保活相关-->
         <activity
             android:name=".keeplive.KeepAliveAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--温度相关-->
         <activity
             android:name=".temget.TempGetAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--apk静默安装-->
         <activity
             android:name=".install.InstallAPkAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--重启工具-->
         <activity
             android:name=".reboot.RebootAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--网络重置监听工具-->
         <activity
             android:name=".network.NetMonitorAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
             android:name=".test.TestAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--蓝牙测试-->
         <activity
             android:name=".bluetooth.BlueToothAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--视频录制-->
         <activity
             android:name=".video.PlayCacheVideoAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--nginx验证-->
         <activity
             android:name=".nginx.NginxAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
         <!--Dialog对话框工具-->
         <activity
             android:name=".dialog.DialogAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
-        <activity android:name=".network.NetRecordAty"
+        <activity
+            android:name=".network.NetRecordAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
 
         <!-- 设置USB功能 -->
-        <activity android:name=".hid.HidSubDevAty"
+        <activity
+            android:name=".hid.HidSubDevAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
 
-            <meta-data android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                 android:resource="@xml/accessory_filter" />
         </activity>
-         <!-- 设置USB功能 -->
-        <activity android:name=".hid.HidMainDevAty"
+        <!-- 设置USB功能 -->
+        <activity
+            android:name=".hid.HidMainDevAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme" >
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED" />
             </intent-filter>
 
-            <meta-data android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
+            <meta-data
+                android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
                 android:resource="@xml/accessory_filter" />
         </activity>
+        <activity
+            android:name=".sign.ApkSignSearchAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
+
+        <activity
+            android:name=".touch.TouchDetectAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
