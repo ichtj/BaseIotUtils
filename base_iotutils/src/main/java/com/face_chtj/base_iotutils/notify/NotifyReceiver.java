@@ -14,16 +14,12 @@ import com.face_chtj.base_iotutils.SPUtils;
  * desc
  */
 public class NotifyReceiver extends BroadcastReceiver {
-    private static final String TAG="NotifyBroadcastReceiver";
+    private static final String TAG=NotifyReceiver.class.getSimpleName();
     @Override
     public void onReceive(Context context, Intent intent) {
-        KLog.d(TAG,"NotifyBroadcastReceiver action="+intent.getAction());
         if (intent.getAction().equals(NotifyUtils.ACTION_CLOSE_NOTIFY)) {
-            boolean isNeedClose= SPUtils.getBoolean("needClose",true);
-            if(isNeedClose){
-                //关闭通知
-                NotifyUtils.closeNotify();
-            }
+            KLog.d(TAG,"NotifyBroadcastReceiver action="+intent.getAction());
+            NotifyUtils.closeNotify();
         }
     }
 }

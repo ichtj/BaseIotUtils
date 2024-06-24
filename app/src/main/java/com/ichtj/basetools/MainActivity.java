@@ -1,17 +1,11 @@
 package com.ichtj.basetools;
 
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.net.wifi.ScanResult;
-import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -37,10 +31,7 @@ import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
-import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
-import com.face_chtj.base_iotutils.download.DownloadCallback;
-import com.face_chtj.base_iotutils.download.DownloadManager;
-import com.face_chtj.base_iotutils.download.DownloadStatus;
+import com.face_chtj.base_iotutils.callback.IDismissListener;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.audio.AudioAty;
 import com.ichtj.basetools.base.BaseActivity;
@@ -78,12 +69,9 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Route(path = PACKAGES.BASE + "basetools")
 public class MainActivity extends BaseActivity implements CustomButtonGridView.OnButtonClickListener {
@@ -100,23 +88,6 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap(getDisplayBtn());
         customButtonGridView.setNumColumns(2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener(this);
-//        DownloadManager downloadManager =new DownloadManager(this, new DownloadCallback() {
-//            @Override
-//            public void onDownloadStatusChanged(DownloadStatus status) {
-//                Log.d(TAG, "onDownloadStatusChanged: "+status.toString());
-//            }
-//
-//            @Override
-//            public void onDownloadProgress(String url, int progress) {
-//                Log.d(TAG, "onDownloadProgress: url>>"+url+",progress>>"+progress);
-//            }
-//        });
-//        downloadManager.downloadFile("https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/ichtj_test/update.zip","/sdcard/testdownload/update.zip");
-//        downloadManager.downloadFile("https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/ichtj_test/sabresd_6dq-ota-20211029155349.zip","/sdcard/testdownload/20211029155349.zip");
-        Intent intent = new Intent();
-        intent.setComponent(new ComponentName("com.zto.ztoexpresscabinet", "com.zto.ztoexpresscabinet.business.view.MainActivity"));
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
     }
 
     public Map<Integer, String> getDisplayBtn() {
@@ -201,14 +172,14 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
                 if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.setNotifyId(111)
-                            .setEnableCloseButton(false)//设置是否显示关闭按钮
-                            .setOnNotifyLinstener(new INotifyStateCallback() {
+                    NotifyUtils.setNotifyId(111).setEnableCloseButton(true)
+                            .setOnNotifyLinstener(new IDismissListener() {
                                 @Override
-                                public void enableStatus(boolean isEnable) {
-                                    KLog.e(TAG, "isEnable=" + isEnable);
+                                public void dismiss(boolean dismiss) {
+                                    KLog.d(TAG, "dismiss=" + dismiss);
                                 }
                             })
+                            .replaceClickIntent(new Intent(this,FileDownLoadAty.class))
                             .setAppName("BaseIotUtils")
                             .setAppAbout(AppsUtils.getAppVersionName())
                             .setPrompt("this a prompt")

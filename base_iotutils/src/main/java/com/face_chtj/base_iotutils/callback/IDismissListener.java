@@ -5,10 +5,10 @@ package com.face_chtj.base_iotutils.callback;
  * author chtj
  * desc ：实现此接口，可以监听Notification是否关闭的通知
  */
-public interface INotifyStateCallback {
+public interface IDismissListener {
     /**
      * 是否启用了(显示了Notification通知)
-     * @param isEnable true | false
+     * @param dismiss true | false
      */
-    void enableStatus(boolean isEnable);
+    void dismiss(boolean dismiss);
 }

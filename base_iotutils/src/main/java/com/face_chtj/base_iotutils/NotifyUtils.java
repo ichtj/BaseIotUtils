@@ -23,7 +23,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.RemoteViews;
 
-import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
+import com.face_chtj.base_iotutils.callback.IDismissListener;
 import com.face_chtj.base_iotutils.notify.NotifyReceiver;
 
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -31,7 +31,6 @@ import static android.content.Context.NOTIFICATION_SERVICE;
 import java.util.List;
 
 /**
- * Create on 2019/12/27
  * author chtj
  * desc ：NotifyUtils 工具类
  * {@link #getInstance()} ()}-----------初始化相关参数
@@ -50,25 +49,22 @@ import java.util.List;
 public class NotifyUtils {
     private NotificationManager manager = null;
     private Notification.Builder builder = null;
-    //自定义的系统通知视图
     private RemoteViews contentView = null;
-    private boolean isRefreshUi=true;
+    private boolean isEnableUi = true;
     private int notifyId = -1; //notification标识
     private boolean mSlideOff = true;//滑动时是否可以删除
     private boolean mAutoCancel = false;//点击的时候是否消失
-    private INotifyStateCallback mINotifyStateCallback;
+    private IDismissListener mIDismissListener;
     private static volatile NotifyUtils notifyUtils;
     private NotifyReceiver mNotifyReceiver;
-    //停止该通知务的广播
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
-    //跳转设置
     public static final String SETTINGS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS";
 
     /**
      * 是否允许刷新UI
      */
-    public static void setRefreshUi(boolean refreshUi) {
-        getInstance().isRefreshUi = refreshUi;
+    public static void setEnableUi(boolean isEnableUi) {
+        getInstance().isEnableUi = isEnableUi;
     }
 
     /**
@@ -120,13 +116,10 @@ public class NotifyUtils {
                     BaseIotUtils.getContext().registerReceiver(notifyUtils.mNotifyReceiver, filter);
                     notifyUtils.manager = (NotificationManager) BaseIotUtils.getContext().getSystemService(NOTIFICATION_SERVICE);
                     notifyUtils.contentView = new RemoteViews(BaseIotUtils.getContext().getPackageName(), R.layout.activity_notification);
-                    Intent toAtyintent=getAppOpenIntentByPackageName(BaseIotUtils.getContext(),BaseIotUtils.getContext().getPackageName());
                     PendingIntent pendingIntent = PendingIntent.getBroadcast(BaseIotUtils.getContext(),
-                            1, new Intent(ACTION_CLOSE_NOTIFY), PendingIntent.FLAG_UPDATE_CURRENT);//点击关闭按钮时效果
-                    PendingIntent pendingToIntent = PendingIntent.getActivity(BaseIotUtils.getContext(),
-                            0, toAtyintent, PendingIntent.FLAG_UPDATE_CURRENT);
+                            1, new Intent(ACTION_CLOSE_NOTIFY), PendingIntent.FLAG_UPDATE_CURRENT);
                     notifyUtils.contentView.setOnClickPendingIntent(R.id.ivClose, pendingIntent);
-                    notifyUtils.contentView.setOnClickPendingIntent(R.id.rlBg, pendingToIntent);
+                    initClickIntent();
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         NotificationChannel channel = new NotificationChannel("channel_1", "channel_name_1", NotificationManager.IMPORTANCE_HIGH);
                         channel.setImportance(NotificationManager.IMPORTANCE_NONE);
@@ -145,6 +138,25 @@ public class NotifyUtils {
         }
         return notifyUtils;
     }
+
+    private static NotifyUtils initClickIntent() {
+        Intent toAtyintent = getAppOpenIntentByPackageName(BaseIotUtils.getContext(), BaseIotUtils.getContext().getPackageName());
+        return replaceClickIntent(toAtyintent);
+    }
+
+    public static NotifyUtils replaceClickIntent(Intent intent) {
+        if (intent != null) {
+            PendingIntent pendingToIntent = PendingIntent.getActivity(BaseIotUtils.getContext(),
+                    0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+            if (notifyUtils.contentView != null) {
+                notifyUtils.contentView.setOnClickPendingIntent(R.id.rlBg, pendingToIntent);
+            }
+        } else {
+            notifyUtils.contentView.setOnClickPendingIntent(R.id.rlBg, null);
+        }
+        return getInstance();
+    }
+
     /**
      * 获取该包名中的主界面
      *
@@ -187,11 +199,11 @@ public class NotifyUtils {
     /**
      * 设置监听notification是否点击关闭的接口
      *
-     * @param INotifyStateCallback 注册接口
+     * @param IDismissListener 注册接口
      * @return this
      */
-    public NotifyUtils setOnNotifyLinstener(INotifyStateCallback INotifyStateCallback) {
-        getInstance().mINotifyStateCallback = INotifyStateCallback;
+    public NotifyUtils setOnNotifyLinstener(IDismissListener IDismissListener) {
+        getInstance().mIDismissListener = IDismissListener;
         return getInstance();
     }
 
@@ -212,8 +224,8 @@ public class NotifyUtils {
      * @param notifyId int整型
      * @return this
      */
-    public static NotifyUtils setNotifyId(int notifyId){
-        getInstance().notifyId=notifyId;
+    public static NotifyUtils setNotifyId(int notifyId) {
+        getInstance().notifyId = notifyId;
         return getInstance();
     }
 
@@ -239,28 +251,27 @@ public class NotifyUtils {
 
     /**
      * 设置IvStatus
-     *
      */
     public static NotifyUtils setIvStatus(boolean isShow) {
-        return setIvStatus(isShow,R.drawable.success);
+        return setIvStatus(isShow, R.drawable.success);
     }
+
     /**
      * 设置IvStatus
      *
      * @param ivDrawable setImageViewResource
      */
-    public static NotifyUtils setIvStatus(boolean isShow,int ivDrawable) {
-        getInstance().contentView.setViewVisibility(R.id.ivStatus,isShow?View.VISIBLE:View.GONE);
+    public static NotifyUtils setIvStatus(boolean isShow, int ivDrawable) {
+        getInstance().contentView.setViewVisibility(R.id.ivStatus, isShow ? View.VISIBLE : View.GONE);
         getInstance().contentView.setImageViewResource(R.id.ivStatus, ivDrawable);
         return getInstance();
     }
 
     /**
      * setIvNetStatus
-     *
      */
     public static NotifyUtils setIvNetStatus(boolean isShow) {
-        return setIvNetStatus(isShow,R.drawable.success);
+        return setIvNetStatus(isShow, R.drawable.success);
     }
 
     /**
@@ -268,8 +279,8 @@ public class NotifyUtils {
      *
      * @param ivDrawable setImageViewResource
      */
-    public static NotifyUtils setIvNetStatus(boolean isShow,int ivDrawable) {
-        getInstance().contentView.setViewVisibility(R.id.ivNetStatus,isShow?View.VISIBLE:View.GONE);
+    public static NotifyUtils setIvNetStatus(boolean isShow, int ivDrawable) {
+        getInstance().contentView.setViewVisibility(R.id.ivNetStatus, isShow ? View.VISIBLE : View.GONE);
         getInstance().contentView.setImageViewResource(R.id.ivNetStatus, ivDrawable);
         return getInstance();
     }
@@ -307,7 +318,7 @@ public class NotifyUtils {
      * @return this
      */
     public static NotifyUtils setProgress(String progress) {
-        return setView(R.id.tvProgress,progress);
+        return setView(R.id.tvProgress, progress);
     }
 
     /**
@@ -318,7 +329,7 @@ public class NotifyUtils {
      * @return this
      */
     public static NotifyUtils setAppName(String appName) {
-        return setView(R.id.tvAppName,appName);
+        return setView(R.id.tvAppName, appName);
     }
 
     /**
@@ -326,7 +337,7 @@ public class NotifyUtils {
      * 外部调用此方法时，请先调用{@link #setNotifyId(int)} }
      */
     public static NotifyUtils setTopRight(String topRight) {
-        return setView(R.id.tvTopRight,topRight);
+        return setView(R.id.tvTopRight, topRight);
     }
 
     /**
@@ -338,10 +349,10 @@ public class NotifyUtils {
      */
     public static NotifyUtils setAppAbout(String appAbout) {
         getInstance().contentView.setTextViewText(R.id.tvAppAbout, appAbout);
-        return setView(R.id.tvAppAbout,appAbout);
+        return setView(R.id.tvAppAbout, appAbout);
     }
 
-    private static NotifyUtils setView(int viewId,String content) {
+    private static NotifyUtils setView(int viewId, String content) {
         String appendStr = "";
         if (!ObjectUtils.isEmpty(content)) {
             appendStr = content;
@@ -360,7 +371,7 @@ public class NotifyUtils {
      * @return this
      */
     public static NotifyUtils setRemarks(String remarks) {
-        return setView(R.id.tvRemarks,remarks);
+        return setView(R.id.tvRemarks, remarks);
     }
 
     /**
@@ -371,7 +382,7 @@ public class NotifyUtils {
      * @return this
      */
     public static NotifyUtils setPrompt(String prompt) {
-        return setView(R.id.tvPrompt,prompt);
+        return setView(R.id.tvPrompt, prompt);
     }
 
     /**
@@ -382,7 +393,7 @@ public class NotifyUtils {
      * @return this
      */
     public static NotifyUtils setDataTime(String dataTime) {
-        return setView(R.id.tvDataTime,dataTime);
+        return setView(R.id.tvDataTime, dataTime);
     }
 
 
@@ -415,7 +426,7 @@ public class NotifyUtils {
      * 更改参数时执行
      */
     public void exeuNotify() {
-        if (getInstance().isRefreshUi){
+        if (getInstance().isEnableUi) {
             if (getInstance().manager != null) {
                 if (getInstance().notifyId != -1) {
                     if (getInstance().builder != null) {
@@ -424,14 +435,10 @@ public class NotifyUtils {
                         getInstance().manager.notify(getInstance().notifyId, getInstance().builder.build());  //参数一为ID，用来区分不同APP的Notification
                     }
                     SPUtils.putBoolean("needClose", getInstance().mAutoCancel);
-                    if (getInstance().mINotifyStateCallback != null) {
-                        getInstance().mINotifyStateCallback.enableStatus(true);
+                    if (getInstance().mIDismissListener != null) {
+                        getInstance().mIDismissListener.dismiss(true);
                     }
-                } else {
-                    throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
                 }
-            } else {
-                throw new NullPointerException("manager or builder ==null");
             }
         }
     }
@@ -443,10 +450,10 @@ public class NotifyUtils {
     public static void closeNotify() {
         if (getInstance() != null && getInstance().manager != null && getInstance().notifyId != -1) {
             getInstance().manager.cancel(getInstance().notifyId);//参数一为ID，用来区分不同APP的Notification
-            if (getInstance().mINotifyStateCallback != null) {
+            if (getInstance().mIDismissListener != null) {
                 //通知监听对象
-                getInstance().mINotifyStateCallback.enableStatus(false);
-                getInstance().mINotifyStateCallback = null;
+                getInstance().mIDismissListener.dismiss(false);
+                getInstance().mIDismissListener = null;
             }
             //销毁广播
             if (getInstance().mNotifyReceiver != null) {

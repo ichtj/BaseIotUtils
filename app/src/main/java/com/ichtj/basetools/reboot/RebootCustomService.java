@@ -33,7 +33,6 @@ public class RebootCustomService extends Service {
         super.onCreate();
         startForeground(98, NotifyUtils.getBuilder().build());
         NotifyUtils.setNotifyId(98)
-                .setEnableCloseButton(false)//设置是否显示关闭按钮
                 .setSmallIcon(R.mipmap.reboot)
                 .setIvLogo(R.mipmap.reboot)
                 .setIvStatus(false)
