@@ -111,97 +111,9 @@ public class SocketAty extends BaseActivity {
         switch (view.getId()) {
             case R.id.btnConnect://开启连接
                 if(selectOpiton==TCP_OPTION){
-                    //设置参数 地址+端口
-                    baseTcpSocket = new BaseTcpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()), 5000);
-                    //设置监听回调
-                    baseTcpSocket.setSocketListener(new ISocketListener() {
-                        @Override
-                        public void recv(byte[] data, int offset, int size) {
-                            KLog.d(TAG,"recv:>="+Arrays.toString(data));
-                            Message message = handler.obtainMessage();
-                            try {
-                                message.obj = "\n\r读到数据:" + /*Arrays.toString(data);*/new String(data, "UTF-8");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void writeSuccess(byte[] data) {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r写入数据:" + Arrays.toString(data);
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connSuccess() {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r连接成功";
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connFaild(Throwable t) {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r连接异常";
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connClose() {
-                            KLog.d(TAG, "The connection is disconnect");
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r关闭连接";
-                            handler.sendMessage(message);
-                        }
-                    });
-                    //开启连接
-                    baseTcpSocket.connect(this);
+                    startTcpConnect();
                 }else if(selectOpiton==UDP_OPTION){
-                    //设置参数 地址+端口
-                    baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),0);
-                    //设置监听回调
-                    baseUdpSocket.setSocketListener(new ISocketListener() {
-                        @Override
-                        public void recv(byte[] data, int offset, int size) {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r读到数据:" + Arrays.toString(data);
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void writeSuccess(byte[] data) {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r写入数据:" + Arrays.toString(data);
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connSuccess() {
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r连接成功";
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connFaild(Throwable t) {
-                            KLog.d(TAG, "errMeg: "+t.getMessage());
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r连接异常";
-                            handler.sendMessage(message);
-                        }
-
-                        @Override
-                        public void connClose() {
-                            KLog.d(TAG, "The connection is disconnect");
-                            Message message = handler.obtainMessage();
-                            message.obj = "\n\r关闭连接";
-                            handler.sendMessage(message);
-                        }
-                    });
-                    //开启连接
-                    baseUdpSocket.connect(this);
+                    startUdpConnect();
                 }
                 break;
             case R.id.btnDisConnect://关闭连接
@@ -231,5 +143,101 @@ public class SocketAty extends BaseActivity {
                 tvResult.scrollTo(0, 0);
                 break;
         }
+    }
+
+    private void startUdpConnect() {
+        //设置参数 地址+端口
+        baseUdpSocket=new BaseUdpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()),0);
+        //设置监听回调
+        baseUdpSocket.setSocketListener(new ISocketListener() {
+            @Override
+            public void recv(byte[] data, int offset, int size) {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r读到数据:" + Arrays.toString(data);
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void writeSuccess(byte[] data) {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r写入数据:" + Arrays.toString(data);
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connSuccess() {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r连接成功";
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connFaild(Throwable t) {
+                KLog.d(TAG, "errMeg: "+t.getMessage());
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r连接异常";
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connClose() {
+                KLog.d(TAG, "The connection is disconnect");
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r关闭连接";
+                handler.sendMessage(message);
+            }
+        });
+        //开启连接
+        baseUdpSocket.connect(this);
+    }
+
+    private void startTcpConnect() {
+        //设置参数 地址+端口
+        baseTcpSocket = new BaseTcpSocket(etIp.getText().toString(), Integer.parseInt(etPort.getText().toString()), 5000);
+        //设置监听回调
+        baseTcpSocket.setSocketListener(new ISocketListener() {
+            @Override
+            public void recv(byte[] data, int offset, int size) {
+                KLog.d(TAG,"recv:>="+Arrays.toString(data));
+                Message message = handler.obtainMessage();
+                try {
+                    message.obj = "\n\r读到数据:" + /*Arrays.toString(data);*/new String(data, "UTF-8");
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void writeSuccess(byte[] data) {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r写入数据:" + Arrays.toString(data);
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connSuccess() {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r连接成功";
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connFaild(Throwable t) {
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r连接异常";
+                handler.sendMessage(message);
+            }
+
+            @Override
+            public void connClose() {
+                KLog.d(TAG, "The connection is disconnect");
+                Message message = handler.obtainMessage();
+                message.obj = "\n\r关闭连接";
+                handler.sendMessage(message);
+            }
+        });
+        //开启连接
+        baseTcpSocket.connect(this);
     }
 }

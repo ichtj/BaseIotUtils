@@ -19,4 +19,7 @@
     <color name="green">#00FF37</color>
     <color name="red">#FF0000</color>
 
+    <color name="gray_1">#CACDD2</color>
+    <color name="blue_1">#0144C6</color>
+
 </resources>

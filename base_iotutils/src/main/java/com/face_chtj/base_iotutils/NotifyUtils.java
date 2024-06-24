@@ -52,6 +52,7 @@ public class NotifyUtils {
     private Notification.Builder builder = null;
     //自定义的系统通知视图
     private RemoteViews contentView = null;
+    private boolean isRefreshUi=true;
     private int notifyId = -1; //notification标识
     private boolean mSlideOff = true;//滑动时是否可以删除
     private boolean mAutoCancel = false;//点击的时候是否消失
@@ -62,6 +63,13 @@ public class NotifyUtils {
     public static final String ACTION_CLOSE_NOTIFY = "com.close.service.and.notification";
     //跳转设置
     public static final String SETTINGS_ACTION = "android.settings.APPLICATION_DETAILS_SETTINGS";
+
+    /**
+     * 是否允许刷新UI
+     */
+    public void setRefreshUi(boolean refreshUi) {
+        isRefreshUi = refreshUi;
+    }
 
     /**
      * 获取系统中是否已经通过 允许通知的权限
@@ -407,22 +415,24 @@ public class NotifyUtils {
      * 更改参数时执行
      */
     public void exeuNotify() {
-        if (getInstance().manager != null) {
-            if (getInstance().notifyId != -1) {
-                if (getInstance().builder != null) {
-                    getInstance().builder.setOngoing(!getInstance().mSlideOff);//滑动不能清除
-                    getInstance().builder.setAutoCancel(getInstance().mAutoCancel);//点击的时候消失
-                    getInstance().manager.notify(getInstance().notifyId, getInstance().builder.build());  //参数一为ID，用来区分不同APP的Notification
-                }
-                SPUtils.putBoolean("needClose", getInstance().mAutoCancel);
-                if (getInstance().mINotifyStateCallback != null) {
-                    getInstance().mINotifyStateCallback.enableStatus(true);
+        if (isRefreshUi){
+            if (getInstance().manager != null) {
+                if (getInstance().notifyId != -1) {
+                    if (getInstance().builder != null) {
+                        getInstance().builder.setOngoing(!getInstance().mSlideOff);//滑动不能清除
+                        getInstance().builder.setAutoCancel(getInstance().mAutoCancel);//点击的时候消失
+                        getInstance().manager.notify(getInstance().notifyId, getInstance().builder.build());  //参数一为ID，用来区分不同APP的Notification
+                    }
+                    SPUtils.putBoolean("needClose", getInstance().mAutoCancel);
+                    if (getInstance().mINotifyStateCallback != null) {
+                        getInstance().mINotifyStateCallback.enableStatus(true);
+                    }
+                } else {
+                    throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
                 }
             } else {
-                throw new NullPointerException("notifyId ==null:method > setNotifyId(int notifyId)");
+                throw new NullPointerException("manager or builder ==null");
             }
-        } else {
-            throw new NullPointerException("manager or builder ==null");
         }
     }
 

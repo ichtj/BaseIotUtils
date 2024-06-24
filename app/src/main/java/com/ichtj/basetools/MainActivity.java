@@ -1,11 +1,20 @@
 package com.ichtj.basetools;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chtj.base_framework.FScreentTools;
@@ -29,6 +38,9 @@ import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.INotifyStateCallback;
+import com.face_chtj.base_iotutils.download.DownloadCallback;
+import com.face_chtj.base_iotutils.download.DownloadManager;
+import com.face_chtj.base_iotutils.download.DownloadStatus;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.audio.AudioAty;
 import com.ichtj.basetools.base.BaseActivity;
@@ -66,9 +78,12 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 @Route(path = PACKAGES.BASE + "basetools")
 public class MainActivity extends BaseActivity implements CustomButtonGridView.OnButtonClickListener {
@@ -79,21 +94,40 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_aty);
+        Button button = findViewById(R.id.btnNext);
+        button.setTextColor(ContextCompat.getColor(this, R.color.red));
         customButtonGridView = findViewById(R.id.customButtonGridView);
         customButtonGridView.setButtonMap(getDisplayBtn());
         customButtonGridView.setNumColumns(2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener(this);
+//        DownloadManager downloadManager =new DownloadManager(this, new DownloadCallback() {
+//            @Override
+//            public void onDownloadStatusChanged(DownloadStatus status) {
+//                Log.d(TAG, "onDownloadStatusChanged: "+status.toString());
+//            }
+//
+//            @Override
+//            public void onDownloadProgress(String url, int progress) {
+//                Log.d(TAG, "onDownloadProgress: url>>"+url+",progress>>"+progress);
+//            }
+//        });
+//        downloadManager.downloadFile("https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/ichtj_test/update.zip","/sdcard/testdownload/update.zip");
+//        downloadManager.downloadFile("https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/ichtj_test/sabresd_6dq-ota-20211029155349.zip","/sdcard/testdownload/20211029155349.zip");
+        Intent intent = new Intent();
+        intent.setComponent(new ComponentName("com.zto.ztoexpresscabinet", "com.zto.ztoexpresscabinet.business.view.MainActivity"));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
     public Map<Integer, String> getDisplayBtn() {
         Map<Integer, String> btnList = new HashMap<>();
-        Space ramSpace = new Space(0, 0, 0);
+        Space ramSpace = null;
         try {
             ramSpace = FStorageTools.getRamSpace(FStorageTools.TYPE_MB);
         } catch (Throwable throwable) {
             throwable.printStackTrace();
         }
-        Space sdSpace = new Space(0, 0, 0);
+        Space sdSpace = null;
         try {
             sdSpace = FStorageTools.getSdcardSpace(FStorageTools.TYPE_MB);
         } catch (Throwable throwable) {
@@ -107,8 +141,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot());
         btnList.put(FKey.KEY_LOCAL_IP, "本地IP：" + NetUtils.getLocalIp());
         btnList.put(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion());
-        btnList.put(FKey.KEY_RAM, "运存：" + ramSpace.getTotalSize() + "M/" + ramSpace.getUseSize() + "M/" + ramSpace.getAvailableSize() + "M");
-        btnList.put(FKey.KEY_SD_SPACE, "SD：" + sdSpace.getTotalSize() + "M/" + sdSpace.getUseSize() + "M/" + sdSpace.getAvailableSize() + "M");
+        btnList.put(FKey.KEY_RAM, "运存：" + ramSpace.getTotalSize() + "MB/" + ramSpace.getUseSize() + "MB/" + ramSpace.getAvailableSize() + "MB");
+        btnList.put(FKey.KEY_SD_SPACE, "SD：" + sdSpace.getTotalSize() + "MB/" + sdSpace.getUseSize() + "MB/" + sdSpace.getAvailableSize() + "MB");
         btnList.put(FKey.KEY_ETH_MODE, "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
         try {
             btnList.put(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm());
