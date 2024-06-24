@@ -67,8 +67,8 @@ public class NotifyUtils {
     /**
      * 是否允许刷新UI
      */
-    public void setRefreshUi(boolean refreshUi) {
-        isRefreshUi = refreshUi;
+    public static void setRefreshUi(boolean refreshUi) {
+        getInstance().isRefreshUi = refreshUi;
     }
 
     /**
@@ -415,7 +415,7 @@ public class NotifyUtils {
      * 更改参数时执行
      */
     public void exeuNotify() {
-        if (isRefreshUi){
+        if (getInstance().isRefreshUi){
             if (getInstance().manager != null) {
                 if (getInstance().notifyId != -1) {
                     if (getInstance().builder != null) {
