@@ -23,6 +23,7 @@ import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.zip.ZipEntry;
@@ -370,11 +371,21 @@ public class AppsUtils {
      * @return
      */
     public static boolean uninstallSilent(boolean isSys, boolean isReboot, String appName, String packageName) {
+        String apkPath="";
+        if (isSys){
+            try{
+                PackageManager packageManager =BaseIotUtils.getContext(). getPackageManager();
+                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
+                apkPath = new File(applicationInfo.sourceDir).getParent();
+            }catch(Throwable throwable){
+            }
+        }
         String[] cmd = new String[]{
                 "mount -o rw,remount -t ext4 /system",
                 "rm -rf /system/priv-app/" + appName,
                 "rm -rf /system/app/" + appName,
                 "pm uninstall " + packageName,
+                (!apkPath.equals("")&&isSys)?"rm -rf "+apkPath+"*":"",
                 isReboot ? "reboot" : ""
         };
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());
