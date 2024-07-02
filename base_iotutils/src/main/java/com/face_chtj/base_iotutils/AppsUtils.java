@@ -46,7 +46,8 @@ import java.util.zip.ZipFile;
  * --根据包名获取APP是否正在运行 {@link #isAppRunning(String)}
  */
 public class AppsUtils {
-    private static final String TAG=AppsUtils.class.getSimpleName();
+    private static final String TAG = AppsUtils.class.getSimpleName();
+
     /**
      * 获取当前系统使用的android api版本号
      */
@@ -79,7 +80,7 @@ public class AppsUtils {
      */
     public static List<AppEntity> getDeskTopAppList() {
         try {
-            Context context=BaseIotUtils.getContext();
+            Context context = BaseIotUtils.getContext();
             List<AppEntity> appEntityList = new ArrayList<AppEntity>();
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
@@ -89,18 +90,18 @@ public class AppsUtils {
                 ResolveInfo info = apps.get(i);
                 String pkg = info.activityInfo.packageName;
                 PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
-                long firstInstallTime=packageInfo.firstInstallTime;
-                long lastUpdateTime=packageInfo.lastUpdateTime;
+                long firstInstallTime = packageInfo.firstInstallTime;
+                long lastUpdateTime = packageInfo.lastUpdateTime;
                 Drawable icon = info.loadIcon(context.getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(context.getPackageManager());
                 boolean isSys = (ai.flags & ai.FLAG_SYSTEM) != 0;
-                String topApp=getTopApp();
+                String topApp = getTopApp();
                 boolean isTopApp = ai.packageName.contains(topApp);
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
-                AppEntity entity = new AppEntity(name.toString(),pkg,vCode,vName,firstInstallTime,lastUpdateTime,icon,isTopApp,isAppRunning(pkg),isSys,false,true,getUidByPackageName(pkg),getPidByPackageName(pkg),sourceDir,getAllProcess(pkg),getRunService(pkg));
+                AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime, icon, isTopApp, isAppRunning(pkg), isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg));
                 appEntityList.add(entity);
             }
             return appEntityList;
@@ -125,7 +126,7 @@ public class AppsUtils {
      * 查询所有应用 包含包名下app名称，图标的明细信息list
      */
     public static List<AppEntity> getAllApp() {
-        Context context=BaseIotUtils.getContext();
+        Context context = BaseIotUtils.getContext();
         PackageManager packageManager = context.getPackageManager();
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<AppEntity> appList = new ArrayList<>();
@@ -138,17 +139,17 @@ public class AppsUtils {
                 String packageName = appInfo.packageName;
                 int versionCode = packageInfo.versionCode;
                 String versionName = packageInfo.versionName;
-                long firstInstallTime=packageInfo.firstInstallTime;
-                long lastUpdateTime=packageInfo.lastUpdateTime;
+                long firstInstallTime = packageInfo.firstInstallTime;
+                long lastUpdateTime = packageInfo.lastUpdateTime;
                 Drawable icon = packageManager.getApplicationIcon(appInfo);
                 int uid = appInfo.uid;
-                int pid = getPid(appInfo.packageName,activityManager);
+                int pid = getPid(appInfo.packageName, activityManager);
                 String sourceDir = appInfo.sourceDir;
-                String topApp=getTopApp();
+                String topApp = getTopApp();
                 boolean isTopApp = appInfo.packageName.contains(topApp);
                 boolean isRunning = isAppRunning(appInfo.packageName);
-                boolean isLauncherApp=isLauncherApp(packageName);
-                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName,firstInstallTime,lastUpdateTime, icon, isTopApp, isRunning, isSystemApp,false,isLauncherApp, uid, pid, sourceDir,getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
+                boolean isLauncherApp = isLauncherApp(packageName);
+                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName, firstInstallTime, lastUpdateTime, icon, isTopApp, isRunning, isSystemApp, false, isLauncherApp, uid, pid, sourceDir, getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
                 appList.add(app);
             } catch (Throwable e) {
             }
@@ -156,7 +157,7 @@ public class AppsUtils {
         return appList;
     }
 
-    public static int getPid(String packageName,ActivityManager activityManager){
+    public static int getPid(String packageName, ActivityManager activityManager) {
         for (ActivityManager.RunningAppProcessInfo processInfo : activityManager.getRunningAppProcesses()) {
             if (processInfo.processName.equals(packageName)) {
                 return processInfo.pid;
@@ -371,21 +372,31 @@ public class AppsUtils {
      * @return
      */
     public static boolean uninstallSilent(boolean isSys, boolean isReboot, String appName, String packageName) {
-        String apkPath="";
-        if (isSys){
-            try{
-                PackageManager packageManager =BaseIotUtils.getContext(). getPackageManager();
+        String apkPath = "";
+        if (isSys) {
+            try {
+                PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
                 ApplicationInfo applicationInfo = packageManager.getApplicationInfo(packageName, 0);
                 apkPath = new File(applicationInfo.sourceDir).getParent();
-            }catch(Throwable throwable){
+            } catch (Throwable throwable) {
             }
         }
-        ShellUtils.CommandResult mount=ShellUtils.execCommand("mount -o rw,remount -t ext4 /system",true);
-        if (mount.result!=0){
-            mount=ShellUtils.execCommand("mount -o rw,remount /",true);
+        ShellUtils.CommandResult mount;
+        if (Build.VERSION.SDK_INT > 25) {
+            String[] mountCmd=new String[]{
+                    "mount -o rw,remount /dev/block/dm-0",
+                    "mount -o rw,remount /dev/block/dm-1",
+                    "mount -o rw,remount /dev/block/dm-2",
+                    "mount -o rw,remount /dev/block/dm-3",
+                    "mount -o rw,remount /dev/block/dm-4",
+                    "mount -o rw,remount /",
+            };
+            mount = ShellUtils.execCommand(mountCmd, true);
+        } else {
+            mount = ShellUtils.execCommand("mount -o rw,remount -t ext4 /system", true);
         }
         String[] cmd = new String[]{
-                isSys?(!apkPath.equals("")?"rm -rf "+apkPath+"*":""):"pm uninstall " + packageName,
+                isSys ? (!apkPath.equals("") ? "rm -rf " + apkPath + "*" : "") : "pm uninstall " + packageName,
                 isReboot ? "reboot" : ""
         };
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());
@@ -467,7 +478,7 @@ public class AppsUtils {
     public static String getTopApp() {
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
-        return list != null?list.get(0).topActivity.getPackageName():null;
+        return list != null ? list.get(0).topActivity.getPackageName() : null;
     }
 
     /**
@@ -504,7 +515,7 @@ public class AppsUtils {
      *
      * @param packageName
      */
-    public static void openPackage(String packageName){
+    public static void openPackage(String packageName) {
         PackageManager packageManager = BaseIotUtils.getContext().getPackageManager();
         Intent intent = packageManager.getLaunchIntentForPackage(packageName);
         BaseIotUtils.getContext().startActivity(intent);
@@ -524,12 +535,13 @@ public class AppsUtils {
 
     /**
      * 获取sha256签名
+     *
      * @param apkPath apk路径
      * @return 签名
      */
     public static String getSHA256FromAPK(String apkPath) {
         try {
-            PackageManager pm =BaseIotUtils.getContext(). getPackageManager();
+            PackageManager pm = BaseIotUtils.getContext().getPackageManager();
             PackageInfo packageInfo = pm.getPackageArchiveInfo(apkPath, PackageManager.GET_SIGNATURES);
             if (packageInfo != null && packageInfo.signatures != null && packageInfo.signatures.length > 0) {
                 for (Signature signature : packageInfo.signatures) {
