@@ -91,7 +91,7 @@ public class DialogUtils {
     }
 
     private static void createDialog(Context context, @DrawableRes int icon, String title,
-                                     String content, final boolean needEnter) {
+                                     String content, final boolean isInput) {
         if (instance().mDialog == null) {
             instance().isClickBtn=false;
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -110,21 +110,22 @@ public class DialogUtils {
                 }
             });
             instance().etContent = view.findViewById(R.id.etContent);
-            instance().etContent.setBackground(needEnter?ContextCompat.getDrawable(context,R.drawable.ic_dialogalert_bg):null);
+            instance().etContent.setBackground(isInput?ContextCompat.getDrawable(context,R.drawable.ic_dialogalert_bg):null);
             instance().tvTitle = view.findViewById(R.id.tvTitle);
-            if(!needEnter){
+            if(!isInput){
                 instance().tvTitle.setFocusable(true);
+                instance().etContent.setGravity(Gravity.CENTER);
                 instance().etContent.setLongClickable(false);
                 instance().etContent.setClickable(false);
                 instance().etContent.setEnabled(false);
                 instance().mDialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             }
-            instance().etContent.setText(needEnter?"":content);
+            instance().etContent.setText(isInput?"":content);
             instance().tvTitle.setText(title);
             instance().etContent.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(needEnter){
+                    if(isInput){
                         if(instance().isShowBoard){
                             KeyBoardUtils.openKeybord(instance().etContent);
                             instance().isShowBoard=false;

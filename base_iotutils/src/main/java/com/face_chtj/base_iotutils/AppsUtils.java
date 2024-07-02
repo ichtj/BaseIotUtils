@@ -380,12 +380,12 @@ public class AppsUtils {
             }catch(Throwable throwable){
             }
         }
+        ShellUtils.CommandResult mount=ShellUtils.execCommand("mount -o rw,remount -t ext4 /system",true);
+        if (mount.result!=0){
+            mount=ShellUtils.execCommand("mount -o rw,remount /",true);
+        }
         String[] cmd = new String[]{
-                "mount -o rw,remount -t ext4 /system",
-                "rm -rf /system/priv-app/" + appName,
-                "rm -rf /system/app/" + appName,
-                "pm uninstall " + packageName,
-                (!apkPath.equals("")&&isSys)?"rm -rf "+apkPath+"*":"",
+                isSys?(!apkPath.equals("")?"rm -rf "+apkPath+"*":""):"pm uninstall " + packageName,
                 isReboot ? "reboot" : ""
         };
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());
