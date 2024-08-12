@@ -39,4 +39,9 @@ public class MyCrashService2 extends Service {
             }.start();
         }
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
 }

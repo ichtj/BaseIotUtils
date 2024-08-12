@@ -47,7 +47,7 @@ ext {
             "rxjava"                  : "io.reactivex.rxjava3:rxjava:3.0.0-RC3",
             "rxandroid"               : "io.reactivex.rxjava2:rxandroid:2.1.1",
             //network
-            "mqttv3"                  : "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.1.0",
+            "mqttv3"                  : "org.eclipse.paho:org.eclipse.paho.client.mqttv3:1.2.5",
             "mqttv-service"           : "org.eclipse.paho:org.eclipse.paho.android.service:1.1.1",
             //okhttp
             "okhttp12"                : "com.squareup.okhttp3:okhttp:3.12.1",

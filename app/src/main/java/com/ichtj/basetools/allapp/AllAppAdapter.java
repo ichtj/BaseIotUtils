@@ -120,7 +120,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 if(list.get(posiNum).isSystemApp){
-                    ToastUtils.info("系统系统请使用静默卸载！");
+                    ToastUtils.info("系统应用请使用静默卸载！");
                 }else{
                     AppsUtils.uninstall(list.get(posiNum).packageName);
                 }

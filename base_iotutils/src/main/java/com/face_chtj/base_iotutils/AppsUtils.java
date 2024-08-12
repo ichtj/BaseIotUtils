@@ -397,6 +397,7 @@ public class AppsUtils {
         }
         String[] cmd = new String[]{
                 isSys ? (!apkPath.equals("") ? "rm -rf " + apkPath + "*" : "") : "pm uninstall " + packageName,
+                "sync",
                 isReboot ? "reboot" : ""
         };
         ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());

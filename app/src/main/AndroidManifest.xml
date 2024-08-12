@@ -144,12 +144,12 @@
             android:screenOrientation="user"
             android:theme="@style/SplashTheme">
             <intent-filter>
+               <!-- <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />-->
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-                <!--<action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />-->
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <!--功能选择-->
@@ -392,6 +392,12 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
+
+        <activity android:name=".mqtt.MqttTestAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"/>
 
         <meta-data
             android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"

@@ -127,6 +127,9 @@ dependencies {
     implementation rootProject.ext.dependencies["videoplay"]
     implementation rootProject.ext.dependencies["base_adapter"]
     implementation rootProject.ext.dependencies["android_shell"]
+    //mqtt
+    implementation rootProject.ext.dependencies["mqttv3"]
+    implementation rootProject.ext.dependencies["mqttv-service"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
     //物联网开发基础工具类

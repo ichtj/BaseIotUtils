@@ -48,6 +48,7 @@ import com.ichtj.basetools.hid.HidMainDevAty;
 import com.ichtj.basetools.hid.HidSubDevAty;
 import com.ichtj.basetools.install.InstallAPkAty;
 import com.ichtj.basetools.keeplive.KeepAliveAty;
+import com.ichtj.basetools.mqtt.MqttTestAty;
 import com.ichtj.basetools.network.NetChangeAty;
 import com.ichtj.basetools.network.NetRecordAty;
 import com.ichtj.basetools.nginx.NginxAty;
@@ -106,63 +107,64 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         }
         btnList.put(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid());
         btnList.put(FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid());
-        btnList.put(FKey.KEY_SERIAL, "序列号：" + OptionTools.getSerialNo());
-        btnList.put(FKey.KEY_NET_TYPE, "网络类型：" + NetUtils.getNetWorkTypeName());
-        btnList.put(FKey.KEY_APK_VERSION, "APK版本：v" + AppsUtils.getAppVersionName());
-        btnList.put(FKey.KEY_IS_ROOT, "是否ROOT：" + AppsUtils.isRoot());
-        btnList.put(FKey.KEY_LOCAL_IP, "本地IP：" + NetUtils.getLocalIp());
-        btnList.put(FKey.KEY_FW_VERSION, "固件版本：" + DeviceUtils.getFwVersion());
-        btnList.put(FKey.KEY_RAM, "运存：" + ramSpace.getTotalSize() + "MB/" + ramSpace.getUseSize() + "MB/" + ramSpace.getAvailableSize() + "MB");
-        btnList.put(FKey.KEY_SD_SPACE, "SD：" + sdSpace.getTotalSize() + "MB/" + sdSpace.getUseSize() + "MB/" + sdSpace.getAvailableSize() + "MB");
-        btnList.put(FKey.KEY_ETH_MODE, "ETH模式：" + FEthTools.getIpMode(BaseIotUtils.getContext()));
+        btnList.put(FKey.KEY_SERIAL, getString(R.string.main_serial, OptionTools.getSerialNo()));
+        btnList.put(FKey.KEY_NET_TYPE, getString(R.string.main_nettype, NetUtils.getNetWorkTypeName()));
+        btnList.put(FKey.KEY_APK_VERSION, getString(R.string.main_apk_version, AppsUtils.getAppVersionName()));
+        btnList.put(FKey.KEY_IS_ROOT, getString(R.string.main_rooted, AppsUtils.isRoot() + ""));
+        btnList.put(FKey.KEY_LOCAL_IP, getString(R.string.main_localip,NetUtils.getLocalIp()));
+        btnList.put(FKey.KEY_FW_VERSION, getString(R.string.main_fw_version,DeviceUtils.getFwVersion()));
+        btnList.put(FKey.KEY_RAM, getString(R.string.main_running_memory,ramSpace.getTotalSize() + "MB/" + ramSpace.getUseSize() + "MB/" + ramSpace.getAvailableSize() + "MB"));
+        btnList.put(FKey.KEY_SD_SPACE, getString(R.string.main_sdcard_memory,sdSpace.getTotalSize() + "MB/" + sdSpace.getUseSize() + "MB/" + sdSpace.getAvailableSize() + "MB"));
+        btnList.put(FKey.KEY_ETH_MODE, getString(R.string.main_eth_mode,FEthTools.getIpMode(BaseIotUtils.getContext())));
         try {
-            btnList.put(FKey.KEY_DBM, "4G信号值：" + FLteTools.getDbm());
+            btnList.put(FKey.KEY_DBM, getString(R.string.main_lte_dbm,FLteTools.getDbm()));
         } catch (Throwable throwable) {
-            btnList.put(FKey.KEY_DBM, "4G信号值：0 dBm 0 asu");
+            btnList.put(FKey.KEY_DBM, getString(R.string.main_lte_dbm,"0 dBm 0 asu"));
         }
-        btnList.put(FKey.KEY_SERIAL_PORT, "串口收发");
-        btnList.put(FKey.KEY_TIMERD, "定时器");
-        btnList.put(FKey.KEY_SCREEN, "屏幕相关");
-        btnList.put(FKey.KEY_FILE_RW, "文件读写");
-        btnList.put(FKey.KEY_NETWORK, "网络监听");
-        btnList.put(FKey.KEY_RESET_MONITOR, "网络重置监听");
-        btnList.put(FKey.KEY_FILEDOWN, "多文件下载");
-        btnList.put(FKey.KEY_TCP_UDP, "TCP|UDP");
-        btnList.put(FKey.KEY_NOTIFY_SHOW, "通知开启");
-        btnList.put(FKey.KEY_NOTIFY_CLOSE, "通知关闭");
-        btnList.put(FKey.KEY_SYS_DIALOG_SHOW, "系统弹窗");
-        btnList.put(FKey.KEY_SYS_DIALOG_CLOSE, "关闭系统弹窗");
-        btnList.put(FKey.KEY_DIALOG, "对话框");
-        btnList.put(FKey.KEY_TOAST, "普通吐司");
-        btnList.put(FKey.KEY_TOAST_BG, "图形吐司");
-        btnList.put(FKey.KEY_ERR_ANR, "测试anr");
-        btnList.put(FKey.KEY_ERR_OTHER, "测试其他异常");
-        btnList.put(FKey.KEY_USB_HUB, "USB设备监听");
-        btnList.put(FKey.KEY_USB_HUB_UNREGIST, "USB监听解除");
-        btnList.put(FKey.KEY_GREEN_DAO, "数据库封装");
-        btnList.put(FKey.KEY_JXL_OPEN, "JXL打开excel");
-        btnList.put(FKey.KEY_JXL_EXPORT, "JXL导出excel");
-        btnList.put(FKey.KEY_POI_OPEN, "POI打开excel");
-        btnList.put(FKey.KEY_POI_EXPORT, "POI导出excel");
-        btnList.put(FKey.KEY_APP_LIST, "应用列表");
-        btnList.put(FKey.KEY_VIDEO, "视频播放");
-        btnList.put(FKey.KEY_URL_CONVERT, "Uri转路径");
-        btnList.put(FKey.KEY_ASSETS, "获取Assets文件");
-        btnList.put(FKey.KEY_AUDIO, "播放音频");
-        btnList.put(FKey.KEY_IP_SET_STATIC, "静态IP(ROOT)");
-        btnList.put(FKey.KEY_IP_SET_DHCP, "动态IP(ROOT)");
-        btnList.put(FKey.KEY_SCREENSHOT, "截屏(ROOT)");
-        btnList.put(FKey.KEY_KEEPALIVE, "ATY/SERVICE保活");
-        btnList.put(FKey.KEY_OTA, "ota升级(RK|FC)");
-        btnList.put(FKey.KEY_INSTALL, "静默安装");
-        btnList.put(FKey.KEY_BLUETOOTH, "蓝牙测试");
-        btnList.put(FKey.VIDEO_CACHE, "视频录制");
-        btnList.put(FKey.KEY_CRASH, "死机验证");
-        btnList.put(FKey.KEY_NGINX, "nginx");
-        btnList.put(FKey.KEY_SUB_DEV_HID, "HID(作为从)");
-        btnList.put(FKey.KEY_MAIN_DEV_HID, "HID(作为主)");
-        btnList.put(FKey.KEY_APK_SIGN, "APK签名");
-        btnList.put(FKey.KEY_TOUCH_DETECT, "触摸检查");
+        btnList.put(FKey.KEY_SERIAL_PORT, getString(R.string.main_serial_rw));
+        btnList.put(FKey.KEY_TIMERD, getString(R.string.main_timer));
+        btnList.put(FKey.KEY_SCREEN, getString(R.string.main_screen_about));
+        btnList.put(FKey.KEY_FILE_RW, getString(R.string.main_file_rw));
+        btnList.put(FKey.KEY_NETWORK, getString(R.string.main_net_listener));
+        btnList.put(FKey.KEY_RESET_MONITOR, getString(R.string.main_net_reset_listener));
+        btnList.put(FKey.KEY_FILEDOWN, getString(R.string.main_file_down));
+        btnList.put(FKey.KEY_TCP_UDP, getString(R.string.main_tcp_udp));
+        btnList.put(FKey.KEY_NOTIFY_SHOW, getString(R.string.main_notify_enable));
+        btnList.put(FKey.KEY_NOTIFY_CLOSE, getString(R.string.main_notify_disable));
+        btnList.put(FKey.KEY_SYS_DIALOG_SHOW, getString(R.string.main_sys_dialog_enable));
+        btnList.put(FKey.KEY_SYS_DIALOG_CLOSE, getString(R.string.main_sys_dialog_disable));
+        btnList.put(FKey.KEY_DIALOG, getString(R.string.main_dialog_box));
+        btnList.put(FKey.KEY_TOAST, getString(R.string.main_normal_toast));
+        btnList.put(FKey.KEY_TOAST_BG, getString(R.string.main_bitmap_toast));
+        btnList.put(FKey.KEY_ERR_ANR, getString(R.string.main_test_anr));
+        btnList.put(FKey.KEY_ERR_OTHER, getString(R.string.main_test_other_ex));
+        btnList.put(FKey.KEY_USB_HUB, getString(R.string.main_usb_dev_listener));
+        btnList.put(FKey.KEY_USB_HUB_UNREGIST, getString(R.string.main_usb_dev_release));
+        btnList.put(FKey.KEY_GREEN_DAO, getString(R.string.main_test_greendao));
+        btnList.put(FKey.KEY_JXL_OPEN, getString(R.string.main_jxl_open_excel));
+        btnList.put(FKey.KEY_JXL_EXPORT, getString(R.string.main_jxl_export_excel));
+        btnList.put(FKey.KEY_POI_OPEN, getString(R.string.main_poi_open_excel));
+        btnList.put(FKey.KEY_POI_EXPORT, getString(R.string.main_poi_export_excel));
+        btnList.put(FKey.KEY_APP_LIST, getString(R.string.main_app_list));
+        btnList.put(FKey.KEY_VIDEO, getString(R.string.main_play_video));
+        btnList.put(FKey.KEY_URL_CONVERT, getString(R.string.main_uri_to_path));
+        btnList.put(FKey.KEY_ASSETS, getString(R.string.get_assets_file));
+        btnList.put(FKey.KEY_AUDIO, getString(R.string.main_play_audio));
+        btnList.put(FKey.KEY_IP_SET_STATIC, getString(R.string.main_set_staticip));
+        btnList.put(FKey.KEY_IP_SET_DHCP, getString(R.string.main_set_dhcpip));
+        btnList.put(FKey.KEY_SCREENSHOT, getString(R.string.main_screenshot));
+        btnList.put(FKey.KEY_KEEPALIVE, getString(R.string.main_as_keepalive));
+        btnList.put(FKey.KEY_OTA, getString(R.string.main_upgrade_ota));
+        btnList.put(FKey.KEY_INSTALL, getString(R.string.main_silent_installation));
+        btnList.put(FKey.KEY_BLUETOOTH, getString(R.string.main_test_bluetooth));
+        btnList.put(FKey.VIDEO_CACHE, getString(R.string.main_record_video));
+        btnList.put(FKey.KEY_CRASH, getString(R.string.main_crash_verification));
+        btnList.put(FKey.KEY_NGINX, getString(R.string.main_nginx));
+        btnList.put(FKey.KEY_SUB_DEV_HID, getString(R.string.main_sub_hid_dev));
+        btnList.put(FKey.KEY_MAIN_DEV_HID, getString(R.string.main_hid_dev));
+        btnList.put(FKey.KEY_APK_SIGN, getString(R.string.main_sign));
+        btnList.put(FKey.KEY_TOUCH_DETECT, getString(R.string.main_touch_check));
+        btnList.put(FKey.KEY_MQTT_TEST, getString(R.string.main_test_mqtt));
         return btnList;
     }
 
@@ -179,7 +181,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                                     KLog.d(TAG, "dismiss=" + dismiss);
                                 }
                             })
-                            .replaceClickIntent(new Intent(this,FileDownLoadAty.class))
+                            .replaceClickIntent(new Intent(this, FileDownLoadAty.class))
                             .setAppName("BaseIotUtils")
                             .setAppAbout(AppsUtils.getAppVersionName())
                             .setPrompt("this a prompt")
@@ -232,7 +234,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 int i = 1 / 0;
                 break;
             case FKey.KEY_USB_HUB:
-                ToastUtils.info("usb设备监听开始,插入或拔出将提示！");
+                ToastUtils.info(getString(R.string.main_start_usb_listener));
                 UsbHubTools.getInstance().registerReceiver();
                 UsbHubTools.getInstance().setIUsbDeviceListener(new IUsbHubListener() {
                     @Override
@@ -242,7 +244,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 });
                 break;
             case FKey.KEY_USB_HUB_UNREGIST:
-                ToastUtils.info("解除usb设备监听注册");
+                ToastUtils.info(getString(R.string.main_close_usb_listener));
                 UsbHubTools.getInstance().unRegisterReceiver();
                 break;
             case FKey.KEY_JXL_OPEN:
@@ -424,6 +426,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 break;
             case FKey.KEY_TOUCH_DETECT:
                 startAty(TouchDetectAty.class);
+                break;
+            case FKey.KEY_MQTT_TEST:
+                startAty(MqttTestAty.class);
                 break;
         }
     }

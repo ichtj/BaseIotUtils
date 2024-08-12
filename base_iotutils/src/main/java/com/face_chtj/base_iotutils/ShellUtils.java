@@ -13,8 +13,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * @author chtj
- * create by chtj on 2019-8-6
  * desc:adb Shell相关工具类
  * Command执行结果 CommandResult
  * <p>
@@ -30,6 +28,7 @@ import java.io.InputStreamReader;
  * --检查Root权限 {@link #isCheckRoot()}
  */
 public class ShellUtils {
+    private static final String TAG=ShellUtils.class.getSimpleName();
     public final static String COMMAND_SU = "su";
     public final static String COMMAND_SH = "sh";
     public final static String COMMAND_EXIT = "exit\n";
@@ -64,7 +63,7 @@ public class ShellUtils {
             for (int i = 0; i < kSuSearchPaths.length; i++) {
                 f = new File(kSuSearchPaths[i] + "su");
                 if (f != null && f.exists()) {
-                    KLog.d("find su in : " + kSuSearchPaths[i]);
+                    Log.d(TAG,"find su in : " + kSuSearchPaths[i]);
                     return true;
                 }
             }
@@ -151,7 +150,7 @@ public class ShellUtils {
             } catch (IOException e) {
                 String errmsg = e.getMessage();
                 if (errmsg != null) {
-                    KLog.d(errmsg);
+                    Log.d(TAG,errmsg);
                 } else {
                     e.printStackTrace();
                 }
