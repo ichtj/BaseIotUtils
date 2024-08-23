@@ -60,6 +60,7 @@ public class NetUtils {
     public static final int NETWORK_2G = 2;//"2G" networks
     public static final int NETWORK_3G = 3;//"3G" networks
     public static final int NETWORK_4G = 4;//"4G" networks
+    public static final int NETWORK_MOBILE = 14;//Indicates that the mobile network is available, not that the network is unavailable
     public static final int NETWORK_UNKNOWN = 5;//unknown network
     public static final int NETWORK_ETH = 9;//ETH networks
     private static final int NETWORK_TYPE_GSM = 16;//GSM
@@ -142,7 +143,7 @@ public class NetUtils {
                             if (subtypeName.equalsIgnoreCase("TD-SCDMA") || subtypeName.equalsIgnoreCase("WCDMA") || subtypeName.equalsIgnoreCase("CDMA2000")) {
                                 return NETWORK_3G;
                             } else {
-                                return NETWORK_UNKNOWN;//未知网络
+                                return NETWORK_MOBILE;//标识为可用网络
                             }
                     }
                 default:
@@ -160,6 +161,8 @@ public class NetUtils {
         switch (getNetWorkType()) {
             case NETWORK_WIFI:
                 return "NETWORK_WIFI";
+            case NETWORK_MOBILE:
+                return "NETWORK_MOBILE";
             case NETWORK_4G:
                 return "NETWORK_4G";
             case NETWORK_3G:

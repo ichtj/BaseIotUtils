@@ -5,7 +5,7 @@
   -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.ichtj.basetools"><!--android:sharedUserId="android.uid.system"-->
+    package="com.ichtj.basetools">
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->
@@ -144,9 +144,10 @@
             android:screenOrientation="user"
             android:theme="@style/SplashTheme">
             <intent-filter>
-               <!-- <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />-->
+                <!-- <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />-->
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -160,8 +161,7 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme">
-        </activity>
+            android:theme="@style/AppTheme"></activity>
         <!--后台服务-->
         <!--串口相关-->
         <activity
@@ -171,8 +171,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan" >
-        </activity>
+            android:windowSoftInputMode="adjustPan"></activity>
         <!--屏幕适配相关-->
         <activity
             android:name=".screen.ScreenActivity"
@@ -393,11 +392,18 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
 
-        <activity android:name=".mqtt.MqttTestAty"
+        <activity
+            android:name=".mqtt.MqttTestAty"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".webviews.WebViewAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
 
         <meta-data
             android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"

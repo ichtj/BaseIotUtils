@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.util.Log;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
@@ -68,6 +69,7 @@ import com.ichtj.basetools.util.TableFileUtils;
 import com.ichtj.basetools.util.UsbHubTools;
 import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
+import com.ichtj.basetools.webviews.WebViewAty;
 
 import java.io.InputStream;
 import java.util.HashMap;
@@ -89,6 +91,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap(getDisplayBtn());
         customButtonGridView.setNumColumns(2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener(this);
+        Log.d(TAG, "onCreate: "+ ShellUtils.execCommand("ls -l /sdcard/",true).successMsg);
     }
 
     public Map<Integer, String> getDisplayBtn() {
@@ -165,6 +168,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put(FKey.KEY_APK_SIGN, getString(R.string.main_sign));
         btnList.put(FKey.KEY_TOUCH_DETECT, getString(R.string.main_touch_check));
         btnList.put(FKey.KEY_MQTT_TEST, getString(R.string.main_test_mqtt));
+        btnList.put(FKey.KEY_WEBVIEW_TEST, getString(R.string.main_test_webview));
         return btnList;
     }
 
@@ -427,8 +431,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_TOUCH_DETECT:
                 startAty(TouchDetectAty.class);
                 break;
-            case FKey.KEY_MQTT_TEST:
-                startAty(MqttTestAty.class);
+            case FKey.KEY_WEBVIEW_TEST:
+                startAty(WebViewAty.class);
                 break;
         }
     }

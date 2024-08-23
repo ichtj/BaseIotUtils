@@ -57,4 +57,5 @@ public class FKey {
     public static final int         KEY_APK_SIGN=53;//APK签名
     public static final int     KEY_TOUCH_DETECT=54;//触摸检查
     public static final int        KEY_MQTT_TEST=55;//Mqtt测试
+    public static final int     KEY_WEBVIEW_TEST=56;//WebView测试
 }

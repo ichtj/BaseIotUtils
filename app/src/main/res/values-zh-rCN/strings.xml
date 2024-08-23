@@ -92,6 +92,7 @@
     <string name="main_sign">APK签名</string>
     <string name="main_touch_check">触摸检查</string>
     <string name="main_test_mqtt">MQTT测试</string>
+    <string name="main_test_webview">WebView测试</string>
     <string name="main_start_usb_listener">usb设备监听开始,插入或拔出将提示！</string>
     <string name="main_close_usb_listener">解除usb设备监听注册</string>
 </resources>
