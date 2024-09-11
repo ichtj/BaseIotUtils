@@ -53,7 +53,7 @@ public class NetTimerService extends Service {
         }
     };
 
-    public void setPingDns(String[] pingDns) {
+    public void replacePingDns(String[] pingDns) {
         this.pingDns = pingDns;
         StringBuilder stringBuilder = new StringBuilder();
         for (int i = 0; i < pingDns.length; i++) {
@@ -90,6 +90,7 @@ public class NetTimerService extends Service {
     public void onCreate() {
         super.onCreate();
         FLteTools.init();
+        replacePingDns(getPingDns());
         startNetCheck();
     }
 
@@ -132,6 +133,8 @@ public class NetTimerService extends Service {
                                 localIp=NetUtils.getWifiIpAddress();
                             }else if(netType==NetUtils.NETWORK_ETH){
                                 localIp=NetUtils.getEthIPv4Address();
+                            }else{
+                                localIp=NetUtils.getLocalIp();
                             }
                             NetBean netBean = new NetBean(pingDns, dbm, localIp, netTypeName, isNet4G, pingResult, netConnect);
                             handler.sendMessage(handler.obtainMessage(0x10, netBean));

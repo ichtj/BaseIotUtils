@@ -116,7 +116,9 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
                 }
                 // 在这里可以处理或显示选中的项目列表
                 if (selectedItemsList.size() > 0) {
-                    timerService.setPingDns(selectedItemsList.toArray(new String[0]));
+                    timerService.replacePingDns(selectedItemsList.toArray(new String[0]));
+                }else{
+                    ToastUtils.error("至少选择一个进行网络测试！");
                 }
             }
         });
@@ -140,6 +142,9 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
             isBound = true;
             NetTimerService.NetTimerBinder myBinder = (NetTimerService.NetTimerBinder) binder;
             timerService = myBinder.getService();
+            if (timerService!=null){
+                tvPingAddr.setText(Arrays.toString(timerService.getPingDns()));
+            }
         }
 
         @Override
@@ -161,8 +166,8 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
     @Override
     public void refreshNet(NetBean netBean) {
         String netConnectResult = FormatViewUtils.formatColor(netBean.netConnect + "", netBean.netConnect ? R.color.green : R.color.red);
-        String dnsResult = FormatViewUtils.formatUnderlin(R.color.blue, Arrays.toString(netBean.pingDns));
-        FormatViewUtils.formatData(tvResult, "dns：" + dnsResult + ", pingResult：" + Arrays.toString(netBean.pingResult) + ", dbm：" + netBean.dbm + ", localIp：" + netBean.localIp + ", netType：" + netBean.netType + ", isNet4G：" + netBean.isNet4G + ", netConnect：" + netConnectResult);
+        String dnsResult = FormatViewUtils.formatUnderline (R.color.blue, Arrays.toString(netBean.pingDns));
+        FormatViewUtils.formatData(tvResult, "dns：" + dnsResult + ", pingResult：" + Arrays.toString(netBean.pingResult) + ", dbm：" + netBean.dbm + ", localIp：" + netBean.localIp + ", netType：" + netBean.netType + ", isNet4G：" + netBean.isNet4G + ", netConnect：" + netConnectResult,"yyyyMMddHHmmss");
         tvDbm.setText("信号：" + netBean.dbm);
         tvPingAddr.setText("DNS地址：" + Arrays.toString(netBean.pingDns));
     }

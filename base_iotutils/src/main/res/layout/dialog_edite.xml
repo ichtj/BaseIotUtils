@@ -11,10 +11,10 @@
         android:layout_height="40dp"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="8dp"
-        android:drawablePadding="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginBottom="8dp"
         android:drawableLeft="@drawable/ic_dialog_tool"
+        android:drawablePadding="10dp"
         android:gravity="left|center"
         android:text="xxxTitle"
         android:textColor="@color/black"
@@ -32,46 +32,14 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="10dp"
-        android:paddingLeft="10dp"
         android:layout_marginBottom="10dp"
-        android:hint="@string/base_input_content"
         android:gravity="center_vertical"
+        android:hint="@string/base_input_content"
         android:orientation="vertical"
-        android:textColor="@color/black"
+        android:paddingLeft="10dp"
         android:singleLine="true"
+        android:textColor="@color/black"
         android:textColorHint="@color/gray"
         android:textSize="20sp" />
-
-    <LinearLayout
-        android:id="@+id/lBottomView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/btnCancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_weight="1"
-            android:layout_gravity="center"
-            android:background="@drawable/ic_btnutil_bg"
-            android:text="@string/iot_cancel"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-
-        <Button
-            android:id="@+id/btnOk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/ic_btnutil_bg"
-            android:text="@string/iot_ok"
-            android:textColor="@color/black"
-            android:textSize="20sp" />
-    </LinearLayout>
 </LinearLayout>
 

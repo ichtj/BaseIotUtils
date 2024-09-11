@@ -125,6 +125,7 @@ public class NotifyUtils {
                         channel.setImportance(NotificationManager.IMPORTANCE_NONE);
                         notifyUtils.manager.createNotificationChannel(channel);
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext(), "channel_1");
+                        notifyUtils.setSmallIcon(R.drawable.app_img);
                         notifyUtils.builder.setCustomContentView(notifyUtils.contentView);
                     } else {
                         notifyUtils.builder = new Notification.Builder(BaseIotUtils.getContext());
