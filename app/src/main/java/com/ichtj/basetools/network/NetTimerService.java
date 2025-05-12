@@ -12,12 +12,14 @@ import androidx.annotation.Nullable;
 
 import com.chtj.base_framework.network.FLteTools;
 import com.face_chtj.base_iotutils.FileUtils;
+import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.SPUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.entity.DnsBean;
+import com.ichtj.basetools.R;
 import com.ichtj.basetools.callback.INetTimerCallback;
 import com.ichtj.basetools.entity.NetBean;
 
@@ -107,7 +109,8 @@ public class NetTimerService extends Service {
                                 pingDns = defaultDns;
                             }
                             List<DnsBean> dnsBeanList = NetUtils.checkNetWork(pingDns);
-                            boolean[] pingResult = new boolean[dnsBeanList.size()];
+                            String[] htmlResult = new String[dnsBeanList.size()];
+                            String[] pingResult = new String[dnsBeanList.size()];
                             boolean netConnect = false;
                             for (int i = 0; i < dnsBeanList.size(); i++) {
                                 boolean listItemResult = dnsBeanList.get(i).isPass;
@@ -116,7 +119,8 @@ public class NetTimerService extends Service {
                                         netConnect = true;
                                     }
                                 }
-                                pingResult[i] = listItemResult;
+                                htmlResult[i] =FormatViewUtils.formatUnderline (R.color.blue, pingDns[i])+":"+ listItemResult+",ttl:"+dnsBeanList.get(i).ttl+",time:"+dnsBeanList.get(i).delay+"ms";
+                                pingResult[i] =pingDns[i]+":"+ listItemResult+",ttl:"+dnsBeanList.get(i).ttl+",time:"+dnsBeanList.get(i).delay+"ms";
                             }
                             putCount(netConnect);
                             String netTypeName = NetUtils.getNetWorkTypeName();
@@ -136,9 +140,9 @@ public class NetTimerService extends Service {
                             }else{
                                 localIp=NetUtils.getLocalIp();
                             }
-                            NetBean netBean = new NetBean(pingDns, dbm, localIp, netTypeName, isNet4G, pingResult, netConnect);
+                            NetBean netBean = new NetBean(pingDns, dbm, localIp, netTypeName, isNet4G, htmlResult, netConnect);
                             handler.sendMessage(handler.obtainMessage(0x10, netBean));
-                            FileUtils.writeFileData(SAVE_PATH, "\ntime：" + time + ", dns：" + Arrays.toString(pingDns) + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + Arrays.toString(pingResult) + ", dbm：" + dbm + ", localIp：" + localIp + ",netConnect：" + netConnect, false);
+                            FileUtils.writeFileData(SAVE_PATH, "\ntime：" + time + ", netType：" + netType + ", isNet4G=" + NetUtils.is4G() + ", pingResult：" + Arrays.toString(pingResult) + ", dbm：" + dbm + ", localIp：" + localIp + ",netConnect：" + netConnect, false);
                         }
                     }, new Consumer<Throwable>() {
                         @Override

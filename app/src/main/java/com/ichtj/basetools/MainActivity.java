@@ -1,12 +1,28 @@
 package com.ichtj.basetools;
 
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
+import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -23,6 +39,7 @@ import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
@@ -49,7 +66,6 @@ import com.ichtj.basetools.hid.HidMainDevAty;
 import com.ichtj.basetools.hid.HidSubDevAty;
 import com.ichtj.basetools.install.InstallAPkAty;
 import com.ichtj.basetools.keeplive.KeepAliveAty;
-import com.ichtj.basetools.mqtt.MqttTestAty;
 import com.ichtj.basetools.network.NetChangeAty;
 import com.ichtj.basetools.network.NetRecordAty;
 import com.ichtj.basetools.nginx.NginxAty;
@@ -71,104 +87,103 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
+import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Route(path = PACKAGES.BASE + "basetools")
 public class MainActivity extends BaseActivity implements CustomButtonGridView.OnButtonClickListener {
-    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName ( );
     private CustomButtonGridView customButtonGridView;
-
+    private static final int REQUEST_CODE_INSTALL_UNKNOWN_APPS = 1234;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_aty);
-        Button button = findViewById(R.id.btnNext);
-        button.setTextColor(ContextCompat.getColor(this, R.color.red));
-        customButtonGridView = findViewById(R.id.customButtonGridView);
-        customButtonGridView.setButtonMap(getDisplayBtn());
-        customButtonGridView.setNumColumns(2); // 设置每列显示2个按钮
-        customButtonGridView.setOnButtonClickListener(this);
-        Log.d(TAG, "onCreate: "+ ShellUtils.execCommand("ls -l /sdcard/",true).successMsg);
+        super.onCreate (savedInstanceState);
+        setContentView (R.layout.activity_main_aty);
+        customButtonGridView = findViewById (R.id.customButtonGridView);
+        customButtonGridView.setButtonMap (getDisplayBtn ( ));
+        customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
+        customButtonGridView.setOnButtonClickListener (this);
     }
 
     public Map<Integer, String> getDisplayBtn() {
-        Map<Integer, String> btnList = new HashMap<>();
+        Map<Integer, String> btnList = new HashMap<> ( );
         Space ramSpace = null;
         try {
-            ramSpace = FStorageTools.getRamSpace(FStorageTools.TYPE_MB);
+            ramSpace = FStorageTools.getRamSpace (FStorageTools.TYPE_MB);
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            throwable.printStackTrace ( );
         }
         Space sdSpace = null;
         try {
-            sdSpace = FStorageTools.getSdcardSpace(FStorageTools.TYPE_MB);
+            sdSpace = FStorageTools.getSdcardSpace (FStorageTools.TYPE_MB);
         } catch (Throwable throwable) {
-            throwable.printStackTrace();
+            throwable.printStackTrace ( );
         }
-        btnList.put(FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid());
-        btnList.put(FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid());
-        btnList.put(FKey.KEY_SERIAL, getString(R.string.main_serial, OptionTools.getSerialNo()));
-        btnList.put(FKey.KEY_NET_TYPE, getString(R.string.main_nettype, NetUtils.getNetWorkTypeName()));
-        btnList.put(FKey.KEY_APK_VERSION, getString(R.string.main_apk_version, AppsUtils.getAppVersionName()));
-        btnList.put(FKey.KEY_IS_ROOT, getString(R.string.main_rooted, AppsUtils.isRoot() + ""));
-        btnList.put(FKey.KEY_LOCAL_IP, getString(R.string.main_localip,NetUtils.getLocalIp()));
-        btnList.put(FKey.KEY_FW_VERSION, getString(R.string.main_fw_version,DeviceUtils.getFwVersion()));
-        btnList.put(FKey.KEY_RAM, getString(R.string.main_running_memory,ramSpace.getTotalSize() + "MB/" + ramSpace.getUseSize() + "MB/" + ramSpace.getAvailableSize() + "MB"));
-        btnList.put(FKey.KEY_SD_SPACE, getString(R.string.main_sdcard_memory,sdSpace.getTotalSize() + "MB/" + sdSpace.getUseSize() + "MB/" + sdSpace.getAvailableSize() + "MB"));
-        btnList.put(FKey.KEY_ETH_MODE, getString(R.string.main_eth_mode,FEthTools.getIpMode(BaseIotUtils.getContext())));
+        btnList.put (FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid ( ));
+        btnList.put (FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid ( ));
+        btnList.put (FKey.KEY_SERIAL, getString (R.string.main_serial, OptionTools.getSerialNo ( )));
+        btnList.put (FKey.KEY_NET_TYPE, getString (R.string.main_nettype, NetUtils.getNetWorkTypeName ( )));
+        btnList.put (FKey.KEY_APK_VERSION, getString (R.string.main_apk_version, AppsUtils.getAppVersionName ( )));
+        btnList.put (FKey.KEY_IS_ROOT, getString (R.string.main_rooted, AppsUtils.isRoot ( ) + ""));
+        btnList.put (FKey.KEY_LOCAL_IP, getString (R.string.main_localip, NetUtils.getLocalIp ( )));
+        btnList.put (FKey.KEY_FW_VERSION, getString (R.string.main_fw_version, DeviceUtils.getFwVersion ( )));
+        btnList.put (FKey.KEY_RAM, getString (R.string.main_running_memory, ramSpace.getTotalSize ( ) + "MB/" + ramSpace.getUseSize ( ) + "MB/" + ramSpace.getAvailableSize ( ) + "MB"));
+        btnList.put (FKey.KEY_SD_SPACE, getString (R.string.main_sdcard_memory, sdSpace.getTotalSize ( ) + "MB/" + sdSpace.getUseSize ( ) + "MB/" + sdSpace.getAvailableSize ( ) + "MB"));
+        btnList.put (FKey.KEY_ETH_MODE, getString (R.string.main_eth_mode, FEthTools.getIpMode (BaseIotUtils.getContext ( ))));
         try {
-            btnList.put(FKey.KEY_DBM, getString(R.string.main_lte_dbm,FLteTools.getDbm()));
+            btnList.put (FKey.KEY_DBM, getString (R.string.main_lte_dbm, FLteTools.getDbm ( )));
         } catch (Throwable throwable) {
-            btnList.put(FKey.KEY_DBM, getString(R.string.main_lte_dbm,"0 dBm 0 asu"));
+            btnList.put (FKey.KEY_DBM, getString (R.string.main_lte_dbm, "0 dBm 0 asu"));
         }
-        btnList.put(FKey.KEY_SERIAL_PORT, getString(R.string.main_serial_rw));
-        btnList.put(FKey.KEY_TIMERD, getString(R.string.main_timer));
-        btnList.put(FKey.KEY_SCREEN, getString(R.string.main_screen_about));
-        btnList.put(FKey.KEY_FILE_RW, getString(R.string.main_file_rw));
-        btnList.put(FKey.KEY_NETWORK, getString(R.string.main_net_listener));
-        btnList.put(FKey.KEY_RESET_MONITOR, getString(R.string.main_net_reset_listener));
-        btnList.put(FKey.KEY_FILEDOWN, getString(R.string.main_file_down));
-        btnList.put(FKey.KEY_TCP_UDP, getString(R.string.main_tcp_udp));
-        btnList.put(FKey.KEY_NOTIFY_SHOW, getString(R.string.main_notify_enable));
-        btnList.put(FKey.KEY_NOTIFY_CLOSE, getString(R.string.main_notify_disable));
-        btnList.put(FKey.KEY_SYS_DIALOG_SHOW, getString(R.string.main_sys_dialog_enable));
-        btnList.put(FKey.KEY_SYS_DIALOG_CLOSE, getString(R.string.main_sys_dialog_disable));
-        btnList.put(FKey.KEY_DIALOG, getString(R.string.main_dialog_box));
-        btnList.put(FKey.KEY_TOAST, getString(R.string.main_normal_toast));
-        btnList.put(FKey.KEY_TOAST_BG, getString(R.string.main_bitmap_toast));
-        btnList.put(FKey.KEY_ERR_ANR, getString(R.string.main_test_anr));
-        btnList.put(FKey.KEY_ERR_OTHER, getString(R.string.main_test_other_ex));
-        btnList.put(FKey.KEY_USB_HUB, getString(R.string.main_usb_dev_listener));
-        btnList.put(FKey.KEY_USB_HUB_UNREGIST, getString(R.string.main_usb_dev_release));
-        btnList.put(FKey.KEY_GREEN_DAO, getString(R.string.main_test_greendao));
-        btnList.put(FKey.KEY_JXL_OPEN, getString(R.string.main_jxl_open_excel));
-        btnList.put(FKey.KEY_JXL_EXPORT, getString(R.string.main_jxl_export_excel));
-        btnList.put(FKey.KEY_POI_OPEN, getString(R.string.main_poi_open_excel));
-        btnList.put(FKey.KEY_POI_EXPORT, getString(R.string.main_poi_export_excel));
-        btnList.put(FKey.KEY_APP_LIST, getString(R.string.main_app_list));
-        btnList.put(FKey.KEY_VIDEO, getString(R.string.main_play_video));
-        btnList.put(FKey.KEY_URL_CONVERT, getString(R.string.main_uri_to_path));
-        btnList.put(FKey.KEY_ASSETS, getString(R.string.get_assets_file));
-        btnList.put(FKey.KEY_AUDIO, getString(R.string.main_play_audio));
-        btnList.put(FKey.KEY_IP_SET_STATIC, getString(R.string.main_set_staticip));
-        btnList.put(FKey.KEY_IP_SET_DHCP, getString(R.string.main_set_dhcpip));
-        btnList.put(FKey.KEY_SCREENSHOT, getString(R.string.main_screenshot));
-        btnList.put(FKey.KEY_KEEPALIVE, getString(R.string.main_as_keepalive));
-        btnList.put(FKey.KEY_OTA, getString(R.string.main_upgrade_ota));
-        btnList.put(FKey.KEY_INSTALL, getString(R.string.main_silent_installation));
-        btnList.put(FKey.KEY_BLUETOOTH, getString(R.string.main_test_bluetooth));
-        btnList.put(FKey.VIDEO_CACHE, getString(R.string.main_record_video));
-        btnList.put(FKey.KEY_CRASH, getString(R.string.main_crash_verification));
-        btnList.put(FKey.KEY_NGINX, getString(R.string.main_nginx));
-        btnList.put(FKey.KEY_SUB_DEV_HID, getString(R.string.main_sub_hid_dev));
-        btnList.put(FKey.KEY_MAIN_DEV_HID, getString(R.string.main_hid_dev));
-        btnList.put(FKey.KEY_APK_SIGN, getString(R.string.main_sign));
-        btnList.put(FKey.KEY_TOUCH_DETECT, getString(R.string.main_touch_check));
-        btnList.put(FKey.KEY_MQTT_TEST, getString(R.string.main_test_mqtt));
-        btnList.put(FKey.KEY_WEBVIEW_TEST, getString(R.string.main_test_webview));
+        btnList.put (FKey.KEY_SERIAL_PORT, getString (R.string.main_serial_rw));
+        btnList.put (FKey.KEY_TIMERD, getString (R.string.main_timer));
+        btnList.put (FKey.KEY_SCREEN, getString (R.string.main_screen_about));
+        btnList.put (FKey.KEY_FILE_RW, getString (R.string.main_file_rw));
+        btnList.put (FKey.KEY_NETWORK, getString (R.string.main_net_listener));
+        btnList.put (FKey.KEY_RESET_MONITOR, getString (R.string.main_net_reset_listener));
+        btnList.put (FKey.KEY_FILEDOWN, getString (R.string.main_file_down));
+        btnList.put (FKey.KEY_TCP_UDP, getString (R.string.main_tcp_udp));
+        btnList.put (FKey.KEY_NOTIFY_SHOW, getString (R.string.main_notify_enable));
+        btnList.put (FKey.KEY_NOTIFY_CLOSE, getString (R.string.main_notify_disable));
+        btnList.put (FKey.KEY_SYS_DIALOG_SHOW, getString (R.string.main_sys_dialog_enable));
+        btnList.put (FKey.KEY_SYS_DIALOG_CLOSE, getString (R.string.main_sys_dialog_disable));
+        btnList.put (FKey.KEY_DIALOG, getString (R.string.main_dialog_box));
+        btnList.put (FKey.KEY_TOAST, getString (R.string.main_normal_toast));
+        btnList.put (FKey.KEY_TOAST_BG, getString (R.string.main_bitmap_toast));
+        btnList.put (FKey.KEY_ERR_ANR, getString (R.string.main_test_anr));
+        btnList.put (FKey.KEY_ERR_OTHER, getString (R.string.main_test_other_ex));
+        btnList.put (FKey.KEY_USB_HUB, getString (R.string.main_usb_dev_listener));
+        btnList.put (FKey.KEY_USB_HUB_UNREGIST, getString (R.string.main_usb_dev_release));
+        btnList.put (FKey.KEY_GREEN_DAO, getString (R.string.main_test_greendao));
+        btnList.put (FKey.KEY_JXL_OPEN, getString (R.string.main_jxl_open_excel));
+        btnList.put (FKey.KEY_JXL_EXPORT, getString (R.string.main_jxl_export_excel));
+        btnList.put (FKey.KEY_POI_OPEN, getString (R.string.main_poi_open_excel));
+        btnList.put (FKey.KEY_POI_EXPORT, getString (R.string.main_poi_export_excel));
+        btnList.put (FKey.KEY_APP_LIST, getString (R.string.main_app_list));
+        btnList.put (FKey.KEY_VIDEO, getString (R.string.main_play_video));
+        btnList.put (FKey.KEY_URL_CONVERT, getString (R.string.main_uri_to_path));
+        btnList.put (FKey.KEY_ASSETS, getString (R.string.get_assets_file));
+        btnList.put (FKey.KEY_AUDIO, getString (R.string.main_play_audio));
+        btnList.put (FKey.KEY_IP_SET_STATIC, getString (R.string.main_set_staticip));
+        btnList.put (FKey.KEY_IP_SET_DHCP, getString (R.string.main_set_dhcpip));
+        btnList.put (FKey.KEY_SCREENSHOT, getString (R.string.main_screenshot));
+        btnList.put (FKey.KEY_KEEPALIVE, getString (R.string.main_as_keepalive));
+        btnList.put (FKey.KEY_OTA, getString (R.string.main_upgrade_ota));
+        btnList.put (FKey.KEY_INSTALL, getString (R.string.main_silent_installation));
+        btnList.put (FKey.KEY_BLUETOOTH, getString (R.string.main_test_bluetooth));
+        btnList.put (FKey.VIDEO_CACHE, getString (R.string.main_record_video));
+        btnList.put (FKey.KEY_CRASH, getString (R.string.main_crash_verification));
+        btnList.put (FKey.KEY_NGINX, getString (R.string.main_nginx));
+        btnList.put (FKey.KEY_SUB_DEV_HID, getString (R.string.main_sub_hid_dev));
+        btnList.put (FKey.KEY_MAIN_DEV_HID, getString (R.string.main_hid_dev));
+        btnList.put (FKey.KEY_APK_SIGN, getString (R.string.main_sign));
+        btnList.put (FKey.KEY_TOUCH_DETECT, getString (R.string.main_touch_check));
+        btnList.put (FKey.KEY_MQTT_TEST, getString (R.string.main_test_mqtt));
+        btnList.put (FKey.KEY_WEBVIEW_TEST, getString (R.string.main_test_webview));
         return btnList;
     }
 
@@ -177,241 +192,241 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         switch (position) {
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
-                if (NotifyUtils.notifyIsEnable()) {
-                    NotifyUtils.setNotifyId(111).setEnableCloseButton(true)
-                            .setOnNotifyLinstener(new IDismissListener() {
+                if (NotifyUtils.notifyIsEnable ( )) {
+                    NotifyUtils.setNotifyId (111).setEnableCloseButton (true)
+                            .setOnNotifyLinstener (new IDismissListener ( ) {
                                 @Override
                                 public void dismiss(boolean dismiss) {
-                                    KLog.d(TAG, "dismiss=" + dismiss);
+                                    KLog.d (TAG, "dismiss=" + dismiss);
                                 }
                             })
-                            .replaceClickIntent(new Intent(this, FileDownLoadAty.class))
-                            .setAppName("BaseIotUtils")
-                            .setAppAbout(AppsUtils.getAppVersionName())
-                            .setPrompt("this a prompt")
-                            .setProgress("this a progress")
-                            .setTopRight("xxxx")
-                            .setDataTime("2022-04-18")
-                            .setRemarks("this is a remarks")
-                            .exeuNotify();
+                            .replaceClickIntent (new Intent (this, FileDownLoadAty.class))
+                            .setAppName ("BaseIotUtils")
+                            .setAppAbout (AppsUtils.getAppVersionName ( ))
+                            .setPrompt ("this a prompt")
+                            .setProgress ("this a progress")
+                            .setTopRight ("xxxx")
+                            .setDataTime ("2022-04-18")
+                            .setRemarks ("this is a remarks")
+                            .exeuNotify ( );
                 } else {
                     //去开启通知
-                    NotifyUtils.toOpenNotify();
+                    NotifyUtils.toOpenNotify ( );
                 }
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
+                Handler handler = new Handler ( );
+                handler.postDelayed (new Runnable ( ) {
                     @Override
                     public void run() {
-                        NotifyUtils.setAppName("");
-                        NotifyUtils.setAppAbout("");
-                        NotifyUtils.setRemarks("");
-                        NotifyUtils.setPrompt("");
-                        NotifyUtils.setDataTime("");
-                        NotifyUtils.setTopRight("");
-                        NotifyUtils.setIvStatus(true, R.drawable.failed);
+                        NotifyUtils.setAppName ("");
+                        NotifyUtils.setAppAbout ("");
+                        NotifyUtils.setRemarks ("");
+                        NotifyUtils.setPrompt ("");
+                        NotifyUtils.setDataTime ("");
+                        NotifyUtils.setTopRight ("");
+                        NotifyUtils.setIvStatus (true, R.drawable.failed);
                     }
                 }, 5000);
                 break;
             case FKey.KEY_NOTIFY_CLOSE:
-                NotifyUtils.closeNotify();
+                NotifyUtils.closeNotify ( );
                 break;
             case FKey.KEY_SYS_DIALOG_SHOW:
-                GlobalDialogUtils.getInstance().show("hello world");
+                GlobalDialogUtils.getInstance ( ).show ("hello world");
                 break;
             case FKey.KEY_SYS_DIALOG_CLOSE:
-                GlobalDialogUtils.getInstance().dismiss();
+                GlobalDialogUtils.getInstance ( ).dismiss ( );
                 break;
             case FKey.KEY_TOAST:
-                ShellUtils.CommandResult commandResult = ShellUtils.execCommand("am force-stop " +
+                ShellUtils.CommandResult commandResult = ShellUtils.execCommand ("am force-stop " +
                         "com.face.regularservice", true);
-                KLog.d("result=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
-                ToastUtils.showShort("Hello Worold!");
+                KLog.d ("result=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
+                ToastUtils.showShort ("Hello Worold!");
                 break;
             case FKey.KEY_TOAST_BG:
-                ToastUtils.success("Hello Worold!");
+                ToastUtils.success ("Hello Worold!");
                 break;
             case FKey.KEY_ERR_ANR:
-                stopService(new Intent(this, MyService.class));
-                startService(new Intent(this, MyService.class));
+                stopService (new Intent (this, MyService.class));
+                startService (new Intent (this, MyService.class));
                 break;
             case FKey.KEY_ERR_OTHER:
                 int i = 1 / 0;
                 break;
             case FKey.KEY_USB_HUB:
-                ToastUtils.info(getString(R.string.main_start_usb_listener));
-                UsbHubTools.getInstance().registerReceiver();
-                UsbHubTools.getInstance().setIUsbDeviceListener(new IUsbHubListener() {
+                ToastUtils.info (getString (R.string.main_start_usb_listener));
+                UsbHubTools.getInstance ( ).registerReceiver ( );
+                UsbHubTools.getInstance ( ).setIUsbDeviceListener (new IUsbHubListener ( ) {
                     @Override
                     public void deviceInfo(String action, String path, boolean isConn) {
-                        ToastUtils.info("path:" + path + ",isConn=" + isConn);
+                        ToastUtils.info ("path:" + path + ",isConn=" + isConn);
                     }
                 });
                 break;
             case FKey.KEY_USB_HUB_UNREGIST:
-                ToastUtils.info(getString(R.string.main_close_usb_listener));
-                UsbHubTools.getInstance().unRegisterReceiver();
+                ToastUtils.info (getString (R.string.main_close_usb_listener));
+                UsbHubTools.getInstance ( ).unRegisterReceiver ( );
                 break;
             case FKey.KEY_JXL_OPEN:
-                ToastUtils.info("请查看日志确定读取结果");
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
+                ToastUtils.info ("请查看日志确定读取结果");
+                TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
                         try {
-                            InputStream input = getAssets().open("table.xls");
+                            InputStream input = getAssets ( ).open ("table.xls");
                             if (input != null) {
-                                TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls", input);
+                                TableFileUtils.writeToLocal (Environment.getExternalStorageDirectory ( ) + "/table.xls", input);
                             }
                             //第一种jxl.jar 只能读取xls
                             List<ExcelEntity> readExcelDatas =
-                                    JXLExcelUtils.readExcelxlsx(Environment.getExternalStorageDirectory() + "/table.xls");
-                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                                    JXLExcelUtils.readExcelxlsx (Environment.getExternalStorageDirectory ( ) + "/table.xls");
+                            KLog.d (TAG, "readDataSize: " + readExcelDatas.size ( ));
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
+                            e.printStackTrace ( );
+                            KLog.e (TAG, "errMeg:" + e.getMessage ( ));
                         }
                     }
                 });
                 break;
             case FKey.KEY_JXL_EXPORT:
                 //第一种 jxl.jar导出
-                JXLExcelUtils.exportExcel();
-                ToastUtils.success("export successful!");
+                JXLExcelUtils.exportExcel ( );
+                ToastUtils.success ("export successful!");
                 break;
             case FKey.KEY_POI_OPEN:
-                ToastUtils.info("请查看日志确定读取结果");
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
+                ToastUtils.info ("请查看日志确定读取结果");
+                TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
                         try {
-                            InputStream input = getAssets().open("table.xls");
+                            InputStream input = getAssets ( ).open ("table.xls");
                             if (input != null) {
-                                TableFileUtils.writeToLocal(Environment.getExternalStorageDirectory() + "/table.xls", input);
+                                TableFileUtils.writeToLocal (Environment.getExternalStorageDirectory ( ) + "/table.xls", input);
                             }
                             //poi.jar 可以读取xls xlsx 两种
                             List<ExcelEntity> readExcelDatas =
-                                    POIExcelUtils.readExcel(Environment.getExternalStorageDirectory() + "/table.xls");
-                            KLog.d(TAG, "readDataSize: " + readExcelDatas.size());
+                                    POIExcelUtils.readExcel (Environment.getExternalStorageDirectory ( ) + "/table.xls");
+                            KLog.d (TAG, "readDataSize: " + readExcelDatas.size ( ));
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            KLog.e(TAG, "errMeg:" + e.getMessage());
+                            e.printStackTrace ( );
+                            KLog.e (TAG, "errMeg:" + e.getMessage ( ));
                         }
                     }
                 });
                 break;
             case FKey.KEY_POI_EXPORT:
-                ToastUtils.info("请查看日志确定导出结果");
-                TPoolUtils.newInstance().addExecuteTask(new Runnable() {
+                ToastUtils.info ("请查看日志确定导出结果");
+                TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
                         //poi.jar导出
-                        boolean isOK = POIExcelUtils.createExcelFile();
-                        KLog.d(TAG, "isOK: " + isOK);
+                        boolean isOK = POIExcelUtils.createExcelFile ( );
+                        KLog.d (TAG, "isOK: " + isOK);
                     }
                 });
                 break;
             case FKey.KEY_URL_CONVERT:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("*/*");
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                startActivityForResult(Intent.createChooser(intent, "请选择文件"), FILE_SELECT_CODE);
+                Intent intent = new Intent (Intent.ACTION_GET_CONTENT);
+                intent.setType ("*/*");
+                intent.addCategory (Intent.CATEGORY_OPENABLE);
+                startActivityForResult (Intent.createChooser (intent, "请选择文件"), FILE_SELECT_CODE);
                 break;
             case FKey.KEY_ASSETS:
                 try {
-                    InputStream input = this.getAssets().open("table.xls");
+                    InputStream input = this.getAssets ( ).open ("table.xls");
                     if (input != null) {
-                        ToastUtils.success("found table.xls");
+                        ToastUtils.success ("found table.xls");
                     } else {
-                        ToastUtils.success("not found table.xls");
+                        ToastUtils.success ("not found table.xls");
                     }
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
+                    e.printStackTrace ( );
+                    KLog.e (TAG, "errMeg:" + e.getMessage ( ));
                 }
                 break;
             case FKey.KEY_IP_SET_DHCP:
-                CommonValue commonValue2 = FEthTools.setEthDhcp();
+                CommonValue commonValue2 = FEthTools.setEthDhcp ( );
                 if (commonValue2 == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success("动态IP设置成功！");
+                    ToastUtils.success ("动态IP设置成功！");
                 } else {
-                    ToastUtils.error("动态IP设置失败！errMeg=" + commonValue2.getRemarks());
+                    ToastUtils.error ("动态IP设置失败！errMeg=" + commonValue2.getRemarks ( ));
                 }
                 break;
             case FKey.KEY_IP_SET_STATIC:
-                CommonValue commonValue = FEthTools.setStaticIp(new IpConfigInfo("192.168.1.155",
+                CommonValue commonValue = FEthTools.setStaticIp (new IpConfigInfo ("192.168.1.155",
                         "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success("静态IP设置成功！");
+                    ToastUtils.success ("静态IP设置成功！");
                 } else {
-                    ToastUtils.error("静态IP设置失败！errMeg=" + commonValue.getRemarks());
+                    ToastUtils.error ("静态IP设置失败！errMeg=" + commonValue.getRemarks ( ));
                 }
                 break;
             case FKey.KEY_SCREENSHOT:
-                String imgPath = FScreentTools.takeScreenshot("/sdcard/");
-                if (imgPath != null && !imgPath.equals("")) {
-                    ToastUtils.success("截屏成功,位置:/sdcard/目录下");
+                String imgPath = FScreentTools.takeScreenshot ("/sdcard/");
+                if (imgPath != null && !imgPath.equals ("")) {
+                    ToastUtils.success ("截屏成功,位置:/sdcard/目录下");
                 } else {
-                    ToastUtils.error("截屏失败！");
+                    ToastUtils.error ("截屏失败！");
                 }
                 break;
             case FKey.KEY_CRASH:
-                CrashTools.crashtest();
+                CrashTools.crashtest ( );
                 break;
             case FKey.KEY_OTA:
-                OptionTools.showOtaUpgrade();
+                OptionTools.showOtaUpgrade ( );
                 break;
             case FKey.KEY_SERIAL_PORT:
-                startAty(SerialPortAty.class);
+                startAty (SerialPortAty.class);
                 break;
             case FKey.KEY_TIMERD:
-                startAty(TimerAty.class);
+                startAty (TimerAty.class);
                 break;
             case FKey.KEY_SCREEN:
-                startAty(ScreenActivity.class);
+                startAty (ScreenActivity.class);
                 break;
             case FKey.KEY_FILE_RW:
-                startAty(FileOperatAty.class);
+                startAty (FileOperatAty.class);
                 break;
             case FKey.KEY_NETWORK:
-                startAty(NetChangeAty.class);
+                startAty (NetChangeAty.class);
                 break;
             case FKey.KEY_RESET_MONITOR:
-                startAty(NetRecordAty.class);
+                startAty (NetRecordAty.class);
                 break;
             case FKey.KEY_FILEDOWN:
-                startAty(FileDownLoadAty.class);
+                startAty (FileDownLoadAty.class);
                 break;
             case FKey.KEY_TCP_UDP:
-                startAty(SocketAty.class);
+                startAty (SocketAty.class);
                 break;
             case FKey.KEY_GREEN_DAO:
-                startAty(GreenDaoSqliteAty.class);
+                startAty (GreenDaoSqliteAty.class);
                 break;
             case FKey.KEY_APP_LIST:
-                startAty(AllAppAty.class);
+                startAty (AllAppAty.class);
                 break;
             case FKey.KEY_VIDEO:
-                startAty(VideoPlayAty.class);
+                startAty (VideoPlayAty.class);
                 break;
             case FKey.KEY_AUDIO:
-                startAty(AudioAty.class);
+                startAty (AudioAty.class);
                 break;
             case FKey.KEY_KEEPALIVE:
-                startAty(KeepAliveAty.class);
+                startAty (KeepAliveAty.class);
                 break;
             case FKey.KEY_INSTALL:
-                startAty(InstallAPkAty.class);
+                startAty (InstallAPkAty.class);
                 break;
             case FKey.KEY_BLUETOOTH:
-                startAty(BlueToothAty.class);
+                startAty (BlueToothAty.class);
                 break;
             case FKey.VIDEO_CACHE:
-                startAty(PlayCacheVideoAty.class);
+                startAty (PlayCacheVideoAty.class);
                 break;
             case FKey.KEY_NGINX:
-                startAty(NginxAty.class);
+                startAty (NginxAty.class);
                 break;
             case FKey.KEY_DIALOG:
-                startAty(DialogAty.class);
+                startAty (DialogAty.class);
                 break;
             case FKey.KEY_ICCID:
 
@@ -420,47 +435,47 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
 
                 break;
             case FKey.KEY_SUB_DEV_HID:
-                startAty(HidSubDevAty.class);
+                startAty (HidSubDevAty.class);
                 break;
             case FKey.KEY_MAIN_DEV_HID:
-                startAty(HidMainDevAty.class);
+                startAty (HidMainDevAty.class);
                 break;
             case FKey.KEY_APK_SIGN:
-                startAty(ApkSignSearchAty.class);
+                startAty (ApkSignSearchAty.class);
                 break;
             case FKey.KEY_TOUCH_DETECT:
-                startAty(TouchDetectAty.class);
+                startAty (TouchDetectAty.class);
                 break;
             case FKey.KEY_WEBVIEW_TEST:
-                startAty(WebViewAty.class);
+                startAty (WebViewAty.class);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+        super.onActivityResult (requestCode, resultCode, data);
         if (data == null) {
             // 用户未选择任何文件，直接返回
-            ToastUtils.error("未选择任何文件!");
+            ToastUtils.error ("未选择任何文件!");
             return;
         }
         if (requestCode == FILE_SELECT_CODE) {
-            Uri uri = data.getData(); // 获取用户选择文件的URI
-            String filePath = UriPathUtils.getPath(uri);
-            KLog.d(TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath());
-            ToastUtils.success("文件地址:" + filePath);
+            Uri uri = data.getData ( ); // 获取用户选择文件的URI
+            String filePath = UriPathUtils.getPath (uri);
+            KLog.d (TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath ( ));
+            ToastUtils.success ("文件地址:" + filePath);
         }
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        NotifyUtils.closeNotify();
-        GlobalDialogUtils.getInstance().dismiss();
-        UsbHubTools.getInstance().unRegisterReceiver();
-        AudioUtils.getInstance().stopPlaying();
-        TPoolSingleUtils.shutdown();
-        FLteTools.cancel();
+        super.onDestroy ( );
+        NotifyUtils.closeNotify ( );
+        GlobalDialogUtils.getInstance ( ).dismiss ( );
+        UsbHubTools.getInstance ( ).unRegisterReceiver ( );
+        AudioUtils.getInstance ( ).stopPlaying ( );
+        TPoolSingleUtils.shutdown ( );
+        FLteTools.cancel ( );
     }
 }

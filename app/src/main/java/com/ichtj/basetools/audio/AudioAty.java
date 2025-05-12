@@ -14,7 +14,7 @@ import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 
 public class AudioAty extends BaseActivity {
-    private static final String TAG = "PlayMediaAty";
+    private static final String TAG = AudioAty.class.getSimpleName();
     Button btn_pause_resume;
 
     @Override

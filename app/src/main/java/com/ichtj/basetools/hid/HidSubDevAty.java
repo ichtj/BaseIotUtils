@@ -1,11 +1,8 @@
 package com.ichtj.basetools.hid;
 
-import android.content.ComponentName;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.text.Layout;
 import android.util.Log;
 import android.view.View;
 import android.widget.CompoundButton;
@@ -25,12 +22,7 @@ import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.PACKAGES;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.Arrays;
-import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 
 @Route(path = PACKAGES.BASE + "hidSubDev")
 public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
@@ -42,7 +34,6 @@ public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheck
     String dev = "/dev/hidg0";
     String LOG_PATH = "/sdcard/hid_test.log";
     String pattern="yyyyMMddHHmmss";
-    Executor executor = Executors.newSingleThreadExecutor();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,14 +54,8 @@ public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheck
             @Override
             public void receive(byte[] data) {
                 try {
-                    FileUtils.writeFileData(LOG_PATH, "read:["+ TimeUtils.getTodayDateHms(TimeUtils.DATE_FORMAT_MERGE) +"]：" + Arrays.toString(data) + "\r\n", false);
-                    executor.execute(new Runnable() {
-                        @Override
-                        public void run() {
-                            StringBuffer str = getLogContent(LOG_PATH, 99);
-                            handler.sendMessage(handler.obtainMessage(0x00, str));
-                        }
-                    });
+                    FileUtils.writeFileData(LOG_PATH,  "read:["+ TimeUtils.getTodayDateHms(TimeUtils.DATE_FORMAT_MERGE) +"]：" + Arrays.toString(data)+ "\r\n", false);
+                    handler.sendMessage(handler.obtainMessage(0x00, Arrays.toString(data)));
                 } catch (Throwable throwable) {
                     FileUtils.writeFileData(LOG_PATH, "HidReadErr：" + throwable.getMessage() + "\r\n", false);
                 }
@@ -95,70 +80,10 @@ public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheck
         public void handleMessage(@NonNull Message msg) {
             super.handleMessage(msg);
             if (!ObjectUtils.isEmpty(msg.obj)) {
-                tvResult.setText(msg.obj.toString());
-                Layout layout = tvResult.getLayout();
-                if (layout != null) {
-                    int scrollAmount = layout.getLineTop(tvResult.getLineCount()) - tvResult.getHeight();
-                    tvResult.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0);
-                }
+                FormatViewUtils.formatData(tvResult,msg.obj.toString(),pattern);
             }
         }
     };
-
-    public StringBuffer getLogContent(String logFilePath, int nowProgress) {
-        StringBuffer content = new StringBuffer();
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader(logFilePath));
-            int linesToSkip = (int) (nowProgress / 100f * getFileLines(logFilePath));
-            for (int i = 0; i < linesToSkip; i++) {
-                reader.readLine(); // 跳过已读的行
-            }
-            String line;
-            while ((line = reader.readLine()) != null) {
-                linesToSkip += 1;
-                content.append("[" + linesToSkip + "]：").append(line).append("\r\n");
-                if (content.length() > 10000) { // 加载过多内容时暂停加载
-                    break;
-                }
-            }
-        } catch (Throwable e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return content;
-    }
-
-    // 获取文件总行数
-    public static int getFileLines(String filePath) {
-        BufferedReader reader = null;
-        int lines = 0;
-        try {
-            reader = new BufferedReader(new FileReader(filePath));
-            while (reader.readLine() != null) {
-                lines++;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-        return lines;
-    }
-
 
     public void sendCmds(View view) {
         String dataStr = etData.getText().toString();
@@ -166,7 +91,7 @@ public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheck
         byte[] data = isHex ? TranscodingUtils.decodeHexString(dataStr) : dataStr.getBytes();
         Log.d(TAG, "sendCmds: " + Arrays.toString(data));
         HidTools.sendCmds(dev, data);
-        FormatViewUtils.formatData(tvResult, "HidWrite>>" + dataStr,pattern);
+        FormatViewUtils.formatData(tvResult,dataStr,pattern);
     }
 
     public void clearClick(View view) {
@@ -185,6 +110,7 @@ public class HidSubDevAty extends BaseActivity implements CompoundButton.OnCheck
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: ");
         HidTools.stopMonitoring();
     }
 }

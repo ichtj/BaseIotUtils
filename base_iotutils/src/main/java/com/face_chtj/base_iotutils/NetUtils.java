@@ -968,6 +968,7 @@ public class NetUtils {
     /**
      * sim卡ccid
      *
+     * <uses-permission android:name="android.permission.READ_PHONE_STATE" />
      * @return ccid列表
      */
     public static List<String> getLteIccid() {

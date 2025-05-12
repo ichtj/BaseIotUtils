@@ -33,7 +33,7 @@ import java.util.List;
  * desc app列表
  */
 public class AllAppAty extends BaseActivity {
-    private static final String TAG = "AllAppInfo";
+    private static final String TAG = AllAppAty.class.getSimpleName();
     private RecyclerView rvList;
     AllAppAdapter newsAdapter = null;
     private TextView tvCount, tvTotal;

@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
     package="com.ichtj.basetools">
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
     <!-- 录制视频/音频 -->
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <!-- sd卡读写 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <!-- 挂载sd卡 -->
-    <uses-permission
-        android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
-        tools:ignore="ProtectedPermissions" />
     <!-- 唤醒屏幕 -->
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission
         android:name="android.permission.DEVICE_POWER"
         tools:ignore="ProtectedPermissions" />
@@ -48,7 +40,6 @@
     <uses-permission
         android:name="android.permission.READ_NETWORK_USAGE_HISTORY"
         tools:ignore="ProtectedPermissions" />
-    <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <!--挂载文件系统-->
     <uses-permission
         android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"
@@ -84,8 +75,6 @@
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
-
-    <uses-permission android:name="android.permission.USB_PERMISSION" />
     <uses-permission android:name="android.permission.ACCESSORY_PERMISSION" />
     <!--读取或写入系统设置-->
     <uses-permission
@@ -108,12 +97,6 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- Android6.0及以上版本 蓝牙扫描才需要-->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-
-    <uses-permission
-        android:name="android.permission.PACKAGE_USAGE_STATS"
-        tools:ignore="ProtectedPermissions" />
-
     <!-- 声明USB权限 -->
     <uses-permission android:name="android.permission.USB_PERMISSION" />
 
@@ -141,12 +124,12 @@
             android:screenOrientation="user"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                 <action android:name="android.intent.action.MAIN" />
-                 <category android:name="android.intent.category.LAUNCHER" />
-                <!--<action android:name="android.intent.action.MAIN" />
+<!--                 <action android:name="android.intent.action.MAIN" />
+                 <category android:name="android.intent.category.LAUNCHER" />-->
+                <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.HOME" />
+                <!--<category android:name="android.intent.category.HOME" />
                 <category android:name="android.intent.category.DEFAULT" />-->
             </intent-filter>
         </activity>

@@ -123,7 +123,7 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void getdown_status(View view) {
-        ToastUtils.info("是否正在执行下载:" + DownloadUtils.isRunDownloadTask());
+        ToastUtils.info("是否正在执行下载:" + DownloadUtils.isRunningTask());
     }
 
     /**

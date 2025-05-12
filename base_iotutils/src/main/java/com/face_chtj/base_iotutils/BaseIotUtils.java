@@ -75,10 +75,8 @@ public final class BaseIotUtils {
     public static void autoConvertDensityOfGlobal(Activity activity) {
         if (instance().autoAdaptation) {
             if (instance().adaptation == WIDTH) {
-                //KLog.d(TAG, "Adaptation is open and adapting to width");
                 AdaptationUtils.adaptWidth(activity.getResources(), instance().defaultWidth);
             } else {
-                //KLog.d(TAG, "Adaptation is open and adapting to height");
                 AdaptationUtils.adaptHeight(activity.getResources(), instance().defaultHeight);
             }
         } else {

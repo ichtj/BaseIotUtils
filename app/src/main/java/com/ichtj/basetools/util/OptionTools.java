@@ -118,6 +118,7 @@ public class OptionTools {
 
     public static String getSerialNo(){
         ShellUtils.CommandResult commandResult=ShellUtils.execCommand("getprop ro.serialno",true);
+        Log.d(TAG, "getSerialNo: commandResult>>"+commandResult.successMsg);
         String serial= Build.VERSION.SDK_INT>=30?(TextUtils.isEmpty(commandResult.successMsg)?Build.SERIAL:commandResult.successMsg):Build.SERIAL;
         return serial;
     }

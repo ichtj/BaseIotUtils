@@ -95,4 +95,6 @@
     <string name="main_test_webview">WebView测试</string>
     <string name="main_start_usb_listener">usb设备监听开始,插入或拔出将提示！</string>
     <string name="main_close_usb_listener">解除usb设备监听注册</string>
+    <string name="switch_left_audio">切换左声道</string>
+    <string name="switch_right_audio">切换右声道</string>
 </resources>

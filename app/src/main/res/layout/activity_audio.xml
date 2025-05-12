@@ -47,13 +47,13 @@
             android:layout_height="wrap_content"
             android:onClick="switchChannelLeftClick"
             android:textSize="@dimen/small_text_size"
-            android:text="切换左声道" />
+            android:text="@string/switch_left_audio" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:onClick="switchChannelRightClick"
             android:textSize="@dimen/small_text_size"
-            android:text="切换右声道" />
+            android:text="@string/switch_right_audio" />
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

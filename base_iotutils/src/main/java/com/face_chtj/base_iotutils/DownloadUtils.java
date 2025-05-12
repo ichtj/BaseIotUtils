@@ -45,7 +45,7 @@ public class DownloadUtils {
     private Map<String, Integer> statusMap = new HashMap<>();
     private Map<String, Integer> progressMap = new HashMap<>();
     private List<FileData> fileDatas = new ArrayList<>();
-    private List<IDownloadCallback> iDownloadCallback = new ArrayList<>();
+    private List<IDownloadCallback> iCallBack = new ArrayList<>();
     private static volatile DownloadUtils sInstance;
 
     private static DownloadUtils instance() {
@@ -61,15 +61,23 @@ public class DownloadUtils {
 
     public static void registerCallback(IDownloadCallback downloadCallBack) {
         if (downloadCallBack != null) {
-            if (!instance().iDownloadCallback.contains(downloadCallBack)) {
-                instance().iDownloadCallback.add(downloadCallBack);
+            if (!instance().iCallBack.contains(downloadCallBack)) {
+                instance().iCallBack.add(downloadCallBack);
             }
         }
     }
 
     public static void unRegisterCallback(IDownloadCallback downloadCallBack) {
         if (downloadCallBack != null) {
-            instance().iDownloadCallback.remove(downloadCallBack);
+            instance().iCallBack.remove(downloadCallBack);
+        }
+    }
+
+    public static void unAllRegisterCallback(IDownloadCallback downloadCallBack) {
+        if (instance().iCallBack.size()>0) {
+            for (int i = 0; i < instance().iCallBack.size(); i++) {
+                instance().iCallBack.remove(instance().iCallBack.get(i));
+            }
         }
     }
 
@@ -78,7 +86,7 @@ public class DownloadUtils {
      *
      * @return true| false
      */
-    public static boolean isRunDownloadTask() {
+    public static boolean isRunningTask() {
         if (instance().statusMap.size() > 0) {
             //判断是否有暂停的任务 暂停的任务也相当于没有在执行任务下载
             int count = 0;
@@ -128,15 +136,15 @@ public class DownloadUtils {
             if (instance().progressMap.containsKey(requestTag) ||
                     instance().statusMap.containsKey(requestTag) &&
                             instance().statusMap.get(requestTag) == DownloadStatus.STATUS_RUNNING) {
-                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                    instance().iDownloadCallback.get(i).taskExist(fileData);
+                for (int i = 0; i < instance().iCallBack.size(); i++) {
+                    instance().iCallBack.get(i).taskExist(fileData);
                 }
             } else {
                 //该集合中没有任务正在处理
                 instance().progressMap.put(requestTag, 0);
                 instance().statusMap.put(requestTag, DownloadStatus.STATUS_RUNNING);
-                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                    instance().iDownloadCallback.get(i).downloadStatus(fileData, instance().statusMap.get(requestTag));
+                for (int i = 0; i < instance().iCallBack.size(); i++) {
+                    instance().iCallBack.get(i).downloadStatus(fileData, instance().statusMap.get(requestTag));
                 }
 
                 long fileLength = new File(fileData.getFilePath()).length();
@@ -150,8 +158,8 @@ public class DownloadUtils {
                 instance().call.enqueue(new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
-                        for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                            instance().iDownloadCallback.get(i).error(fileData,e);
+                        for (int i = 0; i < instance().iCallBack.size(); i++) {
+                            instance().iCallBack.get(i).error(fileData,e);
                         }
                     }
 
@@ -208,9 +216,9 @@ public class DownloadUtils {
             if (currentFileLenght >= fileData.getTotal()) {
                 instance().statusMap.put(reqTag, DownloadStatus.STATUS_COMPLETE);
                 instance().progressMap.put(reqTag,100);
-                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                    instance().iDownloadCallback.get(i).downloadProgress(fileData, 100);
-                    instance().iDownloadCallback.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
+                for (int i = 0; i < instance().iCallBack.size(); i++) {
+                    instance().iCallBack.get(i).downloadProgress(fileData, 100);
+                    instance().iCallBack.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
                 }
                 return;
             }
@@ -223,8 +231,8 @@ public class DownloadUtils {
                 //先写入到文件中
                 randomAccessFile.write(buffer, 0, len);
                 if (instance().statusMap.get(reqTag) == DownloadStatus.STATUS_PAUSE) {
-                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                        instance().iDownloadCallback.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
+                    for (int i = 0; i < instance().iCallBack.size(); i++) {
+                        instance().iCallBack.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
                     }
                     return;
                 }
@@ -234,17 +242,17 @@ public class DownloadUtils {
                 //计算已经下载的百分比
                 int percent = (int) (fileData.getCurrent() * 100 / fileData.getTotal());
                 boolean isComplete = currentFileLenght >= fileData.getTotal();
-                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
+                for (int i = 0; i < instance().iCallBack.size(); i++) {
                     if (percent>instance().progressMap.get(reqTag)){
                         instance().progressMap.put(reqTag,percent);
-                        instance().iDownloadCallback.get(i).downloadProgress(fileData, percent);
+                        instance().iCallBack.get(i).downloadProgress(fileData, percent);
                     }
                 }
                 if (isComplete) {
                     //防止(len = bis.read(buffer) ResponseBody读到其他任务的流
                     instance().statusMap.put(reqTag, DownloadStatus.STATUS_COMPLETE);
-                    for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                        instance().iDownloadCallback.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
+                    for (int i = 0; i < instance().iCallBack.size(); i++) {
+                        instance().iCallBack.get(i).downloadStatus(fileData, instance().statusMap.get(reqTag));
                     }
                     break;
                 }
@@ -256,15 +264,15 @@ public class DownloadUtils {
             instance().progressMap.remove(reqTag);
             if (instance().statusMap.size() == 0) {
                 //将完成的所有任务回调回去
-                for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                    instance().iDownloadCallback.get(i).allDownloadComplete(instance().fileDatas);
+                for (int i = 0; i < instance().iCallBack.size(); i++) {
+                    instance().iCallBack.get(i).allDownloadComplete(instance().fileDatas);
                 }
                 //回调之后进行清除操作
                 instance().fileDatas.clear();
             }
         } catch (Throwable throwable) {
-            for (int i = 0; i < instance().iDownloadCallback.size(); i++) {
-                instance().iDownloadCallback.get(i).error(fileData,throwable);
+            for (int i = 0; i < instance().iCallBack.size(); i++) {
+                instance().iCallBack.get(i).error(fileData,throwable);
             }
         } finally {
             try {

@@ -25,9 +25,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
-import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.List;
 
 /**
  * @author chtj
@@ -157,9 +157,9 @@ public class AppsUtils {
         return appList;
     }
 
-    public static int getPid(String packageName, ActivityManager activityManager) {
-        for (ActivityManager.RunningAppProcessInfo processInfo : activityManager.getRunningAppProcesses()) {
-            if (processInfo.processName.equals(packageName)) {
+    public static int getPid(String pkg, ActivityManager aManager) {
+        for (ActivityManager.RunningAppProcessInfo processInfo : aManager.getRunningAppProcesses()) {
+            if (processInfo.processName.equals(pkg)) {
                 return processInfo.pid;
             }
         }
@@ -237,7 +237,6 @@ public class AppsUtils {
         PackageManager pm = BaseIotUtils.getContext().getPackageManager();
         try {
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, PackageManager.GET_META_DATA);
-            // 应用名称
             String appName = pm.getApplicationLabel(appInfo).toString();
             return appName;
         } catch (PackageManager.NameNotFoundException e) {

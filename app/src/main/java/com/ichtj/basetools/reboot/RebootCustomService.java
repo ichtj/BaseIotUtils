@@ -81,7 +81,7 @@ public class RebootCustomService extends Service {
                         int count = SPUtils.getInt("rebootCount", 0) + 1;
                         Log.d(TAG, "accept: nowCount=" + count);
                         SPUtils.putInt("rebootCount", count);
-                        ShellUtils.CommandResult result = ShellUtils.execCommand("reboot", true);
+                        ShellUtils.CommandResult result = ShellUtils.execCommand("echo \"11\" > /sys/class/fib_gpio/gpio_state ", true);
                         Log.d(TAG, "accept: result=" + result.result + ",errMeg=" + result.errorMsg + ",successMeg=" + result.successMsg);
                         try {
                             //调用系统接口进行重启

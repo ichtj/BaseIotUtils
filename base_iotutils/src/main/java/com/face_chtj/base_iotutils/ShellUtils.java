@@ -35,21 +35,6 @@ public class ShellUtils {
     public final static String COMMAND_LINE_END = "\n";
 
     /**
-     * Return whether ADB is enabled.
-     * 判断设备 ADB 是否可用
-     *
-     * @return {@code true}: yes<br>{@code false}: no
-     */
-    @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public static boolean isAdbEnabled() {
-        return Settings.Secure.getInt(
-                BaseIotUtils.getContext().getContentResolver(),
-                Settings.Global.ADB_ENABLED, 0
-        ) > 0;
-    }
-
-
-    /**
      * 检查是否拥有root权限
      * 执行shell adb 命令很多需要root权限
      *

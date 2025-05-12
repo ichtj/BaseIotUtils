@@ -8,6 +8,7 @@ import android.widget.TextView;
 
 public class FormatViewUtils {
     private static int MAXIMUM_ROW = 300;
+    private static int MAXIMUM_LENGTH = 10000;
 
     public static void setMaximumRow(int num) {
         MAXIMUM_ROW = num;
@@ -41,7 +42,8 @@ public class FormatViewUtils {
     public static void formatData(TextView tv, String htmlStr, String pattern) {
         if (tv != null && !ObjectUtils.isEmpty (htmlStr)) {
             // 如果行数大于 MAXIMUM_ROW ，清空内容
-            if (tv.getLineCount ( ) > MAXIMUM_ROW) {
+            CharSequence currentText = tv.getText();
+            if (currentText.length() > MAXIMUM_LENGTH||tv.getLineCount()>MAXIMUM_ROW) {
                 tv.setText ("");
             }
             boolean isNull = ObjectUtils.isEmpty (pattern);

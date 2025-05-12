@@ -11,4 +11,5 @@ public class HidTools {
     public native static void init(String dev,IHidCallback iHidCallback);
 
     public native static void stopMonitoring();
+
 }

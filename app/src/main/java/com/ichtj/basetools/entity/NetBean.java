@@ -6,10 +6,10 @@ public class NetBean {
     public String localIp;
     public String netType;
     public boolean isNet4G;
-    public boolean[]pingResult;
+    public String[]pingResult;
     public boolean netConnect;
 
-    public NetBean(String[] pingDns, String dbm, String localIp, String netType, boolean isNet4G, boolean[] pingResult, boolean netConnect) {
+    public NetBean(String[] pingDns, String dbm, String localIp, String netType, boolean isNet4G, String[] pingResult, boolean netConnect) {
         this.pingDns = pingDns;
         this.dbm = dbm;
         this.localIp = localIp;

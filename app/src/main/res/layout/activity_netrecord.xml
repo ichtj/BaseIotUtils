@@ -134,7 +134,6 @@
         android:background="@drawable/ic_result_bg"
         android:padding="6dp"
         android:scrollbars="vertical"
-        android:text="检测结果"
         android:textColor="@color/black"
         android:textSize="@dimen/large_text_size" />
 
