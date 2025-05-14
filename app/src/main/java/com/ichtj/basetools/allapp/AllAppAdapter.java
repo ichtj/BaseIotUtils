@@ -1,9 +1,11 @@
 package com.ichtj.basetools.allapp;
 
+import android.app.Activity;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
@@ -26,6 +28,8 @@ import com.ichtj.basetools.R;
 import com.ichtj.basetools.util.TrafficStatistics;
 
 import java.util.List;
+
+import me.jessyan.autosize.AutoSize;
 
 /**
  * Create on 2020/6/29
@@ -53,6 +57,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
+        if (position % 2 == 0) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#33CCCCCC")); // 透明灰
+        } else {
+            holder.itemView.setBackgroundColor(Color.TRANSPARENT); // 默认透明背景
+        }
         String pkgName=list.get(position).packageName;
         holder.tvAppName.setText(list.get(position).appName);
         holder.tvPackName.setText(pkgName);

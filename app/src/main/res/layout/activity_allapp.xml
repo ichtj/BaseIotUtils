@@ -91,6 +91,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="25dp"
                 android:layout_weight="1"
+                android:visibility="gone"
                 android:background="@drawable/button_switch"
                 android:onClick="enableAllAppNetClick"
                 android:text="启用全部网络"

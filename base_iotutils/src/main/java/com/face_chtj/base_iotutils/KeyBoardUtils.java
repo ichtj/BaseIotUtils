@@ -40,9 +40,11 @@ public class KeyBoardUtils {
      * @param mEditText 输入框
      */
     public static void closeKeybord(EditText mEditText) {
-        InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()
-                .getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+        if (mEditText!=null){
+            InputMethodManager imm = (InputMethodManager)  BaseIotUtils.getContext()
+                    .getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(mEditText.getWindowToken(), 0);
+        }
     }
 
     /**
@@ -50,20 +52,21 @@ public class KeyBoardUtils {
      * @param etView 输入框
      */
     public static void disableShowInput(EditText etView) {
-        if (android.os.Build.VERSION.SDK_INT <= 10) {
-            etView.setInputType(InputType.TYPE_NULL);
-        } else {
-            Class<EditText> cls = EditText.class;
-            Method method;
-            try {
-                method = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
-                method.setAccessible(true);
-                method.invoke(etView, false);
-            } catch (
-                    Exception e) {//TODO: handle exception}try {method = cls.getMethod
-                // ("setSoftInputShownOnFocus", boolean.class);method.setAccessible(true);method
-                // .invoke(editText, false);} catch (Exception e) {//TODO: handle exception}}}
+        if (etView!=null){
+            if (android.os.Build.VERSION.SDK_INT <= 10) {
+                etView.setInputType(InputType.TYPE_NULL);
+            } else {
+                Class<EditText> cls = EditText.class;
+                Method method;
+                try {
+                    method = cls.getMethod("setShowSoftInputOnFocus", boolean.class);
+                    method.setAccessible(true);
+                    method.invoke(etView, false);
+                } catch (Exception e) {//TODO: handle exception}try {method = cls.getMethod
+                    // ("setSoftInputShownOnFocus", boolean.class);method.setAccessible(true);method
+                    // .invoke(editText, false);} catch (Exception e) {//TODO: handle exception}}}
 
+                }
             }
         }
     }

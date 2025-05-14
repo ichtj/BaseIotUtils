@@ -211,11 +211,12 @@
         <!--查看所有app详情-->
         <activity
             android:name=".allapp.AllAppAty"
-            android:configChanges="orientation"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
-            android:screenOrientation="user" />
+            android:screenOrientation="user">
+
+        </activity>
         <!--定时器-->
         <activity
             android:name=".timer.TimerAty"
