@@ -39,11 +39,9 @@ public abstract class BaseActivity extends AppCompatActivity {
         }).subscribe(new Consumer<Boolean>() {
             @Override
             public void accept(Boolean granted) throws Exception {
-                if (granted) { // Always true pre-M
-                    // I can control the camera now
+                if (granted) {
                     ToastUtils.success("已通过权限");
                 } else {
-                    // Oups permission denied
                     ToastUtils.error("未通过权限");
                 }
             }
@@ -51,7 +49,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     }
 
     protected void setStatusBar() {
-        //for new api versions.
         View decorView = getWindow().getDecorView();
         int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                 | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY | View.SYSTEM_UI_FLAG_FULLSCREEN;
@@ -61,7 +58,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //KLog.d(TAG,"onDestroy");
     }
 
     protected void startAty(Class classes){

@@ -99,6 +99,17 @@
     <string name="main_close_usb_listener">解除usb设备监听注册</string>
     <string name="switch_left_audio">切换左声道</string>
     <string name="switch_right_audio">切换右声道</string>
+    <string name="main_to_search_jxl">请查看日志确定读取结果</string>
+    <string name="main_export_succ">export successful!</string>
+    <string name="main_set_dhcp_succ">动态IP设置成功！</string>
+    <string name="main_set_static_succ">静态IP设置成功！</string>
+    <string name="main_screenshot_failed">截屏失败！</string>
+    <string name="main_no_files_were_selected">未选择任何文件!</string>
+    <string name="main_select_file">请选择文件</string>
+    <string name="main_found_table_succ">found table.xls</string>
+    <string name="main_not_found_table_failed">not found table.xls</string>
+    <string name="main_screenshot_succ_toast">截屏成功,位置:/sdcard/目录下</string>
+    <string name="main_popwindow_toast">气泡提示</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
         <attr name="rightName" format="string"></attr>

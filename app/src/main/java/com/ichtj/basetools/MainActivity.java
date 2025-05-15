@@ -1,31 +1,15 @@
 package com.ichtj.basetools;
 
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.database.Cursor;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.Gravity;
-import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chtj.base_framework.FScreentTools;
@@ -39,12 +23,10 @@ import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
-import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.NotifyUtils;
-import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -75,6 +57,7 @@ import com.ichtj.basetools.sign.ApkSignSearchAty;
 import com.ichtj.basetools.socket.SocketAty;
 import com.ichtj.basetools.timer.TimerAty;
 import com.ichtj.basetools.touch.TouchDetectAty;
+import com.face_chtj.base_iotutils.view.PopupWindowTools;
 import com.ichtj.basetools.util.CustomButtonGridView;
 import com.ichtj.basetools.util.FKey;
 import com.ichtj.basetools.util.JXLExcelUtils;
@@ -87,9 +70,7 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
-import java.io.File;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -184,6 +165,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_TOUCH_DETECT, getString (R.string.main_touch_check));
         btnList.put (FKey.KEY_MQTT_TEST, getString (R.string.main_test_mqtt));
         btnList.put (FKey.KEY_WEBVIEW_TEST, getString (R.string.main_test_webview));
+        btnList.put (FKey.KEY_POPWINDOW, getString(R.string.main_popwindow_toast));
         return btnList;
     }
 
@@ -210,7 +192,6 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                             .setRemarks ("this is a remarks")
                             .exeuNotify ( );
                 } else {
-                    //去开启通知
                     NotifyUtils.toOpenNotify ( );
                 }
                 Handler handler = new Handler ( );
@@ -231,19 +212,16 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 NotifyUtils.closeNotify ( );
                 break;
             case FKey.KEY_SYS_DIALOG_SHOW:
-                GlobalDialogUtils.getInstance ( ).show ("hello world");
+                GlobalDialogUtils.getInstance ( ).show (getString(R.string.app_name));
                 break;
             case FKey.KEY_SYS_DIALOG_CLOSE:
                 GlobalDialogUtils.getInstance ( ).dismiss ( );
                 break;
             case FKey.KEY_TOAST:
-                ShellUtils.CommandResult commandResult = ShellUtils.execCommand ("am force-stop " +
-                        "com.face.regularservice", true);
-                KLog.d ("result=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
-                ToastUtils.showShort ("Hello Worold!");
+                ToastUtils.showShort (getString(R.string.app_name));
                 break;
             case FKey.KEY_TOAST_BG:
-                ToastUtils.success ("Hello Worold!");
+                ToastUtils.success (getString(R.string.app_name));
                 break;
             case FKey.KEY_ERR_ANR:
                 stopService (new Intent (this, MyService.class));
@@ -267,7 +245,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 UsbHubTools.getInstance ( ).unRegisterReceiver ( );
                 break;
             case FKey.KEY_JXL_OPEN:
-                ToastUtils.info ("请查看日志确定读取结果");
+                ToastUtils.info (getString(R.string.main_to_search_jxl));
                 TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
@@ -290,10 +268,10 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_JXL_EXPORT:
                 //第一种 jxl.jar导出
                 JXLExcelUtils.exportExcel ( );
-                ToastUtils.success ("export successful!");
+                ToastUtils.success (getString(R.string.main_export_succ));
                 break;
             case FKey.KEY_POI_OPEN:
-                ToastUtils.info ("请查看日志确定读取结果");
+                ToastUtils.info (getString(R.string.main_to_search_jxl));
                 TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
@@ -314,7 +292,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 });
                 break;
             case FKey.KEY_POI_EXPORT:
-                ToastUtils.info ("请查看日志确定导出结果");
+                ToastUtils.info (getString(R.string.main_to_search_jxl));
                 TPoolUtils.newInstance ( ).addExecuteTask (new Runnable ( ) {
                     @Override
                     public void run() {
@@ -328,15 +306,15 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 Intent intent = new Intent (Intent.ACTION_GET_CONTENT);
                 intent.setType ("*/*");
                 intent.addCategory (Intent.CATEGORY_OPENABLE);
-                startActivityForResult (Intent.createChooser (intent, "请选择文件"), FILE_SELECT_CODE);
+                startActivityForResult (Intent.createChooser (intent, getString(R.string.main_select_file)), FILE_SELECT_CODE);
                 break;
             case FKey.KEY_ASSETS:
                 try {
                     InputStream input = this.getAssets ( ).open ("table.xls");
                     if (input != null) {
-                        ToastUtils.success ("found table.xls");
+                        ToastUtils.success (getString(R.string.main_found_table_succ));
                     } else {
-                        ToastUtils.success ("not found table.xls");
+                        ToastUtils.success (getString(R.string.main_not_found_table_failed));
                     }
                 } catch (Exception e) {
                     e.printStackTrace ( );
@@ -346,7 +324,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_IP_SET_DHCP:
                 CommonValue commonValue2 = FEthTools.setEthDhcp ( );
                 if (commonValue2 == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success ("动态IP设置成功！");
+                    ToastUtils.success (getString(R.string.main_set_dhcp_succ));
                 } else {
                     ToastUtils.error ("动态IP设置失败！errMeg=" + commonValue2.getRemarks ( ));
                 }
@@ -355,7 +333,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 CommonValue commonValue = FEthTools.setStaticIp (new IpConfigInfo ("192.168.1.155",
                         "8.8.8.8", "8.8.4.4", "192.168.1.1", "255.255.255.0"));
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
-                    ToastUtils.success ("静态IP设置成功！");
+                    ToastUtils.success (getString(R.string.main_set_static_succ));
                 } else {
                     ToastUtils.error ("静态IP设置失败！errMeg=" + commonValue.getRemarks ( ));
                 }
@@ -363,9 +341,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_SCREENSHOT:
                 String imgPath = FScreentTools.takeScreenshot ("/sdcard/");
                 if (imgPath != null && !imgPath.equals ("")) {
-                    ToastUtils.success ("截屏成功,位置:/sdcard/目录下");
+                    ToastUtils.success (getString(R.string.main_screenshot_succ_toast));
                 } else {
-                    ToastUtils.error ("截屏失败！");
+                    ToastUtils.error (getString(R.string.main_screenshot_failed));
                 }
                 break;
             case FKey.KEY_CRASH:
@@ -449,6 +427,11 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_WEBVIEW_TEST:
                 startAty (WebViewAty.class);
                 break;
+            case FKey.KEY_POPWINDOW:
+                PopupWindowTools bubblePopupWindow = new PopupWindowTools(MainActivity.this);
+                bubblePopupWindow.setBubbleText("这是一条气泡消息");
+                bubblePopupWindow.show(customButtonGridView.getSelectButton(), Gravity.TOP);//view的上部展示
+                break;
         }
     }
 
@@ -457,7 +440,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         super.onActivityResult (requestCode, resultCode, data);
         if (data == null) {
             // 用户未选择任何文件，直接返回
-            ToastUtils.error ("未选择任何文件!");
+            ToastUtils.error (getString(R.string.main_no_files_were_selected));
             return;
         }
         if (requestCode == FILE_SELECT_CODE) {

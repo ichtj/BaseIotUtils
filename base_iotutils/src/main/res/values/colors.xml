@@ -5,6 +5,8 @@
     <color name="colorAccent">#D81B60</color>
     <color name="gray">#DAD6D6</color>
 
+    <color name="s1">#FFFFFF</color>
+    <color name="s6_80">#CC000000</color>
 
     <color name="white">#FFFFFF</color>
     <color name="org">#e17808</color>

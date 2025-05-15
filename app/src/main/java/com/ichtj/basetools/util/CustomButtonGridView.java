@@ -18,6 +18,7 @@ public class CustomButtonGridView extends ScrollView {
     private Map<Integer, String> btnMap;
     private int numColumns = 2; // 默认每列显示2个按钮
     private OnButtonClickListener onButtonClickListener;
+    private Button selectBtn;
 
     public CustomButtonGridView(Context context) {
         super(context);
@@ -104,12 +105,17 @@ public class CustomButtonGridView extends ScrollView {
         button.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                selectBtn=button;
                 if (onButtonClickListener != null) {
                     onButtonClickListener.onButtonClick(position, btnMap.get(position));
                 }
             }
         });
         return button;
+    }
+
+    public Button getSelectButton(){
+        return selectBtn;
     }
 
     private int calculateTextSize(int numColumns) {
