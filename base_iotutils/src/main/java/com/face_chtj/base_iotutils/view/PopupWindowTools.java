@@ -9,13 +9,21 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import com.face_chtj.base_iotutils.R;
+
+import java.util.List;
 
 public class PopupWindowTools extends PopupWindow {
     public static int DEFAULT_MARGIN;
@@ -166,6 +174,42 @@ public class PopupWindowTools extends PopupWindow {
         mYOffset = yOffset;
     }
 
+    public static void showDropdownPopup(Context context, View anchorView, final List<String> items, final OnPopupItemClickListener listener) {
+        // 创建 ListView
+        ListView listView = new ListView(context);
+        listView.setBackgroundColor(Color.WHITE);
+        listView.setBackground(ContextCompat.getDrawable(context,R.drawable.ic_popwindon_bg));
+        listView.setDivider(new ColorDrawable(Color.LTGRAY));
+        listView.setDividerHeight(1);
+        listView.setPadding(10, 10, 10, 10);
+
+        // 设置适配器
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, items);
+        listView.setAdapter(adapter);
+
+        // 创建 PopupWindow，宽度与锚定控件一致
+        final PopupWindow popupWindow = new PopupWindow(listView,
+                anchorView.getWidth(),
+                WindowManager.LayoutParams.WRAP_CONTENT,
+                true);
+
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        // 设置点击事件回调
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                popupWindow.dismiss(); // 先关闭
+                if (listener != null) {
+                    listener.onItemClick(position, items.get(position));
+                }
+            }
+        });
+
+        // 显示下拉菜单
+        popupWindow.showAsDropDown(anchorView, 0, 0, Gravity.START);
+    }
 
     /**
      * @param parent       展示的view

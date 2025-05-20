@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.view.Gravity;
-import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
@@ -32,6 +32,7 @@ import com.face_chtj.base_iotutils.TPoolUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.IDismissListener;
+import com.face_chtj.base_iotutils.view.OnPopupItemClickListener;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.audio.AudioAty;
 import com.ichtj.basetools.base.BaseActivity;
@@ -71,6 +72,7 @@ import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -80,6 +82,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
     private static final String TAG = MainActivity.class.getSimpleName ( );
     private CustomButtonGridView customButtonGridView;
     private static final int REQUEST_CODE_INSTALL_UNKNOWN_APPS = 1234;
+    private int VIEW_FALG=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate (savedInstanceState);
@@ -92,18 +95,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
 
     public Map<Integer, String> getDisplayBtn() {
         Map<Integer, String> btnList = new HashMap<> ( );
-        Space ramSpace = null;
-        try {
-            ramSpace = FStorageTools.getRamSpace (FStorageTools.TYPE_MB);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace ( );
-        }
-        Space sdSpace = null;
-        try {
-            sdSpace = FStorageTools.getSdcardSpace (FStorageTools.TYPE_MB);
-        } catch (Throwable throwable) {
-            throwable.printStackTrace ( );
-        }
+        Space ramSpace = FStorageTools.getRamSpace (FStorageTools.TYPE_MB);
+        Space sdSpace = FStorageTools.getSdcardSpace (FStorageTools.TYPE_MB);
         btnList.put (FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid ( ));
         btnList.put (FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid ( ));
         btnList.put (FKey.KEY_SERIAL, getString (R.string.main_serial, OptionTools.getSerialNo ( )));
@@ -115,11 +108,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_RAM, getString (R.string.main_running_memory, ramSpace.getTotalSize ( ) + "MB/" + ramSpace.getUseSize ( ) + "MB/" + ramSpace.getAvailableSize ( ) + "MB"));
         btnList.put (FKey.KEY_SD_SPACE, getString (R.string.main_sdcard_memory, sdSpace.getTotalSize ( ) + "MB/" + sdSpace.getUseSize ( ) + "MB/" + sdSpace.getAvailableSize ( ) + "MB"));
         btnList.put (FKey.KEY_ETH_MODE, getString (R.string.main_eth_mode, FEthTools.getIpMode (BaseIotUtils.getContext ( ))));
-        try {
-            btnList.put (FKey.KEY_DBM, getString (R.string.main_lte_dbm, FLteTools.getDbm ( )));
-        } catch (Throwable throwable) {
-            btnList.put (FKey.KEY_DBM, getString (R.string.main_lte_dbm, "0 dBm 0 asu"));
-        }
+        btnList.put (FKey.KEY_DBM, getString (R.string.main_lte_dbm, FLteTools.getDbm ( )));
         btnList.put (FKey.KEY_SERIAL_PORT, getString (R.string.main_serial_rw));
         btnList.put (FKey.KEY_TIMERD, getString (R.string.main_timer));
         btnList.put (FKey.KEY_SCREEN, getString (R.string.main_screen_about));
@@ -166,6 +155,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_MQTT_TEST, getString (R.string.main_test_mqtt));
         btnList.put (FKey.KEY_WEBVIEW_TEST, getString (R.string.main_test_webview));
         btnList.put (FKey.KEY_POPWINDOW, getString(R.string.main_popwindow_toast));
+        btnList.put (FKey.KEY_DROP_POPWINDOW, getString(R.string.main_pull_down_option_box));
         return btnList;
     }
 
@@ -428,9 +418,31 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 startAty (WebViewAty.class);
                 break;
             case FKey.KEY_POPWINDOW:
+                ++VIEW_FALG;
+                int gravityValue=Gravity.TOP;
+                if (VIEW_FALG==1){
+                    gravityValue=Gravity.BOTTOM;
+                }else if(VIEW_FALG==2){
+                    gravityValue=Gravity.LEFT;
+                }else if(VIEW_FALG==3){
+                    gravityValue=Gravity.RIGHT;
+                }else if(VIEW_FALG>=4){
+                    gravityValue=Gravity.TOP;
+                    VIEW_FALG=0;
+                }
                 PopupWindowTools bubblePopupWindow = new PopupWindowTools(MainActivity.this);
                 bubblePopupWindow.setBubbleText("这是一条气泡消息");
-                bubblePopupWindow.show(customButtonGridView.getSelectButton(), Gravity.TOP);//view的上部展示
+                bubblePopupWindow.show(customButtonGridView.getSelectButton(), gravityValue);//view的上部展示
+                break;
+            case FKey.KEY_DROP_POPWINDOW:
+                List<String> options = Arrays.asList("选项A", "选项B", "选项C");
+                PopupWindowTools.showDropdownPopup(this, customButtonGridView.getSelectButton(), options, new OnPopupItemClickListener() {
+                    @Override
+                    public void onItemClick(int position, String itemText) {
+                        // 这里你可以接收到点击项的 position 和文本
+                        Toast.makeText(MainActivity.this, "点击了第 " + position + " 项：" + itemText, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 break;
         }
     }

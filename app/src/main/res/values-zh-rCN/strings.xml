@@ -108,4 +108,5 @@
     <string name="main_not_found_table_failed">not found table.xls</string>
     <string name="main_screenshot_succ_toast">截屏成功,位置:/sdcard/目录下</string>
     <string name="main_popwindow_toast">气泡提示</string>
+    <string name="main_pull_down_option_box">下拉选项框</string>
 </resources>

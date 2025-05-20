@@ -59,4 +59,5 @@ public class FKey {
     public static final int        KEY_MQTT_TEST=55;//Mqtt测试
     public static final int     KEY_WEBVIEW_TEST=56;//WebView测试
     public static final int        KEY_POPWINDOW=57;//气泡提示
+    public static final int   KEY_DROP_POPWINDOW=58;//下拉选项框
 }
