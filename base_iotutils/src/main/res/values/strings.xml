@@ -3,4 +3,6 @@
     <string name="iot_ok">OK</string>
     <string name="iot_cancel">Cancel</string>
     <string name="base_input_content">Please enter content</string>
+    <string name="iot_directory_title">directory: %s</string>
+    <string name="iot_back_directory">↩ Previous level</string>
 </resources>

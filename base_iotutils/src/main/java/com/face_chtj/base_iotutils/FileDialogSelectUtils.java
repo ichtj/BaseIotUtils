@@ -23,7 +23,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-
 public class FileDialogSelectUtils {
     public interface FileSelectCallback {
         void onFileSelected(List<File> selectedFiles);
@@ -80,15 +79,15 @@ public class FileDialogSelectUtils {
         });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle("目录: " + currentDir.getAbsolutePath())
+        builder.setTitle(context.getString(R.string.iot_directory_title,currentDir.getAbsolutePath()))
                 .setView(listView)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                .setPositiveButton(context.getString(R.string.iot_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         callback.onFileSelected(new ArrayList<>(selectedFiles));
                     }
                 })
-                .setNegativeButton("取消", null);
+                .setNegativeButton(context.getString(R.string.iot_cancel), null);
         dialog = builder.create();
         dialog.show();
 
@@ -131,7 +130,7 @@ public class FileDialogSelectUtils {
         }
 
         if (dialog != null) {
-            dialog.setTitle("目录: " + currentDir.getAbsolutePath());
+            dialog.setTitle(context.getString(R.string.iot_directory_title,currentDir.getAbsolutePath()));
         }
     }
 
@@ -162,7 +161,7 @@ public class FileDialogSelectUtils {
 
             TextView nameView = new TextView(context);
             nameView.setTextSize(20);
-            nameView.setText(file.getName().equals("..") ? "↩ 返回上一级" : file.getName());
+            nameView.setText(file.getName().equals("..") ? context.getString(R.string.iot_back_directory) : file.getName());
             nameView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             layout.addView(nameView);
 

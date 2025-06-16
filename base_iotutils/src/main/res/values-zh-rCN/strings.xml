@@ -3,4 +3,6 @@
     <string name="iot_ok">确定</string>
     <string name="iot_cancel">取消</string>
     <string name="base_input_content">请输入内容</string>
+    <string name="iot_directory_title">目录: %s</string>
+    <string name="iot_back_directory">↩ 返回上一级</string>
 </resources>
