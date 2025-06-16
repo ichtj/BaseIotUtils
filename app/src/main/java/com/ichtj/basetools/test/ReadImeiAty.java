@@ -1,0 +1,51 @@
+package com.ichtj.basetools.test;
+
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.alibaba.android.arouter.facade.annotation.Route;
+import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.FormatViewUtils;
+import com.ichtj.basetools.R;
+import com.ichtj.basetools.base.BaseActivity;
+import com.ichtj.basetools.util.PACKAGES;
+
+@Route(path = PACKAGES.BASE + "testdemo2")
+public class ReadImeiAty extends BaseActivity{
+    private static final String TAG = ReadImeiAty.class.getSimpleName ( );
+    TextView tvResult;
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_imei);
+        tvResult=findViewById(R.id.tvResult);
+        FormatViewUtils.setMovementMethod(tvResult);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                while (true){
+                    handler.sendMessage(handler.obtainMessage(0x22, "imei::"+DeviceUtils.getImeiOrMeid()));
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+
+                    }
+                }
+            }
+        }.start();
+    }
+    Handler handler=new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            FormatViewUtils.formatData(tvResult,msg.obj.toString());
+        }
+    };
+
+}

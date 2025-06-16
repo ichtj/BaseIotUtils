@@ -5,14 +5,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
-import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.chtj.base_framework.FScreentTools;
 import com.chtj.base_framework.FStorageTools;
 import com.chtj.base_framework.entity.CommonValue;
 import com.chtj.base_framework.entity.IpConfigInfo;
@@ -23,15 +24,20 @@ import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.AudioUtils;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
+import com.face_chtj.base_iotutils.DisplayUtils;
+import com.face_chtj.base_iotutils.FileDialogSelectUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.NotifyUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TPoolSingleUtils;
 import com.face_chtj.base_iotutils.TPoolUtils;
+import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.IDismissListener;
+import com.face_chtj.base_iotutils.code.CodeUtils;
 import com.face_chtj.base_iotutils.view.OnPopupItemClickListener;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.audio.AudioAty;
@@ -59,6 +65,7 @@ import com.ichtj.basetools.socket.SocketAty;
 import com.ichtj.basetools.timer.TimerAty;
 import com.ichtj.basetools.touch.TouchDetectAty;
 import com.face_chtj.base_iotutils.view.PopupWindowTools;
+import com.ichtj.basetools.util.BasicTools;
 import com.ichtj.basetools.util.CustomButtonGridView;
 import com.ichtj.basetools.util.FKey;
 import com.ichtj.basetools.util.JXLExcelUtils;
@@ -71,6 +78,7 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -156,6 +164,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_WEBVIEW_TEST, getString (R.string.main_test_webview));
         btnList.put (FKey.KEY_POPWINDOW, getString(R.string.main_popwindow_toast));
         btnList.put (FKey.KEY_DROP_POPWINDOW, getString(R.string.main_pull_down_option_box));
+        btnList.put (FKey.KEY_QR_CODE, getString(R.string.main_qrcode_create));
+        btnList.put (FKey.KEY_ORIENTATION, getString(R.string.main_screen_orientation));
+        btnList.put (FKey.KEY_FILE_SELECT, getString(R.string.main_file_dialog_select));
         return btnList;
     }
 
@@ -329,8 +340,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 }
                 break;
             case FKey.KEY_SCREENSHOT:
-                String imgPath = FScreentTools.takeScreenshot ("/sdcard/");
-                if (imgPath != null && !imgPath.equals ("")) {
+                String filePath="/sdcard/"+TimeUtils.getTodayDateHms("yyyyMMddHHmmss")+".png";
+                boolean isSucc = DisplayUtils.screenshot(filePath);
+                if (isSucc) {
                     ToastUtils.success (getString(R.string.main_screenshot_succ_toast));
                 } else {
                     ToastUtils.error (getString(R.string.main_screenshot_failed));
@@ -431,7 +443,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     VIEW_FALG=0;
                 }
                 PopupWindowTools bubblePopupWindow = new PopupWindowTools(MainActivity.this);
-                bubblePopupWindow.setBubbleText("这是一条气泡消息");
+                bubblePopupWindow.setBubbleText(getString(R.string.main_pop_remarks));
                 bubblePopupWindow.show(customButtonGridView.getSelectButton(), gravityValue);//view的上部展示
                 break;
             case FKey.KEY_DROP_POPWINDOW:
@@ -444,8 +456,37 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     }
                 });
                 break;
+            case FKey.KEY_QR_CODE:
+                BasicTools.showTwoScaledBitmapsDialog(this,CodeUtils.createBarCode("www.baidu.com",200,100),CodeUtils.createQRCode("www.baidu.com",200, ContextCompat.getColor(this,R.color.black)));
+                break;
+            case FKey.KEY_ORIENTATION:
+                ShellUtils.CommandResult rotationResult= ShellUtils.execCommand("settings get system user_rotation",true);
+                Log.d(TAG, "rotationResult: result>>"+rotationResult.result+",succ>>"+rotationResult.successMsg+",err>>"+rotationResult.errorMsg);
+                if (rotationResult.result==0&& !TextUtils.isEmpty(rotationResult.successMsg)){
+                    int rotationValue=0;
+                    try {
+                        rotationValue=Integer.parseInt(rotationResult.successMsg);
+                    }catch (Throwable throwable){
+                    }
+                    rotationValue++;
+                    if (rotationValue>3){
+                        rotationValue=0;
+                    }
+                    DisplayUtils.changeRotation(rotationValue);
+                }
+                break;
+            case FKey.KEY_FILE_SELECT:
+                FileDialogSelectUtils fileDialogSelectUtils =new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
+                    @Override
+                    public void onFileSelected(List<File> selected) {
+                        Log.d(TAG, "onFileSelected: "+selected);
+                    }
+                }).setSizeRatio(0.3f,0.5f);
+                fileDialogSelectUtils.show();
+                break;
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

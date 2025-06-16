@@ -79,7 +79,7 @@
     <string name="main_play_audio">播放音频</string>
     <string name="main_set_staticip">静态IP(ROOT)</string>
     <string name="main_set_dhcpip">动态IP(ROOT)</string>
-    <string name="main_screenshot">截屏(ROOT)</string>
+    <string name="main_screenshot">截屏</string>
     <string name="main_as_keepalive">ATY/SERVICE保活</string>
     <string name="main_upgrade_ota">ota升级(RK|FC)</string>
     <string name="main_silent_installation">静默安装</string>
@@ -109,4 +109,8 @@
     <string name="main_screenshot_succ_toast">截屏成功,位置:/sdcard/目录下</string>
     <string name="main_popwindow_toast">气泡提示</string>
     <string name="main_pull_down_option_box">下拉选项框</string>
+    <string name="main_pop_remarks">这是一条气泡消息</string>
+    <string name="main_qrcode_create">二维码生成</string>
+    <string name="main_screen_orientation">屏幕方向</string>
+    <string name="main_file_dialog_select">文件选择</string>
 </resources>

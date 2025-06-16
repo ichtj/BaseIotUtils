@@ -1,6 +1,6 @@
 ext {
-    //选择对应签名 "cainiao" "rockchip" "imx8" "freescale"
-    BUILD_SIGN="rockchip"
+    //选择对应签名 "cainiao" "rockchip" "imx8" "freescale" "yt01"
+    BUILD_SIGN="freescale"
     BUILD_SIGN_PWD="android"
     BUILD_SIGN_PATH="../other/facefuture.jks"
     //android开发版本配置
@@ -24,7 +24,9 @@ ext {
             netmonitor              :'@mipmap/netmonitor',
             hidSubDev               :'@mipmap/ic_hid',
             hidMainDev              :'@mipmap/ic_hid',
-            allApp                  :'@mipmap/ic_all_app'
+            allApp                  :'@mipmap/ic_all_app',
+            accessibility           :'@drawable/app_img',
+            testdemo2               :'@mipmap/ic_all_app'
     ]
     //support配置
     support = [

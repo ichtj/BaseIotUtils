@@ -3,9 +3,10 @@ package com.ichtj.basetools.util;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
-import com.face_chtj.base_iotutils.KLog;
 import com.ichtj.basetools.MainActivity;
+import com.ichtj.basetools.test.ReadImeiAty;
 import com.ichtj.basetools.network.NetMonitorAty;
 import com.ichtj.basetools.network.NetRecordAty;
 import com.ichtj.basetools.reboot.RebootCustomService;
@@ -16,12 +17,13 @@ import com.ichtj.basetools.reboot.RebootCustomService;
  * desc
  */
 public class BaseIotReceiver extends BroadcastReceiver {
+    private static final String TAG = BaseIotReceiver.class.getSimpleName();
     @Override
     public void onReceive(Context context, Intent intent) {
-        KLog.d("onReceive: action>>>" + intent.getAction());
-        if (intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
+        Log.d(TAG,"onReceive: action>>>" + intent.getAction());
+        if (intent!=null&&intent.getAction().equals(Intent.ACTION_BOOT_COMPLETED)) {
             String pkgName = context.getPackageName();
-            KLog.d("onReceive pkgName=" + pkgName);
+            Log.d(TAG, "onReceive pkgName=" + pkgName);
             switch (pkgName) {
                 case PACKAGES.PKG_REBOOT:
                     context.startService(new Intent(context, RebootCustomService.class));
@@ -40,6 +42,11 @@ public class BaseIotReceiver extends BroadcastReceiver {
                     break;
                 case PACKAGES.PKG_EXAMPLE:
                     intent = new Intent(context, MainActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(intent);
+                    break;
+                case PACKAGES.PKG_READIMEI:
+                    intent = new Intent(context, ReadImeiAty.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     context.startActivity(intent);
                     break;

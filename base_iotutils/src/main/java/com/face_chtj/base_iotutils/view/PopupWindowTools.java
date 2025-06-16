@@ -174,6 +174,13 @@ public class PopupWindowTools extends PopupWindow {
         mYOffset = yOffset;
     }
 
+    /**
+     * 显示下拉菜单项
+     * @param context 上下文
+     * @param anchorView 以某个view控件为锚点
+     * @param items 菜单选项
+     * @param listener items的选项回调
+     */
     public static void showDropdownPopup(Context context, View anchorView, final List<String> items, final OnPopupItemClickListener listener) {
         // 创建 ListView
         ListView listView = new ListView(context);

@@ -23,6 +23,64 @@ package com.face_chtj.base_iotutils;
  * --16进制字符串转ASCII字符串 {@link #hexToAscii(String hexString)}
  */
 public class TranscodingUtils {
+    public static byte[] intToBytes(int value) {
+        return new byte[] {
+                (byte)(value >>> 24),
+                (byte)(value >>> 16),
+                (byte)(value >>> 8),
+                (byte)value
+        };
+    }
+
+    public static byte[] floatToBytes(float value) {
+        int intBits = Float.floatToIntBits(value);
+        return new byte[] {
+                (byte) (intBits >>> 24),
+                (byte) (intBits >>> 16),
+                (byte) (intBits >>> 8),
+                (byte) intBits
+        };
+    }
+
+    public static byte[] longToBytes(long value) {
+        return new byte[] {
+                (byte)(value >>> 56),
+                (byte)(value >>> 48),
+                (byte)(value >>> 40),
+                (byte)(value >>> 32),
+                (byte)(value >>> 24),
+                (byte)(value >>> 16),
+                (byte)(value >>> 8),
+                (byte)value
+        };
+    }
+
+    public static int bytesToInt(byte[] bytes) {
+        return (bytes[0] & 0xFF) << 24 |
+                (bytes[1] & 0xFF) << 16 |
+                (bytes[2] & 0xFF) << 8  |
+                (bytes[3] & 0xFF);
+    }
+
+    public static float bytesToFloat(byte[] bytes) {
+        int intBits =
+                (bytes[0] & 0xFF) << 24 |
+                        (bytes[1] & 0xFF) << 16 |
+                        (bytes[2] & 0xFF) << 8  |
+                        (bytes[3] & 0xFF);
+        return Float.intBitsToFloat(intBits);
+    }
+
+    public static long bytesToLong(byte[] bytes) {
+        return ((long)(bytes[0] & 0xFF) << 56) |
+                ((long)(bytes[1] & 0xFF) << 48) |
+                ((long)(bytes[2] & 0xFF) << 40) |
+                ((long)(bytes[3] & 0xFF) << 32) |
+                ((long)(bytes[4] & 0xFF) << 24) |
+                ((long)(bytes[5] & 0xFF) << 16) |
+                ((long)(bytes[6] & 0xFF) << 8)  |
+                ((long)(bytes[7] & 0xFF));
+    }
 
     /**
      * 判断奇数或偶数，位运算，最后一位是1则为奇数，为0是偶数

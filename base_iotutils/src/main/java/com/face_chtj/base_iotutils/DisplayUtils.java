@@ -6,13 +6,17 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
 
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.BaseIotUtils;
+
+import java.io.File;
 
 
 /**
@@ -27,22 +31,6 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
  */
 public class DisplayUtils {
     private static final String TAG = DisplayUtils.class.getSimpleName();
-    /**
-     * 获取屏幕宽度
-     *
-     * @param context Context
-     * @return 屏幕宽度（px）
-     */
-    public static int getScreenWidth(Context context) {
-        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        Point point = new Point();
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            wm.getDefaultDisplay().getRealSize(point);
-        } else {
-            wm.getDefaultDisplay().getSize(point);
-        }
-        return point.x;
-    }
     /**
      * 获取当前的屏幕尺寸
      *
@@ -60,6 +48,22 @@ public class DisplayUtils {
         size[0] = metrics.widthPixels;
         size[1] = metrics.heightPixels;
         return size;
+    }
+    /**
+     * 获取屏幕宽度
+     *
+     * @param context Context
+     * @return 屏幕宽度（px）
+     */
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        Point point = new Point();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            wm.getDefaultDisplay().getRealSize(point);
+        } else {
+            wm.getDefaultDisplay().getSize(point);
+        }
+        return point.x;
     }
 
     /**
@@ -105,12 +109,39 @@ public class DisplayUtils {
     /**
      * 设置 APP界面屏幕亮度值方法
      **/
-    public static void setAppScreenBrightness(Activity aty,int birghtessValue) {
+    public static void setAppScreenBrightness(Activity aty,int brightnessValue) {
         Window window = aty.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
-        lp.screenBrightness = birghtessValue / 255.0f;
+        lp.screenBrightness = brightnessValue / 255.0f;
         window.setAttributes(lp);
     }
+
+    /**
+     * 改变屏幕方向
+     * @param rotationValue
+     * user_rotation 0 横屏
+     * user_rotation 1 竖屏
+     * user_rotation 2 反向横屏
+     * user_rotation 3 反向竖屏
+     * @return boolean 屏幕方向
+     */
+    public static boolean changeRotation(int rotationValue) {
+        ShellUtils.CommandResult setRotationResult=ShellUtils.execCommand("settings put system user_rotation "+rotationValue,true);
+        Log.d(TAG, "setRotationResult: result>>"+setRotationResult.result+",succ>>"+setRotationResult.successMsg+",err>>"+setRotationResult.errorMsg);
+        return setRotationResult.result==0;
+    }
+
+    /**
+     * 截屏操作
+     * @param fileName 文件路径+文件名 /sdcar/test.png
+     * @return 是否成功
+     */
+    public static boolean screenshot(String fileName){
+        ShellUtils.CommandResult result =ShellUtils.execCommand("screencap "+fileName,true);
+        Log.d(TAG, "screenshot: result>>"+result.result+",err>>"+result.errorMsg+",succ>>"+result.successMsg);
+        return result.result==0&&new File(fileName).exists();
+    }
+
 
     /**
      * 设置当前屏幕亮度的模式

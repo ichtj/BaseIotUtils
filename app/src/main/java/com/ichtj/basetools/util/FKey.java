@@ -60,4 +60,7 @@ public class FKey {
     public static final int     KEY_WEBVIEW_TEST=56;//WebView测试
     public static final int        KEY_POPWINDOW=57;//气泡提示
     public static final int   KEY_DROP_POPWINDOW=58;//下拉选项框
+    public static final int          KEY_QR_CODE=59;//二维码生成
+    public static final int      KEY_ORIENTATION=60;//屏幕方向
+    public static final int      KEY_FILE_SELECT=61;//文件选择
 }

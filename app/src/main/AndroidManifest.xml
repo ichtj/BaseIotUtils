@@ -80,6 +80,7 @@
     <uses-permission
         android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.TETHER_PRIVILEGED"/>
     <uses-permission
         android:name="android.permission.WRITE_SECURE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
@@ -379,8 +380,21 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:theme="@style/AppTheme" />
+
         <activity
             android:name=".webviews.WebViewAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme" />
+
+        <activity android:name=".test.ReadImeiAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"/>
+
+        <activity android:name=".accessibility.AccessibilityControlAty"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
@@ -389,6 +403,23 @@
         <meta-data
             android:name="android.hardware.usb.action.USB_ACCESSORY_ATTACHED"
             android:resource="@xml/usb_accessory_filter" />
+        <service android:name=".accessibility.AccessibilityControlService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <service
+            android:name=".accessibility.ScreenRecordService"
+            android:foregroundServiceType="mediaProjection"
+            android:exported="false"
+            android:enabled="true"/>
         <!--在服务里面进行一些application应该执行的初始化操作-->
         <service
             android:name=".application.InitializeService"
@@ -425,8 +456,8 @@
             android:name=".util.BaseIotReceiver"
             android:enabled="true"
             android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
         <provider

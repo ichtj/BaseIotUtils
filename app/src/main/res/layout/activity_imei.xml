@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:ignore="MissingDefaultResource">
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        app:centerText="imei读取"
+        app:leftBack="true"
+        app:leftText="&lt;&lt;"
+        app:rightText=""
+        app:textSize="24sp" />
+    <TextView
+        android:id="@+id/tvResult"
+        android:layout_width="match_parent"
+        android:textSize="27sp"
+        android:layout_height="match_parent"/>
+</LinearLayout>

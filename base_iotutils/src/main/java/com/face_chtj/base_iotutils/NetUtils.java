@@ -925,7 +925,7 @@ public class NetUtils {
 
                         while (addresses.hasMoreElements()) {
                             InetAddress addr = addresses.nextElement();
-                            if (!addr.isLoopbackAddress() && addr.getAddress().length == 4) {
+                            if (!addr.isLoopbackAddress() && addr.getAddress().length == 4&&(iface.getName().equals("usb0")||iface.getName().contains("wwan0"))) {
                                 return addr.getHostAddress();
                             }
                         }

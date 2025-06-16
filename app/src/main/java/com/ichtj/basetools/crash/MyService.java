@@ -30,7 +30,7 @@ public class MyService extends Service {
     }
     public void sleepTest() {
         Log.e(TAG, "sleepTest: start");
-        SystemClock.sleep(20000);
+        SystemClock.sleep(50000);
         Log.e(TAG, "sleepTest: end");
     }
 

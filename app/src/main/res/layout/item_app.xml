@@ -45,6 +45,10 @@
                 android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:singleLine="true"
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 android:text="xxx"
                 android:textColor="@android:color/holo_red_light"
                 android:textSize="@dimen/small_text_size" />
@@ -139,6 +143,10 @@
             android:layout_weight="4"
             android:gravity="left|center"
             android:singleLine="true"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
             android:text="packName"
             android:textColor="@android:color/black"
             android:textSize="@dimen/small_text_size" />

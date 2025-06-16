@@ -190,6 +190,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             super(itemView);
             tvAppName = itemView.findViewById(R.id.tvAppName);
             tvPackName = itemView.findViewById(R.id.tvPackName);
+            tvPackName.setSelected(true); // 关键点：触发 marquee 效果
             tvCopy = itemView.findViewById(R.id.tvCopy);
             tvToAppInfo = itemView.findViewById(R.id.tvToAppInfo);
             tvUid = itemView.findViewById(R.id.tvUid);
@@ -202,6 +203,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             tvVersion = itemView.findViewById(R.id.tvVersion);
             tvSilence = itemView.findViewById(R.id.tvSilence);
             tvAppPath = itemView.findViewById(R.id.tvAppPath);
+            tvAppPath.setSelected(true); // 关键点：触发 marquee 效果
         }
     }
 }

@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:2.7.0'
+         implementation 'com.github.wave-chtj:BaseIotUtils:2.7.1'
 }
 ```
 
@@ -93,8 +93,22 @@ public class App extends Application {
 | 31  | UriPathUtils                | Uri 转真实路径    | android7.0uri 转换      |
 | 32  | ZipUtils                    | 压缩相关         | 压缩解压,批量等              |
 | 33  | PopupWindowTools            | 气泡提示         | 某个控件的上,下,左,右弹出        |
+| 34  | CodeUtils                   | 二维码,条形码生成    | 按条件生成二维码,条形码          |
+| 35  | FileDialogSelectUtils       | 文件多选返回       | 递归选中文件夹下文件            |
 
 ## base_iotutils 工具调用方式,及图片展示
+
+#### FileDialogSelectUtils 递归多选文件夹下文件
+
+```java
+        FileDialogSelectUtils fileDialogSelectUtils =new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
+        @Override
+        public void onFileSelected(List<File> selected) {
+            Log.d(TAG, "onFileSelected: "+selected);
+            }
+        }).setSizeRatio(0.3f,0.5f);//比例
+        fileDialogSelectUtils.show();
+```
 
 #### PopupWindowTools 气泡提示
 
