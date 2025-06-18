@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,6 +36,7 @@ public class FileDialogSelectUtils {
     private final List<File> selectedFiles = new ArrayList<>();
     private AlertDialog dialog;
     private FileListAdapter adapter;
+    private int itemTvSize=20;
 
     private float widthRatio = 1f;
     private float heightRatio = 1f;
@@ -43,6 +45,13 @@ public class FileDialogSelectUtils {
         this.context = context;
         this.currentDir = startDir;
         this.callback = callback;
+    }
+
+    public FileDialogSelectUtils setSizeRatio(float widthRatio, float heightRatio,int itemTvSize) {
+        this.widthRatio = widthRatio;
+        this.heightRatio = heightRatio;
+        this.itemTvSize = itemTvSize;
+        return this;
     }
 
     public FileDialogSelectUtils setSizeRatio(float widthRatio, float heightRatio) {
@@ -160,7 +169,7 @@ public class FileDialogSelectUtils {
             layout.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView nameView = new TextView(context);
-            nameView.setTextSize(20);
+            nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP,itemTvSize);
             nameView.setText(file.getName().equals("..") ? context.getString(R.string.iot_back_directory) : file.getName());
             nameView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
             layout.addView(nameView);

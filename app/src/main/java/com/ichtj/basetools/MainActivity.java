@@ -481,7 +481,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     public void onFileSelected(List<File> selected) {
                         Log.d(TAG, "onFileSelected: "+selected);
                     }
-                }).setSizeRatio(0.3f,0.5f);
+                }).setSizeRatio(0.3f,0.5f,30);
                 fileDialogSelectUtils.show();
                 break;
         }
