@@ -121,9 +121,10 @@
     <TextView
         android:id="@+id/tvPingAddr"
         android:layout_width="wrap_content"
+        android:singleLine="true"
         android:layout_height="wrap_content"
-        android:text="DNS地址："
-        android:textColor="@android:color/black"
+        android:text="@string/net_record_in_dns"
+        android:textColor="@color/blue_1"
         android:textSize="@dimen/large_text_size" />
 
 

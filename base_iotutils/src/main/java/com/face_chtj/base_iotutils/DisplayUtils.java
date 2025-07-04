@@ -148,7 +148,7 @@ public class DisplayUtils {
      * SCREEN_BRIGHTNESS_MODE_AUTOMATIC=1 为自动调节屏幕亮度
      * SCREEN_BRIGHTNESS_MODE_MANUAL=0  为手动调节屏幕亮度
      */
-    public static void  setScreenMode(int mode){
+    public static void setScreenMode(int mode){
         try{
             Settings.System.putInt(BaseIotUtils.getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, mode);
         }catch (Exception localException){

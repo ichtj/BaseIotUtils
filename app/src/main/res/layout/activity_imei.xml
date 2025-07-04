@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
+    android:background="@color/black"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
     <com.face_chtj.base_iotutils.view.TopTitleBar
@@ -18,6 +19,8 @@
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
+        android:background="@color/black"
         android:textSize="27sp"
+        android:textColor="@color/white"
         android:layout_height="match_parent"/>
 </LinearLayout>

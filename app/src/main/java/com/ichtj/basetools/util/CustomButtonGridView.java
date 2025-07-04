@@ -1,6 +1,7 @@
 package com.ichtj.basetools.util;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+
+import androidx.core.content.ContextCompat;
+
+import com.ichtj.basetools.R;
 
 import java.util.List;
 import java.util.Map;

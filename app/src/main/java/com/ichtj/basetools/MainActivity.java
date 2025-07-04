@@ -69,6 +69,7 @@ import com.ichtj.basetools.util.BasicTools;
 import com.ichtj.basetools.util.CustomButtonGridView;
 import com.ichtj.basetools.util.FKey;
 import com.ichtj.basetools.util.JXLExcelUtils;
+import com.ichtj.basetools.util.LoadingDialog;
 import com.ichtj.basetools.util.OptionTools;
 import com.ichtj.basetools.util.PACKAGES;
 import com.ichtj.basetools.util.POIExcelUtils;
@@ -167,6 +168,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_QR_CODE, getString(R.string.main_qrcode_create));
         btnList.put (FKey.KEY_ORIENTATION, getString(R.string.main_screen_orientation));
         btnList.put (FKey.KEY_FILE_SELECT, getString(R.string.main_file_dialog_select));
+        btnList.put (FKey.KEY_LOADDING_DIALOG, "加载中...");
         return btnList;
     }
 
@@ -481,8 +483,31 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     public void onFileSelected(List<File> selected) {
                         Log.d(TAG, "onFileSelected: "+selected);
                     }
-                }).setSizeRatio(0.3f,0.5f,30);
+                }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(true);
                 fileDialogSelectUtils.show();
+                break;
+            case FKey.KEY_LOADDING_DIALOG:
+                int[] frames = new int[] {
+                        R.drawable.ic_1,
+                        R.drawable.ic_2,
+                        R.drawable.ic_3,
+                        R.drawable.ic_4,
+                        R.drawable.ic_5,
+                        R.drawable.ic_6
+                };
+
+                LoadingDialog loadingDialog = new LoadingDialog(this);
+
+                // 情况一：PNG 列表
+                loadingDialog.setLoadingImages(frames, 100, 100, 1200);
+                loadingDialog.showLoading();
+
+                // 情况二：仅一张图旋转
+                // loadingDialog.setLoadingImages(new int[]{R.drawable.loading_icon}, 100, 100, 0);
+                // loadingDialog.showLoading();
+
+                // 关闭时
+                // loadingDialog.hideLoading();
                 break;
         }
     }

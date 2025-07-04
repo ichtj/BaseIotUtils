@@ -37,6 +37,7 @@ public class FileDialogSelectUtils {
     private AlertDialog dialog;
     private FileListAdapter adapter;
     private int itemTvSize=20;
+    private boolean singleSelect = false;
 
     private float widthRatio = 1f;
     private float heightRatio = 1f;
@@ -51,6 +52,11 @@ public class FileDialogSelectUtils {
         this.widthRatio = widthRatio;
         this.heightRatio = heightRatio;
         this.itemTvSize = itemTvSize;
+        return this;
+    }
+
+    public FileDialogSelectUtils setSingleSelect(boolean singleSelect) {
+        this.singleSelect = singleSelect;
         return this;
     }
 
@@ -77,10 +83,15 @@ public class FileDialogSelectUtils {
                     refreshFileList();
                 } else {
                     // 文件：选中/取消
-                    if (selectedFiles.contains(item)) {
-                        selectedFiles.remove(item);
-                    } else {
+                    if (singleSelect) {
+                        selectedFiles.clear();
                         selectedFiles.add(item);
+                    } else {
+                        if (selectedFiles.contains(item)) {
+                            selectedFiles.remove(item);
+                        } else {
+                            selectedFiles.add(item);
+                        }
                     }
                     adapter.notifyDataSetChanged();
                 }

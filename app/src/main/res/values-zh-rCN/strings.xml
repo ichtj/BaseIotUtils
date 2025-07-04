@@ -113,4 +113,8 @@
     <string name="main_qrcode_create">二维码生成</string>
     <string name="main_screen_orientation">屏幕方向</string>
     <string name="main_file_dialog_select">文件选择</string>
+    <string name="net_record_dns_title">Select DNS</string>
+    <string name="net_record_more_than_one">至少选择一个进行网络测试！</string>
+    <string name="net_record_in_dns">编辑DNS：%s</string>
+    <string name="net_record_ip_count">数量: %s</string>
 </resources>

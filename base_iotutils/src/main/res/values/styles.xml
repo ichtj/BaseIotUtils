@@ -20,6 +20,13 @@
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/ic_dialogalert_bg</item>
     </style>
+
+    <style name="TransparentDialogStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">false</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="dialog_bg2" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>

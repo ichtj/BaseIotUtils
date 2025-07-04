@@ -35,4 +35,23 @@ public class RegularTools {
         }
         return matches;
     }
+
+    public static boolean isValidIpOrUrl(String input) {
+        if (input == null || input.isEmpty()) return false;
+
+        // 匹配 IPv4
+        String ipRegex =
+                "^((25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)\\.){3}" +
+                        "(25[0-5]|2[0-4]\\d|1\\d{2}|[1-9]?\\d)$";
+
+        // 匹配 URL 或域名（可带 http/https，可带端口，可带路径）
+        String urlRegex =
+                "^((http|https)://)?" +                     // 协议可选
+                        "(([a-zA-Z0-9][-a-zA-Z0-9]{0,62})\\.)+" +   // 域名段
+                        "[a-zA-Z]{2,6}" +                           // 顶级域
+                        "(:\\d{1,5})?" +                            // 端口（可选）
+                        "(/.*)?$";                                  // 路径（可选）
+
+        return input.matches(ipRegex) || input.matches(urlRegex);
+    }
 }
