@@ -3,6 +3,7 @@ package com.ichtj.basetools.install;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -12,6 +13,8 @@ import androidx.annotation.Nullable;
 import androidx.core.content.FileProvider;
 
 import com.face_chtj.base_iotutils.AppsUtils;
+import com.face_chtj.base_iotutils.FileDialogSelectUtils;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
@@ -24,6 +27,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 /**
  * Create on 2020/7/13
@@ -126,6 +130,23 @@ public class InstallAPkAty extends BaseActivity {
             }
         });
     }
+
+    public void adbInstallClick(View view) {
+        FileDialogSelectUtils fileDialogSelectUtils =new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
+            @Override
+            public void onFileSelected(List<File> selected) {
+                if (selected==null&&selected.size()<=0){
+                    return;
+                }
+                Log.d(TAG, "onFileSelected: "+selected);
+//                ShellUtils.CommandResult commandResult=ShellUtils.execCommand("pm install -r /sdcard/pkgSearch.apk",true);
+//                Log.d(TAG, "onFileSelected: commandResult>>"+commandResult);
+            }
+        }).setSizeRatio(0.5f,0.5f,30).setSingleSelect(true);
+        fileDialogSelectUtils.show();
+    }
+
+
 
     public void silenceInstall(View view) {
         // 启动文件选择器

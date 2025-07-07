@@ -74,6 +74,15 @@ public class ShellUtils {
             this.errorMsg = errorMsg;
             this.successMsg = successMsg;
         }
+
+        @Override
+        public String toString() {
+            return "CommandResult{" +
+                    "result=" + result +
+                    ", errorMsg='" + errorMsg + '\'' +
+                    ", successMsg='" + successMsg + '\'' +
+                    '}';
+        }
     }
 
     /**

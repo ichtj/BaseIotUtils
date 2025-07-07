@@ -13,12 +13,18 @@
         <item name="windowNoTitle">true</item>
     </style>
     <!-- Base application theme. -->
-    <style name="dialog_bg" parent="AppTheme">
+    <style name="dialog_bg" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsTranslucent">true</item>
         <!-- Customize your theme here. -->
         <item name="windowNoTitle">true</item>
         <item name="android:windowBackground">@drawable/ic_dialogalert_bg</item>
+    </style>
+
+    <style name="CustomDialogStyle">
+        <item name="android:windowBackground">@drawable/ic_dialogalert_bg</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
     </style>
 
     <style name="TransparentDialogStyle" parent="Theme.AppCompat.Dialog">
