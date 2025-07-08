@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -32,6 +33,9 @@ import java.util.Comparator;
 import java.util.List;
 
 public class FileDialogSelectUtils {
+    private static final String TAG = FileDialogSelectUtils.class.getSimpleName();
+    private static final String EMPTY_PLACEHOLDER = "__EMPTY_PLACEHOLDER__";
+
     public interface FileSelectCallback {
         void onFileSelected(List<File> selectedFiles);
     }
@@ -43,10 +47,11 @@ public class FileDialogSelectUtils {
     private final List<File> selectedFiles = new ArrayList<>();
     private AlertDialog dialog;
     private FileListAdapter adapter;
-    private int itemTvSize=20;
+    private int itemTvSize = 20;
     private boolean singleSelect = false;
     private ListView listView;
     private TextView titleView;
+    private LinearLayout buttonLayout;
     private LinearLayout rootLayout;
 
     private float widthRatio = 1f;
@@ -58,7 +63,7 @@ public class FileDialogSelectUtils {
         this.callback = callback;
     }
 
-    public FileDialogSelectUtils setSizeRatio(float widthRatio, float heightRatio,int itemTvSize) {
+    public FileDialogSelectUtils setSizeRatio(float widthRatio, float heightRatio, int itemTvSize) {
         this.widthRatio = widthRatio;
         this.heightRatio = heightRatio;
         this.itemTvSize = itemTvSize;
@@ -77,12 +82,10 @@ public class FileDialogSelectUtils {
     }
 
     public void show() {
-        // 创建根布局
         rootLayout = new LinearLayout(context);
         rootLayout.setOrientation(LinearLayout.VERTICAL);
         rootLayout.setPadding(30, 20, 30, 20);
 
-        // 创建标题
         titleView = new TextView(context);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
         titleView.setGravity(Gravity.LEFT);
@@ -91,37 +94,29 @@ public class FileDialogSelectUtils {
         titleView.setTypeface(null, Typeface.BOLD);
         rootLayout.addView(titleView);
 
-        // 创建ListView
         listView = new ListView(context);
         adapter = new FileListAdapter();
         listView.setAdapter(adapter);
-
-        // 设置ListView的权重为1，占据剩余空间
-        LinearLayout.LayoutParams listParams = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                0,
-                1.0f
-        );
-        listView.setLayoutParams(listParams);
+        listView.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT, 0, 1.0f));
         rootLayout.addView(listView);
 
-        // 创建按钮布局
-        LinearLayout buttonLayout = new LinearLayout(context);
+        buttonLayout = new LinearLayout(context);
         buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
         buttonLayout.setGravity(Gravity.RIGHT);
         buttonLayout.setPadding(0, 20, 0, 0);
 
-        // 创建取消按钮
         Button cancelButton = new Button(context);
         cancelButton.setText(context.getString(R.string.iot_cancel));
         cancelButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
-        cancelButton.setPadding(20, 15, 20, 15);
+        cancelButton.setPadding(20, 10, 20, 10);
         LinearLayout.LayoutParams cancelParams = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        );
+                LinearLayout.LayoutParams.WRAP_CONTENT);
         cancelParams.setMargins(0, 0, 12, 0);
+        cancelButton.setTextColor(Color.BLACK); // 可根据你设计风格设置
         cancelButton.setLayoutParams(cancelParams);
+        cancelButton.setBackground(ContextCompat.getDrawable(context,R.drawable.custom_button_background));
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -130,15 +125,15 @@ public class FileDialogSelectUtils {
         });
         buttonLayout.addView(cancelButton);
 
-        // 创建确定按钮
         Button okButton = new Button(context);
         okButton.setText(context.getString(R.string.iot_ok));
         okButton.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
-        okButton.setPadding(20, 15, 20, 15);
+        okButton.setPadding(20, 10, 20, 10);
+        okButton.setTextColor(Color.BLACK); // 可根据你设计风格设置
         okButton.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
-        ));
+                LinearLayout.LayoutParams.WRAP_CONTENT));
+        okButton.setBackground(ContextCompat.getDrawable(context,R.drawable.custom_button_background));
         okButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,14 +149,15 @@ public class FileDialogSelectUtils {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 File item = fileList.get(position);
-                if (item.getName().equals("..")) {
+                if (EMPTY_PLACEHOLDER.equals(item.getName())) return;
+
+                if ("..".equals(item.getName())) {
                     currentDir = currentDir.getParentFile();
-                    refreshFileList();
+                    FileDialogSelectUtils.this.refreshFileList();
                 } else if (item.isDirectory()) {
                     currentDir = item;
-                    refreshFileList();
+                    FileDialogSelectUtils.this.refreshFileList();
                 } else {
-                    // 文件：选中/取消
                     if (singleSelect) {
                         selectedFiles.clear();
                         selectedFiles.add(item);
@@ -193,7 +189,7 @@ public class FileDialogSelectUtils {
         }
 
         File[] files = currentDir.listFiles();
-        if (files != null) {
+        if (files != null && files.length > 0) {
             List<File> fileSorted = Arrays.asList(files);
             Collections.sort(fileSorted, new Comparator<File>() {
                 @Override
@@ -204,72 +200,53 @@ public class FileDialogSelectUtils {
                 }
             });
             fileList.addAll(fileSorted);
+        } else {
+            fileList.add(new File(EMPTY_PLACEHOLDER));
         }
 
-        if (adapter != null) {
-            adapter.notifyDataSetChanged();
-        }
-
-        if (titleView != null) {
-            titleView.setText(context.getString(R.string.iot_directory_title, currentDir.getAbsolutePath()));
-
-            // 动态调整Dialog高度
-            adjustDialogHeight();
-        }
+        adapter.notifyDataSetChanged();
+        titleView.setText(context.getString(R.string.iot_directory_title, currentDir.getAbsolutePath()));
+        listView.post(new Runnable() {
+            @Override
+            public void run() {
+                FileDialogSelectUtils.this.adjustDialogHeight();
+            }
+        });
     }
 
     private void adjustDialogHeight() {
         if (dialog == null || rootLayout == null) return;
 
-        // 使用post确保布局已经完成
-        rootLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                Window window = dialog.getWindow();
-                if (window != null) {
-                    window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND);
 
-                    DisplayMetrics metrics = context.getResources().getDisplayMetrics();
-                    WindowManager.LayoutParams lp = window.getAttributes();
-                    lp.width = (int) (metrics.widthPixels * widthRatio);
+            DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+            WindowManager.LayoutParams lp = window.getAttributes();
+            lp.width = (int) (metrics.widthPixels * widthRatio);
 
-                    // 计算ListView的实际内容高度
-                    int listViewHeight = calculateListViewHeight();
+            int listViewHeight = calculateListViewHeight();
+            int dialogExtraHeight = calculateDialogExtraHeight();
+            int actualContentHeight = listViewHeight + dialogExtraHeight;
+            int maxHeight = (int) (metrics.heightPixels * heightRatio);
 
-                    // 计算Dialog的其他组件高度（标题、按钮等）
-                    int dialogExtraHeight = calculateDialogExtraHeight();
-
-                    // 实际内容总高度
-                    int actualContentHeight = listViewHeight + dialogExtraHeight;
-
-                    // 设置的最大高度
-                    int maxHeight = (int) (metrics.heightPixels * heightRatio);
-
-                    // 选择较小的高度
-                    lp.height = Math.min(actualContentHeight, maxHeight);
-
-                    window.setAttributes(lp);
-                }
-            }
-        });
+            lp.height = Math.min(actualContentHeight, maxHeight);
+            window.setAttributes(lp);
+        }
     }
 
     private int calculateListViewHeight() {
-        if (adapter == null || adapter.getCount() == 0) {
-            return 0;
-        }
+        if (adapter == null || adapter.getCount() == 0) return 0;
 
         int totalHeight = 0;
         for (int i = 0; i < adapter.getCount(); i++) {
             View item = adapter.getView(i, null, listView);
             item.measure(
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
-            );
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
             totalHeight += item.getMeasuredHeight();
         }
 
-        // 加上ListView的分隔线高度
         if (adapter.getCount() > 1) {
             totalHeight += (adapter.getCount() - 1) * listView.getDividerHeight();
         }
@@ -278,24 +255,28 @@ public class FileDialogSelectUtils {
     }
 
     private int calculateDialogExtraHeight() {
-        // 估算Dialog其他组件的高度
-        // 包括：标题高度、按钮高度、内边距等
+        int total = 0;
 
-        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        if (titleView != null) {
+            titleView.measure(
+                    View.MeasureSpec.makeMeasureSpec(rootLayout.getWidth(), View.MeasureSpec.AT_MOST),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            );
+            total += titleView.getMeasuredHeight();
+        }
 
-        // 标题高度（根据itemTvSize估算）
-        int titleHeight = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, itemTvSize + 10, metrics);
+        if (buttonLayout != null) {
+            buttonLayout.measure(
+                    View.MeasureSpec.makeMeasureSpec(rootLayout.getWidth(), View.MeasureSpec.AT_MOST),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+            );
+            total += buttonLayout.getMeasuredHeight();
+        }
 
-        // 按钮高度（根据itemTvSize估算）
-        int buttonHeight = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_SP, itemTvSize + 20, metrics);
+        // 加上内边距（上下的 padding）
+        total += rootLayout.getPaddingTop() + rootLayout.getPaddingBottom();
 
-        // 内边距
-        int padding = (int) TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 80, metrics);
-
-        return titleHeight + buttonHeight + padding;
+        return total;
     }
 
     private class FileListAdapter extends BaseAdapter {
@@ -317,26 +298,46 @@ public class FileDialogSelectUtils {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             File file = fileList.get(position);
-
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
-            layout.setPadding(24, 15, 24, 15);
+            layout.setPadding(22, 12, 22, 12);
             layout.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView nameView = new TextView(context);
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
-            nameView.setText(file.getName().equals("..") ? context.getString(R.string.iot_back_directory) : file.getName());
-            nameView.setLayoutParams(new LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
-            layout.addView(nameView);
+            nameView.setLayoutParams(new LinearLayout.LayoutParams(
+                    0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
 
-            if (!file.isDirectory() && !file.getName().equals("..")) {
-                CheckBox checkBox = new CheckBox(context);
-                checkBox.setChecked(selectedFiles.contains(file));
-                checkBox.setEnabled(false); // 控制点击整行而不是 checkbox
-                checkBox.setButtonDrawable(R.drawable.custom_checkbox);
-                layout.addView(checkBox);
+            if (EMPTY_PLACEHOLDER.equals(file.getName())) {
+                nameView.setText(R.string.not_found_file_child_content);
+                nameView.setTextColor(Color.GRAY);
+                nameView.setGravity(Gravity.CENTER);
+                layout.setGravity(Gravity.CENTER);
+            } else {
+                nameView.setText(file.getName().equals("..") ?
+                        context.getString(R.string.iot_back_directory) : file.getName());
+
+                if (!file.isDirectory() && !file.getName().equals("..")) {
+                    CheckBox checkBox = new CheckBox(context);
+                    checkBox.setChecked(selectedFiles.contains(file));
+                    checkBox.setEnabled(false);
+                    checkBox.setButtonDrawable(R.drawable.custom_checkbox);
+
+                    // 设置右边距（比如 20dp）
+                    LinearLayout.LayoutParams checkBoxParams = new LinearLayout.LayoutParams(
+                            ViewGroup.LayoutParams.WRAP_CONTENT,
+                            ViewGroup.LayoutParams.WRAP_CONTENT
+                    );
+                    int marginRightPx = (int) TypedValue.applyDimension(
+                            TypedValue.COMPLEX_UNIT_DIP, 20, context.getResources().getDisplayMetrics());
+                    checkBoxParams.setMargins(0, 0, marginRightPx, 0);
+                    checkBox.setLayoutParams(checkBoxParams);
+
+                    layout.addView(checkBox);
+                }
             }
 
+            layout.addView(nameView);
             return layout;
         }
     }

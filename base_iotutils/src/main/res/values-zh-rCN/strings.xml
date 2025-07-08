@@ -5,4 +5,5 @@
     <string name="base_input_content">请输入内容</string>
     <string name="iot_directory_title">目录: %s</string>
     <string name="iot_back_directory">↩ 返回上一级</string>
+    <string name="not_found_file_child_content">..找不到内容..</string>
 </resources>
