@@ -13,7 +13,6 @@ import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.LoadingDialog;
 import com.ichtj.basetools.util.PACKAGES;
 
 @Route(path = PACKAGES.BASE + "readimei")
@@ -40,27 +39,6 @@ public class ReadImeiAty extends BaseActivity{
                 }
             }
         }.start();
-        int[] frames = new int[] {
-                R.drawable.ic_1,
-                R.drawable.ic_2,
-                R.drawable.ic_3,
-                R.drawable.ic_4,
-                R.drawable.ic_5,
-                R.drawable.ic_6
-        };
-
-        LoadingDialog loadingDialog = new LoadingDialog(this);
-
-        // 情况一：PNG 列表
-        loadingDialog.setLoadingImages(frames, 100, 100, 1200);
-        loadingDialog.showLoading();
-
-        // 情况二：仅一张图旋转
-        // loadingDialog.setLoadingImages(new int[]{R.drawable.loading_icon}, 100, 100, 0);
-        // loadingDialog.showLoading();
-
-        // 关闭时
-        // loadingDialog.hideLoading();
     }
     Handler handler=new Handler(){
         @Override

@@ -69,7 +69,7 @@ import com.ichtj.basetools.util.BasicTools;
 import com.ichtj.basetools.util.CustomButtonGridView;
 import com.ichtj.basetools.util.FKey;
 import com.ichtj.basetools.util.JXLExcelUtils;
-import com.ichtj.basetools.util.LoadingDialog;
+import com.face_chtj.base_iotutils.LoadDialogUtils;
 import com.ichtj.basetools.util.OptionTools;
 import com.ichtj.basetools.util.PACKAGES;
 import com.ichtj.basetools.util.POIExcelUtils;
@@ -81,6 +81,7 @@ import com.ichtj.basetools.webviews.WebViewAty;
 
 import java.io.File;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -487,27 +488,24 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 fileDialogSelectUtils.show();
                 break;
             case FKey.KEY_LOADDING_DIALOG:
-                int[] frames = new int[] {
-                        R.drawable.ic_1,
-                        R.drawable.ic_2,
-                        R.drawable.ic_3,
-                        R.drawable.ic_4,
-                        R.drawable.ic_5,
-                        R.drawable.ic_6
-                };
-
-                LoadingDialog loadingDialog = new LoadingDialog(this);
-
+                List<Integer> pngList = new ArrayList<>();
+                pngList.add(R.drawable.ic_1);
+//                pngList.add(R.drawable.ic_2);
+//                pngList.add(R.drawable.ic_3);
+//                pngList.add(R.drawable.ic_4);
+//                pngList.add(R.drawable.ic_5);
+//                pngList.add(R.drawable.ic_6);
+                LoadDialogUtils loadDialogUtils = new LoadDialogUtils(this);
                 // 情况一：PNG 列表
-                loadingDialog.setLoadingImages(frames, 100, 100, 1200);
-                loadingDialog.showLoading();
+                loadDialogUtils.setPngList(pngList);
+                loadDialogUtils.showLoading();
 
-                // 情况二：仅一张图旋转
-                // loadingDialog.setLoadingImages(new int[]{R.drawable.loading_icon}, 100, 100, 0);
-                // loadingDialog.showLoading();
-
-                // 关闭时
-                // loadingDialog.hideLoading();
+                customButtonGridView.getSelectButton().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadDialogUtils.hideLoading();
+                    }
+                },3000);
                 break;
         }
     }

@@ -138,9 +138,8 @@ public class InstallAPkAty extends BaseActivity {
                 if (selected==null&&selected.size()<=0){
                     return;
                 }
-                Log.d(TAG, "onFileSelected: "+selected);
-//                ShellUtils.CommandResult commandResult=ShellUtils.execCommand("pm install -r /sdcard/pkgSearch.apk",true);
-//                Log.d(TAG, "onFileSelected: commandResult>>"+commandResult);
+                ShellUtils.CommandResult commandResult=ShellUtils.execCommand("pm install -r "+selected.get(0),true);
+                Log.d(TAG, "onFileSelected: commandResult>>"+commandResult);
             }
         }).setSizeRatio(0.5f,0.5f,30).setSingleSelect(true);
         fileDialogSelectUtils.show();

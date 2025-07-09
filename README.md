@@ -17,7 +17,7 @@ allprojects {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:2.7.1'
+         implementation 'com.github.wave-chtj:BaseIotUtils:2.8.0'
 }
 ```
 
@@ -95,8 +95,25 @@ public class App extends Application {
 | 33  | PopupWindowTools            | 气泡提示         | 某个控件的上,下,左,右弹出        |
 | 34  | CodeUtils                   | 二维码,条形码生成    | 按条件生成二维码,条形码          |
 | 35  | FileDialogSelectUtils       | 文件多选返回       | 递归选中文件夹下文件            |
+| 36  | LoadDialogUtils             | 加载中(全局)      | 帧列表,单图片360旋转          |
 
 ## base_iotutils 工具调用方式,及图片展示
+
+#### LoadDialogUtils 递归多选文件夹下文件
+
+```java
+        //使用示例：一张时为360旋转,大于一张时为逐个切换
+        List<Integer> pngList = Arrays.asList(
+        R.drawable.loading_1,
+        R.drawable.loading_2,
+        R.drawable.loading_3
+        );
+        LoadDialogUtils dialog = new LoadDialogUtils(this, pngList);
+        dialog.setImageSize(80, 80);
+        dialog.showLoading();
+        隐藏
+        dialog.hideLoading();
+```
 
 #### FileDialogSelectUtils 递归多选文件夹下文件
 

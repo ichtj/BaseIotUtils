@@ -4,17 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.viewpager.widget.ViewPager;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.AppManager;
-import com.ichtj.basetools.util.LoadingDialog;
 import com.ichtj.basetools.util.PACKAGES;
 
 import java.io.BufferedReader;

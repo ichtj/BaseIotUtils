@@ -7,9 +7,13 @@ import androidx.annotation.Nullable;
 
 import com.face_chtj.base_iotutils.DialogUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.LoadDialogUtils;
 import com.face_chtj.base_iotutils.callback.IDialogCallback;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class DialogAty extends BaseActivity {
     @Override
