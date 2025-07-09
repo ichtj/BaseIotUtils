@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
@@ -53,6 +54,7 @@ public class FileDialogSelectUtils {
     private TextView titleView;
     private LinearLayout buttonLayout;
     private LinearLayout rootLayout;
+    private int paddingTb=12;
 
     private float widthRatio = 1f;
     private float heightRatio = 1f;
@@ -226,32 +228,37 @@ public class FileDialogSelectUtils {
             lp.width = (int) (metrics.widthPixels * widthRatio);
 
             int listViewHeight = calculateListViewHeight();
+            Log.d(TAG, "adjustDialogHeight: listViewHeight>>"+listViewHeight);
             int dialogExtraHeight = calculateDialogExtraHeight();
+            Log.d(TAG, "adjustDialogHeight: dialogExtraHeight>>"+dialogExtraHeight);
             int actualContentHeight = listViewHeight + dialogExtraHeight;
+            Log.d(TAG, "adjustDialogHeight: actualContentHeight>>"+actualContentHeight);
             int maxHeight = (int) (metrics.heightPixels * heightRatio);
-
+            Log.d(TAG, "adjustDialogHeight: maxHeight>>"+maxHeight);
             lp.height = Math.min(actualContentHeight, maxHeight);
             window.setAttributes(lp);
         }
     }
 
     private int calculateListViewHeight() {
-        if (adapter == null || adapter.getCount() == 0) return 0;
-
+        int adaCount=adapter.getCount();
+        if (adapter == null || adaCount == 0) return 0;
+        Log.d(TAG, "calculateListViewHeight: adapter.getCount()>>"+adaCount+",fileCount>>"+fileList.size());
         int totalHeight = 0;
-        for (int i = 0; i < adapter.getCount(); i++) {
+        for (int i = 0; i < adaCount; i++) {
             View item = adapter.getView(i, null, listView);
             item.measure(
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
                     View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+            Log.d(TAG, "calculateListViewHeight: getMeasuredHeight>>"+item.getMeasuredHeight());
             totalHeight += item.getMeasuredHeight();
         }
 
-        if (adapter.getCount() > 1) {
-            totalHeight += (adapter.getCount() - 1) * listView.getDividerHeight();
+        if (adaCount > 1) {
+            totalHeight += (adaCount - 1) * listView.getDividerHeight();
         }
 
-        return totalHeight;
+        return totalHeight+paddingTb*2;
     }
 
     private int calculateDialogExtraHeight() {
@@ -300,10 +307,13 @@ public class FileDialogSelectUtils {
             File file = fileList.get(position);
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
-            layout.setPadding(22, 12, 22, 12);
+            layout.setPadding(22, paddingTb, 22, paddingTb);
             layout.setGravity(Gravity.CENTER_VERTICAL);
 
             TextView nameView = new TextView(context);
+            nameView.setSelected(true); // 关键点：触发 marquee 效果
+            nameView.setSingleLine(true);
+            nameView.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
             nameView.setLayoutParams(new LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
