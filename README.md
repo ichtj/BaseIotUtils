@@ -99,7 +99,7 @@ public class App extends Application {
 
 ## base_iotutils 工具调用方式,及图片展示
 
-#### LoadDialogUtils 递归多选文件夹下文件
+#### LoadDialogUtils 加载中(全局)
 
 ```java
         //使用示例：一张时为360旋转,大于一张时为逐个切换

@@ -490,11 +490,11 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             case FKey.KEY_LOADDING_DIALOG:
                 List<Integer> pngList = new ArrayList<>();
                 pngList.add(R.drawable.ic_1);
-//                pngList.add(R.drawable.ic_2);
-//                pngList.add(R.drawable.ic_3);
-//                pngList.add(R.drawable.ic_4);
-//                pngList.add(R.drawable.ic_5);
-//                pngList.add(R.drawable.ic_6);
+                pngList.add(R.drawable.ic_2);
+                pngList.add(R.drawable.ic_3);
+                pngList.add(R.drawable.ic_4);
+                pngList.add(R.drawable.ic_5);
+                pngList.add(R.drawable.ic_6);
                 LoadDialogUtils loadDialogUtils = new LoadDialogUtils(this);
                 // 情况一：PNG 列表
                 loadDialogUtils.setPngList(pngList);
