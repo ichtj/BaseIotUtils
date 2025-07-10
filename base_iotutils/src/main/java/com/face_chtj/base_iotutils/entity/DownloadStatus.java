@@ -16,4 +16,9 @@ public class DownloadStatus {
      * 下载完成
      */
     public static final int STATUS_COMPLETE=1003;
+    /**
+     * 取消状态
+     */
+    public static final int STATUS_CANCELLED = -1; // 新增取消状态
+
 }

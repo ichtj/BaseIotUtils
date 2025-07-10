@@ -37,24 +37,24 @@ public class FileDownLoadAty extends BaseActivity{
     private String saveRootPath = "/sdcard/test/download/";
     private String saveCachePath = "/sdcard/fileDownload.txt";
     //文件下载地址
-    public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/BM54/BM54_FIPC5550_V0.02_20200615105759/update.zip";
+    public static final String downloadUrl1 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/I78_PRJ/V1.01/rk3568_r-ota-eng.ach.zip";
     //替换的文件名称
-    public String fileName1 = "test22.zip";
+    public String fileName1 = "update1.zip";
 
     //文件下载地址
-    public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_AIO145/update.zip";
+    public static final String downloadUrl2 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/JY01_PRJ/V1.02/rk3288-ota-20231127111716.zip";
     //替换的文件名称
     public String fileName2 = "update2.zip";
 
     //文件下载地址
-    public static final String downloadUrl3 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/20200108-APK/Settings.apk";
+    public static final String downloadUrl3 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/KT01_PRJ/V1.03/rk3288-ota-20230901102957.zip";
     //替换的文件名称
-    public String fileName3 = "Settings.apk";
+    public String fileName3 = "update3.zip";
 
     //文件下载地址
-    public static final String downloadUrl4 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/test_file/lock.BIN";
+    public static final String downloadUrl4 = "https://fireware-1257276602.cos.ap-guangzhou.myqcloud.com/L11_V1.18/OTA-L11_FIPC5330_V1.18_20220509134410.zip";
     //替换的文件名称
-    public String fileName4 = "lock.BIN";
+    public String fileName4 = "update4.zip";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -108,8 +108,8 @@ public class FileDownLoadAty extends BaseActivity{
         pbProgressbar4.setProgress(0);
         tvResult1.setText("update1.zip >>> 0%");
         tvResult2.setText("update2.zip >>> 0%");
-        tvResult3.setText("Settings.apk >>> 0%");
-        tvResult4.setText("lock.BIN >>> 0%");
+        tvResult3.setText("update3.zip >>> 0%");
+        tvResult4.setText("update4.zip >>> 0%");
         tvTime1.setText("");
         tvTime2.setText("");
         tvTime3.setText("");
@@ -165,8 +165,8 @@ public class FileDownLoadAty extends BaseActivity{
      * @param view
      */
     public void downTaskPause4(View view) {
-        if (fileData4 != null) {
-            DownloadUtils.pause(fileData4.getRequestTag());
+        if (fileData != null) {
+            DownloadUtils.removeTask(fileData.getRequestTag());
         }
     }
 
@@ -192,10 +192,6 @@ public class FileDownLoadAty extends BaseActivity{
 
     //文件下载
     public void downloadFile1(View view) {
-        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
-            ToastUtils.error("当前无网络连接！");
-            return;
-        }
         //开启任务下载----------------------这里可执行多个任务 重复执行即可---------
         fileData = new FileData();
         fileData.setUrl(downloadUrl1);
@@ -212,10 +208,6 @@ public class FileDownLoadAty extends BaseActivity{
 
     //文件下载
     public void downloadFile2(View view) {
-        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
-            ToastUtils.error("当前无网络连接！");
-            return;
-        }
         fileData2 = new FileData();
         fileData2.setUrl(downloadUrl2);
         fileData2.setFileName(fileName2);
@@ -229,12 +221,7 @@ public class FileDownLoadAty extends BaseActivity{
 
     FileData fileData3 = null;
 
-    //文件下载
     public void downloadFile3(View view) {
-        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
-            ToastUtils.error("当前无网络连接！");
-            return;
-        }
         fileData3 = new FileData();
         fileData3.setUrl(downloadUrl3);
         fileData3.setFileName(fileName3);
@@ -248,12 +235,7 @@ public class FileDownLoadAty extends BaseActivity{
 
     FileData fileData4 = null;
 
-    //文件下载
     public void downloadFile4(View view) {
-        if (NetUtils.getNetWorkType() == NetUtils.NETWORK_NO) {
-            ToastUtils.error("当前无网络连接！");
-            return;
-        }
         fileData4 = new FileData();
         fileData4.setUrl(downloadUrl4);
         fileData4.setFileName(fileName4);
@@ -265,11 +247,6 @@ public class FileDownLoadAty extends BaseActivity{
         //-----------------------------------------------------------
     }
 
-    /**
-     * 添加下载任务
-     *
-     * @param fileData
-     */
     public void addDownloadTask(FileData fileData) {
         DownloadUtils.addStartTask(fileData);
     }
@@ -286,9 +263,9 @@ public class FileDownLoadAty extends BaseActivity{
         }
 
         @Override
-        public void error(FileData fileData, Throwable e) {
-            KLog.d(TAG, "error:>fileName="+fileData.getFileName()+",err>>" + e.getMessage());
-            DownloadUtils.cancelAll();
+        public void error(FileData fileData, Throwable e,int errCode) {
+            KLog.d(TAG, "error:>fileName="+fileData.getFileName()+",err>>" + e.getMessage()+",errCode>>"+errCode);
+//            DownloadUtils.cancelAll();
         }
 
         @Override
@@ -325,11 +302,11 @@ public class FileDownLoadAty extends BaseActivity{
                     break;
                 case downloadUrl3:
                     pbProgressbar3.setProgress(msg.arg1);
-                    tvResult3.setText("Settings.apk >>> " + msg.arg1 + "%");
+                    tvResult3.setText("update3.zip >>> " + msg.arg1 + "%");
                     break;
                 case downloadUrl4:
                     pbProgressbar4.setProgress(msg.arg1);
-                    tvResult4.setText("lock.BIN >>> " + msg.arg1 + "%");
+                    tvResult4.setText("update4.zip >>> " + msg.arg1 + "%");
                     break;
             }
         }

@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:onClick="downloadFile3"
-            android:text="文件下载Settings.apk"
+            android:text="文件下载update3.zip"
             android:textSize="@dimen/small_text_size" />
 
         <Button
@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:onClick="downloadFile4"
-            android:text="文件下载Lock.BIN"
+            android:text="文件下载update4.zip"
             android:textSize="@dimen/small_text_size" />
 
         <Button
@@ -73,7 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:onClick="downTaskPause3"
-            android:text="暂停任务Settings.apk"
+            android:text="暂停任务update3.zip"
             android:textSize="@dimen/small_text_size" />
 
         <Button
@@ -81,7 +81,14 @@
             android:layout_width="match_parent"
             android:layout_height="80dp"
             android:onClick="downTaskPause4"
-            android:text="暂停任务lock.BIN"
+            android:text="暂停任务update4.zip"
+            android:textSize="@dimen/small_text_size" />
+        <Button
+            android:id="@+id/btn_cancel1"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:onClick="downTaskPause4"
+            android:text="取消任务update1.zip"
             android:textSize="@dimen/small_text_size" />
 
         <Button
@@ -185,7 +192,7 @@
                 android:id="@+id/tvResult3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings.apk"
+                android:text="update3.zip"
                 android:textSize="@dimen/small_text_size" />
 
             <TextView
@@ -215,7 +222,7 @@
                 android:id="@+id/tvResult4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Settings.apk"
+                android:text="update4.zip"
                 android:textSize="@dimen/small_text_size" />
 
             <TextView
