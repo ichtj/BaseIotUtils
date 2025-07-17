@@ -1,7 +1,9 @@
 package com.ichtj.basetools.application;
 
+import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.multidex.MultiDex;
@@ -31,5 +33,4 @@ public class IApplication extends Application {
         super.attachBaseContext(base);
         MultiDex.install(this);
     }
-
 }

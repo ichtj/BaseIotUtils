@@ -82,6 +82,7 @@ public class CustomButtonGridView extends ScrollView {
                 if (position < totalButtons) {
                     String btnText = btnMap.get(position);
                     Button button = createButton(btnText, position);
+                    button.setAllCaps(false);
                     button.setPadding(px2dip(3),px2dip(3),px2dip(3),px2dip(3));
                     LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
                             0, LinearLayout.LayoutParams.WRAP_CONTENT, 1); // 设置权重为1，均分宽度

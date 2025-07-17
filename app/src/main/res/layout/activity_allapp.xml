@@ -120,7 +120,7 @@
                 android:textSize="@dimen/small_text_size" />
 
             <TextView
-                android:id="@+id/tvTotal"
+                android:id="@+id/tvDosage"
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_gravity="center"

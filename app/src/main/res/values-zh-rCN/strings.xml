@@ -117,4 +117,17 @@
     <string name="net_record_more_than_one">至少选择一个进行网络测试！</string>
     <string name="net_record_in_dns">编辑DNS：%s</string>
     <string name="net_record_ip_count">数量: %s</string>
+    <string name="allapp_uninstall_succ_to_reboot">卸载成功,如果是系统应用请重启查看！</string>
+    <string name="allapp_uninstall_failed">卸载失败</string>
+    <string name="allapp_get_failed_pkg_name">未获取到APP名称,请重试！</string>
+    <string name="allapp_iptable_enable_succ">启用成功,该应用可正常上网！</string>
+    <string name="allapp_iptable_enable_failed">启用失败,请重试！</string>
+    <string name="allapp_iptable_diable_succ">禁用成功,该应用无法上网！</string>
+    <string name="allapp_iptable_disable_failed">禁用失败,请重试！</string>
+    <string name="allapp_systemapp_use_silent_uninstall">系统应用请使用静默卸载！</string>
+    <string name="allall_start_app_failed">打开错误!</string>
+    <string name="allapp_sum">总数：%s</string>
+    <string name="allapp_sum_dosage">总流量：计算异常</string>
+    <string name="allapp_reboot_failed">重启失败,请重试！</string>
+    <string name="main_loading_animation">加载动画...</string>
 </resources>

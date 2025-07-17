@@ -9,7 +9,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class TouchDetectGridView extends View {
-
     private static final int NUM_COLUMNS = 20; // Number of columns
     private static final int NUM_ROWS = 20; // Number of rows
     private Paint paint;

@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_QR_CODE, getString(R.string.main_qrcode_create));
         btnList.put (FKey.KEY_ORIENTATION, getString(R.string.main_screen_orientation));
         btnList.put (FKey.KEY_FILE_SELECT, getString(R.string.main_file_dialog_select));
-        btnList.put (FKey.KEY_LOADDING_DIALOG, "加载中...");
+        btnList.put (FKey.KEY_LOADDING_DIALOG, getString(R.string.main_loading_animation));
         return btnList;
     }
 
@@ -479,22 +479,21 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 }
                 break;
             case FKey.KEY_FILE_SELECT:
-                FileDialogSelectUtils fileDialogSelectUtils =new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
+                new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
                     @Override
                     public void onFileSelected(List<File> selected) {
                         Log.d(TAG, "onFileSelected: "+selected);
                     }
-                }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(true);
-                fileDialogSelectUtils.show();
+                }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(true).show();
                 break;
             case FKey.KEY_LOADDING_DIALOG:
                 List<Integer> pngList = new ArrayList<>();
                 pngList.add(R.drawable.ic_1);
-                pngList.add(R.drawable.ic_2);
-                pngList.add(R.drawable.ic_3);
-                pngList.add(R.drawable.ic_4);
-                pngList.add(R.drawable.ic_5);
-                pngList.add(R.drawable.ic_6);
+//                pngList.add(R.drawable.ic_2);
+//                pngList.add(R.drawable.ic_3);
+//                pngList.add(R.drawable.ic_4);
+//                pngList.add(R.drawable.ic_5);
+//                pngList.add(R.drawable.ic_6);
                 LoadDialogUtils loadDialogUtils = new LoadDialogUtils(this);
                 // 情况一：PNG 列表
                 loadDialogUtils.setPngList(pngList);

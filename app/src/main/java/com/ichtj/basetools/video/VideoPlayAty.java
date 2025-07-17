@@ -1,23 +1,17 @@
 package com.ichtj.basetools.video;
 
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.UriPathUtils;
-import com.face_chtj.base_iotutils.ZipUtils;
+import com.face_chtj.base_iotutils.FileDialogSelectUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.List;
 
 import cn.jzvd.Jzvd;
 import cn.jzvd.JzvdStd;
@@ -28,7 +22,7 @@ import cn.jzvd.JzvdStd;
  * desc
  */
 public class VideoPlayAty extends BaseActivity {
-    private static final int FILE_PICKER_REQUEST_CODE = 1;
+    private static final String TAG = VideoPlayAty.class.getSimpleName();
     VideoPlayerView jz_video;
 
     @Override
@@ -45,37 +39,14 @@ public class VideoPlayAty extends BaseActivity {
     }
 
     public void selectFileClick(View view){
-        // 启动文件选择器Intent
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("video/*"); // 只显示视频文件
-        startActivityForResult(intent, FILE_PICKER_REQUEST_CODE);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        if (requestCode == FILE_PICKER_REQUEST_CODE && resultCode == RESULT_OK) {
-            if (data != null) {
-                Uri selectedFileUri = data.getData();
-                String selectedFilePath= UriPathUtils.getPath(selectedFileUri);
-                playVideo(selectedFilePath);
-                Toast.makeText(this, "选定的文件路径：" + selectedFilePath, Toast.LENGTH_LONG).show();
-            } else {
-                Toast.makeText(this, "未选择任何文件", Toast.LENGTH_SHORT).show();
+        FileDialogSelectUtils fileDialogSelectUtils =new FileDialogSelectUtils(this, new File("/sdcard/"), new FileDialogSelectUtils.FileSelectCallback() {
+            @Override
+            public void onFileSelected(List<File> selected) {
+                Log.d(TAG, "onFileSelected: "+selected);
+                playVideo(selected.get(0).getAbsolutePath());
             }
-        }
-    }
-
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
+        }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(true);
+        fileDialogSelectUtils.show();
     }
 
     @Override

@@ -100,6 +100,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 声明USB权限 -->
     <uses-permission android:name="android.permission.USB_PERMISSION" />
+    <uses-permission android:name="android.permission.SHUTDOWN" />
 
     <!--启动模式
          standard：      标准模式     不管实例是否已经存在 都会创建一个实例
@@ -117,8 +118,8 @@
         android:roundIcon="${APP_ICON}"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        tools:replace="label">
+        tools:replace="label"
+        android:theme="@style/AppTheme">
         <!--启动页-->
         <activity
             android:name=".StartPageAty"

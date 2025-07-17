@@ -5,10 +5,13 @@ import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.text.format.Formatter;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -18,6 +21,7 @@ import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
+import com.face_chtj.base_iotutils.LoadDialogUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
@@ -29,6 +33,8 @@ import com.ichtj.basetools.util.PACKAGES;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
 
 import me.jessyan.autosize.AutoSizeCompat;
 import me.jessyan.autosize.AutoSizeConfig;
@@ -39,122 +45,132 @@ import me.jessyan.autosize.AutoSizeConfig;
  * desc app列表
  */
 @Route(path = PACKAGES.BASE + "allApp")
-public class AllAppAty extends BaseActivity {
+public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewClickListener {
     private static final String TAG = AllAppAty.class.getSimpleName();
     private RecyclerView rvList;
-    AllAppAdapter newsAdapter = null;
-    private TextView tvCount, tvTotal;
+    private AllAppAdapter newsAdapter = null;
+    private TextView tvCount, tvDosage;
     private TopTitleBar ctTopView;
+    private LoadDialogUtils loadDialogUtils;
+    private static final int TYPE_ALL=0x01;
+    private static final int TYPE_DESKTOP=0x02;
+    private static final int TYPE_SYSTEM=0x03;
+    private static final int TYPE_DATA=0x04;
+    private static final int FLAG_LOAD_LIST=0x05;
+    private static final int FLAG_DOSAGE=0x06;
+    private Executor executor=Executors.newSingleThreadExecutor();
+
+    Handler handler = new Handler(){
+        @Override
+        public void handleMessage(@NonNull Message msg) {
+            super.handleMessage(msg);
+            if (msg.what==FLAG_LOAD_LIST){
+                List<AppEntity> loadList= (List<AppEntity>) msg.obj;
+                boolean isSucc=loadList!=null&&loadList.size()>0;
+                newsAdapter.setList(isSucc?loadList:new ArrayList<>());
+                tvCount.setText(getString(R.string.allapp_sum,isSucc?loadList.size()+"":0+""));
+                loadDialogUtils.hideLoading();
+            }else if(msg.what==FLAG_DOSAGE){
+                tvDosage.setText(msg.obj.toString());
+            }
+        }
+    };
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_allapp);
         ctTopView = findViewById(R.id.ctTopView);
-        ctTopView.setOnTextViewClickListener(new TopTitleBar.OnTextViewClickListener() {
-            @Override
-            public void onTextLeftClick() {
-
-            }
-
-            @Override
-            public void onTextCenterClick() {
-
-            }
-
-            @Override
-            public void onTextRightClick() {
-                int orientation=getRequestedOrientation();
-                if(orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
-                    KLog.d("onClick() orientation >> "+orientation);
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                }else{
-                    setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-                }
-            }
-        });
+        ctTopView.setOnTextViewClickListener(this);
+        loadDialogUtils = new LoadDialogUtils(this);
         tvCount = findViewById(R.id.tvCount);
         rvList = findViewById(R.id.rvList);
-        tvTotal = findViewById(R.id.tvTotal);
+        tvDosage = findViewById(R.id.tvDosage);
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         List<AppEntity> appEntityList = new ArrayList<>();
-        tvCount.setText("总数：" + appEntityList.size());
-        newsAdapter = new AllAppAdapter(appEntityList);
+        tvCount.setText(getString(R.string.allapp_sum,appEntityList.size()+""));
+        newsAdapter = new AllAppAdapter(this,appEntityList);
         rvList.setLayoutManager(manager);
         //添加Android自带的分割线
         rvList.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         rvList.setAdapter(newsAdapter);
     }
 
-    @Override
-    public Resources getResources() {
-        //需要升级到 v1.1.2 及以上版本才能使用 AutoSizeCompat
-//        AutoSizeCompat.autoConvertDensityOfGlobal(super.getResources());//如果没有自定义需求用这个方法
-        AutoSizeCompat.autoConvertDensity(super.getResources(), 1080, true);//如果有自定义需求就用这个方法
-        return super.getResources();
-    }
+//    @Override
+//    public Resources getResources() {
+//        //需要升级到 v1.1.2 及以上版本才能使用 AutoSizeCompat
+//        AutoSizeCompat.autoConvertDensity(super.getResources(), 1080, true);//如果有自定义需求就用这个方法
+//        return super.getResources();
+//    }
 
     @Override
     protected void onResume() {
         super.onResume();
-        refreshData();
+        refreshData(TYPE_ALL);
     }
 
-    public void refreshData() {
-        Handler handler = new Handler();
-        handler.post(new Runnable() {
+    public void refreshData(int type) {
+        Log.d(TAG, "refreshData: type>>"+type);
+        List<Integer> pngList = new ArrayList<>();
+        pngList.add(R.drawable.loader);
+        // 情况一：PNG 列表
+        loadDialogUtils.setPngList(pngList);
+        loadDialogUtils.showLoading();
+        executor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
-                    //7.1.2系统才可以使用此方式获取总流量
                     long total = FNetworkTools.getEthTotalUsage(FNetworkTools.getTimesMonthMorning(), FNetworkTools.getNow());
                     String totalPhrase = Formatter.formatFileSize(BaseIotUtils.getContext(), total);
-                    tvTotal.setText("总流量：" + totalPhrase);
+                    handler.sendMessage(handler.obtainMessage(FLAG_DOSAGE,totalPhrase));
                 } catch (Exception e) {
-                    e.printStackTrace();
-                    KLog.e(TAG, "errMeg:" + e.getMessage());
-                    tvTotal.setText("总流量：计算异常");
+                    handler.sendMessage(handler.obtainMessage(FLAG_DOSAGE,getString(R.string.allapp_sum_dosage)));
                 }
-                newsAdapter.setList(AppsUtils.getAllApp());
+                List<AppEntity> loadList=new ArrayList<>();
+                if (type==TYPE_ALL){
+                    loadList=AppsUtils.getAllApp();
+                }else if(type==TYPE_DESKTOP){
+                    loadList=AppsUtils.getDeskTopAppList();
+                }else if(type==TYPE_SYSTEM){
+                    List<AppEntity> appEntityList = AppsUtils.getAllApp();
+                    for (int i = 0; i < appEntityList.size(); i++) {
+                        if (appEntityList.get(i).isSystemApp){
+                            loadList.add(appEntityList.get(i));
+                        }
+                    }
+                }else if(type==TYPE_DATA){
+                    List<AppEntity> appEntityList = AppsUtils.getAllApp();
+                    for (int i = 0; i < appEntityList.size(); i++) {
+                        if (appEntityList.get(i).sourceDir.contains("data/")){
+                            loadList.add(appEntityList.get(i));
+                        }
+                    }
+                }
+                handler.sendMessage(handler.obtainMessage(FLAG_LOAD_LIST,loadList));
             }
         });
-
     }
 
     /**
      * 查询全部应用
-     *
-     * @param view
      */
     public void getAllAppClick(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp();
-        tvCount.setText("总数：" + appEntityList.size());
-        newsAdapter.setList(appEntityList);
+        refreshData(TYPE_ALL);
     }
-
 
     /**
      * 查询桌面应用
-     *
-     * @param view
      */
     public void getDeskAppClick(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getDeskTopAppList();
-        tvCount.setText("总数：" + appEntityList.size());
-        newsAdapter.setList(appEntityList);
+        refreshData(TYPE_DESKTOP);
     }
 
     /**
      * 启用全部应用的网络访问
      */
     public void enableAllAppNetClick(View view) {
-//        boolean isPass = FIPTablesTools.clearAllRule();
-//        if (isPass) {
-//            ToastUtils.success("启用成功！");
-//        } else {
-//            ToastUtils.error("启用失败！");
-//        }
+
     }
 
     /**
@@ -169,42 +185,43 @@ public class AllAppAty extends BaseActivity {
             KLog.e("errMeg:" + e.getMessage());
             ShellUtils.CommandResult commandResult = ShellUtils.execCommand("reboot", true);
             if (commandResult.result != 0) {
-                ToastUtils.error("重启失败,请重试！");
+                ToastUtils.error(getString(R.string.allapp_reboot_failed));
             }
         }
     }
 
     /**
      * 查询可卸载应用
-     *
-     * @param view
      */
     public void getNormalApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp();
-        List<AppEntity> normalAppList=new ArrayList<>();
-        for (int i = 0; i < appEntityList.size(); i++) {
-            if (!appEntityList.get(i).isSystemApp){
-                normalAppList.add(appEntityList.get(i));
-            }
-        }
-        tvCount.setText("总数：" + normalAppList.size());
-        newsAdapter.setList(normalAppList);
+        refreshData(TYPE_DATA);
     }
 
     /**
      * 查询系统应用
-     *
-     * @param view
      */
     public void getSystemApp(View view) {
-        List<AppEntity> appEntityList = AppsUtils.getAllApp();
-        List<AppEntity> systemAppList=new ArrayList<>();
-        for (int i = 0; i < appEntityList.size(); i++) {
-            if (appEntityList.get(i).isSystemApp){
-                systemAppList.add(appEntityList.get(i));
-            }
+        refreshData(TYPE_SYSTEM);
+    }
+
+    @Override
+    public void onTextLeftClick() {
+
+    }
+
+    @Override
+    public void onTextCenterClick() {
+
+    }
+
+    @Override
+    public void onTextRightClick() {
+        int orientation=getRequestedOrientation();
+        if(orientation== ActivityInfo.SCREEN_ORIENTATION_PORTRAIT){
+            KLog.d("onClick() orientation >> "+orientation);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }else{
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
-        tvCount.setText("总数：" + systemAppList.size());
-        newsAdapter.setList(systemAppList);
     }
 }

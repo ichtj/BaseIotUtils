@@ -38,8 +38,10 @@ import me.jessyan.autosize.AutoSize;
  */
 public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHolder> {
     private List<AppEntity> list;
+    private Context mContext;
 
-    public AllAppAdapter(List<AppEntity> list) {
+    public AllAppAdapter(Context context,List<AppEntity> list) {
+        this.mContext = mContext;
         this.list = list;
     }
 
@@ -86,7 +88,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                 try {
                     AppsUtils.openPackage(list.get(posiNum).packageName);
                 } catch (Exception e) {
-                    ToastUtils.error("打开错误!");
+                    ToastUtils.error(mContext.getString(R.string.allall_start_app_failed));
                 }
             }
         });
@@ -129,7 +131,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 if(list.get(posiNum).isSystemApp){
-                    ToastUtils.info("系统应用请使用静默卸载！");
+                    ToastUtils.info(mContext.getString(R.string.allapp_systemapp_use_silent_uninstall));
                 }else{
                     AppsUtils.uninstall(list.get(posiNum).packageName);
                 }
@@ -149,14 +151,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
                     KLog.d("onClick() appName >> "+appName);
                     boolean isOk = AppsUtils.uninstallSilent(isSys,false,appName, list.get(posiNum).packageName);
                     if (isOk) {
-                        ToastUtils.success("卸载成功,如果是系统应用请重启查看！");
+                        ToastUtils.success(mContext.getString(R.string.allapp_uninstall_succ_to_reboot));
                         list.remove(list.get(posiNum));
                         notifyDataSetChanged();
                     } else {
-                        ToastUtils.error("卸载失败");
+                        ToastUtils.error(mContext.getString(R.string.allapp_uninstall_failed));
                     }
                 }else{
-                    ToastUtils.error("未获取到APP名称,请重试！");
+                    ToastUtils.error(mContext.getString(R.string.allapp_get_failed_pkg_name));
                 }
             }
         });
@@ -164,14 +166,14 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
             @Override
             public void onClick(View v) {
                 boolean isClearResult = FIPTablesTools.allowAppInternet(list.get(posiNum).packageName);
-                ToastUtils.info(isClearResult?"启用成功,该应用可正常上网！":"启用失败,请重试！");
+                ToastUtils.info(mContext.getString(isClearResult?R.string.allapp_iptable_enable_succ:R.string.allapp_iptable_enable_failed));
             }
         });
         holder.tvDisableNet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean isPutComplete = FIPTablesTools.blockAppInternet(list.get(posiNum).packageName);
-                ToastUtils.info(isPutComplete?"禁用成功,该应用无法上网！":"禁用失败,请重试！");
+                ToastUtils.info(mContext.getString(isPutComplete?R.string.allapp_iptable_diable_succ:R.string.allapp_iptable_disable_failed));
             }
         });
     }
