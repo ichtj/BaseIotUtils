@@ -484,7 +484,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     public void onFileSelected(List<File> selected) {
                         Log.d(TAG, "onFileSelected: "+selected);
                     }
-                }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(true).show();
+                }).setSizeRatio(0.3f,0.5f,30).setSingleSelect(false).show();
                 break;
             case FKey.KEY_LOADDING_DIALOG:
                 List<Integer> pngList = new ArrayList<>();

@@ -147,33 +147,12 @@ public class FileDialogSelectUtils {
 
         rootLayout.addView(buttonLayout);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                File item = fileList.get(position);
-                if (EMPTY_PLACEHOLDER.equals(item.getName())) return;
-
-                if ("..".equals(item.getName())) {
-                    currentDir = currentDir.getParentFile();
-                    FileDialogSelectUtils.this.refreshFileList();
-                } else if (item.isDirectory()) {
-                    currentDir = item;
-                    FileDialogSelectUtils.this.refreshFileList();
-                } else {
-                    if (singleSelect) {
-                        selectedFiles.clear();
-                        selectedFiles.add(item);
-                    } else {
-                        if (selectedFiles.contains(item)) {
-                            selectedFiles.remove(item);
-                        } else {
-                            selectedFiles.add(item);
-                        }
-                    }
-                    adapter.notifyDataSetChanged();
-                }
-            }
-        });
+//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                notifyViewChange(position);
+//            }
+//        });
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomDialogStyle);
         builder.setView(rootLayout);
@@ -181,6 +160,31 @@ public class FileDialogSelectUtils {
         dialog.show();
 
         refreshFileList();
+    }
+
+    private void notifyViewChange(final int position) {
+        File item = fileList.get(position);
+        if (EMPTY_PLACEHOLDER.equals(item.getName())) return;
+
+        if ("..".equals(item.getName())) {
+            currentDir = currentDir.getParentFile();
+            FileDialogSelectUtils.this.refreshFileList();
+        } else if (item.isDirectory()) {
+            currentDir = item;
+            FileDialogSelectUtils.this.refreshFileList();
+        } else {
+            if (singleSelect) {
+                selectedFiles.clear();
+                selectedFiles.add(item);
+            } else {
+                if (selectedFiles.contains(item)) {
+                    selectedFiles.remove(item);
+                } else {
+                    selectedFiles.add(item);
+                }
+            }
+            adapter.notifyDataSetChanged();
+        }
     }
 
     private void refreshFileList() {
@@ -303,7 +307,7 @@ public class FileDialogSelectUtils {
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        public View getView(final int position, View convertView, ViewGroup parent) {
             File file = fileList.get(position);
             LinearLayout layout = new LinearLayout(context);
             layout.setOrientation(LinearLayout.HORIZONTAL);
@@ -317,6 +321,12 @@ public class FileDialogSelectUtils {
             nameView.setTextSize(TypedValue.COMPLEX_UNIT_SP, itemTvSize);
             nameView.setLayoutParams(new LinearLayout.LayoutParams(
                     0, ViewGroup.LayoutParams.WRAP_CONTENT, 1));
+            layout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    notifyViewChange(position);
+                }
+            });
 
             if (EMPTY_PLACEHOLDER.equals(file.getName())) {
                 nameView.setText(R.string.not_found_file_child_content);
@@ -330,7 +340,12 @@ public class FileDialogSelectUtils {
                 if (!file.isDirectory() && !file.getName().equals("..")) {
                     CheckBox checkBox = new CheckBox(context);
                     checkBox.setChecked(selectedFiles.contains(file));
-                    checkBox.setEnabled(false);
+                    checkBox.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            notifyViewChange(position);
+                        }
+                    });
                     checkBox.setButtonDrawable(R.drawable.custom_checkbox);
 
                     // 设置右边距（比如 20dp）
