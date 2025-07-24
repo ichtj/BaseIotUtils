@@ -132,6 +132,8 @@
     <string name="allapp_sum_dosage">Total traffic: Calculation exception</string>
     <string name="allapp_reboot_failed">Restart failed, please try again!</string>
     <string name="main_loading_animation">Loading animation...</string>
+    <string name="main_iccid">ICCID：%s</string>
+    <string name="main_imei">IMEI：%s</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
         <attr name="rightName" format="string"></attr>

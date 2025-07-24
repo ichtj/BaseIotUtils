@@ -130,4 +130,6 @@
     <string name="allapp_sum_dosage">总流量：计算异常</string>
     <string name="allapp_reboot_failed">重启失败,请重试！</string>
     <string name="main_loading_animation">加载动画...</string>
+    <string name="main_iccid">ICCID：%s</string>
+    <string name="main_imei">IMEI：%s</string>
 </resources>

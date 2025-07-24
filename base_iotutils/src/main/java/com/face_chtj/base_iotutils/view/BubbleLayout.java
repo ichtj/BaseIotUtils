@@ -136,7 +136,6 @@ public class BubbleLayout extends LinearLayout {
      * @return
      */
     private Matrix renderBubbleArrowMatrix(final float width, final float height) {
-
         final float offset = Math.max(mBubbleArrowOffset, MIN_ARROW_DISTANCE);
 
         float dstX = 0;
@@ -153,21 +152,21 @@ public class BubbleLayout extends LinearLayout {
                 mRoundRect = new RectF(0, PADDING, mWidth, mHeight);
                 break;
 
+            case LEFT:
+                dstX = 0;
+                dstY = Math.min(offset, height - MIN_ARROW_DISTANCE); // 使用传入的offset，不是height/2
+                setPadding(PADDING, 0, 0, 0);
+                setGravity(Gravity.CENTER);
+                mRoundRect = new RectF(PADDING, 0, mWidth, mHeight);
+                break;
+
             case RIGHT:
                 dstX = width;
-                dstY = Math.min(offset, height - MIN_ARROW_DISTANCE);
+                dstY = Math.min(offset, height - MIN_ARROW_DISTANCE); // 使用传入的offset，不是height/2
                 matrix.postRotate(180);
                 setPadding(0, 0, PADDING, 0);
                 setGravity(Gravity.CENTER);
                 mRoundRect = new RectF(0, 0, mWidth - PADDING, mHeight);
-                break;
-
-            case LEFT:
-                dstX = 0;
-                dstY = Math.min(offset, height - MIN_ARROW_DISTANCE);
-                setPadding(PADDING, 0, 0, 0);
-                setGravity(Gravity.CENTER);
-                mRoundRect = new RectF(PADDING, 0, mWidth, mHeight);
                 break;
 
             case BOTTOM:
@@ -206,7 +205,6 @@ public class BubbleLayout extends LinearLayout {
         }
         return bubbleOffset;
     }
-
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {

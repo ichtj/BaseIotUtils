@@ -249,6 +249,7 @@ public class PopupWindowTools extends PopupWindow {
                 default:
                     break;
             }
+
             if (mWidth != 0 && mHeight != 0) {
                 int widthMeasureSpec = View.MeasureSpec.makeMeasureSpec(mWidth, View.MeasureSpec.EXACTLY);
                 int heightMeasureSpec = View.MeasureSpec.makeMeasureSpec(mHeight, View.MeasureSpec.EXACTLY);
@@ -262,18 +263,19 @@ public class PopupWindowTools extends PopupWindow {
                 if (gravity == Gravity.BOTTOM || gravity == Gravity.TOP) {
                     bubbleOffset = getMeasuredWidth() / 2;
                 } else {
+                    // 关键修改：对于左右方向，使用气泡高度的一半作为偏移
                     bubbleOffset = getMeasureHeight() / 2;
                 }
             }
+
             bubbleView.setBubbleParams(orientation, bubbleOffset); // 设置气泡布局方向及尖角偏移
             int[] location = new int[2];
             parent.getLocationOnScreen(location);
             hideStatusBar();
             int middleSize = 0;
+
             switch (gravity) {
                 case Gravity.BOTTOM:
-                    //设置进入退出动画
-                    // 使箭头指向parent的中部
                     if (isMiddle) {
                         middleSize = (parent.getMeasuredWidth() - getMeasuredWidth()) / 2;
                     }
@@ -289,16 +291,18 @@ public class PopupWindowTools extends PopupWindow {
                     break;
                 case Gravity.RIGHT:
                     if (isMiddle) {
+                        // 关键修改：这里的计算要让气泡整体居中对齐到parent
                         middleSize = (parent.getMeasuredHeight() - getMeasureHeight()) / 2;
                     }
-                    showAtLocation(parent, Gravity.NO_GRAVITY, location[0] + mXOffset + parent.getWidth() + DEFAULT_MARGIN, location[1] + mYOffset - middleSize);
+                    showAtLocation(parent, Gravity.NO_GRAVITY, location[0] + mXOffset + parent.getWidth() + DEFAULT_MARGIN, location[1] + mYOffset + middleSize);
                     animatorEasyInOut(true, gravity);
                     break;
                 case Gravity.LEFT:
                     if (isMiddle) {
+                        // 关键修改：这里的计算要让气泡整体居中对齐到parent
                         middleSize = (parent.getMeasuredHeight() - getMeasureHeight()) / 2;
                     }
-                    showAtLocation(parent, Gravity.NO_GRAVITY, location[0] + mXOffset - getMeasuredWidth() - DEFAULT_MARGIN, location[1] + mYOffset - middleSize);
+                    showAtLocation(parent, Gravity.NO_GRAVITY, location[0] + mXOffset - getMeasuredWidth() - DEFAULT_MARGIN, location[1] + mYOffset + middleSize);
                     animatorEasyInOut(true, gravity);
                     break;
                 default:

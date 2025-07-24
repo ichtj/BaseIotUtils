@@ -370,8 +370,8 @@ public class NetUtils {
      */
     public static List<DnsBean> checkNetWork(String... dnsList) {
         List<DnsBean> dnsBeans = new ArrayList<>();
-        for (String pingAddr : dnsList) {
-            DnsBean dnsBean = NetUtils.ping(pingAddr, 1, 1);
+        for (String pingDns : dnsList) {
+            DnsBean dnsBean = NetUtils.ping(pingDns, 1, 1);
             dnsBeans.add(dnsBean);
         }
         return dnsBeans;
@@ -382,8 +382,8 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     private static DnsBean checkNetWorkCallback() {
-        for (String pingAddr : getDnsList()) {
-            DnsBean dnsBean = NetUtils.ping(pingAddr, 1, 1);
+        for (String pingDns : getDnsList()) {
+            DnsBean dnsBean = NetUtils.ping(pingDns, 1, 1);
             if (dnsBean.isPass) {
                 return dnsBean;
             }

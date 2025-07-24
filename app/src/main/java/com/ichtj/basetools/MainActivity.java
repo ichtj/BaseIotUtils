@@ -107,8 +107,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         Map<Integer, String> btnList = new HashMap<> ( );
         Space ramSpace = FStorageTools.getRamSpace (FStorageTools.TYPE_MB);
         Space sdSpace = FStorageTools.getSdcardSpace (FStorageTools.TYPE_MB);
-        btnList.put (FKey.KEY_IMEI, "IMEI：" + DeviceUtils.getImeiOrMeid ( ));
-        btnList.put (FKey.KEY_ICCID, "ICCID：" + NetUtils.getLteIccid ( ));
+        btnList.put (FKey.KEY_IMEI, getString(R.string.main_imei,DeviceUtils.getImeiOrMeid ( )));
+        btnList.put (FKey.KEY_ICCID, getString(R.string.main_iccid,NetUtils.getLteIccid ( )));
         btnList.put (FKey.KEY_SERIAL, getString (R.string.main_serial, OptionTools.getSerialNo ( )));
         btnList.put (FKey.KEY_NET_TYPE, getString (R.string.main_nettype, NetUtils.getNetWorkTypeName ( )));
         btnList.put (FKey.KEY_APK_VERSION, getString (R.string.main_apk_version, AppsUtils.getAppVersionName ( )));
@@ -330,7 +330,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 if (commonValue2 == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success (getString(R.string.main_set_dhcp_succ));
                 } else {
-                    ToastUtils.error ("动态IP设置失败！errMeg=" + commonValue2.getRemarks ( ));
+                    ToastUtils.error ("Dynamic IP setting failed！errMeg=" + commonValue2.getRemarks ( ));
                 }
                 break;
             case FKey.KEY_IP_SET_STATIC:
@@ -339,7 +339,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 if (commonValue == CommonValue.EXEU_COMPLETE) {
                     ToastUtils.success (getString(R.string.main_set_static_succ));
                 } else {
-                    ToastUtils.error ("静态IP设置失败！errMeg=" + commonValue.getRemarks ( ));
+                    ToastUtils.error ("Static IP setting failed！errMeg=" + commonValue.getRemarks ( ));
                 }
                 break;
             case FKey.KEY_SCREENSHOT:
@@ -450,12 +450,12 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 bubblePopupWindow.show(customButtonGridView.getSelectButton(), gravityValue);//view的上部展示
                 break;
             case FKey.KEY_DROP_POPWINDOW:
-                List<String> options = Arrays.asList("选项A", "选项B", "选项C");
+                List<String> options = Arrays.asList("Option A", "Option B", "Option C");
                 PopupWindowTools.showDropdownPopup(this, customButtonGridView.getSelectButton(), options, new OnPopupItemClickListener() {
                     @Override
                     public void onItemClick(int position, String itemText) {
                         // 这里你可以接收到点击项的 position 和文本
-                        Toast.makeText(MainActivity.this, "点击了第 " + position + " 项：" + itemText, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MainActivity.this, "Click on the " + position + " item：" + itemText, Toast.LENGTH_SHORT).show();
                     }
                 });
                 break;
@@ -522,7 +522,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
             Uri uri = data.getData ( ); // 获取用户选择文件的URI
             String filePath = UriPathUtils.getPath (uri);
             KLog.d (TAG, "filePath=" + filePath + ",uri.getPath()=" + uri.getPath ( ));
-            ToastUtils.success ("文件地址:" + filePath);
+            ToastUtils.success ("File address:" + filePath);
         }
     }
 
