@@ -4,8 +4,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -15,12 +18,18 @@ import com.face_chtj.base_iotutils.R;
  * 提供左中右文本点击控制
  */
 public class TopTitleBar extends View {
-    private static final String TAG = TopTitleBar.class.getSimpleName();
-    private String centerText;
-    private String leftText;
-    private String rightText;
+    private String centerText = "";
+    private String leftText = "";
+    private String rightText = "";
     private boolean leftBack;
     private float titleTextSize;
+    private int textColor = Color.BLACK;
+    private Drawable leftIcon;
+    private int leftIconPadding = 0; // dp
+    private int leftIconSize = 0; // px
+    private int horizontalPadding = dp2px(12); // 控制左右边距
+    private int backgroundColor = Color.WHITE; // 默认背景色
+
     private Paint paint;
     private Context mContext;
     private OnTextViewClickListener onTextViewClickListener;
@@ -32,104 +41,134 @@ public class TopTitleBar extends View {
 
     private void init(Context context, AttributeSet attrs) {
         this.mContext = context;
-        // 获取自定义属性的值
-        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleBar);
-        centerText = a.getString(R.styleable.CustomTitleBar_centerText);
-        leftText = a.getString(R.styleable.CustomTitleBar_leftText);
-        rightText = a.getString(R.styleable.CustomTitleBar_rightText);
-        leftBack = a.getBoolean(R.styleable.CustomTitleBar_leftBack, false);
-        titleTextSize = a.getDimension(R.styleable.CustomTitleBar_textSize, 16); // 默认字体大小为16sp
-        a.recycle();
-        // 在指定的高度内居中显示文本
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    }
+        paint.setTextAlign(Paint.Align.LEFT);
 
-    public void setTextLeft(String textLeft) {
-        this.leftText = textLeft;
-        invalidate();
-    }
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.CustomTitleBar);
+        centerText = safeString(a.getString(R.styleable.CustomTitleBar_centerText));
+        leftText = safeString(a.getString(R.styleable.CustomTitleBar_leftText));
+        rightText = safeString(a.getString(R.styleable.CustomTitleBar_rightText));
+        leftBack = a.getBoolean(R.styleable.CustomTitleBar_leftBack, false);
+        titleTextSize = a.getDimension(R.styleable.CustomTitleBar_textSize, sp2px(16));
+        textColor = a.getColor(R.styleable.CustomTitleBar_textColor, Color.BLACK);
+        leftIcon = a.getDrawable(R.styleable.CustomTitleBar_leftIcon);
+        leftIconPadding = a.getDimensionPixelSize(R.styleable.CustomTitleBar_leftIconPadding, dp2px(4));
+        leftIconSize = a.getDimensionPixelSize(R.styleable.CustomTitleBar_leftIconSize, dp2px(24));
+        backgroundColor = a.getColor(R.styleable.CustomTitleBar_backgroundColor, Color.WHITE);
+        a.recycle();
 
-    public void setTextCenter(String textCenter) {
-        this.centerText = textCenter;
-        invalidate();
-    }
+        if (leftIcon != null) {
+            leftIcon.setBounds(0, 0, leftIconSize, leftIconSize);
+        }
 
-    public void setTextRight(String textRight) {
-        this.rightText = textRight;
-        invalidate();
+        setClickable(true);
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
+        canvas.drawColor(backgroundColor);
+        paint.setColor(textColor);
         paint.setTextSize(titleTextSize);
 
-        // 获取视图的宽度和高度
         int viewWidth = getWidth();
         int viewHeight = getHeight();
-
-        // 获取文本的宽度和高度
-        float textLeftWidth = paint.measureText(leftText);
-        float textCenterWidth = paint.measureText(centerText);
-        float textRightWidth = paint.measureText(rightText);
         float textHeight = paint.descent() - paint.ascent();
-
-        // 计算文本在垂直方向上的居中位置
         float y = (viewHeight - textHeight) / 2f - paint.ascent();
 
-        // 绘制文本
-        canvas.drawText(leftText, 0, y, paint);
-        canvas.drawText(centerText, (viewWidth - textCenterWidth) / 2, y, paint);
-        canvas.drawText(rightText, viewWidth - textRightWidth, y, paint);
+        float leftStartX = horizontalPadding;
+
+        // Draw left icon if exists
+        if (leftIcon != null) {
+            int iconTop = (viewHeight - leftIconSize) / 2;
+            canvas.save();
+            canvas.translate(leftStartX, iconTop);
+            leftIcon.draw(canvas);
+            canvas.restore();
+            leftStartX += leftIconSize + leftIconPadding;
+        }
+
+        // Draw left text
+        if (!leftText.isEmpty()) {
+            canvas.drawText(leftText, leftStartX, y, paint);
+        }
+
+        // Draw center text
+        float centerTextWidth = paint.measureText(centerText);
+        canvas.drawText(centerText, (viewWidth - centerTextWidth) / 2, y, paint);
+
+        // Draw right text
+        if (!rightText.isEmpty()) {
+            float rightTextWidth = paint.measureText(rightText);
+            float rightStartX = viewWidth - horizontalPadding - rightTextWidth;
+            canvas.drawText(rightText, rightStartX, y, paint);
+        }
     }
+
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-        float x = event.getX();
-        float y = event.getY();
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                // 检测点击位置并触发相应的回调
-                if (x <= getWidth() / 3f && isInsideTextBounds(x, y, 0, (getHeight() - paint.descent() - paint.ascent()) / 2f, paint.measureText(leftText), paint.descent() - paint.ascent())) {
-                    if (onTextViewClickListener != null) {
-                        onTextViewClickListener.onTextLeftClick();
-                    }
-                    // 获取当前 Activity 对象并调用 finish
-                    if (leftBack && mContext instanceof Activity) {
-                        ((Activity) mContext).finish();
-                    }
-                } else if (x > getWidth() / 3f && x <= 2 * getWidth() / 3f && isInsideTextBounds(x, y, (getWidth() - paint.measureText(centerText)) / 2, (getHeight() - paint.descent() - paint.ascent()) / 2f, paint.measureText(centerText), paint.descent() - paint.ascent())) {
-                    if (onTextViewClickListener != null) {
-                        onTextViewClickListener.onTextCenterClick();
-                    }
-                } else if (x > 2 * getWidth() / 3f && isInsideTextBounds(x, y, getWidth() - paint.measureText(rightText), (getHeight() - paint.descent() - paint.ascent()) / 2f, paint.measureText(rightText), paint.descent() - paint.ascent())) {
-                    if (onTextViewClickListener != null) {
-                        onTextViewClickListener.onTextRightClick();
-                    }
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            float x = event.getX();
+            float w = getWidth();
+            if (x <= w / 3f) {
+                if (onTextViewClickListener != null) onTextViewClickListener.onTextLeftClick();
+                if (leftBack && mContext instanceof Activity) {
+                    ((Activity) mContext).finish();
                 }
-                break;
+            } else if (x <= 2 * w / 3f) {
+                if (onTextViewClickListener != null) onTextViewClickListener.onTextCenterClick();
+            } else {
+                if (onTextViewClickListener != null) onTextViewClickListener.onTextRightClick();
+            }
         }
-
-        return true;
+        return super.onTouchEvent(event);
     }
 
-    private boolean isInsideTextBounds(float x, float y, float textX, float textY, float textWidth, float textHeight) {
-        return x >= textX && x <= textX + textWidth && y >= textY - textHeight && y <= textY + textHeight;
+    private String safeString(String s) {
+        return s == null ? "" : s;
     }
 
-    // 设置回调接口
+    public void setTextLeft(String textLeft) {
+        this.leftText = safeString(textLeft);
+        invalidate();
+    }
+
+    public void setTextCenter(String textCenter) {
+        this.centerText = safeString(textCenter);
+        invalidate();
+    }
+
+    public void setTextRight(String textRight) {
+        this.rightText = safeString(textRight);
+        invalidate();
+    }
+
+    public void setLeftIcon(Drawable drawable) {
+        this.leftIcon = drawable;
+        if (drawable != null) {
+            drawable.setBounds(0, 0, leftIconSize, leftIconSize);
+        }
+        invalidate();
+    }
+
     public void setOnTextViewClickListener(OnTextViewClickListener listener) {
         this.onTextViewClickListener = listener;
     }
 
-    // 回调接口
     public interface OnTextViewClickListener {
         void onTextLeftClick();
-
         void onTextCenterClick();
-
         void onTextRightClick();
+    }
+
+    private int dp2px(float dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                getResources().getDisplayMetrics());
+    }
+
+    private int sp2px(float sp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, sp,
+                getResources().getDisplayMetrics());
     }
 }

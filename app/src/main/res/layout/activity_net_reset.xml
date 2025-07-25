@@ -15,12 +15,15 @@
         <com.face_chtj.base_iotutils.view.TopTitleBar
             android:id="@+id/ctTopView"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="56dp"
             app:centerText="网络复位监听"
-            app:leftText="&lt;&lt;"
-            app:rightText=""
-            app:leftBack="true"
-            app:textSize="24sp" />
+            app:leftIcon="@drawable/ic_back"
+            app:leftIconSize="20dp"
+            app:leftIconPadding="6dp"
+            app:backgroundColor="#E6E4E4"
+            app:textSize="18sp"
+            app:textColor="@color/black"
+            app:leftBack="true" />
 
         <LinearLayout
             android:layout_width="match_parent"

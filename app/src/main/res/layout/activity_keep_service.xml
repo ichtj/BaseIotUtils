@@ -4,13 +4,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
-
-    <com.face_chtj.base_iotutils.util.TopTitleView
-        android:id="@+id/ttView"
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:ivback="@mipmap/back"
-        app:name="Service保活" />
+        android:layout_height="56dp"
+        app:centerText="Service保活"
+        app:leftIcon="@drawable/ic_back"
+        app:leftIconSize="20dp"
+        app:leftIconPadding="6dp"
+        app:backgroundColor="#E6E4E4"
+        app:textSize="18sp"
+        app:textColor="@color/black"
+        app:leftBack="true" />
 
     <Button
         android:id="@+id/btn_start"

@@ -113,7 +113,7 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
     public void refreshData(int type) {
         Log.d(TAG, "refreshData: type>>"+type);
         List<Integer> pngList = new ArrayList<>();
-        pngList.add(R.drawable.loader);
+        pngList.add(R.drawable.ic_loading);
         // 情况一：PNG 列表
         loadDialogUtils.setPngList(pngList);
         loadDialogUtils.showLoading();

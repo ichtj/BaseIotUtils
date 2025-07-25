@@ -4,18 +4,21 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@color/black"
     android:layout_height="match_parent"
     tools:ignore="MissingDefaultResource">
     <com.face_chtj.base_iotutils.view.TopTitleBar
         android:id="@+id/ctTopView"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="56dp"
         app:centerText="imei读取"
-        app:leftBack="true"
-        app:leftText="&lt;&lt;"
-        app:rightText=""
-        app:textSize="24sp" />
+        app:leftIcon="@drawable/ic_back"
+        app:leftIconSize="20dp"
+        app:leftIconPadding="6dp"
+        app:backgroundColor="#E6E4E4"
+        app:textSize="18sp"
+        app:textColor="@color/black"
+        app:leftBack="true" />
+
     <TextView
         android:id="@+id/tvResult"
         android:layout_width="match_parent"
