@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 
 import androidx.core.content.ContextCompat;
+import androidx.core.view.ViewCompat;
 
 import com.ichtj.basetools.R;
 
@@ -117,6 +118,7 @@ public class CustomButtonGridView extends ScrollView {
                 }
             }
         });
+        ViewCompat.setBackgroundTintList(button, null);
         return button;
     }
 

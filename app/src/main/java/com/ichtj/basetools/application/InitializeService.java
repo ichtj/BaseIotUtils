@@ -45,7 +45,7 @@ public class InitializeService extends IntentService {
 //        CrashHandler.getInstance().init(getApplication());
         //需要在 Application 的 onCreate() 中调用一次 BaseIotTools.instance()....
         BaseIotUtils.instance().create(mContext);
-        ScreenAdaptUtils.init(mContext, ScreenAdaptUtils.AdaptBase.HEIGHT, 1920f);
+        ScreenAdaptUtils.init(mContext, ScreenAdaptUtils.AdaptBase.WIDTH, 1080f);
         FBaseTools.instance()
                 .create(getApplication());
     }

@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 
 public class SerialPort {
 	private static final String TAG = "SerialPort";
@@ -34,30 +35,51 @@ public class SerialPort {
 	private FileOutputStream mFileOutputStream;
 
 	public SerialPort(File device, int baudrate, int flags) throws SecurityException, IOException {
-		/** Check access permission */
+		// 检查权限
 		if (!device.canRead() || !device.canWrite()) {
-			try {
-				/** Missing read/write permission, trying to chmod the file */
-				Process su= Runtime.getRuntime().exec("/system/bin/su");
-				String cmd = "chmod 777 " + device.getAbsolutePath() + "\n"
-						+ "exit\n";
-				su.getOutputStream().write(cmd.getBytes());
-				if ((su.waitFor() != 0) || !device.canRead()
-						|| !device.canWrite()) {
-					throw new SecurityException();
+			// 常见 su 路径
+			String[] suPaths = {
+					"/system/bin/su",
+					"/system/xbin/su",
+					"/sbin/su",
+					"/vendor/bin/su"
+			};
+
+			boolean chmodSuccess = false;
+			for (String suPath : suPaths) {
+				File suFile = new File(suPath);
+				if (suFile.exists() && suFile.canExecute()) {
+					try {
+						Process su = Runtime.getRuntime().exec(suPath);
+						OutputStream os = su.getOutputStream();
+						OutputStreamWriter writer = new OutputStreamWriter(os);
+						String cmd = "chmod 777 " + device.getAbsolutePath() + "\nexit\n";
+						writer.write(cmd);
+						writer.flush();
+						writer.close();
+						os.close();
+
+						if (su.waitFor() == 0 && device.canRead() && device.canWrite()) {
+							chmodSuccess = true;
+							break;
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 				}
-			} catch (Exception e) {
-				e.printStackTrace();
-				throw new SecurityException("execute command /system/bin/su chmod 777 xx Abnormal,Please check whether the serial port grants permission");
+			}
+
+			if (!chmodSuccess) {
+				throw new SecurityException("无法修改串口权限，请确保设备已 root 且 su 权限可用");
 			}
 		}
 
+		// 打开串口
 		mFd = open(device.getAbsolutePath(), baudrate, flags);
-		KLog.d(TAG, "SerialPort:open success ");
 		if (mFd == null) {
-			KLog.e(TAG, "native open returns null");
-			throw new IOException();
+			throw new IOException("native open returns null");
 		}
+
 		mFileInputStream = new FileInputStream(mFd);
 		mFileOutputStream = new FileOutputStream(mFd);
 	}
