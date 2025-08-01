@@ -64,4 +64,5 @@ public class FKey {
     public static final int      KEY_ORIENTATION=60;//屏幕方向
     public static final int      KEY_FILE_SELECT=61;//文件选择
     public static final int  KEY_LOADDING_DIALOG=62;//加载
+    public static final int    KEY_CAMERA_RECORD=63;//相机录像
 }

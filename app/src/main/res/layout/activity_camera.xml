@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:centerText="录像控制(2)"
+        app:leftIcon="@drawable/ic_back"
+        app:leftIconSize="20dp"
+        app:leftIconPadding="6dp"
+        app:backgroundColor="#E6E4E4"
+        app:textSize="18sp"
+        app:textColor="@color/black"
+        app:leftBack="true" />
+
+    <Button
+        android:id="@+id/recordButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="16dp"
+        android:text="Start Recording" />
+    <TextureView
+        android:id="@+id/textureView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        style="@style/NoBackgroundTextureView" />
+</LinearLayout>

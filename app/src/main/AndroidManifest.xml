@@ -395,6 +395,12 @@
             android:launchMode="singleTop"
             android:theme="@style/AppTheme"/>
 
+        <activity android:name=".camera.CameraRecordingAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme"/>
+
         <activity android:name=".accessibility.AccessibilityControlAty"
             android:enabled="true"
             android:exported="true"

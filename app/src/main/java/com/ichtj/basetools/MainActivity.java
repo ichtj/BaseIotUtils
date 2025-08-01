@@ -44,6 +44,7 @@ import com.ichtj.basetools.audio.AudioAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.bluetooth.BlueToothAty;
 import com.ichtj.basetools.callback.IUsbHubListener;
+import com.ichtj.basetools.camera.CameraRecordingAty;
 import com.ichtj.basetools.crash.CrashTools;
 import com.ichtj.basetools.crash.MyService;
 import com.ichtj.basetools.dialog.DialogAty;
@@ -170,6 +171,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_ORIENTATION, getString(R.string.main_screen_orientation));
         btnList.put (FKey.KEY_FILE_SELECT, getString(R.string.main_file_dialog_select));
         btnList.put (FKey.KEY_LOADDING_DIALOG, getString(R.string.main_loading_animation));
+        btnList.put (FKey.KEY_CAMERA_RECORD, getString(R.string.main_camera_recording));
         return btnList;
     }
 
@@ -502,6 +504,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     }
                 },3000);
                 break;
+            case FKey.KEY_CAMERA_RECORD:
+                startAty(CameraRecordingAty.class);
+                 break;
         }
     }
 

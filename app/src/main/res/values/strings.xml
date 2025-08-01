@@ -134,6 +134,7 @@
     <string name="main_loading_animation">Loading animation...</string>
     <string name="main_iccid">ICCID：%s</string>
     <string name="main_imei">IMEI：%s</string>
+    <string name="main_camera_recording">录像控制</string>
     <declare-styleable name="TopTitleView">
         <attr name="name" format="string"></attr>
         <attr name="rightName" format="string"></attr>

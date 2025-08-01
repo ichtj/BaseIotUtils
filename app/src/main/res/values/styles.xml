@@ -32,6 +32,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
+    <style name="NoBackgroundTextureView">
+        <item name="android:background">@null</item>
+    </style>
+
+    <style name="CameraAppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Ensure no background is set globally -->
+    </style>
     <!--
     一:AndroidManifest.xml application中的theme使用该主题
     二:启动成功后再Aty中设置为正常的主题

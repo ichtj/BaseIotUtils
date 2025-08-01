@@ -230,7 +230,7 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
                     public void onItemClick(int position, String itemText) {
                         // 这里你可以接收到点击项的 position 和文本
                         if (position==0){
-                            CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP", new CustomDynamicDialog.OnConfirmListener() {
+                            CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP",null, new CustomDynamicDialog.OnConfirmListener() {
                                 @Override
                                 public void onConfirm(List<String> inputs) {
                                     if (inputs!=null&&inputs.size()>0){

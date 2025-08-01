@@ -45,15 +45,14 @@ public class CustomDynamicDialog {
         void onConfirm(List<String> inputs);
     }
 
-    public static void showDialog(Context context,String titleStr, OnConfirmListener listener) {
-        IP_COUNT=0;
-        AlertDialog.Builder builder = new AlertDialog.Builder(context,R.style.CustomDialogTheme);
-        // 根布局
+    public static void showDialog(Context context, String titleStr, String[] initInputs, OnConfirmListener listener) {
+        IP_COUNT = 0;
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, R.style.CustomDialogTheme);
         LinearLayout rootLayout = new LinearLayout(context);
         rootLayout.setOrientation(LinearLayout.VERTICAL);
+        rootLayout.setBackground(new ColorDrawable(Color.WHITE));
         rootLayout.setPadding(25, 25, 25, 25);
 
-        // ===== 1. 标题 =====
         TextView title = new TextView(context);
         title.setText(titleStr);
         title.setTextSize(18);
@@ -66,30 +65,25 @@ public class CustomDynamicDialog {
         titleParams.bottomMargin = 30;
         rootLayout.addView(title, titleParams);
 
-        // ===== 2. ScrollView + 输入框容器 =====
         ScrollView scrollView = new ScrollView(context);
         LinearLayout.LayoutParams scrollParams = new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT
         );
-
-        // 设置最大高度（如 400dp）
         int maxHeightPx = (int) TypedValue.applyDimension(
                 TypedValue.COMPLEX_UNIT_DIP, 400,
                 context.getResources().getDisplayMetrics()
         );
+        scrollView.setBackground(new ColorDrawable(Color.WHITE));
         scrollView.setLayoutParams(scrollParams);
         scrollView.setFillViewport(true);
         scrollView.setOverScrollMode(View.OVER_SCROLL_IF_CONTENT_SCROLLS);
-
-        // 限制 ScrollView 的最大高度
         scrollView.setVerticalScrollBarEnabled(true);
         scrollView.setLayoutParams(new LinearLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 maxHeightPx
         ));
 
-        // 输入框容器
         LinearLayout inputContainer = new LinearLayout(context);
         inputContainer.setOrientation(LinearLayout.VERTICAL);
         scrollView.addView(inputContainer);
@@ -99,11 +93,16 @@ public class CustomDynamicDialog {
         TextView tvCount = new TextView(context);
         tvCount.setTextSize(23);
 
-        // 添加首个输入框
-        addInputRow(context,tvCount, inputContainer);
-        tvCount.setText(context.getString(R.string.net_record_ip_count,IP_COUNT+""));
+        // 根据传入的列表自动添加输入框
+        if (initInputs != null && initInputs.length>0) {
+            for (String input : initInputs) {
+                addInputRow(context, tvCount, inputContainer, input);
+            }
+        } else {
+            addInputRow(context, tvCount, inputContainer, null);
+        }
+        tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
 
-        // ===== 3. 底部按钮区域 =====
         LinearLayout buttonLayout = new LinearLayout(context);
         buttonLayout.setOrientation(LinearLayout.HORIZONTAL);
         buttonLayout.setGravity(Gravity.END);
@@ -122,7 +121,6 @@ public class CustomDynamicDialog {
         buttonLayout.addView(confirmBtn);
         rootLayout.addView(buttonLayout);
 
-        // ===== 4. 创建并显示 Dialog =====
         AlertDialog dialog = builder.setView(rootLayout).create();
 
         cancelBtn.setOnClickListener(v -> dialog.dismiss());
@@ -132,8 +130,8 @@ public class CustomDynamicDialog {
             for (int i = 0; i < inputContainer.getChildCount(); i++) {
                 LinearLayout row = (LinearLayout) inputContainer.getChildAt(i);
                 EditText et = (EditText) row.getChildAt(0);
-                String etContent=et.getText().toString().trim();
-                if (!TextUtils.isEmpty(etContent)){
+                String etContent = et.getText().toString().trim();
+                if (!TextUtils.isEmpty(etContent)) {
                     inputs.add(etContent);
                 }
             }
@@ -145,12 +143,9 @@ public class CustomDynamicDialog {
         WindowManager.LayoutParams params = window.getAttributes();
         int[] size = DisplayUtils.getScreenSize(context);
         params.width = (int) (size[0] / 2);
-//        params.height = (int) (size[1] / 4);
         window.setAttributes(params);
     }
-
-    // 添加一个输入框行（EditText + [+]按钮）
-    private static void addInputRow(Context context,TextView tvCount, LinearLayout container) {
+    private static void addInputRow(Context context, TextView tvCount, LinearLayout container, String initValue) {
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -162,6 +157,9 @@ public class CustomDynamicDialog {
         editText.setLayoutParams(new LinearLayout.LayoutParams(
                 0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f
         ));
+        if (initValue != null) {
+            editText.setText(initValue);
+        }
 
         Button addBtn = new Button(context);
         addBtn.setText("+");
@@ -172,24 +170,23 @@ public class CustomDynamicDialog {
         reduceBtn.setTextSize(28);
 
         addBtn.setOnClickListener(v -> {
-            if (RegularTools.isValidIpOrUrl(editText.getText().toString())){
-                addBtn.setVisibility(View.GONE); // 隐藏当前按钮
-                reduceBtn.setVisibility(View.GONE); // 隐藏当前按钮
-                addInputRow(context,tvCount, container); // 添加新行
-                tvCount.setText(context.getString(R.string.net_record_ip_count,IP_COUNT+""));
-            }else{
+            if (RegularTools.isValidIpOrUrl(editText.getText().toString())) {
+                addBtn.setVisibility(View.GONE);
+                reduceBtn.setVisibility(View.GONE);
+                addInputRow(context, tvCount, container, null);
+                tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
+            } else {
                 ToastUtils.error("输入格式错误!");
             }
         });
 
         reduceBtn.setOnClickListener(v -> {
-            if (IP_COUNT>1){
+            if (IP_COUNT > 1) {
                 int index = container.indexOfChild(row);
                 container.removeView(row);
                 IP_COUNT--;
                 tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
 
-                // 如果被删的是最后一行，恢复上一行的按钮
                 int childCount = container.getChildCount();
                 if (childCount > 0 && index - 1 >= 0 && index == childCount) {
                     LinearLayout prevRow = (LinearLayout) container.getChildAt(index - 1);
@@ -208,3 +205,4 @@ public class CustomDynamicDialog {
         IP_COUNT++;
     }
 }
+

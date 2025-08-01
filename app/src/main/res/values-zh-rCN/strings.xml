@@ -132,4 +132,5 @@
     <string name="main_loading_animation">加载动画...</string>
     <string name="main_iccid">ICCID：%s</string>
     <string name="main_imei">IMEI：%s</string>
+    <string name="main_camera_recording">录像控制</string>
 </resources>
