@@ -105,8 +105,6 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap (getDisplayBtn ( ));
         customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener (this);
-        List<FileEntity> fileEntities=FileUtils.getFileDirectory("/sdcard/");
-        Log.d(TAG, "onCreate: fileEntities>>"+fileEntities);
     }
 
     public Map<Integer, String> getDisplayBtn() {

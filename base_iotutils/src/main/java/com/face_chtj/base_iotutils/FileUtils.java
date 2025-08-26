@@ -250,32 +250,82 @@ public class FileUtils {
         return bmdList;
     }
 
-    /**
-     * 获取某个目录下的文件和文件夹
-     *
-     * @param directoryPath 文件夹路径
-     */
-    public static List<FileEntity> getFileDirectory(String directoryPath) {
+    public static List<FileEntity> getFileDirectory(String directoryPath, long timeoutMillis) {
         List<FileEntity> fileListEntityList = new ArrayList<>();
         File file = new File(directoryPath);
-        String pattern="yyyy-MM-dd HH:mm:ss";
+        String pattern = "yyyy-MM-dd HH:mm:ss";
+        long startTime = System.currentTimeMillis(); // 记录开始时间
+
         if (file.exists() && file.isDirectory()) {
-            File flist[] = file.listFiles();//文件夹目录下的所有文件
+            File[] flist = file.listFiles(); // 文件夹目录下的所有文件
             if (flist != null) {
                 for (int i = 0; i < flist.length; i++) {
-                    //判断是否父目录下还有子目录
-                    long size=flist[i].isDirectory()?getFileSizes(flist[i].getAbsolutePath()):flist[i].length();
-                    //获取上次修改的时间
-                    String lastModified = new SimpleDateFormat(pattern, Locale.CHINA).format(new Date(flist[i].lastModified()));
-                    FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath() + "/", lastModified, flist[i].isDirectory());
+                    // 检查线程是否被中断
+                    if (Thread.currentThread().isInterrupted()) {
+                        return fileListEntityList;
+                    }
+
+                    // 检查超时
+                    if (System.currentTimeMillis() - startTime > timeoutMillis) {
+                        return fileListEntityList;
+                    }
+
+                    // 判断是否父目录下还有子目录
+                    long size = flist[i].isDirectory()
+                            ? getFileSizesWithTimeout(flist[i].getAbsolutePath(), timeoutMillis, startTime)
+                            : flist[i].length();
+
+                    // 获取上次修改的时间
+                    String lastModified = new SimpleDateFormat(pattern, Locale.CHINA)
+                            .format(new Date(flist[i].lastModified()));
+
+                    FileEntity fileEntity = new FileEntity(
+                            flist[i].getName(),
+                            size,
+                            file.getAbsolutePath() + "/",
+                            lastModified,
+                            flist[i].isDirectory()
+                    );
                     fileListEntityList.add(fileEntity);
                 }
             }
-            if (Thread.currentThread().isInterrupted()) {
-                return fileListEntityList;
+        }
+
+        return fileListEntityList;
+    }
+
+    /**
+     * 递归获取文件夹大小（支持超时）
+     * 超时或被中断直接返回当前已计算的大小
+     */
+    private static long getFileSizesWithTimeout(String path, long timeoutMillis, long startTime) {
+        File file = new File(path);
+        long size = 0;
+
+        if (file.exists()) {
+            File[] flist = file.listFiles();
+            if (flist != null) {
+                for (File f : flist) {
+                    // 检查线程中断
+                    if (Thread.currentThread().isInterrupted()) {
+                        return size;
+                    }
+
+                    // 检查超时
+                    if (System.currentTimeMillis() - startTime > timeoutMillis) {
+                        return size;
+                    }
+
+                    if (f.isDirectory()) {
+                        size += getFileSizesWithTimeout(f.getAbsolutePath(), timeoutMillis, startTime);
+                    } else {
+                        size += f.length();
+                    }
+                }
             }
         }
-        return fileListEntityList;
+
+        return size;
     }
 
     /**
