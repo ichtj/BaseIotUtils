@@ -196,6 +196,12 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user" />
+        <activity
+            android:name=".anr.AnrTestAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="user" />
         <!--网络监听-->
         <activity
             android:name=".network.NetChangeAty"

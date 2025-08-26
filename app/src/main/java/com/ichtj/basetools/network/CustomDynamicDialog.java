@@ -40,7 +40,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomDynamicDialog {
-    private static int IP_COUNT=0;
+    private static int IP_COUNT = 0;
+
     public interface OnConfirmListener {
         void onConfirm(List<String> inputs);
     }
@@ -94,12 +95,13 @@ public class CustomDynamicDialog {
         tvCount.setTextSize(23);
 
         // 根据传入的列表自动添加输入框
-        if (initInputs != null && initInputs.length>0) {
-            for (String input : initInputs) {
-                addInputRow(context, tvCount, inputContainer, input);
+        if (initInputs != null && initInputs.length > 0) {
+            for (int i = 0; i < initInputs.length; i++) {
+                boolean isLast = (i == initInputs.length - 1);
+                addInputRow(context, tvCount, inputContainer, initInputs[i], isLast);
             }
         } else {
-            addInputRow(context, tvCount, inputContainer, null);
+            addInputRow(context, tvCount, inputContainer, null, true);
         }
         tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
 
@@ -145,7 +147,8 @@ public class CustomDynamicDialog {
         params.width = (int) (size[0] / 2);
         window.setAttributes(params);
     }
-    private static void addInputRow(Context context, TextView tvCount, LinearLayout container, String initValue) {
+
+    private static void addInputRow(Context context, TextView tvCount, LinearLayout container, String initValue, boolean showButtons) {
         LinearLayout row = new LinearLayout(context);
         row.setOrientation(LinearLayout.HORIZONTAL);
         row.setGravity(Gravity.CENTER_VERTICAL);
@@ -164,16 +167,18 @@ public class CustomDynamicDialog {
         Button addBtn = new Button(context);
         addBtn.setText("+");
         addBtn.setTextSize(28);
+        addBtn.setVisibility(showButtons ? View.VISIBLE : View.GONE);
 
         Button reduceBtn = new Button(context);
         reduceBtn.setText("-");
         reduceBtn.setTextSize(28);
+//        reduceBtn.setVisibility(showButtons ? View.VISIBLE : View.GONE);
 
         addBtn.setOnClickListener(v -> {
             if (RegularTools.isValidIpOrUrl(editText.getText().toString())) {
                 addBtn.setVisibility(View.GONE);
                 reduceBtn.setVisibility(View.GONE);
-                addInputRow(context, tvCount, container, null);
+                addInputRow(context, tvCount, container, null, true);
                 tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
             } else {
                 ToastUtils.error("输入格式错误!");
@@ -188,12 +193,10 @@ public class CustomDynamicDialog {
                 tvCount.setText(context.getString(R.string.net_record_ip_count, IP_COUNT + ""));
 
                 int childCount = container.getChildCount();
-                if (childCount > 0 && index - 1 >= 0 && index == childCount) {
-                    LinearLayout prevRow = (LinearLayout) container.getChildAt(index - 1);
-                    View prevAddBtn = prevRow.getChildAt(1);
-                    View prevReduceBtn = prevRow.getChildAt(2);
-                    prevAddBtn.setVisibility(View.VISIBLE);
-                    prevReduceBtn.setVisibility(View.VISIBLE);
+                if (childCount > 0) {
+                    LinearLayout lastRow = (LinearLayout) container.getChildAt(childCount - 1);
+                    lastRow.getChildAt(1).setVisibility(View.VISIBLE); // addBtn
+                    lastRow.getChildAt(2).setVisibility(View.VISIBLE); // reduceBtn
                 }
             }
         });
@@ -205,4 +208,3 @@ public class CustomDynamicDialog {
         IP_COUNT++;
     }
 }
-

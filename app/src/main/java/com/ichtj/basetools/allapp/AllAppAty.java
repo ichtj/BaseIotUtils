@@ -36,9 +36,6 @@ import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-import me.jessyan.autosize.AutoSizeCompat;
-import me.jessyan.autosize.AutoSizeConfig;
-
 /**
  * Create on 2020/6/29
  * author chtj

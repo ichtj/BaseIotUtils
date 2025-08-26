@@ -23,6 +23,17 @@ public class MyService extends Service {
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.d(TAG, "onStartCommand: ");
+        try {
+            Thread.sleep(25000); // 模拟超时
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return START_STICKY;
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
         Log.e(TAG, "onCreate: ");

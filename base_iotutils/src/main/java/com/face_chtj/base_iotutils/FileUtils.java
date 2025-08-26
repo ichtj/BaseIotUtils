@@ -12,6 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
@@ -19,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author chtj
@@ -252,6 +258,7 @@ public class FileUtils {
     public static List<FileEntity> getFileDirectory(String directoryPath) {
         List<FileEntity> fileListEntityList = new ArrayList<>();
         File file = new File(directoryPath);
+        String pattern="yyyy-MM-dd HH:mm:ss";
         if (file.exists() && file.isDirectory()) {
             File flist[] = file.listFiles();//文件夹目录下的所有文件
             if (flist != null) {
@@ -259,15 +266,17 @@ public class FileUtils {
                     //判断是否父目录下还有子目录
                     long size=flist[i].isDirectory()?getFileSizes(flist[i].getAbsolutePath()):flist[i].length();
                     //获取上次修改的时间
-                    String lastModified = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.CHINA).format(new Date(flist[i].lastModified()));
+                    String lastModified = new SimpleDateFormat(pattern, Locale.CHINA).format(new Date(flist[i].lastModified()));
                     FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath() + "/", lastModified, flist[i].isDirectory());
                     fileListEntityList.add(fileEntity);
                 }
             }
+            if (Thread.currentThread().isInterrupted()) {
+                return fileListEntityList;
+            }
         }
         return fileListEntityList;
     }
-
 
     /**
      * 得到文件夹大小

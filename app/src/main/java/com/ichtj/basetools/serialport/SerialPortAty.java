@@ -20,14 +20,14 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.face_chtj.base_iotutils.TranscodingUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.TranscodingUtils;
+import com.face_chtj.base_iotutils.serialport.SerialPort;
+import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
-import com.face_chtj.base_iotutils.serialport.SerialPort;
-import com.face_chtj.base_iotutils.serialport.SerialPortFinder;
 import com.ichtj.basetools.util.AppManager;
 import com.ichtj.basetools.util.PACKAGES;
 
@@ -36,94 +36,139 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 @Route(path = PACKAGES.BASE + "serialport")
-public class SerialPortAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener {
+public class SerialPortAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private static final String TAG = "SerialPortAty";
-    @BindView(R.id.sp_com)
-    Spinner spCom;
-    @BindView(R.id.sp_burate)
-    Spinner spBurate;
-    @BindView(R.id.btn_init)
-    Button btnInit;
-    @BindView(R.id.etCommand)
-    EditText etCommand;
-    @BindView(R.id.btn_test_send)
-    Button btnTestSend;
-    @BindView(R.id.btn_clear)
-    Button btnClear;
-    @BindView(R.id.tvResult)
-    TextView tvResult;
-    @BindView(R.id.sp_com2)
-    Spinner spCom2;
-    @BindView(R.id.sp_burate2)
-    Spinner spBurate2;
-    @BindView(R.id.btn_init2)
-    Button btnInit2;
-    @BindView(R.id.etCommand2)
-    EditText etCommand2;
-    @BindView(R.id.btn_test_send2)
-    Button btnTestSend2;
-    @BindView(R.id.btn_clear2)
-    Button btnClear2;
-    @BindView(R.id.tvResult2)
-    TextView tvResult2;
-    @BindView(R.id.rbTxt)
-    RadioButton rbTxt;
-    @BindView(R.id.rbHex)
-    RadioButton rbHex;
-    @BindView(R.id.etAuto)
-    EditText etAuto;
-    @BindView(R.id.cbMs)
-    CheckBox cbMs;
-    @BindView(R.id.etAuto2)
-    EditText etAuto2;
-    @BindView(R.id.cbMs2)
-    CheckBox cbMs2;
-    private SerialPort serialOne;//串口控制
-    private SerialPort serialTwo;//串口控制
-    private List<String> list_serialcom = null;//串口地址
-    private String[] arrays_burate;//波特率
+    Spinner spCom, spBurate, spCom2, spBurate2;
+    Button btnInit, btnTestSend, btnClear, btnInit2, btnTestSend2, btnClear2;
+    EditText etCommand, etCommand2, etAuto, etAuto2;
+    TextView tvResult, tvResult2;
+    RadioButton rbTxt, rbHex;
+    CheckBox cbMs, cbMs2;
+    private SerialPort serialOne, serialTwo;
+    private List<String> list_serialcom = null;
+    private String[] arrays_burate;
     CustomSerialOne customSerialOne;
     CustomSerialTwo customSerialTwo;
-    boolean isRun = false;
-    boolean isRun2 = false;
-    boolean isHexCmd = true;
+    boolean isRun = false, isRun2 = false, isHexCmd = true;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_serialport);
-        ButterKnife.bind(this);
-        //初始化控件
+        initView();
+        setupListeners();
+        initializeSerialPortData();
+    }
+
+    private void initView() {
+        spCom = findViewById(R.id.spCom);
+        spBurate = findViewById(R.id.spBurate);
+        btnInit = findViewById(R.id.btnInit);
+        etCommand = findViewById(R.id.etCommand);
+        btnTestSend = findViewById(R.id.btnTestSend);
+        btnClear = findViewById(R.id.btnClear);
+        tvResult = findViewById(R.id.tvResult);
+        spCom2 = findViewById(R.id.spCom2);
+        spBurate2 = findViewById(R.id.spBurate2);
+        btnInit2 = findViewById(R.id.btnInit2);
+        etCommand2 = findViewById(R.id.etCommand2);
+        btnTestSend2 = findViewById(R.id.btnTestSend2);
+        btnClear2 = findViewById(R.id.btnClear2);
+        tvResult2 = findViewById(R.id.tvResult2);
+        rbTxt = findViewById(R.id.rbTxt);
+        rbHex = findViewById(R.id.rbHex);
+        etAuto = findViewById(R.id.etAuto);
+        cbMs = findViewById(R.id.cbMs);
+        etAuto2 = findViewById(R.id.etAuto2);
+        cbMs2 = findViewById(R.id.cbMs2);
+    }
+
+    private void setupListeners() {
+        btnInit.setOnClickListener(this);
+        btnTestSend.setOnClickListener(this);
+        btnClear.setOnClickListener(this);
+        btnInit2.setOnClickListener(this);
+        btnTestSend2.setOnClickListener(this);
+        btnClear2.setOnClickListener(this);
+        rbTxt.setOnCheckedChangeListener(this);
+        rbHex.setOnCheckedChangeListener(this);
+    }
+
+    private void initializeSerialPortData() {
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         tvResult2.setMovementMethod(ScrollingMovementMethod.getInstance());
-        //获取所有串口地址
         SerialPortFinder mSerialPortFinder = new SerialPortFinder();
         String[] entryValues = mSerialPortFinder.getAllDevicesPath();
         KLog.d(TAG, "onCreate:>devices=[" + Arrays.toString(entryValues) + "]");
         list_serialcom = Arrays.asList(entryValues);
-        //获取所有的波特率 可在R.array.burate 中手动添加需要的波特率
         arrays_burate = getResources().getStringArray(R.array.burate);
-        //添加到适配器中显示
-        ArrayAdapter arr_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list_serialcom);
+        ArrayAdapter<String> arr_adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list_serialcom);
         spCom.setAdapter(arr_adapter);
         spCom2.setAdapter(arr_adapter);
-        rbTxt.setOnCheckedChangeListener(this);
-        rbHex.setOnCheckedChangeListener(this);
-        String getPkgName = getPackageName();
-        if (getPkgName.contains(PACKAGES.PKG_SERIALPORT)) {
-            AppManager.finishActivity(StartPageAty.class);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnInit:
+                handleSerialPortInit(0, btnInit, spCom, spBurate);
+                break;
+            case R.id.btnInit2:
+                handleSerialPortInit(1, btnInit2, spCom2, spBurate2);
+                break;
+            case R.id.btnTestSend:
+                handleSerialPortSend(0, etCommand, etAuto, cbMs, serialOne);
+                break;
+            case R.id.btnTestSend2:
+                handleSerialPortSend(1, etCommand2, etAuto2, cbMs2, serialTwo);
+                break;
+            case R.id.btnClear:
+                tvResult.setText("");
+                break;
+            case R.id.btnClear2:
+                tvResult2.setText("");
+                break;
         }
     }
 
-    /**
-     * 开启串口
-     */
-    public void initOpenSerial(Button btnInit, Spinner spCom, Spinner spBurate, int position) {
+    private void handleSerialPortInit(int position, Button btnInit, Spinner spCom, Spinner spBurate) {
+        if ((position == 0 && isRun) || (position == 1 && isRun2)) {
+            closeSerial(position);
+        } else {
+            initOpenSerial(btnInit, spCom, spBurate, position);
+        }
+    }
+
+    private void handleSerialPortSend(int position, EditText etCommand, EditText etAuto, CheckBox cbMs, SerialPort serialPort) {
+        if ((position == 0 && !isRun) || (position == 1 && !isRun2)) {
+            ToastUtils.error("请开启串口");
+            return;
+        }
+        String autoMs = etAuto.getText().toString();
+        if (TextUtils.isEmpty(autoMs) && cbMs.isChecked()) {
+            ToastUtils.error("请填写正确的毫秒数！");
+            return;
+        }
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                if ((position == 0 && isRun) || (position == 1 && isRun2)) {
+                    String hexComm = etCommand.getText().toString().trim();
+                    if (hexComm.length() % 2 == 1) {
+                        hexComm = "0" + hexComm;
+                    }
+                    KLog.d(TAG, "onViewClicked:>hexComm=" + hexComm);
+                    serialPort.write(isHexCmd ? TranscodingUtils.decodeHexString(hexComm) : hexComm.getBytes());
+                    if (!TextUtils.isEmpty(autoMs) && cbMs.isChecked()) {
+                        handler.postDelayed(this, Integer.parseInt(autoMs));
+                    }
+                }
+            }
+        });
+    }
+
+    private void initOpenSerial(Button btnInit, Spinner spCom, Spinner spBurate, int position) {
         try {
             String com = spCom.getSelectedItem().toString();
             int baudrate = Integer.parseInt(spBurate.getSelectedItem().toString());
@@ -133,13 +178,11 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                     isRun = true;
                     customSerialOne = new CustomSerialOne(0, "init1");
                     customSerialOne.start();
-                    //mThreadPool2.execute(customSerialOne);
                     break;
                 case 1:
                     serialTwo = new SerialPort(new File(com), baudrate, 0);
                     isRun2 = true;
                     customSerialTwo = new CustomSerialTwo(1, "init2");
-                    //mThreadPool2.execute(customSerialTwo);
                     customSerialTwo.start();
                     break;
             }
@@ -158,6 +201,26 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                 isRun2 = false;
             }
         }
+    }
+
+    private void closeSerial(int position) {
+        switch (position) {
+            case 0:
+                serialOne.close();
+                isRun = false;
+                btnInit.setText("开启串口");
+                btnInit.setTextColor(Color.BLACK);
+                customSerialOne.interrupt();
+                break;
+            case 1:
+                serialTwo.close();
+                isRun2 = false;
+                btnInit2.setText("开启串口");
+                btnInit2.setTextColor(Color.BLACK);
+                customSerialTwo.interrupt();
+                break;
+        }
+        ToastUtils.info("串口关闭！" + (position + 1));
     }
 
     @Override
@@ -191,21 +254,14 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                 } catch (Throwable e) {
                 }
                 try {
-                    int readSize = -1;
-                    readSize = serialOne.getInputStream().available();
-                    Log.d(TAG, "run: readSize=" + readSize);
+                    int readSize = serialOne.getInputStream().available();
                     if (readSize > 0) {
                         byte[] bytes = new byte[readSize];
                         serialOne.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
-                        if (isHexCmd) {
-                            message.obj = TranscodingUtils.encodeHexString(bytes);
-                        } else {
-                            message.obj = new String(bytes, StandardCharsets.UTF_8);
-                        }
+                        message.obj = isHexCmd ? TranscodingUtils.encodeHexString(bytes) : new String(bytes, StandardCharsets.UTF_8);
                         message.arg1 = position;
                         handler.sendMessage(message);
-                        Log.d(TAG, "run: received end");
                     }
                 } catch (Throwable e) {
                     Log.e(TAG, "run: ", e);
@@ -230,17 +286,12 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                 } catch (Throwable e) {
                 }
                 try {
-                    int readSize = -1;
-                    readSize = serialTwo.getInputStream().available();
+                    int readSize = serialTwo.getInputStream().available();
                     if (readSize > 0) {
                         byte[] bytes = new byte[readSize];
                         serialTwo.read(bytes, bytes.length);
                         Message message = handler.obtainMessage();
-                        if (isHexCmd) {
-                            message.obj = TranscodingUtils.encodeHexString(bytes);
-                        } else {
-                            message.obj = new String(bytes, StandardCharsets.UTF_8);
-                        }
+                        message.obj = isHexCmd ? TranscodingUtils.encodeHexString(bytes) : new String(bytes, StandardCharsets.UTF_8);
                         message.arg1 = position;
                         handler.sendMessage(message);
                     }
@@ -251,147 +302,17 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
         }
     }
 
-    @OnClick({R.id.btn_init, R.id.btn_clear, R.id.btn_test_send, R.id.btn_init2, R.id.btn_clear2, R.id.btn_test_send2})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_init:
-                if (isRun) {
-                    closeSerial(0);
-                } else {
-                    initOpenSerial(btnInit, spCom, spBurate, 0);
-                }
-                break;
-            case R.id.btn_init2:
-                if (isRun2) {
-                    closeSerial(1);
-                } else {
-                    initOpenSerial(btnInit2, spCom2, spBurate2, 1);
-                }
-                break;
-            case R.id.btn_test_send://发送命令
-                if (!isRun) {
-                    ToastUtils.error("请开启串口");
-                    return;
-                }
-                String autoMs = etAuto.getText().toString();
-                if (TextUtils.isEmpty(autoMs)) {
-                    if (cbMs.isChecked()) {
-                        ToastUtils.error("请填写正确的毫秒数！");
-                        return;
-                    }
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isRun) {
-                            String hexComm = etCommand.getText().toString().trim();
-                            if (hexComm.length() % 2 == 1) {
-                                hexComm = "0" + hexComm;
-                            }
-                            KLog.d(TAG, "onViewClicked:>hexComm=" + hexComm);
-                            serialOne.write(isHexCmd ? TranscodingUtils.decodeHexString(hexComm) : hexComm.getBytes());
-                            if (!TextUtils.isEmpty(autoMs)) {
-                                if (cbMs.isChecked()) {
-                                    handler.postDelayed(this, Integer.parseInt(autoMs));
-                                }
-                            }
-                        }
-                    }
-                });
-
-                break;
-            case R.id.btn_test_send2://发送命令
-                if (!isRun2) {
-                    ToastUtils.error("请开启串口");
-                    return;
-                }
-                String autoMs2 = etAuto2.getText().toString();
-                if (TextUtils.isEmpty(autoMs2)) {
-                    if (cbMs2.isChecked()) {
-                        ToastUtils.error("请填写正确的毫秒数！");
-                        return;
-                    }
-                }
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isRun2) {
-                            String hexComm2 = etCommand2.getText().toString().trim();
-                            if (hexComm2.length() % 2 == 1) {
-                                hexComm2 = "0" + hexComm2;
-                            }
-                            KLog.d(TAG, "onViewClicked:>hexComm2=" + hexComm2);
-                            serialTwo.write(isHexCmd ? TranscodingUtils.decodeHexString(hexComm2) : hexComm2.getBytes());
-                            if (!TextUtils.isEmpty(autoMs2)) {
-                                if (cbMs2.isChecked()) {
-                                    handler.postDelayed(this, Integer.parseInt(autoMs2));
-                                }
-                            }
-                        }
-                    }
-                });
-                break;
-            case R.id.btn_clear://清除结果
-                tvResult.setText("");
-                break;
-            case R.id.btn_clear2://清除结果
-                tvResult2.setText("");
-                break;
-        }
-    }
-
-
-    public String HexstrAddZero(String str) {
-        String strByeZero = "";
-        if (str.length() == 2) {
-            strByeZero = str;
-        } else if (str.length() == 1) {
-            strByeZero = "0" + str;
-        } else if (str.length() == 0) {
-            strByeZero = "00";
-        }
-        return strByeZero;
-    }
-
-    /**
-     * 关闭串口
-     *
-     * @param position
-     */
-    private void closeSerial(int position) {
-        switch (position) {
-            case 0:
-                serialOne.close();
-                isRun = false;
-                btnInit.setText("开启串口");
-                btnInit.setTextColor(Color.BLACK);
-                customSerialOne.interrupt();
-                break;
-            case 1:
-                serialTwo.close();
-                isRun2 = false;
-                btnInit2.setText("开启串口");
-                btnInit2.setTextColor(Color.BLACK);
-                customSerialTwo.interrupt();
-                break;
-        }
-        ToastUtils.info("串口关闭！" + (position + 1));
-    }
-
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if (msg.arg1 == 0) {
-                KLog.d(TAG, "msg.obj=" + msg.obj.toString());
                 tvResult.append("\n\r" + msg.obj.toString());
             } else {
-                KLog.d(TAG, "msg.obj=" + msg.obj.toString());
                 tvResult2.append("\n\r" + msg.obj.toString());
             }
         }
     };
-
 
     @Override
     protected void onDestroy() {
@@ -406,11 +327,9 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
         }
         if (serialOne != null) {
             serialOne.close();
-            KLog.d(TAG, "onDestroy:>serialOne=");
         }
         if (serialTwo != null) {
             serialTwo.close();
-            KLog.d(TAG, "onDestroy:>serialTwo=");
         }
     }
 }

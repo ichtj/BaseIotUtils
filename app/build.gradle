@@ -108,9 +108,9 @@ dependencies {
     //socket client
     //api rootProject.ext.dependencies["socket-client"]
     //findByView butterknife
-    implementation rootProject.ext.dependencies["butterknife"]
-    implementation rootProject.ext.dependencies["AndroidAutoSize"]
-    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+//    implementation rootProject.ext.dependencies["butterknife"]
+//    implementation rootProject.ext.dependencies["AndroidAutoSize"]
+//    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
     implementation rootProject.ext.support["annotations"]
     //implementation(rootProject.ext.dependencies["base_iotutils"]) {
     //    transitive = true

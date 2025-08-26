@@ -94,12 +94,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void pmUnInstall(View view) {
-        OptionTools.deletePackage(this, "pkgName", new OptionTools.IResult() {
-            @Override
-            public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
-            }
-        });
+
     }
 
 
@@ -109,12 +104,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiInstall(View view) {
-        OptionTools.installPackageByJavaReflect(this, "pkgName", "apkPath", new OptionTools.IResult() {
-            @Override
-            public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiInstall getResult: isComplete=" + isComplete + ",err=" + err);
-            }
-        });
+
     }
 
     /**
@@ -123,12 +113,7 @@ public class InstallAPkAty extends BaseActivity {
      * @param view
      */
     public void systemApiUnInstall(View view) {
-        OptionTools.deletePackage(this, "pkgName", new OptionTools.IResult() {
-            @Override
-            public void getResult(boolean isComplete, String err) {
-                Log.d(TAG, "systemApiUnInstall getResult: isComplete=" + isComplete + ",err=" + err);
-            }
-        });
+
     }
 
     public void adbInstallClick(View view) {

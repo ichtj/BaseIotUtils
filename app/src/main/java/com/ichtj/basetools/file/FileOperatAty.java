@@ -14,27 +14,17 @@ import com.face_chtj.base_iotutils.FileUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-
 /**
  * Create on 2019/10/10
  * author chtj
  * 文件读写
  */
-public class FileOperatAty extends BaseActivity {
-    @BindView(R.id.et_content)
+public class FileOperatAty extends BaseActivity implements View.OnClickListener {
     EditText etContent;
-    @BindView(R.id.btn_write)
     Button btnWrite;
-    @BindView(R.id.btn_del)
     Button btnDel;
-    @BindView(R.id.btn_read)
     Button btnRead;
-    @BindView(R.id.tv_result)
     TextView tvResult;
-    @BindView(R.id.cbCover)
     CheckBox cbCover;
     //文件路径
     private String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
@@ -43,14 +33,24 @@ public class FileOperatAty extends BaseActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file_wr);
-        ButterKnife.bind(this);
+        initView();
+    }
+    public void initView() {
+        etContent = findViewById(R.id.etContent);
+        btnWrite = findViewById(R.id.btnWrite);
+        btnWrite.setOnClickListener(this);
+        btnDel = findViewById(R.id.btnDel);
+        btnDel.setOnClickListener(this);
+        btnRead = findViewById(R.id.btnRead);
+        btnRead.setOnClickListener(this);
+        tvResult = findViewById(R.id.tvResult);
+        cbCover = findViewById(R.id.cbCover);
     }
 
-
-    @OnClick({R.id.btn_write, R.id.btn_del, R.id.btn_read})
-    public void onViewClicked(View view) {
+    @Override
+    public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.btn_write:
+            case R.id.btnWrite:
                 String content = etContent.getText().toString();
                 boolean writeResult = FileUtils.writeFileData(filePath, content, cbCover.isChecked());
                 String sizeMb = FileUtils.getFileFormatSize(filePath);
@@ -60,7 +60,7 @@ public class FileOperatAty extends BaseActivity {
                     tvResult.setText("\n\r -> 写入失败");
                 }
                 break;
-            case R.id.btn_del://删除文件
+            case R.id.btnDel://删除文件
                 boolean delResult = FileUtils.delFile(filePath);
                 if (delResult) {
                     tvResult.append("\n\r 删除成功！");
@@ -68,7 +68,7 @@ public class FileOperatAty extends BaseActivity {
                     tvResult.append("\n\r -> 删除失败！");
                 }
                 break;
-            case R.id.btn_read: //读数据
+            case R.id.btnRead: //读数据
                 String readResult = FileUtils.readFileData(filePath);
                 if (readResult != null && !readResult.equals("")) {
                     tvResult.append("\n\r " + readResult);

@@ -42,6 +42,7 @@
                     android:layout_gravity="center"
                     android:checked="true"
                     android:text="HEX"
+                    android:layout_marginRight="15dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text_size" />
 
@@ -89,7 +90,7 @@
                                 android:textSize="@dimen/small_text_size" />
 
                             <Spinner
-                                android:id="@+id/sp_com"
+                                android:id="@+id/spCom"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -113,7 +114,7 @@
                                 android:textSize="@dimen/small_text_size" />
 
                             <Spinner
-                                android:id="@+id/sp_burate"
+                                android:id="@+id/spBurate"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -123,7 +124,7 @@
                         </LinearLayout>
 
                         <Button
-                            android:id="@+id/btn_init"
+                            android:id="@+id/btnInit"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="开启串口"
@@ -172,7 +173,7 @@
                             android:text="自动" />
 
                         <Button
-                            android:id="@+id/btn_test_send"
+                            android:id="@+id/btnTestSend"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:gravity="center"
@@ -198,7 +199,7 @@
                             android:textSize="@dimen/small_text_size" />
 
                         <Button
-                            android:id="@+id/btn_clear"
+                            android:id="@+id/btnClear"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
@@ -256,7 +257,7 @@
                                 android:textSize="18dp" />
 
                             <Spinner
-                                android:id="@+id/sp_com2"
+                                android:id="@+id/spCom2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -279,7 +280,7 @@
                                 android:textSize="18dp" />
 
                             <Spinner
-                                android:id="@+id/sp_burate2"
+                                android:id="@+id/spBurate2"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
@@ -289,7 +290,7 @@
                         </LinearLayout>
 
                         <Button
-                            android:id="@+id/btn_init2"
+                            android:id="@+id/btnInit2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:text="开启串口"
@@ -336,7 +337,7 @@
                             android:text="自动" />
 
                         <Button
-                            android:id="@+id/btn_test_send2"
+                            android:id="@+id/btnTestSend2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -362,7 +363,7 @@
                             android:textSize="18dp" />
 
                         <Button
-                            android:id="@+id/btn_clear2"
+                            android:id="@+id/btnClear2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"

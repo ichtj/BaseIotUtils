@@ -2,8 +2,6 @@ package com.ichtj.basetools.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.IPackageDeleteObserver;
-import android.content.pm.IPackageInstallObserver;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -182,52 +180,6 @@ public class OptionTools {
             return false;
         }
     }
-
-    /**
-     * 反射安装
-     * @param context 上下文
-     * @param pkgName 包名
-     * @param apkPath apk路径
-     * @param iResult 结果回调
-     */
-    public static void installPackageByJavaReflect(Context context, String pkgName, String apkPath,IResult iResult) {
-        if (pkgName == null || pkgName.equals("")) {
-            iResult.getResult(false,"packageName is null");
-        } else {
-            try {
-                File apkFile = new File(apkPath);
-                if (apkFile.exists()) {
-                    Uri packageUri = Uri.fromFile(apkFile);
-                    IPackageInstallObserver observer = new IPackageInstallObserver.Stub() {
-                        @Override
-                        public void packageInstalled(String packageName, int returnCode) throws RemoteException {
-                            Log.d(TAG, "install packageName:" + packageName);
-                            Log.d(TAG, "install app result:" + implementationResult(returnCode));
-                            iResult.getResult(returnCode==1,"");
-                        }
-                    };
-                    PackageManager packageManager = context.getPackageManager();
-                    int flags = packageManager.PERMISSION_GRANTED;
-                    try {
-                        PackageInfo packageInfo = packageManager.getPackageInfo(pkgName,
-                                packageManager.GET_UNINSTALLED_PACKAGES);
-                        flags = INSTALL_REPLACE_EXISTING;
-                    } catch (PackageManager.NameNotFoundException e) {
-                        e.printStackTrace();
-                        Log.e(TAG, "errMeg:" + e.getMessage());
-                        flags = packageManager.PERMISSION_GRANTED;
-                    }
-                    Class appPackageManager = Class.forName("android.app.ApplicationPackageManager");
-                    Method method = appPackageManager.getMethod("installPackage", Uri.class,
-                            IPackageInstallObserver.class, int.class, String.class);
-                    method.invoke(packageManager, packageUri, observer, flags, pkgName);
-                }
-            }  catch (Exception e) {
-                iResult.getResult(false,e.getMessage());
-            }
-        }
-    }
-
     /**
      * 回调结果
      */
@@ -239,44 +191,6 @@ public class OptionTools {
          */
         void getResult(boolean isComplete,String err);
     }
-
-    /**
-     * 反射卸载
-     * @param context 上下文
-     * @param pkgName 包名
-     * @param iResult 结果回调
-     */
-    public static void deletePackage(final Context context, String pkgName,IResult iResult) {
-        if (pkgName == null || pkgName.equals("")) {
-            iResult.getResult(false,"packageName is null");
-        } else {
-            try {
-                PackageManager packageManager = context.getPackageManager();
-                IPackageDeleteObserver observer = new IPackageDeleteObserver.Stub() {
-                    @Override
-                    public void packageDeleted(String packageName, int returnCode) throws RemoteException {
-                        Log.d(TAG, "delete packageName:" + packageName);
-                        Log.d(TAG, "delete app result:" + implementationResult(returnCode));
-                        iResult.getResult(returnCode==1,"");
-                    }
-                };
-                int flags = packageManager.PERMISSION_GRANTED;
-                PackageInfo packageInfo = packageManager.getPackageInfo(pkgName,
-                        packageManager.GET_UNINSTALLED_PACKAGES);
-                if (packageInfo == null) {
-                    iResult.getResult(false,"deleting app isn't exist");
-                } else {
-                    Class appPackageManager = Class.forName("android.app.ApplicationPackageManager");
-                    Method method = appPackageManager.getMethod("deletePackage", String.class,
-                            IPackageDeleteObserver.class, int.class);
-                    method.invoke(packageManager, pkgName, observer, flags);
-                }
-            }catch (Exception e) {
-                iResult.getResult(false,e.getMessage());
-            }
-        }
-    }
-
 
     /**
      * 是否成功

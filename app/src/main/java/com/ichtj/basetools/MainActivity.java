@@ -1,6 +1,6 @@
 package com.ichtj.basetools;
 
-import android.content.Intent;;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,6 +26,7 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.DisplayUtils;
 import com.face_chtj.base_iotutils.FileDialogSelectUtils;
+import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
@@ -38,8 +39,10 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.IDismissListener;
 import com.face_chtj.base_iotutils.code.CodeUtils;
+import com.face_chtj.base_iotutils.entity.FileEntity;
 import com.face_chtj.base_iotutils.view.OnPopupItemClickListener;
 import com.ichtj.basetools.allapp.AllAppAty;
+import com.ichtj.basetools.anr.AnrTestAty;
 import com.ichtj.basetools.audio.AudioAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.bluetooth.BlueToothAty;
@@ -102,6 +105,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap (getDisplayBtn ( ));
         customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener (this);
+        List<FileEntity> fileEntities=FileUtils.getFileDirectory("/sdcard/");
+        Log.d(TAG, "onCreate: fileEntities>>"+fileEntities);
     }
 
     public Map<Integer, String> getDisplayBtn() {
@@ -230,8 +235,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 ToastUtils.success (getString(R.string.app_name));
                 break;
             case FKey.KEY_ERR_ANR:
-                stopService (new Intent (this, MyService.class));
-                startService (new Intent (this, MyService.class));
+//                stopService (new Intent (this, MyService.class));
+//                startService (new Intent (this, MyService.class));
+                startAty(AnrTestAty.class);
                 break;
             case FKey.KEY_ERR_OTHER:
                 int i = 1 / 0;

@@ -94,6 +94,7 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
         btnRefresh.setOnClickListener(this);
         btnClose = findViewById(R.id.btnClose);
         btnClose.setOnClickListener(this);
+
         tvResult = findViewById(R.id.tvResult);
         tvResult.setMovementMethod(ScrollingMovementMethod.getInstance());
         startBindService();
@@ -230,7 +231,7 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
                     public void onItemClick(int position, String itemText) {
                         // 这里你可以接收到点击项的 position 和文本
                         if (position==0){
-                            CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP",null, new CustomDynamicDialog.OnConfirmListener() {
+                            CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP",timerService.getPingDns(), new CustomDynamicDialog.OnConfirmListener() {
                                 @Override
                                 public void onConfirm(List<String> inputs) {
                                     if (inputs!=null&&inputs.size()>0){

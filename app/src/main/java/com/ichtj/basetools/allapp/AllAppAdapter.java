@@ -29,8 +29,6 @@ import com.ichtj.basetools.util.TrafficStatistics;
 
 import java.util.List;
 
-import me.jessyan.autosize.AutoSize;
-
 /**
  * Create on 2020/6/29
  * author chtj

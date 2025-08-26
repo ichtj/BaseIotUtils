@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:centerText="ANR测试"
+        app:leftIcon="@drawable/ic_back"
+        app:leftIconSize="20dp"
+        app:leftIconPadding="6dp"
+        app:backgroundColor="#E6E4E4"
+        app:textSize="18sp"
+        app:textColor="@color/black"
+        app:leftBack="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="inputDispatchTimeoutClick"
+        android:textSize="@dimen/small_text_size"
+        android:text="输入事件 ANR" />
+
+    <Button
+        android:id="@+id/btn_pause_resume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/small_text_size"
+        android:onClick="broadcastReceiverClick"
+        android:text="BroadcastReceiver 超时 ANR" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="serviceTimeoutClick"
+        android:textSize="@dimen/small_text_size"
+        android:text="Service 超时 ANR" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="contentProviderTimeoutClick"
+        android:textSize="@dimen/small_text_size"
+        android:text="ContentProvider 超时 ANR" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="whileClick"
+        android:textSize="@dimen/small_text_size"
+        android:text="死循环 / 主线程阻塞" />
+</LinearLayout>

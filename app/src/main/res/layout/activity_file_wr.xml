@@ -28,7 +28,7 @@
         android:orientation="horizontal">
 
         <EditText
-            android:id="@+id/et_content"
+            android:id="@+id/etContent"
             android:layout_width="0dp"
             android:layout_gravity="center"
             android:layout_height="70dp"
@@ -49,7 +49,7 @@
             android:textSize="@dimen/small_text_size" />
 
         <Button
-            android:id="@+id/btn_write"
+            android:id="@+id/btnWrite"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:text="写数据"
@@ -67,7 +67,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/btn_del"
+            android:id="@+id/btnDel"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginRight="5dp"
@@ -76,7 +76,7 @@
             android:textSize="13dp" />
 
         <Button
-            android:id="@+id/btn_read"
+            android:id="@+id/btnRead"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="5dp"
@@ -87,7 +87,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/tv_result"
+        android:id="@+id/tvResult"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"
