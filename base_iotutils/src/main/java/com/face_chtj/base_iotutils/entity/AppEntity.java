@@ -22,8 +22,13 @@ public class AppEntity {
     public String sourceDir;
     public List<ProcessEntity> pkgProcess;//包名下的进程信息
     public List<String> pkgService;//该应用运行的服务
+    public long apkSize;
+    public int memoryUsage;//MB
+    public float cpuUsageRatio;//百分比
+    public int dataUsage;
+    public boolean isEnableKeepAlive;
 
-    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService) {
+    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService, long apkSize, int memoryUsage, float cpuUsageRatio, int dataUsage, boolean isEnableKeepAlive) {
         this.appName = appName;
         this.packageName = packageName;
         this.versionCode = versionCode;
@@ -41,6 +46,11 @@ public class AppEntity {
         this.sourceDir = sourceDir;
         this.pkgProcess = pkgProcess;
         this.pkgService = pkgService;
+        this.apkSize = apkSize;
+        this.memoryUsage = memoryUsage;
+        this.cpuUsageRatio = cpuUsageRatio;
+        this.dataUsage = dataUsage;
+        this.isEnableKeepAlive = isEnableKeepAlive;
     }
 
     public AppEntity() {

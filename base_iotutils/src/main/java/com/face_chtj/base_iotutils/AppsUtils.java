@@ -13,13 +13,17 @@ import android.content.pm.Signature;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Debug;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.entity.ProcessEntity;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -101,7 +105,9 @@ public class AppsUtils {
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
-                AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime, icon, isTopApp, isAppRunning(pkg), isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg));
+                AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime, icon, isTopApp,
+                        isAppRunning(pkg), isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
+                getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
                 appEntityList.add(entity);
             }
             return appEntityList;
@@ -110,6 +116,99 @@ public class AppsUtils {
             return null;
         }
     }
+
+    public static float getAppCpuUsage(Context context, String packageName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (am == null) return 0f;
+
+        List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
+        if (processes == null) return 0f;
+
+        for (ActivityManager.RunningAppProcessInfo proc : processes) {
+            if (proc.processName.equals(packageName)) {
+                int pid = proc.pid;
+                try {
+                    long[] cpu1 = readProcStat(pid);
+                    long totalCpu1 = readTotalCpu();
+                    Thread.sleep(360); // 采样间隔
+                    long[] cpu2 = readProcStat(pid);
+                    long totalCpu2 = readTotalCpu();
+
+                    long appCpu = cpu2[0] - cpu1[0];
+                    long totalCpu = totalCpu2 - totalCpu1;
+
+                    return totalCpu > 0 ? (appCpu * 100f / totalCpu) : 0f;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return 0f;
+    }
+
+    // 返回进程 CPU 总时间 user + system
+    private static long[] readProcStat(int pid) throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("/proc/" + pid + "/stat"));
+        String line = reader.readLine();
+        reader.close();
+        String[] parts = line.split("\\s+");
+        long utime = Long.parseLong(parts[13]);
+        long stime = Long.parseLong(parts[14]);
+        return new long[]{utime + stime};
+    }
+
+    // 返回系统 CPU 总时间
+    private static long readTotalCpu() throws IOException {
+        BufferedReader reader = new BufferedReader(new FileReader("/proc/stat"));
+        String line = reader.readLine();
+        reader.close();
+        String[] parts = line.split("\\s+");
+        long total = 0;
+        for (int i = 1; i < parts.length; i++) {
+            total += Long.parseLong(parts[i]);
+        }
+        return total;
+    }
+
+
+
+    public static int getAppMemoryInMB(Context context, String packageName) {
+        ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+        if (am == null) return 0;
+
+        List<ActivityManager.RunningAppProcessInfo> runningProcesses = am.getRunningAppProcesses();
+        if (runningProcesses == null) return 0;
+
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+            if (processInfo.processName.equals(packageName)) {
+                int[] pids = new int[]{processInfo.pid};
+                Debug.MemoryInfo[] memoryInfos = am.getProcessMemoryInfo(pids);
+                if (memoryInfos.length > 0) {
+                    // PSS 单位是 KB，转换为 MB
+                    int pssKB = memoryInfos[0].getTotalPss();
+                    int pssMB = (pssKB + 1023) / 1024; // 四舍五入取整
+                    return pssMB;
+                }
+            }
+        }
+        return 0; // 应用未运行或未找到
+    }
+
+
+    public static long getApkSize(Context context, String packageName) {
+        try {
+            PackageManager pm = context.getPackageManager();
+            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+            File apkFile = new File(appInfo.sourceDir);
+            if (apkFile.exists()) {
+                return apkFile.length(); // 返回字节数
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
 
     // 判断应用是否为桌面应用
     public static boolean isLauncherApp(String packageName) {
@@ -134,10 +233,10 @@ public class AppsUtils {
         for (ApplicationInfo appInfo : installedApps) {
             try {
                 PackageInfo packageInfo = packageManager.getPackageInfo(appInfo.packageName, 0);
-                boolean isSystemApp = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
-                String appName = packageManager.getApplicationLabel(appInfo).toString();
-                String packageName = appInfo.packageName;
-                int versionCode = packageInfo.versionCode;
+                boolean isSys = (appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0;
+                String name = packageManager.getApplicationLabel(appInfo).toString();
+                String pkg = appInfo.packageName;
+                int vCode = packageInfo.versionCode;
                 String versionName = packageInfo.versionName;
                 long firstInstallTime = packageInfo.firstInstallTime;
                 long lastUpdateTime = packageInfo.lastUpdateTime;
@@ -148,9 +247,11 @@ public class AppsUtils {
                 String topApp = getTopApp();
                 boolean isTopApp = appInfo.packageName.contains(topApp);
                 boolean isRunning = isAppRunning(appInfo.packageName);
-                boolean isLauncherApp = isLauncherApp(packageName);
-                AppEntity app = new AppEntity(appName, packageName, versionCode, versionName, firstInstallTime, lastUpdateTime, icon, isTopApp, isRunning, isSystemApp, false, isLauncherApp, uid, pid, sourceDir, getAllProcess(appInfo.packageName), getRunService(appInfo.packageName));
-                appList.add(app);
+                boolean isLauncherApp = isLauncherApp(pkg);
+                AppEntity entity = new AppEntity(name, pkg, vCode, versionName, firstInstallTime, lastUpdateTime, icon, isTopApp,
+                        isRunning, isSys, false, isLauncherApp, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
+                        getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
+                appList.add(entity);
             } catch (Throwable e) {
             }
         }
