@@ -39,7 +39,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
     private Context mContext;
 
     public AllAppAdapter(Context context,List<AppEntity> list) {
-        this.mContext = mContext;
+        this.mContext = context;
         this.list = list;
     }
 
@@ -66,7 +66,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvAppName.setText(list.get(position).appName);
         holder.tvPackName.setText(pkgName);
         holder.tvUid.setText("UID:" + list.get(position).uid + "");
-        holder.ivAppIcon.setImageDrawable(list.get(position).icon);
+        holder.ivAppIcon.setImageDrawable(AppsUtils.getAppIcon(mContext,pkgName));
         KLog.d(" uid= " + list.get(position).uid+ ",sourceDir= "+list.get(position).sourceDir+",pkg= "+list.get(position).packageName);
         holder.tvAppPath.setText(list.get(position).sourceDir);
         //4.4系统获取流量

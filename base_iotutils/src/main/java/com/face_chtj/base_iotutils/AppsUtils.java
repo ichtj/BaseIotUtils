@@ -96,7 +96,7 @@ public class AppsUtils {
                 PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
                 long firstInstallTime = packageInfo.firstInstallTime;
                 long lastUpdateTime = packageInfo.lastUpdateTime;
-                Drawable icon = info.loadIcon(context.getPackageManager());
+//                Drawable icon = info.loadIcon(context.getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(context.getPackageManager());
                 boolean isSys = (ai.flags & ai.FLAG_SYSTEM) != 0;
@@ -105,7 +105,7 @@ public class AppsUtils {
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
-                AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime, icon, isTopApp,
+                AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime,/* icon,*/ isTopApp,
                         isAppRunning(pkg), isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
                 getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
                 appEntityList.add(entity);
@@ -116,6 +116,18 @@ public class AppsUtils {
             return null;
         }
     }
+
+    public static Drawable getAppIcon(Context context, String packageName) {
+        PackageManager pm = context.getPackageManager();
+        try {
+            ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+            return pm.getApplicationIcon(appInfo);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
 
     public static float getAppCpuUsage(Context context, String packageName) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
@@ -240,7 +252,7 @@ public class AppsUtils {
                 String versionName = packageInfo.versionName;
                 long firstInstallTime = packageInfo.firstInstallTime;
                 long lastUpdateTime = packageInfo.lastUpdateTime;
-                Drawable icon = packageManager.getApplicationIcon(appInfo);
+//                Drawable icon = packageManager.getApplicationIcon(appInfo);
                 int uid = appInfo.uid;
                 int pid = getPid(appInfo.packageName, activityManager);
                 String sourceDir = appInfo.sourceDir;
@@ -248,7 +260,7 @@ public class AppsUtils {
                 boolean isTopApp = appInfo.packageName.contains(topApp);
                 boolean isRunning = isAppRunning(appInfo.packageName);
                 boolean isLauncherApp = isLauncherApp(pkg);
-                AppEntity entity = new AppEntity(name, pkg, vCode, versionName, firstInstallTime, lastUpdateTime, icon, isTopApp,
+                AppEntity entity = new AppEntity(name, pkg, vCode, versionName, firstInstallTime, lastUpdateTime,/* icon,*/ isTopApp,
                         isRunning, isSys, false, isLauncherApp, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
                         getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
                 appList.add(entity);

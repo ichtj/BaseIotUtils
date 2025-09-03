@@ -11,7 +11,6 @@ public class AppEntity {
     public String versionName;
     public long firstInstallTime;
     public long lastUpdateTime;
-    public Drawable icon;
     public boolean isTopApp;
     public boolean isRunning;
     public boolean isSystemApp;
@@ -28,14 +27,13 @@ public class AppEntity {
     public int dataUsage;
     public boolean isEnableKeepAlive;
 
-    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, Drawable icon, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService, long apkSize, int memoryUsage, float cpuUsageRatio, int dataUsage, boolean isEnableKeepAlive) {
+    public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService, long apkSize, int memoryUsage, float cpuUsageRatio, int dataUsage, boolean isEnableKeepAlive) {
         this.appName = appName;
         this.packageName = packageName;
         this.versionCode = versionCode;
         this.versionName = versionName;
         this.firstInstallTime = firstInstallTime;
         this.lastUpdateTime = lastUpdateTime;
-        this.icon = icon;
         this.isTopApp = isTopApp;
         this.isRunning = isRunning;
         this.isSystemApp = isSystemApp;
