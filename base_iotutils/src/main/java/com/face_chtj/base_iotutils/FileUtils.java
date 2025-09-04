@@ -295,6 +295,30 @@ public class FileUtils {
     }
 
     /**
+     * 获取某个目录下的文件和文件夹
+     *
+     * @param directoryPath 文件夹路径
+     */
+    public static List<FileEntity> getFileDirectory(String directoryPath) {
+        List<FileEntity> fileListEntityList = new ArrayList<>();
+        File file = new File(directoryPath);
+        if (file.exists() && file.isDirectory()) {
+            File flist[] = file.listFiles();//文件夹目录下的所有文件
+            if (flist != null) {
+                for (int i = 0; i < flist.length; i++) {
+                    //判断是否父目录下还有子目录
+                    long size=/*flist[i].isDirectory()?getFileSizes(flist[i].getAbsolutePath()):flist[i].length()*/-1;
+                    //获取上次修改的时间
+                    String lastModified = new SimpleDateFormat("yyyy/MM/dd-HH:mm:ss", Locale.CHINA).format(new Date(flist[i].lastModified()));
+                    FileEntity fileEntity = new FileEntity(flist[i].getName(), size, file.getAbsolutePath() + "/", lastModified, flist[i].isDirectory());
+                    fileListEntityList.add(fileEntity);
+                }
+            }
+        }
+        return fileListEntityList;
+    }
+
+    /**
      * 递归获取文件夹大小（支持超时）
      * 超时或被中断直接返回当前已计算的大小
      */

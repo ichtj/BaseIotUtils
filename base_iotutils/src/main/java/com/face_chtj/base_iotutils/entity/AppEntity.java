@@ -24,7 +24,7 @@ public class AppEntity {
     public long apkSize;
     public int memoryUsage;//MB
     public float cpuUsageRatio;//百分比
-    public int dataUsage;
+    public int dataUsage;//月流量
     public boolean isEnableKeepAlive;
 
     public AppEntity(String appName, String packageName, int versionCode, String versionName, long firstInstallTime, long lastUpdateTime, boolean isTopApp, boolean isRunning, boolean isSystemApp, boolean isCheck, boolean isLauncherApp, int uid, int pid, String sourceDir, List<ProcessEntity> pkgProcess, List<String> pkgService, long apkSize, int memoryUsage, float cpuUsageRatio, int dataUsage, boolean isEnableKeepAlive) {
