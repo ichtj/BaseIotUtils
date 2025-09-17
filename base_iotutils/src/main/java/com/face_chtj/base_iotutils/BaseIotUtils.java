@@ -6,13 +6,10 @@ import android.content.Context;
 import com.face_chtj.base_iotutils.callback.IDefaultUrlCallback;
 
 public final class BaseIotUtils {
-    private static final String TAG = BaseIotUtils.class.getSimpleName();
-    //全局上下文
     static Context sApp;
     private IDefaultUrlCallback iDefaultUrlCallback;
     private static volatile BaseIotUtils sInstance;
 
-    //singleton pattern
     public static BaseIotUtils instance() {
         if (sInstance == null) {
             synchronized (BaseIotUtils.class) {

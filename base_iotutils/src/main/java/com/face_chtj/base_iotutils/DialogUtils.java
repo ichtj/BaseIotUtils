@@ -17,13 +17,19 @@ import androidx.annotation.DrawableRes;
 import androidx.core.content.ContextCompat;
 
 import com.face_chtj.base_iotutils.callback.IDialogCallback;
-public class DialogUtils {
+
+/**
+ * 根据照不同的需求，封装不同的dialog
+ * 根据callback返回限定的结果
+ * @param <T>
+ */
+public class DialogUtils<T> {
     private static volatile DialogUtils mInstance;
     private AlertDialog mDialog;
     private TextView tvTitle;
     private EditText etContent;
     private boolean isShowBoard;
-    private IDialogCallback iCallback;
+    private IDialogCallback<?> iCallback;
     private boolean isClickBtn;
 
     //单例模式
@@ -38,7 +44,7 @@ public class DialogUtils {
         return mInstance;
     }
 
-    public static DialogUtils setDialogCallback(IDialogCallback iCallback) {
+    public static <T> DialogUtils<T> setDialogCallback(IDialogCallback<T> iCallback) {
         instance().iCallback = iCallback;
         return instance();
     }
@@ -57,6 +63,79 @@ public class DialogUtils {
 
     public static void showEdite(Context context, String title) {
         createDialog(context, R.drawable.ic_dialog_tool, "", title, "", true);
+    }
+
+    public static void showCheckedItem(Context context, String title, String[] arrays) {
+        showCheckedItem (context,title,arrays,true);
+    }
+
+    public static void showCheckedItem(Context context, String title, String[] arrays, boolean returnPositions) {
+        final boolean[] checkedItems = new boolean[arrays.length];
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(title);
+        builder.setMultiChoiceItems(arrays, checkedItems, new DialogInterface.OnMultiChoiceClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                checkedItems[which] = isChecked;
+            }
+        });
+        builder.setPositiveButton(R.string.iot_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                instance().isClickBtn = true;
+                if (instance().iCallback != null) {
+                    int count = 0;
+                    for (boolean checked : checkedItems) {
+                        if (checked) count++;
+                    }
+                    if (returnPositions) {
+                        int[] result = new int[count];
+                        int idx = 0;
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            if (checkedItems[i]) {
+                                result[idx++] = i;
+                            }
+                        }
+                        instance().iCallback.callback(result);
+                    } else {
+                        String[] result = new String[count];
+                        int idx = 0;
+                        for (int i = 0; i < checkedItems.length; i++) {
+                            if (checkedItems[i]) {
+                                result[idx++] = arrays[i];
+                            }
+                        }
+                        instance().iCallback.callback(result);
+                    }
+                    instance().iCallback.onPositiveClick();
+                }
+            }
+        });
+        builder.setNegativeButton(R.string.iot_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                instance().isClickBtn = true;
+                if (instance().iCallback != null) {
+                    instance().iCallback.onNegativeClick();
+                }
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Log.d("onDismiss", "onDismiss >>>");
+                reset();
+                if (!instance().isClickBtn && instance().iCallback != null) {
+                    instance().iCallback.dismiss();
+                }
+            }
+        });
+        dialog.show();
+        if (instance().iCallback != null) {
+            instance().iCallback.show();
+        }
     }
 
 
@@ -99,7 +178,8 @@ public class DialogUtils {
                     instance().isClickBtn = true;
                     if (instance().iCallback != null) {
                         String etContent = instance().etContent != null ? instance().etContent.getText().toString() : "";
-                        instance().iCallback.onPositiveClick(etContent);
+                        instance().iCallback.callback (etContent);
+                        instance().iCallback.onPositiveClick();
                     }
                 }
             });

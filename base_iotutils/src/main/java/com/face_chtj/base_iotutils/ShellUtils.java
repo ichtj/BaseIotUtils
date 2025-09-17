@@ -35,6 +35,31 @@ public class ShellUtils {
     public final static String COMMAND_LINE_END = "\n";
 
     /**
+     * 查找su路径
+     * @return
+     */
+    public static String findSuPath() {
+        String suPath = null;
+        Process process = null;
+        try {
+            process = Runtime.getRuntime().exec(new String[]{"which", "su"});
+            BufferedReader in = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            suPath = in.readLine();  // su 的路径
+            in.close();
+            process.waitFor();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (process != null) {
+                process.destroy();
+            }
+        }
+        return suPath;
+    }
+
+
+
+    /**
      * 检查是否拥有root权限
      * 执行shell adb 命令很多需要root权限
      *

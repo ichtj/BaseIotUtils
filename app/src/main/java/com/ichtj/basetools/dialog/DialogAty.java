@@ -13,6 +13,7 @@ import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DialogAty extends BaseActivity {
@@ -23,14 +24,18 @@ public class DialogAty extends BaseActivity {
     }
 
     public void normalDialogClick(View view) {
-        DialogUtils.setDialogCallback(new IDialogCallback() {
+        DialogUtils.setDialogCallback(new IDialogCallback<String>() {
             @Override
             public void show() {
                 KLog.d("show() >> ");
             }
 
             @Override
-            public void onPositiveClick(String content) {
+            public void onPositiveClick() {
+            }
+
+            @Override
+            public void callback(String content) {
                 KLog.d("onPositiveClick() etContent >> " + content);
             }
 
@@ -47,15 +52,20 @@ public class DialogAty extends BaseActivity {
     }
 
     public void editeDialogClick(View view) {
-        DialogUtils.setDialogCallback(new IDialogCallback() {
+        DialogUtils.setDialogCallback(new IDialogCallback<String>() {
             @Override
             public void show() {
                 KLog.d("show() >> ");
             }
 
             @Override
-            public void onPositiveClick(String content) {
-                KLog.d("onPositiveClick() etContent >> " + content);
+            public void onPositiveClick() {
+                KLog.d ("onPositiveClick() >> ");
+            }
+
+            @Override
+            public void callback(String content) {
+                KLog.d("callback >> " + content);
             }
 
             @Override
@@ -68,6 +78,35 @@ public class DialogAty extends BaseActivity {
                 KLog.d("dismiss() >> ");
             }
         }).showEdite(this, "ichtj", "这是一个测试dialog");
+    }
+
+    public void moreSelectDialogClick(View view) {
+        DialogUtils.setDialogCallback(new IDialogCallback<int[]>() {
+            @Override
+            public void show() {
+                KLog.d("show() >> ");
+            }
+
+            @Override
+            public void onPositiveClick() {
+                KLog.d ("onPositiveClick() >> ");
+            }
+
+            @Override
+            public void callback(int[] data) {
+                KLog.d("callback >> " + Arrays.toString (data ));
+            }
+
+            @Override
+            public void onNegativeClick() {
+                KLog.d("onNegativeClick() >> ");
+            }
+
+            @Override
+            public void dismiss() {
+                KLog.d("dismiss() >> ");
+            }
+        }).showCheckedItem (this, "ichtj", new String[]{"选项一", "选项二", "选项三", "选项四"});
     }
 
     public void dismissClick(View view) {

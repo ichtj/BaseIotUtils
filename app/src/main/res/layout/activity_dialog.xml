@@ -34,6 +34,13 @@
         android:onClick="editeDialogClick"
         android:text="带编辑框对话框"
         android:textSize="@dimen/small_text_size" />
+    <Button
+        android:id="@+id/btnMoreSelect"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="moreSelectDialogClick"
+        android:text="多选对话框"
+        android:textSize="@dimen/small_text_size" />
 
     <Button
         android:id="@+id/btnDismiss"

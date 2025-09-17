@@ -49,14 +49,13 @@ public class OptionTools {
     public static void showOtaUpgrade() {
         File file = new File("/sdcard/update.zip");
         if (file.exists()) {
-            DialogUtils.setDialogCallback(new IDialogCallback() {
+            DialogUtils.setDialogCallback(new IDialogCallback<String>() {
                 @Override
                 public void show() {
 
                 }
-
                 @Override
-                public void onPositiveClick(String content) {
+                public void onPositiveClick() {
                     FUpgradeTools.firmwareUpgrade(new UpgradeBean("/sdcard/update.zip", new IUpgrade() {
                         @Override
                         public void installStatus(int installStatus) {
@@ -74,6 +73,11 @@ public class OptionTools {
                         }
                     }));
                     DialogUtils.dismiss();
+                }
+
+                @Override
+                public void callback(String data) {
+
                 }
 
                 @Override

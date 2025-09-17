@@ -1,8 +1,9 @@
 package com.face_chtj.base_iotutils.callback;
 
-public interface IDialogCallback {
+public interface IDialogCallback<T> {
     void show();
-    void onPositiveClick(String content);
+    void onPositiveClick();
+    void callback(T data);
     void onNegativeClick();
     void dismiss();
 }

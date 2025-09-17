@@ -6,15 +6,10 @@ import android.content.Context;
 import android.graphics.Point;
 import android.os.Build;
 import android.provider.Settings;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.Display;
 import android.view.Window;
 import android.view.WindowManager;
-
-import com.face_chtj.base_iotutils.KLog;
-import com.face_chtj.base_iotutils.BaseIotUtils;
 
 import java.io.File;
 
@@ -30,7 +25,6 @@ import java.io.File;
  * --设置系统屏幕亮度 {@link #setAppScreenBrightness(Activity, int)} )}
  */
 public class DisplayUtils {
-    private static final String TAG = DisplayUtils.class.getSimpleName();
     /**
      * 获取当前的屏幕尺寸
      *
@@ -127,7 +121,7 @@ public class DisplayUtils {
      */
     public static boolean changeRotation(int rotationValue) {
         ShellUtils.CommandResult setRotationResult=ShellUtils.execCommand("settings put system user_rotation "+rotationValue,true);
-        Log.d(TAG, "setRotationResult: result>>"+setRotationResult.result+",succ>>"+setRotationResult.successMsg+",err>>"+setRotationResult.errorMsg);
+        KLog.d("setRotationResult: result>>"+setRotationResult.result+",succ>>"+setRotationResult.successMsg+",err>>"+setRotationResult.errorMsg);
         return setRotationResult.result==0;
     }
 
@@ -138,7 +132,7 @@ public class DisplayUtils {
      */
     public static boolean screenshot(String fileName){
         ShellUtils.CommandResult result =ShellUtils.execCommand("screencap "+fileName,true);
-        Log.d(TAG, "screenshot: result>>"+result.result+",err>>"+result.errorMsg+",succ>>"+result.successMsg);
+        KLog.d("screenshot: result>>"+result.result+",err>>"+result.errorMsg+",succ>>"+result.successMsg);
         return result.result==0&&new File(fileName).exists();
     }
 
@@ -152,7 +146,7 @@ public class DisplayUtils {
         try{
             Settings.System.putInt(BaseIotUtils.getContext().getContentResolver(), Settings.System.SCREEN_BRIGHTNESS_MODE, mode);
         }catch (Exception localException){
-            KLog.d(TAG," errMeg= "+localException.getMessage());
+            KLog.d("errMeg= "+localException.getMessage());
             localException.printStackTrace();
         }
     }

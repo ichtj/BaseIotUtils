@@ -25,9 +25,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -96,7 +94,6 @@ public class AppsUtils {
                 PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
                 long firstInstallTime = packageInfo.firstInstallTime;
                 long lastUpdateTime = packageInfo.lastUpdateTime;
-//                Drawable icon = info.loadIcon(context.getPackageManager());
                 ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(context.getPackageManager());
                 boolean isSys = (ai.flags & ai.FLAG_SYSTEM) != 0;
@@ -493,7 +490,6 @@ public class AppsUtils {
             } catch (Throwable throwable) {
             }
         }
-        ShellUtils.CommandResult mount;
         if (Build.VERSION.SDK_INT > 25) {
             String[] mountCmd=new String[]{
                     "mount -o rw,remount /dev/block/dm-0",
@@ -503,9 +499,9 @@ public class AppsUtils {
                     "mount -o rw,remount /dev/block/dm-4",
                     "mount -o rw,remount /",
             };
-            mount = ShellUtils.execCommand(mountCmd, true);
+             ShellUtils.execCommand(mountCmd, true);
         } else {
-            mount = ShellUtils.execCommand("mount -o rw,remount -t ext4 /system", true);
+             ShellUtils.execCommand("mount -o rw,remount -t ext4 /system", true);
         }
         String[] cmd = new String[]{
                 isSys ? (!apkPath.equals("") ? "rm -rf " + apkPath + "*" : "") : "pm uninstall " + packageName,
