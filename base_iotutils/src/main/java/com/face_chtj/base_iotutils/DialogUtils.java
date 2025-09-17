@@ -69,7 +69,7 @@ public class DialogUtils<T> {
         showCheckedItem (context,title,arrays,true);
     }
 
-    public static void showCheckedItem(Context context, String title, String[] arrays, boolean returnPositions) {
+    public static void showCheckedItem(final Context context, final String title, final String[] arrays, final boolean returnPositions) {
         final boolean[] checkedItems = new boolean[arrays.length];
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(title);
@@ -137,7 +137,6 @@ public class DialogUtils<T> {
             instance().iCallback.show();
         }
     }
-
 
     public static void showEdite(Context context, String title, String etContent) {
         createDialog(context, R.drawable.ic_dialog_tool, "", title, etContent, true);
