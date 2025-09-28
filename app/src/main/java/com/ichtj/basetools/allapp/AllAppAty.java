@@ -146,7 +146,8 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
                         }
                     }
                 }else if(type==TYPE_RUNNING){
-                    List<AppEntity> appEntityList = AppsUtils.getAllApp();
+                    List<AppEntity> appEntityList = AppsUtils.getAllApp ();
+                    Log.d (TAG, "runAS: "+appEntityList.size ());
                     for (int i = 0; i < appEntityList.size(); i++) {
                         if (appEntityList.get(i).isRunning){
                             loadList.add(appEntityList.get(i));
@@ -167,7 +168,7 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
     }
 
     /**
-     * 查询桌面应用
+     * 查询运行中的应用
      */
     public void getRunningAppClick(View view) {
         currentType=TYPE_RUNNING;

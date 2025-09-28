@@ -26,6 +26,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -104,8 +105,9 @@ public class AppsUtils {
                 int vCode = pm.getPackageInfo(pkg, 0).versionCode;
                 String vName = pm.getPackageInfo(pkg, 0).versionName;
                 String sourceDir = ai.sourceDir;
+                boolean isRunning = isAppRunning(ai.packageName);
                 AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime,/* icon,*/ isTopApp,
-                        isAppRunning(pkg), isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
+                        isRunning, isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
                 getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
                 appEntityList.add(entity);
             }
@@ -449,15 +451,13 @@ public class AppsUtils {
      * @param packageName 包名
      * @return 运行状态
      */
-    @SuppressLint("WrongConstant")
     public static boolean isAppRunning(String packageName) {
-        if (ObjectUtils.isEmpty (packageName)) {
+        if (ObjectUtils.isEmpty(packageName)) {
             return false;
         }
 
-        ActivityManager am = (ActivityManager) BaseIotUtils.getContext ().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         if (am != null) {
-            // 1. 先尝试用 RunningAppProcesses（在 Android 7.0 以下可用）
             List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
             if (processInfos != null) {
                 for (ActivityManager.RunningAppProcessInfo info : processInfos) {
@@ -468,27 +468,11 @@ public class AppsUtils {
             }
         }
 
-        // 2. Android 5.0+ 可以用 UsageStatsManager (需要 PACKAGE_USAGE_STATS 权限)
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            long endTime = System.currentTimeMillis();
-            long beginTime = endTime - 60 * 1000; // 最近 1 分钟
-            UsageStatsManager usm = (UsageStatsManager) BaseIotUtils.getContext ().getSystemService("usagestats");
-            if (usm != null) {
-                List<UsageStats> stats = usm.queryUsageStats(
-                        UsageStatsManager.INTERVAL_DAILY, beginTime, endTime);
-                if (stats != null) {
-                    for (UsageStats usageStats : stats) {
-                        if (packageName.equals(usageStats.getPackageName())
-                                && usageStats.getLastTimeUsed() > beginTime) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-
-        return false;
+        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("ps | grep " + packageName, true);
+        Log.d (TAG, "isAppRunning: result>>"+commandResult);
+        return commandResult.result == 0&&commandResult.successMsg.contains (packageName);
     }
+
 
 
 
