@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.chtj.base_framework.FIPTablesTools;
@@ -67,6 +68,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvPackName.setText(pkgName);
         holder.tvUid.setText("UID:" + list.get(position).uid + "");
         holder.ivAppIcon.setImageDrawable(AppsUtils.getAppIcon(mContext,pkgName));
+        holder.ivRunning.setImageDrawable (ContextCompat.getDrawable (mContext,list.get (position).isRunning?R.mipmap.ic_green_bg:R.mipmap.ic_red_bg));
         KLog.d(" uid= " + list.get(position).uid+ ",sourceDir= "+list.get(position).sourceDir+",pkg= "+list.get(position).packageName);
         holder.tvAppPath.setText(list.get(position).sourceDir);
         //4.4系统获取流量
@@ -184,10 +186,11 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView tvAppName,tvAppPath, tvSilence, tvPackName, tvUid, tvCopy, tvToAppInfo, tvStartApp, tvTraffic, tvUnInstall, tvEnableNet, tvDisableNet, tvVersion;
-        public ImageView ivAppIcon;
+        public ImageView ivAppIcon,ivRunning;
 
         public MyViewHolder(View itemView) {
             super(itemView);
+            ivRunning = itemView.findViewById(R.id.ivRunning);
             tvAppName = itemView.findViewById(R.id.tvAppName);
             tvPackName = itemView.findViewById(R.id.tvPackName);
             tvPackName.setSelected(true); // 关键点：触发 marquee 效果

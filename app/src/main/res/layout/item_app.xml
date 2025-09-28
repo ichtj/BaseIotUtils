@@ -9,14 +9,24 @@
         android:layout_height="90dp"
         android:orientation="horizontal"
         android:weightSum="10">
-
-        <ImageView
-            android:id="@+id/ivAppIcon"
+        <FrameLayout
             android:layout_width="70dp"
-            android:layout_height="70dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/app_img" />
+            android:layout_height="70dp">
+            <ImageView
+                android:id="@+id/ivAppIcon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/app_img" />
+            <ImageView
+                android:id="@+id/ivRunning"
+                android:layout_width="15dp"
+                android:layout_height="15dp"
+                android:layout_gravity="bottom|right"
+                android:src="@mipmap/ic_red_bg" />
+
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="0dp"

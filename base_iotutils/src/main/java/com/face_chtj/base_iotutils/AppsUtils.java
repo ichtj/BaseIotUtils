@@ -2,6 +2,8 @@ package com.face_chtj.base_iotutils;
 
 import android.annotation.SuppressLint;
 import android.app.ActivityManager;
+import android.app.usage.UsageStats;
+import android.app.usage.UsageStatsManager;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -447,19 +449,48 @@ public class AppsUtils {
      * @param packageName 包名
      * @return 运行状态
      */
+    @SuppressLint("WrongConstant")
     public static boolean isAppRunning(String packageName) {
-        boolean isAppRunning = false;
-        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
-        for (ActivityManager.RunningTaskInfo info : list) {
-            if (info.topActivity.getPackageName().equals(packageName) && info.baseActivity.getPackageName().equals(packageName)) {
-                isAppRunning = true;
-                //find it, break
-                break;
+        if (ObjectUtils.isEmpty (packageName)) {
+            return false;
+        }
+
+        ActivityManager am = (ActivityManager) BaseIotUtils.getContext ().getSystemService(Context.ACTIVITY_SERVICE);
+        if (am != null) {
+            // 1. 先尝试用 RunningAppProcesses（在 Android 7.0 以下可用）
+            List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+            if (processInfos != null) {
+                for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+                    if (packageName.equals(info.processName)) {
+                        return true;
+                    }
+                }
             }
         }
-        return isAppRunning;
+
+        // 2. Android 5.0+ 可以用 UsageStatsManager (需要 PACKAGE_USAGE_STATS 权限)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            long endTime = System.currentTimeMillis();
+            long beginTime = endTime - 60 * 1000; // 最近 1 分钟
+            UsageStatsManager usm = (UsageStatsManager) BaseIotUtils.getContext ().getSystemService("usagestats");
+            if (usm != null) {
+                List<UsageStats> stats = usm.queryUsageStats(
+                        UsageStatsManager.INTERVAL_DAILY, beginTime, endTime);
+                if (stats != null) {
+                    for (UsageStats usageStats : stats) {
+                        if (packageName.equals(usageStats.getPackageName())
+                                && usageStats.getLastTimeUsed() > beginTime) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return false;
     }
+
+
 
 
     /**

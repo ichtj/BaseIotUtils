@@ -52,9 +52,11 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
     private static final int TYPE_ALL=0x01;
     private static final int TYPE_DESKTOP=0x02;
     private static final int TYPE_SYSTEM=0x03;
-    private static final int TYPE_DATA=0x04;
-    private static final int FLAG_LOAD_LIST=0x05;
-    private static final int FLAG_DOSAGE=0x06;
+    private static final int TYPE_UNINSTALLABLE=0x04;
+    private static final int TYPE_RUNNING=0x05;
+    private static final int FLAG_LOAD_LIST=0x06;
+    private static final int FLAG_DOSAGE=0x07;
+    private int currentType=TYPE_ALL;
     private Executor executor=Executors.newSingleThreadExecutor();
 
     Handler handler = new Handler(){
@@ -104,7 +106,7 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
     @Override
     protected void onResume() {
         super.onResume();
-        refreshData(TYPE_ALL);
+        refreshData(currentType);
     }
 
     public void refreshData(int type) {
@@ -136,10 +138,17 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
                             loadList.add(appEntityList.get(i));
                         }
                     }
-                }else if(type==TYPE_DATA){
+                }else if(type==TYPE_UNINSTALLABLE){
                     List<AppEntity> appEntityList = AppsUtils.getAllApp();
                     for (int i = 0; i < appEntityList.size(); i++) {
                         if (appEntityList.get(i).sourceDir.contains("data/")){
+                            loadList.add(appEntityList.get(i));
+                        }
+                    }
+                }else if(type==TYPE_RUNNING){
+                    List<AppEntity> appEntityList = AppsUtils.getAllApp();
+                    for (int i = 0; i < appEntityList.size(); i++) {
+                        if (appEntityList.get(i).isRunning){
                             loadList.add(appEntityList.get(i));
                         }
                     }
@@ -153,14 +162,40 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
      * 查询全部应用
      */
     public void getAllAppClick(View view) {
+        currentType=TYPE_ALL;
         refreshData(TYPE_ALL);
     }
 
     /**
      * 查询桌面应用
      */
+    public void getRunningAppClick(View view) {
+        currentType=TYPE_RUNNING;
+        refreshData(TYPE_RUNNING);
+    }
+
+    /**
+     * 查询桌面应用
+     */
     public void getDeskAppClick(View view) {
-        refreshData(TYPE_DESKTOP);
+        currentType=TYPE_UNINSTALLABLE;
+        refreshData(TYPE_UNINSTALLABLE);
+    }
+
+    /**
+     * 查询可卸载应用
+     */
+    public void getNormalApp(View view) {
+        currentType=TYPE_UNINSTALLABLE;
+        refreshData(TYPE_UNINSTALLABLE);
+    }
+
+    /**
+     * 查询系统应用
+     */
+    public void getSystemApp(View view) {
+        currentType=TYPE_SYSTEM;
+        refreshData(TYPE_SYSTEM);
     }
 
     /**
@@ -187,19 +222,6 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
         }
     }
 
-    /**
-     * 查询可卸载应用
-     */
-    public void getNormalApp(View view) {
-        refreshData(TYPE_DATA);
-    }
-
-    /**
-     * 查询系统应用
-     */
-    public void getSystemApp(View view) {
-        refreshData(TYPE_SYSTEM);
-    }
 
     @Override
     public void onTextLeftClick() {

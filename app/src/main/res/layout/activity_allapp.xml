@@ -66,6 +66,16 @@
                 android:onClick="getDeskAppClick"
                 android:text="桌面应用"
                 android:textSize="@dimen/small_text_size" />
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="25dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_switch"
+                android:onClick="getRunningAppClick"
+                android:text="运行中的应用"
+                android:textSize="@dimen/small_text_size" />
 
             <Button
                 android:layout_width="match_parent"
