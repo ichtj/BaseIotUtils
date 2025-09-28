@@ -69,7 +69,7 @@ public class AllAppAdapter extends RecyclerView.Adapter<AllAppAdapter.MyViewHold
         holder.tvUid.setText("UID:" + list.get(position).uid + "");
         holder.ivAppIcon.setImageDrawable(AppsUtils.getAppIcon(mContext,pkgName));
         holder.ivRunning.setImageDrawable (ContextCompat.getDrawable (mContext,list.get (position).isRunning?R.mipmap.ic_green_bg:R.mipmap.ic_red_bg));
-        KLog.d(" uid= " + list.get(position).uid+ ",sourceDir= "+list.get(position).sourceDir+",pkg= "+list.get(position).packageName);
+//        KLog.d(" uid= " + list.get(position).uid+ ",sourceDir= "+list.get(position).sourceDir+",pkg= "+list.get(position).packageName);
         holder.tvAppPath.setText(list.get(position).sourceDir);
         //4.4系统获取流量
         double traffic = TrafficStatistics.getUidFlow(list.get(position).uid);

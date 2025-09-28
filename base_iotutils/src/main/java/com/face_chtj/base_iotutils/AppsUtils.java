@@ -57,7 +57,7 @@ public class AppsUtils {
      * 获取当前系统使用的android api版本号
      */
     public static int getSdkVersion() {
-        return android.os.Build.VERSION.SDK_INT;
+        return Build.VERSION.SDK_INT;
     }
 
     /**
@@ -65,7 +65,7 @@ public class AppsUtils {
      * 例如android4.4 android7.1.2 android11等
      */
     public static String getAndroidVersion() {
-        return android.os.Build.VERSION.RELEASE;
+        return Build.VERSION.RELEASE;
     }
 
     public static String getAppPath(String pkgName) {
@@ -456,21 +456,22 @@ public class AppsUtils {
             return false;
         }
 
-        ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        if (am != null) {
-            List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
-            if (processInfos != null) {
-                for (ActivityManager.RunningAppProcessInfo info : processInfos) {
-                    if (packageName.equals(info.processName)) {
-                        return true;
+        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("ps | grep " + packageName, true);
+        boolean isComplete= commandResult.result == 0&&commandResult.successMsg.contains (packageName);
+        if (!isComplete){
+            ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+            if (am != null) {
+                List<ActivityManager.RunningAppProcessInfo> processInfos = am.getRunningAppProcesses();
+                if (processInfos != null) {
+                    for (ActivityManager.RunningAppProcessInfo info : processInfos) {
+                        if (packageName.equals(info.processName)) {
+                            return true;
+                        }
                     }
                 }
             }
         }
-
-        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("ps | grep " + packageName, true);
-        Log.d (TAG, "isAppRunning: result>>"+commandResult);
-        return commandResult.result == 0&&commandResult.successMsg.contains (packageName);
+        return isComplete;
     }
 
 

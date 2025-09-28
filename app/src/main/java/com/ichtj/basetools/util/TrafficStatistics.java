@@ -149,10 +149,10 @@ public class TrafficStatistics extends TrafficStats {
      */
     public static long getUidFlow(int uid) {
         int systemuid =  android.os.Process.SYSTEM_UID;
-        KLog.d(TAG,"systemuid="+systemuid);
+//        KLog.d(TAG,"systemuid="+systemuid);
         long receiveRx = getUidRxBytes(uid);//获取某个网络UID的接受字节数 总接收量
         long sendTx = getUidTxBytes(uid);//获取某个网络UID的发送字节数 总接收量
-        KLog.d(TAG, "receiveRx: "+receiveRx+",sendTx："+sendTx+",uid="+uid);
+//        KLog.d(TAG, "receiveRx: "+receiveRx+",sendTx："+sendTx+",uid="+uid);
         return receiveRx + sendTx;
     }
 
