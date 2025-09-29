@@ -6,6 +6,8 @@ import android.text.Layout;
 import android.text.method.ScrollingMovementMethod;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
+
 public class FormatViewUtils {
     private static int MAXIMUM_ROW = 300;
     private static int MAXIMUM_LENGTH = 10000;
@@ -36,24 +38,39 @@ public class FormatViewUtils {
     /**
      * show data to Activity
      *
-     * @param htmlStr Support html tags
+     * @param str Support html tags
      * @param pattern time format yyyyMMddHHmmss or ....
      */
-    public static void formatData(TextView tv, String htmlStr, String pattern) {
-        if (tv != null && !ObjectUtils.isEmpty (htmlStr)) {
+    public static void formatData(TextView tv, String str, String pattern) {
+        // 假设 ObjectUtils.isEmpty 和 TimeUtils.getTodayDateHms 已经定义
+        if (tv != null && !ObjectUtils.isEmpty(str)) {
+
+            // --- 换行处理的核心修改 ---
+            // 1. 将字符串中的普通换行符 '\n' 替换为 HTML 换行标签 "<br>"。
+            String htmlStr = str.replace("\n", "<br>");
+            // ------------------------
+
             // 如果行数大于 MAXIMUM_ROW ，清空内容
             CharSequence currentText = tv.getText();
-            if (currentText.length() > MAXIMUM_LENGTH||tv.getLineCount()>MAXIMUM_ROW) {
-                tv.setText ("");
+            if (currentText.length() > MAXIMUM_LENGTH || tv.getLineCount() > MAXIMUM_ROW) {
+                tv.setText("");
             }
-            boolean isNull = ObjectUtils.isEmpty (pattern);
-            tv.append (isNull ? "" : TimeUtils.getTodayDateHms (pattern) + "：");
-            tv.append (Html.fromHtml (htmlStr));
-            tv.append ("\n");
-            Layout layout = tv.getLayout ( );
+
+            boolean isNull = ObjectUtils.isEmpty(pattern);
+            tv.append(isNull ? "" : TimeUtils.getTodayDateHms(pattern) + "：");
+
+            // 2. 使用 Html.fromHtml() 处理替换后的 HTML 字符串
+            // 推荐使用兼容性更好的 HtmlCompat
+            tv.append(HtmlCompat.fromHtml(htmlStr, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+            // 3. 在日志条目末尾追加的换行符 (保持不变)
+            tv.append("\n");
+
+            // 滚动逻辑 (保持不变)
+            Layout layout = tv.getLayout();
             if (layout != null) {
-                int scrollAmount = layout.getLineTop (tv.getLineCount ( )) - tv.getHeight ( );
-                tv.scrollTo (0, scrollAmount > 0 ? scrollAmount : 0);
+                int scrollAmount = layout.getLineTop(tv.getLineCount()) - tv.getHeight();
+                tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0);
             }
         }
     }
