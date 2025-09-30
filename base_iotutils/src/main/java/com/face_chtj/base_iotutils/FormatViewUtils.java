@@ -144,7 +144,7 @@ public class FormatViewUtils {
                 tv.post (new Runnable ( ) {
                     @Override
                     public void run() {
-                        tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0)
+                        tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0);
                     }
                 });
             }
