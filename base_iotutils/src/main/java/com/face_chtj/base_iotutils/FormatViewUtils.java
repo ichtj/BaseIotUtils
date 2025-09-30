@@ -141,7 +141,12 @@ public class FormatViewUtils {
                 // 滚动到底部 (确保显示最新内容)
                 int scrollAmount = layout.getLineTop(tv.getLineCount()) - tv.getHeight();
                 // 使用 post 确保滚动发生在文本布局完成后，更加可靠
-                tv.post(() -> tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0));
+                tv.post (new Runnable ( ) {
+                    @Override
+                    public void run() {
+                        tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0)
+                    }
+                });
             }
         }
     }
