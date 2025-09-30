@@ -92,7 +92,7 @@ public class FormatViewUtils {
         }
     }
 
-    public static void formatContent(TextView tv, String str, String pattern, boolean jumpFirstLine) {
+    public static void formatContent(final TextView tv, String str, String pattern, boolean jumpFirstLine) {
         if (tv == null || ObjectUtils.isEmpty(str)) {
             return;
         }
