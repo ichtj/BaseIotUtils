@@ -35,19 +35,29 @@ public class FormatViewUtils {
         textView.setText ("");
     }
 
+    public static void formatData(TextView tv, String str, String pattern){
+        formatData(tv, str, pattern,false);
+    }
+
     /**
      * show data to Activity
      *
      * @param str Support html tags
      * @param pattern time format yyyyMMddHHmmss or ....
      */
-    public static void formatData(TextView tv, String str, String pattern) {
+    public static void formatData(TextView tv, String str, String pattern,boolean jumpFirstLine) {
         // 假设 ObjectUtils.isEmpty 和 TimeUtils.getTodayDateHms 已经定义
         if (tv != null && !ObjectUtils.isEmpty(str)) {
 
-            // --- 换行处理的核心修改 ---
-            // 1. 将字符串中的普通换行符 '\n' 替换为 HTML 换行标签 "<br>"。
-            String htmlStr = str.replace("\n", "<br>");
+            // --- 换行处理的核心优化 ---
+            // 1. 处理 Windows/DOS 换行：将 "\r\n" 替换为 "<br>"
+            String htmlStr = str.replace("\r\n", "<br>");
+
+            // 2. 处理 Unix/Linux/Android 换行：将单个 "\n" 替换为 "<br>"
+            htmlStr = htmlStr.replace("\n", "<br>");
+
+            // 3. (可选) 处理旧 Mac 换行：将单个 "\r" 替换为 "<br>"
+            htmlStr = htmlStr.replace("\r", "<br>");
             // ------------------------
 
             // 如果行数大于 MAXIMUM_ROW ，清空内容
@@ -69,8 +79,12 @@ public class FormatViewUtils {
             // 滚动逻辑 (保持不变)
             Layout layout = tv.getLayout();
             if (layout != null) {
-                int scrollAmount = layout.getLineTop(tv.getLineCount()) - tv.getHeight();
-                tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0);
+                if (jumpFirstLine){
+                    tv.scrollTo(0, 0);
+                }else{
+                    int scrollAmount = layout.getLineTop(tv.getLineCount()) - tv.getHeight();
+                    tv.scrollTo(0, scrollAmount > 0 ? scrollAmount : 0);
+                }
             }
         }
     }
@@ -81,7 +95,7 @@ public class FormatViewUtils {
      * @param htmlStr Support html tags
      */
     public static void formatData(TextView tv, String htmlStr) {
-        formatData (tv, htmlStr, "");
+        formatData (tv, htmlStr, "",false);
     }
 
     public static String formatUnderline(int color, String content) {
