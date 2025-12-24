@@ -11,7 +11,7 @@
 /app/.cxx
 /app/debug
 /app/release
-/base_iotutils/.cxx
+/BaseIotUtils/.cxx
 /.idea/gradle.xml
 /.idea/jarRepositories.xml
 /.idea/assetWizardSettings.xml

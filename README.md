@@ -1,4 +1,4 @@
-# 接入方式
+# githup-jitpack接入方式  
 ## Android 项目根目录下文件 build.gradle 中添加
 
 ```groovy
@@ -10,14 +10,20 @@ allprojects {
 }
 ```
 
-## 在App的build.gradle文件中添加
-
-### base_iotutils 物联基础工具类 [![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
+### githup-jitpack 接入方式[![](https://jitpack.io/v/wave-chtj/BaseIotUtils.svg)](https://jitpack.io/#wave-chtj/BaseIotUtils)
 
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'com.github.wave-chtj:BaseIotUtils:2.8.0'
+         implementation 'com.github.ichtj:BaseIotUtils:3.0.5'
+}
+```
+# 接入方式 mavenCentral
+
+```groovy
+dependencies {
+         //多个物联网相关基础工具类
+         implementation 'io.github.ichtj:BaseIotUtils:1.0.3'
 }
 ```
 
