@@ -122,7 +122,7 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
                 selectedItems[which] = isChecked;
             }
         });
-        builder.setPositiveButton(R.string.iot_ok, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(com.face_chtj.base_iotutils.R.string.iot_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 用户点击了“OK”按钮，处理选中的项目
@@ -141,7 +141,7 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
             }
         });
 
-        builder.setNegativeButton(R.string.iot_cancel, null);
+        builder.setNegativeButton(com.face_chtj.base_iotutils.R.string.iot_cancel, null);
         builder.show();
     }
 
@@ -203,53 +203,47 @@ public class NetRecordAty extends BaseActivity implements INetTimerCallback, Vie
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btnStart:
-                String interval = etTimerd.getText().toString();
-                if (!ObjectUtils.isEmpty(interval)) {
-                    SPUtils.putInt(NetTimerService.KEY_INTERVAL, Integer.parseInt(interval));
-                    timerService.cancel();
-                    timerService.startNetCheck();
-                } else {
-                    ToastUtils.error("请填写正确的参数：毫秒！");
-                }
-                break;
-            case R.id.btnClose:
+        int id = v.getId();
+        if (id == R.id.btnStart) {
+            String interval = etTimerd.getText().toString();
+            if (!ObjectUtils.isEmpty(interval)) {
+                SPUtils.putInt(NetTimerService.KEY_INTERVAL, Integer.parseInt(interval));
                 timerService.cancel();
-                break;
-            case R.id.btnRefresh:
-                tvErrCount.setText("异常次数：" + timerService.getErrCount());
-                tvSuccCount.setText("正常次数：" + timerService.getSuccCount());
-                break;
-            case R.id.btnClearCount:
-                timerService.clearCount();
-                break;
-            case R.id.tvPingAddr:
-                List<String> options = Arrays.asList("自定义", "内部列表");
-                PopupWindowTools.showDropdownPopup(this, tvPingAddr, options, new OnPopupItemClickListener() {
-                    @Override
-                    public void onItemClick(int position, String itemText) {
-                        // 这里你可以接收到点击项的 position 和文本
-                        if (position==0){
-                            CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP",timerService.getPingDns(), new CustomDynamicDialog.OnConfirmListener() {
-                                @Override
-                                public void onConfirm(List<String> inputs) {
-                                    if (inputs!=null&&inputs.size()>0){
-                                        Log.d(TAG, "onConfirm: ipList>>"+inputs);
-                                        timerService.replacePingDns(inputs.toArray(new String[0]));
-                                    }
+                timerService.startNetCheck();
+            } else {
+                ToastUtils.error("请填写正确的参数：毫秒！");
+            }
+        } else if (id == R.id.btnClose) {
+            timerService.cancel();
+        } else if (id == R.id.btnRefresh) {
+            tvErrCount.setText("异常次数：" + timerService.getErrCount());
+            tvSuccCount.setText("正常次数：" + timerService.getSuccCount());
+        } else if (id == R.id.btnClearCount) {
+            timerService.clearCount();
+        } else if (id == R.id.tvPingAddr) {
+            List<String> options = Arrays.asList("自定义", "内部列表");
+            PopupWindowTools.showDropdownPopup(this, tvPingAddr, options, new OnPopupItemClickListener() {
+                @Override
+                public void onItemClick(int position, String itemText) {
+                    // 这里你可以接收到点击项的 position 和文本
+                    if (position == 0) {
+                        CustomDynamicDialog.showDialog(NetRecordAty.this, "请输入IP", timerService.getPingDns(), new CustomDynamicDialog.OnConfirmListener() {
+                            @Override
+                            public void onConfirm(List<String> inputs) {
+                                if (inputs != null && inputs.size() > 0) {
+                                    Log.d(TAG, "onConfirm: ipList>>" + inputs);
+                                    timerService.replacePingDns(inputs.toArray(new String[0]));
                                 }
-                            });
-                        }else{
-                            showItemSelectionDialog();
-                        }
+                            }
+                        });
+                    } else {
+                        showItemSelectionDialog();
                     }
-                });
-                break;
-            case R.id.btnClear:
-                tvResult.setText("");
-                tvResult.scrollTo(0, 0);
-                break;
+                }
+            });
+        } else if (id == R.id.btnClear) {
+            tvResult.setText("");
+            tvResult.scrollTo(0, 0);
         }
     }
 }

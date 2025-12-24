@@ -82,39 +82,35 @@ public class SocketAty extends BaseActivity implements View.OnClickListener, Ada
     }
 
     private void setupSpinner() {
-        String[] socketList = getResources().getStringArray(R.array.net_opiton);
+        String[] socketList = getResources().getStringArray(com.chtj.socket.R.array.net_opiton);
         ArrayAdapter<String> socketListAdapter = new ArrayAdapter<>(this, R.layout.custom_spinner_item, socketList);
         spOption.setAdapter(socketListAdapter);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnConnect:
-                if (selectOption == TCP_OPTION) {
-                    startTcpConnect();
-                } else if (selectOption == UDP_OPTION) {
-                    startUdpConnect();
-                }
-                break;
-            case R.id.btnDisConnect:
-                if (selectOption == TCP_OPTION && baseTcpSocket != null) {
-                    baseTcpSocket.close();
-                } else if (selectOption == UDP_OPTION && baseUdpSocket != null) {
-                    baseUdpSocket.close();
-                }
-                break;
-            case R.id.btnSend:
-                if (selectOption == TCP_OPTION && baseTcpSocket != null) {
-                    baseTcpSocket.send(etSendContent.getText().toString().getBytes());
-                } else if (selectOption == UDP_OPTION && baseUdpSocket != null) {
-                    baseUdpSocket.send(etSendContent.getText().toString().getBytes());
-                }
-                break;
-            case R.id.btnClear:
-                tvResult.setText("");
-                tvResult.scrollTo(0, 0);
-                break;
+        int id = view.getId();
+        if (id == R.id.btnConnect) {
+            if (selectOption == TCP_OPTION) {
+                startTcpConnect();
+            } else if (selectOption == UDP_OPTION) {
+                startUdpConnect();
+            }
+        } else if (id == R.id.btnDisConnect) {
+            if (selectOption == TCP_OPTION && baseTcpSocket != null) {
+                baseTcpSocket.close();
+            } else if (selectOption == UDP_OPTION && baseUdpSocket != null) {
+                baseUdpSocket.close();
+            }
+        } else if (id == R.id.btnSend) {
+            if (selectOption == TCP_OPTION && baseTcpSocket != null) {
+                baseTcpSocket.send(etSendContent.getText().toString().getBytes());
+            } else if (selectOption == UDP_OPTION && baseUdpSocket != null) {
+                baseUdpSocket.send(etSendContent.getText().toString().getBytes());
+            }
+        } else if (id == R.id.btnClear) {
+            tvResult.setText("");
+            tvResult.scrollTo(0, 0);
         }
     }
 

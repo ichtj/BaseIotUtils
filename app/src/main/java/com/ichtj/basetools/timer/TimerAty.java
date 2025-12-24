@@ -79,27 +79,23 @@ public class TimerAty extends BaseActivity {
     }
 
     public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btn_start:
-                tvResult.setText("");
-                startTimer();
-                break;
-            case R.id.btn_finish:
-                stopTimer();
-                break;
-            case R.id.btn_countdown:
-                stopCountDown();
-                tvCountdownResult.setText("");
-                if (etCountDownTime.getText().toString() == null || etCountDownTime.getText().toString().equals("")) {
-                    ToastUtils.error("请填写倒计时时间");
-                    return;
-                }
-                int millisInFuture = Integer.parseInt(etCountDownTime.getText().toString().trim());
-                startCountDown(millisInFuture);
-                break;
-            case R.id.btn_countdown_finish:
-                stopCountDown();
-                break;
+        int id = view.getId();
+        if (id == R.id.btn_start) {
+            tvResult.setText("");
+            startTimer();
+        } else if (id == R.id.btn_finish) {
+            stopTimer();
+        } else if (id == R.id.btn_countdown) {
+            stopCountDown();
+            tvCountdownResult.setText("");
+            if (etCountDownTime.getText().toString() == null || etCountDownTime.getText().toString().equals("")) {
+                ToastUtils.error("请填写倒计时时间");
+                return;
+            }
+            int millisInFuture = Integer.parseInt(etCountDownTime.getText().toString().trim());
+            startCountDown(millisInFuture);
+        } else if (id == R.id.btn_countdown_finish) {
+            stopCountDown();
         }
     }
 

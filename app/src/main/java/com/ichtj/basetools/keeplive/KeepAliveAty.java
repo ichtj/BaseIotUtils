@@ -37,17 +37,11 @@ public class KeepAliveAty extends BaseActivity implements OnClickListener{
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.btn_add_aty:
-                break;
-            case R.id.btn_add_service:
-
-                break;
-            case R.id.btn_getall:
-                break;
-            case R.id.btn_cleanall:
-
-                break;
+        int id = v.getId();
+        if (id == R.id.btn_add_aty) {
+        } else if (id == R.id.btn_add_service) {
+        } else if (id == R.id.btn_getall) {
+        } else if (id == R.id.btn_cleanall) {
         }
     }
 

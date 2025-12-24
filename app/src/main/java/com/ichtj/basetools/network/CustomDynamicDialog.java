@@ -111,11 +111,11 @@ public class CustomDynamicDialog {
         buttonLayout.setPadding(0, 40, 0, 0);
 
         Button cancelBtn = new Button(context);
-        cancelBtn.setText(R.string.dialog_cancel);
+        cancelBtn.setText(com.chtj.base_framework.R.string.dialog_cancel);
         cancelBtn.setTextSize(23);
 
         Button confirmBtn = new Button(context);
-        confirmBtn.setText(R.string.dialog_confirm);
+        confirmBtn.setText(com.chtj.base_framework.R.string.dialog_confirm);
         confirmBtn.setTextSize(23);
 
         buttonLayout.addView(tvCount);

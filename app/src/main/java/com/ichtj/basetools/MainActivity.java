@@ -54,7 +54,7 @@ import com.ichtj.basetools.dialog.DialogAty;
 import com.ichtj.basetools.download.FileDownLoadAty;
 import com.ichtj.basetools.entity.ExcelEntity;
 import com.ichtj.basetools.file.FileOperatAty;
-import com.ichtj.basetools.greendao.GreenDaoSqliteAty;
+//import com.ichtj.basetools.greendao.GreenDaoSqliteAty;
 import com.ichtj.basetools.hid.HidMainDevAty;
 import com.ichtj.basetools.hid.HidSubDevAty;
 import com.ichtj.basetools.install.InstallAPkAty;
@@ -218,7 +218,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                         NotifyUtils.setPrompt ("");
                         NotifyUtils.setDataTime ("");
                         NotifyUtils.setTopRight ("");
-                        NotifyUtils.setIvStatus (true, R.drawable.failed);
+                        NotifyUtils.setIvStatus (true, com.face_chtj.base_iotutils.R.drawable.failed);
                     }
                 }, 5000);
                 break;
@@ -394,7 +394,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 startAty (SocketAty.class);
                 break;
             case FKey.KEY_GREEN_DAO:
-                startAty (GreenDaoSqliteAty.class);
+//                startAty (GreenDaoSqliteAty.class);
                 break;
             case FKey.KEY_APP_LIST:
                 startAty (AllAppAty.class);
@@ -500,7 +500,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 break;
             case FKey.KEY_LOADDING_DIALOG:
                 List<Integer> pngList = new ArrayList<>();
-                pngList.add(R.drawable.ic_loading);
+                pngList.add(com.ichtj.drawable.R.drawable.ic_loading);
 //                pngList.add(R.drawable.ic_loading1);
                 LoadDialogUtils loadDialogUtils = new LoadDialogUtils(this);
                 // 情况一：PNG 列表

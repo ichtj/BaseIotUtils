@@ -110,25 +110,19 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btnInit:
-                handleSerialPortInit(0, btnInit, spCom, spBurate);
-                break;
-            case R.id.btnInit2:
-                handleSerialPortInit(1, btnInit2, spCom2, spBurate2);
-                break;
-            case R.id.btnTestSend:
-                handleSerialPortSend(0, etCommand, etAuto, cbMs, serialOne);
-                break;
-            case R.id.btnTestSend2:
-                handleSerialPortSend(1, etCommand2, etAuto2, cbMs2, serialTwo);
-                break;
-            case R.id.btnClear:
-                tvResult.setText("");
-                break;
-            case R.id.btnClear2:
-                tvResult2.setText("");
-                break;
+        int id = view.getId();
+        if (id == R.id.btnInit) {
+            handleSerialPortInit(0, btnInit, spCom, spBurate);
+        } else if (id == R.id.btnInit2) {
+            handleSerialPortInit(1, btnInit2, spCom2, spBurate2);
+        } else if (id == R.id.btnTestSend) {
+            handleSerialPortSend(0, etCommand, etAuto, cbMs, serialOne);
+        } else if (id == R.id.btnTestSend2) {
+            handleSerialPortSend(1, etCommand2, etAuto2, cbMs2, serialTwo);
+        } else if (id == R.id.btnClear) {
+            tvResult.setText("");
+        } else if (id == R.id.btnClear2) {
+            tvResult2.setText("");
         }
     }
 

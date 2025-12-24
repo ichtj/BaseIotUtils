@@ -214,12 +214,12 @@
             android:launchMode="singleTop"
             android:screenOrientation="user" />
         <!--greenDAO数据库操作-->
-        <activity
-            android:name=".greendao.GreenDaoSqliteAty"
-            android:enabled="true"
-            android:exported="true"
-            android:launchMode="singleTop"
-            android:screenOrientation="user" />
+<!--        <activity-->
+<!--            android:name=".greendao.GreenDaoSqliteAty"-->
+<!--            android:enabled="true"-->
+<!--            android:exported="true"-->
+<!--            android:launchMode="singleTop"-->
+<!--            android:screenOrientation="user" />-->
         <!--查看所有app详情-->
         <activity
             android:name=".allapp.AllAppAty"

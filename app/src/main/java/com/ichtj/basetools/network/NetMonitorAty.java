@@ -338,39 +338,35 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
     @Override
     public void onCheckedChanged(CompoundButton bv, boolean isChecked) {
         if (isChecked && bv.isPressed()) {
-            switch (bv.getId()) {
-                case R.id.rbOne:
-                    KLog.d("onCheckedChanged: rbOne");
-                    if (nService != null) {
-                        nService.setCyclesCount(1);
-                    } else {
-                        ToastUtils.error(getString(R.string.service_start_err));
-                    }
-                    break;
-                case R.id.rbMore:
-                    KLog.d("onCheckedChanged: rbMore");
-                    if (nService != null) {
-                        nService.setCyclesCount(0);
-                    } else {
-                        ToastUtils.error(getString(R.string.service_start_err));
-                    }
-                    break;
-                case R.id.rbRebootYes:
-                    KLog.d("onCheckedChanged: rbRebootYes");
-                    if (nService != null) {
-                        nService.setDefaultTimerdAchieve(true);
-                    } else {
-                        ToastUtils.error(getString(R.string.service_start_err));
-                    }
-                    break;
-                case R.id.rbRebootNo:
-                    KLog.d("onCheckedChanged: rbRebootNo");
-                    if (nService != null) {
-                        nService.setDefaultTimerdAchieve(false);
-                    } else {
-                        ToastUtils.error(getString(R.string.service_start_err));
-                    }
-                    break;
+            int id = bv.getId();
+            if (id == R.id.rbOne) {
+                KLog.d("onCheckedChanged: rbOne");
+                if (nService != null) {
+                    nService.setCyclesCount(1);
+                } else {
+                    ToastUtils.error(getString(R.string.service_start_err));
+                }
+            } else if (id == R.id.rbMore) {
+                KLog.d("onCheckedChanged: rbMore");
+                if (nService != null) {
+                    nService.setCyclesCount(0);
+                } else {
+                    ToastUtils.error(getString(R.string.service_start_err));
+                }
+            } else if (id == R.id.rbRebootYes) {
+                KLog.d("onCheckedChanged: rbRebootYes");
+                if (nService != null) {
+                    nService.setDefaultTimerdAchieve(true);
+                } else {
+                    ToastUtils.error(getString(R.string.service_start_err));
+                }
+            } else if (id == R.id.rbRebootNo) {
+                KLog.d("onCheckedChanged: rbRebootNo");
+                if (nService != null) {
+                    nService.setDefaultTimerdAchieve(false);
+                } else {
+                    ToastUtils.error(getString(R.string.service_start_err));
+                }
             }
         }
     }

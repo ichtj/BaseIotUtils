@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
-apply plugin: 'org.greenrobot.greendao' // apply plugin
+//apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
+    buildFeatures {
+        buildConfig true
+    }
+
+    namespace "com.ichtj.basetools" // 这里填你模块的包名
     signingConfigs {
         debug {
             storeFile file("${BUILD_SIGN_PATH}")
@@ -19,8 +24,8 @@ android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
     defaultConfig {
         applicationId rootProject.ext.APP_PKG_PREFIX+rootProject.ext.APP_CHOOSE
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdk  rootProject.ext.android.minSdkVersion
+        targetSdk  rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
         multiDexEnabled true
@@ -133,8 +138,8 @@ dependencies {
     implementation rootProject.ext.dependencies["mqttv-service"]
     //POI 操作Excel表格
     implementation files('libs\\poi-3.12-android-a.jar')
+    implementation project(path: ':BaseIotUtils')
     //物联网开发基础工具类
-    implementation project(path: ':base_iotutils')
     //TCP|UDP socket通信
     //implementation project(path: ':base_socket')
     //framework jarutils
@@ -144,7 +149,7 @@ dependencies {
     api rootProject.ext.dependencies["arouter-api"]
     annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
 }
-
-greendao {
-    schemaVersion 1 //当前数据库版本
-}
+//
+//greendao {
+//    schemaVersion 1 //当前数据库版本
+//}

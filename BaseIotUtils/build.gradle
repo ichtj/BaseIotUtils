@@ -7,11 +7,12 @@ plugins {
 }
 
 android {
+    namespace "com.face_chtj.base_iotutils"
     compileSdkVersion rootProject.ext.android.compileSdkVersion
 
     defaultConfig {
-        minSdkVersion rootProject.ext.android.minSdkVersion
-        targetSdkVersion rootProject.ext.android.targetSdkVersion
+        minSdk  rootProject.ext.android.minSdkVersion
+        targetSdk  rootProject.ext.android.targetSdkVersion
         versionCode rootProject.ext.android.versionCode
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
@@ -82,4 +83,10 @@ dependencies {
     api rootProject.ext.dependencies["converter-scalars"]
 }
 
-
+publishing {
+    publications {
+        release(MavenPublication) {
+            artifactId = "BaseIotUtils"
+        }
+    }
+}
