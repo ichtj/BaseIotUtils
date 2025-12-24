@@ -122,8 +122,10 @@
         android:theme="@style/AppTheme">
         <!--启动页-->
         <activity
-            android:name=".StartPageAty"
+            android:name="com.ichtj.basetools.StartPageAty"
             android:screenOrientation="user"
+            android:enabled="true"
+            android:exported="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
 <!--                 <action android:name="android.intent.action.MAIN" />
@@ -137,13 +139,15 @@
         </activity>
         <!--功能选择-->
         <activity
-            android:name=".MainActivity"
+            android:name="com.ichtj.basetools.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden|keyboard|screenLayout"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme">
+
+        </activity>
         <!--后台服务-->
         <!--串口相关-->
         <activity
@@ -289,12 +293,13 @@
             android:theme="@style/Theme.AppCompat.NoActionBar" />
 
         <activity
-            android:name=".test.TestAty"
+            android:name="com.ichtj.basetools.test.TestAty"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/AppTheme">
+        </activity>
         <!--蓝牙测试-->
         <activity
             android:name=".bluetooth.BlueToothAty"

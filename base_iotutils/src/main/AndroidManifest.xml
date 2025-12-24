@@ -1,6 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:sharedUserId="android.uid.system"
     package="com.face_chtj.base_iotutils">
     <!--静默安装权限-->
     <uses-permission

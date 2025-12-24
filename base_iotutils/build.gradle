@@ -1,6 +1,10 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.githup.wave-chtj'
+//apply plugin: 'com.android.library'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group='com.githup.wave-chtj'
+plugins {
+    id "com.android.library"
+    id "com.vanniktech.maven.publish"
+}
 
 android {
     compileSdkVersion rootProject.ext.android.compileSdkVersion
@@ -51,6 +55,9 @@ android {
         exclude 'META-INF/LICENSE.txt'
     }
 }
+tasks.withType(Javadoc) {
+    enabled = false
+}
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     api rootProject.ext.support["appcompat"]
@@ -67,6 +74,8 @@ dependencies {
     api rootProject.ext.dependencies["rxjava"]
     api rootProject.ext.dependencies["okhttp"]
     api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.dependencies["retrofit"]
+    api rootProject.ext.support["recyclerview-v7"]
     api rootProject.ext.dependencies["converter-gson"]
     api rootProject.ext.dependencies["adapter-rxjava"]
     api rootProject.ext.dependencies["zxing"]

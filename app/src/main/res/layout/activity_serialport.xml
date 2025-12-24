@@ -8,7 +8,7 @@
         android:id="@+id/ctTopView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:centerText="串口收发"
+        app:centerText="@string/main_serial_rw"
         app:leftIcon="@drawable/ic_back"
         app:leftIconSize="20dp"
         app:leftIconPadding="6dp"
@@ -41,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:checked="true"
-                    android:text="HEX"
+                    android:text="@string/serialport_hex_format"
                     android:layout_marginRight="15dp"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text_size" />
@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:text="TXT"
+                    android:text="@string/serialport_string_format"
                     android:textColor="@color/black"
                     android:textSize="@dimen/small_text_size" />
             </RadioGroup>
@@ -85,7 +85,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="right|center"
-                                android:text="串口地址："
+                                android:text="@string/serialport_dev_path"
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/small_text_size" />
 
@@ -109,7 +109,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="right|center"
-                                android:text="波特率："
+                                android:text="@string/serialport_baudrate"
                                 android:textColor="@android:color/black"
                                 android:textSize="@dimen/small_text_size" />
 
@@ -127,7 +127,7 @@
                             android:id="@+id/btnInit"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="开启串口"
+                            android:text="@string/serialport_open"
                             android:textSize="@dimen/small_text_size"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -145,7 +145,7 @@
                             android:layout_marginRight="10dp"
                             android:layout_weight="1"
                             android:background="@drawable/button_style_stroke2"
-                            android:hint="请填写命令"
+                            android:hint="@string/serialport_input_cmd"
                             android:paddingLeft="10dp"
                             android:text="010300000002C40B"
                             android:textSize="@dimen/small_text_size" />
@@ -155,7 +155,7 @@
                             android:layout_width="80dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:hint="自动发送(毫秒)"
+                            android:hint="@string/auto_send_cmd_millisecond"
                             android:inputType="number"
                             android:paddingLeft="10dp"
                             android:text="500"
@@ -170,7 +170,7 @@
                             android:layout_marginRight="10dp"
                             android:gravity="center"
                             android:textSize="@dimen/small_text_size"
-                            android:text="自动" />
+                            android:text="@string/serialport_auto" />
 
                         <Button
                             android:id="@+id/btnTestSend"
@@ -178,7 +178,7 @@
                             android:layout_height="match_parent"
                             android:gravity="center"
                             android:layout_gravity="center"
-                            android:text="写数据"
+                            android:text="@string/serialport_write_data"
                             android:textSize="@dimen/small_text_size" />
                     </LinearLayout>
 
@@ -195,7 +195,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:gravity="left|center"
-                            android:text="接收数据："
+                            android:text="@string/serialport_receive_data"
                             android:textSize="@dimen/small_text_size" />
 
                         <Button
@@ -203,7 +203,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="right"
-                            android:text="清空"
+                            android:text="@string/serialport_clear"
                             android:textSize="@dimen/small_text_size" />
 
                     </LinearLayout>
@@ -252,7 +252,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="right|center"
-                                android:text="串口地址："
+                                android:text="@string/serialport_dev_path"
                                 android:textColor="@android:color/black"
                                 android:textSize="18dp" />
 
@@ -275,7 +275,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:gravity="right|center"
-                                android:text="波特率："
+                                android:text="@string/serialport_baudrate"
                                 android:textColor="@android:color/black"
                                 android:textSize="18dp" />
 
@@ -293,7 +293,7 @@
                             android:id="@+id/btnInit2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:text="开启串口"
+                            android:text="@string/serialport_open"
                             android:textSize="18dp"
                             android:textStyle="bold" />
                     </LinearLayout>
@@ -310,7 +310,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="1"
                             android:background="@drawable/button_style_stroke2"
-                            android:hint="请填写命令"
+                            android:hint="@string/serialport_input_cmd"
                             android:paddingLeft="10dp"
                             android:text="AA550200511D"
                             android:textSize="18dp" />
@@ -320,7 +320,7 @@
                             android:layout_width="60dp"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:hint="自动发送(毫秒)"
+                            android:hint="@string/auto_send_cmd_millisecond"
                             android:inputType="number"
                             android:paddingLeft="10dp"
                             android:text="500"
@@ -334,14 +334,14 @@
                             android:layout_marginLeft="10dp"
                             android:layout_marginRight="10dp"
                             android:gravity="center"
-                            android:text="自动" />
+                            android:text="@string/serialport_auto" />
 
                         <Button
                             android:id="@+id/btnTestSend2"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
-                            android:text="写数据"
+                            android:text="@string/serialport_write_data"
                             android:textSize="18dp" />
                     </LinearLayout>
 
@@ -359,7 +359,7 @@
                             android:layout_centerInParent="true"
                             android:layout_weight="1"
                             android:gravity="left|center"
-                            android:text="接收数据："
+                            android:text="@string/serialport_input_cmd"
                             android:textSize="18dp" />
 
                         <Button
@@ -367,7 +367,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_alignParentRight="true"
-                            android:text="清空"
+                            android:text="@string/serialport_clear"
                             android:textSize="18dp" />
                     </LinearLayout>
 

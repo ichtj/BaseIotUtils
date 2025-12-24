@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/black"
+    android:background="@color/white"
+    android:padding="8dp"
     android:orientation="vertical"
     android:layout_height="match_parent">
     <androidx.viewpager.widget.ViewPager
@@ -11,20 +12,41 @@
         android:layout_width="match_parent"
         android:layout_weight="1"
         android:layout_height="wrap_content"/>
-    <TextView
-        android:id="@+id/tvNowPkg"
+    <Button
+        android:id="@+id/btnResume"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="@dimen/small_text_size"
-        android:text="xxxxx"
+        android:onClick="onStartClick"
+        android:text="开始"
         android:textStyle="bold"/>
-    <EditText
-        android:id="@+id/btnScreen"
+    <Button
+        android:id="@+id/btnStop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/black"
         android:textSize="@dimen/small_text_size"
-        android:text="xxxxx"
+        android:text="停止"
+        android:onClick="onStopClick"
         android:textStyle="bold" />
+    <TextView
+        android:id="@+id/tvCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:textSize="@dimen/small_text_size"
+        android:text="count:"
+        android:layout_gravity="right"
+        android:onClick="onStopClick"
+        android:textStyle="bold" />
+    <com.face_chtj.base_iotutils.LogView
+        android:id="@+id/logView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#FFFFFF"
+        app:logTextColor="#00FF00"
+        app:logTextSize="14sp"
+        app:logMaxCount="2000"
+        app:logAutoScroll="true" />
 </LinearLayout>

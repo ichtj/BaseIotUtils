@@ -1,6 +1,9 @@
 package com.ichtj.basetools;
 
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageInstaller;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -26,7 +29,6 @@ import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.DisplayUtils;
 import com.face_chtj.base_iotutils.FileDialogSelectUtils;
-import com.face_chtj.base_iotutils.FileUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.NetUtils;
@@ -39,7 +41,6 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.IDismissListener;
 import com.face_chtj.base_iotutils.code.CodeUtils;
-import com.face_chtj.base_iotutils.entity.FileEntity;
 import com.face_chtj.base_iotutils.view.OnPopupItemClickListener;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.anr.AnrTestAty;
@@ -49,7 +50,6 @@ import com.ichtj.basetools.bluetooth.BlueToothAty;
 import com.ichtj.basetools.callback.IUsbHubListener;
 import com.ichtj.basetools.camera.CameraRecordingAty;
 import com.ichtj.basetools.crash.CrashTools;
-import com.ichtj.basetools.crash.MyService;
 import com.ichtj.basetools.dialog.DialogAty;
 import com.ichtj.basetools.download.FileDownLoadAty;
 import com.ichtj.basetools.entity.ExcelEntity;
@@ -66,6 +66,7 @@ import com.ichtj.basetools.screen.ScreenActivity;
 import com.ichtj.basetools.serialport.SerialPortAty;
 import com.ichtj.basetools.sign.ApkSignSearchAty;
 import com.ichtj.basetools.socket.SocketAty;
+import com.ichtj.basetools.test.TestAty;
 import com.ichtj.basetools.timer.TimerAty;
 import com.ichtj.basetools.touch.TouchDetectAty;
 import com.face_chtj.base_iotutils.view.PopupWindowTools;
@@ -85,6 +86,8 @@ import com.ichtj.basetools.webviews.WebViewAty;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -175,11 +178,13 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         btnList.put (FKey.KEY_FILE_SELECT, getString(R.string.main_file_dialog_select));
         btnList.put (FKey.KEY_LOADDING_DIALOG, getString(R.string.main_loading_animation));
         btnList.put (FKey.KEY_CAMERA_RECORD, getString(R.string.main_camera_recording));
+        btnList.put (FKey.KEY_TEST_SAMPLE, "测试页面");
         return btnList;
     }
 
     @Override
     public void onButtonClick(int position, String buttonText) {
+        Log.d (TAG, "onButtonClick: ichtj>>"+buttonText+",position>>"+position);
         switch (position) {
             case FKey.KEY_NOTIFY_SHOW:
                 //获取系统中是否已经通过 允许通知的权限
@@ -247,6 +252,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                     @Override
                     public void deviceInfo(String action, String path, boolean isConn) {
                         ToastUtils.info ("path:" + path + ",isConn=" + isConn);
+                        Log.d(TAG, "deviceInfo: action="+action+",path:" + path + ",isConn=" + isConn);
                     }
                 });
                 break;
@@ -510,6 +516,9 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 break;
             case FKey.KEY_CAMERA_RECORD:
                 startAty(CameraRecordingAty.class);
+                 break;
+            case FKey.KEY_TEST_SAMPLE:
+                startAty(TestAty.class);
                  break;
         }
     }

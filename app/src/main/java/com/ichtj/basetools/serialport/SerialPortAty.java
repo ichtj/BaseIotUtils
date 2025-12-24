@@ -142,12 +142,12 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
 
     private void handleSerialPortSend(int position, EditText etCommand, EditText etAuto, CheckBox cbMs, SerialPort serialPort) {
         if ((position == 0 && !isRun) || (position == 1 && !isRun2)) {
-            ToastUtils.error("请开启串口");
+            ToastUtils.error(getString(R.string.serialport_please_open));
             return;
         }
         String autoMs = etAuto.getText().toString();
         if (TextUtils.isEmpty(autoMs) && cbMs.isChecked()) {
-            ToastUtils.error("请填写正确的毫秒数！");
+            ToastUtils.error(getString(R.string.please_input_millisecond));
             return;
         }
         handler.post(new Runnable() {
@@ -187,13 +187,13 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
                     break;
             }
             KLog.d(TAG, "serialport param com=" + com + ",baudrate=" + baudrate);
-            ToastUtils.success("开启串口成功！" + (position + 1));
-            btnInit.setText("关闭串口");
+            ToastUtils.success(getString(R.string.serialport_open_succ) + (position + 1));
+            btnInit.setText(R.string.serialport_close);
             btnInit.setTextColor(Color.GREEN);
         } catch (Exception e) {
             Log.e(TAG, "errMeg:", e);
-            ToastUtils.error("开启串口失败,请查看日志！");
-            btnInit.setText("开启串口");
+            ToastUtils.error(getString(R.string.serialport_open_failed));
+            btnInit.setText(getString (R.string.serialport_open));
             btnInit.setTextColor(Color.BLACK);
             if (position == 0) {
                 isRun = false;
@@ -208,19 +208,19 @@ public class SerialPortAty extends BaseActivity implements CompoundButton.OnChec
             case 0:
                 serialOne.close();
                 isRun = false;
-                btnInit.setText("开启串口");
+                btnInit.setText(getString (R.string.serialport_open));
                 btnInit.setTextColor(Color.BLACK);
                 customSerialOne.interrupt();
                 break;
             case 1:
                 serialTwo.close();
                 isRun2 = false;
-                btnInit2.setText("开启串口");
+                btnInit2.setText(getString (R.string.serialport_open));
                 btnInit2.setTextColor(Color.BLACK);
                 customSerialTwo.interrupt();
                 break;
         }
-        ToastUtils.info("串口关闭！" + (position + 1));
+        ToastUtils.info(getString(R.string.serialport_closed) + (position + 1));
     }
 
     @Override

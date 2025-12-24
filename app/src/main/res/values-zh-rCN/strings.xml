@@ -46,7 +46,7 @@
     <string name="main_fw_version">固件版本：%s</string>
     <string name="main_running_memory">运存：%s</string>
     <string name="main_sdcard_memory">SD：%s</string>
-    <string name="main_eth_mode">ETH模式：%s</string>
+    <string name="main_eth_mode">以太网模式：%s</string>
     <string name="main_lte_dbm">4G信号值：%s</string>
     <string name="main_serial_rw">串口收发</string>
     <string name="main_timer">定时器</string>
@@ -133,4 +133,21 @@
     <string name="main_iccid">ICCID：%s</string>
     <string name="main_imei">IMEI：%s</string>
     <string name="main_camera_recording">录像控制</string>
+    <string name="serialport_hex_format">HEX</string>
+    <string name="serialport_string_format">String</string>
+    <string name="serialport_dev_path">串口地址：</string>
+    <string name="serialport_baudrate">波特率：</string>
+    <string name="serialport_open">开启串口</string>
+    <string name="serialport_input_cmd">请填写命令</string>
+    <string name="auto_send_cmd_millisecond">自动发送(毫秒)</string>
+    <string name="serialport_auto">自动</string>
+    <string name="serialport_write_data">写数据</string>
+    <string name="serialport_receive_data">接收数据：</string>
+    <string name="serialport_clear">清空</string>
+    <string name="serialport_close">关闭串口</string>
+    <string name="serialport_please_open">请开启串口</string>
+    <string name="please_input_millisecond">请填写正确的毫秒数！</string>
+    <string name="serialport_open_succ">开启串口成功！</string>
+    <string name="serialport_open_failed">开启串口失败,请查看日志！</string>
+    <string name="serialport_closed">串口已关闭！</string>
 </resources>

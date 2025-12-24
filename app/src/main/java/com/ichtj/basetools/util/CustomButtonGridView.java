@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 public class CustomButtonGridView extends ScrollView {
-
     private LinearLayout container;
     private Map<Integer, String> btnMap;
     private int numColumns = 2; // 默认每列显示2个按钮

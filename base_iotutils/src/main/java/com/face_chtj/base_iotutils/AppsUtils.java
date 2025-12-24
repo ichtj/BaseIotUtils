@@ -68,6 +68,13 @@ public class AppsUtils {
         return Build.VERSION.RELEASE;
     }
 
+
+    /**
+     * 根据包名获取应用APK文件路径
+     *
+     * @param pkgName 包名
+     * @return APK文件路径，如果未找到则返回null
+     */
     public static String getAppPath(String pkgName) {
         try {
             PackageManager pm = BaseIotUtils.getContext().getPackageManager();
@@ -118,10 +125,20 @@ public class AppsUtils {
         }
     }
 
+    /**
+     * 获取指定包名的应用图标
+     *
+     * @param context 应用上下文对象，用于获取PackageManager
+     * @param packageName 目标应用的包名
+     * @return 返回对应应用的Drawable图标，如果未找到则返回null
+     */
     public static Drawable getAppIcon(Context context, String packageName) {
+        // 获取包管理器
         PackageManager pm = context.getPackageManager();
         try {
+            // 根据包名获取应用信息
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
+            // 返回应用图标
             return pm.getApplicationIcon(appInfo);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -130,6 +147,14 @@ public class AppsUtils {
     }
 
 
+
+    /**
+     * 获取指定应用程序的CPU使用率
+     *
+     * @param context 应用程序上下文，用于获取系统服务
+     * @param packageName 要监控的应用程序包名
+     * @return 返回指定应用的CPU使用率百分比，如果无法获取则返回0
+     */
     public static float getAppCpuUsage(Context context, String packageName) {
         ActivityManager am = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         if (am == null) return 0f;
@@ -137,10 +162,12 @@ public class AppsUtils {
         List<ActivityManager.RunningAppProcessInfo> processes = am.getRunningAppProcesses();
         if (processes == null) return 0f;
 
+        // 遍历所有运行中的进程，查找目标应用进程
         for (ActivityManager.RunningAppProcessInfo proc : processes) {
             if (proc.processName.equals(packageName)) {
                 int pid = proc.pid;
                 try {
+                    // 通过两次采样计算CPU使用率
                     long[] cpu1 = readProcStat(pid);
                     long totalCpu1 = readTotalCpu();
                     Thread.sleep(360); // 采样间隔
@@ -158,6 +185,7 @@ public class AppsUtils {
         }
         return 0f;
     }
+
 
     // 返回进程 CPU 总时间 user + system
     private static long[] readProcStat(int pid) throws IOException {
@@ -455,7 +483,6 @@ public class AppsUtils {
         if (ObjectUtils.isEmpty(packageName)) {
             return false;
         }
-
         ShellUtils.CommandResult commandResult=ShellUtils.execCommand("ps | grep " + packageName, true);
         boolean isComplete= commandResult.result == 0&&commandResult.successMsg.contains (packageName);
         if (!isComplete){
@@ -474,10 +501,6 @@ public class AppsUtils {
         return isComplete;
     }
 
-
-
-
-
     /**
      * 带提示窗口卸载
      *
@@ -491,7 +514,7 @@ public class AppsUtils {
     }
 
     /**
-     * 卸载应用成功&失败
+     * 卸载应用成功|失败
      *
      * @param packageName
      * @return
@@ -672,7 +695,13 @@ public class AppsUtils {
                 for (Signature signature : packageInfo.signatures) {
                     MessageDigest md = MessageDigest.getInstance("SHA-256");
                     md.update(signature.toByteArray());
-                    return bytesToHex(md.digest());
+                    StringBuilder hexString = new StringBuilder();
+                    for (byte b : md.digest()) {
+                        String hex = Integer.toHexString(0xff & b);
+                        if (hex.length() == 1) hexString.append('0');
+                        hexString.append(hex);
+                    }
+                    return hexString.toString().toUpperCase();
                 }
             }
         } catch (Throwable e) {
@@ -680,15 +709,4 @@ public class AppsUtils {
         }
         return "";
     }
-
-    private static String bytesToHex(byte[] bytes) {
-        StringBuilder hexString = new StringBuilder();
-        for (byte b : bytes) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) hexString.append('0');
-            hexString.append(hex);
-        }
-        return hexString.toString().toUpperCase();
-    }
-
 }

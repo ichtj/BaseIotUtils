@@ -27,7 +27,7 @@ public class FileOperatAty extends BaseActivity implements View.OnClickListener 
     TextView tvResult;
     CheckBox cbCover;
     //文件路径
-    private String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
+    private final String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/test.txt";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

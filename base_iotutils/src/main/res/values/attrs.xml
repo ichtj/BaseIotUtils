@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LogView">
+        <attr name="logTextColor" format="color" />
+        <attr name="logTextSize" format="dimension" />
+        <attr name="logMaxCount" format="integer" />
+        <attr name="logAutoScroll" format="boolean" />
+    </declare-styleable>
+</resources>

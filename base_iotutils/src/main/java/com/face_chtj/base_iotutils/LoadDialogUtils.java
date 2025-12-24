@@ -17,21 +17,16 @@ import android.widget.ImageView;
 import androidx.core.content.ContextCompat;
 
 import java.util.List;
+
 /**
- * 使用示例：
- * List<Integer> pngList = Arrays.asList(
- *    R.drawable.loading_1,
- *    R.drawable.loading_2,
- *    R.drawable.loading_3
- * );
- *
- * LoadDialogUtils dialog = new LoadDialogUtils(this, pngList);
- * dialog.setImageSize(80, 80);
- * dialog.showLoading();
- *
- * 隐藏
- * dialog.hideLoading();
-*/
+ * Create on 2020/5/15
+ * author chtj
+ * desc 加载动画工具类 支持单张图片旋转动画和多张图片帧动画
+ * --单张图片旋转动画 {@link #showLoading()}
+ * --多张图片帧动画 {@link #showLoading()}
+ * --设置图片大小 {@link #setImageSize(int, int)}
+ * --隐藏加载动画 {@link #hideLoading()}
+ */
 public class LoadDialogUtils {
     private Context context;
     private WindowManager windowManager;
@@ -42,17 +37,19 @@ public class LoadDialogUtils {
     private List<Integer> pngList;
     private int frameDuration = 100;
     private boolean isShowing = false;
+    private int imageSizeWidth = ViewGroup.LayoutParams.WRAP_CONTENT;
+    private int imageSizeHeight = ViewGroup.LayoutParams.WRAP_CONTENT;
 
     public LoadDialogUtils(Context context) {
-        this.context = context;
-        this.windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        this.context = context.getApplicationContext();
+        this.windowManager = (WindowManager) this.context.getSystemService(Context.WINDOW_SERVICE);
         init();
     }
 
     public LoadDialogUtils(Context context, List<Integer> pngList) {
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.pngList = pngList;
-        this.windowManager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        this.windowManager = (WindowManager) this.context.getSystemService(Context.WINDOW_SERVICE);
         init();
     }
 
@@ -64,12 +61,13 @@ public class LoadDialogUtils {
                 ViewGroup.LayoutParams.MATCH_PARENT
         ));
         rootView.setBackgroundColor(Color.TRANSPARENT);
+        rootView.setClickable(true);
 
         // 创建ImageView
         imageView = new ImageView(context);
         FrameLayout.LayoutParams params = new FrameLayout.LayoutParams(
-                ViewGroup.LayoutParams.WRAP_CONTENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT,
+                imageSizeWidth,
+                imageSizeHeight,
                 Gravity.CENTER
         );
         imageView.setLayoutParams(params);
@@ -79,6 +77,12 @@ public class LoadDialogUtils {
         ((FrameLayout) rootView).addView(imageView);
     }
 
+    /**
+     * 设置加载图片资源列表
+     * 数量等于1时，执行旋转动画
+     * 数量大于1时，执行帧动画
+     * @param pngList
+     */
     public void setPngList(List<Integer> pngList) {
         this.pngList = pngList;
     }
@@ -89,10 +93,15 @@ public class LoadDialogUtils {
     }
 
     public void setImageSize(int widthDp, int heightDp) {
-        ViewGroup.LayoutParams lp = imageView.getLayoutParams();
-        lp.width = dpToPx(widthDp);
-        lp.height = dpToPx(heightDp);
-        imageView.setLayoutParams(lp);
+        imageSizeWidth = dpToPx(widthDp);
+        imageSizeHeight = dpToPx(heightDp);
+        
+        if (imageView != null) {
+            ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+            lp.width = imageSizeWidth;
+            lp.height = imageSizeHeight;
+            imageView.setLayoutParams(lp);
+        }
     }
 
     public void showLoading() {
@@ -107,14 +116,16 @@ public class LoadDialogUtils {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams(
                 WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.TYPE_APPLICATION,
+                WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY,
                 WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE |
                         WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL |
-                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN,
+                        WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN |
+                        WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 PixelFormat.TRANSLUCENT
         );
 
         layoutParams.gravity = Gravity.CENTER;
+        layoutParams.format = PixelFormat.RGBA_8888;
 
         try {
             // 添加到窗口
@@ -134,21 +145,35 @@ public class LoadDialogUtils {
         }
     }
 
+    /**
+     * 隐藏加载对话框
+     *
+     * 该方法用于隐藏当前显示的加载对话框，会清除相关动画并从窗口管理器中移除视图
+     */
     public void hideLoading() {
+        // 如果当前未显示加载对话框，则直接返回
         if (!isShowing) {
             return;
         }
 
         try {
+            // 清除所有动画效果
             clearAnimations();
-            windowManager.removeView(rootView);
+            // 从窗口管理器中立即移除根视图
+            if (rootView != null && rootView.getParent() != null) {
+                windowManager.removeViewImmediate(rootView);
+            }
+            // 更新显示状态为false
             isShowing = false;
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     private void startRotateAnimation() {
+        if (imageView == null) return;
+        
         rotateAnimator = ObjectAnimator.ofFloat(imageView, "rotation", 0f, 360f);
         rotateAnimator.setDuration(1000);
         rotateAnimator.setRepeatCount(ObjectAnimator.INFINITE);
@@ -158,6 +183,8 @@ public class LoadDialogUtils {
     }
 
     private void startFrameAnimation() {
+        if (imageView == null || pngList == null) return;
+        
         frameAnimation = new AnimationDrawable();
 
         for (int resId : pngList) {
@@ -170,37 +197,45 @@ public class LoadDialogUtils {
         frameAnimation.setOneShot(false);
         imageView.setImageDrawable(frameAnimation);
 
-        imageView.post(new Runnable() {
-            @Override
-            public void run() {
-                if (frameAnimation != null) {
-                    frameAnimation.start();
-                }
+        imageView.post(() -> {
+            if (frameAnimation != null) {
+                frameAnimation.start();
             }
         });
     }
 
     private void clearAnimations() {
-        if (rotateAnimator != null && rotateAnimator.isRunning()) {
+        if (rotateAnimator != null) {
             rotateAnimator.cancel();
-            imageView.setRotation(0f);
             rotateAnimator = null;
         }
 
-        if (frameAnimation != null && frameAnimation.isRunning()) {
+        if (frameAnimation != null) {
             frameAnimation.stop();
             frameAnimation = null;
         }
-
-        imageView.clearAnimation();
-        imageView.setImageDrawable(null);
+        
+        if (imageView != null) {
+            imageView.clearAnimation();
+            imageView.setImageDrawable(null);
+        }
     }
 
     private int dpToPx(int dp) {
-        return (int) (dp * context.getResources().getDisplayMetrics().density);
+        return (int) (dp * context.getResources().getDisplayMetrics().density + 0.5f);
     }
 
     public boolean isShowing() {
         return isShowing;
+    }
+    
+    /**
+     * 更新配置并刷新显示
+     */
+    public void refresh() {
+        if (isShowing) {
+            hideLoading();
+            showLoading();
+        }
     }
 }
