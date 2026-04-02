@@ -30,9 +30,9 @@ import com.ichtj.basetools.callback.BlePeripheralCallback;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.UUID;
-
-import top.wuhaojie.bthelper.BtHelperClient;
-import top.wuhaojie.bthelper.OnSearchDeviceListener;
+//
+//import top.wuhaojie.bthelper.BtHelperClient;
+//import top.wuhaojie.bthelper.OnSearchDeviceListener;
 
 public class BlueToothAty extends BaseActivity {
     public final static String TAG = BlueToothAty.class.getSimpleName();
@@ -198,45 +198,45 @@ public class BlueToothAty extends BaseActivity {
      */
     public void btDeviceScanClick(View view) {
         showData("BT蓝牙扫描\n");
-        BtHelperClient.from(this).searchDevices(new OnSearchDeviceListener() {
-            @Override
-            public void onStartDiscovery() {
-                showData("BT开始查询\n");
-            }
-
-            @Override
-            public void onNewDeviceFounded(BluetoothDevice bluetoothDevice) {
-            }
-
-            @Override
-            public void onSearchCompleted(List<BluetoothDevice> bondedList, List<BluetoothDevice> newList) {
-                for (int i = 0; i < bondedList.size(); i++) {
-                    String name=bondedList.get(i).getName();
-                    String content = "BT>>bonded>>NAME >> " + name + ", MAC >> " + bondedList.get(i).getAddress() + ", BondState >> " + bondedList.get(i).getBondState();
-                    if (!TextUtils.isEmpty(name)&&name.contains("i7mini")) {
-                        bindDevice=newList.get(i);
-                    }
-                    KLog.d(content);
-                    showData(content);
-                }
-                for (int i = 0; i < newList.size(); i++) {
-                    String name=newList.get(i).getName();
-                    if (!TextUtils.isEmpty(name)&&name.contains("i7mini")) {
-                        bindDevice=newList.get(i);
-                    }
-                    String content = "BT>>newList>>NAME >> " + name + ", MAC >> " + newList.get(i).getAddress() + ", BondState >> " + newList.get(i).getBondState();
-                    KLog.d(content);
-                    showData(content);
-                }
-                showData("BLE>>扫描结束数量 " + (newList.size() + bondedList.size()));
-                BtHelperClient.from(BlueToothAty.this).close();
-            }
-
-            @Override
-            public void onError(Exception e) {
-                showData("经典蓝牙查询错误\n");
-            }
-        });
+//        BtHelperClient.from(this).searchDevices(new OnSearchDeviceListener() {
+//            @Override
+//            public void onStartDiscovery() {
+//                showData("BT开始查询\n");
+//            }
+//
+//            @Override
+//            public void onNewDeviceFounded(BluetoothDevice bluetoothDevice) {
+//            }
+//
+//            @Override
+//            public void onSearchCompleted(List<BluetoothDevice> bondedList, List<BluetoothDevice> newList) {
+//                for (int i = 0; i < bondedList.size(); i++) {
+//                    String name=bondedList.get(i).getName();
+//                    String content = "BT>>bonded>>NAME >> " + name + ", MAC >> " + bondedList.get(i).getAddress() + ", BondState >> " + bondedList.get(i).getBondState();
+//                    if (!TextUtils.isEmpty(name)&&name.contains("i7mini")) {
+//                        bindDevice=newList.get(i);
+//                    }
+//                    KLog.d(content);
+//                    showData(content);
+//                }
+//                for (int i = 0; i < newList.size(); i++) {
+//                    String name=newList.get(i).getName();
+//                    if (!TextUtils.isEmpty(name)&&name.contains("i7mini")) {
+//                        bindDevice=newList.get(i);
+//                    }
+//                    String content = "BT>>newList>>NAME >> " + name + ", MAC >> " + newList.get(i).getAddress() + ", BondState >> " + newList.get(i).getBondState();
+//                    KLog.d(content);
+//                    showData(content);
+//                }
+//                showData("BLE>>扫描结束数量 " + (newList.size() + bondedList.size()));
+//                BtHelperClient.from(BlueToothAty.this).close();
+//            }
+//
+//            @Override
+//            public void onError(Exception e) {
+//                showData("经典蓝牙查询错误\n");
+//            }
+//        });
     }
 
 

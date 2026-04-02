@@ -2,7 +2,7 @@
     <string name="net_timer">网络定时检查</string>
     <string name="reboot_app_name">测试重启工具</string>
     <string name="app_name">物联工具</string>
-    <string name="serial_rs">串口收发</string>
+    <string name="serial_rs">串口工具</string>
     <string name="net_type">网络类型：[%1$s]</string>
     <string name="net_status">网络状态：</string>
     <string name="net_dbm">dBm：[%1$s]</string>
@@ -133,6 +133,8 @@
     <string name="main_iccid">ICCID：%s</string>
     <string name="main_imei">IMEI：%s</string>
     <string name="main_camera_recording">录像控制</string>
+    <string name="main_dual_camera">双目摄像</string>
+    <string name="main_jni_camera">jni相机</string>
     <string name="serialport_hex_format">HEX</string>
     <string name="serialport_string_format">String</string>
     <string name="serialport_dev_path">串口地址：</string>

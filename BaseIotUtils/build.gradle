@@ -3,7 +3,7 @@
 //group='com.githup.wave-chtj'
 plugins {
     id "com.android.library"
-    id "com.vanniktech.maven.publish"
+//    id "com.vanniktech.maven.publish"
 }
 
 android {
@@ -83,38 +83,38 @@ dependencies {
     api rootProject.ext.dependencies["converter-scalars"]
 }
 
-mavenPublishing {
-    coordinates("io.github.ichtj", "BaseIotUtils", "1.0.3")
-
-    pom {
-        name = 'LogTools'
-        description = 'description'
-        url = 'https://github.com/ichtj/BaseIotUtils'
-
-        // 开源协议配置，可根据需要修改
-        licenses {
-            license {
-                name = 'The Apache License, Version 2.0'
-                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-            }
-        }
-
-        developers {
-            developer {
-                id = 'ichtj'
-                name = 'ichtj'
-                email = '13652412606@163.com'
-            }
-        }
-
-        scm {
-            connection = 'git@github.com:ichtj/BaseIotUtils.git'
-            developerConnection = 'git@github.com:ichtj/BaseIotUtils.git'
-            url = 'git@github.com:ichtj/BaseIotUtils.git'
-        }
-    }
-
-    publishToMavenCentral()
-    signAllPublications()
-}
+//mavenPublishing {
+//    coordinates("io.github.ichtj", "BaseIotUtils", "1.0.3")
+//
+//    pom {
+//        name = 'LogTools'
+//        description = 'description'
+//        url = 'https://github.com/ichtj/BaseIotUtils'
+//
+//        // 开源协议配置，可根据需要修改
+//        licenses {
+//            license {
+//                name = 'The Apache License, Version 2.0'
+//                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//            }
+//        }
+//
+//        developers {
+//            developer {
+//                id = 'ichtj'
+//                name = 'ichtj'
+//                email = '13652412606@163.com'
+//            }
+//        }
+//
+//        scm {
+//            connection = 'git@github.com:ichtj/BaseIotUtils.git'
+//            developerConnection = 'git@github.com:ichtj/BaseIotUtils.git'
+//            url = 'git@github.com:ichtj/BaseIotUtils.git'
+//        }
+//    }
+//
+//    publishToMavenCentral()
+//    signAllPublications()
+//}
 

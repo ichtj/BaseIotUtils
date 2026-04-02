@@ -1,6 +1,6 @@
 ext {
     //选择对应签名 "cainiao" "rockchip" "imx8" "freescale" "yt01"
-    BUILD_SIGN="freescale"
+    BUILD_SIGN="rockchip"
     BUILD_SIGN_PWD="android"
     BUILD_SIGN_PATH="../other/facefuture.jks"
     //android开发版本配置
@@ -9,8 +9,8 @@ ext {
             buildToolsVersion         : "29.0.2",
             minSdkVersion             : 19,
             targetSdkVersion          : 29,
-            versionCode               : 22,
-            versionName               : "1.3.6",
+            versionCode               : 27,
+            versionName               : "1.4.5",
     ]
     //配置此项可对应生成不同的包名/应用图标 跳转不同界面
     APP_PKG_PREFIX='com.ichtj.'
@@ -27,7 +27,8 @@ ext {
             allApp                  :'@mipmap/ic_all_app',
             accessibility           :'@drawable/app_img',
             readimei                :'@mipmap/ic_all_app',
-            testDemo                :'@mipmap/ic_all_app'
+            testDemo                :'@mipmap/ic_all_app',
+            cameraJni               :'@mipmap/ic_camera'
     ]
     //support配置
     support = [
@@ -75,7 +76,7 @@ ext {
             //物联网开发基础工具类
             "base_keepalive"          : "com.github.wave-chtj:BaseKeepAlive:1.0.1",
             "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.4.8",
-            "base_framework"          : "com.github.ichtj:BaseFramework:1.5.0",
+            "base_framework"          : "com.github.ichtj:BaseFramework:1.5.2",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
             //权限管理
             "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",

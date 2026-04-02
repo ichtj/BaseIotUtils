@@ -136,6 +136,8 @@
     <string name="main_iccid">ICCID：%s</string>
     <string name="main_imei">IMEI：%s</string>
     <string name="main_camera_recording">การควบคุมการบันทึกวิดีโอ</string>
+    <string name="main_dual_camera">กล้องส่องทางไกล</string>
+    <string name="main_jni_camera">JNI-камера</string>
     <string name="serialport_hex_format">HEX</string>
     <string name="serialport_string_format">String</string>
     <string name="serialport_dev_path">ที่อยู่พอร์ตอนุกรม：</string>

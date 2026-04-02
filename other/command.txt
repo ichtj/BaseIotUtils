@@ -60,4 +60,23 @@ adb shell ime list -s  //获取已经安装的输入法
 
 ----------------------------------cmd指令[PC]----------------------------------
 keytool -printcert -jarfile your_app.apk
+----------------------------------模拟doze模式----------------------------------
+dumpsys deviceidle 查询是否处于doze模式
+adb shell dumpsys deviceidle force-idle 进入doze
+adb shell dumpsys deviceidle unforce    解除doze
+dumpsys deviceidle whitelist xxx包名     添加策略
+----------------------------------网络限制----------------------------------
+dumpsys netpolicy
+cmd netpolicy get restrict-background
+关闭/允许后台数据限制：adb shell cmd netpolicy set restrict-background <uid> 0 或修改 /etc/netpolicy.xml
+policy="0" (DEFAULT)：没有任何特殊限制，遵循全局设置。
+policy="1" (REJECT_METERED_BACKGROUND)：该应用被明确禁止在后台使用计费网络（如移动数据）。
+policy="4" (ALLOW_METERED_BACKGROUND)：该应用已被用户手动加入“不受限”名单（白名单）。即使开启了流量节省模式，它也能联网。
+-------------------------------git查看并忽略部分字符开头的变化记录--------------------------------------------
+git status | grep -vE "^\s*(modified:|new file:|deleted:)?\s*(u-boot|kernel-5.10|external)/"
+---------------------------------查询输入法ID----------------------------------------------------------------------
+adb shell ime list -a
+adb shell ime list -s
+
+
 

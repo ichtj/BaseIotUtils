@@ -28,7 +28,7 @@ public abstract class BaseActivity extends AppCompatActivity {
         //将继承BaseActivity的Activity添加到堆栈 统一管理
         AppManager.addActivity(this);//
         setStatusBar();
-        //requestPermission();
+//        requestPermission();
     }
 
     protected void requestPermission(){

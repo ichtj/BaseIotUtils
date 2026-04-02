@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="iot_ok">Конечно</string>
+    <string name="iot_cancel">Отмена</string>
+    <string name="base_input_content">Пожалуйста, введите содержание</string>
+    <string name="iot_directory_title">Оглавление: %s</string>
+    <string name="iot_back_directory">↩ возвращаться</string>
+    <string name="not_found_file_child_content">..Содержимое не найдено..</string>
+</resources>

@@ -65,5 +65,7 @@ public class FKey {
     public static final int      KEY_FILE_SELECT=61;//文件选择
     public static final int  KEY_LOADDING_DIALOG=62;//加载
     public static final int    KEY_CAMERA_RECORD=63;//相机录像
-    public static final int      KEY_TEST_SAMPLE=64;//测试页面
+    public static final int      KEY_DUAL_CAMERA=64;//双目相机
+    public static final int       KEY_JNI_CAMERA=65;//双目JNI相机
+    public static final int      KEY_TEST_SAMPLE=66;//测试页面
 }

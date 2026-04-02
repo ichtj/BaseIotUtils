@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- res/layout/activity_dual_camera.xml -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:id="@+id/ctTopView"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:centerText="摄像头测试"
+        app:leftIcon="@drawable/ic_back"
+        app:leftIconSize="20dp"
+        app:leftIconPadding="6dp"
+        app:backgroundColor="#E6E4E4"
+        app:textSize="18sp"
+        app:textColor="@color/black"
+        app:leftBack="true" />
+
+    <!-- 预览区域 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="horizontal">
+
+        <TextureView
+            android:id="@+id/texture_left"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <TextureView
+            android:id="@+id/texture_right"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/tvCaptureViewSize"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:textColor="@color/black"
+        android:layout_height="wrap_content"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/etWidth"
+            android:hint="分辨率宽"
+            android:layout_width="150dp"
+            android:gravity="center"
+            android:inputType="number"
+            android:text="720"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="x"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <EditText
+            android:id="@+id/etHeight"
+            android:hint="分辨率高"
+            android:inputType="number"
+            android:layout_width="150dp"
+            android:gravity="center"
+            android:text="1280"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+    <!-- 左摄像头控制 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Spinner
+            android:id="@+id/spLeft"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_open_left"
+            android:text="开左"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_close_left"
+            android:text="关左"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_capture_left"
+            android:text="左拍"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/btnLeftRunning"
+            android:text="运行状态"/>
+    </LinearLayout>
+
+    <!-- 右摄像头控制 -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+        <Spinner
+            android:id="@+id/spRight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_open_right"
+            android:text="开右"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_close_right"
+            android:text="关右"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_capture_right"
+            android:text="右拍"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:id="@+id/btnRightRunning"
+            android:text="运行状态"/>
+
+    </LinearLayout>
+
+</LinearLayout>
