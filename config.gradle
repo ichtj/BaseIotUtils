@@ -14,7 +14,7 @@ ext {
     ]
     //配置此项可对应生成不同的包名/应用图标 跳转不同界面
     APP_PKG_PREFIX='com.ichtj.'
-    APP_CHOOSE='basetools'
+    APP_CHOOSE='cameraJni'
     MY_ICON = [
             basetools               :'@drawable/app_img',
             socket                  :'@drawable/ic_socket',

@@ -5,6 +5,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.TextureView;
 import android.view.View;
@@ -21,6 +22,8 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.PACKAGES;
+
+import org.apache.poi.ss.formula.functions.T;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -51,6 +54,7 @@ public class CameraJNIAty extends BaseActivity {
     private int previewHeight = 480;
 
     private final Object lock = new Object();
+    SimpleTimer timer = new SimpleTimer();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,6 +129,19 @@ public class CameraJNIAty extends BaseActivity {
                 boolean isRunning=cameraRight.isRunning();
                 int ret=cameraRight.getState();
                 ToastUtils.info("状态："+ret+" , 运行："+isRunning);
+            }
+        });
+
+        timer.start(1500, new SimpleTimer.Callback() {
+            @Override
+            public void onTick() {
+                ShellUtils.execCommand("chmod 777 /sys/class/leds/work/brightness",true);
+                ShellUtils.execCommand("echo 0 > /sys/class/leds/work/brightness",true);
+                try {
+                    Thread.sleep(500);
+                }catch (Throwable throwable){
+                }
+                ShellUtils.execCommand("echo 100 > /sys/class/leds/work/brightness",true);
             }
         });
     }
@@ -294,5 +311,6 @@ public class CameraJNIAty extends BaseActivity {
         super.onDestroy();
         cameraLeft.release();
         cameraRight.release();
+        timer.stop();
     }
 }
