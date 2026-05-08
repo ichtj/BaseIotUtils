@@ -83,7 +83,9 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -105,8 +107,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap (getDisplayBtn ( ));
         customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener (this);
-        Log.d(TAG, "onCreate: result>>"+ShellUtils.execCommand("ls -l",true));
     }
+
 
     public Map<Integer, String> getDisplayBtn() {
         Map<Integer, String> btnList = new HashMap<> ( );

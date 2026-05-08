@@ -13,7 +13,7 @@ find_library(z-lib z)
 add_library(
         dual_camera
         SHARED
-        CameraTools.cpp
+        CameraToolsNew.cpp
 )
 
 target_compile_options(

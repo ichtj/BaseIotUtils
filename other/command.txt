@@ -72,8 +72,6 @@ cmd netpolicy get restrict-background
 policy="0" (DEFAULT)：没有任何特殊限制，遵循全局设置。
 policy="1" (REJECT_METERED_BACKGROUND)：该应用被明确禁止在后台使用计费网络（如移动数据）。
 policy="4" (ALLOW_METERED_BACKGROUND)：该应用已被用户手动加入“不受限”名单（白名单）。即使开启了流量节省模式，它也能联网。
--------------------------------git查看并忽略部分字符开头的变化记录--------------------------------------------
-git status | grep -vE "^\s*(modified:|new file:|deleted:)?\s*(u-boot|kernel-5.10|external)/"
 ---------------------------------查询输入法ID----------------------------------------------------------------------
 adb shell ime list -a
 adb shell ime list -s

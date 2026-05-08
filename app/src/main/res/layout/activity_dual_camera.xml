@@ -101,6 +101,16 @@
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/btn_start_record_left"
+            android:text="开录"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_stop_record_left"
+            android:text="停录"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:singleLine="true"
             android:id="@+id/btnLeftRunning"
             android:text="运行状态"/>
@@ -134,6 +144,16 @@
             android:layout_height="wrap_content"
             android:id="@+id/btn_capture_right"
             android:text="右拍"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_start_record_right"
+            android:text="开录"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_stop_record_right"
+            android:text="停录"/>
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

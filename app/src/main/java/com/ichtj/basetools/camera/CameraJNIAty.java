@@ -19,6 +19,7 @@ import com.blankj.utilcode.util.NetworkUtils;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
+import com.face_chtj.base_iotutils.view.TopTitleBar;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.PACKAGES;
@@ -42,8 +43,8 @@ public class CameraJNIAty extends BaseActivity {
     Spinner spLeft;
     Spinner spRight;
 
-    CameraJNI cameraLeft;
-    CameraJNI cameraRight;
+    CameraJNINew cameraLeft;
+    CameraJNINew cameraRight;
 
     List<Integer> cameraIds = new ArrayList<>();
 
@@ -55,12 +56,13 @@ public class CameraJNIAty extends BaseActivity {
 
     private final Object lock = new Object();
     SimpleTimer timer = new SimpleTimer();
-
+    TopTitleBar ctTopView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dual_camera);
-
+        ctTopView=findViewById(R.id.ctTopView);
+        ctTopView.setTextCenter("多摄像头CameraJni");
         texture_left = findViewById(R.id.texture_left);
         texture_right = findViewById(R.id.texture_right);
 
@@ -73,7 +75,7 @@ public class CameraJNIAty extends BaseActivity {
         cameraIds = getAvailableCameraIds();
         initSpinner();
 
-        cameraLeft = new CameraJNI() {
+        cameraLeft = new CameraJNINew() {
             @Override
             public void onPreviewFrame(int cameraId, byte[] data) {
                 Bitmap bmp = decodeFrame(data);
@@ -84,7 +86,7 @@ public class CameraJNIAty extends BaseActivity {
             }
         };
 
-        cameraRight = new CameraJNI() {
+        cameraRight = new CameraJNINew() {
             @Override
             public void onPreviewFrame(int cameraId, byte[] data) {
                 Bitmap bmp = decodeFrame(data);
@@ -129,6 +131,36 @@ public class CameraJNIAty extends BaseActivity {
                 boolean isRunning=cameraRight.isRunning();
                 int ret=cameraRight.getState();
                 ToastUtils.info("状态："+ret+" , 运行："+isRunning);
+            }
+        });
+        findViewById(R.id.btn_start_record_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ret=cameraLeft.startRecord("/sdcard/record_left"+ System.currentTimeMillis() + ".mp4");
+                ToastUtils.info("btn_start_recode_left ret="+ret);
+            }
+        });
+
+        findViewById(R.id.btn_stop_record_left).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ret=cameraLeft.stopRecord();
+                ToastUtils.info("btn_stop_recode_left ret="+ret);
+            }
+        });
+        findViewById(R.id.btn_start_record_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ret=cameraRight.startRecord("/sdcard/record_right"+ System.currentTimeMillis() + ".mp4");
+                ToastUtils.info("btn_start_recode_left ret="+ret);
+            }
+        });
+
+        findViewById(R.id.btn_stop_record_right).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int ret=cameraRight.stopRecord();
+                ToastUtils.info("btn_stop_recode_left ret="+ret);
             }
         });
 
