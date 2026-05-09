@@ -30,9 +30,14 @@ import java.io.InputStreamReader;
 import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author chtj
@@ -52,6 +57,7 @@ import java.util.List;
  */
 public class AppsUtils {
     private static final String TAG = AppsUtils.class.getSimpleName();
+    private static final Map<String, Drawable> APP_ICON_CACHE = new ConcurrentHashMap<>();
 
     /**
      * 获取当前系统使用的android api版本号
@@ -97,6 +103,9 @@ public class AppsUtils {
             Intent intent = new Intent(Intent.ACTION_MAIN, null);
             intent.addCategory(Intent.CATEGORY_LAUNCHER);
             PackageManager pm = context.getPackageManager();
+            ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+            RuntimeSnapshot runtimeSnapshot = buildRuntimeSnapshot(activityManager);
+            String topApp = safeGetTopApp(activityManager);
             List<ResolveInfo> apps = pm.queryIntentActivities(intent, 0);
             for (int i = 0; i < apps.size(); i++) {
                 ResolveInfo info = apps.get(i);
@@ -104,18 +113,20 @@ public class AppsUtils {
                 PackageInfo packageInfo = pm.getPackageInfo(pkg, 0);
                 long firstInstallTime = packageInfo.firstInstallTime;
                 long lastUpdateTime = packageInfo.lastUpdateTime;
-                ApplicationInfo ai = pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
+                ApplicationInfo ai = info.activityInfo.applicationInfo != null
+                        ? info.activityInfo.applicationInfo
+                        : pm.getApplicationInfo(info.activityInfo.packageName, PackageManager.GET_ACTIVITIES);
                 CharSequence name = info.activityInfo.loadLabel(context.getPackageManager());
                 boolean isSys = (ai.flags & ai.FLAG_SYSTEM) != 0;
-                String topApp = getTopApp();
-                boolean isTopApp = ai.packageName.contains(topApp);
-                int vCode = pm.getPackageInfo(pkg, 0).versionCode;
-                String vName = pm.getPackageInfo(pkg, 0).versionName;
+                boolean isTopApp = topApp != null && ai.packageName.equals(topApp);
+                int vCode = packageInfo.versionCode;
+                String vName = packageInfo.versionName;
                 String sourceDir = ai.sourceDir;
-                boolean isRunning = isAppRunning(ai.packageName);
+                boolean isRunning = runtimeSnapshot.processMap.containsKey(ai.packageName);
                 AppEntity entity = new AppEntity(name.toString(), pkg, vCode, vName, firstInstallTime, lastUpdateTime,/* icon,*/ isTopApp,
-                        isRunning, isSys, false, true, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
-                getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
+                        isRunning, isSys, false, true, ai.uid, getPidFromSnapshot(pkg, runtimeSnapshot), sourceDir,
+                        getProcessFromSnapshot(pkg, runtimeSnapshot), getServiceFromSnapshot(pkg, runtimeSnapshot),
+                        getApkSize(ai), getMemoryFromSnapshot(pkg, runtimeSnapshot), 0, 0, false);
                 appEntityList.add(entity);
             }
             return appEntityList;
@@ -133,13 +144,24 @@ public class AppsUtils {
      * @return 返回对应应用的Drawable图标，如果未找到则返回null
      */
     public static Drawable getAppIcon(Context context, String packageName) {
+        if (context == null || TextUtils.isEmpty(packageName)) {
+            return null;
+        }
+        Drawable cached = APP_ICON_CACHE.get(packageName);
+        if (cached != null) {
+            return cached;
+        }
         // 获取包管理器
         PackageManager pm = context.getPackageManager();
         try {
             // 根据包名获取应用信息
             ApplicationInfo appInfo = pm.getApplicationInfo(packageName, 0);
             // 返回应用图标
-            return pm.getApplicationIcon(appInfo);
+            Drawable icon = pm.getApplicationIcon(appInfo);
+            if (icon != null) {
+                APP_ICON_CACHE.put(packageName, icon);
+            }
+            return icon;
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -270,6 +292,9 @@ public class AppsUtils {
         PackageManager packageManager = context.getPackageManager();
         ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<AppEntity> appList = new ArrayList<>();
+        RuntimeSnapshot runtimeSnapshot = buildRuntimeSnapshot(activityManager);
+        Set<String> launcherPackages = getLauncherPackageSet(packageManager);
+        String topApp = safeGetTopApp(activityManager);
         List<ApplicationInfo> installedApps = packageManager.getInstalledApplications(PackageManager.GET_META_DATA);
         for (ApplicationInfo appInfo : installedApps) {
             try {
@@ -283,15 +308,15 @@ public class AppsUtils {
                 long lastUpdateTime = packageInfo.lastUpdateTime;
 //                Drawable icon = packageManager.getApplicationIcon(appInfo);
                 int uid = appInfo.uid;
-                int pid = getPid(appInfo.packageName, activityManager);
+                int pid = getPidFromSnapshot(pkg, runtimeSnapshot);
                 String sourceDir = appInfo.sourceDir;
-                String topApp = getTopApp();
-                boolean isTopApp = appInfo.packageName.contains(topApp);
-                boolean isRunning = isAppRunning(appInfo.packageName);
-                boolean isLauncherApp = isLauncherApp(pkg);
+                boolean isTopApp = topApp != null && appInfo.packageName.equals(topApp);
+                boolean isRunning = runtimeSnapshot.processMap.containsKey(appInfo.packageName);
+                boolean isLauncherApp = launcherPackages.contains(pkg);
                 AppEntity entity = new AppEntity(name, pkg, vCode, versionName, firstInstallTime, lastUpdateTime,/* icon,*/ isTopApp,
-                        isRunning, isSys, false, isLauncherApp, getUidByPackageName(pkg), getPidByPackageName(pkg), sourceDir, getAllProcess(pkg), getRunService(pkg),
-                        getApkSize(context,pkg),getAppMemoryInMB(context,pkg),getAppCpuUsage(context,pkg),0,false);
+                        isRunning, isSys, false, isLauncherApp, uid, pid, sourceDir,
+                        getProcessFromSnapshot(pkg, runtimeSnapshot), getServiceFromSnapshot(pkg, runtimeSnapshot),
+                        getApkSize(appInfo), getMemoryFromSnapshot(pkg, runtimeSnapshot), 0, 0, false);
                 appList.add(entity);
             } catch (Throwable e) {
             }
@@ -300,12 +325,166 @@ public class AppsUtils {
     }
 
     public static int getPid(String pkg, ActivityManager aManager) {
-        for (ActivityManager.RunningAppProcessInfo processInfo : aManager.getRunningAppProcesses()) {
+        if (aManager == null || ObjectUtils.isEmpty(pkg)) {
+            return -1;
+        }
+        List<ActivityManager.RunningAppProcessInfo> runningProcesses = aManager.getRunningAppProcesses();
+        if (runningProcesses == null) {
+            return -1;
+        }
+        for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
             if (processInfo.processName.equals(pkg)) {
                 return processInfo.pid;
             }
         }
         return -1;
+    }
+
+    private static RuntimeSnapshot buildRuntimeSnapshot(ActivityManager activityManager) {
+        RuntimeSnapshot snapshot = new RuntimeSnapshot();
+        if (activityManager == null) {
+            return snapshot;
+        }
+
+        List<ActivityManager.RunningAppProcessInfo> runningProcesses = activityManager.getRunningAppProcesses();
+        if (runningProcesses != null && !runningProcesses.isEmpty()) {
+            List<Integer> pidList = new ArrayList<>();
+            for (ActivityManager.RunningAppProcessInfo processInfo : runningProcesses) {
+                if (processInfo == null || TextUtils.isEmpty(processInfo.processName)) {
+                    continue;
+                }
+                ProcessEntity processEntity = new ProcessEntity();
+                processEntity.setPid(processInfo.pid);
+                processEntity.setProcessName(processInfo.processName);
+
+                String ownerPackage = findOwnerPackage(processInfo);
+                if (TextUtils.isEmpty(ownerPackage)) {
+                    ownerPackage = processInfo.processName;
+                }
+                List<ProcessEntity> processList = snapshot.processMap.get(ownerPackage);
+                if (processList == null) {
+                    processList = new ArrayList<>();
+                    snapshot.processMap.put(ownerPackage, processList);
+                }
+                processList.add(processEntity);
+                if (!snapshot.pidMap.containsKey(ownerPackage)) {
+                    snapshot.pidMap.put(ownerPackage, processInfo.pid);
+                }
+                pidList.add(processInfo.pid);
+            }
+
+            if (!pidList.isEmpty()) {
+                int[] pids = new int[pidList.size()];
+                for (int i = 0; i < pidList.size(); i++) {
+                    pids[i] = pidList.get(i);
+                }
+                try {
+                    Debug.MemoryInfo[] memoryInfos = activityManager.getProcessMemoryInfo(pids);
+                    for (int i = 0; i < memoryInfos.length && i < pidList.size(); i++) {
+                        int pssMB = (memoryInfos[i].getTotalPss() + 1023) / 1024;
+                        snapshot.memoryMap.put(pidList.get(i), pssMB);
+                    }
+                } catch (Throwable ignored) {
+                }
+            }
+        }
+
+        try {
+            List<ActivityManager.RunningServiceInfo> runningServices = activityManager.getRunningServices(Integer.MAX_VALUE);
+            if (runningServices != null) {
+                for (ActivityManager.RunningServiceInfo serviceInfo : runningServices) {
+                    if (serviceInfo == null || serviceInfo.service == null) {
+                        continue;
+                    }
+                    String pkg = serviceInfo.service.getPackageName();
+                    List<String> serviceList = snapshot.serviceMap.get(pkg);
+                    if (serviceList == null) {
+                        serviceList = new ArrayList<>();
+                        snapshot.serviceMap.put(pkg, serviceList);
+                    }
+                    serviceList.add(serviceInfo.service.getClassName());
+                }
+            }
+        } catch (Throwable ignored) {
+        }
+        return snapshot;
+    }
+
+    private static String findOwnerPackage(ActivityManager.RunningAppProcessInfo processInfo) {
+        if (processInfo.pkgList != null && processInfo.pkgList.length > 0 && !TextUtils.isEmpty(processInfo.pkgList[0])) {
+            return processInfo.pkgList[0];
+        }
+        String processName = processInfo.processName;
+        int subProcessIndex = processName.indexOf(':');
+        return subProcessIndex > 0 ? processName.substring(0, subProcessIndex) : processName;
+    }
+
+    private static Set<String> getLauncherPackageSet(PackageManager packageManager) {
+        Set<String> launcherPackages = new HashSet<>();
+        Intent launcherIntent = new Intent(Intent.ACTION_MAIN);
+        launcherIntent.addCategory(Intent.CATEGORY_LAUNCHER);
+        List<ResolveInfo> launcherInfos = packageManager.queryIntentActivities(launcherIntent, 0);
+        if (launcherInfos != null) {
+            for (ResolveInfo resolveInfo : launcherInfos) {
+                if (resolveInfo != null && resolveInfo.activityInfo != null) {
+                    launcherPackages.add(resolveInfo.activityInfo.packageName);
+                }
+            }
+        }
+        return launcherPackages;
+    }
+
+    private static String safeGetTopApp(ActivityManager activityManager) {
+        try {
+            if (activityManager == null) {
+                return null;
+            }
+            List<ActivityManager.RunningTaskInfo> list = activityManager.getRunningTasks(1);
+            return list != null && !list.isEmpty() && list.get(0).topActivity != null
+                    ? list.get(0).topActivity.getPackageName()
+                    : null;
+        } catch (Throwable ignored) {
+            return null;
+        }
+    }
+
+    private static int getPidFromSnapshot(String pkg, RuntimeSnapshot snapshot) {
+        Integer pid = snapshot.pidMap.get(pkg);
+        return pid == null ? -1 : pid;
+    }
+
+    private static List<ProcessEntity> getProcessFromSnapshot(String pkg, RuntimeSnapshot snapshot) {
+        List<ProcessEntity> processList = snapshot.processMap.get(pkg);
+        return processList == null ? new ArrayList<ProcessEntity>() : new ArrayList<>(processList);
+    }
+
+    private static List<String> getServiceFromSnapshot(String pkg, RuntimeSnapshot snapshot) {
+        List<String> serviceList = snapshot.serviceMap.get(pkg);
+        return serviceList == null ? new ArrayList<String>() : new ArrayList<>(serviceList);
+    }
+
+    private static int getMemoryFromSnapshot(String pkg, RuntimeSnapshot snapshot) {
+        Integer pid = snapshot.pidMap.get(pkg);
+        if (pid == null) {
+            return 0;
+        }
+        Integer memory = snapshot.memoryMap.get(pid);
+        return memory == null ? 0 : memory;
+    }
+
+    private static long getApkSize(ApplicationInfo appInfo) {
+        if (appInfo == null || TextUtils.isEmpty(appInfo.sourceDir)) {
+            return 0;
+        }
+        File apkFile = new File(appInfo.sourceDir);
+        return apkFile.exists() ? apkFile.length() : 0;
+    }
+
+    private static class RuntimeSnapshot {
+        final Map<String, List<ProcessEntity>> processMap = new HashMap<>();
+        final Map<String, List<String>> serviceMap = new HashMap<>();
+        final Map<String, Integer> pidMap = new HashMap<>();
+        final Map<Integer, Integer> memoryMap = new HashMap<>();
     }
 
     /**
@@ -625,8 +804,7 @@ public class AppsUtils {
      */
     public static String getTopApp() {
         ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(1);
-        return list != null ? list.get(0).topActivity.getPackageName() : null;
+        return safeGetTopApp(am);
     }
 
     /**

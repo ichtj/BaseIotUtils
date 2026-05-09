@@ -62,4 +62,42 @@
     <style name="life_spinner_style"  parent="@android:style/Widget.TextView.SpinnerItem">
         <item name="android:textSize">18pt</item><!--可以按照自己的情况在里面设定-->
     </style>
+    <style name="DownloadTaskCard">
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:padding">14dp</item>
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:elevation">2dp</item>
+    </style>
+
+    <style name="DownloadTaskTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">#18212F</item>
+        <item name="android:textSize">17sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="DownloadTaskMeta">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:textColor">#617084</item>
+        <item name="android:textSize">13sp</item>
+    </style>
+
+    <style name="DownloadTaskActions">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+
+    <style name="DownloadActionButton">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginRight">6dp</item>
+        <item name="android:textSize">13sp</item>
+    </style>
 </resources>

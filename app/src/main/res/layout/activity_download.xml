@@ -3,255 +3,321 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#F4F7FB"
     android:fitsSystemWindows="true">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="18dp">
 
         <com.face_chtj.base_iotutils.view.TopTitleBar
             android:id="@+id/ctTopView"
             android:layout_width="match_parent"
             android:layout_height="56dp"
-            app:centerText="文件下载"
+            app:backgroundColor="@color/white"
+            app:centerText="Download"
+            app:leftBack="true"
             app:leftIcon="@drawable/ic_back"
-            app:leftIconSize="20dp"
             app:leftIconPadding="6dp"
-            app:backgroundColor="#E6E4E4"
-            app:textSize="18sp"
-            app:textColor="@color/black"
-            app:leftBack="true" />
-        <Button
-            android:id="@+id/btn_start_down1"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downloadFile1"
-            android:text="文件下载update1.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_start_down2"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downloadFile2"
-            android:text="文件下载update2.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_start_down3"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downloadFile3"
-            android:text="文件下载update3.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_start_down4"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downloadFile4"
-            android:text="文件下载update4.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_pause1"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause1"
-            android:text="暂停任务update1.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_pause2"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause2"
-            android:text="暂停任务update2.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_pause3"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause3"
-            android:text="暂停任务update3.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_pause4"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause4"
-            android:text="暂停任务update4.zip"
-            android:textSize="@dimen/small_text_size" />
-        <Button
-            android:id="@+id/btn_cancel1"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause4"
-            android:text="取消任务update1.zip"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_pause"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downTaskPause"
-            android:text="暂停所有任务"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_stop"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="downloadStop"
-            android:text="关闭所有任务"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_clearfile"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="clearFile"
-            android:text="清理文件(先关闭所有任务⬆)"
-            android:textSize="@dimen/small_text_size" />
-
-        <Button
-            android:id="@+id/btn_getdown_status"
-            android:layout_width="match_parent"
-            android:layout_height="80dp"
-            android:onClick="getdown_status"
-            android:text="是否有任务正在执行下载"
-            android:textSize="@dimen/small_text_size" />
+            app:leftIconSize="20dp"
+            app:textColor="@android:color/black"
+            app:textSize="18sp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_margin="12dp"
+            android:background="#FFFFFF"
+            android:elevation="2dp"
+            android:orientation="vertical"
+            android:padding="14dp">
+
+            <TextView
+                android:id="@+id/tvSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Summary: idle"
+                android:textColor="#18212F"
+                android:textSize="17sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvSavePath"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Save path"
+                android:textColor="#617084"
+                android:textSize="13sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_resume_all"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:onClick="resumeAllTask"
+                    android:text="Resume all"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_pause"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:onClick="downTaskPause"
+                    android:text="Pause all"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_getdown_status"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:onClick="getdown_status"
+                    android:text="Refresh"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_stop"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:onClick="downloadStop"
+                    android:text="Cancel all"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/btn_clearfile"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_weight="1"
+                    android:onClick="clearFile"
+                    android:text="Clear"
+                    android:textSize="14sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/DownloadTaskCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvResult1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="update1.zip"
-                android:textSize="@dimen/small_text_size" />
+                style="@style/DownloadTaskTitle"
+                android:text="update1.zip" />
 
             <TextView
                 android:id="@+id/tvTime1"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp" />
+                style="@style/DownloadTaskMeta"
+                android:text="Status: idle" />
+
+            <ProgressBar
+                android:id="@+id/pbProgressbar1"
+                style="@style/mProgressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0" />
+
+            <LinearLayout
+                style="@style/DownloadTaskActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_start_down1"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downloadFile1"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/btn_pause1"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downTaskPause1"
+                    android:text="Pause" />
+
+                <Button
+                    android:id="@+id/btn_cancel1"
+                    style="@style/DownloadActionButton"
+                    android:onClick="cancelTask1"
+                    android:text="Cancel" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/pbProgressbar1"
-            style="@style/mProgressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:max="100"
-            android:progress="0"
-            android:textSize="@dimen/small_text_size" />
-
         <LinearLayout
+            style="@style/DownloadTaskCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvResult2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="update2.zip"
-                android:textSize="@dimen/small_text_size" />
+                style="@style/DownloadTaskTitle"
+                android:text="update2.zip" />
 
             <TextView
                 android:id="@+id/tvTime2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp" />
+                style="@style/DownloadTaskMeta"
+                android:text="Status: idle" />
+
+            <ProgressBar
+                android:id="@+id/pbProgressbar2"
+                style="@style/mProgressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0" />
+
+            <LinearLayout
+                style="@style/DownloadTaskActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_start_down2"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downloadFile2"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/btn_pause2"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downTaskPause2"
+                    android:text="Pause" />
+
+                <Button
+                    style="@style/DownloadActionButton"
+                    android:onClick="cancelTask2"
+                    android:text="Cancel" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/pbProgressbar2"
-            style="@style/mProgressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:max="100"
-            android:progress="0"
-            android:textSize="@dimen/small_text_size" />
-
         <LinearLayout
+            style="@style/DownloadTaskCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvResult3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="update3.zip"
-                android:textSize="@dimen/small_text_size" />
+                style="@style/DownloadTaskTitle"
+                android:text="update3.zip" />
 
             <TextView
                 android:id="@+id/tvTime3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp" />
+                style="@style/DownloadTaskMeta"
+                android:text="Status: idle" />
+
+            <ProgressBar
+                android:id="@+id/pbProgressbar3"
+                style="@style/mProgressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0" />
+
+            <LinearLayout
+                style="@style/DownloadTaskActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_start_down3"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downloadFile3"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/btn_pause3"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downTaskPause3"
+                    android:text="Pause" />
+
+                <Button
+                    style="@style/DownloadActionButton"
+                    android:onClick="cancelTask3"
+                    android:text="Cancel" />
+            </LinearLayout>
         </LinearLayout>
 
-        <ProgressBar
-            android:id="@+id/pbProgressbar3"
-            style="@style/mProgressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:max="100"
-            android:progress="0"
-            android:textSize="@dimen/small_text_size" />
-
         <LinearLayout
+            style="@style/DownloadTaskCard"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/tvResult4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="update4.zip"
-                android:textSize="@dimen/small_text_size" />
+                style="@style/DownloadTaskTitle"
+                android:text="update4.zip" />
 
             <TextView
                 android:id="@+id/tvTime4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp" />
-        </LinearLayout>
+                style="@style/DownloadTaskMeta"
+                android:text="Status: idle" />
 
-        <ProgressBar
-            android:id="@+id/pbProgressbar4"
-            style="@style/mProgressBarStyle"
-            android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:max="100"
-            android:progress="0"
-            android:textSize="@dimen/small_text_size" />
+            <ProgressBar
+                android:id="@+id/pbProgressbar4"
+                style="@style/mProgressBarStyle"
+                android:layout_width="match_parent"
+                android:layout_height="28dp"
+                android:layout_marginTop="8dp"
+                android:max="100"
+                android:progress="0" />
+
+            <LinearLayout
+                style="@style/DownloadTaskActions"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <Button
+                    android:id="@+id/btn_start_down4"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downloadFile4"
+                    android:text="Start" />
+
+                <Button
+                    android:id="@+id/btn_pause4"
+                    style="@style/DownloadActionButton"
+                    android:onClick="downTaskPause4"
+                    android:text="Pause" />
+
+                <Button
+                    style="@style/DownloadActionButton"
+                    android:onClick="cancelTask4"
+                    android:text="Cancel" />
+            </LinearLayout>
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:text="下载进度受系统读写性能影响,以及网络状况"
-            android:textSize="@dimen/small_text_size" />
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="6dp"
+            android:text="Tip: click Start again to resume from the existing local file."
+            android:textColor="#6B7686"
+            android:textSize="13sp" />
 
     </LinearLayout>
 </ScrollView>
-

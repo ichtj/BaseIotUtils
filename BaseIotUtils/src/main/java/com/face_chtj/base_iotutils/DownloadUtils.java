@@ -1,9 +1,12 @@
 package com.face_chtj.base_iotutils;
 
-import com.face_chtj.base_iotutils.download.DownloadErrorCode;
-import com.face_chtj.base_iotutils.entity.FileData;
-import com.face_chtj.base_iotutils.entity.DownloadStatus;
+import android.os.Handler;
+import android.os.Looper;
+
 import com.face_chtj.base_iotutils.callback.IDownloadCallback;
+import com.face_chtj.base_iotutils.download.DownloadErrorCode;
+import com.face_chtj.base_iotutils.entity.DownloadStatus;
+import com.face_chtj.base_iotutils.entity.FileData;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -15,46 +18,37 @@ import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.net.ssl.SSLHandshakeException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 /**
- * 多任务下载管理工具类
- * 任务整个过程依据requestTag来标识，请用不同的标识区分
- * 注：该下载工具类没有使用Sqlite来进行保存进度，而是通过获取文件的长度来判断断点下载的位置
- * 该工具类会打印一些日志，若后期相对稳定后，将会去掉日志
- * 具体使用请参考README.md的描述进行
- * 多个任务只需要一个DownloadCallBack作为进度监听，并且依据requestTag来做区分即可
- * <p>
- * BufferedInputStream 8192解释
- * 我们调用缓冲流来读取数据，系统会先看一下缓冲区中有没有可用数据，有的话直接从缓冲区中复制数据给用户
- * 如果缓冲区中没有可用数据，则从真正的InputStream中读一次性读取8K的数据保存在缓冲区中，然后再从缓冲区中复制数据给用户
- * 如果用户接收数据的数组长度大于或等于缓冲区的长度，则系统就不会使用缓存区来保存数据了，而是直接从InputStream中读取数据保存到用户的数组中
- * <p>
- * 此工具类可满足多个场景需求
- * 若您在使用过程发现问题时可及时提出 随后将会在恰当的时间做更新
+ * 多任务下载管理工具类。
+ * 通过 requestTag 区分任务，使用目标文件长度实现断点续传。
  */
 public class DownloadUtils {
 
-    private final Map<String, Call> callMap = new HashMap<String, Call>();
+    private static final int DEFAULT_BUFFER_SIZE = 8 * 1024;
+
+    private final Map<String, Call> callMap = new ConcurrentHashMap<String, Call>();
+    private final Map<String, Integer> statusMap = new ConcurrentHashMap<String, Integer>();
+    private final Map<String, Integer> progressMap = new ConcurrentHashMap<String, Integer>();
+    private final List<FileData> fileDatas = new CopyOnWriteArrayList<FileData>();
+    private final List<IDownloadCallback> iCallBack = new CopyOnWriteArrayList<IDownloadCallback>();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
     private final OkHttpClient client;
-    private int MAX_BUFF_SIZE = 2048;
-    private final Map<String, Integer> statusMap = new HashMap<String, Integer>();
-    private final Map<String, Integer> progressMap = new HashMap<String, Integer>();
-    private final List<FileData> fileDatas = new ArrayList<FileData>();
-    private final List<IDownloadCallback> iCallBack = new ArrayList<IDownloadCallback>();
+
+    private volatile int maxBuffSize = DEFAULT_BUFFER_SIZE;
     private static volatile DownloadUtils sInstance;
 
     private static DownloadUtils instance() {
@@ -66,6 +60,10 @@ public class DownloadUtils {
             }
         }
         return sInstance;
+    }
+
+    private DownloadUtils() {
+        client = new OkHttpClient.Builder().build();
     }
 
     public static void registerCallback(IDownloadCallback callback) {
@@ -85,270 +83,402 @@ public class DownloadUtils {
     }
 
     public static boolean isRunningTask() {
-        if (instance().statusMap.isEmpty()) {
-            return false;
-        }
-
         for (Map.Entry<String, Integer> entry : instance().statusMap.entrySet()) {
-            if (entry.getValue() == DownloadStatus.STATUS_RUNNING) {
+            if (entry.getValue() != null && entry.getValue() == DownloadStatus.STATUS_RUNNING) {
                 return true;
             }
         }
-
         return false;
     }
 
-    private DownloadUtils() {
-        Interceptor interceptor = new Interceptor() {
-            @Override
-            public Response intercept(Chain chain) throws IOException {
-                Response originalResponse = chain.proceed(chain.request());
-                return originalResponse.newBuilder().body(originalResponse.body()).build();
-            }
-        };
-        client = new OkHttpClient.Builder().addNetworkInterceptor(interceptor).build();
-    }
-
     public static void setBuffSize(int maxBuffSize) {
-        instance().MAX_BUFF_SIZE = maxBuffSize;
+        if (maxBuffSize > 0) {
+            instance().maxBuffSize = maxBuffSize;
+        }
     }
 
     public static void addStartTask(final FileData fileData) {
-        if (fileData == null) {
+        if (!prepareFileData(fileData)) {
+            dispatchError(fileData, new IllegalArgumentException("fileData url/filePath/requestTag is invalid"),
+                    DownloadErrorCode.UNKNOWN_ERROR);
             return;
         }
 
         final String tag = fileData.getRequestTag();
-
-        if (instance().progressMap.containsKey(tag) ||
-                (instance().statusMap.containsKey(tag) && instance().statusMap.get(tag) == DownloadStatus.STATUS_RUNNING)) {
-            for (int i = 0; i < instance().iCallBack.size(); i++) {
-                instance().iCallBack.get(i).taskExist(fileData);
-            }
+        Integer status = instance().statusMap.get(tag);
+        if (status != null && status == DownloadStatus.STATUS_RUNNING) {
+            dispatchTaskExist(fileData);
             return;
         }
 
         instance().progressMap.put(tag, 0);
         instance().statusMap.put(tag, DownloadStatus.STATUS_RUNNING);
+        dispatchStatus(fileData, DownloadStatus.STATUS_RUNNING);
 
-        for (int i = 0; i < instance().iCallBack.size(); i++) {
-            instance().iCallBack.get(i).downloadStatus(fileData, DownloadStatus.STATUS_RUNNING);
+        File file = new File(fileData.getFilePath());
+        long downloadedLength = file.exists() ? file.length() : 0;
+
+        Request.Builder requestBuilder = new Request.Builder()
+                .url(fileData.getUrl())
+                .tag(tag);
+        if (downloadedLength > 0) {
+            requestBuilder.header("Range", "bytes=" + downloadedLength + "-");
         }
 
-        long downloadedLength = new File(fileData.getFilePath()).length();
-
-        Request request = new Request.Builder()
-                .url(fileData.getUrl())
-                .tag(tag)
-                .header("RANGE", "bytes=" + downloadedLength + "-")
-                .build();
-
-        Call call = instance().client.newCall(request);
+        Call call = instance().client.newCall(requestBuilder.build());
         instance().callMap.put(tag, call);
-
         call.enqueue(new Callback() {
             @Override
             public void onFailure(Call call, IOException throwable) {
-                instance().callMap.remove(tag);
-                instance().statusMap.remove(tag);
-                instance().progressMap.remove(tag);
-                if (instance().statusMap!=null&&instance().statusMap.get(fileData.getRequestTag())!=null){
-                    int errorCode = DownloadErrorCode.UNKNOWN_ERROR;
-                    if (throwable instanceof UnknownHostException) {
-                        errorCode = DownloadErrorCode.UNKNOWN_HOST;
-                    } else if (throwable instanceof SocketTimeoutException) {
-                        errorCode = DownloadErrorCode.SOCKET_TIMEOUT;
-                    } else if (throwable instanceof ConnectException) {
-                        errorCode = DownloadErrorCode.CONNECT_EXCEPTION;
-                    } else if (throwable instanceof SSLHandshakeException) {
-                        errorCode = DownloadErrorCode.SSL_HANDSHAKE;
-                    } else if (throwable instanceof FileNotFoundException) {
-                        errorCode = DownloadErrorCode.FILE_NOT_FOUND;
-                    } else if (throwable instanceof IOException) {
-                        if (!NetUtils.reloadDnsPing()){
-                            errorCode = DownloadErrorCode.UNKNOWN_HOST;
-                        }else{
-                            errorCode = DownloadErrorCode.IO_ERROR;
-                        }
-                    }
-                    // 回调错误信息
-                    for (int i = 0; i < instance().iCallBack.size(); i++) {
-                        instance().iCallBack.get(i).error(fileData, throwable, errorCode);
-                    }
+                if (isPausedOrCancelled(tag, call)) {
+                    return;
                 }
+                cleanupTask(tag, true);
+                dispatchError(fileData, throwable, getErrorCode(throwable));
+                dispatchAllCompleteIfIdle();
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                save(response, fileData);
+            public void onResponse(Call call, Response response) {
+                try {
+                    save(response, fileData);
+                } catch (Throwable throwable) {
+                    if (!isPausedOrCancelled(tag, call)) {
+                        cleanupTask(tag, true);
+                        dispatchError(fileData, throwable, getErrorCode(throwable));
+                        dispatchAllCompleteIfIdle();
+                    }
+                }
             }
         });
     }
 
     public static void pause() {
-        for (Map.Entry<String, Integer> entry : instance().statusMap.entrySet()) {
-            instance().statusMap.put(entry.getKey(), DownloadStatus.STATUS_PAUSE);
+        for (String tag : new ArrayList<String>(instance().statusMap.keySet())) {
+            pause(tag);
         }
     }
 
     public static void pause(String requestTag) {
-        if (instance().statusMap.containsKey(requestTag)) {
-            instance().statusMap.put(requestTag, DownloadStatus.STATUS_PAUSE);
+        if (isEmpty(requestTag)) {
+            return;
+        }
+        Integer status = instance().statusMap.get(requestTag);
+        if (status == null || status != DownloadStatus.STATUS_RUNNING) {
+            return;
+        }
+        instance().statusMap.put(requestTag, DownloadStatus.STATUS_PAUSE);
+        instance().progressMap.remove(requestTag);
+        Call call = instance().callMap.remove(requestTag);
+        if (call != null && !call.isCanceled()) {
+            call.cancel();
+        }
+        FileData fileData = new FileData();
+        fileData.setRequestTag(requestTag);
+        dispatchStatus(fileData, DownloadStatus.STATUS_PAUSE);
+    }
+
+    public static void resumeAll(List<FileData> fileDataList) {
+        if (fileDataList == null || fileDataList.isEmpty()) {
+            return;
+        }
+        for (FileData fileData : fileDataList) {
+            resume(fileData);
         }
     }
 
+    public static void resume(FileData fileData) {
+        if (!prepareFileData(fileData)) {
+            dispatchError(fileData, new IllegalArgumentException("fileData url/filePath/requestTag is invalid"),
+                    DownloadErrorCode.UNKNOWN_ERROR);
+            return;
+        }
+        addStartTask(fileData);
+    }
+
     public static void removeTask(String requestTag) {
+        if (isEmpty(requestTag)) {
+            return;
+        }
+
+        instance().statusMap.put(requestTag, DownloadStatus.STATUS_CANCELLED);
         Call call = instance().callMap.remove(requestTag);
         if (call != null && !call.isCanceled()) {
             call.cancel();
         }
 
-        instance().statusMap.remove(requestTag);
-        instance().progressMap.remove(requestTag);
-
-        Iterator<FileData> iterator = instance().fileDatas.iterator();
-        while (iterator.hasNext()) {
-            FileData data = iterator.next();
-            if (requestTag.equals(data.getRequestTag())) {
-                iterator.remove();
-                break;
-            }
-        }
-
+        cleanupTask(requestTag, true);
         FileData dummy = new FileData();
         dummy.setRequestTag(requestTag);
-        for (int i = 0; i < instance().iCallBack.size(); i++) {
-            instance().iCallBack.get(i).downloadStatus(dummy, DownloadStatus.STATUS_CANCELLED);
-        }
-    }
-
-    private static void save(Response response, FileData fileData) {
-        String tag = fileData.getRequestTag();
-        ResponseBody body = response.body();
-        InputStream in = body != null ? body.byteStream() : null;
-        BufferedInputStream bis = new BufferedInputStream(in);
-        RandomAccessFile raf = null;
-
-        try {
-            File file = new File(fileData.getFilePath());
-            File parent = file.getParentFile();
-            if (parent != null && !parent.exists()) {
-                parent.mkdirs();
-            }
-
-            raf = new RandomAccessFile(file, "rwd");
-            long currentLength = raf.length();
-            long totalLength = body != null ? body.contentLength() : 0;
-            fileData.setTotal(currentLength + totalLength);
-
-            if (currentLength >= fileData.getTotal()) {
-                completeDownload(tag, fileData, 100);
-                return;
-            }
-
-            raf.seek(currentLength);
-            byte[] buffer = new byte[instance().MAX_BUFF_SIZE];
-            int len;
-            while ((len = bis.read(buffer)) != -1) {
-                raf.write(buffer, 0, len);
-
-                if (instance().statusMap.get(tag) == DownloadStatus.STATUS_PAUSE) {
-                    for (int i = 0; i < instance().iCallBack.size(); i++) {
-                        instance().iCallBack.get(i).downloadStatus(fileData, DownloadStatus.STATUS_PAUSE);
-                    }
-                    return;
-                }
-
-                currentLength += len;
-                fileData.setCurrent(currentLength);
-                int percent = (int) (currentLength * 100 / fileData.getTotal());
-
-                if (percent > instance().progressMap.get(tag)) {
-                    instance().progressMap.put(tag, percent);
-                    for (int i = 0; i < instance().iCallBack.size(); i++) {
-                        instance().iCallBack.get(i).downloadProgress(fileData, percent);
-                    }
-                }
-
-                if (currentLength >= fileData.getTotal()) {
-                    completeDownload(tag, fileData, 100);
-                    break;
-                }
-            }
-
-            instance().fileDatas.add(fileData);
-            instance().statusMap.remove(tag);
-            instance().progressMap.remove(tag);
-            instance().callMap.remove(tag);
-
-            if (instance().statusMap.isEmpty()) {
-                for (int i = 0; i < instance().iCallBack.size(); i++) {
-                    instance().iCallBack.get(i).allDownloadComplete(new ArrayList<FileData>(instance().fileDatas));
-                }
-                instance().fileDatas.clear();
-            }
-
-        } catch (Throwable throwable) {
-            if (instance().statusMap!=null&&instance().statusMap.get(fileData.getRequestTag())!=null){
-                int errorCode = DownloadErrorCode.UNKNOWN_ERROR;
-                if (throwable instanceof UnknownHostException) {
-                    errorCode = DownloadErrorCode.UNKNOWN_HOST;
-                } else if (throwable instanceof SocketTimeoutException) {
-                    errorCode = DownloadErrorCode.SOCKET_TIMEOUT;
-                } else if (throwable instanceof ConnectException) {
-                    errorCode = DownloadErrorCode.CONNECT_EXCEPTION;
-                } else if (throwable instanceof SSLHandshakeException) {
-                    errorCode = DownloadErrorCode.SSL_HANDSHAKE;
-                } else if (throwable instanceof FileNotFoundException) {
-                    errorCode = DownloadErrorCode.FILE_NOT_FOUND;
-                } else if (throwable instanceof IOException) {
-                    if (!NetUtils.reloadDnsPing()){
-                        errorCode = DownloadErrorCode.UNKNOWN_HOST;
-                    }else{
-                        errorCode = DownloadErrorCode.IO_ERROR;
-                    }
-                }
-                // 回调错误信息
-                for (int i = 0; i < instance().iCallBack.size(); i++) {
-                    instance().iCallBack.get(i).error(fileData, throwable, errorCode);
-                }
-            }
-        } finally {
-            try {
-                bis.close();
-            } catch (Throwable ignored) {}
-            try {
-                if (in != null) {
-                    in.close();
-                }
-            } catch (Throwable ignored) {}
-            if (raf != null) {
-                try {
-                    raf.close();
-                } catch (Throwable ignored) {}
-            }
-        }
-    }
-
-    private static void completeDownload(String tag, FileData fileData, int percent) {
-        instance().statusMap.put(tag, DownloadStatus.STATUS_COMPLETE);
-        instance().progressMap.put(tag, percent);
-        for (int i = 0; i < instance().iCallBack.size(); i++) {
-            instance().iCallBack.get(i).downloadProgress(fileData, percent);
-            instance().iCallBack.get(i).downloadStatus(fileData, DownloadStatus.STATUS_COMPLETE);
-        }
+        dispatchStatus(dummy, DownloadStatus.STATUS_CANCELLED);
+        dispatchAllCompleteIfIdle();
     }
 
     public static void cancelAll() {
         instance().client.dispatcher().cancelAll();
         for (Map.Entry<String, Call> entry : instance().callMap.entrySet()) {
-            if (!entry.getValue().isCanceled()) {
-                entry.getValue().cancel();
+            Call call = entry.getValue();
+            if (call != null && !call.isCanceled()) {
+                call.cancel();
             }
         }
         instance().callMap.clear();
         instance().statusMap.clear();
         instance().progressMap.clear();
         instance().fileDatas.clear();
+    }
+
+    private static void save(Response response, FileData fileData) throws IOException {
+        String tag = fileData.getRequestTag();
+        ResponseBody body = response.body();
+        try {
+            if (response.code() == 416) {
+                File file = new File(fileData.getFilePath());
+                if (file.exists() && file.length() > 0) {
+                    fileData.setCurrent(file.length());
+                    fileData.setTotal(file.length());
+                    completeDownload(tag, fileData);
+                    dispatchAllCompleteIfIdle();
+                    return;
+                }
+                throw new DownloadHttpException(response.code());
+            }
+            if (body == null) {
+                throw new IOException("response body is null");
+            }
+            if (!response.isSuccessful() && response.code() != 206) {
+                throw new DownloadHttpException(response.code());
+            }
+
+            File file = new File(fileData.getFilePath());
+            File parent = file.getParentFile();
+            if (parent != null && !parent.exists() && !parent.mkdirs()) {
+                throw new IOException("create parent dir failed: " + parent.getAbsolutePath());
+            }
+
+            long currentLength = file.exists() ? file.length() : 0;
+            if (currentLength > 0 && response.code() == 200) {
+                // Server ignored Range. Restart to avoid appending duplicated bytes.
+                currentLength = 0;
+            }
+
+            long contentLength = body.contentLength();
+            long totalLength = contentLength > 0 ? currentLength + contentLength : -1;
+            if (totalLength > 0) {
+                fileData.setTotal(totalLength);
+            }
+
+            InputStream inputStream = null;
+            BufferedInputStream bis = null;
+            RandomAccessFile raf = null;
+            boolean completed = false;
+            inputStream = body.byteStream();
+            try {
+                bis = new BufferedInputStream(inputStream);
+                raf = new RandomAccessFile(file, "rwd");
+                if (currentLength == 0) {
+                    raf.setLength(0);
+                }
+                raf.seek(currentLength);
+
+                byte[] buffer = new byte[instance().maxBuffSize];
+                int len;
+                while ((len = bis.read(buffer)) != -1) {
+                    Integer status = instance().statusMap.get(tag);
+                    if (status == null || status == DownloadStatus.STATUS_CANCELLED) {
+                        return;
+                    }
+                    if (status == DownloadStatus.STATUS_PAUSE) {
+                        return;
+                    }
+
+                    raf.write(buffer, 0, len);
+                    currentLength += len;
+                    fileData.setCurrent(currentLength);
+
+                    if (totalLength > 0) {
+                        int percent = (int) (currentLength * 100 / totalLength);
+                        Integer lastPercent = instance().progressMap.get(tag);
+                        if (lastPercent == null || percent > lastPercent) {
+                            instance().progressMap.put(tag, percent);
+                            dispatchProgress(fileData, percent);
+                        }
+                        if (currentLength >= totalLength) {
+                            completed = true;
+                            break;
+                        }
+                    }
+                }
+                if (totalLength <= 0) {
+                    completed = true;
+                }
+            } finally {
+                closeQuietly(raf);
+                closeQuietly(bis);
+                closeQuietly(inputStream);
+            }
+
+            if (completed) {
+                completeDownload(tag, fileData);
+                dispatchAllCompleteIfIdle();
+            }
+        } finally {
+            response.close();
+        }
+    }
+
+    private static void completeDownload(String tag, FileData fileData) {
+        instance().fileDatas.add(fileData);
+        cleanupTask(tag, true);
+        dispatchProgress(fileData, 100);
+        dispatchStatus(fileData, DownloadStatus.STATUS_COMPLETE);
+    }
+
+    private static boolean prepareFileData(FileData fileData) {
+        if (fileData == null || isEmpty(fileData.getUrl()) || isEmpty(fileData.getFilePath())) {
+            return false;
+        }
+        if (isEmpty(fileData.getRequestTag())) {
+            fileData.setRequestTag(fileData.getUrl());
+        }
+        return true;
+    }
+
+    private static void cleanupTask(String tag, boolean removeStatus) {
+        instance().callMap.remove(tag);
+        instance().progressMap.remove(tag);
+        if (removeStatus) {
+            instance().statusMap.remove(tag);
+        }
+    }
+
+    private static boolean isPausedOrCancelled(String tag, Call call) {
+        Integer status = instance().statusMap.get(tag);
+        return (status != null && (status == DownloadStatus.STATUS_PAUSE || status == DownloadStatus.STATUS_CANCELLED))
+                || (call != null && call.isCanceled());
+    }
+
+    private static void dispatchAllCompleteIfIdle() {
+        if (!instance().statusMap.isEmpty()) {
+            return;
+        }
+        final List<FileData> completedFiles = new ArrayList<FileData>(instance().fileDatas);
+        if (completedFiles.isEmpty()) {
+            return;
+        }
+        instance().fileDatas.clear();
+        postToMain(new Runnable() {
+            @Override
+            public void run() {
+                for (IDownloadCallback callback : instance().iCallBack) {
+                    try {
+                        callback.allDownloadComplete(completedFiles);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        });
+    }
+
+    private static void dispatchProgress(final FileData fileData, final int percent) {
+        postToMain(new Runnable() {
+            @Override
+            public void run() {
+                for (IDownloadCallback callback : instance().iCallBack) {
+                    try {
+                        callback.downloadProgress(fileData, percent);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        });
+    }
+
+    private static void dispatchStatus(final FileData fileData, final int status) {
+        postToMain(new Runnable() {
+            @Override
+            public void run() {
+                for (IDownloadCallback callback : instance().iCallBack) {
+                    try {
+                        callback.downloadStatus(fileData, status);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        });
+    }
+
+    private static void dispatchTaskExist(final FileData fileData) {
+        postToMain(new Runnable() {
+            @Override
+            public void run() {
+                for (IDownloadCallback callback : instance().iCallBack) {
+                    try {
+                        callback.taskExist(fileData);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        });
+    }
+
+    private static void dispatchError(final FileData fileData, final Throwable throwable, final int errorCode) {
+        postToMain(new Runnable() {
+            @Override
+            public void run() {
+                for (IDownloadCallback callback : instance().iCallBack) {
+                    try {
+                        callback.error(fileData, throwable, errorCode);
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+        });
+    }
+
+    private static void postToMain(Runnable runnable) {
+        if (Looper.myLooper() == Looper.getMainLooper()) {
+            runnable.run();
+        } else {
+            instance().mainHandler.post(runnable);
+        }
+    }
+
+    private static int getErrorCode(Throwable throwable) {
+        if (throwable instanceof UnknownHostException) {
+            return DownloadErrorCode.UNKNOWN_HOST;
+        } else if (throwable instanceof SocketTimeoutException) {
+            return DownloadErrorCode.SOCKET_TIMEOUT;
+        } else if (throwable instanceof ConnectException) {
+            return DownloadErrorCode.CONNECT_EXCEPTION;
+        } else if (throwable instanceof SSLHandshakeException) {
+            return DownloadErrorCode.SSL_HANDSHAKE;
+        } else if (throwable instanceof FileNotFoundException) {
+            return DownloadErrorCode.FILE_NOT_FOUND;
+        } else if (throwable instanceof DownloadHttpException) {
+            return DownloadErrorCode.HTTP_ERROR;
+        } else if (throwable instanceof IOException) {
+            return DownloadErrorCode.IO_ERROR;
+        }
+        return DownloadErrorCode.UNKNOWN_ERROR;
+    }
+
+    private static boolean isEmpty(String value) {
+        return value == null || value.length() == 0;
+    }
+
+    private static void closeQuietly(java.io.Closeable closeable) {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (Throwable ignored) {
+            }
+        }
+    }
+
+    private static class DownloadHttpException extends IOException {
+        DownloadHttpException(int code) {
+            super("http error: " + code);
+        }
     }
 }

@@ -179,8 +179,8 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
      * 查询桌面应用
      */
     public void getDeskAppClick(View view) {
-        currentType=TYPE_UNINSTALLABLE;
-        refreshData(TYPE_UNINSTALLABLE);
+        currentType=TYPE_DESKTOP;
+        refreshData(TYPE_DESKTOP);
     }
 
     /**

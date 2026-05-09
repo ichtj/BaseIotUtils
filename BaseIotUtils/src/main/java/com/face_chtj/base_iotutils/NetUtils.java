@@ -43,6 +43,7 @@ import java.util.regex.Pattern;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * @author chtj
@@ -86,6 +87,9 @@ public class NetUtils {
      * @param dnsList xx.xx.xx.xx,xx.n.n.n.....
      */
     public static void setDnsList(String[] dnsList) {
+        if (dnsList == null || dnsList.length == 0) {
+            return;
+        }
         instance().DNS_LIST = dnsList;
     }
 
@@ -114,6 +118,9 @@ public class NetUtils {
      */
     public static int getNetWorkType() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return NETWORK_NO;
+        }
         NetworkInfo ni = cm.getActiveNetworkInfo();// 获取当前网络状态
         if (ni != null && ni.isConnectedOrConnecting()) {
             switch (ni.getType()) {//获取当前网络的状态
@@ -146,7 +153,7 @@ public class NetUtils {
                             return NETWORK_4G;//切换到4G环境下
                         default:
                             String subtypeName = ni.getSubtypeName();
-                            if (subtypeName.equalsIgnoreCase("TD-SCDMA") || subtypeName.equalsIgnoreCase("WCDMA") || subtypeName.equalsIgnoreCase("CDMA2000")) {
+                            if ("TD-SCDMA".equalsIgnoreCase(subtypeName) || "WCDMA".equalsIgnoreCase(subtypeName) || "CDMA2000".equalsIgnoreCase(subtypeName)) {
                                 return NETWORK_3G;
                             } else {
                                 return NETWORK_MOBILE;//标识为可用网络
@@ -211,15 +218,25 @@ public class NetUtils {
      */
     public static boolean isNetworkAvailable() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        if (cm != null) {
-            //如果仅仅是用来判断网络连接
-            //则可以使用 cm.getActiveNetworkInfo().isAvailable();
-            NetworkInfo[] info = cm.getAllNetworkInfo();
-            if (info != null) {
-                for (NetworkInfo networkInfo : info) {
-                    if (networkInfo.getState() == NetworkInfo.State.CONNECTED) {
-                        return true;
-                    }
+        if (cm == null) {
+            return false;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            Network network = cm.getActiveNetwork();
+            NetworkCapabilities capabilities = network == null ? null : cm.getNetworkCapabilities(network);
+            return capabilities != null
+                    && capabilities.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                    && (capabilities.hasTransport(NetworkCapabilities.TRANSPORT_WIFI)
+                    || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR)
+                    || capabilities.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET));
+        }
+        //如果仅仅是用来判断网络连接
+        //则可以使用 cm.getActiveNetworkInfo().isAvailable();
+        NetworkInfo[] info = cm.getAllNetworkInfo();
+        if (info != null) {
+            for (NetworkInfo networkInfo : info) {
+                if (networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED) {
+                    return true;
                 }
             }
         }
@@ -361,6 +378,9 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     public static boolean checkNetWork(String[] dnsList, int count, int w) {
+        if (dnsList == null || dnsList.length == 0) {
+            return false;
+        }
         for (String pingAddr : dnsList) {
             DnsBean dnsBean = NetUtils.ping(pingAddr, count, w);
             if (dnsBean.isPass) {
@@ -376,6 +396,9 @@ public class NetUtils {
      */
     public static List<DnsBean> checkNetWork(String... dnsList) {
         List<DnsBean> dnsBeans = new ArrayList<>();
+        if (dnsList == null || dnsList.length == 0) {
+            return dnsBeans;
+        }
         for (String pingDns : dnsList) {
             DnsBean dnsBean = NetUtils.ping(pingDns, 1, 1);
             dnsBeans.add(dnsBean);
@@ -388,6 +411,9 @@ public class NetUtils {
      * dns中只要有一个通过 那么证明网络正常
      */
     private static DnsBean checkNetWorkCallback() {
+        if (getDnsList() == null || getDnsList().length == 0) {
+            return new DnsBean("", "", false, -1);
+        }
         for (String pingDns : getDnsList()) {
             DnsBean dnsBean = NetUtils.ping(pingDns, 1, 1);
             if (dnsBean.isPass) {
@@ -449,7 +475,9 @@ public class NetUtils {
                         .url(host) // 你要测试的目标网址
                         .method("HEAD", null)  // 使用 HEAD 请求方法
                         .build();
-                return client.newCall(request).execute().isSuccessful();
+                try (Response response = client.newCall(request).execute()) {
+                    return response.isSuccessful();
+                }
             } catch (Exception e) {
                 KLog.d("无法连接到外部服务器：" + e.getMessage());
             }
@@ -492,47 +520,54 @@ public class NetUtils {
      * W 等待一个响应的时间，单位为秒
      */
     public static DnsBean ping(String ip, int c, int w, int W) {
-        InputStreamReader isr = null;
-        StringBuffer cbstr = new StringBuffer();
+        StringBuilder cbstr = new StringBuilder();
+        Process p = null;
+        String safeIp = ip == null ? "" : ip.replaceFirst("https?://", "").trim();
         try {
-            //过滤http:// 或 https://
-            ip = ip.replaceFirst("https?://", "");
             cbstr.append("ping");
             cbstr.append(c > 0 ? (" -c " + c) : (" -c 1"));
             cbstr.append(w > 0 ? (" -w " + w) : (" -w 1"));
             cbstr.append(W > 0 ? (" -W " + W) : (" -W 1"));
             //cbstr.append(s > 0 ? (" -s " + s) : (" -s 64"));
-            cbstr.append(" " + ip);
-            Process p = Runtime.getRuntime().exec(cbstr.toString());// ping网址3次
-            // 读取ping的内容，可以不加
-            isr = new InputStreamReader(p.getInputStream());
-            BufferedReader bReader = new BufferedReader(isr);
-            //KLog.d("cmd >> "+cbstr);
-            String line = "";
-            while ((line = bReader.readLine()) != null) {
-                String from = extractIcmpSeq(RegularTools.REGULAR_IP, line, true).replaceAll("-1", "");
-                int ttl = Integer.parseInt(extractIcmpSeq("ttl=(\\d+)", line, false));
-                int delay = Integer.parseInt(extractIcmpSeq("time=(\\d+)", line, false));
-                if (ttl != -1 && delay != -1) {
-                    DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, true, findStringIndex(ip), from, ttl, delay);
-                    refreshDns(dnsBean);
-                    return dnsBean;
+            cbstr.append(" " + safeIp);
+            if (safeIp.length() == 0 || safeIp.contains(" ") || safeIp.contains(";") || safeIp.contains("&") || safeIp.contains("|")) {
+                DnsBean dnsBean = new DnsBean(cbstr.toString(), safeIp, false, findStringIndex(safeIp));
+                refreshDns(dnsBean);
+                return dnsBean;
+            }
+            ProcessBuilder processBuilder = new ProcessBuilder(
+                    "ping",
+                    "-c", String.valueOf(c > 0 ? c : 1),
+                    "-w", String.valueOf(w > 0 ? w : 1),
+                    "-W", String.valueOf(W > 0 ? W : 1),
+                    safeIp
+            );
+            processBuilder.redirectErrorStream(true);
+            p = processBuilder.start();
+            try (BufferedReader bReader = new BufferedReader(new InputStreamReader(p.getInputStream()))) {
+                String line;
+                while ((line = bReader.readLine()) != null) {
+                    String from = extractIcmpSeq(RegularTools.REGULAR_IP, line, true).replaceAll("-1", "");
+                    int ttl = parsePingInt("ttl=(\\d+)", line);
+                    int delay = parsePingInt("time[=<](\\d+)", line);
+                    if (ttl != -1 && delay != -1) {
+                        DnsBean dnsBean = new DnsBean(cbstr.toString(), safeIp, true, findStringIndex(safeIp), from, ttl, delay);
+                        refreshDns(dnsBean);
+                        return dnsBean;
+                    }
                 }
             }
-            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false, findStringIndex(ip));
+            DnsBean dnsBean = new DnsBean(cbstr.toString(), safeIp, false, findStringIndex(safeIp));
             //KLog.d(dnsBean.toString());
             refreshDns(dnsBean);
             return dnsBean;
         } catch (Throwable e) {
-            DnsBean dnsBean = new DnsBean(cbstr.toString(), ip, false, findStringIndex(ip));
+            DnsBean dnsBean = new DnsBean(cbstr.toString(), safeIp, false, findStringIndex(safeIp));
             refreshDns(dnsBean);
             return dnsBean;
         } finally {
-            if (isr != null) {
-                try {
-                    isr.close();
-                } catch (Throwable e) {
-                }
+            if (p != null) {
+                p.destroy();
             }
         }
     }
@@ -563,13 +598,23 @@ public class NetUtils {
         return "-1"; // 如果未找到icmp_seq，则返回-1或其他适当的默认值
     }
 
+    private static int parsePingInt(String pattern, String input) {
+        try {
+            return Integer.parseInt(extractIcmpSeq(pattern, input, false));
+        } catch (Throwable e) {
+            return -1;
+        }
+    }
+
     /**
      * 判断WIFI是否打开
      */
     public static boolean isWifiEnabled() {
         ConnectivityManager mgrConn = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         TelephonyManager mgrTel = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-        return ((mgrConn.getActiveNetworkInfo() != null && mgrConn.getActiveNetworkInfo().getState() == NetworkInfo.State.CONNECTED) || mgrTel.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS);
+        NetworkInfo networkInfo = mgrConn == null ? null : mgrConn.getActiveNetworkInfo();
+        return ((networkInfo != null && networkInfo.getState() == NetworkInfo.State.CONNECTED)
+                || (mgrTel != null && mgrTel.getNetworkType() == TelephonyManager.NETWORK_TYPE_UMTS));
     }
 
     /**
@@ -601,6 +646,9 @@ public class NetUtils {
      */
     public static boolean is3rd() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+            return false;
+        }
         NetworkInfo networkINfo = cm.getActiveNetworkInfo();
         return networkINfo != null && networkINfo.getType() == ConnectivityManager.TYPE_MOBILE;
     }
@@ -618,6 +666,9 @@ public class NetUtils {
      */
     public static boolean isGpsEnabled() {
         LocationManager lm = ((LocationManager) BaseIotUtils.getContext().getSystemService(Context.LOCATION_SERVICE));
+        if (lm == null) {
+            return false;
+        }
         List<String> accessibleProviders = lm.getProviders(true);
         return accessibleProviders != null && accessibleProviders.size() > 0;
     }
@@ -639,7 +690,7 @@ public class NetUtils {
      */
     private static NetworkInfo getActiveNetworkInfo() {
         ConnectivityManager cm = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-        return cm.getActiveNetworkInfo();
+        return cm == null ? null : cm.getActiveNetworkInfo();
     }
 
     /**
@@ -733,11 +784,14 @@ public class NetUtils {
     }
 
     private static boolean isAddressNotInExcepts(final String address, final String... excepts) {
+        if (address == null || address.length() == 0) {
+            return false;
+        }
         if (excepts == null || excepts.length == 0) {
             return !"02:00:00:00:00:00".equals(address);
         }
         for (String filter : excepts) {
-            if (address.equals(filter)) {
+            if (address.equalsIgnoreCase(filter)) {
                 return false;
             }
         }
@@ -761,6 +815,9 @@ public class NetUtils {
     private static String getMacAddressByNetworkInterface() {
         try {
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            if (nis == null) {
+                return "02:00:00:00:00:00";
+            }
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 if (ni == null || !ni.getName().equalsIgnoreCase("wlan0")) continue;
@@ -804,6 +861,9 @@ public class NetUtils {
     private static InetAddress getInetAddress() {
         try {
             Enumeration<NetworkInterface> nis = NetworkInterface.getNetworkInterfaces();
+            if (nis == null) {
+                return null;
+            }
             while (nis.hasMoreElements()) {
                 NetworkInterface ni = nis.nextElement();
                 // To prevent phone of xiaomi return "10.0.2.15"
@@ -828,6 +888,7 @@ public class NetUtils {
         if (result.result == 0) {
             String name = result.successMsg;
             if (name != null) {
+                name = name.trim();
                 result = ShellUtils.execCommand("cat /sys/class/net/" + name + "/address", false);
                 if (result.result == 0) {
                     String address = result.successMsg;
@@ -847,6 +908,9 @@ public class NetUtils {
         List<String> ipList = new ArrayList<>();
         try {
             Enumeration enNetI = NetworkInterface.getNetworkInterfaces();
+            if (enNetI == null) {
+                return "0.0.0.0";
+            }
             while (enNetI.hasMoreElements()) {
                 NetworkInterface netI = (NetworkInterface) enNetI.nextElement();
                 Enumeration enumIpAddr = netI.getInetAddresses();
@@ -874,6 +938,9 @@ public class NetUtils {
      */
     public static String getEthIPv4Address() {
         ConnectivityManager connManager = (ConnectivityManager) BaseIotUtils.getContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (connManager == null) {
+            return null;
+        }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             Network[] networks = connManager.getAllNetworks();
             for (Network network : networks) {
@@ -952,6 +1019,9 @@ public class NetUtils {
 
         if (wifiManager != null && wifiManager.isWifiEnabled()) {
             WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+            if (wifiInfo == null || wifiInfo.getIpAddress() == 0) {
+                return null;
+            }
             int ipAddress = wifiInfo.getIpAddress();
 
             // Convert the IP address to a human-readable format
@@ -983,15 +1053,12 @@ public class NetUtils {
             if (Build.VERSION.SDK_INT >= 23) {
                 SubscriptionManager sm = SubscriptionManager.from(BaseIotUtils.getContext());
                 List<SubscriptionInfo> sis = sm.getActiveSubscriptionInfoList();
-                if (sis.size() >= 1) {
-                    SubscriptionInfo si1 = sis.get(0);
-                    iccid.add(si1.getIccId());
-                    //String phoneNum1 = si1.getNumber();
-                }
-                if (sis.size() >= 2) {
-                    SubscriptionInfo si2 = sis.get(1);
-                    iccid.add(si2.getIccId());
-                    //String phoneNum2 = si2.getNumber();
+                if (sis != null) {
+                    for (SubscriptionInfo subscriptionInfo : sis) {
+                        if (subscriptionInfo != null && subscriptionInfo.getIccId() != null) {
+                            iccid.add(subscriptionInfo.getIccId());
+                        }
+                    }
                 }
                 // 获取SIM卡数量相关信息：
                 //int count = sm.getActiveSubscriptionInfoCount();//当前实际插卡数量
@@ -999,11 +1066,14 @@ public class NetUtils {
                 return iccid;
             } else {
                 TelephonyManager tm = (TelephonyManager) BaseIotUtils.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-                iccid.add(tm.getSimSerialNumber());
+                String simSerialNumber = tm == null ? null : tm.getSimSerialNumber();
+                if (simSerialNumber != null) {
+                    iccid.add(simSerialNumber);
+                }
                 return iccid;
             }
         } catch (Throwable e) {
-            Log.e("getLteIccid", e.getMessage());
+            Log.e("getLteIccid", String.valueOf(e.getMessage()));
             return iccid;
         }
     }
