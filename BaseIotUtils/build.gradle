@@ -3,7 +3,8 @@
 //group='com.githup.wave-chtj'
 plugins {
     id "com.android.library"
-//    id "com.vanniktech.maven.publish"
+    id "maven-publish"
+    id "signing"
 }
 
 android {
@@ -83,38 +84,115 @@ dependencies {
     api rootProject.ext.dependencies["converter-scalars"]
 }
 
-//mavenPublishing {
-//    coordinates("io.github.ichtj", "BaseIotUtils", "1.0.3")
-//
-//    pom {
-//        name = 'LogTools'
-//        description = 'description'
-//        url = 'https://github.com/ichtj/BaseIotUtils'
-//
-//        // 开源协议配置，可根据需要修改
-//        licenses {
-//            license {
-//                name = 'The Apache License, Version 2.0'
-//                url = 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-//            }
-//        }
-//
-//        developers {
-//            developer {
-//                id = 'ichtj'
-//                name = 'ichtj'
-//                email = '13652412606@163.com'
-//            }
-//        }
-//
-//        scm {
-//            connection = 'git@github.com:ichtj/BaseIotUtils.git'
-//            developerConnection = 'git@github.com:ichtj/BaseIotUtils.git'
-//            url = 'git@github.com:ichtj/BaseIotUtils.git'
-//        }
-//    }
-//
-//    publishToMavenCentral()
-//    signAllPublications()
-//}
+task androidSourcesJar(type: Jar) {
+    archiveClassifier.set('sources')
+    from android.sourceSets.main.java.srcDirs
+}
+
+task androidJavadocsJar(type: Jar) {
+    // Maven Central requires a javadoc artifact; the Android API docs are not generated in this old AGP setup.
+    archiveClassifier.set('javadoc')
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from components.release
+                artifact androidSourcesJar
+                artifact androidJavadocsJar
+
+                groupId = 'io.github.ichtj'
+                artifactId = 'BaseIotUtils'
+                version = '3.0.5'
+
+                pom {
+                    name = 'BaseIotUtils'
+                    description = 'Android IoT utility library.'
+                    url = 'https://github.com/ichtj/BaseIotUtils'
+
+                    licenses {
+                        license {
+                            name = 'The Apache License, Version 2.0'
+                            url = 'https://www.apache.org/licenses/LICENSE-2.0.txt'
+                        }
+                    }
+
+                    developers {
+                        developer {
+                            id = 'ichtj'
+                            name = 'ichtj'
+                            email = '13652412606@163.com'
+                        }
+                    }
+
+                    scm {
+                        connection = 'scm:git:https://github.com/ichtj/BaseIotUtils.git'
+                        developerConnection = 'scm:git:https://github.com/ichtj/BaseIotUtils.git'
+                        url = 'https://github.com/ichtj/BaseIotUtils'
+                    }
+                }
+            }
+        }
+
+        repositories {
+            maven {
+                name = 'ossrhStagingApi'
+                url = uri('https://ossrh-staging-api.central.sonatype.com/service/local/staging/deploy/maven2/')
+                credentials {
+                    username = findProperty('mavenCentralUsername') ?: ''
+                    password = findProperty('mavenCentralPassword') ?: ''
+                }
+            }
+        }
+    }
+
+    boolean shouldSignReleasePublication = gradle.startParameter.taskNames.any {
+        String taskName = it.toLowerCase()
+        taskName == 'publish' ||
+                taskName == ':baseiotutils:publish' ||
+                taskName.contains('signreleasepublication') ||
+                taskName.contains('ossrhstagingapi')
+    }
+    if (shouldSignReleasePublication) {
+        signing {
+            if ((findProperty('signing.useGpgCmd') ?: 'false').toString().toBoolean()) {
+                useGpgCmd()
+            }
+            sign publishing.publications.release
+        }
+    }
+}
+
+task uploadOssrhStagingToCentralPortal {
+    group = 'publishing'
+    description = 'Uploads the OSSRH Staging API default repository to the Central Portal deployment list.'
+    doLast {
+        String namespace = (findProperty('mavenCentralNamespace') ?: 'io.github.ichtj').toString()
+        String username = (findProperty('mavenCentralUsername') ?: '').toString()
+        String password = (findProperty('mavenCentralPassword') ?: '').toString()
+        if (username.length() == 0 || password.length() == 0) {
+            throw new GradleException('Missing mavenCentralUsername or mavenCentralPassword.')
+        }
+
+        String token = "${username}:${password}".bytes.encodeBase64().toString()
+        URL url = new URL("https://ossrh-staging-api.central.sonatype.com/manual/upload/defaultRepository/${namespace}?publishing_type=user_managed")
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection()
+        connection.setRequestMethod('POST')
+        connection.setRequestProperty('Authorization', "Bearer ${token}")
+        connection.setDoOutput(true)
+        connection.outputStream.withCloseable { it.write(new byte[0]) }
+
+        int responseCode = connection.responseCode
+        String responseBody = ''
+        InputStream responseStream = responseCode >= 400 ? connection.errorStream : connection.inputStream
+        if (responseStream != null) {
+            responseBody = responseStream.getText('UTF-8')
+        }
+        if (responseCode < 200 || responseCode >= 300) {
+            throw new GradleException("Central Portal upload failed: HTTP ${responseCode} ${responseBody}")
+        }
+        println "Central Portal upload requested for namespace ${namespace}. ${responseBody}"
+    }
+}
 
