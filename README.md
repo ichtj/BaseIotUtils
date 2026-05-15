@@ -16,7 +16,6 @@ allprojects {
 dependencies {
          //多个物联网相关基础工具类
          implementation 'com.github.ichtj:BaseIotUtils:3.0.5'
-         implementation 'io.github.ichtj.BaseIotUtils:3.0.5'
 }
 ```
 # 接入方式 mavenCentral
@@ -24,7 +23,7 @@ dependencies {
 ```groovy
 dependencies {
          //多个物联网相关基础工具类
-         implementation 'io.github.ichtj:BaseIotUtils:1.0.3'
+         implementation 'io.github.ichtj:BaseIotUtils:3.0.5'
 }
 ```
 
