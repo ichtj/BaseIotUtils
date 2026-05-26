@@ -40,13 +40,13 @@ public class TempGetAty extends BaseActivity {
                 .subscribe(new Consumer<Long>() {
                     @Override
                     public void accept(Long aLong) throws Exception {
-                        ShellUtils.CommandResult getTemp1=ShellUtils.execCommand("cat /sys/class/thermal/thermal_zone0/temp",true);
+                        ShellUtils.CommandResult getTemp1=ShellUtils.exec("cat /sys/class/thermal/thermal_zone0/temp");
                         KLog.d(TAG,"accept:>getTemp1.err="+getTemp1.errorMsg+",result="+getTemp1.result+",success="+getTemp1.successMsg);
                         tvTemp1.setText(((getTemp1.result==0)?"CPU温度获取成功：":"CPU温度获取失败：")+getTemp1.successMsg);
-                        ShellUtils.CommandResult getTemp2=ShellUtils.execCommand("cat /sys/class/aht21/TempHum/temp",true);
+                        ShellUtils.CommandResult getTemp2=ShellUtils.exec("cat /sys/class/aht21/TempHum/temp");
                         KLog.d(TAG,"accept:>getTemp2.err="+getTemp2.errorMsg+",result="+getTemp2.result+",success="+getTemp2.successMsg);
                         tvTemp2.setText(((getTemp2.result==0)?"环境温度获取成功：":"环境温度获取失败：")+getTemp2.successMsg);
-                        ShellUtils.CommandResult getTemp3=ShellUtils.execCommand("cat /sys/class/aht21/TempHum/hum",true);
+                        ShellUtils.CommandResult getTemp3=ShellUtils.exec("cat /sys/class/aht21/TempHum/hum");
                         KLog.d(TAG,"accept:>getTemp3.err="+getTemp3.errorMsg+",result="+getTemp3.result+",success="+getTemp3.successMsg);
                         tvTemp3.setText(((getTemp3.result==0)?"环境湿度获取成功：":"环境湿度获取失败：")+getTemp3.successMsg);
                     }

@@ -101,6 +101,26 @@ def getIcon() {
     }
 }
 
+def currentAppId = rootProject.ext.APP_PKG_PREFIX + rootProject.ext.APP_CHOOSE
+
+task uninstallChosenApp {
+    group = 'install'
+    description = "Uninstall current APP_CHOOSE package before installing: ${currentAppId}"
+
+    doLast {
+        exec {
+            commandLine android.getAdbExecutable().absolutePath, 'uninstall', currentAppId
+            ignoreExitValue true
+        }
+    }
+}
+
+afterEvaluate {
+    tasks.matching { it.name == 'installDebug' || it.name == 'installRelease' }.all {
+        it.dependsOn uninstallChosenApp
+    }
+}
+
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.blankj:utilcodex:1.31.1'
@@ -111,8 +131,6 @@ dependencies {
     api rootProject.ext.support["appcompat"]
     implementation rootProject.ext.support["constraint-layout"]
     implementation rootProject.ext.support["recyclerview-v7"]
-    //权限获取
-    api rootProject.ext.dependencies["rxpermissions"]
     //分包
     api rootProject.ext.support["multidex"]
     //jxl Excel表格操作

@@ -94,6 +94,18 @@ task androidJavadocsJar(type: Jar) {
     archiveClassifier.set('javadoc')
 }
 
+task makeAospJar(type: Copy) {
+    group = 'build'
+    description = 'Builds BaseIotUtils release classes.jar for AOSP source tree usage.'
+    dependsOn 'assembleRelease'
+
+    from(zipTree("$buildDir/outputs/aar/BaseIotUtils-release.aar")) {
+        include 'classes.jar'
+        rename 'classes.jar', 'base_iotutils.jar'
+    }
+    into "$buildDir/outputs/aosp"
+}
+
 afterEvaluate {
     publishing {
         publications {
@@ -195,4 +207,3 @@ task uploadOssrhStagingToCentralPortal {
         println "Central Portal upload requested for namespace ${namespace}. ${responseBody}"
     }
 }
-

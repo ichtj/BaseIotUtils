@@ -45,7 +45,7 @@ public class NetMtools {
     public static void rebootSystem() {
         try {
             //adb命令进行重启
-            ShellUtils.execCommand("reboot",true);
+            ShellUtils.exec("reboot");
             //调用系统接口进行重启
             Intent intent = new Intent(Intent.ACTION_REBOOT);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

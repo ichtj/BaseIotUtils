@@ -16,7 +16,7 @@ git diff-tree -r --no-commit-id --name-only f4710c4a32975904b00609f3145c709f3139
 -------------------------------git查看并忽略部分字符开头的变化记录--------------------------------------------
 git status | grep -vE "^\s*(modified:|new file:|deleted:)?\s*(u-boot|kernel-5.10|external)/"
 set http_proxy=http://127.0.0.1:33210
-set https_proxy=http://127.0.0.1:33210
+set https_proxy=http://127.0.0.1:33210变更
 
 
 ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ$ cd kernel/

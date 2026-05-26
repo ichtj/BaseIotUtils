@@ -662,7 +662,7 @@ public class AppsUtils {
         if (ObjectUtils.isEmpty(packageName)) {
             return false;
         }
-        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("ps | grep " + packageName, true);
+        ShellUtils.CommandResult commandResult=ShellUtils.exec("ps | grep " + packageName);
         boolean isComplete= commandResult.result == 0&&commandResult.successMsg.contains (packageName);
         if (!isComplete){
             ActivityManager am = (ActivityManager) BaseIotUtils.getContext().getSystemService(Context.ACTIVITY_SERVICE);
@@ -717,16 +717,16 @@ public class AppsUtils {
                     "mount -o rw,remount /dev/block/dm-4",
                     "mount -o rw,remount /",
             };
-             ShellUtils.execCommand(mountCmd, true);
+             ShellUtils.exec(mountCmd);
         } else {
-             ShellUtils.execCommand("mount -o rw,remount -t ext4 /system", true);
+             ShellUtils.exec("mount -o rw,remount -t ext4 /system");
         }
         String[] cmd = new String[]{
                 isSys ? (!apkPath.equals("") ? "rm -rf " + apkPath + "*" : "") : "pm uninstall " + packageName,
                 "sync",
                 isReboot ? "reboot" : ""
         };
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, isRoot());
+        ShellUtils.CommandResult commandResult = ShellUtils.exec(cmd);
         return isSys ? commandResult.result == 0 : commandResult.successMsg != null && commandResult.successMsg.toLowerCase().contains("success");
     }
 
@@ -765,11 +765,11 @@ public class AppsUtils {
                         "rm -rf /data/*.so",//删除临时目录下的so库
                         isReboot ? "reboot" : ""//确认重启
                 };
-                ShellUtils.CommandResult cmdResult = ShellUtils.execCommand(command, true);
+                ShellUtils.CommandResult cmdResult = ShellUtils.exec(command);
                 return cmdResult.result == 0 ? new File("/system/priv-app/" + appName).exists() : false;
             } else {
                 String[] command = new String[]{"pm install -r " + appPath + "\n", "rm -rf " + appPath + "\n", isReboot ? "reboot" : ""};
-                ShellUtils.CommandResult cmdResult = ShellUtils.execCommand(command, true);
+                ShellUtils.CommandResult cmdResult = ShellUtils.exec(command);
                 return cmdResult.result == 0;
             }
         } catch (Throwable e) {

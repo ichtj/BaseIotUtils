@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.util.AppManager;
-import com.tbruyelle.rxpermissions2.RxPermissions;
 
 import io.reactivex.functions.Consumer;
 
@@ -28,24 +27,6 @@ public abstract class BaseActivity extends AppCompatActivity {
         //将继承BaseActivity的Activity添加到堆栈 统一管理
         AppManager.addActivity(this);//
         setStatusBar();
-//        requestPermission();
-    }
-
-    protected void requestPermission(){
-        new RxPermissions(this).request(new String[]{
-                Manifest.permission.WRITE_EXTERNAL_STORAGE,
-                Manifest.permission.READ_EXTERNAL_STORAGE,
-                Manifest.permission.READ_PHONE_STATE,
-        }).subscribe(new Consumer<Boolean>() {
-            @Override
-            public void accept(Boolean granted) throws Exception {
-                if (granted) {
-                    ToastUtils.success("已通过权限");
-                } else {
-                    ToastUtils.error("未通过权限");
-                }
-            }
-        });
     }
 
     protected void setStatusBar() {

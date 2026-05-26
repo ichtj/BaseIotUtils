@@ -216,7 +216,7 @@ public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewCli
             BaseIotUtils.getContext().startActivity(intent);
         } catch (Throwable e) {
             KLog.e("errMeg:" + e.getMessage());
-            ShellUtils.CommandResult commandResult = ShellUtils.execCommand("reboot", true);
+            ShellUtils.CommandResult commandResult = ShellUtils.exec("reboot");
             if (commandResult.result != 0) {
                 ToastUtils.error(getString(R.string.allapp_reboot_failed));
             }

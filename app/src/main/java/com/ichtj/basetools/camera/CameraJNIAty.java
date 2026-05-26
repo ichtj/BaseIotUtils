@@ -167,13 +167,13 @@ public class CameraJNIAty extends BaseActivity {
         timer.start(1500, new SimpleTimer.Callback() {
             @Override
             public void onTick() {
-                ShellUtils.execCommand("chmod 777 /sys/class/leds/work/brightness",true);
-                ShellUtils.execCommand("echo 0 > /sys/class/leds/work/brightness",true);
+                ShellUtils.exec("chmod 777 /sys/class/leds/work/brightness");
+                ShellUtils.exec("echo 0 > /sys/class/leds/work/brightness");
                 try {
                     Thread.sleep(500);
                 }catch (Throwable throwable){
                 }
-                ShellUtils.execCommand("echo 100 > /sys/class/leds/work/brightness",true);
+                ShellUtils.exec("echo 100 > /sys/class/leds/work/brightness");
             }
         });
     }
@@ -220,7 +220,7 @@ public class CameraJNIAty extends BaseActivity {
             list.add("video" + id);
         }
 
-//        ShellUtils.CommandResult commandResult=ShellUtils.execCommand("chmod 777 /dev/video*", true);
+//        ShellUtils.CommandResult commandResult=ShellUtils.exec("chmod 777 /dev/video*");
 //        Log.d(TAG, "initSpinner: commandResult>>" + commandResult   );
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(

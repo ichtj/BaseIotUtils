@@ -225,37 +225,37 @@ public class NetMonitorService extends Service {
                                 switch (resetMode) {
                                     case NetMtools.MODE_HARD:
                                     case NetMtools.MODE_SOFT:
-                                        ShellUtils.CommandResult commandResult2 = ShellUtils.execCommand(NetMtools.CMD_STOP_RILL, true);
+                                        ShellUtils.CommandResult commandResult2 = ShellUtils.exec(NetMtools.CMD_STOP_RILL);
                                         KLog.d(TAG, "accept commandResult2=" + commandResult2.result + ",errMeg=" + commandResult2.errorMsg);
 
                                         FileUtils.writeFileData(nowFilePath, "--->停止Rill服务 stop ril-daemon stopRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
                                         Thread.sleep(20000);
 
                                         if (resetMode == NetMtools.MODE_HARD) {
-                                            ShellUtils.CommandResult commandResult0 = ShellUtils.execCommand(NetMtools.CMD_HARD_RESET, true);
+                                            ShellUtils.CommandResult commandResult0 = ShellUtils.exec(NetMtools.CMD_HARD_RESET);
                                             KLog.d(TAG, "accept commandResult0=" + commandResult0.result + ",errMeg=" + commandResult0.errorMsg);
                                             recordSetMode = "--->hard write-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         } else {
-                                            ShellUtils.CommandResult commandResult1 = ShellUtils.execCommand(NetMtools.CMD_SOFT_RESET, true);
+                                            ShellUtils.CommandResult commandResult1 = ShellUtils.exec(NetMtools.CMD_SOFT_RESET);
                                             KLog.d(TAG, "accept commandResult1=" + commandResult1.result + ",errMeg=" + commandResult1.errorMsg);
                                             recordSetMode = "--->soft write-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         }
                                         FileUtils.writeFileData(nowFilePath, recordSetMode, false);
 
-                                        ShellUtils.CommandResult commandResult3 = ShellUtils.execCommand(NetMtools.CMD_START_RILL, true);
+                                        ShellUtils.CommandResult commandResult3 = ShellUtils.exec(NetMtools.CMD_START_RILL);
                                         KLog.d(TAG, "accept commandResult3=" + commandResult3.result + ",errMeg=" + commandResult3.errorMsg);
                                         FileUtils.writeFileData(nowFilePath, "--->start ril-daemon startRillTime=" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + "\n", false);
                                         break;
                                     case NetMtools.MODE_AIRPLANE:
                                         recordSetMode = "--->airplane mode turn on and turn off-->" + TimeUtils.getTodayDateHms("yyyy-MM-dd HH:mm:ss") + ",nowCount=" + nowCount + "\n";
                                         //开启飞行模式
-                                        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(NetMtools.CMD_ARIPLANEMODE_ON, true);
+                                        ShellUtils.CommandResult commandResult = ShellUtils.exec(NetMtools.CMD_ARIPLANEMODE_ON);
                                         KLog.d(TAG, "accept commandResult=" + commandResult.result + ",errMeg=" + commandResult.errorMsg);
 
                                         Thread.sleep(2000);
 
                                         //关闭飞行模式
-                                        ShellUtils.CommandResult commandResult1 = ShellUtils.execCommand(NetMtools.CMD_ARIPLANEMODE_OFF, true);
+                                        ShellUtils.CommandResult commandResult1 = ShellUtils.exec(NetMtools.CMD_ARIPLANEMODE_OFF);
                                         KLog.d(TAG, "accept commandResult1=" + commandResult1.result + ",errMeg=" + commandResult1.errorMsg);
 
                                         FileUtils.writeFileData(nowFilePath, recordSetMode, false);

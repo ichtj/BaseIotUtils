@@ -261,7 +261,7 @@ public class NetMonitorAty extends BaseActivity implements CompoundButton.OnChec
      * 清除所有日志
      */
     public void clearAllLogClick(View view) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("rm -rf " + NetMtools.LOG_PATH + "*.*", true);
+        ShellUtils.CommandResult commandResult = ShellUtils.exec("rm -rf " + NetMtools.LOG_PATH + "*.*");
         if (commandResult.result == 0) {
             ToastUtils.success(getString(R.string.del_cache_succ));
         } else {

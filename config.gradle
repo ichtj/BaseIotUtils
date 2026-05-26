@@ -62,10 +62,6 @@ ext {
             "retrofit"                : "com.squareup.retrofit2:retrofit:2.6.2",
             "converter-gson"          : "com.squareup.retrofit2:converter-gson:2.6.2",
             "adapter-rxjava"          : "com.squareup.retrofit2:adapter-rxjava2:2.6.2",
-            //logging
-            "logging"                 : "de.mindpipe.android:android-logging-log4j:1.0.3",
-            "log4j"                   : "log4j:log4j:1.2.17",
-            "logger"                  : "com.orhanobut:logger:2.2.0",
             //eventbus
             "eventbus"                : "org.greenrobot:eventbus:3.1.1",
             //Arouter
@@ -78,20 +74,9 @@ ext {
             "base_iotutils"           : "com.github.wave-chtj:BaseIotUtils:1.4.8",
             "base_framework"          : "com.github.ichtj:BaseFramework:1.5.2",
             "base_socket"             : "com.github.wave-chtj:BaseSocket:1.0.1",
-            //权限管理
-            "rxpermissions"           : "com.github.tbruyelle:rxpermissions:0.10.2",
-            //bugly的仓库
-            "crashreport_upgrade"     : "com.tencent.bugly:crashreport_upgrade:latest.release",
-            "hotrefresh"              : "com.tencent.tinker:tinker-android-lib:1.9.9",
             //rx系列与View生命周期同步
             "rxlifecycle"             : "com.trello.rxlifecycle2:rxlifecycle:2.2.2",
             "rxlifecycle-components"  : "com.trello.rxlifecycle2:rxlifecycle-components:2.2.2",
-            "butterknife"             : "com.jakewharton:butterknife:10.2.0",
-            "butterknife-compiler"    : "com.jakewharton:butterknife-compiler:10.2.0",
-            "socket-client"           : "com.tonystark.android:socket:latest.release",
-            //findByView butterknife
-            "butterknife"             : "com.jakewharton:butterknife:10.2.3",
-            "butterknife-compiler"    : "com.jakewharton:butterknife-compiler:10.2.3",
             //recycleView baseAdapter
             "base_adapter"            : "com.github.CymChad:BaseRecyclerViewAdapterHelper:3.0.6",
             //ZIP压缩工具类
@@ -101,13 +86,9 @@ ext {
             //Excel jxl表格工具
             "jxlutils"                : "net.sourceforge.jexcelapi:jxl:2.6.12",
             //内存泄漏工具
-            "leakcanary"              : "com.squareup.leakcanary:leakcanary-android:1.6.1",
-            "leakcanaryandroidnoop"   : "com.squareup.leakcanary:leakcanary-android-no-op:1.6.1",
             "greendao"                : "org.greenrobot:greendao:3.3.0",
             //视频播放
             "videoplay"               : "cn.jzvd:jiaozivideoplayer:7.4.2",
-            //屏幕适配
-            "autosize"                : "me.jessyan:autosize:1.2.1",
     ]
 }
 

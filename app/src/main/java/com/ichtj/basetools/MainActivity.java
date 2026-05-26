@@ -53,7 +53,6 @@ import com.ichtj.basetools.dialog.DialogAty;
 import com.ichtj.basetools.download.FileDownLoadAty;
 import com.ichtj.basetools.entity.ExcelEntity;
 import com.ichtj.basetools.file.FileOperatAty;
-//import com.ichtj.basetools.greendao.GreenDaoSqliteAty;
 import com.ichtj.basetools.hid.HidMainDevAty;
 import com.ichtj.basetools.hid.HidSubDevAty;
 import com.ichtj.basetools.install.InstallAPkAty;
@@ -83,9 +82,7 @@ import com.ichtj.basetools.video.PlayCacheVideoAty;
 import com.ichtj.basetools.video.VideoPlayAty;
 import com.ichtj.basetools.webviews.WebViewAty;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -477,7 +474,7 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
                 BasicTools.showTwoScaledBitmapsDialog(this,CodeUtils.createBarCode("www.baidu.com",200,100),CodeUtils.createQRCode("www.baidu.com",200, ContextCompat.getColor(this,R.color.black)));
                 break;
             case FKey.KEY_ORIENTATION:
-                ShellUtils.CommandResult rotationResult= ShellUtils.execCommand("settings get system user_rotation",true);
+                ShellUtils.CommandResult rotationResult= ShellUtils.exec("settings get system user_rotation");
                 Log.d(TAG, "rotationResult: result>>"+rotationResult.result+",succ>>"+rotationResult.successMsg+",err>>"+rotationResult.errorMsg);
                 if (rotationResult.result==0&& !TextUtils.isEmpty(rotationResult.successMsg)){
                     int rotationValue=0;

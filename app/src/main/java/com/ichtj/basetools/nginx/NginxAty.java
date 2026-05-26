@@ -68,7 +68,7 @@ public class NginxAty extends BaseActivity {
     }
 
     public void helpOnClick(View view) {
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand("/data/data/xiaoqidun.anmpp/files/root/android.nginx/sbin/nginx -p /data/data/xiaoqidun.anmpp/files/root/android.nginx/ -h", true);
+        ShellUtils.CommandResult commandResult = ShellUtils.exec("/data/data/xiaoqidun.anmpp/files/root/android.nginx/sbin/nginx -p /data/data/xiaoqidun.anmpp/files/root/android.nginx/ -h");
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("---------------start >> nginx -h----------------\n");
         stringBuilder.append("result >> " + commandResult.result + "\n");
@@ -80,7 +80,7 @@ public class NginxAty extends BaseActivity {
 
     public void exeuOnClick(View view) {
         String cmd="/data/data/xiaoqidun.anmpp/files/root/android.nginx/sbin/"+etNginxCmd.getText().toString();
-        ShellUtils.CommandResult commandResult = ShellUtils.execCommand(cmd, true);
+        ShellUtils.CommandResult commandResult = ShellUtils.exec(cmd);
         StringBuilder stringBuilder=new StringBuilder();
         stringBuilder.append("---------------"+cmd+"----------------\n");
         stringBuilder.append("result >> " + commandResult.result + "\n");

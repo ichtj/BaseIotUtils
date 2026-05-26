@@ -396,9 +396,9 @@ public class App extends Application {
 
 ```java
         //单条命令执行
-        ShellUtils.CommandResult commResult=ShellUtils.execCommand("reboot",true);
+        ShellUtils.CommandResult commResult=ShellUtils.exec("reboot");
         //多条命令执行
-        //ShellUtils.CommandResult commResult2=ShellUtils.execCommand(new String[]{"comm1","comm2","comm3","commN..."},true);
+        //ShellUtils.CommandResult commResult2=ShellUtils.exec(new String[]{"comm1","comm2","comm3","commN..."});
         if(commResult.result==0){
             Log.e(TAG, "commResult2 exeu successful");
         }else{

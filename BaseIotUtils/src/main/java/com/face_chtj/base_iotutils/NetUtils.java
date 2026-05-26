@@ -884,12 +884,12 @@ public class NetUtils {
     }
 
     private static String getMacAddressByFile() {
-        ShellUtils.CommandResult result = ShellUtils.execCommand("getprop wifi.interface", false);
+        ShellUtils.CommandResult result = ShellUtils.exec("getprop wifi.interface");
         if (result.result == 0) {
             String name = result.successMsg;
             if (name != null) {
                 name = name.trim();
-                result = ShellUtils.execCommand("cat /sys/class/net/" + name + "/address", false);
+                result = ShellUtils.exec("cat /sys/class/net/" + name + "/address");
                 if (result.result == 0) {
                     String address = result.successMsg;
                     if (address != null && address.length() > 0) {

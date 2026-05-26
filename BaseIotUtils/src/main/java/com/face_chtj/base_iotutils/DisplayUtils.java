@@ -120,7 +120,7 @@ public class DisplayUtils {
      * @return boolean 屏幕方向
      */
     public static boolean changeRotation(int rotationValue) {
-        ShellUtils.CommandResult setRotationResult=ShellUtils.execCommand("settings put system user_rotation "+rotationValue,true);
+        ShellUtils.CommandResult setRotationResult=ShellUtils.exec("settings put system user_rotation "+rotationValue);
         KLog.d("setRotationResult: result>>"+setRotationResult.result+",succ>>"+setRotationResult.successMsg+",err>>"+setRotationResult.errorMsg);
         return setRotationResult.result==0;
     }
@@ -131,7 +131,7 @@ public class DisplayUtils {
      * @return 是否成功
      */
     public static boolean screenshot(String fileName){
-        ShellUtils.CommandResult result =ShellUtils.execCommand("screencap "+fileName,true);
+        ShellUtils.CommandResult result =ShellUtils.exec("screencap "+fileName);
         KLog.d("screenshot: result>>"+result.result+",err>>"+result.errorMsg+",succ>>"+result.successMsg);
         return result.result==0&&new File(fileName).exists();
     }
