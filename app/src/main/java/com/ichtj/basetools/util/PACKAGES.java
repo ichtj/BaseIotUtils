@@ -1,7 +1,7 @@
 package com.ichtj.basetools.util;
 
 public class PACKAGES {
-    public final static String PKG_REBOOT="com.test.reboot";
+    public final static String PKG_REBOOT="com.ichtj.reboot";
     public final static String PKG_SERIALPORT="com.test.serialport";
     public final static String PKG_NETMONITOR="com.test.netmonitor";
     public final static String PKG_EXAMPLE="com.ichtj.basetools";

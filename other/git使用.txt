@@ -23,3 +23,7 @@ ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ$ cd kernel/
 ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ/kernel$ make distclean
 ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ/u-boot$ cd ../
 ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ$ make distclean
+
+--------------------撤销最后一次变更，并重新上报--------------------
+git reset --soft HEAD~1
+git push --force-with-lease origin <分支名>

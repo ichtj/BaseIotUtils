@@ -100,4 +100,18 @@
         <item name="android:layout_marginRight">6dp</item>
         <item name="android:textSize">13sp</item>
     </style>
+
+    <style name="RebootCyclePresetLabel">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/reboot_cycle_preset_background</item>
+        <item name="android:gravity">center</item>
+        <item name="android:focusable">true</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:paddingLeft">1dp</item>
+        <item name="android:paddingRight">1dp</item>
+        <item name="android:textColor">@color/reboot_text_secondary</item>
+        <item name="android:textSize">11sp</item>
+    </style>
 </resources>

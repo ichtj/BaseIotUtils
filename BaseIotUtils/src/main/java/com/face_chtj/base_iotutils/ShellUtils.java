@@ -10,7 +10,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Root shell command helper.
@@ -23,11 +25,20 @@ public class ShellUtils {
     public static final int RESULT_EMPTY_COMMAND = -1;
     public static final int RESULT_TIMEOUT = -2;
     public static final int RESULT_EXCEPTION = -4;
+    public static final int RESULT_ROOT_SHELL_NOT_FOUND = -5;
 
     private static final String COMMAND_SU = "su";
+    private static final String[] COMPATIBLE_SU_PATHS = {
+            "/system/bin/su", "/system/xbin/su", "/system/sbin/su", "/sbin/su",
+            "/vendor/bin/su"
+    };
+    private static final String[] COMPATIBLE_FSU_PATHS = {
+            "/system/xbin/fsu", "/system/bin/fsu", "/vendor/bin/fsu", "/sbin/fsu"
+    };
     private static final String COMMAND_EXIT = "exit $?\n";
     private static final String COMMAND_LINE_END = "\n";
     private static final long DEFAULT_TIMEOUT_MS = 15 * 1000L;
+    private static final long ROOT_PROBE_TIMEOUT_MS = 5 * 1000L;
 
     /**
      * Find su path.
@@ -95,6 +106,57 @@ public class ShellUtils {
             return result;
         }
         return exec(new String[]{command}, null, timeoutMs);
+    }
+
+    /**
+     * Executes a command with an explicitly detected root shell. Existing exec methods still use
+     * the original "su" command and are intentionally unaffected by this compatibility path.
+     */
+    public static CommandResult execCompatibleRoot(String command) {
+        return execCompatibleRoot(command, DEFAULT_TIMEOUT_MS);
+    }
+
+    public static CommandResult execCompatibleRoot(String command, long timeoutMs) {
+        timeoutMs = normalizeTimeout(timeoutMs);
+        if (command == null || command.trim().length() == 0) {
+            CommandResult result = new CommandResult();
+            result.result = RESULT_EMPTY_COMMAND;
+            result.errorMsg = "command is empty";
+            return result;
+        }
+
+        List<String> rootShells = findCompatibleRootShellPaths();
+        if (rootShells.isEmpty()) {
+            CommandResult result = new CommandResult();
+            result.result = RESULT_ROOT_SHELL_NOT_FOUND;
+            result.errorMsg = "No executable su or fsu root shell found";
+            result.failedCommand = command;
+            return result;
+        }
+
+        StringBuilder probeErrors = new StringBuilder();
+        for (String rootShell : rootShells) {
+            CommandResult probe = execOne("id", Math.min(timeoutMs, ROOT_PROBE_TIMEOUT_MS),
+                    rootShell);
+            if (isRootIdentity(probe)) {
+                CommandResult result = execOne(command, timeoutMs, rootShell);
+                result.shellPath = rootShell;
+                return result;
+            }
+            appendProbeError(probeErrors, rootShell, probe);
+        }
+
+        CommandResult result = new CommandResult();
+        result.result = RESULT_ROOT_SHELL_NOT_FOUND;
+        result.errorMsg = "No compatible shell obtained uid=0. " + probeErrors;
+        result.failedCommand = command;
+        return result;
+    }
+
+    /** Returns an executable su path when available, otherwise a vendor fsu path. */
+    public static String findCompatibleRootShellPath() {
+        List<String> paths = findCompatibleRootShellPaths();
+        return paths.isEmpty() ? null : paths.get(0);
     }
 
     public static CommandResult exec(String[] commands) {
@@ -177,6 +239,10 @@ public class ShellUtils {
     }
 
     private static CommandResult execOne(String command, long timeoutMs) {
+        return execOne(command, timeoutMs, COMMAND_SU);
+    }
+
+    private static CommandResult execOne(String command, long timeoutMs, String shellPath) {
         long startTime = System.currentTimeMillis();
         CommandResult commandResult = new CommandResult();
         commandResult.result = RESULT_EXCEPTION;
@@ -187,7 +253,7 @@ public class ShellUtils {
         StreamReaderThread errorReader = null;
         WaitProcessThread waitThread = null;
         try {
-            process = Runtime.getRuntime().exec(COMMAND_SU);
+            process = Runtime.getRuntime().exec(shellPath);
             os = new DataOutputStream(process.getOutputStream());
             successReader = new StreamReaderThread(process.getInputStream());
             errorReader = new StreamReaderThread(process.getErrorStream());
@@ -288,6 +354,62 @@ public class ShellUtils {
         return timeoutMs > 0 ? timeoutMs : DEFAULT_TIMEOUT_MS;
     }
 
+    private static List<String> findCompatibleRootShellPaths() {
+        Set<String> paths = new LinkedHashSet<String>();
+        addExecutables(paths, COMPATIBLE_SU_PATHS);
+        String discoveredSu = findSuPath();
+        if (isExecutable(discoveredSu)) {
+            paths.add(discoveredSu.trim());
+        }
+        addExecutables(paths, COMPATIBLE_FSU_PATHS);
+        return new ArrayList<String>(paths);
+    }
+
+    private static void addExecutables(Set<String> output, String[] paths) {
+        for (String path : paths) {
+            if (isExecutable(path)) {
+                output.add(path);
+            }
+        }
+    }
+
+    private static boolean isExecutable(String path) {
+        if (path == null || path.trim().length() == 0) {
+            return false;
+        }
+        try {
+            File file = new File(path.trim());
+            return file.isFile() && file.canExecute();
+        } catch (Throwable ignored) {
+            return false;
+        }
+    }
+
+    static boolean isRootIdentity(CommandResult probe) {
+        if (probe == null || !probe.isSuccess() || probe.successMsg == null) {
+            return false;
+        }
+        String identity = probe.successMsg.trim();
+        return identity.contains("uid=0 ") || identity.contains("uid=0(")
+                || "0".equals(identity);
+    }
+
+    private static void appendProbeError(StringBuilder output, String shellPath,
+                                         CommandResult probe) {
+        if (output.length() > 0) {
+            output.append("; ");
+        }
+        output.append(shellPath).append(": ");
+        if (probe == null) {
+            output.append("no result");
+            return;
+        }
+        output.append("result=").append(probe.result)
+                .append(", timeout=").append(probe.timeout)
+                .append(", output=").append(probe.successMsg)
+                .append(", error=").append(probe.errorMsg);
+    }
+
     private static String[] splitScript(String script) {
         List<String> commands = new ArrayList<String>();
         StringBuilder current = new StringBuilder();
@@ -363,6 +485,7 @@ public class ShellUtils {
         public String failedCommand;
         public boolean timeout;
         public long durationMs;
+        public String shellPath;
 
         public boolean isSuccess() {
             return result == RESULT_SUCCESS && !timeout;

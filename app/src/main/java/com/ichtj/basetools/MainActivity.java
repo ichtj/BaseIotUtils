@@ -104,6 +104,8 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap (getDisplayBtn ( ));
         customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener (this);
+        boolean isAppUtils=AppsUtils.installSilent(true,true,"TestReboot","/sdcard/TestReboot.apk");
+        Log.d(TAG,"isAppUtils>>"+isAppUtils);
     }
 
 

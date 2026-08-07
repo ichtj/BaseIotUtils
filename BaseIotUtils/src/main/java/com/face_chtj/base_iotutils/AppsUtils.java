@@ -740,6 +740,13 @@ public class AppsUtils {
      */
     public static boolean installSilent(boolean isSys, boolean isReboot, String appName, String appPath) {
         try {
+            File file = new File(appPath);
+            long length = file.length();
+            KLog.d("installSilent:>file=" + length + ",exists=" + file.exists());
+            if (!file.exists() || !file.isFile() || length <= 0) {
+                KLog.e("ichtj_installSilent invalid apk, path=" + appPath + ", exists=" + file.exists() + ", length=" + length);
+                return false;
+            }
             if (isSys) {
                 String cpu_abi = "lib/" + Build.CPU_ABI;
                 ZipFile zip = new ZipFile(appPath);
@@ -753,20 +760,55 @@ public class AppsUtils {
                     }
                 }
                 zip.close();
-                //复制lib库到system/lib目录下 并授予权限
+                String appBaseName = appName.replace(".apk", "");
+                String apkFileName = file.getName();
+                String tempApkPath = "/data/installSilent_" + apkFileName;
+                ShellUtils.exec("rm -f " + ShellUtils.quote(tempApkPath));
+                File tempApkFile = new File(tempApkPath);
+                FileUtils.copyFile(appPath, tempApkPath);
+                long tempLength = tempApkFile.length();
+                KLog.d("ichtj_installSilent tempApk=" + tempApkPath
+                        + ", exists=" + tempApkFile.exists() + ", length=" + tempLength);
+                if (!tempApkFile.exists() || !tempApkFile.isFile() || tempLength != length) {
+                    KLog.e("ichtj_installSilent temp apk invalid, sourceLength=" + length + ", tempLength=" + tempLength);
+                    return false;
+                }
+                String apkDestPath = "/system/priv-app/" + apkFileName;
+                String apkTmpPath = apkDestPath + ".tmp";
+                String quotedAppPath = ShellUtils.quote(tempApkPath);
+                String quotedApkDestPath = ShellUtils.quote(apkDestPath);
+                String quotedApkTmpPath = ShellUtils.quote(apkTmpPath);
+                String quotedAppRemovePattern = ShellUtils.quote("/system/priv-app/" + appBaseName) + "*";
+                String installScript = "ROOT_DEV=$(awk '$2==\"/\" && $3!=\"rootfs\" {print $1; exit}' /proc/mounts); "
+                        + "blockdev --setrw $ROOT_DEV; "
+                        + "mount -o rw,remount $ROOT_DEV /; "
+                        + "test -w /system/priv-app && "
+                        + "if ls /data/*.so >/dev/null 2>&1; then cp -f /data/*.so /system/lib/ && for f in /data/*.so; do chmod 0644 /system/lib/$(basename $f); done; fi; "
+                        + "rm -rf " + quotedAppRemovePattern + "; "
+                        + "rm -f " + quotedApkTmpPath + "; "
+                        + "SRC_SIZE=$(wc -c < " + quotedAppPath + "); echo source_size=$SRC_SIZE; "
+                        + "dd if=" + quotedAppPath + " of=" + quotedApkTmpPath + " bs=1048576 conv=fsync; DD_RET=$?; echo dd_ret=$DD_RET; "
+                        + "ls -l " + quotedApkTmpPath + "; "
+                        + "DST_SIZE=$(wc -c < " + quotedApkTmpPath + "); echo dest_size=$DST_SIZE; "
+                        + "[ $DD_RET -eq 0 ] && "
+                        + "[ $SRC_SIZE -eq " + length + " ] && "
+                        + "test -s " + quotedApkTmpPath + " && "
+                        + "[ $DST_SIZE -eq " + length + " ] && "
+                        + "mv -f " + quotedApkTmpPath + " " + quotedApkDestPath + " && "
+                        + "chown root:root " + quotedApkDestPath + " && "
+                        + "chmod 0644 " + quotedApkDestPath + "; "
+                        + "ret=$?; rm -f " + quotedAppPath + "; rm -rf /data/*.so; sync; mount -o ro,remount $ROOT_DEV /; exit $ret";
+                // Keep the original system-app install flow, but copy through a non-empty tmp file first.
                 String[] command = new String[]{
-                        "mount -o rw,remount -t ext4 /system",
-                        "cp -rf /data/*.so /system/lib/",//拷贝lib库
-                        "rm -rf /system/priv-app/" + appName.replace(".apk", "") + "*",//删除原有的APK
-                        "cp -rf " + appPath + " /system/priv-app/",//拷贝已下载好的APK
-                        "chmod 777 /system/lib/*.so",//授权so库
-                        "chmod 777 /system/priv-app/" + appName.replace(".apk", "") + "*",//授权apk
-                        "rm -rf " + appPath,//删除已下载好的APK
-                        "rm -rf /data/*.so",//删除临时目录下的so库
-                        isReboot ? "reboot" : ""//确认重启
+                        installScript,
+                        isReboot ? "reboot" : ""
                 };
                 ShellUtils.CommandResult cmdResult = ShellUtils.exec(command);
-                return cmdResult.result == 0 ? new File("/system/priv-app/" + appName).exists() : false;
+                KLog.d("ichtj_installSilent result=" + cmdResult.result
+                        + ", failedCommand=" + cmdResult.failedCommand
+                        + ", success=" + cmdResult.successMsg
+                        + ", error=" + cmdResult.errorMsg);
+                return cmdResult.result == 0 ? new File(apkDestPath).exists() : false;
             } else {
                 String[] command = new String[]{"pm install -r " + appPath + "\n", "rm -rf " + appPath + "\n", isReboot ? "reboot" : ""};
                 ShellUtils.CommandResult cmdResult = ShellUtils.exec(command);

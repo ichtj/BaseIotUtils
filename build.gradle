@@ -11,7 +11,7 @@ buildscript {
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         //Sqlite数据库
 //        classpath 'org.greenrobot:greendao-gradle-plugin:3.3.0' // add plugin
-        classpath "com.android.tools.build:gradle:4.2.0"
+        classpath "com.android.tools.build:gradle:7.4.2"
 //        classpath 'com.github.dcendents:android-maven-gradle-plugin:2.1'
 //        classpath "com.vanniktech:gradle-maven-publish-plugin:0.34.0"
     }

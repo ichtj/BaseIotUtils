@@ -1,0 +1,17 @@
+ds sk-d887a51df62f4af396dbc9a189bf9d2d
+glm 35c54713dae149a1ade62cfe24f00282.hwADrPzeWZwLVkre
+
+{
+  "theme": "light-ansi",
+  "claudeCode.environmentVariables": [
+    { "name": "ANTHROPIC_BASE_URL", "value": "https://api.deepseek.com/anthropic" },
+    { "name": "ANTHROPIC_AUTH_TOKEN", "value": "sk-e3a568be62a6403ca57fae102f877c78" },
+    { "name": "ANTHROPIC_MODEL", "value": "deepseek-v4-pro[1m]" },
+    { "name": "ANTHROPIC_DEFAULT_OPUS_MODEL", "value": "deepseek-v4-pro[1m]" },
+    { "name": "ANTHROPIC_DEFAULT_SONNET_MODEL", "value": "deepseek-v4-pro[1m]" },
+    { "name": "ANTHROPIC_DEFAULT_HAIKU_MODEL", "value": "deepseek-v4-flash" },
+    { "name": "CLAUDE_CODE_SUBAGENT_MODEL", "value": "deepseek-v4-flash" },
+    { "name": "CLAUDE_CODE_EFFORT_LEVEL", "value": "max" }
+  ],
+  "model": "opus"
+}

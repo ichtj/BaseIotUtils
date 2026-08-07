@@ -1,70 +1,552 @@
 package com.ichtj.basetools.reboot;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.IBinder;
-import android.util.Log;
+import android.os.Looper;
+import android.os.SystemClock;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.SwitchCompat;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import com.alibaba.android.arouter.facade.annotation.Route;
-import com.face_chtj.base_iotutils.SPUtils;
+import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.AppManager;
 import com.ichtj.basetools.util.PACKAGES;
 
-@Route(path = PACKAGES.BASE+"reboot")
-public class RebootAty extends BaseActivity {
-    EditText etCycle;
-    TextView tvRebootCount;
-    private RebootCustomService service = null;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.Locale;
 
-    private boolean isBound = false;
+@Route(path = PACKAGES.BASE + "reboot")
+public class RebootAty extends BaseActivity {
+    private static final int REQUEST_STORAGE_PERMISSION = 2101;
+    private static final long UI_REFRESH_INTERVAL_MS = 1000L;
+    private static final int[] CYCLE_PRESET_SECONDS = {
+            30, 60, 300, 600, 900, 1800, 3600
+    };
+    private static final int[] CYCLE_PRESET_LABEL_IDS = {
+            R.id.tvPreset30Seconds,
+            R.id.tvPreset1Minute,
+            R.id.tvPreset5Minutes,
+            R.id.tvPreset10Minutes,
+            R.id.tvPreset15Minutes,
+            R.id.tvPreset30Minutes,
+            R.id.tvPreset60Minutes
+    };
+
+    private final Handler uiHandler = new Handler(Looper.getMainLooper());
+    private final Runnable statusTicker = new Runnable() {
+        @Override
+        public void run() {
+            refreshTaskStatus();
+            uiHandler.postDelayed(this, UI_REFRESH_INTERVAL_MS);
+        }
+    };
+
+    private SwitchCompat switchRebootTask;
+    private EditText etCycle;
+    private SeekBar seekCyclePreset;
+    private TextView tvCycleConversion;
+    private TextView[] cyclePresetLabels;
+    private TextView tvCountdown;
+    private TextView tvTaskStatus;
+    private TextView tvPauseReason;
+    private TextView tvRebootCount;
+    private TextView tvLastRebootTime;
+    private TextView tvLogStats;
+    private TextView tvLogPath;
+    private View pausePanel;
+    private Button btnUpdateCycle;
+    private Button btnResumeTask;
+    private RebootCustomService service;
+    private boolean bindingRegistered;
+    private boolean isBound;
+    private boolean suppressSwitchCallback;
+    private boolean suppressCycleInputCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reboot);
-        etCycle = findViewById(R.id.etCycle);
-        tvRebootCount = findViewById(R.id.tvRebootCount);
-        int rebootCount= SPUtils.getInt("rebootCount",0);
-        tvRebootCount.setText("已重启"+rebootCount+"次");
-        Intent intent = new Intent(this, RebootCustomService.class);
-        bindService(intent, conn, BIND_AUTO_CREATE);
+        bindViews();
+        setupCycleSelector();
+        setCycleInput(RebootStateStore.getCycleSeconds(this));
+        switchRebootTask.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!suppressSwitchCallback) {
+                changeTaskEnabled(isChecked);
+            }
+        });
+        refreshAllStatus();
+        ensureStoragePermission();
+        if (RebootStateStore.isEnabled(this)) {
+            startAndBindService();
+        }
         AppManager.finishActivity(StartPageAty.class);
     }
 
-    private ServiceConnection conn = new ServiceConnection() {
+    private void bindViews() {
+        switchRebootTask = findViewById(R.id.switchRebootTask);
+        etCycle = findViewById(R.id.etCycle);
+        seekCyclePreset = findViewById(R.id.seekCyclePreset);
+        tvCycleConversion = findViewById(R.id.tvCycleConversion);
+        tvCountdown = findViewById(R.id.tvCountdown);
+        tvTaskStatus = findViewById(R.id.tvTaskStatus);
+        tvPauseReason = findViewById(R.id.tvPauseReason);
+        tvRebootCount = findViewById(R.id.tvRebootCount);
+        tvLastRebootTime = findViewById(R.id.tvLastRebootTime);
+        tvLogStats = findViewById(R.id.tvLogStats);
+        tvLogPath = findViewById(R.id.tvLogPath);
+        pausePanel = findViewById(R.id.pausePanel);
+        btnUpdateCycle = findViewById(R.id.btnUpdateCycle);
+        btnResumeTask = findViewById(R.id.btnResumeTask);
+        cyclePresetLabels = new TextView[CYCLE_PRESET_LABEL_IDS.length];
+        for (int index = 0; index < CYCLE_PRESET_LABEL_IDS.length; index++) {
+            cyclePresetLabels[index] = findViewById(CYCLE_PRESET_LABEL_IDS[index]);
+        }
+    }
+
+    private void setupCycleSelector() {
+        seekCyclePreset.setMax(CYCLE_PRESET_SECONDS.length - 1);
+        seekCyclePreset.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (fromUser) {
+                    selectCyclePreset(progress);
+                }
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+        for (int index = 0; index < cyclePresetLabels.length; index++) {
+            final int presetIndex = index;
+            cyclePresetLabels[index].setOnClickListener(
+                    view -> selectCyclePreset(presetIndex));
+        }
+        etCycle.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence value, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence value, int start, int before, int count) {
+                if (!suppressCycleInputCallback) {
+                    syncCycleSelector(value == null ? "" : value.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable value) {
+            }
+        });
+    }
+
+    private void selectCyclePreset(int presetIndex) {
+        if (presetIndex < 0 || presetIndex >= CYCLE_PRESET_SECONDS.length
+                || !seekCyclePreset.isEnabled()) {
+            return;
+        }
+        setCycleInput(CYCLE_PRESET_SECONDS[presetIndex]);
+    }
+
+    private void setCycleInput(int seconds) {
+        suppressCycleInputCallback = true;
+        etCycle.setText(String.valueOf(seconds));
+        etCycle.setSelection(etCycle.length());
+        suppressCycleInputCallback = false;
+        syncCycleSelector(String.valueOf(seconds));
+    }
+
+    private void syncCycleSelector(String input) {
+        final int seconds;
+        try {
+            seconds = Integer.parseInt(input.trim());
+        } catch (NumberFormatException exception) {
+            showInvalidCycleSelection();
+            return;
+        }
+        if (seconds <= 0) {
+            showInvalidCycleSelection();
+            return;
+        }
+
+        int presetIndex = findCyclePresetIndex(seconds);
+        updatePresetSelection(presetIndex);
+        tvCycleConversion.setText(presetIndex >= 0
+                ? getString(R.string.reboot_cycle_preset_conversion,
+                formatCycleDuration(seconds), seconds)
+                : getString(R.string.reboot_cycle_custom_conversion,
+                seconds, formatCycleDuration(seconds)));
+    }
+
+    private void showInvalidCycleSelection() {
+        updatePresetSelection(-1);
+        tvCycleConversion.setText(R.string.reboot_cycle_conversion_hint);
+    }
+
+    private void updatePresetSelection(int selectedIndex) {
+        if (selectedIndex >= 0 && seekCyclePreset.getProgress() != selectedIndex) {
+            seekCyclePreset.setProgress(selectedIndex);
+        }
+        seekCyclePreset.setAlpha(selectedIndex >= 0 ? 1f : 0.55f);
+        int selectedColor = ContextCompat.getColor(this, R.color.colorAccent);
+        int normalColor = ContextCompat.getColor(this, R.color.reboot_text_secondary);
+        for (int index = 0; index < cyclePresetLabels.length; index++) {
+            boolean selected = index == selectedIndex;
+            cyclePresetLabels[index].setSelected(selected);
+            cyclePresetLabels[index].setTextColor(selected ? selectedColor : normalColor);
+            cyclePresetLabels[index].setTypeface(null,
+                    selected ? android.graphics.Typeface.BOLD
+                            : android.graphics.Typeface.NORMAL);
+        }
+    }
+
+    private static int findCyclePresetIndex(int seconds) {
+        for (int index = 0; index < CYCLE_PRESET_SECONDS.length; index++) {
+            if (CYCLE_PRESET_SECONDS[index] == seconds) {
+                return index;
+            }
+        }
+        return -1;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (RebootStateStore.isEnabled(this) && !bindingRegistered) {
+            startAndBindService();
+        }
+        refreshAllStatus();
+        uiHandler.removeCallbacks(statusTicker);
+        uiHandler.post(statusTicker);
+    }
+
+    @Override
+    protected void onPause() {
+        uiHandler.removeCallbacks(statusTicker);
+        super.onPause();
+    }
+
+    private final ServiceConnection connection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder binder) {
             isBound = true;
-            RebootCustomService.TestBinder myBinder = (RebootCustomService.TestBinder) binder;
-            service = myBinder.getService();
+            service = ((RebootCustomService.TestBinder) binder).getService();
+            refreshTaskStatus();
         }
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
             isBound = false;
-            Log.i("DemoLog", "ActivityA onServiceDisconnected");
+            service = null;
+            refreshTaskStatus();
         }
     };
 
+    private void startAndBindService() {
+        RebootCustomService.startServiceCompat(this);
+        if (!bindingRegistered) {
+            bindingRegistered = bindService(new Intent(this, RebootCustomService.class),
+                    connection, BIND_AUTO_CREATE);
+        }
+    }
+
+    private void unbindRebootService() {
+        if (bindingRegistered) {
+            unbindService(connection);
+        }
+        bindingRegistered = false;
+        isBound = false;
+        service = null;
+    }
+
+    private void changeTaskEnabled(boolean enabled) {
+        boolean success;
+        if (service != null) {
+            success = service.setTaskEnabled(enabled);
+        } else if (enabled) {
+            success = RebootCustomService.enableTask(this);
+        } else {
+            success = RebootCustomService.disableTask(this);
+        }
+
+        if (!success) {
+            setSwitchChecked(RebootStateStore.isEnabled(this));
+            ToastUtils.error(getString(isRebootInProgress()
+                    ? R.string.reboot_switch_locked : R.string.reboot_switch_update_failed));
+            refreshTaskStatus();
+            return;
+        }
+
+        if (enabled) {
+            startAndBindService();
+            ToastUtils.success(getString(R.string.reboot_task_enabled));
+        } else {
+            unbindRebootService();
+            ToastUtils.info(getString(R.string.reboot_task_disabled));
+        }
+        refreshTaskStatus();
+    }
+
     public void setCycleClick(View view) {
-        if(isBound){
-            service.stopCycle();
-            String cycle = etCycle.getText().toString().trim();
-            SPUtils.putInt("timeCycle",Integer.parseInt(cycle));
-            service.startCycle();
+        String input = etCycle.getText().toString().trim();
+        if (input.length() == 0) {
+            ToastUtils.error(getString(R.string.reboot_cycle_required));
+            return;
+        }
+
+        final int seconds;
+        try {
+            seconds = Integer.parseInt(input);
+        } catch (NumberFormatException exception) {
+            ToastUtils.error(getString(R.string.reboot_cycle_out_of_range));
+            return;
+        }
+        if (seconds <= 0) {
+            ToastUtils.error(getString(R.string.reboot_cycle_positive));
+            return;
+        }
+        if (isRebootInProgress()) {
+            ToastUtils.error(getString(R.string.reboot_controls_locked));
+            return;
+        }
+        if (RebootStateStore.isEnabled(this) && service == null) {
+            ToastUtils.error(getString(R.string.reboot_service_connecting));
+            return;
+        }
+
+        boolean updated;
+        if (service != null) {
+            updated = service.updateCycleSeconds(seconds);
+        } else {
+            int bootCount = RebootStateStore.readBootCount(this);
+            String marker = RebootStateStore.createBootMarker(
+                    bootCount, RebootStateStore.readBootId());
+            updated = RebootStateStore.updateCycleAndSchedule(
+                    this, seconds, marker, SystemClock.elapsedRealtime());
+        }
+        if (updated) {
+            int message = !RebootStateStore.isEnabled(this)
+                    ? R.string.reboot_cycle_saved_disabled
+                    : RebootStateStore.isPaused(this)
+                    ? R.string.reboot_cycle_updated_paused : R.string.reboot_cycle_updated;
+            ToastUtils.success(getString(message));
+            refreshTaskStatus();
+        } else {
+            ToastUtils.error(getString(R.string.reboot_cycle_update_failed));
+        }
+    }
+
+    public void resumeTaskClick(View view) {
+        if (!isBound || service == null) {
+            ToastUtils.error(getString(R.string.reboot_service_connecting));
+            return;
+        }
+        if (service.resumeCycle()) {
+            ToastUtils.success(getString(R.string.reboot_resume_success));
+        } else {
+            ToastUtils.error(getString(R.string.reboot_resume_failed));
+        }
+        refreshTaskStatus();
+    }
+
+    public void clearLogsClick(View view) {
+        RebootLogStore.LogStats stats = RebootLogStore.getStats();
+        if (stats.fileCount == 0) {
+            ToastUtils.info(getString(R.string.reboot_no_logs));
+            return;
+        }
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.reboot_clear_title)
+                .setMessage(getString(R.string.reboot_clear_message,
+                        stats.fileCount, formatBytes(stats.totalBytes)))
+                .setNegativeButton(android.R.string.cancel, null)
+                .setPositiveButton(R.string.reboot_clear_action,
+                        (dialog, which) -> clearLogsInBackground())
+                .show();
+    }
+
+    private void clearLogsInBackground() {
+        new Thread(() -> {
+            RebootLogStore.ClearResult result = RebootLogStore.clearLogs();
+            runOnUiThread(() -> {
+                String message = getString(R.string.reboot_clear_result,
+                        result.deletedFiles, result.failedFiles,
+                        formatBytes(result.freedBytes));
+                if (result.failedFiles == 0) {
+                    ToastUtils.success(message);
+                } else {
+                    ToastUtils.error(message);
+                }
+                refreshLogStatus();
+            });
+        }, "reboot-log-cleaner").start();
+    }
+
+    private void refreshAllStatus() {
+        refreshTaskStatus();
+        refreshLogStatus();
+    }
+
+    private void refreshTaskStatus() {
+        boolean enabled = RebootStateStore.isEnabled(this);
+        boolean paused = enabled && (service != null
+                ? service.isTaskPaused() : RebootStateStore.isPaused(this));
+        boolean rebooting = enabled && isRebootInProgress();
+
+        setSwitchChecked(enabled);
+        switchRebootTask.setEnabled(!rebooting);
+        etCycle.setEnabled(!rebooting);
+        seekCyclePreset.setEnabled(!rebooting);
+        for (TextView presetLabel : cyclePresetLabels) {
+            presetLabel.setEnabled(!rebooting);
+            presetLabel.setAlpha(rebooting ? 0.45f : 1f);
+        }
+        btnUpdateCycle.setEnabled(!rebooting && (!enabled || service != null));
+        btnResumeTask.setVisibility(paused && !rebooting ? View.VISIBLE : View.GONE);
+        btnResumeTask.setEnabled(service != null);
+        tvPauseReason.setVisibility(paused && !rebooting ? View.VISIBLE : View.GONE);
+        pausePanel.setVisibility(paused && !rebooting ? View.VISIBLE : View.GONE);
+
+        if (!enabled) {
+            tvTaskStatus.setText(R.string.reboot_task_status_disabled);
+            tvCountdown.setText(R.string.reboot_countdown_disabled);
+        } else if (rebooting) {
+            tvTaskStatus.setText(R.string.reboot_task_status_executing);
+            tvCountdown.setText(R.string.reboot_countdown_executing);
+        } else if (paused) {
+            tvTaskStatus.setText(R.string.reboot_task_status_paused);
+            tvCountdown.setText(R.string.reboot_countdown_paused);
+            String reason = service != null
+                    ? service.getTaskPauseReason() : RebootStateStore.getPauseReason(this);
+            tvPauseReason.setText(getString(R.string.reboot_pause_reason, reason));
+        } else if (service == null) {
+            tvTaskStatus.setText(R.string.reboot_task_status_starting);
+            tvCountdown.setText(R.string.reboot_countdown_preparing);
+        } else {
+            long trigger = RebootStateStore.getNextTriggerElapsedMs(this);
+            if (trigger <= 0L) {
+                tvTaskStatus.setText(R.string.reboot_task_status_starting);
+                tvCountdown.setText(R.string.reboot_countdown_preparing);
+            } else {
+                tvTaskStatus.setText(R.string.reboot_task_status_running);
+                tvCountdown.setText(formatCountdown(
+                        Math.max(0L, trigger - SystemClock.elapsedRealtime())));
+            }
+        }
+
+        long count = RebootStateStore.getSuccessCount(this);
+        tvRebootCount.setText(getString(R.string.reboot_success_count, count));
+        long lastSuccess = RebootStateStore.getLastSuccessWallTime(this);
+        tvLastRebootTime.setText(lastSuccess > 0L
+                ? getString(R.string.reboot_last_time,
+                DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM)
+                        .format(new Date(lastSuccess)))
+                : getString(R.string.reboot_last_time_none));
+    }
+
+    private boolean isRebootInProgress() {
+        return service != null
+                ? service.isRebootInProgress()
+                : RebootStateStore.getPendingTask(this) != null;
+    }
+
+    private void setSwitchChecked(boolean checked) {
+        if (switchRebootTask.isChecked() == checked) {
+            return;
+        }
+        suppressSwitchCallback = true;
+        switchRebootTask.setChecked(checked);
+        suppressSwitchCallback = false;
+    }
+
+    private void refreshLogStatus() {
+        RebootLogStore.LogStats stats = RebootLogStore.getStats();
+        tvLogStats.setText(getString(R.string.reboot_log_summary,
+                stats.fileCount, formatBytes(stats.totalBytes)));
+        tvLogPath.setText(getString(R.string.reboot_log_path,
+                RebootLogStore.getLogDirectory().getAbsolutePath()));
+    }
+
+    private void ensureStoragePermission() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M
+                && ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    REQUEST_STORAGE_PERMISSION);
         }
     }
 
     @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                                           int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_STORAGE_PERMISSION
+                && (grantResults.length == 0
+                || grantResults[0] != PackageManager.PERMISSION_GRANTED)) {
+            ToastUtils.error(getString(R.string.reboot_storage_denied));
+        }
+    }
+
+    private static String formatCountdown(long durationMs) {
+        long totalSeconds = Math.max(0L, (durationMs + 999L) / 1000L);
+        long hours = totalSeconds / 3600L;
+        long minutes = (totalSeconds % 3600L) / 60L;
+        long seconds = totalSeconds % 60L;
+        return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
+    private String formatCycleDuration(int totalSeconds) {
+        int minutes = totalSeconds / 60;
+        int seconds = totalSeconds % 60;
+        if (minutes == 0) {
+            return getString(R.string.reboot_duration_seconds, seconds);
+        }
+        if (seconds == 0) {
+            return getString(R.string.reboot_duration_minutes, minutes);
+        }
+        return getString(R.string.reboot_duration_minutes_seconds, minutes, seconds);
+    }
+
+    private static String formatBytes(long bytes) {
+        if (bytes < 1024L) {
+            return bytes + " B";
+        }
+        if (bytes < 1024L * 1024L) {
+            return String.format(Locale.US, "%.1f KB", bytes / 1024d);
+        }
+        return String.format(Locale.US, "%.1f MB", bytes / (1024d * 1024d));
+    }
+
+    @Override
     protected void onDestroy() {
+        uiHandler.removeCallbacks(statusTicker);
+        unbindRebootService();
         super.onDestroy();
     }
 }

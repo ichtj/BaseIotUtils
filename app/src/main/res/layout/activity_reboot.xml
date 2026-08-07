@@ -1,37 +1,380 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center">
+    android:background="@color/white"
+    android:orientation="vertical">
+
     <com.face_chtj.base_iotutils.view.TopTitleBar
         android:id="@+id/ctTopView"
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        app:centerText="定时重启"
+        app:centerText="@string/reboot_title"
+        app:leftBack="true"
         app:leftText="&lt;&lt;"
         app:rightText=""
-        app:leftBack="true"
-        app:textSize="24sp" />
+        app:textSize="20sp" />
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:overScrollMode="ifContentScrolls">
 
-    <EditText
-        android:id="@+id/etCycle"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:hint="设置重启周期(秒)"
-        android:inputType="number"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:onClick="setCycleClick"
-        android:text="设置" />
-    <TextView
-        android:id="@+id/tvRebootCount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="已重启0次"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/reboot_status_background"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="18dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="22dp">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/reboot_task_switch_title"
+                            android:textColor="@color/reboot_text_primary"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/tvTaskStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="3dp"
+                            android:textColor="@color/reboot_text_secondary"
+                            android:textSize="14sp"
+                            tools:text="运行中" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/switchRebootTask"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/reboot_task_switch_description"
+                        android:gravity="center"
+                        android:minWidth="56dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="18dp"
+                    android:gravity="center"
+                    android:text="@string/reboot_countdown_label"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="13sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/tvCountdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="68dp"
+                    android:fontFamily="monospace"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="42sp"
+                    android:textStyle="bold"
+                    app:autoSizeMaxTextSize="42sp"
+                    app:autoSizeMinTextSize="26sp"
+                    app:autoSizeStepGranularity="2sp"
+                    app:autoSizeTextType="uniform"
+                    tools:text="01:23:45" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="20dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reboot_cycle_section_title"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvCycleConversion"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/reboot_cycle_conversion_hint"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="13sp"
+                    tools:text="5 分钟 = 300 秒" />
+
+                <SeekBar
+                    android:id="@+id/seekCyclePreset"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginRight="2dp"
+                    android:contentDescription="@string/reboot_cycle_selector_description"
+                    android:max="6"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:progress="0" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/tvPreset30Seconds"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_30_seconds" />
+
+                    <TextView
+                        android:id="@+id/tvPreset1Minute"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_1_minute" />
+
+                    <TextView
+                        android:id="@+id/tvPreset5Minutes"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_5_minutes" />
+
+                    <TextView
+                        android:id="@+id/tvPreset10Minutes"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_10_minutes" />
+
+                    <TextView
+                        android:id="@+id/tvPreset15Minutes"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_15_minutes" />
+
+                    <TextView
+                        android:id="@+id/tvPreset30Minutes"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_30_minutes" />
+
+                    <TextView
+                        android:id="@+id/tvPreset60Minutes"
+                        style="@style/RebootCyclePresetLabel"
+                        android:text="@string/reboot_preset_60_minutes" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="8dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etCycle"
+                        android:layout_width="0dp"
+                        android:layout_height="48dp"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:hint="@string/reboot_cycle_hint"
+                        android:importantForAutofill="no"
+                        android:imeOptions="actionDone"
+                        android:inputType="number"
+                        android:maxLength="9"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:selectAllOnFocus="true"
+                        android:singleLine="true"
+                        android:textColor="@color/reboot_text_primary"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="6dp"
+                        android:text="@string/reboot_cycle_unit"
+                        android:textColor="@color/reboot_text_secondary"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btnUpdateCycle"
+                        android:layout_width="128dp"
+                        android:layout_height="44dp"
+                        android:layout_marginLeft="12dp"
+                        android:minHeight="0dp"
+                        android:minWidth="0dp"
+                        android:onClick="setCycleClick"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:text="@string/reboot_update_cycle"
+                        android:textAllCaps="false"
+                        android:textColor="@color/white"
+                        android:textSize="14sp"
+                        app:backgroundTint="@color/colorPrimary" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pausePanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/reboot_warning_background"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingTop="14dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="14dp"
+                android:visibility="gone"
+                tools:visibility="visible">
+
+                <TextView
+                    android:id="@+id/tvPauseReason"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/reboot_warning_text"
+                    android:textSize="13sp"
+                    tools:text="异常原因：重启请求未被系统确认" />
+
+                <Button
+                    android:id="@+id/btnResumeTask"
+                    android:layout_width="96dp"
+                    android:layout_height="42dp"
+                    android:layout_marginLeft="12dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:onClick="resumeTaskClick"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/reboot_resume_task"
+                    android:textAllCaps="false"
+                    android:textColor="@color/reboot_warning_text"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/reboot_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="18dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="18dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reboot_record_section_title"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvRebootCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="成功重启 12 次" />
+
+                <TextView
+                    android:id="@+id/tvLastRebootTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="14sp"
+                    tools:text="上次重启：2026年8月7日 14:30:00" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/reboot_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="20dp"
+                android:paddingTop="18dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="24dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/reboot_log_section_title"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvLogStats"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="14sp"
+                    tools:text="3 个文件，共 24.5 KB" />
+
+                <TextView
+                    android:id="@+id/tvLogPath"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:lineSpacingExtra="2dp"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textIsSelectable="true"
+                    android:textSize="12sp"
+                    tools:text="日志目录：/sdcard/TestReboot/logs" />
+
+                <Button
+                    android:layout_width="112dp"
+                    android:layout_height="42dp"
+                    android:layout_gravity="end"
+                    android:layout_marginTop="12dp"
+                    android:minHeight="0dp"
+                    android:minWidth="0dp"
+                    android:onClick="clearLogsClick"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:text="@string/reboot_clear_logs"
+                    android:textAllCaps="false"
+                    android:textSize="13sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

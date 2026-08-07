@@ -48,6 +48,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <!--写入文件权限-->
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <!--应用安装权限-->
     <uses-permission
         android:name="android.permission.INSTALL_PACKAGES"
@@ -63,6 +64,9 @@
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
     <!--开启启动完成-->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission
+        android:name="android.permission.REBOOT"
+        tools:ignore="ProtectedPermissions" />
     <!--usb设备监听-->
     <uses-permission
         android:name="android.permission.HARDWARE_TEST"
@@ -88,7 +92,6 @@
     <protected-broadcast android:name="com.chtj.add.keepalive.info" />
     <protected-broadcast android:name="com.chtj.add.keepalive.info.result" />
 
-    <uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />
     <uses-permission
         android:name="android.permission.MANAGE_DOCUMENTS"
         tools:ignore="ProtectedPermissions" />
@@ -115,6 +118,7 @@
         android:label="${APP_NAME}"
         android:largeHeap="true"
         android:persistent="true"
+        android:requestLegacyExternalStorage="true"
         android:roundIcon="${APP_ICON}"
         android:screenOrientation="portrait"
         android:supportsRtl="true"
@@ -131,9 +135,9 @@
 <!--                 <action android:name="android.intent.action.MAIN" />
                  <category android:name="android.intent.category.LAUNCHER" />-->
                 <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER" /><!--
                 <category android:name="android.intent.category.HOME" />
-                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.DEFAULT" />-->
             </intent-filter>
         </activity>
         <!--功能选择-->
@@ -212,13 +216,6 @@
             android:exported="true"
             android:launchMode="singleTop"
             android:screenOrientation="user" />
-        <!--greenDAO数据库操作-->
-<!--        <activity-->
-<!--            android:name=".greendao.GreenDaoSqliteAty"-->
-<!--            android:enabled="true"-->
-<!--            android:exported="true"-->
-<!--            android:launchMode="singleTop"-->
-<!--            android:screenOrientation="user" />-->
         <!--查看所有app详情-->
         <activity
             android:name=".allapp.AllAppAty"
@@ -446,11 +443,6 @@
             android:foregroundServiceType="mediaProjection"
             android:exported="false"
             android:enabled="true"/>
-        <!--在服务里面进行一些application应该执行的初始化操作-->
-        <service
-            android:name=".application.InitializeService"
-            android:enabled="true"
-            android:exported="false" />
         <!-- 测试anr的服务类-->
         <service android:name=".crash.MyService" />
         <service
@@ -467,7 +459,7 @@
         <service
             android:name=".reboot.RebootCustomService"
             android:enabled="true"
-            android:exported="true" />
+            android:exported="false" />
         <!--网络重置监听的服务-->
         <service
             android:name=".network.NetMonitorService"
@@ -483,7 +475,7 @@
             android:name=".util.BaseIotReceiver"
             android:enabled="true"
             android:exported="true">
-            <intent-filter>
+            <intent-filter android:priority="-1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>

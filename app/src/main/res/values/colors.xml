@@ -21,4 +21,12 @@
     <color name="gray_1">#CACDD2</color>
     <color name="blue_1">#0144C6</color>
 
+    <color name="reboot_status_background">#F2F6F5</color>
+    <color name="reboot_text_primary">#172320</color>
+    <color name="reboot_text_secondary">#5D6C68</color>
+    <color name="reboot_divider">#E1E8E6</color>
+    <color name="reboot_warning_background">#FFF4E5</color>
+    <color name="reboot_warning_text">#814B08</color>
+    <color name="reboot_preset_selected_background">#F9E3EB</color>
+
 </resources>
