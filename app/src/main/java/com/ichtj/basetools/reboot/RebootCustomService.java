@@ -51,8 +51,8 @@ public class RebootCustomService extends Service {
     private static final long OVERLAY_REFRESH_INTERVAL_MS = 1000L;
     private static volatile boolean settingsActivityVisible;
     private static volatile RebootCustomService activeInstance;
-    private static final String GPIO_COMMAND =
-            "echo \"11\" > /sys/class/fib_gpio/gpio_state";
+//    private static final String GPIO_COMMAND =
+//            "echo \"11\" > /sys/class/fib_gpio/gpio_state";
 
     private final Object timerLock = new Object();
     private final AtomicBoolean requestingReboot = new AtomicBoolean(false);
@@ -551,10 +551,6 @@ public class RebootCustomService extends Service {
             scheduleConfirmationTimeout(task);
         }
         showNotification("正在请求重启");
-        audit("GPIO_COMMAND_STARTED", taskId, GPIO_COMMAND);
-        ShellUtils.CommandResult gpio = ShellUtils.execCompatibleRoot(GPIO_COMMAND);
-        audit("GPIO_COMMAND_FINISHED", taskId, commandDetail(gpio));
-
         RebootLogStore.WriteResult dispatch = RebootLogStore.info(
                 "POWER_REBOOT_DISPATCH", taskId, bootCount, successCount,
                 "Calling PowerManager.reboot");
