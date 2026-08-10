@@ -28,5 +28,10 @@
     <color name="reboot_warning_background">#FFF4E5</color>
     <color name="reboot_warning_text">#814B08</color>
     <color name="reboot_preset_selected_background">#F9E3EB</color>
+    <color name="reboot_overlay_background">#ED17201E</color>
+    <color name="reboot_overlay_text">#FFFFFF</color>
+    <color name="reboot_status_normal">#35C47C</color>
+    <color name="reboot_status_pending">#F2B134</color>
+    <color name="reboot_status_error">#E05252</color>
 
 </resources>

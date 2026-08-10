@@ -8,11 +8,23 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PixelFormat;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Binder;
 import android.os.Build;
+import android.os.Handler;
 import android.os.IBinder;
+import android.os.Looper;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.provider.Settings;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.FrameLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
@@ -22,6 +34,7 @@ import com.face_chtj.base_iotutils.AppsUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.ichtj.basetools.R;
 
+import java.util.Locale;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -33,23 +46,53 @@ import io.reactivex.schedulers.Schedulers;
 public class RebootCustomService extends Service {
     private static final int NOTIFICATION_ID = 98;
     private static final String NOTIFICATION_CHANNEL_ID = "scheduled_reboot";
+    private static final String ACTION_BOOT_BACKGROUND =
+            "com.ichtj.basetools.reboot.action.BOOT_BACKGROUND";
+    private static final long OVERLAY_REFRESH_INTERVAL_MS = 1000L;
+    private static volatile boolean settingsActivityVisible;
+    private static volatile RebootCustomService activeInstance;
     private static final String GPIO_COMMAND =
             "echo \"11\" > /sys/class/fib_gpio/gpio_state";
 
     private final Object timerLock = new Object();
     private final AtomicBoolean requestingReboot = new AtomicBoolean(false);
     private final TestBinder binder = new TestBinder();
+    private final Handler mainHandler = new Handler(Looper.getMainLooper());
+    private final Runnable overlayTicker = new Runnable() {
+        @Override
+        public void run() {
+            refreshOverlayOnMainThread();
+            if (overlayView != null && shouldShowOverlay()) {
+                mainHandler.postDelayed(this, OVERLAY_REFRESH_INTERVAL_MS);
+            }
+        }
+    };
     private Disposable cycleTimer;
     private Disposable confirmationTimer;
     private long cycleGeneration;
     private long scheduledTriggerElapsedMs;
     private boolean foregroundStarted;
-    private boolean runtimePaused;
-    private String runtimePauseReason = "";
+    private volatile boolean runtimePaused;
+    private volatile String runtimePauseReason = "";
+    private WindowManager windowManager;
+    private View overlayView;
+    private View overlayStatusDot;
+    private TextView overlayStatusText;
+    private WindowManager.LayoutParams overlayLayoutParams;
+    private OverlayState renderedOverlayState;
+    private boolean overlayFailureLogged;
+
+    private enum OverlayState {
+        NORMAL,
+        PREPARING,
+        REBOOTING,
+        ERROR
+    }
 
     @Override
     public void onCreate() {
         super.onCreate();
+        activeInstance = this;
         showNotification("服务运行中...", true);
         if (!RebootStateStore.isEnabled(this)) {
             stopForeground(true);
@@ -69,8 +112,80 @@ public class RebootCustomService extends Service {
             stopSelf();
             return START_NOT_STICKY;
         }
+        if (intent != null && ACTION_BOOT_BACKGROUND.equals(intent.getAction())
+                && RebootStateStore.isBackgroundModeEnabled(this)) {
+            if (RebootStateStore.isPaused(this)) {
+                showServiceToast(this, getString(R.string.reboot_service_paused_toast,
+                        summarize(RebootStateStore.getPauseReason(this))));
+            } else {
+                showServiceToast(this, R.string.reboot_background_boot_restored);
+            }
+        }
         startCycle();
         return START_STICKY;
+    }
+
+    public static boolean isBackgroundModeEnabled(Context context) {
+        return RebootStateStore.isBackgroundModeEnabled(context);
+    }
+
+    public static void setSettingsActivityVisible(Context context, boolean visible) {
+        settingsActivityVisible = visible;
+        RebootCustomService instance = activeInstance;
+        if (instance != null) {
+            instance.requestOverlayRefresh();
+        } else if (!visible && RebootStateStore.isBackgroundModeEnabled(context)
+                && RebootStateStore.isEnabled(context)) {
+            startServiceCompat(context);
+        }
+    }
+
+    public static void onBackgroundModeChanged(Context context, boolean enabled,
+                                               boolean finishNow) {
+        Context app = context.getApplicationContext();
+        showServiceToast(app, enabled
+                ? finishNow ? R.string.reboot_background_enabled_now
+                : R.string.reboot_background_enabled_next
+                : R.string.reboot_background_disabled);
+        RebootCustomService instance = activeInstance;
+        if (instance != null) {
+            instance.requestOverlayRefresh();
+        } else if (enabled && RebootStateStore.isEnabled(app)) {
+            startServiceCompat(app);
+        }
+    }
+
+    public static void onOverlayStatusSettingChanged(Context context, boolean enabled) {
+        Context app = context.getApplicationContext();
+        showServiceToast(app, enabled
+                ? R.string.reboot_overlay_status_enabled
+                : R.string.reboot_overlay_status_disabled);
+        RebootCustomService instance = activeInstance;
+        if (instance != null) {
+            instance.requestOverlayRefresh();
+        } else if (enabled && RebootStateStore.isEnabled(app)) {
+            startServiceCompat(app);
+        }
+    }
+
+    public static void onOverlayPermissionResult(Context context, boolean granted) {
+        Context app = context.getApplicationContext();
+        if (!granted) {
+            showServiceToast(app, R.string.reboot_overlay_permission_denied);
+        }
+        RebootCustomService instance = activeInstance;
+        if (instance != null) {
+            instance.overlayFailureLogged = false;
+            instance.requestOverlayRefresh();
+        }
+    }
+
+    public static void onOverlayPermissionRequestStarted(Context context) {
+        showServiceToast(context, R.string.reboot_overlay_permission_required);
+    }
+
+    public static void onOverlayPermissionRequestUnavailable(Context context) {
+        showServiceToast(context, R.string.reboot_overlay_permission_unavailable);
     }
 
     public static void handleBootCompleted(Context context) {
@@ -104,17 +219,25 @@ public class RebootCustomService extends Service {
                     result.successCount, detail);
         }
         if (RebootStateStore.isEnabled(app)) {
-            startServiceCompat(app);
+            startServiceCompat(app, RebootStateStore.isBackgroundModeEnabled(app)
+                    ? ACTION_BOOT_BACKGROUND : null);
         }
     }
 
     public static void startServiceCompat(Context context) {
+        startServiceCompat(context, null);
+    }
+
+    private static void startServiceCompat(Context context, String action) {
         if (!RebootStateStore.isEnabled(context)) {
             return;
         }
         try {
-            ContextCompat.startForegroundService(context,
-                    new Intent(context, RebootCustomService.class));
+            Intent serviceIntent = new Intent(context, RebootCustomService.class);
+            if (action != null) {
+                serviceIntent.setAction(action);
+            }
+            ContextCompat.startForegroundService(context, serviceIntent);
         } catch (Throwable throwable) {
             RebootLogStore.error("SERVICE_START_FAILED", "",
                     RebootStateStore.readBootCount(context),
@@ -206,8 +329,7 @@ public class RebootCustomService extends Service {
                 return;
             }
             if (!schedule.persisted) {
-                showNotification("定时配置保存失败");
-                error("SCHEDULE_SAVE_FAILED", "", "Timer was not started", null);
+                pauseTask("", "定时配置保存失败", null);
                 return;
             }
             if (active(cycleTimer)
@@ -235,7 +357,8 @@ public class RebootCustomService extends Service {
                             cycleTimer = null;
                             scheduledTriggerElapsedMs = 0L;
                         }
-                        error("TIMER_ERROR", "", throwable.getMessage(), throwable);
+                        pauseTask("", "定时器异常：" + summarize(throwable.getMessage()),
+                                throwable);
                     });
         }
     }
@@ -486,8 +609,9 @@ public class RebootCustomService extends Service {
                     synchronized (timerLock) {
                         confirmationTimer = null;
                     }
-                    error("CONFIRM_TIMER_ERROR", task.taskId,
-                            throwable.getMessage(), throwable);
+                    pauseTask(task.taskId,
+                            "重启确认计时异常：" + summarize(throwable.getMessage()),
+                            throwable);
                 });
     }
 
@@ -528,6 +652,8 @@ public class RebootCustomService extends Service {
             return;
         }
         showNotification("任务已暂停：" + summarize(reason));
+        showServiceToast(this, getString(R.string.reboot_service_paused_toast,
+                summarize(reason)));
     }
 
     private void showNotification(String remarks) {
@@ -538,6 +664,7 @@ public class RebootCustomService extends Service {
         if (!allowWhenDisabled && !RebootStateStore.isEnabled(this)) {
             stopForeground(true);
             foregroundStarted = false;
+            requestOverlayRefresh();
             return;
         }
         try {
@@ -562,8 +689,8 @@ public class RebootCustomService extends Service {
             }
             PendingIntent contentIntent = PendingIntent.getActivity(
                     this, 0, openIntent, pendingFlags);
-            String title = getString(R.string.reboot_app_name) + " "
-                    + AppsUtils.getAppVersionName();
+            String title = getString(R.string.reboot_service_notification_title,
+                    AppsUtils.getAppVersionName());
             Notification notification = new NotificationCompat.Builder(
                     this, NOTIFICATION_CHANNEL_ID)
                     .setSmallIcon(R.mipmap.reboot)
@@ -586,7 +713,199 @@ public class RebootCustomService extends Service {
             RebootLogStore.error("NOTIFICATION_UPDATE_FAILED", "",
                     RebootStateStore.readBootCount(this),
                     RebootStateStore.getSuccessCount(this), remarks, throwable);
+        } finally {
+            requestOverlayRefresh();
         }
+    }
+
+    private void requestOverlayRefresh() {
+        mainHandler.removeCallbacks(overlayTicker);
+        mainHandler.post(overlayTicker);
+    }
+
+    private boolean shouldShowOverlay() {
+        return RebootStateStore.isEnabled(this)
+                && RebootStateStore.isBackgroundModeEnabled(this)
+                && RebootStateStore.isOverlayStatusEnabled(this)
+                && !settingsActivityVisible;
+    }
+
+    private void refreshOverlayOnMainThread() {
+        if (!shouldShowOverlay()) {
+            removeOverlayOnMainThread();
+            return;
+        }
+        if (!canDrawOverlay()) {
+            removeOverlayOnMainThread();
+            if (!overlayFailureLogged) {
+                overlayFailureLogged = true;
+                error("OVERLAY_PERMISSION_MISSING", "",
+                        "Status overlay permission is unavailable; notification remains active",
+                        null);
+            }
+            return;
+        }
+        overlayFailureLogged = false;
+        if (overlayView == null && !addOverlayOnMainThread()) {
+            return;
+        }
+        renderOverlayOnMainThread();
+    }
+
+    private boolean canDrawOverlay() {
+        return Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || Settings.canDrawOverlays(this);
+    }
+
+    private boolean addOverlayOnMainThread() {
+        try {
+            windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+            if (windowManager == null) {
+                throw new IllegalStateException("WindowManager unavailable");
+            }
+            FrameLayout overlayParent = new FrameLayout(this);
+            overlayView = LayoutInflater.from(this).inflate(
+                    R.layout.reboot_status_overlay, overlayParent, false);
+            overlayStatusDot = overlayView.findViewById(R.id.rebootOverlayStatusDot);
+            overlayStatusText = overlayView.findViewById(R.id.rebootOverlayStatusText);
+            int windowType = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O
+                    ? WindowManager.LayoutParams.TYPE_APPLICATION_OVERLAY
+                    : WindowManager.LayoutParams.TYPE_PHONE;
+            overlayLayoutParams = new WindowManager.LayoutParams(
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    WindowManager.LayoutParams.WRAP_CONTENT,
+                    windowType,
+                    overlayFlags(false),
+                    PixelFormat.TRANSLUCENT);
+            overlayLayoutParams.gravity = Gravity.TOP | Gravity.CENTER_HORIZONTAL;
+            overlayLayoutParams.y = dpToPx(12);
+            overlayLayoutParams.width = Math.min(
+                    Math.max(dpToPx(180),
+                            getResources().getDisplayMetrics().widthPixels - dpToPx(24)),
+                    dpToPx(420));
+            windowManager.addView(overlayView, overlayLayoutParams);
+            renderedOverlayState = null;
+            return true;
+        } catch (Throwable throwable) {
+            overlayView = null;
+            overlayStatusDot = null;
+            overlayStatusText = null;
+            overlayLayoutParams = null;
+            if (!overlayFailureLogged) {
+                overlayFailureLogged = true;
+                error("OVERLAY_ADD_FAILED", "", throwable.getMessage(), throwable);
+            }
+            return false;
+        }
+    }
+
+    private void renderOverlayOnMainThread() {
+        OverlayState state = resolveOverlayState();
+        String text;
+        int colorRes;
+        if (state == OverlayState.ERROR) {
+            text = getString(R.string.reboot_overlay_error,
+                    summarize(getTaskPauseReason()));
+            colorRes = R.color.reboot_status_error;
+        } else if (state == OverlayState.REBOOTING) {
+            text = getString(R.string.reboot_overlay_rebooting);
+            colorRes = R.color.reboot_status_pending;
+        } else if (state == OverlayState.PREPARING) {
+            text = getString(R.string.reboot_overlay_preparing);
+            colorRes = R.color.reboot_status_pending;
+        } else {
+            long remaining = Math.max(0L,
+                    RebootStateStore.getNextTriggerElapsedMs(this)
+                            - SystemClock.elapsedRealtime());
+            text = getString(R.string.reboot_overlay_normal,
+                    formatOverlayCountdown(remaining));
+            colorRes = R.color.reboot_status_normal;
+        }
+        if (!text.contentEquals(overlayStatusText.getText())) {
+            overlayStatusText.setText(text);
+        }
+        if (renderedOverlayState != state) {
+            GradientDrawable dot = new GradientDrawable();
+            dot.setShape(GradientDrawable.OVAL);
+            dot.setColor(ContextCompat.getColor(this, colorRes));
+            overlayStatusDot.setBackground(dot);
+            boolean clickable = state == OverlayState.ERROR;
+            overlayView.setOnClickListener(clickable ? view -> openSettings() : null);
+            overlayLayoutParams.flags = overlayFlags(clickable);
+            try {
+                windowManager.updateViewLayout(overlayView, overlayLayoutParams);
+            } catch (Throwable throwable) {
+                error("OVERLAY_UPDATE_FAILED", "", throwable.getMessage(), throwable);
+                removeOverlayOnMainThread();
+                return;
+            }
+            renderedOverlayState = state;
+        }
+    }
+
+    private OverlayState resolveOverlayState() {
+        if (runtimePaused || RebootStateStore.isPaused(this)) {
+            return OverlayState.ERROR;
+        }
+        if (requestingReboot.get() || RebootStateStore.getPendingTask(this) != null) {
+            return OverlayState.REBOOTING;
+        }
+        return RebootStateStore.getNextTriggerElapsedMs(this) > 0L
+                ? OverlayState.NORMAL : OverlayState.PREPARING;
+    }
+
+    private int overlayFlags(boolean clickable) {
+        int flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
+                | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL
+                | WindowManager.LayoutParams.FLAG_LAYOUT_IN_SCREEN;
+        if (!clickable) {
+            flags |= WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE;
+        }
+        return flags;
+    }
+
+    private void openSettings() {
+        try {
+            Intent intent = new Intent(this, RebootAty.class)
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                            | Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(intent);
+        } catch (Throwable throwable) {
+            error("OVERLAY_OPEN_SETTINGS_FAILED", "", throwable.getMessage(), throwable);
+        }
+    }
+
+    private void removeOverlayOnMainThread() {
+        mainHandler.removeCallbacks(overlayTicker);
+        if (overlayView != null && windowManager != null) {
+            try {
+                windowManager.removeView(overlayView);
+            } catch (Throwable throwable) {
+                error("OVERLAY_REMOVE_FAILED", "", throwable.getMessage(), throwable);
+            }
+        }
+        overlayView = null;
+        overlayStatusDot = null;
+        overlayStatusText = null;
+        overlayLayoutParams = null;
+        renderedOverlayState = null;
+        windowManager = null;
+    }
+
+    private static void showServiceToast(Context context, int messageRes) {
+        Context app = context.getApplicationContext();
+        showServiceToast(app, app.getString(messageRes));
+    }
+
+    private static void showServiceToast(Context context, String message) {
+        Context app = context.getApplicationContext();
+        new Handler(Looper.getMainLooper()).post(() -> Toast.makeText(
+                app, message, Toast.LENGTH_LONG).show());
+    }
+
+    private int dpToPx(int dp) {
+        return Math.round(dp * getResources().getDisplayMetrics().density);
     }
 
     private void audit(String event, String taskId, String detail) {
@@ -621,6 +940,14 @@ public class RebootCustomService extends Service {
         return minutes > 0L ? minutes + "分" + seconds + "秒" : seconds + "秒";
     }
 
+    private static String formatOverlayCountdown(long durationMs) {
+        long totalSeconds = Math.max(0L, (durationMs + 999L) / 1000L);
+        long hours = totalSeconds / 3600L;
+        long minutes = (totalSeconds % 3600L) / 60L;
+        long seconds = totalSeconds % 60L;
+        return String.format(Locale.US, "%02d:%02d:%02d", hours, minutes, seconds);
+    }
+
     private static boolean active(Disposable disposable) {
         return disposable != null && !disposable.isDisposed();
     }
@@ -651,8 +978,13 @@ public class RebootCustomService extends Service {
     @Override
     public void onDestroy() {
         stopCycle();
+        mainHandler.removeCallbacksAndMessages(null);
+        removeOverlayOnMainThread();
         stopForeground(true);
         foregroundStarted = false;
+        if (activeInstance == this) {
+            activeInstance = null;
+        }
         audit("SERVICE_DESTROYED", "", "All timers disposed");
         super.onDestroy();
     }

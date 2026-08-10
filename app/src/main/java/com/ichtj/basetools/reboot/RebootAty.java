@@ -5,12 +5,14 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -39,6 +41,7 @@ import java.util.Locale;
 @Route(path = PACKAGES.BASE + "reboot")
 public class RebootAty extends BaseActivity {
     private static final int REQUEST_STORAGE_PERMISSION = 2101;
+    private static final int REQUEST_OVERLAY_PERMISSION = 2102;
     private static final long UI_REFRESH_INTERVAL_MS = 1000L;
     private static final int[] CYCLE_PRESET_SECONDS = {
             30, 60, 300, 600, 900, 1800, 3600
@@ -63,6 +66,8 @@ public class RebootAty extends BaseActivity {
     };
 
     private SwitchCompat switchRebootTask;
+    private SwitchCompat switchBackgroundMode;
+    private SwitchCompat switchOverlayStatus;
     private EditText etCycle;
     private SeekBar seekCyclePreset;
     private TextView tvCycleConversion;
@@ -81,7 +86,11 @@ public class RebootAty extends BaseActivity {
     private boolean bindingRegistered;
     private boolean isBound;
     private boolean suppressSwitchCallback;
+    private boolean suppressBackgroundSwitchCallback;
+    private boolean suppressOverlaySwitchCallback;
     private boolean suppressCycleInputCallback;
+    private boolean finishAfterOverlayPermission;
+    private boolean backgroundChoicePending;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,9 +99,21 @@ public class RebootAty extends BaseActivity {
         bindViews();
         setupCycleSelector();
         setCycleInput(RebootStateStore.getCycleSeconds(this));
+        setBackgroundSwitchChecked(RebootStateStore.isBackgroundModeEnabled(this));
+        setOverlaySwitchChecked(RebootStateStore.isOverlayStatusEnabled(this));
         switchRebootTask.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!suppressSwitchCallback) {
                 changeTaskEnabled(isChecked);
+            }
+        });
+        switchBackgroundMode.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!suppressBackgroundSwitchCallback) {
+                changeBackgroundMode(isChecked);
+            }
+        });
+        switchOverlayStatus.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!suppressOverlaySwitchCallback) {
+                changeOverlayStatus(isChecked);
             }
         });
         refreshAllStatus();
@@ -105,6 +126,8 @@ public class RebootAty extends BaseActivity {
 
     private void bindViews() {
         switchRebootTask = findViewById(R.id.switchRebootTask);
+        switchBackgroundMode = findViewById(R.id.switchBackgroundMode);
+        switchOverlayStatus = findViewById(R.id.switchOverlayStatus);
         etCycle = findViewById(R.id.etCycle);
         seekCyclePreset = findViewById(R.id.seekCyclePreset);
         tvCycleConversion = findViewById(R.id.tvCycleConversion);
@@ -122,6 +145,18 @@ public class RebootAty extends BaseActivity {
         for (int index = 0; index < CYCLE_PRESET_LABEL_IDS.length; index++) {
             cyclePresetLabels[index] = findViewById(CYCLE_PRESET_LABEL_IDS[index]);
         }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        RebootCustomService.setSettingsActivityVisible(this, true);
+    }
+
+    @Override
+    protected void onStop() {
+        RebootCustomService.setSettingsActivityVisible(this, false);
+        super.onStop();
     }
 
     private void setupCycleSelector() {
@@ -305,11 +340,108 @@ public class RebootAty extends BaseActivity {
         if (enabled) {
             startAndBindService();
             ToastUtils.success(getString(R.string.reboot_task_enabled));
+            if (RebootStateStore.isBackgroundModeEnabled(this)
+                    && RebootStateStore.isOverlayStatusEnabled(this)) {
+                requestOverlayPermissionIfNeeded();
+            }
         } else {
             unbindRebootService();
             ToastUtils.info(getString(R.string.reboot_task_disabled));
         }
         refreshTaskStatus();
+    }
+
+    private void changeBackgroundMode(boolean enabled) {
+        if (!enabled) {
+            if (!RebootStateStore.setBackgroundModeEnabled(this, false)) {
+                setBackgroundSwitchChecked(true);
+                ToastUtils.error(getString(R.string.reboot_background_save_failed));
+                return;
+            }
+            RebootCustomService.onBackgroundModeChanged(this, false, false);
+            return;
+        }
+
+        backgroundChoicePending = true;
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.reboot_background_dialog_title)
+                .setMessage(R.string.reboot_background_dialog_message)
+                .setNegativeButton(android.R.string.cancel,
+                        (dialog, which) -> cancelBackgroundModeChoice())
+                .setNeutralButton(R.string.reboot_background_next_boot,
+                        (dialog, which) -> enableBackgroundMode(false))
+                .setPositiveButton(R.string.reboot_background_finish_now,
+                        (dialog, which) -> enableBackgroundMode(true))
+                .setOnCancelListener(dialog -> cancelBackgroundModeChoice())
+                .show();
+    }
+
+    private void cancelBackgroundModeChoice() {
+        backgroundChoicePending = false;
+        setBackgroundSwitchChecked(false);
+    }
+
+    private void enableBackgroundMode(boolean finishNow) {
+        backgroundChoicePending = false;
+        if (!RebootStateStore.setBackgroundModeEnabled(this, true)) {
+            setBackgroundSwitchChecked(false);
+            ToastUtils.error(getString(R.string.reboot_background_save_failed));
+            return;
+        }
+        setBackgroundSwitchChecked(true);
+        RebootCustomService.onBackgroundModeChanged(this, true, finishNow);
+        boolean waitingForPermission = RebootStateStore.isEnabled(this)
+                && RebootStateStore.isOverlayStatusEnabled(this)
+                && requestOverlayPermissionIfNeeded();
+        finishAfterOverlayPermission = finishNow && waitingForPermission;
+        if (finishNow && !waitingForPermission) {
+            finish();
+        }
+    }
+
+    private void changeOverlayStatus(boolean enabled) {
+        if (!RebootStateStore.setOverlayStatusEnabled(this, enabled)) {
+            setOverlaySwitchChecked(!enabled);
+            ToastUtils.error(getString(R.string.reboot_overlay_status_save_failed));
+            return;
+        }
+        RebootCustomService.onOverlayStatusSettingChanged(this, enabled);
+        if (enabled && RebootStateStore.isEnabled(this)
+                && RebootStateStore.isBackgroundModeEnabled(this)) {
+            requestOverlayPermissionIfNeeded();
+        }
+    }
+
+    private boolean requestOverlayPermissionIfNeeded() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || Settings.canDrawOverlays(this)) {
+            return false;
+        }
+        try {
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION,
+                    Uri.parse("package:" + getPackageName()));
+            startActivityForResult(intent, REQUEST_OVERLAY_PERMISSION);
+            RebootCustomService.onOverlayPermissionRequestStarted(this);
+            return true;
+        } catch (Throwable throwable) {
+            RebootCustomService.onOverlayPermissionRequestUnavailable(this);
+            return false;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode != REQUEST_OVERLAY_PERMISSION) {
+            return;
+        }
+        boolean granted = Build.VERSION.SDK_INT < Build.VERSION_CODES.M
+                || Settings.canDrawOverlays(this);
+        RebootCustomService.onOverlayPermissionResult(this, granted);
+        if (finishAfterOverlayPermission) {
+            finishAfterOverlayPermission = false;
+            finish();
+        }
     }
 
     public void setCycleClick(View view) {
@@ -419,6 +551,10 @@ public class RebootAty extends BaseActivity {
         boolean rebooting = enabled && isRebootInProgress();
 
         setSwitchChecked(enabled);
+        if (!backgroundChoicePending) {
+            setBackgroundSwitchChecked(RebootStateStore.isBackgroundModeEnabled(this));
+        }
+        setOverlaySwitchChecked(RebootStateStore.isOverlayStatusEnabled(this));
         switchRebootTask.setEnabled(!rebooting);
         etCycle.setEnabled(!rebooting);
         seekCyclePreset.setEnabled(!rebooting);
@@ -482,6 +618,24 @@ public class RebootAty extends BaseActivity {
         suppressSwitchCallback = true;
         switchRebootTask.setChecked(checked);
         suppressSwitchCallback = false;
+    }
+
+    private void setBackgroundSwitchChecked(boolean checked) {
+        if (switchBackgroundMode.isChecked() == checked) {
+            return;
+        }
+        suppressBackgroundSwitchCallback = true;
+        switchBackgroundMode.setChecked(checked);
+        suppressBackgroundSwitchCallback = false;
+    }
+
+    private void setOverlaySwitchChecked(boolean checked) {
+        if (switchOverlayStatus.isChecked() == checked) {
+            return;
+        }
+        suppressOverlaySwitchCallback = true;
+        switchOverlayStatus.setChecked(checked);
+        suppressOverlaySwitchCallback = false;
     }
 
     private void refreshLogStatus() {

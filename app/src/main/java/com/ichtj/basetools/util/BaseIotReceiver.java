@@ -30,8 +30,10 @@ public class BaseIotReceiver extends BroadcastReceiver {
                 + ", appChoose=" + BuildConfig.APP_CHOOSE);
         switch (packageName) {
             case PACKAGES.PKG_REBOOT:
-                startActivity(context, RebootAty.class);
                 handleRebootBootCompleted(context);
+                if (!RebootCustomService.isBackgroundModeEnabled(context)) {
+                    startActivity(context, RebootAty.class);
+                }
                 break;
             case PACKAGES.PKG_SERIALPORT:
                 break;

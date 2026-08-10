@@ -18,6 +18,8 @@ final class RebootStateStore {
     private static final String PREF_NAME = "config";
     private static final String KEY_CYCLE_SECONDS = "timeCycle";
     private static final String KEY_ENABLED = "rebootTaskEnabled";
+    private static final String KEY_BACKGROUND_MODE = "rebootBackgroundMode";
+    private static final String KEY_OVERLAY_STATUS_ENABLED = "rebootOverlayStatusEnabled";
     private static final String KEY_SUCCESS_COUNT = "rebootSuccessCount";
     private static final String KEY_LAST_SUCCESS_WALL_TIME = "rebootLastSuccessWallTime";
     private static final String KEY_PENDING_TASK_ID = "rebootPendingTaskId";
@@ -103,6 +105,26 @@ final class RebootStateStore {
 
     static synchronized boolean isEnabled(Context context) {
         return preferences(context).getBoolean(KEY_ENABLED, true);
+    }
+
+    static synchronized boolean isBackgroundModeEnabled(Context context) {
+        return preferences(context).getBoolean(KEY_BACKGROUND_MODE, false);
+    }
+
+    static synchronized boolean setBackgroundModeEnabled(Context context, boolean enabled) {
+        return preferences(context).edit()
+                .putBoolean(KEY_BACKGROUND_MODE, enabled)
+                .commit();
+    }
+
+    static synchronized boolean isOverlayStatusEnabled(Context context) {
+        return preferences(context).getBoolean(KEY_OVERLAY_STATUS_ENABLED, false);
+    }
+
+    static synchronized boolean setOverlayStatusEnabled(Context context, boolean enabled) {
+        return preferences(context).edit()
+                .putBoolean(KEY_OVERLAY_STATUS_ENABLED, enabled)
+                .commit();
     }
 
     static synchronized long getNextTriggerElapsedMs(Context context) {
