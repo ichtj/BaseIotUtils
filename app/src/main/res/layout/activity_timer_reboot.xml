@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.face_chtj.base_iotutils.view.TopTitleBar
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        app:centerText="@string/timer_reboot_title"
+        app:leftBack="true"
+        app:leftText="&lt;&lt;"
+        app:textSize="24sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/reboot_status_background"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:minHeight="64dp">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@string/timer_reboot_plan"
+                            android:textColor="@color/reboot_text_primary"
+                            android:textSize="22sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/timerStatus"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="@string/reboot_task_status_disabled"
+                            android:textColor="@color/reboot_text_secondary"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/timerEnabled"
+                        android:layout_width="wrap_content"
+                        android:layout_height="48dp"
+                        android:contentDescription="@string/timer_reboot_plan"
+                        android:minWidth="56dp"
+                        android:saveEnabled="false" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:text="@string/reboot_countdown_label"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="17sp" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/timerCountdown"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:fontFamily="monospace"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/reboot_countdown_disabled"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="48sp"
+                    app:autoSizeMaxTextSize="48sp"
+                    app:autoSizeMinTextSize="24sp"
+                    app:autoSizeTextType="uniform" />
+
+                <TextView
+                    android:id="@+id/timerNext"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="19sp" />
+
+                <TextView
+                    android:id="@+id/timerActiveRule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:gravity="center"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="17sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/timerErrorPanel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/reboot_warning_background"
+                android:orientation="vertical"
+                android:padding="20dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/timerError"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/reboot_warning_text"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/timerResume"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:text="@string/reboot_resume_task"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timer_reboot_repeat"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <RadioGroup
+                    android:id="@+id/timerTypes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/timerOnce"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:padding="0dp"
+                        android:text="@string/timer_reboot_once"
+                        android:textSize="17sp" />
+
+                    <RadioButton
+                        android:id="@+id/timerDaily"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:padding="0dp"
+                        android:text="@string/timer_reboot_daily"
+                        android:textSize="17sp" />
+
+                    <RadioButton
+                        android:id="@+id/timerWeekly"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:padding="0dp"
+                        android:text="@string/timer_reboot_weekly"
+                        android:textSize="17sp" />
+
+                    <RadioButton
+                        android:id="@+id/timerMonthly"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:minHeight="48dp"
+                        android:padding="0dp"
+                        android:text="@string/timer_reboot_monthly"
+                        android:textSize="17sp" />
+                </RadioGroup>
+
+                <Button
+                    android:id="@+id/timerDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@android:drawable/ic_menu_my_calendar"
+                    android:minHeight="48dp"
+                    android:textAllCaps="false"
+                    android:textSize="18sp"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/timerWeekdays"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/timer_reboot_weekdays"
+                        android:textColor="@color/reboot_text_secondary"
+                        android:textSize="17sp" />
+
+                    <LinearLayout
+                        android:id="@+id/timerWeekdayChecks"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timerMonthPanel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/timer_reboot_month_day"
+                        android:textColor="@color/reboot_text_secondary"
+                        android:textSize="17sp" />
+
+                    <Spinner
+                        android:id="@+id/timerMonthDay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="48dp"
+                        android:spinnerMode="dropdown" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/timer_reboot_time"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <Button
+                    android:id="@+id/timerTime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@android:drawable/ic_menu_recent_history"
+                    android:minHeight="48dp"
+                    android:textAllCaps="false"
+                    android:textSize="20sp" />
+
+                <TextView
+                    android:id="@+id/timerDirty"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="@string/timer_reboot_unsaved"
+                    android:textColor="@color/reboot_warning_text"
+                    android:textSize="17sp"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/timerSave"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:minHeight="48dp"
+                    android:text="@string/timer_reboot_save"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/reboot_divider" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/timer_reboot_latest"
+                    android:textColor="@color/reboot_text_primary"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/timerLastResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/timerLogPath"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textColor="@color/reboot_text_secondary"
+                    android:textIsSelectable="true"
+                    android:textSize="16sp" />
+
+                <Button
+                    android:id="@+id/timerViewLog"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:drawableStart="@android:drawable/ic_menu_info_details"
+                    android:minHeight="48dp"
+                    android:text="@string/timer_reboot_view_log"
+                    android:textAllCaps="false"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

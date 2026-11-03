@@ -20,6 +20,7 @@ ext {
             socket                  :'@drawable/ic_socket',
             serialport              :'@drawable/ic_serialport',
             reboot                  :'@mipmap/reboot',
+            timerreboot             :'@mipmap/reboot',
             netrecord               :'@drawable/ic_net_record',
             netmonitor              :'@mipmap/netmonitor',
             hidSubDev               :'@mipmap/ic_hid',

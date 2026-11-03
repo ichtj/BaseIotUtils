@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:sharedUserId="android.uid.system"
     package="com.ichtj.basetools">
     <!-- 调用摄像头 -->
     <uses-permission android:name="android.permission.CAMERA" />
@@ -279,6 +280,13 @@
             android:launchMode="singleTop"
             android:screenOrientation="user"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".reboot.TimerRebootAty"
+            android:enabled="true"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="user"
+            android:theme="@style/AppTheme" />
         <!--网络重置监听工具-->
         <activity
             android:name=".network.NetMonitorAty"
@@ -460,6 +468,9 @@
             android:name=".reboot.RebootCustomService"
             android:enabled="true"
             android:exported="false" />
+        <service
+            android:name=".reboot.TimerRebootService"
+            android:exported="false" />
         <!--网络重置监听的服务-->
         <service
             android:name=".network.NetMonitorService"
@@ -470,13 +481,16 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".bgservice.MyBgService" />
-        <!--重启后广播监听-->
+        <!--开机、改时及定时重启广播统一入口-->
         <receiver
             android:name=".util.BaseIotReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="false">
             <intent-filter android:priority="-1000">
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
             </intent-filter>
         </receiver>
         <provider

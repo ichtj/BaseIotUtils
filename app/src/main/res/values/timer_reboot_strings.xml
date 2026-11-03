@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Other locales intentionally fall back to English for this utility. -->
+<resources xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+    <string name="timer_reboot_title">Scheduled Reboot</string>
+    <string name="timer_reboot_plan">Reboot plan</string>
+    <string name="timer_reboot_repeat">Repeat</string>
+    <string name="timer_reboot_once">Once</string>
+    <string name="timer_reboot_daily">Daily</string>
+    <string name="timer_reboot_weekly">Weekly</string>
+    <string name="timer_reboot_monthly">Monthly</string>
+    <string name="timer_reboot_weekdays">Days of the week</string>
+    <string name="timer_reboot_month_day">Day of the month</string>
+    <string name="timer_reboot_day_number">Day %1$d</string>
+    <string name="timer_reboot_last_day">Last day</string>
+    <string name="timer_reboot_time">Reboot time</string>
+    <string name="timer_reboot_save">Save plan</string>
+    <string name="timer_reboot_saved">Plan saved</string>
+    <string name="timer_reboot_unsaved">Unsaved changes</string>
+    <string name="timer_reboot_save_first">Save the plan before enabling it</string>
+    <string name="timer_reboot_select_weekday">Select at least one day of the week</string>
+    <string name="timer_reboot_future_required">Choose a date and time in the future</string>
+    <string name="timer_reboot_expired">Expired</string>
+    <string name="timer_reboot_completed">Completed</string>
+    <string name="timer_reboot_no_next">No upcoming reboot</string>
+    <string name="timer_reboot_next">Next: %1$s</string>
+    <string name="timer_reboot_days_countdown">%1$d d %2$s</string>
+    <string name="timer_reboot_enabled">Reboot plan enabled</string>
+    <string name="timer_reboot_disabled">Reboot plan disabled</string>
+    <string name="timer_reboot_restoring">Restoring reboot schedule</string>
+    <string name="timer_reboot_operation_failed">Could not update the plan; check its status</string>
+    <string name="timer_reboot_error_storage">Log could not be saved. The reboot plan is paused.</string>
+    <string name="timer_reboot_error_alarm">The system alarm could not be scheduled. The reboot plan is paused.</string>
+    <string name="timer_reboot_error_reboot">Reboot request failed. The reboot plan is paused.</string>
+    <string name="timer_reboot_error_confirm">Reboot could not be confirmed. The reboot plan is paused.</string>
+    <string name="timer_reboot_error_state">Settings could not be saved. The reboot plan is paused.</string>
+    <string name="timer_reboot_latest">Latest reboot</string>
+    <string name="timer_reboot_view_log">View latest log</string>
+    <string name="timer_reboot_no_record">No record</string>
+    <string name="timer_reboot_success">Confirmed</string>
+    <string name="timer_reboot_failed">Failed</string>
+    <string name="timer_reboot_unconfirmed">Unconfirmed</string>
+    <string name="timer_reboot_requested">Requested</string>
+    <string name="timer_reboot_log_read_failed">The latest reboot log could not be read</string>
+    <string name="timer_reboot_monthly_summary">Monthly, day %1$d at %2$s</string>
+    <string name="timer_reboot_last_day_summary">Monthly, last day at %1$s</string>
+    <string name="timer_reboot_rule_time">%1$s | %2$s</string>
+    <string-array name="timer_reboot_weekday_names">
+        <item>Sun</item><item>Mon</item><item>Tue</item><item>Wed</item>
+        <item>Thu</item><item>Fri</item><item>Sat</item>
+    </string-array>
+</resources>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="timer_reboot_title">定时重启</string>
+    <string name="timer_reboot_plan">重启计划</string>
+    <string name="timer_reboot_repeat">重复规则</string>
+    <string name="timer_reboot_once">单次</string>
+    <string name="timer_reboot_daily">每天</string>
+    <string name="timer_reboot_weekly">每周</string>
+    <string name="timer_reboot_monthly">每月</string>
+    <string name="timer_reboot_weekdays">星期</string>
+    <string name="timer_reboot_month_day">每月日期</string>
+    <string name="timer_reboot_day_number">%1$d 日</string>
+    <string name="timer_reboot_last_day">最后一天</string>
+    <string name="timer_reboot_time">执行时间</string>
+    <string name="timer_reboot_save">保存计划</string>
+    <string name="timer_reboot_saved">计划已保存</string>
+    <string name="timer_reboot_unsaved">有未保存的修改</string>
+    <string name="timer_reboot_save_first">请先保存计划，再开启任务</string>
+    <string name="timer_reboot_select_weekday">请至少选择一个星期</string>
+    <string name="timer_reboot_future_required">请选择未来的日期和时间</string>
+    <string name="timer_reboot_expired">已过期</string>
+    <string name="timer_reboot_completed">已完成</string>
+    <string name="timer_reboot_no_next">暂无待执行的重启</string>
+    <string name="timer_reboot_next">下次重启：%1$s</string>
+    <string name="timer_reboot_days_countdown">%1$d 天 %2$s</string>
+    <string name="timer_reboot_enabled">重启计划已开启</string>
+    <string name="timer_reboot_disabled">重启计划已关闭</string>
+    <string name="timer_reboot_restoring">正在恢复重启计划</string>
+    <string name="timer_reboot_operation_failed">计划更新失败，请检查任务状态</string>
+    <string name="timer_reboot_error_storage">日志保存失败，重启计划已暂停。</string>
+    <string name="timer_reboot_error_alarm">系统闹钟设置失败，重启计划已暂停。</string>
+    <string name="timer_reboot_error_reboot">重启请求失败，重启计划已暂停。</string>
+    <string name="timer_reboot_error_confirm">无法确认重启结果，重启计划已暂停。</string>
+    <string name="timer_reboot_error_state">配置保存失败，重启计划已暂停。</string>
+    <string name="timer_reboot_latest">最近一次重启</string>
+    <string name="timer_reboot_view_log">查看最新日志</string>
+    <string name="timer_reboot_no_record">暂无记录</string>
+    <string name="timer_reboot_success">已确认成功</string>
+    <string name="timer_reboot_failed">失败</string>
+    <string name="timer_reboot_unconfirmed">结果未确认</string>
+    <string name="timer_reboot_requested">已请求</string>
+    <string name="timer_reboot_log_read_failed">无法读取最新重启日志</string>
+    <string name="timer_reboot_monthly_summary">每月 %1$d 日 %2$s</string>
+    <string name="timer_reboot_last_day_summary">每月最后一天 %1$s</string>
+    <string name="timer_reboot_rule_time">%1$s · %2$s</string>
+    <string-array name="timer_reboot_weekday_names">
+        <item>日</item><item>一</item><item>二</item><item>三</item>
+        <item>四</item><item>五</item><item>六</item>
+    </string-array>
+</resources>

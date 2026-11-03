@@ -11,21 +11,23 @@ import com.ichtj.basetools.network.NetMonitorAty;
 import com.ichtj.basetools.network.NetRecordAty;
 import com.ichtj.basetools.reboot.RebootAty;
 import com.ichtj.basetools.reboot.RebootCustomService;
+import com.ichtj.basetools.reboot.TimerRebootService;
 import com.ichtj.basetools.test.ReadImeiAty;
 
-/** Receives boot completion for the selected utility application variant. */
+/** Shared entry point for utility boot actions and calendar reboot broadcasts. */
 public class BaseIotReceiver extends BroadcastReceiver {
-    private static final String TAG = BaseIotReceiver.class.getSimpleName();
+    private static final String TAG = "ichtj_base_receiver";
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent == null ? null : intent.getAction();
         Log.d(TAG, "onReceive: action=" + action);
-        if (!Intent.ACTION_BOOT_COMPLETED.equals(action)) {
+        String packageName = context.getPackageName();
+        if (!Intent.ACTION_BOOT_COMPLETED.equals(action)
+                && !PACKAGES.PKG_TIMERREBOOT.equals(packageName)) {
             return;
         }
 
-        String packageName = context.getPackageName();
         Log.d(TAG, "onReceive: packageName=" + packageName
                 + ", appChoose=" + BuildConfig.APP_CHOOSE);
         switch (packageName) {
@@ -34,6 +36,9 @@ public class BaseIotReceiver extends BroadcastReceiver {
                 if (!RebootCustomService.isBackgroundModeEnabled(context)) {
                     startActivity(context, RebootAty.class);
                 }
+                break;
+            case PACKAGES.PKG_TIMERREBOOT:
+                TimerRebootService.handleBroadcast(context, intent);
                 break;
             case PACKAGES.PKG_SERIALPORT:
                 break;

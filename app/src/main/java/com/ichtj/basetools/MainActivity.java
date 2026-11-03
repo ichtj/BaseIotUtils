@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
+import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -38,6 +39,7 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.UriPathUtils;
 import com.face_chtj.base_iotutils.callback.IDismissListener;
 import com.face_chtj.base_iotutils.code.CodeUtils;
+import com.face_chtj.base_iotutils.test.MemoryStats;
 import com.face_chtj.base_iotutils.view.OnPopupItemClickListener;
 import com.ichtj.basetools.allapp.AllAppAty;
 import com.ichtj.basetools.anr.AnrTestAty;
@@ -94,7 +96,6 @@ import java.util.Map;
 public class MainActivity extends BaseActivity implements CustomButtonGridView.OnButtonClickListener {
     private static final String TAG = MainActivity.class.getSimpleName ( );
     private CustomButtonGridView customButtonGridView;
-    private static final int REQUEST_CODE_INSTALL_UNKNOWN_APPS = 1234;
     private int VIEW_FALG=0;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -104,8 +105,42 @@ public class MainActivity extends BaseActivity implements CustomButtonGridView.O
         customButtonGridView.setButtonMap (getDisplayBtn ( ));
         customButtonGridView.setNumColumns (2); // 设置每列显示2个按钮
         customButtonGridView.setOnButtonClickListener (this);
-        boolean isAppUtils=AppsUtils.installSilent(true,true,"TestReboot","/sdcard/TestReboot.apk");
-        Log.d(TAG,"isAppUtils>>"+isAppUtils);
+        MemoryStats.collectMemorySnapshotAsync(this,
+                new MemoryStats.SnapshotCallback() {
+                    @Override
+                    public void onSuccess(MemoryStats.MemorySnapshot snapshot) {
+                        long total = snapshot.getTotalMemoryBytes();
+                        Log.d(TAG,"total>>>"+total);
+
+                        long used = snapshot.getUsedMemoryBytes();
+                        Log.d(TAG,"used>>>"+used);
+                        long available = snapshot.getAvailableMemoryBytes();
+                        Log.d(TAG,"available>>>"+available);
+
+                        long rootPss = snapshot.getUidPssBytes(0);
+                        Log.d(TAG,"rootPss>>>"+rootPss);
+                        long systemPss = snapshot.getUidPssBytes(1000);
+                        Log.d(TAG,"systemPss>>>"+systemPss);
+                        for (Map.Entry<Integer, MemoryStats.UidMemoryInfo> entry
+                                : snapshot.getAllUidMemoryInfo().entrySet()) {
+
+                            int uid = entry.getKey();
+                            MemoryStats.UidMemoryInfo info = entry.getValue();
+
+                            long pssBytes = info.getPssBytes();
+                            List<String> packageNames = info.getPackageNames();
+
+                            Log.d(TAG, "uid=" + uid
+                                    + ", packages=" + packageNames
+                                    + ", pss=" + MemoryStats.formatBytes(MainActivity.this, pssBytes));
+                        }
+                    }
+
+                    @Override
+                    public void onError(MemoryStats.MemoryError error) {
+                        Log.e(TAG, error.getCode() + ": " + error.getMessage());
+                    }
+                });
     }
 
 
