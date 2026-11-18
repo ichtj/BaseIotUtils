@@ -12,6 +12,10 @@
     <string name="timer_reboot_day_number">%1$d 日</string>
     <string name="timer_reboot_last_day">最后一天</string>
     <string name="timer_reboot_time">执行时间</string>
+    <string name="timer_reboot_hour">小时</string>
+    <string name="timer_reboot_minute">分钟</string>
+    <string name="timer_reboot_hour_error">请输入 0 到 23 之间的小时</string>
+    <string name="timer_reboot_minute_error">请输入 0 到 59 之间的分钟</string>
     <string name="timer_reboot_save">保存计划</string>
     <string name="timer_reboot_saved">计划已保存</string>
     <string name="timer_reboot_unsaved">有未保存的修改</string>

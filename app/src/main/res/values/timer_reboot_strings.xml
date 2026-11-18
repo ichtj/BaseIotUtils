@@ -13,6 +13,10 @@
     <string name="timer_reboot_day_number">Day %1$d</string>
     <string name="timer_reboot_last_day">Last day</string>
     <string name="timer_reboot_time">Reboot time</string>
+    <string name="timer_reboot_hour">Hour</string>
+    <string name="timer_reboot_minute">Minute</string>
+    <string name="timer_reboot_hour_error">Enter an hour from 0 to 23</string>
+    <string name="timer_reboot_minute_error">Enter a minute from 0 to 59</string>
     <string name="timer_reboot_save">Save plan</string>
     <string name="timer_reboot_saved">Plan saved</string>
     <string name="timer_reboot_unsaved">Unsaved changes</string>

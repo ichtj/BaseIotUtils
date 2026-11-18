@@ -28,5 +28,10 @@ ctj@Face-Future:~/rk3399AOSP11/RK3399/ROCKCHIP_ANDROID11.0_SDK_PRJ$ make distcle
 git reset --soft HEAD~1
 git push --force-with-lease origin <分支名>
 
+--------------------同步另一个分支的内容-----------------------------------
+git pull
+git reset --hard HEAD #如果不在乎本地变更导致的冲突，可以执行
+git cherry-pick eb132f78548197030fb16f021eb7007e969ce476
+git push origin FIB6550_FS150_PRJ
 
 

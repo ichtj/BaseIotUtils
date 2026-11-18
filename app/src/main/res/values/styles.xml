@@ -1,4 +1,9 @@
 <resources>
+    <style name="TimerRebootTimeDialogTheme" parent="ThemeOverlay.AppCompat.Dialog.Alert">
+        <item name="colorAccent">@color/colorPrimary</item>
+        <item name="android:colorAccent">@color/colorPrimary</item>
+    </style>
+
     <style name="CustomDialogTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowBackground">@drawable/ic_result_bg</item>
         <item name="android:backgroundDimEnabled">true</item>

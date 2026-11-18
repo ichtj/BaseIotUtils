@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:focusable="true"
+    android:focusableInTouchMode="true"
+    android:descendantFocusability="beforeDescendants"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingStart="24dp"
+        android:paddingTop="12dp"
+        android:paddingEnd="24dp"
+        android:paddingBottom="12dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:labelFor="@id/timerTimeHour"
+                android:text="@string/timer_reboot_hour"
+                android:textColor="@color/reboot_text_secondary"
+                android:textSize="16sp" />
+
+            <com.ichtj.basetools.reboot.TimerRebootNumberPicker
+                android:id="@+id/timerTimeHour"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:descendantFocusability="afterDescendants" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="24dp"
+            android:layout_height="180dp"
+            android:layout_gravity="bottom"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:text=":"
+            android:textColor="@color/reboot_text_primary"
+            android:textSize="26sp" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:labelFor="@id/timerTimeMinute"
+                android:text="@string/timer_reboot_minute"
+                android:textColor="@color/reboot_text_secondary"
+                android:textSize="16sp" />
+
+            <com.ichtj.basetools.reboot.TimerRebootNumberPicker
+                android:id="@+id/timerTimeMinute"
+                android:layout_width="match_parent"
+                android:layout_height="180dp"
+                android:layout_marginTop="8dp"
+                android:descendantFocusability="afterDescendants" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

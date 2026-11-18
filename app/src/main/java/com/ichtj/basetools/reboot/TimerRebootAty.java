@@ -1,10 +1,10 @@
 package com.ichtj.basetools.reboot;
 
 import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +18,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
+import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
@@ -32,7 +33,9 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 @Route(path = PACKAGES.BASE + "timerreboot")
-public class TimerRebootAty extends BaseActivity {
+public class TimerRebootAty extends BaseActivity
+        implements TimerRebootTimeDialog.OnTimeSelectedListener {
+    private static final String TAG=TimerRebootAty.class.getSimpleName();
     private static final int[] TYPE_IDS = {
             R.id.timerOnce, R.id.timerDaily, R.id.timerWeekly, R.id.timerMonthly
     };
@@ -170,12 +173,23 @@ public class TimerRebootAty extends BaseActivity {
             updateDateTime();
             markDirty();
         }, year, month - 1, day).show());
-        time.setOnClickListener(view -> new TimePickerDialog(this, (picker, h, m) -> {
-            hour = h;
-            minute = m;
+        time.setOnClickListener(view -> {
+            if (getSupportFragmentManager().findFragmentByTag(
+                    TimerRebootTimeDialog.FRAGMENT_TAG) == null) {
+                TimerRebootTimeDialog.newInstance(hour, minute).show(
+                        getSupportFragmentManager(), TimerRebootTimeDialog.FRAGMENT_TAG);
+            }
+        });
+    }
+
+    @Override
+    public void onTimeSelected(int selectedHour, int selectedMinute) {
+        if (hour != selectedHour || minute != selectedMinute) {
+            hour = selectedHour;
+            minute = selectedMinute;
             updateDateTime();
             markDirty();
-        }, hour, minute, true).show());
+        }
     }
 
     private void loadDraft(Bundle state) {
