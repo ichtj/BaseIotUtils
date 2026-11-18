@@ -17,12 +17,10 @@ import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SwitchCompat;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
@@ -32,7 +30,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-@Route(path = PACKAGES.BASE + "timerreboot")
 public class TimerRebootAty extends BaseActivity
         implements TimerRebootTimeDialog.OnTimeSelectedListener {
     private static final String TAG=TimerRebootAty.class.getSimpleName();

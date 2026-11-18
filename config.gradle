@@ -14,22 +14,66 @@ ext {
     ]
     //配置此项可对应生成不同的包名/应用图标 跳转不同界面
     APP_PKG_PREFIX='com.ichtj.'
-    APP_CHOOSE='basetools'
-    MY_ICON = [
-            basetools               :'@drawable/app_img',
-            socket                  :'@drawable/ic_socket',
-            serialport              :'@drawable/ic_serialport',
-            reboot                  :'@mipmap/reboot',
-            timerreboot             :'@mipmap/reboot',
-            netrecord               :'@drawable/ic_net_record',
-            netmonitor              :'@mipmap/netmonitor',
-            hidSubDev               :'@mipmap/ic_hid',
-            hidMainDev              :'@mipmap/ic_hid',
-            allApp                  :'@mipmap/ic_all_app',
-            accessibility           :'@drawable/app_img',
-            readimei                :'@mipmap/ic_all_app',
-            testDemo                :'@mipmap/ic_all_app',
-            cameraJni               :'@mipmap/ic_camera'
+    // 切换应用只改 APP_CHOOSE；新增入口只在 APP_ENTRIES 登记 Activity 和图标。
+    // Activity 本身仍需在 AndroidManifest.xml 声明，构建时会自动检查。
+    APP_CHOOSE='netrecord'
+    APP_ENTRIES = [
+            basetools: [
+                    activity: 'com.ichtj.basetools.MainActivity',
+                    icon    : '@drawable/app_img'
+            ],
+            socket: [
+                    activity: 'com.ichtj.basetools.socket.SocketAty',
+                    icon    : '@drawable/ic_socket'
+            ],
+            serialport: [
+                    activity: 'com.ichtj.basetools.serialport.SerialPortAty',
+                    icon    : '@drawable/ic_serialport'
+            ],
+            reboot: [
+                    activity: 'com.ichtj.basetools.reboot.RebootAty',
+                    icon    : '@mipmap/reboot'
+            ],
+            timerreboot: [
+                    activity: 'com.ichtj.basetools.reboot.TimerRebootAty',
+                    icon    : '@mipmap/reboot'
+            ],
+            netrecord: [
+                    activity: 'com.ichtj.basetools.network.NetRecordAty',
+                    icon    : '@drawable/ic_net_record'
+            ],
+            netmonitor: [
+                    activity: 'com.ichtj.basetools.network.NetMonitorAty',
+                    icon    : '@mipmap/netmonitor'
+            ],
+            hidSubDev: [
+                    activity: 'com.ichtj.basetools.hid.HidSubDevAty',
+                    icon    : '@mipmap/ic_hid'
+            ],
+            hidMainDev: [
+                    activity: 'com.ichtj.basetools.hid.HidMainDevAty',
+                    icon    : '@mipmap/ic_hid'
+            ],
+            allApp: [
+                    activity: 'com.ichtj.basetools.allapp.AllAppAty',
+                    icon    : '@mipmap/ic_all_app'
+            ],
+            accessibility: [
+                    activity: 'com.ichtj.basetools.accessibility.AccessibilityControlAty',
+                    icon    : '@drawable/app_img'
+            ],
+            readimei: [
+                    activity: 'com.ichtj.basetools.test.ReadImeiAty',
+                    icon    : '@mipmap/ic_all_app'
+            ],
+            testDemo: [
+                    activity: 'com.ichtj.basetools.test.TestAty',
+                    icon    : '@mipmap/ic_all_app'
+            ],
+            cameraJni: [
+                    activity: 'com.ichtj.basetools.camera.CameraJNIAty',
+                    icon    : '@mipmap/ic_camera'
+            ]
     ]
     //support配置
     support = [
@@ -65,9 +109,6 @@ ext {
             "adapter-rxjava"          : "com.squareup.retrofit2:adapter-rxjava2:2.6.2",
             //eventbus
             "eventbus"                : "org.greenrobot:eventbus:3.1.1",
-            //Arouter
-            "arouter-compiler"        : "com.alibaba:arouter-compiler:1.5.2",
-            "arouter-api"             : "com.alibaba:arouter-api:1.5.2",
             //json解析
             "gson"                    : "com.google.code.gson:gson:2.8.6",
             //物联网开发基础工具类

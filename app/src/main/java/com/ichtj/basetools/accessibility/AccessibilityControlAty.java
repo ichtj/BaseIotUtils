@@ -9,13 +9,10 @@ import android.view.View;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.DisplayUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
 import com.ichtj.basetools.R;
-import com.ichtj.basetools.util.PACKAGES;
 
-@Route(path = PACKAGES.BASE + "accessibility")
 public class AccessibilityControlAty extends Activity {
     private static final String TAG = AccessibilityControlAty.class.getSimpleName();
     private static final int REQUEST_CODE_CAPTURE = 1001;

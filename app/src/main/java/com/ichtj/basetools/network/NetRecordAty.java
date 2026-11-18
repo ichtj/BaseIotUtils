@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.DialogUtils;
 import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.face_chtj.base_iotutils.GlobalDialogUtils;
@@ -46,13 +45,11 @@ import com.ichtj.basetools.callback.INetTimerCallback;
 import com.ichtj.basetools.entity.NetBean;
 import com.ichtj.basetools.util.AppManager;
 import com.face_chtj.base_iotutils.view.TopTitleBar;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@Route(path = PACKAGES.BASE + "netrecord")
 public class NetRecordAty extends BaseActivity implements INetTimerCallback, View.OnClickListener {
     private static final String TAG=NetRecordAty.class.getSimpleName();
     private NetTimerService timerService;

@@ -8,14 +8,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.DeviceUtils;
 import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
-@Route(path = PACKAGES.BASE + "readimei")
 public class ReadImeiAty extends BaseActivity{
     private static final String TAG = ReadImeiAty.class.getSimpleName ( );
     TextView tvResult;

@@ -17,7 +17,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ShellUtils;
 import com.face_chtj.base_iotutils.TimeUtils;
@@ -28,11 +27,9 @@ import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.callback.INetMonitor;
 import com.ichtj.basetools.util.AppManager;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.util.Arrays;
 
-@Route(path = PACKAGES.BASE+"netmonitor")
 public class NetMonitorAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener, INetMonitor {
     private boolean isBound = false;
     private NetMonitorService nService;

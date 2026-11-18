@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.face_chtj.base_iotutils.KLog;
 import com.chtj.socket.BaseTcpSocket;
@@ -22,12 +21,10 @@ import com.chtj.socket.BaseUdpSocket;
 import com.chtj.socket.ISocketListener;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
 
-@Route(path = PACKAGES.BASE+"socket")
 public class SocketAty extends BaseActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener {
     private static final String TAG = "SocketAty";
     private EditText etIp, etPort, etSendContent;

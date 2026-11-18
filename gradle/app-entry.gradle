@@ -1,0 +1,51 @@
+// 入口只在 config.gradle 的 APP_ENTRIES 中维护；配置阶段检查 Manifest 声明。
+def entries = rootProject.ext.APP_ENTRIES
+def chosen = rootProject.ext.APP_CHOOSE
+if (!(entries instanceof Map) || entries.isEmpty()) {
+    throw new GradleException('APP_ENTRIES must be a non-empty map in config.gradle.')
+}
+if (!(chosen instanceof String) || !entries.containsKey(chosen)) {
+    throw new GradleException("Unknown APP_CHOOSE: ${chosen}; supported values: ${entries.keySet()}")
+}
+
+def manifest = new XmlParser(false, true).parse(file('src/main/AndroidManifest.xml'))
+def manifestPackage = manifest.attribute('package').toString()
+def androidName = new groovy.xml.QName('http://schemas.android.com/apk/res/android', 'name')
+def androidEnabled = new groovy.xml.QName('http://schemas.android.com/apk/res/android', 'enabled')
+def declaredActivities = [:]
+manifest.application.activity.each { activity ->
+    def name = activity.attribute(androidName).toString()
+    if (name.startsWith('.')) {
+        name = manifestPackage + name
+    } else if (!name.contains('.')) {
+        name = "${manifestPackage}.${name}".toString()
+    }
+    declaredActivities[name] = activity
+}
+
+entries.each { key, entry ->
+    if (!(key instanceof String) || !(key ==~ /[A-Za-z][A-Za-z0-9_]*/)) {
+        throw new GradleException("Invalid APP_ENTRIES key: ${key}")
+    }
+    if (!(entry instanceof Map)) {
+        throw new GradleException("APP_ENTRIES['${key}'] must define activity and icon.")
+    }
+    def activity = entry.activity
+    if (!(activity instanceof String)
+            || !(activity ==~ /[A-Za-z_][A-Za-z0-9_]*(\.[A-Za-z_][A-Za-z0-9_]*)+/)) {
+        throw new GradleException("APP_ENTRIES['${key}'].activity must be a fully qualified Activity class name.")
+    }
+    def icon = entry.icon
+    if (!(icon instanceof String) || !(icon ==~ /@(drawable|mipmap)\/[a-z0-9_]+/)) {
+        throw new GradleException("APP_ENTRIES['${key}'].icon must be an @drawable/name or @mipmap/name resource.")
+    }
+    def declaration = declaredActivities[activity]
+    if (declaration == null) {
+        throw new GradleException("APP_ENTRIES['${key}'].activity '${activity}' is not declared in app/src/main/AndroidManifest.xml.")
+    }
+    if (declaration.attribute(androidEnabled) == 'false') {
+        throw new GradleException("APP_ENTRIES['${key}'].activity '${activity}' is disabled in AndroidManifest.xml.")
+    }
+}
+
+ext.selectedAppEntry = entries[chosen]

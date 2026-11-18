@@ -6,7 +6,6 @@ buildscript {
         maven { url 'https://www.jitpack.io' }
     }
     dependencies {
-        classpath 'com.alibaba:arouter-register:1.0.2'
 //        //butterknife
 //        classpath 'com.jakewharton:butterknife-gradle-plugin:10.2.0'
         //Sqlite数据库

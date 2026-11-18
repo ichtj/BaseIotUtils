@@ -1,3 +1,4 @@
+apply from: rootProject.file('gradle/app-entry.gradle')
 apply plugin: 'com.android.application'
 //apply plugin: 'org.greenrobot.greendao' // apply plugin
 
@@ -38,15 +39,10 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "arm64-v8a"
         }
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [AROUTER_MODULE_NAME: project.getName()]
-            }
-        }
-//        buildConfigField 'java.util.Map<String, String>', 'MY_PKG', convertMap()
         buildConfigField 'String', 'APP_CHOOSE', "\"${APP_CHOOSE}\""
+        buildConfigField 'java.lang.Class<? extends android.app.Activity>', 'ENTRY_ACTIVITY', "${selectedAppEntry.activity}.class"
         signingConfig signingConfigs.debug
-        manifestPlaceholders = [APP_NAME: "${APP_CHOOSE}", APP_ICON: getIcon()]
+        manifestPlaceholders = [APP_NAME: "${APP_CHOOSE}", APP_ICON: selectedAppEntry.icon]
 
     }
     externalNativeBuild {
@@ -90,14 +86,6 @@ android {
             def fileName = rootProject.ext.APP_CHOOSE + "_v${variant.mergedFlavor.versionName}_" + new Date().format("yyyy-MM-dd") + "_" + variant.buildType.name + ".apk"
             outputFileName = fileName;
         }
-    }
-}
-
-def getIcon() {
-    if (rootProject.ext.MY_ICON.containsKey(rootProject.ext.APP_CHOOSE)) {
-        return rootProject.ext.MY_ICON[rootProject.ext.APP_CHOOSE]
-    } else {
-        return null
     }
 }
 
@@ -163,17 +151,13 @@ dependencies {
     implementation rootProject.ext.dependencies["mqttv3"]
     implementation rootProject.ext.dependencies["mqttv-service"]
     //POI 操作Excel表格
-//    implementation files('libs\\poi-3.12-android-a.jar')
+    implementation files('libs\\poi-3.12-android-a.jar')
     implementation project(path: ':BaseIotUtils')
     //物联网开发基础工具类
     //TCP|UDP socket通信
     //implementation project(path: ':base_socket')
     //framework jarutils
     //implementation project(path: ':base_framework')
-    // 替换成最新版本, 需要注意的是api
-    // 要与compiler匹配使用，均使用最新版可以保证兼容
-    api rootProject.ext.dependencies["arouter-api"]
-    annotationProcessor rootProject.ext.dependencies["arouter-compiler"]
 }
 //
 //greendao {

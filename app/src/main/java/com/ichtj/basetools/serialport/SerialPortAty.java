@@ -19,7 +19,6 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.KLog;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.TranscodingUtils;
@@ -29,14 +28,12 @@ import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.AppManager;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 
-@Route(path = PACKAGES.BASE + "serialport")
 public class SerialPortAty extends BaseActivity implements CompoundButton.OnCheckedChangeListener, View.OnClickListener {
     private static final String TAG = "SerialPortAty";
     Spinner spCom, spBurate, spCom2, spBurate2;

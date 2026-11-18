@@ -17,7 +17,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chtj.base_framework.network.FNetworkTools;
 import com.face_chtj.base_iotutils.BaseIotUtils;
 import com.face_chtj.base_iotutils.KLog;
@@ -29,7 +28,6 @@ import com.face_chtj.base_iotutils.entity.AppEntity;
 import com.face_chtj.base_iotutils.view.TopTitleBar;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +39,6 @@ import java.util.concurrent.Executors;
  * author chtj
  * desc app列表
  */
-@Route(path = PACKAGES.BASE + "allApp")
 public class AllAppAty extends BaseActivity implements TopTitleBar.OnTextViewClickListener {
     private static final String TAG = AllAppAty.class.getSimpleName();
     private RecyclerView rvList;

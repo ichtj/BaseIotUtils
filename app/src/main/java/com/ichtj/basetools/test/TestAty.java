@@ -11,17 +11,14 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.LogView;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.AppManager;
-import com.ichtj.basetools.util.PACKAGES;
 import java.util.ArrayList;
 import java.util.List;
 
-@Route(path = PACKAGES.BASE + "testDemo")
 public class TestAty extends BaseActivity {
     private static final String TAG = TestAty.class.getSimpleName();
     int count=0;

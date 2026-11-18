@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.chtj.base_framework.FStorageTools;
 import com.chtj.base_framework.entity.CommonValue;
 import com.chtj.base_framework.entity.IpConfigInfo;
@@ -76,7 +75,6 @@ import com.ichtj.basetools.util.FKey;
 import com.ichtj.basetools.util.JXLExcelUtils;
 import com.face_chtj.base_iotutils.LoadDialogUtils;
 import com.ichtj.basetools.util.OptionTools;
-import com.ichtj.basetools.util.PACKAGES;
 import com.ichtj.basetools.util.POIExcelUtils;
 import com.ichtj.basetools.util.TableFileUtils;
 import com.ichtj.basetools.util.UsbHubTools;
@@ -92,7 +90,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Route(path = PACKAGES.BASE + "basetools")
 public class MainActivity extends BaseActivity implements CustomButtonGridView.OnButtonClickListener {
     private static final String TAG = MainActivity.class.getSimpleName ( );
     private CustomButtonGridView customButtonGridView;

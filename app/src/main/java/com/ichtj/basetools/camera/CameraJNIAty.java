@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.blankj.utilcode.util.NetworkUtils;
 import com.face_chtj.base_iotutils.NetUtils;
 import com.face_chtj.base_iotutils.ShellUtils;
@@ -22,7 +21,6 @@ import com.face_chtj.base_iotutils.ToastUtils;
 import com.face_chtj.base_iotutils.view.TopTitleBar;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
 import org.apache.poi.ss.formula.functions.T;
 
@@ -30,7 +28,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-@Route(path = PACKAGES.BASE + "cameraJni")
 public class CameraJNIAty extends BaseActivity {
 
     private static final String TAG = "CameraJNIAty";

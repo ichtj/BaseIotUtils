@@ -13,6 +13,4 @@ public class PACKAGES {
     public final static String PKG_INTENT_INSTALL="com.meituan.banma.smartcabinet";
     public final static String PKG_SOCKET="com.test.socket";
     public final static String PKG_READIMEI="com.ichtj.testdemo2";
-
-    public final static String BASE="/ichtj/";
 }

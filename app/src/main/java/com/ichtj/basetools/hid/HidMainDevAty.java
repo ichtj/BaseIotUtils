@@ -22,11 +22,9 @@ import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.FormatViewUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.base.BaseActivity;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.io.FileDescriptor;
 import java.io.FileInputStream;
@@ -37,7 +35,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
-@Route(path = PACKAGES.BASE + "hidMainDev")
 public class HidMainDevAty extends BaseActivity {
     private static final String TAG = HidMainDevAty.class.getSimpleName();
     Spinner spSubDev;

@@ -26,19 +26,16 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import com.alibaba.android.arouter.facade.annotation.Route;
 import com.face_chtj.base_iotutils.ToastUtils;
 import com.ichtj.basetools.R;
 import com.ichtj.basetools.StartPageAty;
 import com.ichtj.basetools.base.BaseActivity;
 import com.ichtj.basetools.util.AppManager;
-import com.ichtj.basetools.util.PACKAGES;
 
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-@Route(path = PACKAGES.BASE + "reboot")
 public class RebootAty extends BaseActivity {
     private static final int REQUEST_STORAGE_PERMISSION = 2101;
     private static final int REQUEST_OVERLAY_PERMISSION = 2102;
