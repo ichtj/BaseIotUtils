@@ -1,0 +1,33 @@
+{
+  "nginx": "1.31.9",
+  "ndk": "27.0.12077973",
+  "openssl": "3.5.9",
+  "pcre2": "10.49",
+  "kind": "Android PIE executable packaged as libnginx.so",
+  "artifacts": {
+    "arm64-v8a": {
+      "file": "arm64-v8a/libnginx.so",
+      "sha256": "65346e9f55980104895a031893ef1e98b9ef3aff0cedcb191a910a891ce4127e",
+      "bytes": 7238456,
+      "needed": [
+        "libz.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "min_api": 30,
+      "load_segment_alignment": 16384
+    },
+    "armeabi-v7a": {
+      "file": "armeabi-v7a/libnginx.so",
+      "sha256": "75c48a6a77ca7aab17de06733313e2550fdf0925f34b8f6738368d23d5b26677",
+      "bytes": 5359696,
+      "needed": [
+        "libz.so",
+        "libdl.so",
+        "libc.so"
+      ],
+      "min_api": 30,
+      "load_segment_alignment": 16384
+    }
+  }
+}

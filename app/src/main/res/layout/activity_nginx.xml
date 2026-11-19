@@ -3,92 +3,184 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/nginx_background"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
-    <com.face_chtj.base_iotutils.view.TopTitleBar
-        android:id="@+id/ctTopView"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        app:centerText="nginx验证"
-        app:leftIcon="@drawable/ic_back"
-        app:leftIconSize="20dp"
-        app:leftIconPadding="6dp"
-        app:backgroundColor="#E6E4E4"
-        app:textSize="18sp"
-        app:textColor="@color/black"
-        app:leftBack="true" />
 
-    <TextView
-        android:id="@+id/tvNowIp"
-        android:layout_width="wrap_content"
-        android:text="当前IP：0.0.0.0"
-        android:layout_height="wrap_content"/>
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="76dp"
+        android:background="@color/nginx_surface"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="12dp"
+        android:paddingRight="24dp">
 
-        <Button
-            android:id="@+id/btnStart"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:onClick="startOnClick"
-            android:text="开始" />
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/nginxBack"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/nginx_utility_background"
+            android:contentDescription="@string/nginx_back"
+            android:padding="12dp"
+            app:srcCompat="@drawable/nginx_ic_back" />
 
-        <Button
-            android:id="@+id/btnStop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:onClick="stopOnClick"
-            android:text="停止" />
+        <TextView
+            android:layout_width="44dp"
+            android:layout_height="44dp"
+            android:background="@drawable/nginx_logo_background"
+            android:gravity="center"
+            android:importantForAccessibility="no"
+            android:text="@string/nginx_logo"
+            android:textColor="@color/nginx_surface"
+            android:textSize="28sp"
+            android:textStyle="bold" />
 
-        <Button
-            android:id="@+id/btnVersion"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
+            android:layout_marginLeft="14dp"
             android:layout_weight="1"
-            android:onClick="versionOnClick"
-            android:text="版本" />
-        <Button
-            android:id="@+id/btnHelp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="15dp"
-            android:layout_weight="1"
-            android:onClick="helpOnClick"
-            android:text="帮助" />
+            android:orientation="vertical">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nginx_title"
+                android:textColor="@color/nginx_ink"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/nginx_subtitle"
+                android:textColor="@color/nginx_muted"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="32dp"
+            android:background="@drawable/nginx_badge_background"
+            android:gravity="center"
+            android:paddingLeft="18dp"
+            android:paddingRight="18dp"
+            android:text="@string/nginx_lan_mode"
+            android:textColor="@color/nginx_success"
+            android:textSize="13sp" />
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/nginxContent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="20dp">
 
-        <EditText
-            android:id="@+id/etNginxCmd"
+        <LinearLayout
+            android:id="@+id/nginxTopPanels"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
+
+            <include
+                android:id="@+id/nginxServicePanel"
+                layout="@layout/nginx_service_panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2.2" />
+
+            <include
+                android:id="@+id/nginxToolsPanel"
+                layout="@layout/nginx_tools_panel"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_weight="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="18dp"
             android:layout_weight="1"
-            android:text="nginx " />
+            android:background="@drawable/nginx_panel"
+            android:orientation="vertical">
 
-        <Button
-            android:id="@+id/btnExeu"
-            android:layout_width="wrap_content"
-            android:onClick="exeuOnClick"
-            android:layout_height="wrap_content"
-            android:text="执行" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="20dp"
+                android:paddingRight="14dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/nginx_log_title"
+                    android:textColor="@color/nginx_ink"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/nginxLogHint"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    android:layout_weight="1"
+                    android:text="@string/nginx_log_hint"
+                    android:textColor="@color/nginx_muted"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:id="@+id/nginxClear"
+                    style="@style/NginxUtility"
+                    android:layout_width="wrap_content"
+                    android:text="@string/nginx_clear"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="64dp"
+                android:orientation="horizontal" android:gravity="center_vertical" android:paddingLeft="18dp"
+                android:paddingRight="18dp" android:paddingBottom="10dp">
+                <androidx.appcompat.widget.AppCompatEditText android:id="@+id/etNginxCmd"
+                    android:layout_width="0dp" android:layout_height="48dp" android:layout_weight="1"
+                    android:layout_marginRight="12dp" android:background="@drawable/nginx_input_background"
+                    android:paddingLeft="12dp" android:paddingRight="12dp" android:singleLine="true"
+                    android:inputType="textVisiblePassword|textNoSuggestions" android:imeOptions="actionSend|flagNoExtractUi"
+                    android:fontFamily="monospace" android:textSize="16sp" android:textColor="@color/nginx_ink"
+                    android:textColorHint="@color/nginx_muted" android:hint="@string/nginx_command_hint"
+                    android:contentDescription="@string/nginx_command_label" android:text="@string/nginx_default_command"
+                    app:backgroundTint="@null" />
+                <androidx.appcompat.widget.AppCompatButton android:id="@+id/btnExeu" style="@style/NginxAction"
+                    android:layout_width="100dp" android:layout_height="48dp" android:layout_weight="0"
+                    android:text="@string/nginx_send" android:background="@drawable/nginx_button_primary"
+                    android:textColor="@color/nginx_primary_text" android:textStyle="bold" android:enabled="false" app:backgroundTint="@null" />
+            </LinearLayout>
+            <ScrollView
+                android:id="@+id/nginxLogScroll"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:background="@drawable/nginx_console_background"
+                android:fillViewport="true">
+
+                <TextView
+                    android:id="@+id/tvResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:accessibilityLiveRegion="polite"
+                    android:fontFamily="monospace"
+                    android:lineSpacingExtra="3dp"
+                    android:padding="14dp"
+                    android:textColor="@color/nginx_console_text"
+                    android:textIsSelectable="true"
+                    android:textSize="13sp" />
+            </ScrollView>
+        </LinearLayout>
     </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/tvResult"
-        android:scrollbars="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp" />
 </LinearLayout>

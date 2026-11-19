@@ -16,7 +16,7 @@ ext {
     APP_PKG_PREFIX='com.ichtj.'
     // 切换应用只改 APP_CHOOSE；新增入口只在 APP_ENTRIES 登记 Activity 和图标。
     // Activity 本身仍需在 AndroidManifest.xml 声明，构建时会自动检查。
-    APP_CHOOSE='netrecord'
+    APP_CHOOSE='basetools'
     APP_ENTRIES = [
             basetools: [
                     activity: 'com.ichtj.basetools.MainActivity',

@@ -3,6 +3,17 @@ apply plugin: 'com.android.application'
 //apply plugin: 'org.greenrobot.greendao' // apply plugin
 
 android {
+    sourceSets {
+        main.jniLibs.srcDirs += ['libs']
+    }
+    packagingOptions {
+        jniLibs {
+            // libnginx.so is a PIE executable launched from nativeLibraryDir.
+            useLegacyPackaging = true
+            keepDebugSymbols += ['**/libnginx.so']
+        }
+    }
+
     buildFeatures {
         buildConfig true
     }

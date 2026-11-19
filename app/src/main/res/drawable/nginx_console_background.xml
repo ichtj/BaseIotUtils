@@ -1,0 +1,1 @@
+<shape xmlns:android="http://schemas.android.com/apk/res/android"><solid android:color="@color/nginx_console"/><corners android:bottomLeftRadius="14dp" android:bottomRightRadius="14dp"/></shape>

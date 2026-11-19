@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="nginx_background">#F4F7F9</color>
+    <color name="nginx_surface">#FFFFFF</color>
+    <color name="nginx_primary">#008577</color>
+    <color name="nginx_primary_pressed">#006A5F</color>
+    <color name="nginx_ink">#1B3540</color>
+    <color name="nginx_muted">#70858E</color>
+    <color name="nginx_border">#DCE5E9</color>
+    <color name="nginx_disabled">#F0F3F4</color>
+    <color name="nginx_disabled_text">#A2AEB3</color>
+    <color name="nginx_well">#F3F7F8</color>
+    <color name="nginx_console">#1C303D</color>
+    <color name="nginx_console_text">#E3EBEF</color>
+    <color name="nginx_console_time">#81A0AF</color>
+    <color name="nginx_success">#247568</color>
+    <color name="nginx_error">#B33A32</color>
+    <color name="nginx_pending">#9A6500</color>
+    <color name="nginx_soft_green">#E6F3EF</color>
+</resources>

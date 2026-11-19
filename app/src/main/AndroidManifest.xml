@@ -114,6 +114,7 @@
     -->
     <application
         android:name=".application.IApplication"
+        android:networkSecurityConfig="@xml/nginx_network_security_config"
         android:allowBackup="true"
         android:icon="${APP_ICON}"
         android:label="${APP_NAME}"
@@ -323,6 +324,7 @@
         <!--nginx验证-->
         <activity
             android:name=".nginx.NginxAty"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTop"
